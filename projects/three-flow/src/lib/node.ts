@@ -1,10 +1,9 @@
-import { MeshBasicMaterial, Mesh, PlaneGeometry, Shape, ShapeGeometry, Color, Vector3 } from "three";
+import { MeshBasicMaterial, Mesh, Shape, ShapeGeometry } from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
-import { AbstractNode, NodeType, NodeState, AbstractConnector, AbstractDiagram } from "./abstract-model";
+import { AbstractNode, NodeType, NodeState, AbstractDiagram } from "./abstract-model";
 import { FlowConnector } from "./connector";
-import { connect } from "rxjs";
 
 export class FlowNode extends Mesh {
   // AbstractNode properties

@@ -13,10 +13,34 @@ export interface InteractiveDragStartEvent extends BaseEvent { position: Vector3
 export interface InteractiveDragEvent extends BaseEvent { position: Vector3 }
 export interface InteractiveDragEnd extends BaseEvent { position: Vector3 }
 
-export class Interactive {
+
+export class FlowObjects {
+  private _list: Array<Object3D> = [];
+
+  get list(): Array<Object3D> { return this._list; }
+
+  add(...object: Object3D[]) {
+    this._list.push(...object);
+  }
+
+  remove(...object: Object3D[]) {
+    object.forEach(item => {
+      const index = this._list.findIndex(x => x == item);
+      if (index != undefined && index != -1)
+        this._list.splice(index, 1);
+    });
+  }
+}
+
+
+export class FlowInteractive {
+  public selectable = new FlowObjects()
+  public draggable = new FlowObjects()
+
+
   dispose = () => { }
 
-  constructor(renderer: Renderer, camera: Camera, public selectable: Array<Object3D>, public draggable: Array<Object3D> = []) {
+  constructor(renderer: Renderer, camera: Camera) {
 
     const _pointer = new Vector2();
     const _plane = new Plane();
@@ -46,7 +70,7 @@ export class Interactive {
       _pointer.y = - (event.clientY - rect.top) / rect.height * 2 + 1;
 
       raycaster.setFromCamera(_pointer, camera);
-      let _intersects = raycaster.intersectObjects(selectable, false);
+      let _intersects = raycaster.intersectObjects(this.selectable.list, false);
 
       _event.data = _intersects
 
@@ -107,7 +131,7 @@ export class Interactive {
         // some popup selectables close when clicking outside of them, for example, dropdown menu and color picker
         if (event.type == 'click') {
           _event.type = InteractiveEventType.POINTERMISSED;
-          selectable.forEach(item => {
+          this.selectable.list.forEach(item => {
             if (item.visible)
               item.dispatchEvent<any>(_event)
           })
@@ -117,7 +141,7 @@ export class Interactive {
       // prevent dragging if last event was stopped
       if (!_selected && _event.stop) return
 
-      _intersects = raycaster.intersectObjects(draggable, false);
+      _intersects = raycaster.intersectObjects(this.draggable.list, false);
       _event.data = _intersects
 
       if (_intersects.length > 0) {

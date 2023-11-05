@@ -49,7 +49,10 @@ export interface AbstractEdge {
   startConnectorId: string;
   endConnectorId: string;
   intermediatePoints: string[]; // IDs of intermediate points
+  color: number | string;
   label?: string;
+  labelsize: number;
+  labelcolor: number | string;
   selectable: boolean;
   highlighting: boolean;
   data?: { [key: string]: any };

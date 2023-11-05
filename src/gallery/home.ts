@@ -1,7 +1,6 @@
 import { AmbientLight, CircleGeometry, MathUtils, Mesh, MeshBasicMaterial, PointLight, SRGBColorSpace, Scene, TextureLoader, Vector3 } from "three";
 import { ThreeJSApp } from "../app/threejs-app";
-import { Interactive, InteractiveEventType } from "./interactive";
-import { InteractiveObjects } from "./interactive-objects";
+import { FlowInteractive, InteractiveEventType,FlowObjects } from "three-flow";
 
 
 interface Tile {
@@ -61,7 +60,7 @@ export class GalleryExample {
 
     const ROTATION = 15
 
-    const selectable = new InteractiveObjects()
+    const interactive = new FlowInteractive(app, app.camera)
 
     const black = new MeshBasicMaterial({ color: 'black' })
 
@@ -95,12 +94,11 @@ export class GalleryExample {
       })
       tile.addEventListener('click', () => { app.navigateto(info.route) })
 
-      selectable.add(tile)
+      interactive.selectable.add(tile)
     })
 
     scene.rotation.x = MathUtils.degToRad(-ROTATION)
 
-    const interactive = new Interactive(app, app.camera, selectable.list)
 
     this.dispose = () => {
       interactive.dispose()

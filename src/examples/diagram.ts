@@ -1,17 +1,17 @@
 import { AmbientLight, AxesHelper, BoxGeometry, Mesh, MeshBasicMaterial, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowNode, AbstractConnector,
   AbstractEdge,
   AbstractNode,
-  AbstractDiagram
+  AbstractDiagram,
+  FlowEdge, FlowInteractive, FlowObjects
 } from "three-flow";
-import { Interactive } from "../gallery/interactive";
-import { InteractiveObjects } from "../gallery/interactive-objects";
 import { FlowConnector } from "three-flow";
+import { FlowDiagram } from "../../projects/three-flow/src/lib/diagram";
 
 export class DiagramExample {
 
@@ -155,7 +155,10 @@ export class DiagramExample {
         highlighting: true,
         state: "default",
         routing: "straight",
-        arrowheads: true
+        arrowheads: true,
+        labelsize: 0,
+        labelcolor: 0,
+        color: 'white'
       },
       {
         edgeid: "8",
@@ -167,7 +170,10 @@ export class DiagramExample {
         highlighting: true,
         state: "default",
         routing: "straight",
-        arrowheads: true
+        arrowheads: true,
+        labelsize: 0,
+        labelcolor: 0,
+        color: 'white'
       },
       {
         edgeid: "9",
@@ -179,17 +185,17 @@ export class DiagramExample {
         highlighting: true,
         state: "default",
         routing: "straight",
-        arrowheads: true
+        arrowheads: true,
+        labelsize: 0,
+        labelcolor: 0,
+        color: 'white'
       }
     ];
 
     //const serializedDiagram = serializeDiagram(nodes, connectors, edges);
     //console.log(serializedDiagram)
 
-    const selectable = new InteractiveObjects()
-    const draggable = new InteractiveObjects()
-
-    const interactive = new Interactive(app, app.camera, selectable.list, draggable.list)
+    const interactive = new FlowInteractive(app, app.camera)
 
     const loader = new FontLoader();
 
@@ -199,15 +205,10 @@ export class DiagramExample {
     }
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
-      //const node = new FlowNode(diagram, nodes[0], font);
-      //scene.add(node)
-      nodes.forEach(node => {
-        const mesh = new FlowNode(diagram, node, font);
-        scene.add(mesh);
-        selectable.add(mesh)
-        draggable.add(mesh)
-      });
-
+      const fontMap: Map<string, Font> = new Map<string, Font>([
+        ['helvetika', font],
+      ]);
+      scene.add(new FlowDiagram(diagram, interactive, fontMap));
     });
 
 
