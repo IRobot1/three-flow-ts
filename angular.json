@@ -93,6 +93,39 @@
           }
         }
       }
+    },
+    "three-flow": {
+      "projectType": "library",
+      "root": "projects/three-flow",
+      "sourceRoot": "projects/three-flow/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/three-flow/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/three-flow/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/three-flow/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/three-flow/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
   }
 }
