@@ -10,14 +10,14 @@ export type ConnectorState = "selected" | "active" | "disabled" | "default";
 export interface AbstractConnector {
   connectorid: string;
   connectortype: ConnectorType;
-  location: { x: number; y: number; z: number };
+  order: number;
   connectedEdges: string[];
   multiplicity: number;
   compatibility: string[];
   draggable: boolean;
   size: number;
   shape: string;
-  color: string;
+  color: number | string;
   label: string;
   labelsize: number;
   labelcolor: string;
@@ -80,20 +80,13 @@ export interface AbstractNode {
   draggable: boolean;
   error?: string;
   documentation?: string;
-  inputs: string[];
-  outputs: string[];
+  inputs: string[]; // ids
+  outputs: string[]; // ids
 }
 
-export function serializeDiagram(
+export interface AbstractDiagram {
+  version: number;
   nodes: AbstractNode[],
   connectors: AbstractConnector[],
   edges: AbstractEdge[]
-): string {
-  const diagram = {
-    verion: 1,
-    nodes,
-    connectors,
-    edges
-  };
-  return JSON.stringify(diagram, null, 2);
 }

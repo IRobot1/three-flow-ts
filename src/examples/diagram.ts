@@ -6,10 +6,12 @@ import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowNode, AbstractConnector,
   AbstractEdge,
-  AbstractNode
+  AbstractNode,
+  AbstractDiagram
 } from "three-flow";
 import { Interactive } from "../gallery/interactive";
 import { InteractiveObjects } from "../gallery/interactive-objects";
+import { FlowConnector } from "three-flow";
 
 export class DiagramExample {
 
@@ -56,7 +58,7 @@ export class DiagramExample {
         category: "",
         resizable: true,
         labelsize: 0.1,
-        labelcolor: 'white', width: 1, height: 2,color:'green'
+        labelcolor: 'white', width: 1, height: 2, color: 'green'
 
       },
       {
@@ -79,7 +81,7 @@ export class DiagramExample {
       {
         connectorid: "3",
         connectortype: "input",
-        location: { x: -1, y: 0, z: 0 },
+        order: 0,
         connectedEdges: ["7"],
         multiplicity: 1,
         compatibility: [],
@@ -95,7 +97,7 @@ export class DiagramExample {
       {
         connectorid: "4",
         connectortype: "input",
-        location: { x: -1, y: -1, z: 0 },
+        order: 0,
         connectedEdges: ["8"],
         multiplicity: 1,
         compatibility: [],
@@ -111,7 +113,7 @@ export class DiagramExample {
       {
         connectorid: "5",
         connectortype: "output",
-        location: { x: 1, y: 0, z: 0 },
+        order: 0,
         connectedEdges: ["9"],
         multiplicity: 1,
         compatibility: [],
@@ -127,7 +129,7 @@ export class DiagramExample {
       {
         connectorid: "6",
         connectortype: "input",
-        location: { x: 4, y: 0, z: 0 },
+        order: 0,
         connectedEdges: ["9"],
         multiplicity: 1,
         compatibility: [],
@@ -191,13 +193,21 @@ export class DiagramExample {
 
     const loader = new FontLoader();
 
+    const diagram: AbstractDiagram = {
+      version: 1,
+      nodes, connectors, edges
+    }
+
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
+      //const node = new FlowNode(diagram, nodes[0], font);
+      //scene.add(node)
       nodes.forEach(node => {
-        const mesh = new FlowNode(node, font);
+        const mesh = new FlowNode(diagram, node, font);
         scene.add(mesh);
         selectable.add(mesh)
         draggable.add(mesh)
       });
+
     });
 
 

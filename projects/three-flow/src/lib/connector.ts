@@ -1,18 +1,17 @@
 import { AbstractConnector, ConnectorState, ConnectorType } from "./abstract-model";
-import { Mesh } from "three";
+import { CircleGeometry, Mesh, MeshBasicMaterial } from "three";
 import { FlowNode } from "./node";
 
 export class FlowConnector extends Mesh {
   connectorid: string;
   connectortype: ConnectorType;
-  location: { x: number; y: number; z: number; };
   connectedEdges: string[];
   multiplicity: number;
   compatibility: string[];
   draggable: boolean;
   size: number;
   shape: string;
-  color: string;
+  color: number | string;
   label: string;
   labelsize: number;
   labelcolor: string;
@@ -20,12 +19,11 @@ export class FlowConnector extends Mesh {
   error?: string | undefined;
   documentation?: string | undefined;
 
-  constructor(connector: AbstractConnector, parentNode: FlowNode) {
+  constructor(connector: AbstractConnector) {
     super()
 
     this.connectorid = connector.connectorid
     this.connectortype = connector.connectortype
-    this.location = connector.location
     this.connectedEdges = connector.connectedEdges
     this.multiplicity = connector.multiplicity
     this.compatibility = connector.compatibility
@@ -41,6 +39,11 @@ export class FlowConnector extends Mesh {
     if (connector.data) this.userData = connector.data
     this.error = connector.error
     this.documentation = connector.documentation
+
+    this.geometry = new CircleGeometry(0.1)
+
+    this.material = new MeshBasicMaterial({ color: this.color });
+
   }
 
   updateVisuals() {

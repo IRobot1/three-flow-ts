@@ -1,9 +1,10 @@
-import { MeshBasicMaterial, Mesh, PlaneGeometry, Shape, ShapeGeometry, Color } from "three";
+import { MeshBasicMaterial, Mesh, PlaneGeometry, Shape, ShapeGeometry, Color, Vector3 } from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
-import { AbstractNode, NodeType, NodeState } from "./abstract-model";
+import { AbstractNode, NodeType, NodeState, AbstractConnector, AbstractDiagram } from "./abstract-model";
 import { FlowConnector } from "./connector";
+import { connect } from "rxjs";
 
 export class FlowNode extends Mesh {
   // AbstractNode properties
@@ -30,7 +31,7 @@ export class FlowNode extends Mesh {
   inputConnectors: FlowConnector[] = [];
   outputConnectors: FlowConnector[] = [];
 
-  constructor(node: AbstractNode, private font: Font) {
+  constructor(private diagram: AbstractDiagram, node: AbstractNode, private font: Font) {
     super();
 
     this.nodeid = node.nodeid;
@@ -57,7 +58,7 @@ export class FlowNode extends Mesh {
     const shape = this.roundedRect(this.width, this.height, radius)
     this.geometry = new ShapeGeometry(shape)
 
-    this.material = new MeshBasicMaterial({ color:this.color });
+    this.material = new MeshBasicMaterial({ color: this.color });
 
     this.position.set(this.location.x, this.location.y, this.location.z);
 
@@ -71,27 +72,45 @@ export class FlowNode extends Mesh {
     this.add(this.labelMesh);
 
     // Initialize input connectors
-    this.inputs.forEach(inputId => {
-      const connector = this.inputConnectors.find(c => c.connectorid === inputId);
+    const starty = this.height / 2 - this.labelsize * 3
+    let y = starty
+    this.inputs.forEach(id => {
+      const connector = this.diagram.connectors.find(c => c.connectorid == id)
       if (connector) {
-        const threeConnector = new FlowConnector(connector, this);
+        const threeConnector = new FlowConnector(connector);
+        threeConnector.position.set(-this.width / 2, y, 0.001)
         this.inputConnectors.push(threeConnector);
         this.add(threeConnector);
+
       }
+      y -= 0.22
     });
 
     // Initialize output connectors
-    this.outputs.forEach(outputId => {
-      const connector = this.outputConnectors.find(c => c.connectorid === outputId);
+    y = starty
+    this.outputs.forEach(id => {
+      const connector = this.diagram.connectors.find(c => c.connectorid == id)
       if (connector) {
-        const threeConnector = new FlowConnector(connector, this);
+        const threeConnector = new FlowConnector(connector);
+        threeConnector.position.set(this.width / 2, y, 0.001)
         this.outputConnectors.push(threeConnector);
         this.add(threeConnector);
       }
+      y -= 0.22
     });
 
     this.updateVisuals();
   }
+
+  // used when node is moved and edge needs to redraw using new connector position
+  getConnector(id: string): FlowConnector | undefined {
+    let connector = this.inputConnectors.find(c => c.connectorid == id)
+    if (!connector) {
+      connector = this.outputConnectors.find(c => c.connectorid == id)
+    }
+    return connector;
+  }
+
   interact() { }
 
   updateVisuals() {
@@ -114,7 +133,7 @@ export class FlowNode extends Mesh {
     // Update node material based on state
     switch (this.state) {
       case 'selected':
-        setColor(this.material,0xaaaaaa);
+        setColor(this.material, 0xaaaaaa);
         break;
       case 'active':
         setColor(this.material, 0x00ff00);
