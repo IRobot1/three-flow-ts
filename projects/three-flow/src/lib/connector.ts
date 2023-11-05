@@ -1,9 +1,7 @@
 import { AbstractConnector, ConnectorState, ConnectorType } from "./abstract-model";
 import { CircleGeometry, Mesh, MeshBasicMaterial } from "three";
-import { FlowNode } from "./node";
 
 export class FlowConnector extends Mesh {
-  connectorid: string;
   connectortype: ConnectorType;
   connectedEdges: string[];
   multiplicity: number;
@@ -19,10 +17,14 @@ export class FlowConnector extends Mesh {
   error?: string | undefined;
   documentation?: string | undefined;
 
+  isFlow = true
   constructor(connector: AbstractConnector) {
     super()
 
-    this.connectorid = connector.connectorid
+    //@ts-ignore
+    this.type = 'flowconnector'
+
+    this.name = connector.connectorid
     this.connectortype = connector.connectortype
     this.connectedEdges = connector.connectedEdges
     this.multiplicity = connector.multiplicity

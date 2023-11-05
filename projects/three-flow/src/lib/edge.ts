@@ -1,9 +1,9 @@
 import { BufferGeometry, CatmullRomCurve3, Line, LineBasicMaterial, Mesh, Vector3 } from "three";
 import { AbstractDiagram, AbstractEdge, EdgeRouting, EdgeState } from "./abstract-model";
 import { FlowConnector } from "./connector";
+import { FlowDiagram } from "./diagram";
 
 export class FlowEdge extends Line {
-  edgeid: string;
   startConnectorId: string;
   endConnectorId: string;
   intermediatePoints: string[];
@@ -22,18 +22,19 @@ export class FlowEdge extends Line {
   private startConnector: FlowConnector | undefined;
   private endConnector: FlowConnector | undefined;
 
-  constructor(diagram: AbstractDiagram, edge: AbstractEdge) {
+  isFlow = true
+  constructor(diagram: FlowDiagram, edge: AbstractEdge) {
     super()
 
-    this.edgeid = edge.edgeid
+    //@ts-ignore
+    this.type = 'flowedge'
+
+    this.name = edge.edgeid
 
     this.startConnectorId = edge.startConnectorId
-    let connector = diagram.connectors.find(c => c.connectorid = this.startConnectorId)
-    if (connector) this.startConnector = new FlowConnector(connector)
-
+    this.startConnector = diagram.getConnector(this.startConnectorId)
     this.endConnectorId = edge.endConnectorId
-    connector = diagram.connectors.find(c => c.connectorid = this.endConnectorId)
-    if (connector) this.endConnector = new FlowConnector(connector)
+    this.endConnector = diagram.getConnector(this.endConnectorId)
 
     this.intermediatePoints = edge.intermediatePoints
     this.color = edge.color
@@ -63,8 +64,6 @@ export class FlowEdge extends Line {
 
       const end = new Vector3()
       this.endConnector.getWorldPosition(end)
-
-      console.warn(start, end)
 
       const curve = new CatmullRomCurve3([start,end]);
       const curvepoints = curve.getPoints(25);

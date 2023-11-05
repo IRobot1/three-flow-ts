@@ -6,8 +6,6 @@ import { AbstractNode, NodeType, NodeState, AbstractDiagram } from "./abstract-m
 import { FlowConnector } from "./connector";
 
 export class FlowNode extends Mesh {
-  // AbstractNode properties
-  nodeid: string;
   width: number;
   height: number;
   color: number | string;
@@ -25,15 +23,19 @@ export class FlowNode extends Mesh {
   labelsize: number;
   labelcolor: string;
 
-  // Three.js specific properties
-  labelMesh: Mesh;
-  inputConnectors: FlowConnector[] = [];
-  outputConnectors: FlowConnector[] = [];
+  private labelMesh: Mesh;
+  private inputConnectors: FlowConnector[] = [];
+  private outputConnectors: FlowConnector[] = [];
+
+  isFlow = true
 
   constructor(private diagram: AbstractDiagram, node: AbstractNode, private font: Font) {
     super();
 
-    this.nodeid = node.nodeid;
+    //@ts-ignore
+    this.type = 'flownode'
+
+    this.name = node.nodeid;
     this.width = node.width;
     this.height = node.height;
     this.color = node.color
@@ -103,9 +105,9 @@ export class FlowNode extends Mesh {
 
   // used when node is moved and edge needs to redraw using new connector position
   getConnector(id: string): FlowConnector | undefined {
-    let connector = this.inputConnectors.find(c => c.connectorid == id)
+    let connector = this.inputConnectors.find(c => c.name == id)
     if (!connector) {
-      connector = this.outputConnectors.find(c => c.connectorid == id)
+      connector = this.outputConnectors.find(c => c.name == id)
     }
     return connector;
   }
