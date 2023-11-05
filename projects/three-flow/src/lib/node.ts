@@ -1,4 +1,4 @@
-import { MeshBasicMaterial, Mesh } from "three";
+import { MeshBasicMaterial, Mesh, PlaneGeometry, Shape, ShapeGeometry, Color } from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
@@ -8,6 +8,9 @@ import { FlowConnector } from "./connector";
 export class FlowNode extends Mesh {
   // AbstractNode properties
   nodeid: string;
+  width: number;
+  height: number;
+  color: number | string;
   location: { x: number; y: number; z: number };
   label: string;
   state: NodeState;
@@ -31,7 +34,11 @@ export class FlowNode extends Mesh {
     super();
 
     this.nodeid = node.nodeid;
+    this.width = node.width;
+    this.height = node.height;
+    this.color = node.color
     this.location = node.position;
+
     this.label = node.label;
     this.state = node.state;
     this.nodetype = node.nodetype;
@@ -46,13 +53,20 @@ export class FlowNode extends Mesh {
     this.labelsize = node.labelsize
     this.labelcolor = node.labelcolor
 
-    // Create the Three.js object
+    const radius = Math.min(this.width, this.height) * 0.1
+    const shape = this.roundedRect(this.width, this.height, radius)
+    this.geometry = new ShapeGeometry(shape)
+
+    this.material = new MeshBasicMaterial({ color:this.color });
+
     this.position.set(this.location.x, this.location.y, this.location.z);
+
 
     // Create a text mesh for the label
     const textMaterial = new MeshBasicMaterial({ color: 0xffffff });
     this.labelMesh = new Mesh();
     this.labelMesh.material = textMaterial
+    this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
 
     this.add(this.labelMesh);
 
@@ -85,15 +99,50 @@ export class FlowNode extends Mesh {
     this.position.set(this.location.x, this.location.y, this.location.z);
 
     // Update the text mesh based on the label and state
-    this.labelMesh.geometry = new TextGeometry(this.label, { font: this.font, height: 0, size: this.labelsize});
-    (this.labelMesh.material as any).color.set(
-      this.state === "selected" ? 0xff0000 : this.labelcolor
-    );
+    const geometry = new TextGeometry(this.label, { font: this.font, height: 0, size: this.labelsize });
+    geometry.center()
+    this.labelMesh.geometry = geometry;
+
+    const setColor = (material: any, color: number | string) => {
+      material.color.set(color)
+    }
 
     // Update connectors
     this.inputConnectors.forEach((connector) => connector.updateVisuals());
     this.outputConnectors.forEach((connector) => connector.updateVisuals());
+
+    // Update node material based on state
+    switch (this.state) {
+      case 'selected':
+        setColor(this.material,0xaaaaaa);
+        break;
+      case 'active':
+        setColor(this.material, 0x00ff00);
+        break;
+      case 'disabled':
+        setColor(this.material, 0x444444);
+        break;
+      default:
+        setColor(this.material, this.color);
+        break;
+    }
   }
 
-  // ... other methods and properties
+  private roundedRect(width: number, height: number, radius: number): Shape {
+    const ctx = new Shape();
+    const halfwidth = width / 2
+    const halfheight = height / 2
+    ctx.moveTo(-halfwidth + radius, -halfheight);
+    ctx.lineTo(halfwidth - radius, -halfheight);
+    ctx.quadraticCurveTo(halfwidth, -halfheight, halfwidth, -halfheight + radius);
+    ctx.lineTo(halfwidth, halfheight - radius);
+    ctx.quadraticCurveTo(halfwidth, halfheight, halfwidth - radius, halfheight);
+    ctx.lineTo(-halfwidth + radius, halfheight);
+    ctx.quadraticCurveTo(-halfwidth, halfheight, -halfwidth, halfheight - radius);
+    ctx.lineTo(-halfwidth, -halfheight + radius);
+    ctx.quadraticCurveTo(-halfwidth, -halfheight, -halfwidth + radius, -halfheight);
+    ctx.closePath();
+    return ctx;
+  }
+
 }

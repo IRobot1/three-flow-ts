@@ -6,7 +6,10 @@ import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowNode, AbstractConnector,
   AbstractEdge,
-  AbstractNode } from "three-flow";
+  AbstractNode
+} from "three-flow";
+import { Interactive } from "../gallery/interactive";
+import { InteractiveObjects } from "../gallery/interactive-objects";
 
 export class DiagramExample {
 
@@ -45,7 +48,7 @@ export class DiagramExample {
         nodeid: "1",
         position: { x: 0, y: 0, z: 0 },
         nodetype: "function",
-        label: "Add",
+        label: "Title1",
         inputs: ["3", "4"],
         outputs: ["5"],
         state: "default",
@@ -53,21 +56,22 @@ export class DiagramExample {
         category: "",
         resizable: true,
         labelsize: 0.1,
-        labelcolor: 'white'
+        labelcolor: 'white', width: 1, height: 2,color:'green'
+
       },
       {
         nodeid: "2",
-        position: { x: 5, y: 0, z: 0 },
+        position: { x: 2, y: 0, z: 0 },
         nodetype: "return",
-        label: "Result",
+        label: "Title2",
         inputs: ["6"],
         outputs: [],
-        state: "default",
+        state: "selected",
         draggable: true,
         category: "",
         resizable: true,
         labelsize: 0.1,
-        labelcolor: 'white'
+        labelcolor: 'white', width: 1, height: 1, color: 'red'
       }
     ];
 
@@ -180,17 +184,20 @@ export class DiagramExample {
     //const serializedDiagram = serializeDiagram(nodes, connectors, edges);
     //console.log(serializedDiagram)
 
-    const material = new MeshBasicMaterial({ color: "green" });
+    const selectable = new InteractiveObjects()
+    const draggable = new InteractiveObjects()
 
+    const interactive = new Interactive(app, app.camera, selectable.list, draggable.list)
 
     const loader = new FontLoader();
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
-    nodes.forEach(node => {
-      const mesh = new FlowNode(node,font);
-      mesh.material = material
-      scene.add(mesh);
-    });
+      nodes.forEach(node => {
+        const mesh = new FlowNode(node, font);
+        scene.add(mesh);
+        selectable.add(mesh)
+        draggable.add(mesh)
+      });
     });
 
 

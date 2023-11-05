@@ -59,14 +59,17 @@ export interface AbstractEdge {
   arrowheads: boolean;
 }
 
-export type NodeType = "event" | "function" | "return" | "output";
+export type NodeType = "event" | "function" | "return";
 
 export type NodeState = "selected" | "active" | "disabled" | "default";
 
 export interface AbstractNode {
   nodeid: string;
-  position: { x: number; y: number; z: number };
   nodetype: NodeType;
+  position: { x: number; y: number; z: number };
+  width: number;
+  height: number;
+  color: number | string;
   label: string;
   labelsize: number;
   labelcolor: string;
