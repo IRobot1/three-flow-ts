@@ -71,7 +71,7 @@ export class DiagramExample {
         state: "selected",
         draggable: true,
         category: "",
-        resizable: true,
+        resizable: false,
         labelsize: 0.1,
         labelcolor: 'white', width: 1, height: 1, color: 'red'
       }

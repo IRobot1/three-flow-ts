@@ -1,44 +1,39 @@
 import { EventDispatcher, Mesh, MeshBasicMaterial, PlaneGeometry, Vector3 } from "three";
+import { InteractiveEventType } from "./interactive";
 import { FlowNode } from "./node";
-import { FlowInteractive, InteractiveEventType } from "./interactive";
 
 
 export class ResizeNode extends EventDispatcher {
+  public enabled = true
 
-  dispose = () => { }
+  selectable: Array<Mesh> = []
 
-  constructor(private node: FlowNode, interactive: FlowInteractive) {
+  constructor(private node: FlowNode) {
     super()
 
     const material = new MeshBasicMaterial({ color: 'white' })
 
-    const leftresizing = this.buildMesh('resizing', 'left', interactive)
+    const leftresizing = this.buildMesh('resizing', 'left')
     leftresizing.material = material
 
-    const rightresizing = this.buildMesh('resizing', 'right', interactive)
+    const rightresizing = this.buildMesh('resizing', 'right')
     rightresizing.material = material
 
-    const bottomresizing = this.buildMesh('resizing', 'bottom', interactive)
+    const bottomresizing = this.buildMesh('resizing', 'bottom')
     bottomresizing.material = material
 
     this.addResizing(leftresizing, rightresizing, bottomresizing)
 
-    this.dispose = () => {
-      interactive.selectable.remove(leftresizing, rightresizing, bottomresizing)
-      interactive.draggable.remove(leftresizing, rightresizing, bottomresizing)
-    }
+    this.selectable.push(leftresizing, rightresizing, bottomresizing)
 
   }
 
-  private buildMesh(type: string, position: string, interactive: FlowInteractive): Mesh {
+  private buildMesh(type: string, position: string): Mesh {
     const geometry = new PlaneGeometry(0.1, 0.1)
     const mesh = new Mesh(geometry)
 
     mesh.name = `${type}${position}`
     mesh.position.z = 0.001
-
-    interactive.selectable.add(mesh)
-    interactive.draggable.add(mesh)
 
     return mesh
   }
@@ -77,17 +72,20 @@ export class ResizeNode extends EventDispatcher {
     let startheight: number
 
     mesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
+      if (!this.enabled) return
       startposition = e.position.clone()
       startwidth = this.node.width
       startheight = this.node.height
       this.dragging = true
     })
     mesh.addEventListener(InteractiveEventType.DRAGEND, () => {
+      if (!this.enabled) return
       this.dragging = false
       mesh.visible = false
     })
 
     mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
+      if (!this.enabled) return
       const diff = e.position.sub(startposition) as Vector3
 
       if (width_direction) {
