@@ -1,4 +1,4 @@
-import { MeshBasicMaterial, Mesh, Shape, ShapeGeometry, BufferGeometry, ExtrudeGeometryOptions } from "three";
+import { MeshBasicMaterial, Mesh, Shape, ShapeGeometry, BufferGeometry, ExtrudeGeometryOptions, Material } from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
@@ -203,20 +203,20 @@ export class FlowNode extends Mesh {
 
     if (this.resizable) {
       const material = diagram.getMaterial('geometry', 'resizing', 'white')
-      this.nodeResizer = new ResizeNode(this, material)
+      this.nodeResizer = this.createResizer(this, material)
       this.diagram.interactive.selectable.add(...this.nodeResizer.selectable)
       this.diagram.interactive.draggable.add(...this.nodeResizer.selectable)
     }
 
     if (this.draggable) {
-      this.nodeDragger = new DragNode(this)
+      this.nodeDragger = this.createDragger(this)
       this.diagram.interactive.selectable.add(this)
       this.diagram.interactive.draggable.add(this)
     }
 
     if (this.scalable) {
       const material = diagram.getMaterial('geometry', 'scaling', 'white')
-      this.nodeScaler = new ScaleNode(this, material)
+      this.nodeScaler = this.createScaler(this, material)
       this.diagram.interactive.selectable.add(...this.nodeScaler.selectable)
       this.diagram.interactive.draggable.add(...this.nodeScaler.selectable)
     }
@@ -314,9 +314,19 @@ export class FlowNode extends Mesh {
     return new ShapeGeometry(shape)
   }
 
-  createTextGeometry(label: string, options: any) {
+  createTextGeometry(label: string, options: any): BufferGeometry {
     return new TextGeometry(label, options);
   }
 
+  createResizer(node: FlowNode, material: Material): ResizeNode {
+    return new ResizeNode(node, material)
+  }
 
+  createDragger(node: FlowNode): DragNode {
+    return new DragNode(node)
+  }
+
+  createScaler(node: FlowNode, material: Material): ScaleNode {
+    return new ScaleNode(node, material)
+  }
 }

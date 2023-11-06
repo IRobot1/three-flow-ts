@@ -1,4 +1,4 @@
-import { Material, Mesh, MeshBasicMaterial, PlaneGeometry, Vector3 } from "three";
+import { BufferGeometry, Material, Mesh, MeshBasicMaterial, PlaneGeometry, Vector3 } from "three";
 import { InteractiveEventType } from "./interactive";
 import { FlowNode } from "./node";
 
@@ -26,7 +26,7 @@ export class ResizeNode {
   }
 
   private buildMesh(type: string, position: string): Mesh {
-    const geometry = new PlaneGeometry(0.1, 0.1)
+    const geometry = this.createGeometry(0.1)
     const mesh = new Mesh(geometry)
 
     mesh.name = `${type}${position}`
@@ -108,5 +108,9 @@ export class ResizeNode {
     mesh.addEventListener(InteractiveEventType.POINTERLEAVE, (e: any) => { mesh.visible = false; });
   }
 
+  // overridable
+  createGeometry(size: number): BufferGeometry {
+    return new PlaneGeometry(size, size)
+  }
 
 }

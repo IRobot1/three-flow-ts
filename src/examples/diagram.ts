@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, BufferGeometry, CatmullRomCurve3, CircleGeometry, CylinderGeometry, LineBasicMaterial, Material, MeshStandardMaterial, PlaneGeometry, PointLight, Scene, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, ExtrudeGeometry, LineBasicMaterial, Material, MeshStandardMaterial, PointLight, Scene, Shape, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TubeGeometry } from "three";
@@ -9,9 +9,10 @@ import {
   AbstractEdge,
   AbstractNode,
   AbstractDiagram,
-  FlowEdge, FlowInteractive, FlowObjects
+  FlowEdge, FlowInteractive, ScaleNode
 } from "three-flow";
-import { FlowDiagram, FlowConnector } from "three-flow";
+import { ResizeNode, FlowDiagram, FlowConnector } from "three-flow";
+import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 
 export class DiagramExample {
 
@@ -262,9 +263,21 @@ class MyFlowNode extends FlowNode {
   }
 
   override createGeometry(): BufferGeometry {
-    return new PlaneGeometry(this.width,this.height)
+    return new BoxGeometry(this.width, this.height, 0.01)
   }
 
+  override createTextGeometry(label: string, options: TextGeometryParameters): BufferGeometry {
+    options.height = 0.01
+    return super.createTextGeometry(label, options)
+  }
+
+  override createResizer(node: FlowNode, material: Material): ResizeNode {
+    return new MyResizeNode(node, material)
+  }
+
+  override createScaler(node: FlowNode, material: Material): ScaleNode {
+    return new MyScaleNode(node, material)
+  }
 }
 
 class MyFlowConnector extends FlowConnector {
@@ -273,7 +286,9 @@ class MyFlowConnector extends FlowConnector {
   }
 
   override createGeometry(size: number): BufferGeometry {
-    return new CircleGeometry(size, 6)
+    const shape = new Shape()
+    shape.ellipse(0, 0, 0.1, 0.1, 0, Math.PI * 2)
+    return new ExtrudeGeometry(shape, { bevelEnabled: false, depth: 0.01 })
   }
 
 }
@@ -283,6 +298,30 @@ class MyFlowEdge extends FlowEdge {
     super(diagram, edge)
   }
 
-   
+  override createGeometry(start: Vector3, end: Vector3): BufferGeometry | undefined {
+    const curve = new CatmullRomCurve3([start, end]);
+    return new TubeGeometry(curve, 8, 0.01)
+  }
+}
+
+class MyResizeNode extends ResizeNode {
+  constructor(node: FlowNode, material: Material) {
+    super(node, material)
+  }
+
+  override createGeometry(size: number) {
+    return new BoxGeometry(size, size, 0.01)
+  }
+
+}
+
+class MyScaleNode extends ScaleNode {
+  constructor(node: FlowNode, material: Material) {
+    super(node, material)
+  }
+
+  override createGeometry(size: number) {
+    return new BoxGeometry(size, size, 0.01)
+  }
 
 }

@@ -1,8 +1,7 @@
-import { BufferGeometry, CatmullRomCurve3, Line, Mesh, Vector3 } from "three";
+import { BufferGeometry, CatmullRomCurve3, Line, Mesh, TubeGeometry, Vector3 } from "three";
 import { AbstractEdge, EdgeRouting, EdgeState } from "./abstract-model";
 import { FlowConnector } from "./connector";
 import { FlowDiagram } from "./diagram";
-import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry';
 
 export class FlowEdge extends Mesh {
   startConnectorId: string;
@@ -22,7 +21,7 @@ export class FlowEdge extends Mesh {
 
   private startConnector: FlowConnector | undefined;
   private endConnector: FlowConnector | undefined;
-  private line: Line
+  private line = new Line()
 
   isFlow = true
   constructor(diagram: FlowDiagram, edge: AbstractEdge) {
@@ -59,11 +58,13 @@ export class FlowEdge extends Mesh {
 
     this.material = diagram.getMaterial('line', 'edge', edge.color)
 
-    this.line = new Line()
-    this.line.material = this.material
-    this.add(this.line)
-
     this.updateVisuals()
+
+    if (this.line.geometry) {
+      this.line.material = this.material
+      this.add(this.line)
+    }
+
   }
 
   updateVisuals() {
@@ -74,7 +75,11 @@ export class FlowEdge extends Mesh {
       const end = new Vector3()
       this.endConnector.getWorldPosition(end)
 
-      this.line.geometry = this.createLine(start, end)
+      const geometry = this.createGeometry(start, end)
+      if (geometry)
+        this.geometry = geometry
+      else
+        this.line.geometry = this.createLine(start, end)
     }
   }
 
@@ -85,5 +90,8 @@ export class FlowEdge extends Mesh {
     return new BufferGeometry().setFromPoints(curvepoints);
   }
 
+  createGeometry(start: Vector3, end: Vector3): BufferGeometry | undefined {
+    return undefined
+  }
 
 }

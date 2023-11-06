@@ -1,4 +1,4 @@
-import { Material, Mesh, MeshBasicMaterial, PlaneGeometry, Vector3 } from "three"
+import { BufferGeometry, Material, Mesh, MeshBasicMaterial, PlaneGeometry, Vector3 } from "three"
 import { FlowNode } from "./node"
 import { InteractiveEventType } from "./interactive"
 
@@ -22,7 +22,7 @@ export class ScaleNode {
   }
 
   private buildMesh(type: string, position: string): Mesh {
-    const geometry = new PlaneGeometry(0.1, 0.1)
+    const geometry = this.createGeometry(0.1)
     const mesh = new Mesh(geometry)
 
     mesh.name = `${type}${position}`
@@ -92,5 +92,10 @@ export class ScaleNode {
     mesh.addEventListener(InteractiveEventType.POINTERENTER, () => { if (!this.scaling) mesh.visible = true; });
     mesh.addEventListener(InteractiveEventType.POINTERLEAVE, () => { mesh.visible = false; });
 
+  }
+
+  // overridable
+  createGeometry(size: number): BufferGeometry {
+    return new PlaneGeometry(size, size)
   }
 }
