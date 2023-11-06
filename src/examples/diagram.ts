@@ -23,7 +23,7 @@ export class DiagramExample {
     app.scene = scene
 
     app.camera.position.y = 0.5
-    app.camera.position.z = 10
+    app.camera.position.z = 5
 
     const ambient = new AmbientLight()
     ambient.intensity = 0.1
@@ -41,6 +41,12 @@ export class DiagramExample {
     orbit.target.set(0, app.camera.position.y, 0)
     orbit.enableRotate = false;
     orbit.update();
+
+    window.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.code == 'Space')
+        orbit.enableRotate = !orbit.enableRotate
+    })
+
 
     scene.add(new AxesHelper(3))
 
