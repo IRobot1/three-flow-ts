@@ -2,7 +2,7 @@ import { MeshBasicMaterial, Mesh, Shape, ShapeGeometry, BufferGeometry, ExtrudeG
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
-import { AbstractNode, NodeType, NodeState } from "./abstract-model";
+import { AbstractNode, NodeType, NodeState, AbstractConnector } from "./abstract-model";
 import { FlowConnector } from "./connector";
 import { FlowDiagram } from "./diagram";
 
@@ -11,7 +11,7 @@ import { DragNode } from "./drag-node";
 import { ScaleNode } from "./scale-node";
 
 export class FlowNode extends Mesh {
-  private _width:number
+  private _width: number
   get width() { return this._width }
   set width(newvalue: number) {
     if (this._width != newvalue) {
@@ -22,7 +22,7 @@ export class FlowNode extends Mesh {
     }
   }
 
-  private _height:number
+  private _height: number
   get height() { return this._height }
   set height(newvalue: number) {
     if (this._height != newvalue) {
@@ -98,7 +98,7 @@ export class FlowNode extends Mesh {
   set scalar(newvalue: number) {
     if (this._scalar != newvalue) {
       this._scalar = newvalue
-      this.scale.set(newvalue, newvalue,1)
+      this.scale.set(newvalue, newvalue, 1)
       this.dispatchEvent<any>({ type: 'scale_change' })
       this.moveConnector()
     }
@@ -157,13 +157,13 @@ export class FlowNode extends Mesh {
     this.labelsize = node.labelsize
     this.labelcolor = node.labelcolor
 
-    this.material = new MeshBasicMaterial({ color: this.color });
+    this.material = diagram.getMaterial('geometry', 'node', this.color);
 
     this.position.set(node.position.x, node.position.y, node.position.z);
 
 
     // Create a text mesh for the label
-    const textMaterial = new MeshBasicMaterial({ color: 0xffffff });
+    const textMaterial = diagram.getMaterial('geometry', 'label', 'white');
     this.labelMesh = new Mesh();
     this.labelMesh.material = textMaterial
     this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
@@ -176,7 +176,7 @@ export class FlowNode extends Mesh {
     this.inputs.forEach(id => {
       const connector = this.diagram.connectors.find(c => c.connectorid == id)
       if (connector) {
-        const threeConnector = new FlowConnector(diagram, connector);
+        const threeConnector = this.createConnector(diagram, connector);
         threeConnector.position.set(-this.width / 2, y, 0.001)
         this.inputConnectors.push(threeConnector);
         this.add(threeConnector);
@@ -190,7 +190,7 @@ export class FlowNode extends Mesh {
     this.outputs.forEach(id => {
       const connector = this.diagram.connectors.find(c => c.connectorid == id)
       if (connector) {
-        const threeConnector = new FlowConnector(diagram, connector);
+        const threeConnector = this.createConnector(diagram, connector);
         threeConnector.position.set(this.width / 2, y, 0.001)
         this.outputConnectors.push(threeConnector);
         this.add(threeConnector);
@@ -202,7 +202,8 @@ export class FlowNode extends Mesh {
     this.updateVisuals();
 
     if (this.resizable) {
-      this.nodeResizer = new ResizeNode(this)
+      const material = diagram.getMaterial('geometry', 'resizing', 'white')
+      this.nodeResizer = new ResizeNode(this, material)
       this.diagram.interactive.selectable.add(...this.nodeResizer.selectable)
       this.diagram.interactive.draggable.add(...this.nodeResizer.selectable)
     }
@@ -214,11 +215,16 @@ export class FlowNode extends Mesh {
     }
 
     if (this.scalable) {
-      this.nodeScaler = new ScaleNode(this)
+      const material = diagram.getMaterial('geometry', 'scaling', 'white')
+      this.nodeScaler = new ScaleNode(this, material)
       this.diagram.interactive.selectable.add(...this.nodeScaler.selectable)
       this.diagram.interactive.draggable.add(...this.nodeScaler.selectable)
     }
 
+  }
+
+  createConnector(diagram: FlowDiagram, connector: AbstractConnector): FlowConnector {
+    return new FlowConnector(diagram, connector);
   }
 
   getGeometry(): BufferGeometry {
@@ -247,11 +253,11 @@ export class FlowNode extends Mesh {
       connector.position.x = -this.width / 2
       connector.position.y = y
       y -= 0.22
-      connector.dispatchEvent<any>({type:'moved'})
+      connector.dispatchEvent<any>({ type: 'moved' })
     })
     y = starty
     this.outputConnectors.forEach(connector => {
-      connector.position.x  =this.width / 2
+      connector.position.x = this.width / 2
       connector.position.y = y
       y -= 0.22
       connector.dispatchEvent<any>({ type: 'moved' })
@@ -297,7 +303,7 @@ export class FlowNode extends Mesh {
         setColor(this.material, this.color);
         break;
     }
-}
+  }
 
   protected roundedRect(width: number, height: number, radius: number): Shape {
     const ctx = new Shape();

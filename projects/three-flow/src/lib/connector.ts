@@ -45,7 +45,7 @@ export class FlowConnector extends Mesh {
 
     this.geometry = this.getGeometry()
 
-    this.material = new MeshBasicMaterial({ color: this.color });
+    this.material = diagram.getMaterial('geometry', 'connector', this.color );
 
   }
 

@@ -1,4 +1,4 @@
-import { Mesh, MeshBasicMaterial, PlaneGeometry, Vector3 } from "three"
+import { Material, Mesh, MeshBasicMaterial, PlaneGeometry, Vector3 } from "three"
 import { FlowNode } from "./node"
 import { InteractiveEventType } from "./interactive"
 
@@ -7,8 +7,7 @@ export class ScaleNode {
 
   selectable: Array<Mesh> = []
 
-  constructor(private node: FlowNode) {
-    const material = new MeshBasicMaterial({ color: 'white' })
+  constructor(private node: FlowNode, material: Material) {
 
     const leftscaling = this.buildMesh('scaling', 'bottom-left')
     leftscaling.material = material

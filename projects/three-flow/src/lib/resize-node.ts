@@ -1,4 +1,4 @@
-import { Mesh, MeshBasicMaterial, PlaneGeometry, Vector3 } from "three";
+import { Material, Mesh, MeshBasicMaterial, PlaneGeometry, Vector3 } from "three";
 import { InteractiveEventType } from "./interactive";
 import { FlowNode } from "./node";
 
@@ -8,8 +8,7 @@ export class ResizeNode {
 
   selectable: Array<Mesh> = []
 
-  constructor(private node: FlowNode) {
-    const material = new MeshBasicMaterial({ color: 'white' })
+  constructor(private node: FlowNode, material: Material) {
 
     const leftresizing = this.buildMesh('resizing', 'left')
     leftresizing.material = material

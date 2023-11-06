@@ -1,10 +1,13 @@
-import { Material, MeshBasicMaterial, Object3D } from "three";
+import { LineBasicMaterial, Material, MeshBasicMaterial, Object3D } from "three";
 import { AbstractConnector, AbstractDiagram, AbstractEdge, AbstractNode } from "./abstract-model";
 import { FlowInteractive } from "./interactive";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
 import { FlowNode } from "./node";
 import { FlowConnector } from "./connector";
+
+export type FlowMaterialType = 'line' | 'geometry'
+
 
 export class FlowDiagram extends Object3D {
   private materials: Map<string, Material>;
@@ -17,14 +20,15 @@ export class FlowDiagram extends Object3D {
       this.addNode(node)
     })
     diagram.edges.forEach(edge => {
-      const line = new FlowEdge(this, edge)
+      const line = this.createEdge(this, edge)
       this.add(line)
     })
 
   }
 
+
   public addNode(node: AbstractNode): FlowNode {
-    const mesh = new FlowNode(this, node, this.font)
+    const mesh = this.createNode(this, node, this.font)
     this.interactive.selectable.add(mesh)
     this.interactive.draggable.add(mesh)
     this.add(mesh)
@@ -74,13 +78,42 @@ export class FlowDiagram extends Object3D {
     return connector
   }
 
-  getMaterial(color: number | string, purpose: string): Material | undefined {
-    const key = `${color}-${purpose}`;
+  //
+  // purpose is node, resize, scale, disabled, error, selected, active, etc
+  // note that connector may have multipe purposes based on state
+  //
+  getMaterial(type: FlowMaterialType, purpose: string, color: number | string): Material {
+    const key = `${type}-${purpose}-${color}`;
     if (!this.materials.has(key)) {
-      const material = new MeshBasicMaterial({ color });
-      // TODO: LineBasicMaterial({color})
+      let material
+      if (type == 'line')
+        material = this.createLineMaterial(color);
+      else
+        material = this.createMeshMaterial(color);
       this.materials.set(key, material);
     }
-    return this.materials.get(key);
+    return this.materials.get(key)!;
   }
+
+  // allow overriding
+  createLineMaterial(color: number | string): Material {
+    return new LineBasicMaterial({ color });
+  }
+
+  createMeshMaterial(color: number | string): Material {
+    return new MeshBasicMaterial({ color });
+  }
+
+  createNode(diagram: FlowDiagram, node: AbstractNode, font: Font): FlowNode {
+    return new FlowNode(diagram, node, font)
+  }
+
+  createConnector(diagram: FlowDiagram, connector: AbstractConnector): FlowConnector {
+    return new FlowConnector(diagram, connector);
+  }
+
+  createEdge(diagram: FlowDiagram, edge: AbstractEdge): FlowEdge {
+    return new FlowEdge(diagram, edge)
+  }
+
 }
