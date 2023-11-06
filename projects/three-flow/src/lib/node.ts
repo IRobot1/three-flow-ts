@@ -176,7 +176,7 @@ export class FlowNode extends Mesh {
     this.inputs.forEach(id => {
       const connector = this.diagram.connectors.find(c => c.connectorid == id)
       if (connector) {
-        const threeConnector = this.createConnector(diagram, connector);
+        const threeConnector = this.diagram.createConnector(diagram, connector);
         threeConnector.position.set(-this.width / 2, y, 0.001)
         this.inputConnectors.push(threeConnector);
         this.add(threeConnector);
@@ -190,7 +190,7 @@ export class FlowNode extends Mesh {
     this.outputs.forEach(id => {
       const connector = this.diagram.connectors.find(c => c.connectorid == id)
       if (connector) {
-        const threeConnector = this.createConnector(diagram, connector);
+        const threeConnector = this.diagram.createConnector(diagram, connector);
         threeConnector.position.set(this.width / 2, y, 0.001)
         this.outputConnectors.push(threeConnector);
         this.add(threeConnector);
@@ -223,24 +223,9 @@ export class FlowNode extends Mesh {
 
   }
 
-  createConnector(diagram: FlowDiagram, connector: AbstractConnector): FlowConnector {
-    return new FlowConnector(diagram, connector);
-  }
-
-  getGeometry(): BufferGeometry {
-    const radius = Math.min(this.width, this.height) * 0.1
-    const shape = this.roundedRect(this.width, this.height, radius)
-    return new ShapeGeometry(shape)
-  }
-
-  getTextGeometry(label: string, options: any) {
-    return new TextGeometry(label, options);
-  }
-
-
   private resizeGeometry() {
     this.geometry.dispose()
-    this.geometry = this.getGeometry()
+    this.geometry = this.createGeometry()
 
     this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
 
@@ -276,7 +261,7 @@ export class FlowNode extends Mesh {
   updateVisuals() {
 
     // Update the text mesh based on the label and state
-    const geometry = this.getTextGeometry(this.label, { font: this.font, height: 0, size: this.labelsize });
+    const geometry = this.createTextGeometry(this.label, { font: this.font, height: 0, size: this.labelsize });
     geometry.center()
     this.labelMesh.geometry = geometry;
 
@@ -321,5 +306,17 @@ export class FlowNode extends Mesh {
     ctx.closePath();
     return ctx;
   }
+
+  // overridable
+  createGeometry(): BufferGeometry {
+    const radius = Math.min(this.width, this.height) * 0.1
+    const shape = this.roundedRect(this.width, this.height, radius)
+    return new ShapeGeometry(shape)
+  }
+
+  createTextGeometry(label: string, options: any) {
+    return new TextGeometry(label, options);
+  }
+
 
 }

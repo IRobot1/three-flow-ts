@@ -1,6 +1,7 @@
-import { AmbientLight, AxesHelper, BoxGeometry, Mesh, MeshBasicMaterial, PointLight, Scene } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, CatmullRomCurve3, CircleGeometry, CylinderGeometry, LineBasicMaterial, Material, MeshStandardMaterial, PlaneGeometry, PointLight, Scene, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import { TubeGeometry } from "three";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import {
@@ -10,8 +11,7 @@ import {
   AbstractDiagram,
   FlowEdge, FlowInteractive, FlowObjects
 } from "three-flow";
-import { FlowConnector } from "three-flow";
-import { FlowDiagram } from "../../projects/three-flow/src/lib/diagram";
+import { FlowDiagram, FlowConnector } from "three-flow";
 
 export class DiagramExample {
 
@@ -26,7 +26,7 @@ export class DiagramExample {
     app.camera.position.z = 5
 
     const ambient = new AmbientLight()
-    ambient.intensity = 0.1
+    ambient.intensity = 1
     scene.add(ambient)
 
     const light = new PointLight(0xffffff, 1, 100)
@@ -218,7 +218,7 @@ export class DiagramExample {
       const fontMap: Map<string, Font> = new Map<string, Font>([
         ['helvetika', font],
       ]);
-      scene.add(new FlowDiagram(diagram, interactive, fontMap));
+      scene.add(new MyFlowDiagram(diagram, interactive, fontMap));
     });
 
 
@@ -228,4 +228,61 @@ export class DiagramExample {
     }
 
   }
+}
+
+class MyFlowDiagram extends FlowDiagram {
+  constructor(diagram: AbstractDiagram, interactive: FlowInteractive, fonts: Map<string, Font>) {
+    super(diagram, interactive, fonts)
+  }
+
+  override createLineMaterial(color: number | string): Material {
+    return new LineBasicMaterial({ color: 'orange' });
+  }
+
+  override createMeshMaterial(color: number | string): Material {
+    return new MeshStandardMaterial({ color: 'orange' });
+  }
+
+  override createNode(diagram: FlowDiagram, node: AbstractNode, font: Font): FlowNode {
+    return new MyFlowNode(diagram, node, font)
+  }
+
+  override createConnector(diagram: FlowDiagram, connector: AbstractConnector): FlowConnector {
+    return new MyFlowConnector(diagram, connector);
+  }
+
+  override createEdge(diagram: FlowDiagram, edge: AbstractEdge): FlowEdge {
+    return new MyFlowEdge(diagram, edge)
+  }
+}
+
+class MyFlowNode extends FlowNode {
+  constructor(diagram: FlowDiagram, node: AbstractNode, font: Font) {
+    super(diagram, node, font);
+  }
+
+  override createGeometry(): BufferGeometry {
+    return new PlaneGeometry(this.width,this.height)
+  }
+
+}
+
+class MyFlowConnector extends FlowConnector {
+  constructor(diagram: FlowDiagram, connector: AbstractConnector) {
+    super(diagram, connector)
+  }
+
+  override createGeometry(size: number): BufferGeometry {
+    return new CircleGeometry(size, 6)
+  }
+
+}
+
+class MyFlowEdge extends FlowEdge {
+  constructor(diagram: FlowDiagram, edge: AbstractEdge) {
+    super(diagram, edge)
+  }
+
+   
+
 }

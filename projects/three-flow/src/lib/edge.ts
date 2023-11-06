@@ -1,7 +1,8 @@
-import { BufferGeometry, CatmullRomCurve3, Line, LineBasicMaterial, Mesh, Vector3 } from "three";
-import { AbstractDiagram, AbstractEdge, EdgeRouting, EdgeState } from "./abstract-model";
+import { BufferGeometry, CatmullRomCurve3, Line, Vector3 } from "three";
+import { AbstractEdge, EdgeRouting, EdgeState } from "./abstract-model";
 import { FlowConnector } from "./connector";
 import { FlowDiagram } from "./diagram";
+import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry';
 
 export class FlowEdge extends Line {
   startConnectorId: string;
@@ -55,19 +56,10 @@ export class FlowEdge extends Line {
     this.routing = edge.routing
     this.arrowheads = edge.arrowheads
 
-    this.material = new LineBasicMaterial({ color: edge.color })
+    this.material = diagram.getMaterial('line', 'edge', edge.color)
 
     this.updateVisuals()
   }
-
-  getGeometry(start: Vector3, end: Vector3): BufferGeometry {
-    const curve = new CatmullRomCurve3([start, end]);
-    const curvepoints = curve.getPoints(25);
-    return new BufferGeometry().setFromPoints(curvepoints);
-  }
-
-  interact() { }
-  compatibility() { }
 
   updateVisuals() {
     if (this.startConnector && this.endConnector) {
@@ -77,8 +69,16 @@ export class FlowEdge extends Line {
       const end = new Vector3()
       this.endConnector.getWorldPosition(end)
 
-      this.geometry = this.getGeometry(start, end)
+      this.geometry = this.createLine(start, end)
     }
   }
+
+  // overridable
+  createLine(start: Vector3, end: Vector3): BufferGeometry {
+    const curve = new CatmullRomCurve3([start, end]);
+    const curvepoints = curve.getPoints(25);
+    return new BufferGeometry().setFromPoints(curvepoints);
+  }
+
 
 }

@@ -43,14 +43,14 @@ export class FlowConnector extends Mesh {
     this.error = connector.error
     this.documentation = connector.documentation
 
-    this.geometry = this.getGeometry()
+    this.geometry = this.createGeometry(0.1)
 
     this.material = diagram.getMaterial('geometry', 'connector', this.color );
 
   }
 
-  getGeometry(): BufferGeometry {
-    return new CircleGeometry(0.1)
+  createGeometry(size: number): BufferGeometry {
+    return new CircleGeometry(size)
   }
 
   updateVisuals() {
