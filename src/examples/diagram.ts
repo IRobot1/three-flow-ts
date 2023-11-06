@@ -39,7 +39,7 @@ export class DiagramExample {
 
     const orbit = new OrbitControls(app.camera, app.domElement);
     orbit.target.set(0, app.camera.position.y, 0)
-    //orbit.enableRotate = false;
+    orbit.enableRotate = false;
     orbit.update();
 
     scene.add(new AxesHelper(3))

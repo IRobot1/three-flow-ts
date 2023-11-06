@@ -1,5 +1,5 @@
 import { Material, MeshBasicMaterial, Object3D } from "three";
-import { AbstractDiagram, AbstractEdge, AbstractNode } from "./abstract-model";
+import { AbstractConnector, AbstractDiagram, AbstractEdge, AbstractNode } from "./abstract-model";
 import { FlowInteractive } from "./interactive";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
@@ -8,7 +8,7 @@ import { FlowConnector } from "./connector";
 
 export class FlowDiagram extends Object3D {
   private materials: Map<string, Material>;
-  constructor(private diagram: AbstractDiagram, private interactive: FlowInteractive, private fonts: Map<string, Font>) {
+  constructor(private diagram: AbstractDiagram, public interactive: FlowInteractive, private fonts: Map<string, Font>) {
     super()
     if (!this.diagram.version) this.diagram.version = 1
     this.materials = new Map();
@@ -24,7 +24,7 @@ export class FlowDiagram extends Object3D {
   }
 
   public addNode(node: AbstractNode): FlowNode {
-    const mesh = new FlowNode(this.diagram, node, this.font)
+    const mesh = new FlowNode(this, node, this.font)
     this.interactive.selectable.add(mesh)
     this.interactive.draggable.add(mesh)
     this.add(mesh)
@@ -56,7 +56,7 @@ export class FlowDiagram extends Object3D {
   }
 
   get nodes(): AbstractNode[] { return this.diagram.nodes }
-  //get connectors(): AbstractConnector[] { return this.diagram.connectors }
+  get connectors(): AbstractConnector[] { return this.diagram.connectors }
   get edges(): AbstractEdge[] { return this.diagram.edges }
   get version() { return this.diagram.version }
 

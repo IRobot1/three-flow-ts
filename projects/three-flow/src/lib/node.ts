@@ -4,10 +4,30 @@ import { Font } from "three/examples/jsm/loaders/FontLoader";
 
 import { AbstractNode, NodeType, NodeState, AbstractDiagram } from "./abstract-model";
 import { FlowConnector } from "./connector";
+import { ResizeNode } from "./resize-node";
+import { FlowDiagram } from "./diagram";
 
 export class FlowNode extends Mesh {
-  width: number;
-  height: number;
+  private _width:number
+  get width() { return this._width }
+  set width(newvalue: number) {
+    if (this._width != newvalue) {
+      this._width = newvalue
+      this.dispatchEvent<any>({ type: 'width_change' })
+      this.moveGeometry()
+    }
+  }
+
+  private _height:number
+  get height() { return this._height }
+  set height(newvalue: number) {
+    if (this._height != newvalue) {
+      this._height = newvalue
+      this.dispatchEvent<any>({ type: 'height_change' })
+      this.moveGeometry()
+    }
+  }
+
   color: number | string;
   location: { x: number; y: number; z: number };
   label: string;
@@ -29,15 +49,17 @@ export class FlowNode extends Mesh {
 
   isFlow = true
 
-  constructor(private diagram: AbstractDiagram, node: AbstractNode, private font: Font) {
+  dispose = () => { }
+
+  constructor(private diagram: FlowDiagram, node: AbstractNode, private font: Font) {
     super();
 
     //@ts-ignore
     this.type = 'flownode'
 
     this.name = node.nodeid;
-    this.width = node.width;
-    this.height = node.height;
+    this._width = node.width;
+    this._height = node.height;
     this.color = node.color
     this.location = node.position;
 
@@ -54,10 +76,6 @@ export class FlowNode extends Mesh {
     this.draggable = node.draggable
     this.labelsize = node.labelsize
     this.labelcolor = node.labelcolor
-
-    const radius = Math.min(this.width, this.height) * 0.1
-    const shape = this.roundedRect(this.width, this.height, radius)
-    this.geometry = new ShapeGeometry(shape)
 
     this.material = new MeshBasicMaterial({ color: this.color });
 
@@ -100,7 +118,42 @@ export class FlowNode extends Mesh {
       y -= 0.22
     });
 
+    this.moveGeometry()
     this.updateVisuals();
+
+    if (this.resizable) {
+      const noderesizer = new ResizeNode(this, diagram.interactive)
+      this.dispose = () => {
+        noderesizer.dispose()
+      }
+    }
+
+  }
+
+  private moveGeometry() {
+    this.geometry.dispose()
+    const radius = Math.min(this.width, this.height) * 0.1
+    const shape = this.roundedRect(this.width, this.height, radius)
+    this.geometry = new ShapeGeometry(shape)
+
+    this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
+
+    const starty = this.height / 2 - this.labelsize * 3
+    let y = starty
+    this.inputConnectors.forEach(connector => {
+      connector.position.x = -this.width / 2
+      connector.position.y = y
+      y -= 0.22
+      connector.dispatchEvent<any>({type:'moved'})
+    })
+    y = starty
+    this.outputConnectors.forEach(connector => {
+      connector.position.x  =this.width / 2
+      connector.position.y = y
+      y -= 0.22
+      connector.dispatchEvent<any>({ type: 'moved' })
+    })
+
   }
 
   // used when node is moved and edge needs to redraw using new connector position

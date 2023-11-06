@@ -33,8 +33,14 @@ export class FlowEdge extends Line {
 
     this.startConnectorId = edge.startConnectorId
     this.startConnector = diagram.getConnector(this.startConnectorId)
+    this.startConnector?.addEventListener('moved', () => {
+      this.updateVisuals()
+    })
     this.endConnectorId = edge.endConnectorId
     this.endConnector = diagram.getConnector(this.endConnectorId)
+    this.endConnector?.addEventListener('moved', () => {
+      this.updateVisuals()
+    })
 
     this.intermediatePoints = edge.intermediatePoints
     this.color = edge.color

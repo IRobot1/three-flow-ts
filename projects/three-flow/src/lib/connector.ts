@@ -18,7 +18,7 @@ export class FlowConnector extends Mesh {
   documentation?: string | undefined;
 
   isFlow = true
-  constructor(connector: AbstractConnector) {
+  constructor(public connector: AbstractConnector) {
     super()
 
     //@ts-ignore
