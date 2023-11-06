@@ -3,7 +3,6 @@
  */
 
 export * from './lib/abstract-model';
-export * from './lib/model';
 
 export * from './lib/interactive'
 

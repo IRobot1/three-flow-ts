@@ -1,4 +1,4 @@
-import { MeshBasicMaterial, Mesh, Shape, ShapeGeometry } from "three";
+import { MeshBasicMaterial, Mesh, Shape, ShapeGeometry, BufferGeometry, ExtrudeGeometryOptions } from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
@@ -176,7 +176,7 @@ export class FlowNode extends Mesh {
     this.inputs.forEach(id => {
       const connector = this.diagram.connectors.find(c => c.connectorid == id)
       if (connector) {
-        const threeConnector = new FlowConnector(connector);
+        const threeConnector = new FlowConnector(diagram, connector);
         threeConnector.position.set(-this.width / 2, y, 0.001)
         this.inputConnectors.push(threeConnector);
         this.add(threeConnector);
@@ -190,7 +190,7 @@ export class FlowNode extends Mesh {
     this.outputs.forEach(id => {
       const connector = this.diagram.connectors.find(c => c.connectorid == id)
       if (connector) {
-        const threeConnector = new FlowConnector(connector);
+        const threeConnector = new FlowConnector(diagram, connector);
         threeConnector.position.set(this.width / 2, y, 0.001)
         this.outputConnectors.push(threeConnector);
         this.add(threeConnector);
@@ -221,11 +221,20 @@ export class FlowNode extends Mesh {
 
   }
 
-  private resizeGeometry() {
-    this.geometry.dispose()
+  getGeometry(): BufferGeometry {
     const radius = Math.min(this.width, this.height) * 0.1
     const shape = this.roundedRect(this.width, this.height, radius)
-    this.geometry = new ShapeGeometry(shape)
+    return new ShapeGeometry(shape)
+  }
+
+  getTextGeometry(label: string, options: any) {
+    return new TextGeometry(label, options);
+  }
+
+
+  private resizeGeometry() {
+    this.geometry.dispose()
+    this.geometry = this.getGeometry()
 
     this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
 
@@ -258,12 +267,10 @@ export class FlowNode extends Mesh {
     return connector;
   }
 
-  interact() { }
-
   updateVisuals() {
 
     // Update the text mesh based on the label and state
-    const geometry = new TextGeometry(this.label, { font: this.font, height: 0, size: this.labelsize });
+    const geometry = this.getTextGeometry(this.label, { font: this.font, height: 0, size: this.labelsize });
     geometry.center()
     this.labelMesh.geometry = geometry;
 
@@ -290,9 +297,9 @@ export class FlowNode extends Mesh {
         setColor(this.material, this.color);
         break;
     }
-  }
+}
 
-  private roundedRect(width: number, height: number, radius: number): Shape {
+  protected roundedRect(width: number, height: number, radius: number): Shape {
     const ctx = new Shape();
     const halfwidth = width / 2
     const halfheight = height / 2

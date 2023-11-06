@@ -60,6 +60,12 @@ export class FlowEdge extends Line {
     this.updateVisuals()
   }
 
+  getGeometry(start: Vector3, end: Vector3): BufferGeometry {
+    const curve = new CatmullRomCurve3([start, end]);
+    const curvepoints = curve.getPoints(25);
+    return new BufferGeometry().setFromPoints(curvepoints);
+  }
+
   interact() { }
   compatibility() { }
 
@@ -71,10 +77,7 @@ export class FlowEdge extends Line {
       const end = new Vector3()
       this.endConnector.getWorldPosition(end)
 
-      const curve = new CatmullRomCurve3([start,end]);
-      const curvepoints = curve.getPoints(25);
-      this.geometry = new BufferGeometry().setFromPoints(curvepoints);
-
+      this.geometry = this.getGeometry(start, end)
     }
   }
 
