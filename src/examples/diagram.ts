@@ -54,9 +54,11 @@ export class DiagramExample {
         inputs: ["3", "4"],
         outputs: ["5"],
         state: "default",
-        draggable: true,
         category: "",
+        draggable: true,
         resizable: true,
+        scaleable: true,
+        scale: 1,
         labelsize: 0.1,
         labelcolor: 'white', width: 1, height: 2, color: 'green'
 
@@ -69,9 +71,11 @@ export class DiagramExample {
         inputs: ["6"],
         outputs: [],
         state: "selected",
-        draggable: true,
         category: "",
+        draggable: true,
         resizable: false,
+        scaleable: true,
+        scale: 1,
         labelsize: 0.1,
         labelcolor: 'white', width: 1, height: 1, color: 'red'
       }

@@ -45,6 +45,8 @@ export class FlowDiagram extends Object3D {
       draggable: true,
       category: "",
       resizable: true,
+      scaleable: true,
+      scale: 1,
       labelsize: 0.1,
       labelcolor: 'white',
       width: 1,

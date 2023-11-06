@@ -81,6 +81,8 @@ export interface AbstractNode {
   category: string;
   resizable: boolean;
   draggable: boolean;
+  scaleable: boolean;
+  scale: number;
   error?: string;
   documentation?: string;
   inputs: string[]; // ids

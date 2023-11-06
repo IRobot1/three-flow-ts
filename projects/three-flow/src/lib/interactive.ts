@@ -158,6 +158,7 @@ export class FlowInteractive {
             let owner = _selected.parent
             if (owner.type != 'Scene') owner = _selected
             _inverseMatrix.copy(owner.matrixWorld).invert();
+            _inverseMatrix.makeScale(1, 1, 1)
             _intersection.applyMatrix4(_inverseMatrix)
           }
 

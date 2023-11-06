@@ -1,16 +1,14 @@
-import { EventDispatcher, Mesh, MeshBasicMaterial, PlaneGeometry, Vector3 } from "three";
+import { Mesh, MeshBasicMaterial, PlaneGeometry, Vector3 } from "three";
 import { InteractiveEventType } from "./interactive";
 import { FlowNode } from "./node";
 
 
-export class ResizeNode extends EventDispatcher {
+export class ResizeNode {
   public enabled = true
 
   selectable: Array<Mesh> = []
 
   constructor(private node: FlowNode) {
-    super()
-
     const material = new MeshBasicMaterial({ color: 'white' })
 
     const leftresizing = this.buildMesh('resizing', 'left')

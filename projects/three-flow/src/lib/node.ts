@@ -8,6 +8,7 @@ import { FlowDiagram } from "./diagram";
 
 import { ResizeNode } from "./resize-node";
 import { DragNode } from "./drag-node";
+import { ScaleNode } from "./scale-node";
 
 export class FlowNode extends Mesh {
   private _width:number
@@ -77,6 +78,32 @@ export class FlowNode extends Mesh {
     }
   }
 
+  private _scalable: boolean;
+  get scalable() { return this._scalable }
+  set scalable(newvalue: boolean) {
+    if (this._scalable != newvalue) {
+      this._scalable = newvalue;
+      if (this.nodeScaler) {
+        if (newvalue)
+          this.diagram.interactive.selectable.add(...this.nodeScaler.selectable)
+        else
+          this.diagram.interactive.selectable.remove(...this.nodeScaler.selectable)
+        this.nodeScaler.enabled = newvalue
+      }
+    }
+  }
+
+  private _scalar: number
+  get scalar() { return this._scalar }
+  set scalar(newvalue: number) {
+    if (this._scalar != newvalue) {
+      this._scalar = newvalue
+      this.scale.set(newvalue, newvalue,1)
+      this.dispatchEvent<any>({ type: 'scale_change' })
+      this.moveConnector()
+    }
+  }
+
 
   private labelMesh: Mesh;
   private inputConnectors: FlowConnector[] = [];
@@ -84,6 +111,7 @@ export class FlowNode extends Mesh {
 
   private nodeResizer: ResizeNode | undefined
   private nodeDragger: DragNode | undefined
+  private nodeScaler: ScaleNode | undefined
 
   isFlow = true
 
@@ -91,6 +119,14 @@ export class FlowNode extends Mesh {
     if (this.nodeResizer) {
       this.diagram.interactive.selectable.remove(...this.nodeResizer.selectable)
       this.diagram.interactive.draggable.remove(...this.nodeResizer.selectable)
+    }
+    if (this.nodeDragger) {
+      this.diagram.interactive.selectable.remove(this)
+      this.diagram.interactive.draggable.remove(this)
+    }
+    if (this.nodeScaler) {
+      this.diagram.interactive.selectable.remove(...this.nodeScaler.selectable)
+      this.diagram.interactive.draggable.remove(...this.nodeScaler.selectable)
     }
   }
 
@@ -116,6 +152,8 @@ export class FlowNode extends Mesh {
     this.category = node.category
     this._resizable = node.resizable
     this._draggable = node.draggable
+    this._scalable = node.scaleable
+    this._scalar = node.scale;
     this.labelsize = node.labelsize
     this.labelcolor = node.labelcolor
 
@@ -174,6 +212,13 @@ export class FlowNode extends Mesh {
       this.diagram.interactive.selectable.add(this)
       this.diagram.interactive.draggable.add(this)
     }
+
+    if (this.scalable) {
+      this.nodeScaler = new ScaleNode(this)
+      this.diagram.interactive.selectable.add(...this.nodeScaler.selectable)
+      this.diagram.interactive.draggable.add(...this.nodeScaler.selectable)
+    }
+
   }
 
   private resizeGeometry() {
