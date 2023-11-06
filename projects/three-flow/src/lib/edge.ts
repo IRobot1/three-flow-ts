@@ -1,10 +1,10 @@
-import { BufferGeometry, CatmullRomCurve3, Line, Vector3 } from "three";
+import { BufferGeometry, CatmullRomCurve3, Line, Mesh, Vector3 } from "three";
 import { AbstractEdge, EdgeRouting, EdgeState } from "./abstract-model";
 import { FlowConnector } from "./connector";
 import { FlowDiagram } from "./diagram";
 import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry';
 
-export class FlowEdge extends Line {
+export class FlowEdge extends Mesh {
   startConnectorId: string;
   endConnectorId: string;
   intermediatePoints: string[];
@@ -22,6 +22,7 @@ export class FlowEdge extends Line {
 
   private startConnector: FlowConnector | undefined;
   private endConnector: FlowConnector | undefined;
+  private line: Line
 
   isFlow = true
   constructor(diagram: FlowDiagram, edge: AbstractEdge) {
@@ -58,6 +59,10 @@ export class FlowEdge extends Line {
 
     this.material = diagram.getMaterial('line', 'edge', edge.color)
 
+    this.line = new Line()
+    this.line.material = this.material
+    this.add(this.line)
+
     this.updateVisuals()
   }
 
@@ -69,7 +74,7 @@ export class FlowEdge extends Line {
       const end = new Vector3()
       this.endConnector.getWorldPosition(end)
 
-      this.geometry = this.createLine(start, end)
+      this.line.geometry = this.createLine(start, end)
     }
   }
 
