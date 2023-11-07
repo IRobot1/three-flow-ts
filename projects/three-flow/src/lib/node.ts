@@ -9,6 +9,7 @@ import { FlowDiagram } from "./diagram";
 import { ResizeNode } from "./resize-node";
 import { DragNode } from "./drag-node";
 import { ScaleNode } from "./scale-node";
+import { connect } from "rxjs";
 
 export class FlowNode extends Mesh {
   private _width: number
@@ -38,7 +39,7 @@ export class FlowNode extends Mesh {
 
   label: string;
   labelsize: number;
-  labelcolor: string;
+  labelcolor: number | string;
 
   state: NodeState;
   nodetype: NodeType;
@@ -112,6 +113,7 @@ export class FlowNode extends Mesh {
   private nodeResizer: ResizeNode | undefined
   private nodeDragger: DragNode | undefined
   private nodeScaler: ScaleNode | undefined
+  private spacing = 0.22
 
   isFlow = true
 
@@ -130,40 +132,42 @@ export class FlowNode extends Mesh {
     }
   }
 
-  constructor(private diagram: FlowDiagram, node: AbstractNode, private font: Font) {
+  constructor(private diagram: FlowDiagram, node: Partial<AbstractNode>, private font: Font) {
     super();
 
     //@ts-ignore
     this.type = 'flownode'
 
-    this.name = node.nodeid;
-    this._width = node.width;
-    this._height = node.height;
-    this.color = node.color
+    this.name = node.id = node.id ?? diagram.nodes.length.toString()
+    this._width = node.width = node.width ?? 1;
+    this._height = node.height = node.height ?? 1;
+    this.color = node.color = node.color ?? 'white'
 
-    this.label = node.label;
-    this.state = node.state;
-    this.nodetype = node.nodetype;
-    this.inputs = node.inputs;
-    this.outputs = node.outputs;
-    this.error = node.error;
-    this.documentation = node.documentation;
+    this.label = node.label = node.label ?? '';
+    this.labelsize = node.labelsize = node.labelsize ?? 0.1
+    this.labelcolor = node.labelcolor = node.labelcolor ?? 'black'
+
+    this.state = node.state = node.state ?? 'default';
+    this.nodetype = node.nodetype = node.nodetype ?? 'function';
+    this.inputs = node.inputs = node.inputs ?? [];
+    this.outputs = node.outputs = node.outputs ?? [];
+    this.category = node.category = node.category ?? ''
+    this._resizable = node.resizable = node.resizable ?? true
+    this._draggable = node.draggable = node.draggable ?? true
+    this._scalable = node.scaleable = node.scaleable ?? true
+    this._scalar = node.scale = node.scale ?? 1
+
+    this.error = node.error
+    this.documentation = node.documentation
     if (node.data) this.userData = node.data;
-    this.category = node.category
-    this._resizable = node.resizable
-    this._draggable = node.draggable
-    this._scalable = node.scaleable
-    this._scalar = node.scale;
-    this.labelsize = node.labelsize
-    this.labelcolor = node.labelcolor
 
     this.material = diagram.getMaterial('geometry', 'node', this.color);
 
-    this.position.set(node.position.x, node.position.y, node.position.z);
+    if (node.position) this.position.set(node.position.x, node.position.y, node.position.z);
 
 
     // Create a text mesh for the label
-    const textMaterial = diagram.getMaterial('geometry', 'label', 'white');
+    const textMaterial = diagram.getMaterial('geometry', 'label', this.labelcolor);
     this.labelMesh = new Mesh();
     this.labelMesh.material = textMaterial
     this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
@@ -174,7 +178,7 @@ export class FlowNode extends Mesh {
     const starty = this.height / 2 - this.labelsize * 3
     let y = starty
     this.inputs.forEach(id => {
-      const connector = this.diagram.connectors.find(c => c.connectorid == id)
+      const connector = this.diagram.connectors.find(c => c.id == id)
       if (connector) {
         const threeConnector = this.diagram.createConnector(diagram, connector);
         threeConnector.position.set(-this.width / 2, y, 0.001)
@@ -182,20 +186,20 @@ export class FlowNode extends Mesh {
         this.add(threeConnector);
 
       }
-      y -= 0.22
+      y -= this.spacing
     });
 
     // Initialize output connectors
     y = starty
     this.outputs.forEach(id => {
-      const connector = this.diagram.connectors.find(c => c.connectorid == id)
+      const connector = this.diagram.connectors.find(c => c.id == id)
       if (connector) {
         const threeConnector = this.diagram.createConnector(diagram, connector);
         threeConnector.position.set(this.width / 2, y, 0.001)
         this.outputConnectors.push(threeConnector);
         this.add(threeConnector);
       }
-      y -= 0.22
+      y -= this.spacing
     });
 
     this.resizeGeometry()
@@ -231,20 +235,53 @@ export class FlowNode extends Mesh {
 
   }
 
+  private addConnector(data: Partial<AbstractConnector>): FlowConnector {
+    this.diagram.connectors.push(data)
+    const connector = this.diagram.createConnector(this.diagram, data)
+    this.add(connector)
+    return connector
+  }
+
+  addInputConnector(input: Partial<AbstractConnector>): FlowConnector {
+    input.connectortype = 'input'
+    const connector = this.addConnector(input)
+
+    const index = this.inputConnectors.push(connector) - 1
+    this.inputs.push(input.id!)
+
+    connector.position.set(-this.width / 2, this.height / 2 - this.labelsize * 3 - this.spacing * index, 0.001)
+
+    this.updateVisuals()
+    return connector
+  }
+
+  addOutputConnector(output: Partial<AbstractConnector>): FlowConnector {
+    output.connectortype = 'output'
+    const connector = this.addConnector(output)
+
+    const index = this.outputConnectors.push(connector) - 1
+    this.outputs.push(output.id!)
+
+    connector.position.set(this.width / 2, this.height / 2 - this.labelsize * 3 - this.spacing * index, 0.001)
+
+    this.updateVisuals()
+    return connector
+  }
+
   moveConnector() {
     const starty = this.height / 2 - this.labelsize * 3
     let y = starty
     this.inputConnectors.forEach(connector => {
       connector.position.x = -this.width / 2
       connector.position.y = y
-      y -= 0.22
+      y -= this.spacing
       connector.dispatchEvent<any>({ type: 'moved' })
     })
     y = starty
     this.outputConnectors.forEach(connector => {
       connector.position.x = this.width / 2
       connector.position.y = y
-      y -= 0.22
+      y -= this.spacing
       connector.dispatchEvent<any>({ type: 'moved' })
     })
   }
@@ -285,7 +322,7 @@ export class FlowNode extends Mesh {
     //    setColor(this.material, 0x444444);
     //    break;
     //  default:
-        setColor(this.material, this.color);
+    setColor(this.material, this.color);
     //    break;
     //}
   }
@@ -322,7 +359,7 @@ export class FlowNode extends Mesh {
     return new ResizeNode(node, material)
   }
 
-  createDragger(node: FlowNode, gridSize:number): DragNode {
+  createDragger(node: FlowNode, gridSize: number): DragNode {
     return new DragNode(node, gridSize)
   }
 

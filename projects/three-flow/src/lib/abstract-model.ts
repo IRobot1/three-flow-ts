@@ -8,7 +8,7 @@ export type ConnectorType =
 export type ConnectorState = "selected" | "active" | "disabled" | "default";
 
 export interface AbstractConnector {
-  connectorid: string;
+  id: string;
   connectortype: ConnectorType;
   order: number;
   connectedEdges: string[];
@@ -45,7 +45,7 @@ export type EdgeState =
 export type EdgeRouting = "straight" | "curved" | "segmented";
 
 export interface AbstractEdge {
-  edgeid: string;
+  id: string;
   startConnectorId: string;
   endConnectorId: string;
   intermediatePoints: string[]; // IDs of intermediate points
@@ -67,7 +67,7 @@ export type NodeType = "event" | "function" | "return";
 export type NodeState = "selected" | "active" | "disabled" | "default";
 
 export interface AbstractNode {
-  nodeid: string;
+  id: string;
   nodetype: NodeType;
   position: { x: number; y: number; z: number };
   width: number;
@@ -75,7 +75,7 @@ export interface AbstractNode {
   color: number | string;
   label: string;
   labelsize: number;
-  labelcolor: string;
+  labelcolor: number | string;
   data?: { [key: string]: any };
   state: NodeState;
   category: string;
@@ -91,9 +91,9 @@ export interface AbstractNode {
 
 export interface AbstractDiagram {
   version: number;
-  nodes: AbstractNode[],
-  connectors: AbstractConnector[],
-  edges: AbstractEdge[]
+  nodes: Partial<AbstractNode>[],
+  connectors: Partial<AbstractConnector>[],
+  edges: Partial<AbstractEdge>[]
 }
 
 export interface DiagramOptions {

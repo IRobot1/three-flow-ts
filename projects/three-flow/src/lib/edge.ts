@@ -1,11 +1,11 @@
-import { BufferGeometry, CatmullRomCurve3, Line, Mesh, TubeGeometry, Vector3 } from "three";
+import { BufferGeometry, CatmullRomCurve3, Line, Mesh, Vector3 } from "three";
 import { AbstractEdge, EdgeRouting, EdgeState } from "./abstract-model";
 import { FlowConnector } from "./connector";
 import { FlowDiagram } from "./diagram";
 
 export class FlowEdge extends Mesh {
-  startConnectorId: string;
-  endConnectorId: string;
+  startConnectorId!: string;
+  endConnectorId!: string;
   intermediatePoints: string[];
   color: number | string
   label?: string | undefined;
@@ -24,13 +24,33 @@ export class FlowEdge extends Mesh {
   private line = new Line()
 
   isFlow = true
-  constructor(diagram: FlowDiagram, edge: AbstractEdge) {
+  constructor(diagram: FlowDiagram, edge: Partial<AbstractEdge>) {
     super()
 
     //@ts-ignore
     this.type = 'flowedge'
 
-    this.name = edge.edgeid
+    this.name = edge.id = edge.id ?? diagram.edges.length.toString()
+    this.intermediatePoints = edge.intermediatePoints = edge.intermediatePoints ?? []
+    this.color = edge.color = edge.color ?? 'white'
+    this.label = edge.label = edge.label ?? ''
+    this.labelcolor = edge.labelcolor = edge.labelcolor ?? 'black'
+    this.labelsize = edge.labelsize = edge.labelsize ?? 0.1
+    this.selectable = edge.selectable = edge.selectable ?? true
+    this.highlighting = edge.highlighting = edge.highlighting ?? false
+    if (this.data) this.userData = this.data
+    this.state = edge.state = edge.state ?? 'default'
+    this.error = edge.error
+    this.routing = edge.routing = edge.routing ?? 'straight'
+    this.arrowheads = edge.arrowheads = edge.arrowheads ?? false
+    if (!edge.startConnectorId) {
+      console.warn(`Edge ${this.name} start connector id must be defined`)
+      return
+    }
+    if (!edge.endConnectorId) {
+      console.warn(`Edge ${this.name} end connector id must be defined`)
+      return
+    }
 
     this.startConnectorId = edge.startConnectorId
     this.startConnector = diagram.getConnector(this.startConnectorId)
@@ -43,20 +63,8 @@ export class FlowEdge extends Mesh {
       this.updateVisuals()
     })
 
-    this.intermediatePoints = edge.intermediatePoints
-    this.color = edge.color
-    this.label = edge.label
-    this.labelcolor = edge.color
-    this.labelsize = edge.labelsize
-    this.selectable = edge.selectable
-    this.highlighting = edge.highlighting
-    if (this.data) this.userData = this.data
-    this.state = edge.state
-    this.error = edge.error
-    this.routing = edge.routing
-    this.arrowheads = edge.arrowheads
 
-    this.material = diagram.getMaterial('line', 'edge', edge.color)
+    this.material = diagram.getMaterial('line', 'edge', this.color)
 
     this.updateVisuals()
 

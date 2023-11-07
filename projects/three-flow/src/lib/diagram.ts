@@ -6,6 +6,7 @@ import { FlowEdge } from "./edge";
 import { FlowNode } from "./node";
 import { FlowConnector } from "./connector";
 
+
 export type FlowMaterialType = 'line' | 'geometry'
 
 
@@ -26,21 +27,35 @@ export class FlowDiagram extends Object3D {
 
   }
 
-  get gridsize():number { return this.options?.gridsize ?? 0 }
+  get gridsize(): number { return this.options?.gridsize ?? 0 }
 
-  public addNode(node: AbstractNode): FlowNode {
+  public addNode(node: Partial<AbstractNode>): FlowNode {
+    this.nodes.push(node);
+
     const mesh = this.createNode(this, node, this.font)
     this.interactive.selectable.add(mesh)
     this.interactive.draggable.add(mesh)
     this.add(mesh)
+
     return mesh
   }
+
+  public addEdge(edge: Partial<AbstractEdge>): FlowEdge {
+    this.edges.push(edge);
+    const mesh = this.createEdge(this, edge)
+    this.interactive.selectable.add(mesh)
+    this.interactive.draggable.add(mesh)
+    this.add(mesh)
+
+    return mesh
+  }
+
 
   get font() { return this.fonts.get('helvetika')! }
 
   newNode(): FlowNode {
     const node: AbstractNode = {
-      nodeid: (this.nodes.length + 1).toString(),
+      id: (this.nodes.length + 1).toString(),
       position: { x: 0, y: 0, z: 0 },
       nodetype: "function",
       label: "New Node",
@@ -62,9 +77,9 @@ export class FlowDiagram extends Object3D {
     return this.addNode(node)
   }
 
-  get nodes(): AbstractNode[] { return this.diagram.nodes }
-  get connectors(): AbstractConnector[] { return this.diagram.connectors }
-  get edges(): AbstractEdge[] { return this.diagram.edges }
+  get nodes(): Partial<AbstractNode>[] { return this.diagram.nodes }
+  get connectors(): Partial<AbstractConnector>[] { return this.diagram.connectors }
+  get edges(): Partial<AbstractEdge>[] { return this.diagram.edges }
   get version() { return this.diagram.version }
 
   getConnector(id: string): FlowConnector | undefined {
@@ -72,9 +87,11 @@ export class FlowDiagram extends Object3D {
 
     // find first matching connector
     for (const child of this.children) {
-      const node = child as FlowNode
-      connector = node.getConnector(id)
-      if (connector) break;
+      if (child.type == 'flownode') {
+        const node = child as FlowNode
+        connector = node.getConnector(id)
+        if (connector) break;
+      }
     }
     return connector
   }
@@ -105,15 +122,15 @@ export class FlowDiagram extends Object3D {
     return new MeshBasicMaterial({ color });
   }
 
-  createNode(diagram: FlowDiagram, node: AbstractNode, font: Font): FlowNode {
+  createNode(diagram: FlowDiagram, node: Partial<AbstractNode>, font: Font): FlowNode {
     return new FlowNode(diagram, node, font)
   }
 
-  createConnector(diagram: FlowDiagram, connector: AbstractConnector): FlowConnector {
+  createConnector(diagram: FlowDiagram, connector: Partial<AbstractConnector>): FlowConnector {
     return new FlowConnector(diagram, connector);
   }
 
-  createEdge(diagram: FlowDiagram, edge: AbstractEdge): FlowEdge {
+  createEdge(diagram: FlowDiagram, edge: Partial<AbstractEdge>): FlowEdge {
     return new FlowEdge(diagram, edge)
   }
 

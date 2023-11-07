@@ -19,26 +19,26 @@ export class FlowConnector extends Mesh {
   documentation?: string | undefined;
 
   isFlow = true
-  constructor(private diagram: FlowDiagram, public connector: AbstractConnector) {
+  constructor(private diagram: FlowDiagram, public connector: Partial<AbstractConnector>) {
     super()
 
     //@ts-ignore
     this.type = 'flowconnector'
 
-    this.name = connector.connectorid
-    this.connectortype = connector.connectortype
-    this.connectedEdges = connector.connectedEdges
-    this.multiplicity = connector.multiplicity
-    this.compatibility = connector.compatibility
-    this.draggable = connector.draggable
-    this.size = connector.size
-    this.shape = connector.shape
-    this.color = connector.color
-    this.label = connector.label
-    this.labelsize = connector.labelsize
-    this.labelcolor = connector.labelcolor
+    this.name = connector.id = connector.id ?? diagram.connectors.length.toString()
+    this.connectortype = connector.connectortype = connector.connectortype ?? 'input'
+    this.connectedEdges = connector.connectedEdges = connector.connectedEdges ?? []
+    this.multiplicity = connector.multiplicity = connector.multiplicity ?? 1
+    this.compatibility = connector.compatibility = connector.compatibility ?? []
+    this.draggable = connector.draggable = connector.draggable ?? true
+    this.size = connector.size = connector.size ?? 0.1
+    this.shape = connector.shape = connector.shape ?? ''
+    this.color = connector.color = connector.color ?? 'black'
+    this.label = connector.label = connector.label??''
+    this.labelsize = connector.labelsize = connector.labelsize ?? 0.1
+    this.labelcolor = connector.labelcolor = connector.labelcolor ?? 'black'
 
-    this.state = connector.state
+    this.state = connector.state = connector.state ?? 'default'
     if (connector.data) this.userData = connector.data
     this.error = connector.error
     this.documentation = connector.documentation

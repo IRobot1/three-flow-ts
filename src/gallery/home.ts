@@ -21,7 +21,7 @@ const gallery: Gallery = {
   tiles: [
     { title: 'Basic', position: { x: 0, y: 0, z: 0 }, assetimage: 'basic', route: 'basic' },
     { title: 'Custom Geometry', position: { x: 3.02, y: 0, z: 0 }, assetimage: 'geometry', route: 'geometry', titleblack: false },
-    //  { title: 'Buttons', position: { x: -3.02, y: 0, z: 0 }, assetimage: 'buttons', route: 'buttons' },
+    { title: 'Builder', position: { x: -3.02, y: 0, z: 0 }, assetimage: 'builder', route: 'builder' },
     //  { title: 'Checkbox', position: { x: 1.51 , y: 0.87, z: 0 }, assetimage: 'checkbox', route: 'checkbox' },
     //  { title: 'Color Entry', position: { x: 1.51 , y: -0.87, z: 0 }, assetimage: 'colorentry', route: 'colorentry' },
     //  { title: 'Expander', position: { x: -1.51 , y: 0.87, z: 0 }, assetimage: 'expander', route: 'expander', titleblack:true },

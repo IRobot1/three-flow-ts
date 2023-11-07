@@ -53,7 +53,7 @@ export class BasicExample {
 
     const nodes: AbstractNode[] = [
       {
-        nodeid: "1",
+        id: "1",
         position: { x: 0, y: 0, z: 0 },
         nodetype: "function",
         label: "Title1",
@@ -70,7 +70,7 @@ export class BasicExample {
 
       },
       {
-        nodeid: "2",
+        id: "2",
         position: { x: 2, y: 0, z: 0 },
         nodetype: "return",
         label: "Title2",
@@ -86,7 +86,7 @@ export class BasicExample {
         labelcolor: 'white', width: 1, height: 1, color: 'red'
       },
       {
-        nodeid: "3",
+        id: "3",
         position: { x: -2, y: 0, z: 0 },
         nodetype: "return",
         label: "Title3",
@@ -109,7 +109,7 @@ export class BasicExample {
 
     const connectors: AbstractConnector[] = [
       {
-        connectorid: "1",
+        id: "1",
         connectortype: "output",
         order: 0,
         connectedEdges: ["7"],
@@ -125,7 +125,7 @@ export class BasicExample {
         labelcolor: 'white'
       },
       {
-        connectorid: "2",
+        id: "2",
         connectortype: "output",
         order: 0,
         connectedEdges: ["8"],
@@ -141,7 +141,7 @@ export class BasicExample {
         labelcolor: 'white'
       },
       {
-        connectorid: "3",
+        id: "3",
         connectortype: "input",
         order: 0,
         connectedEdges: ["7"],
@@ -157,7 +157,7 @@ export class BasicExample {
         labelcolor: 'white'
       },
       {
-        connectorid: "4",
+        id: "4",
         connectortype: "input",
         order: 0,
         connectedEdges: ["8"],
@@ -173,7 +173,7 @@ export class BasicExample {
         labelcolor: 'white'
       },
       {
-        connectorid: "5",
+        id: "5",
         connectortype: "output",
         order: 0,
         connectedEdges: ["9"],
@@ -189,7 +189,7 @@ export class BasicExample {
         labelcolor: 'white'
       },
       {
-        connectorid: "6",
+        id: "6",
         connectortype: "input",
         order: 0,
         connectedEdges: ["9"],
@@ -208,7 +208,7 @@ export class BasicExample {
 
     const edges: AbstractEdge[] = [
       {
-        edgeid: "7",
+        id: "7",
         startConnectorId: "1",
         endConnectorId: "3",
         intermediatePoints: [],
@@ -223,7 +223,7 @@ export class BasicExample {
         color: 'white'
       },
       {
-        edgeid: "8",
+        id: "8",
         startConnectorId: "2",
         endConnectorId: "4",
         intermediatePoints: [],
@@ -238,7 +238,7 @@ export class BasicExample {
         color: 'white'
       },
       {
-        edgeid: "9",
+        id: "9",
         startConnectorId: "5",
         endConnectorId: "6",
         intermediatePoints: [],
