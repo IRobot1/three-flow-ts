@@ -273,21 +273,21 @@ export class FlowNode extends Mesh {
     this.inputConnectors.forEach((connector) => connector.updateVisuals());
     this.outputConnectors.forEach((connector) => connector.updateVisuals());
 
-    // Update node material based on state
-    switch (this.state) {
-      case 'selected':
-        setColor(this.material, 0xaaaaaa);
-        break;
-      case 'active':
-        setColor(this.material, 0x00ff00);
-        break;
-      case 'disabled':
-        setColor(this.material, 0x444444);
-        break;
-      default:
+    //// Update node material based on state
+    //switch (this.state) {
+    //  case 'selected':
+    //    setColor(this.material, 0xaaaaaa);
+    //    break;
+    //  case 'active':
+    //    setColor(this.material, 0x00ff00);
+    //    break;
+    //  case 'disabled':
+    //    setColor(this.material, 0x444444);
+    //    break;
+    //  default:
         setColor(this.material, this.color);
-        break;
-    }
+    //    break;
+    //}
   }
 
   protected roundedRect(width: number, height: number, radius: number): Shape {

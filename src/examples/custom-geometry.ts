@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, ExtrudeGeometry, LineBasicMaterial, Material, MeshStandardMaterial, PointLight, Scene, Shape, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, Color, ExtrudeGeometry, LineBasicMaterial, Material, MeshStandardMaterial, PointLight, Scene, Shape, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TubeGeometry } from "three";
@@ -14,7 +14,7 @@ import {
 import { ResizeNode, FlowDiagram, FlowConnector } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 
-export class DiagramExample {
+export class CustomGeometryExample {
 
   dispose = () => { }
 
@@ -26,6 +26,8 @@ export class DiagramExample {
     app.camera.position.y = 0.5
     app.camera.position.z = 5
 
+    scene.background = new Color(0x444444)
+
     const ambient = new AmbientLight()
     ambient.intensity = 1
     scene.add(ambient)
@@ -36,7 +38,6 @@ export class DiagramExample {
     light.shadow.bias = -0.001 // this prevents artifacts
     light.shadow.mapSize.width = light.shadow.mapSize.height = 512 * 2
     scene.add(light)
-
 
     const orbit = new OrbitControls(app.camera, app.domElement);
     orbit.target.set(0, app.camera.position.y, 0)
