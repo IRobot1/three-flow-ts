@@ -9,7 +9,7 @@ import {
   AbstractEdge,
   AbstractNode,
   AbstractDiagram,
-  FlowEdge, FlowInteractive, ScaleNode
+  FlowEdge, FlowInteractive, ScaleNode, DiagramOptions
 } from "three-flow";
 import { ResizeNode, FlowDiagram, FlowConnector } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
@@ -49,7 +49,7 @@ export class DiagramExample {
     })
 
 
-    scene.add(new AxesHelper(3))
+    //scene.add(new AxesHelper(3))
 
 
     const nodes: AbstractNode[] = [
@@ -85,10 +85,62 @@ export class DiagramExample {
         scale: 1,
         labelsize: 0.1,
         labelcolor: 'white', width: 1, height: 1, color: 'red'
+      },
+      {
+        nodeid: "3",
+        position: { x: -2, y: 0, z: 0 },
+        nodetype: "return",
+        label: "Title3",
+        inputs: [],
+        outputs: ["1","2"],
+        state: "default",
+        category: "",
+        draggable: true,
+        resizable: false,
+        scaleable: true,
+        scale: 1,
+        labelsize: 0.1,
+        labelcolor: 'white',
+        width: 1,
+        height: 1,
+        color: 'gold'
       }
+
     ];
 
     const connectors: AbstractConnector[] = [
+      {
+        connectorid: "1",
+        connectortype: "output",
+        order: 0,
+        connectedEdges: ["7"],
+        multiplicity: 1,
+        compatibility: [],
+        draggable: false,
+        size: 1,
+        shape: "circle",
+        color: "blue",
+        label: "A",
+        state: "default",
+        labelsize: 0.1,
+        labelcolor: 'white'
+      },
+      {
+        connectorid: "2",
+        connectortype: "output",
+        order: 0,
+        connectedEdges: ["8"],
+        multiplicity: 1,
+        compatibility: [],
+        draggable: false,
+        size: 1,
+        shape: "circle",
+        color: "blue",
+        label: "B",
+        state: "default",
+        labelsize: 0.1,
+        labelcolor: 'white'
+      },
       {
         connectorid: "3",
         connectortype: "input",
@@ -158,8 +210,8 @@ export class DiagramExample {
     const edges: AbstractEdge[] = [
       {
         edgeid: "7",
-        startConnectorId: "3",
-        endConnectorId: "5",
+        startConnectorId: "1",
+        endConnectorId: "3",
         intermediatePoints: [],
         label: "",
         selectable: true,
@@ -173,8 +225,8 @@ export class DiagramExample {
       },
       {
         edgeid: "8",
-        startConnectorId: "4",
-        endConnectorId: "5",
+        startConnectorId: "2",
+        endConnectorId: "4",
         intermediatePoints: [],
         label: "",
         selectable: true,
@@ -219,7 +271,7 @@ export class DiagramExample {
       const fontMap: Map<string, Font> = new Map<string, Font>([
         ['helvetika', font],
       ]);
-      scene.add(new MyFlowDiagram(diagram, interactive, fontMap));
+      scene.add(new MyFlowDiagram(diagram, interactive, fontMap, { gridsize: 0.3 }));
     });
 
 
@@ -232,8 +284,8 @@ export class DiagramExample {
 }
 
 class MyFlowDiagram extends FlowDiagram {
-  constructor(diagram: AbstractDiagram, interactive: FlowInteractive, fonts: Map<string, Font>) {
-    super(diagram, interactive, fonts)
+  constructor(diagram: AbstractDiagram, interactive: FlowInteractive, fonts: Map<string, Font>, options?: Partial<DiagramOptions>) {
+    super(diagram, interactive, fonts, options)
   }
 
   override createLineMaterial(color: number | string): Material {

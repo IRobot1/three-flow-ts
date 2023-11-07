@@ -7,7 +7,16 @@ export class DragNode {
 
   private dragging = false
 
-  constructor(node: FlowNode) {
+  constructor(node: FlowNode, gridSize:number) {
+    const snapToGrid = (position: THREE.Vector3): THREE.Vector3 => {
+      if (gridSize > 0) {
+        // Assuming position is the position of the object being dragged
+        position.x = Math.round(position.x / gridSize) * gridSize;
+        position.y = Math.round(position.y / gridSize) * gridSize;
+        position.z = Math.round(position.z / gridSize) * gridSize;
+      }
+      return position;
+    }
 
     let offset: Vector3
     node.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
@@ -22,7 +31,7 @@ export class DragNode {
 
       // adjust the current position by offset within title
       if (this.dragging) {
-        node.position.copy(e.position.sub(offset))
+        node.position.copy(snapToGrid(e.position.sub(offset)))
         node.moveConnector()
       }
     });

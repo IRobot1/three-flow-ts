@@ -1,5 +1,5 @@
 import { LineBasicMaterial, Material, MeshBasicMaterial, Object3D } from "three";
-import { AbstractConnector, AbstractDiagram, AbstractEdge, AbstractNode } from "./abstract-model";
+import { AbstractConnector, AbstractDiagram, AbstractEdge, AbstractNode, DiagramOptions } from "./abstract-model";
 import { FlowInteractive } from "./interactive";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
@@ -11,7 +11,7 @@ export type FlowMaterialType = 'line' | 'geometry'
 
 export class FlowDiagram extends Object3D {
   private materials: Map<string, Material>;
-  constructor(private diagram: AbstractDiagram, public interactive: FlowInteractive, private fonts: Map<string, Font>) {
+  constructor(private diagram: AbstractDiagram, public interactive: FlowInteractive, private fonts: Map<string, Font>, private options?: Partial<DiagramOptions>) {
     super()
     if (!this.diagram.version) this.diagram.version = 1
     this.materials = new Map();
@@ -26,6 +26,7 @@ export class FlowDiagram extends Object3D {
 
   }
 
+  get gridsize():number { return this.options?.gridsize ?? 0 }
 
   public addNode(node: AbstractNode): FlowNode {
     const mesh = this.createNode(this, node, this.font)

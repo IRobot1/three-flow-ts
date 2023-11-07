@@ -95,3 +95,7 @@ export interface AbstractDiagram {
   connectors: AbstractConnector[],
   edges: AbstractEdge[]
 }
+
+export interface DiagramOptions {
+  gridsize: number
+}

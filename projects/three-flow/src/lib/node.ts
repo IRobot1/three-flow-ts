@@ -209,7 +209,7 @@ export class FlowNode extends Mesh {
     }
 
     if (this.draggable) {
-      this.nodeDragger = this.createDragger(this)
+      this.nodeDragger = this.createDragger(this, diagram.gridsize)
       this.diagram.interactive.selectable.add(this)
       this.diagram.interactive.draggable.add(this)
     }
@@ -322,8 +322,8 @@ export class FlowNode extends Mesh {
     return new ResizeNode(node, material)
   }
 
-  createDragger(node: FlowNode): DragNode {
-    return new DragNode(node)
+  createDragger(node: FlowNode, gridSize:number): DragNode {
+    return new DragNode(node, gridSize)
   }
 
   createScaler(node: FlowNode, material: Material): ScaleNode {
