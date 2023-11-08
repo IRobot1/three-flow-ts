@@ -149,7 +149,7 @@ export class FlowDiagram extends Object3D {
   }
 
   createMeshMaterial(color: number | string): Material {
-    return new MeshBasicMaterial({ color });
+    return new MeshBasicMaterial({ color, opacity:0.99 });
   }
 
   createNode(diagram: FlowDiagram, node: Partial<AbstractNode>, font: Font): FlowNode {

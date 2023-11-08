@@ -37,7 +37,9 @@ export class ResizeNode {
 
   addResizing(left: Mesh, right: Mesh, bottom: Mesh) {
     this.node.add(left, right, bottom);
+
     left.position.x = -this.node.width / 2
+    left.position.y = this.node.height / 2 - this.node.labelsize * 1.2
     left.visible = false
 
     this.resizeready(left, 1, 0);
@@ -48,6 +50,7 @@ export class ResizeNode {
     })
 
     right.position.x = this.node.width / 2
+    right.position.y = this.node.height / 2 - this.node.labelsize * 1.2
     right.visible = false
 
     this.resizeready(right, -1, 0);
@@ -57,7 +60,11 @@ export class ResizeNode {
 
     this.resizeready(bottom, 0);
 
-    this.node.addEventListener('height_change', () => { bottom.position.y = -this.node.height / 2 })
+    this.node.addEventListener('height_change', () => {
+      left.position.y = this.node.height / 2 - this.node.labelsize * 1.2
+      right.position.y = this.node.height / 2 - this.node.labelsize * 1.2
+      bottom.position.y = -this.node.height / 2
+    })
 
   }
 

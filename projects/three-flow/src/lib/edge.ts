@@ -70,6 +70,7 @@ export class FlowEdge extends Mesh {
 
     if (this.line.geometry) {
       this.line.material = this.material
+      this.line.position.z = -0.001
       this.add(this.line)
     }
 
