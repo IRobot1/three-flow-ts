@@ -23,7 +23,7 @@ const gallery: Gallery = {
     { title: 'Custom Geometry', position: { x: 3.02, y: 0, z: 0 }, assetimage: 'geometry', route: 'geometry', titleblack: false },
     { title: 'Builder', position: { x: -3.02, y: 0, z: 0 }, assetimage: 'builder', route: 'builder' },
     { title: 'Language Graph', position: { x: 1.51, y: 0.87, z: 0 }, assetimage: 'placeholder', route: 'languages' },
-    //  { title: 'Color Entry', position: { x: 1.51 , y: -0.87, z: 0 }, assetimage: 'colorentry', route: 'colorentry' },
+    { title: 'Tech Tree Graph', position: { x: 1.51, y: -0.87, z: 0 }, assetimage: 'placeholder', route: 'civilization' },
     //  { title: 'Expander', position: { x: -1.51 , y: 0.87, z: 0 }, assetimage: 'expander', route: 'expander', titleblack:true },
     //  { title: 'Data Entry', position: { x: -1.51 , y: -0.87, z: 0 }, assetimage: 'dataentry', route: 'dataentry' },
     //  { title: 'List', position: { x: 0 , y: 1.74, z: 0 }, assetimage: 'list', route: 'list' },
