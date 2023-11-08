@@ -68,22 +68,32 @@ export class BuilderExample {
       const n3out1 = node3.addOutputConnector({})
       const n3out2 = node3.addOutputConnector({})
 
-      const node1 = flow.addNode({ label: 'Title1', color: 'green' })
+      const node4 = flow.addNode({ label: 'Title4', color: 'gold', position: { x: -2, y: 1.2, z: 0 } })
+      const n4out1 = node4.addOutputConnector({})
+
+      const node1 = flow.addNode({ label: 'Title1', color: 'green', position: { x: 0, y: 0.5, z: 0 } })
       const n1in1 = node1.addInputConnector({})
       const n1in2 = node1.addInputConnector({})
       const n1out = node1.addOutputConnector({})
 
       const edge1 = flow.addEdge({ startConnectorId: n3out1.name, endConnectorId: n1in1.name })
       const edge2 = flow.addEdge({ startConnectorId: n3out2.name, endConnectorId: n1in2.name })
+      const edge4 = flow.addEdge({ startConnectorId: n4out1.name, endConnectorId: n1in1.name })
 
-      const node2 = flow.addNode({ label: 'Title2', color: 'red', position: { x: 2, y: 0, z: 0 } })
+      const node2 = flow.addNode({ label: 'Title2', color: 'red', position: { x: 2, y: 1.2, z: 0 } })
       const n2in = node2.addInputConnector({})
       const edge3 = flow.addEdge({ startConnectorId: n1out.name, endConnectorId: n2in.name })
+
+      const node5 = flow.addNode({ label: 'Title5', color: 'red', position: { x: 2, y: 0, z: 0 } })
+      const n5in = node5.addInputConnector({})
+      const edge5 = flow.addEdge({ startConnectorId: n1out.name, endConnectorId: n5in.name })
 
 
       //flow.removeNode(node1)
       //flow.removeNode(node2)
       //flow.removeNode(node3)
+      //flow.removeNode(node4)
+      //flow.removeNode(node5)
 
       //node1.removeInputConnector(n1in1)
       //node1.removeInputConnector(n1in2)
@@ -97,6 +107,8 @@ export class BuilderExample {
       //flow.removeEdge(edge1)
       //flow.removeEdge(edge2)
       //flow.removeEdge(edge3)
+      //flow.removeEdge(edge4)
+      //flow.removeEdge(edge5)
 
       console.log(diagram)
       console.log(interactive)
