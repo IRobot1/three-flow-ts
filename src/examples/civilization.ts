@@ -12,6 +12,7 @@ import {
 } from "three-flow";
 
 import { civilizationdata } from "./civilization-data";
+import { GraphLabel, graphlib, layout } from "@dagrejs/dagre";
 
 export class CivilizationExample {
 
@@ -73,37 +74,87 @@ export class CivilizationExample {
       civilizationdata.forEach(tech => {
         const from = tech.tech_name;
 
+        let outlink = 'out' + from
+        const fromnode = flow.hasNode(from)
+        if (!fromnode) {
+          const node = flow.addNode({ id: from, label: from, width: 2 });
+          node.addOutputConnector({ id: outlink })
+        }
+        else {
+          if (!fromnode.getConnector(outlink)) {
+            fromnode.addOutputConnector({ id: outlink })
+          }
+        }
         tech.leads_to.forEach(item => {
           const to = item;
 
-          let outlink = 'out' + from
           let inlink = 'in' + to
 
-          const fromnode = flow.hasNode(from)
-          if (!fromnode) {
-            const node = flow.addNode({ id: from, label: from, width: 2 });
-            node.addOutputConnector({ id: outlink })
-          }
-          else {
-            outlink = 'out' + from
-            if (!fromnode.getConnector(outlink)) {
-              fromnode.addOutputConnector({ id: outlink })
-            }
-          }
-
-          if (!flow.hasNode(to)) {
+          const tonode = flow.hasNode(to)
+          if (!tonode) {
             const node = flow.addNode({ id: to, label: to, width: 2 });
             node.addInputConnector({ id: inlink })
           }
+          else {
+            if (!tonode.getConnector(inlink)) {
+              tonode.addInputConnector({ id: inlink })
+            }
+          }
+
 
           const edge: Partial<AbstractEdge> = {
             from: outlink, to: inlink
           }
           flow.addEdge(edge);
         })
+
+        // export to mermaid
+        //console.log(`${from.replace(/ /g, '')}[${from}] --> ${to.replace(/ /g, '')}[${to}]`);
       });
 
       console.warn(graph)
+
+      // Create a new directed graph 
+      var g = new graphlib.Graph();
+
+      // Set an object for the graph label
+      const label: GraphLabel = { rankdir: 'LR', nodesep: 10, edgesep: 12, ranksep: 50 }
+      g.setGraph(label);
+
+      // Default to assigning a new object as a label for each new edge.
+      g.setDefaultEdgeLabel(function () { return {}; });
+
+      // Add nodes to the graph. The first argument is the node id. The second is
+      // metadata about the node. In this case we're going to add labels to each of
+      // our nodes.
+      graph.nodes.forEach(node => {
+        g.setNode(node.id!, { label: node.label, width: node.width!, height: node.height! });
+      })
+
+      graph.edges.forEach(edge => {
+        g.setEdge(edge.from!.replace('out', ''), edge.to!.replace('in', ''));
+      })
+
+      layout(g)
+      console.warn(g)
+
+      g.nodes().forEach(v => {
+        const node = g.node(v)
+        const x = flow.hasNode(v)
+        if (x) {
+          x.position.set(node.x / 10, node.y / 10, 0)
+        }
+      })
+
+      flow.allEdges.forEach(edge => {
+        edge.updateVisuals()
+      })
+
+      app.camera.position.x = label.width! / 20
+      app.camera.position.y = label.height! / 20
+      orbit.target.set(app.camera.position.x, app.camera.position.y, 0)
+      app.camera.position.z = 10
+
     });
 
     this.dispose = () => {
