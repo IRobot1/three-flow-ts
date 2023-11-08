@@ -1,5 +1,5 @@
 # three-flow-js
 
-Diagramming library for adding to a threejs scene
+Graph rendering library for adding to a threejs scene
 
 Placeholder

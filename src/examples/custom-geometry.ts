@@ -8,10 +8,10 @@ import {
   FlowNode, AbstractConnector,
   AbstractEdge,
   AbstractNode,
-  AbstractDiagram,
-  FlowEdge, FlowInteractive, ScaleNode, DiagramOptions
+  AbstractGraph,
+  FlowEdge, FlowInteractive, ScaleNode, AbstractGraphOptions
 } from "three-flow";
-import { ResizeNode, FlowDiagram, FlowConnector } from "three-flow";
+import { ResizeNode, FlowGraph, FlowConnector } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 
 export class CustomGeometryExample {
@@ -256,14 +256,11 @@ export class CustomGeometryExample {
       }
     ];
 
-    //const serializedDiagram = serializeDiagram(nodes, connectors, edges);
-    //console.log(serializedDiagram)
-
     const interactive = new FlowInteractive(app, app.camera)
 
     const loader = new FontLoader();
 
-    const diagram: AbstractDiagram = {
+    const graph: AbstractGraph = {
       version: 1,
       nodes, connectors, edges
     }
@@ -272,7 +269,7 @@ export class CustomGeometryExample {
       const fontMap: Map<string, Font> = new Map<string, Font>([
         ['helvetika', font],
       ]);
-      scene.add(new MyFlowDiagram(diagram, interactive, fontMap, { gridsize: 0.3 }));
+      scene.add(new MyFlowGraph(graph, interactive, fontMap, { gridsize: 0.3 }));
     });
 
 
@@ -284,9 +281,9 @@ export class CustomGeometryExample {
   }
 }
 
-class MyFlowDiagram extends FlowDiagram {
-  constructor(diagram: AbstractDiagram, interactive: FlowInteractive, fonts: Map<string, Font>, options?: Partial<DiagramOptions>) {
-    super(diagram, interactive, fonts, options)
+class MyFlowGraph extends FlowGraph {
+  constructor(graph: AbstractGraph, interactive: FlowInteractive, fonts: Map<string, Font>, options?: Partial<AbstractGraphOptions>) {
+    super(graph, interactive, fonts, options)
   }
 
   override createLineMaterial(color: number | string): Material {
@@ -297,22 +294,22 @@ class MyFlowDiagram extends FlowDiagram {
     return new MeshStandardMaterial({ color: 'orange' });
   }
 
-  override createNode(diagram: FlowDiagram, node: AbstractNode, font: Font): FlowNode {
-    return new MyFlowNode(diagram, node, font)
+  override createNode(graph: FlowGraph, node: AbstractNode, font: Font): FlowNode {
+    return new MyFlowNode(graph, node, font)
   }
 
-  override createConnector(diagram: FlowDiagram, connector: AbstractConnector): FlowConnector {
-    return new MyFlowConnector(diagram, connector);
+  override createConnector(graph: FlowGraph, connector: AbstractConnector): FlowConnector {
+    return new MyFlowConnector(graph, connector);
   }
 
-  override createEdge(diagram: FlowDiagram, edge: AbstractEdge): FlowEdge {
-    return new MyFlowEdge(diagram, edge)
+  override createEdge(graph: FlowGraph, edge: AbstractEdge): FlowEdge {
+    return new MyFlowEdge(graph, edge)
   }
 }
 
 class MyFlowNode extends FlowNode {
-  constructor(diagram: FlowDiagram, node: AbstractNode, font: Font) {
-    super(diagram, node, font);
+  constructor(graph: FlowGraph, node: AbstractNode, font: Font) {
+    super(graph, node, font);
   }
 
   override createGeometry(): BufferGeometry {
@@ -334,8 +331,8 @@ class MyFlowNode extends FlowNode {
 }
 
 class MyFlowConnector extends FlowConnector {
-  constructor(diagram: FlowDiagram, connector: AbstractConnector) {
-    super(diagram, connector)
+  constructor(graph: FlowGraph, connector: AbstractConnector) {
+    super(graph, connector)
   }
 
   override createGeometry(size: number): BufferGeometry {
@@ -347,8 +344,8 @@ class MyFlowConnector extends FlowConnector {
 }
 
 class MyFlowEdge extends FlowEdge {
-  constructor(diagram: FlowDiagram, edge: AbstractEdge) {
-    super(diagram, edge)
+  constructor(graph: FlowGraph, edge: AbstractEdge) {
+    super(graph, edge)
   }
 
   override createGeometry(start: Vector3, end: Vector3): BufferGeometry | undefined {

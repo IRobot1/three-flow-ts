@@ -7,9 +7,9 @@ import {
   AbstractConnector,
   AbstractEdge,
   AbstractNode,
-  AbstractDiagram,
+  AbstractGraph,
   FlowInteractive,
-  FlowDiagram
+  FlowGraph
 } from "three-flow";
 
 export class BasicExample {
@@ -258,7 +258,7 @@ export class BasicExample {
 
     const loader = new FontLoader();
 
-    const diagram: AbstractDiagram = {
+    const graph: AbstractGraph = {
       version: 1,
       nodes, connectors, edges
     }
@@ -267,7 +267,7 @@ export class BasicExample {
       const fontMap: Map<string, Font> = new Map<string, Font>([
         ['helvetika', font],
       ]);
-      scene.add(new FlowDiagram(diagram, interactive, fontMap, { gridsize: 0.3 }));
+      scene.add(new FlowGraph(graph, interactive, fontMap, { gridsize: 0.3 }));
     });
 
 

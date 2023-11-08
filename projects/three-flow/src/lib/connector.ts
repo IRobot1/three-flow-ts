@@ -1,6 +1,6 @@
 import { AbstractConnector, ConnectorState, ConnectorType } from "./abstract-model";
 import { BufferGeometry, CircleGeometry, Mesh, MeshBasicMaterial } from "three";
-import { FlowDiagram } from "./diagram";
+import { FlowGraph } from "./graph";
 
 export class FlowConnector extends Mesh {
   connectortype: ConnectorType;
@@ -19,13 +19,13 @@ export class FlowConnector extends Mesh {
   documentation?: string | undefined;
 
   isFlow = true
-  constructor(private diagram: FlowDiagram, public connector: Partial<AbstractConnector>) {
+  constructor(private graph: FlowGraph, public connector: Partial<AbstractConnector>) {
     super()
 
     //@ts-ignore
     this.type = 'flowconnector'
 
-    this.name = connector.id = connector.id ?? diagram.connectors.length.toString()
+    this.name = connector.id = connector.id ?? graph.connectors.length.toString()
     this.connectortype = connector.connectortype = connector.connectortype ?? 'input'
     this.connectedEdges = connector.connectedEdges = connector.connectedEdges ?? []
     this.multiplicity = connector.multiplicity = connector.multiplicity ?? 1
@@ -45,7 +45,7 @@ export class FlowConnector extends Mesh {
 
     this.geometry = this.createGeometry(0.1)
 
-    this.material = diagram.getMaterial('geometry', 'connector', this.color );
+    this.material = graph.getMaterial('geometry', 'connector', this.color );
 
   }
 

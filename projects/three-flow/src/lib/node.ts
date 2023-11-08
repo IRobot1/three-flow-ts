@@ -4,7 +4,7 @@ import { Font } from "three/examples/jsm/loaders/FontLoader";
 
 import { AbstractNode, NodeType, NodeState, AbstractConnector } from "./abstract-model";
 import { FlowConnector } from "./connector";
-import { FlowDiagram } from "./diagram";
+import { FlowGraph } from "./graph";
 
 import { ResizeNode } from "./resize-node";
 import { DragNode } from "./drag-node";
@@ -56,9 +56,9 @@ export class FlowNode extends Mesh {
       this._resizable = newvalue;
       if (this.nodeResizer) {
         if (newvalue)
-          this.diagram.interactive.selectable.add(...this.nodeResizer.selectable)
+          this.graph.interactive.selectable.add(...this.nodeResizer.selectable)
         else
-          this.diagram.interactive.selectable.remove(...this.nodeResizer.selectable)
+          this.graph.interactive.selectable.remove(...this.nodeResizer.selectable)
         this.nodeResizer.enabled = newvalue
       }
     }
@@ -71,9 +71,9 @@ export class FlowNode extends Mesh {
       this._draggable = newvalue;
       if (this.nodeDragger) {
         if (newvalue)
-          this.diagram.interactive.selectable.add(this)
+          this.graph.interactive.selectable.add(this)
         else
-          this.diagram.interactive.selectable.remove(this)
+          this.graph.interactive.selectable.remove(this)
         this.nodeDragger.enabled = newvalue
       }
     }
@@ -86,9 +86,9 @@ export class FlowNode extends Mesh {
       this._scalable = newvalue;
       if (this.nodeScaler) {
         if (newvalue)
-          this.diagram.interactive.selectable.add(...this.nodeScaler.selectable)
+          this.graph.interactive.selectable.add(...this.nodeScaler.selectable)
         else
-          this.diagram.interactive.selectable.remove(...this.nodeScaler.selectable)
+          this.graph.interactive.selectable.remove(...this.nodeScaler.selectable)
         this.nodeScaler.enabled = newvalue
       }
     }
@@ -119,26 +119,26 @@ export class FlowNode extends Mesh {
 
   dispose() {
     if (this.nodeResizer) {
-      this.diagram.interactive.selectable.remove(...this.nodeResizer.selectable)
-      this.diagram.interactive.draggable.remove(...this.nodeResizer.selectable)
+      this.graph.interactive.selectable.remove(...this.nodeResizer.selectable)
+      this.graph.interactive.draggable.remove(...this.nodeResizer.selectable)
     }
     if (this.nodeDragger) {
-      this.diagram.interactive.selectable.remove(this)
-      this.diagram.interactive.draggable.remove(this)
+      this.graph.interactive.selectable.remove(this)
+      this.graph.interactive.draggable.remove(this)
     }
     if (this.nodeScaler) {
-      this.diagram.interactive.selectable.remove(...this.nodeScaler.selectable)
-      this.diagram.interactive.draggable.remove(...this.nodeScaler.selectable)
+      this.graph.interactive.selectable.remove(...this.nodeScaler.selectable)
+      this.graph.interactive.draggable.remove(...this.nodeScaler.selectable)
     }
   }
 
-  constructor(private diagram: FlowDiagram, node: Partial<AbstractNode>, private font: Font) {
+  constructor(private graph: FlowGraph, node: Partial<AbstractNode>, private font: Font) {
     super();
 
     //@ts-ignore
     this.type = 'flownode'
 
-    this.name = node.id = node.id ?? diagram.nodes.length.toString()
+    this.name = node.id = node.id ?? graph.nodes.length.toString()
     this._width = node.width = node.width ?? 1;
     this._height = node.height = node.height ?? 1;
     this.color = node.color = node.color ?? 'white'
@@ -161,13 +161,13 @@ export class FlowNode extends Mesh {
     this.documentation = node.documentation
     if (node.data) this.userData = node.data;
 
-    this.material = diagram.getMaterial('geometry', 'node', this.color);
+    this.material = graph.getMaterial('geometry', 'node', this.color);
 
     if (node.position) this.position.set(node.position.x, node.position.y, node.position.z);
 
 
     // Create a text mesh for the label
-    const textMaterial = diagram.getMaterial('geometry', 'label', this.labelcolor);
+    const textMaterial = graph.getMaterial('geometry', 'label', this.labelcolor);
     this.labelMesh = new Mesh();
     this.labelMesh.material = textMaterial
     this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
@@ -178,9 +178,9 @@ export class FlowNode extends Mesh {
     const starty = this.height / 2 - this.labelsize * 3
     let y = starty
     this.inputs.forEach(id => {
-      const connector = this.diagram.connectors.find(c => c.id == id)
+      const connector = this.graph.connectors.find(c => c.id == id)
       if (connector) {
-        const threeConnector = this.diagram.createConnector(diagram, connector);
+        const threeConnector = this.graph.createConnector(graph, connector);
         threeConnector.position.set(-this.width / 2, y, 0.001)
         this.inputConnectors.push(threeConnector);
         this.add(threeConnector);
@@ -192,9 +192,9 @@ export class FlowNode extends Mesh {
     // Initialize output connectors
     y = starty
     this.outputs.forEach(id => {
-      const connector = this.diagram.connectors.find(c => c.id == id)
+      const connector = this.graph.connectors.find(c => c.id == id)
       if (connector) {
-        const threeConnector = this.diagram.createConnector(diagram, connector);
+        const threeConnector = this.graph.createConnector(graph, connector);
         threeConnector.position.set(this.width / 2, y, 0.001)
         this.outputConnectors.push(threeConnector);
         this.add(threeConnector);
@@ -206,23 +206,23 @@ export class FlowNode extends Mesh {
     this.updateVisuals();
 
     if (this.resizable) {
-      const material = diagram.getMaterial('geometry', 'resizing', 'white')
+      const material = graph.getMaterial('geometry', 'resizing', 'white')
       this.nodeResizer = this.createResizer(this, material)
-      this.diagram.interactive.selectable.add(...this.nodeResizer.selectable)
-      this.diagram.interactive.draggable.add(...this.nodeResizer.selectable)
+      this.graph.interactive.selectable.add(...this.nodeResizer.selectable)
+      this.graph.interactive.draggable.add(...this.nodeResizer.selectable)
     }
 
     if (this.draggable) {
-      this.nodeDragger = this.createDragger(this, diagram.gridsize)
-      this.diagram.interactive.selectable.add(this)
-      this.diagram.interactive.draggable.add(this)
+      this.nodeDragger = this.createDragger(this, graph.gridsize)
+      this.graph.interactive.selectable.add(this)
+      this.graph.interactive.draggable.add(this)
     }
 
     if (this.scalable) {
-      const material = diagram.getMaterial('geometry', 'scaling', 'white')
+      const material = graph.getMaterial('geometry', 'scaling', 'white')
       this.nodeScaler = this.createScaler(this, material)
-      this.diagram.interactive.selectable.add(...this.nodeScaler.selectable)
-      this.diagram.interactive.draggable.add(...this.nodeScaler.selectable)
+      this.graph.interactive.selectable.add(...this.nodeScaler.selectable)
+      this.graph.interactive.draggable.add(...this.nodeScaler.selectable)
     }
 
   }
@@ -236,8 +236,8 @@ export class FlowNode extends Mesh {
   }
 
   private addConnector(data: Partial<AbstractConnector>): FlowConnector {
-    this.diagram.connectors.push(data)
-    const connector = this.diagram.createConnector(this.diagram, data)
+    this.graph.connectors.push(data)
+    const connector = this.graph.createConnector(this.graph, data)
     this.add(connector)
     return connector
   }
@@ -270,8 +270,8 @@ export class FlowNode extends Mesh {
 
   private removeConnector(connector: FlowConnector): void {
     this.remove(connector)
-    const index = this.diagram.connectors.findIndex(x => x.id == connector.name)
-    if (index != -1) this.diagram.connectors.splice(index, 1)
+    const index = this.graph.connectors.findIndex(x => x.id == connector.name)
+    if (index != -1) this.graph.connectors.splice(index, 1)
   }
 
   removeInputConnector(item: FlowConnector): void {
@@ -283,7 +283,7 @@ export class FlowNode extends Mesh {
       this.inputConnectors.splice(index, 1)
       if (index < this.inputConnectors.length)
         this.moveConnectors()
-      this.diagram.removeConnectedEdge(item.name)
+      this.graph.removeConnectedEdge(item.name)
     }
 
     this.removeConnector(item)
@@ -299,7 +299,7 @@ export class FlowNode extends Mesh {
       if (index < this.outputConnectors.length)
         this.moveConnectors()
 
-      this.diagram.removeConnectedEdge(item.name)
+      this.graph.removeConnectedEdge(item.name)
     }
 
     this.removeConnector(item)

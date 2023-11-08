@@ -1,7 +1,7 @@
 import { BufferGeometry, CatmullRomCurve3, Line, Mesh, Vector3 } from "three";
 import { AbstractEdge, EdgeRouting, EdgeState } from "./abstract-model";
 import { FlowConnector } from "./connector";
-import { FlowDiagram } from "./diagram";
+import { FlowGraph } from "./graph";
 
 export class FlowEdge extends Mesh {
   from!: string;
@@ -24,13 +24,13 @@ export class FlowEdge extends Mesh {
   private line = new Line()
 
   isFlow = true
-  constructor(diagram: FlowDiagram, edge: Partial<AbstractEdge>) {
+  constructor(graph: FlowGraph, edge: Partial<AbstractEdge>) {
     super()
 
     //@ts-ignore
     this.type = 'flowedge'
 
-    this.name = edge.id = edge.id ?? diagram.edges.length.toString()
+    this.name = edge.id = edge.id ?? graph.edges.length.toString()
     this.intermediatePoints = edge.intermediatePoints = edge.intermediatePoints ?? []
     this.color = edge.color = edge.color ?? 'white'
     this.label = edge.label = edge.label ?? ''
@@ -53,18 +53,18 @@ export class FlowEdge extends Mesh {
     }
 
     this.from = edge.from
-    this.fromConnector = diagram.getConnector(this.from)
+    this.fromConnector = graph.getConnector(this.from)
     this.fromConnector?.addEventListener('moved', () => {
       this.updateVisuals()
     })
     this.to = edge.to
-    this.toConnector = diagram.getConnector(this.to)
+    this.toConnector = graph.getConnector(this.to)
     this.toConnector?.addEventListener('moved', () => {
       this.updateVisuals()
     })
 
 
-    this.material = diagram.getMaterial('line', 'edge', this.color)
+    this.material = graph.getMaterial('line', 'edge', this.color)
 
     this.updateVisuals()
 

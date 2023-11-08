@@ -9,7 +9,7 @@ export * from './lib/drag-node'
 export * from './lib/resize-node'
 export * from './lib/scale-node'
 
-export * from './lib/diagram';
+export * from './lib/graph';
 export * from './lib/connector';
 export * from './lib/node';
 export * from './lib/edge';

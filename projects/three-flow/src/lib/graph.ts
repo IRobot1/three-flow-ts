@@ -1,5 +1,5 @@
 import { LineBasicMaterial, Material, MeshBasicMaterial, Object3D } from "three";
-import { AbstractConnector, AbstractDiagram, AbstractEdge, AbstractNode, DiagramOptions } from "./abstract-model";
+import { AbstractConnector, AbstractGraph, AbstractEdge, AbstractNode, AbstractGraphOptions } from "./abstract-model";
 import { FlowInteractive } from "./interactive";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
@@ -10,17 +10,17 @@ import { FlowConnector } from "./connector";
 export type FlowMaterialType = 'line' | 'geometry'
 
 
-export class FlowDiagram extends Object3D {
+export class FlowGraph extends Object3D {
   private materials: Map<string, Material>;
-  constructor(private diagram: AbstractDiagram, public interactive: FlowInteractive, private fonts: Map<string, Font>, private options?: Partial<DiagramOptions>) {
+  constructor(private graph: AbstractGraph, public interactive: FlowInteractive, private fonts: Map<string, Font>, private options?: Partial<AbstractGraphOptions>) {
     super()
-    if (!this.diagram.version) this.diagram.version = 1
+    if (!this.graph.version) this.graph.version = 1
     this.materials = new Map();
 
-    diagram.nodes.forEach(node => {
+    graph.nodes.forEach(node => {
       this.addNode(node)
     })
-    diagram.edges.forEach(edge => {
+    graph.edges.forEach(edge => {
       const line = this.createEdge(this, edge)
       this.add(line)
     })
@@ -107,10 +107,10 @@ export class FlowDiagram extends Object3D {
     return this.addNode(node)
   }
 
-  get nodes(): Partial<AbstractNode>[] { return this.diagram.nodes }
-  get connectors(): Partial<AbstractConnector>[] { return this.diagram.connectors }
-  get edges(): Partial<AbstractEdge>[] { return this.diagram.edges }
-  get version() { return this.diagram.version }
+  get nodes(): Partial<AbstractNode>[] { return this.graph.nodes }
+  get connectors(): Partial<AbstractConnector>[] { return this.graph.connectors }
+  get edges(): Partial<AbstractEdge>[] { return this.graph.edges }
+  get version() { return this.graph.version }
 
   getConnector(id: string): FlowConnector | undefined {
     let connector: FlowConnector | undefined
@@ -152,16 +152,16 @@ export class FlowDiagram extends Object3D {
     return new MeshBasicMaterial({ color, opacity:0.99 });
   }
 
-  createNode(diagram: FlowDiagram, node: Partial<AbstractNode>, font: Font): FlowNode {
-    return new FlowNode(diagram, node, font)
+  createNode(graph: FlowGraph, node: Partial<AbstractNode>, font: Font): FlowNode {
+    return new FlowNode(graph, node, font)
   }
 
-  createConnector(diagram: FlowDiagram, connector: Partial<AbstractConnector>): FlowConnector {
-    return new FlowConnector(diagram, connector);
+  createConnector(graph: FlowGraph, connector: Partial<AbstractConnector>): FlowConnector {
+    return new FlowConnector(graph, connector);
   }
 
-  createEdge(diagram: FlowDiagram, edge: Partial<AbstractEdge>): FlowEdge {
-    return new FlowEdge(diagram, edge)
+  createEdge(graph: FlowGraph, edge: Partial<AbstractEdge>): FlowEdge {
+    return new FlowEdge(graph, edge)
   }
 
 }

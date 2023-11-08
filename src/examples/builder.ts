@@ -4,9 +4,9 @@ import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import {
-  AbstractDiagram,
+  AbstractGraph,
   FlowInteractive,
-  FlowDiagram
+  FlowGraph
 } from "three-flow";
 
 export class BuilderExample {
@@ -48,7 +48,7 @@ export class BuilderExample {
 
     const loader = new FontLoader();
 
-    const diagram: AbstractDiagram = {
+    const graph: AbstractGraph = {
       version: 1,
       nodes: [],
       connectors: [],
@@ -60,10 +60,10 @@ export class BuilderExample {
         ['helvetika', font],
       ]);
 
-      const flow = new FlowDiagram(diagram, interactive, fontMap, { gridsize: 0.3 });
+      const flow = new FlowGraph(graph, interactive, fontMap, { gridsize: 0.3 });
       scene.add(flow)
 
-      // build the diagram programmatically
+      // build the graph programmatically
       const node3 = flow.addNode({ label: 'Title3', color: 'gold', position: { x: -2, y: 0, z: 0 } })
       const n3out1 = node3.addOutputConnector({})
       const n3out2 = node3.addOutputConnector({})
@@ -110,7 +110,7 @@ export class BuilderExample {
       //flow.removeEdge(edge4)
       //flow.removeEdge(edge5)
 
-      console.log(diagram)
+      console.log(graph)
       console.log(interactive)
     });
 

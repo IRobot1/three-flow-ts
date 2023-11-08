@@ -89,13 +89,13 @@ export interface AbstractNode {
   outputs: string[]; // ids
 }
 
-export interface AbstractDiagram {
+export interface AbstractGraph {
   version: number;
   nodes: Partial<AbstractNode>[],
   connectors: Partial<AbstractConnector>[],
   edges: Partial<AbstractEdge>[]
 }
 
-export interface DiagramOptions {
+export interface AbstractGraphOptions {
   gridsize: number
 }
