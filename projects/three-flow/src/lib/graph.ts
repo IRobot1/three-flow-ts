@@ -63,6 +63,13 @@ export class FlowGraph extends Object3D {
     return connector
   }
 
+  get allNodes(): Array<FlowNode> {
+    return this.children.filter(child => child.type == 'flownode') as Array<FlowNode>
+  }
+
+  get allEdges(): Array<FlowEdge> {
+    return this.children.filter(child => child.type == 'flowedge') as Array<FlowEdge>
+  }
 
   public addNode(node: Partial<AbstractNode>): FlowNode {
     this.nodes.push(node);
