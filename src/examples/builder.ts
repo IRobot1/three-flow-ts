@@ -76,17 +76,17 @@ export class BuilderExample {
       const n1in2 = node1.addInputConnector({})
       const n1out = node1.addOutputConnector({})
 
-      const edge1 = flow.addEdge({ startConnectorId: n3out1.name, endConnectorId: n1in1.name })
-      const edge2 = flow.addEdge({ startConnectorId: n3out2.name, endConnectorId: n1in2.name })
-      const edge4 = flow.addEdge({ startConnectorId: n4out1.name, endConnectorId: n1in1.name })
+      const edge1 = flow.addEdge({ from: n3out1.name, to: n1in1.name })
+      const edge2 = flow.addEdge({ from: n3out2.name, to: n1in2.name })
+      const edge4 = flow.addEdge({ from: n4out1.name, to: n1in1.name })
 
       const node2 = flow.addNode({ label: 'Title2', color: 'red', position: { x: 2, y: 1.2, z: 0 } })
       const n2in = node2.addInputConnector({})
-      const edge3 = flow.addEdge({ startConnectorId: n1out.name, endConnectorId: n2in.name })
+      const edge3 = flow.addEdge({ from: n1out.name, to: n2in.name })
 
       const node5 = flow.addNode({ label: 'Title5', color: 'red', position: { x: 2, y: 0, z: 0 } })
       const n5in = node5.addInputConnector({})
-      const edge5 = flow.addEdge({ startConnectorId: n1out.name, endConnectorId: n5in.name })
+      const edge5 = flow.addEdge({ from: n1out.name, to: n5in.name })
 
 
       //flow.removeNode(node1)

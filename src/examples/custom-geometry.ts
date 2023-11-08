@@ -211,8 +211,8 @@ export class CustomGeometryExample {
     const edges: AbstractEdge[] = [
       {
         id: "7",
-        startConnectorId: "1",
-        endConnectorId: "3",
+        from: "1",
+        to: "3",
         intermediatePoints: [],
         label: "",
         selectable: true,
@@ -226,8 +226,8 @@ export class CustomGeometryExample {
       },
       {
         id: "8",
-        startConnectorId: "2",
-        endConnectorId: "4",
+        from: "2",
+        to: "4",
         intermediatePoints: [],
         label: "",
         selectable: true,
@@ -241,8 +241,8 @@ export class CustomGeometryExample {
       },
       {
         id: "9",
-        startConnectorId: "5",
-        endConnectorId: "6",
+        from: "5",
+        to: "6",
         intermediatePoints: [],
         label: "",
         selectable: true,

@@ -75,7 +75,7 @@ export class FlowDiagram extends Object3D {
     this.children.forEach(child => {
       if (child.type == 'flowedge') {
         const edge = child as FlowEdge
-        if (edge.startConnectorId == id || edge.endConnectorId == id)
+        if (edge.from == id || edge.to == id)
           this.removeEdge(edge)
       }
     })

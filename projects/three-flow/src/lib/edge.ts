@@ -4,8 +4,8 @@ import { FlowConnector } from "./connector";
 import { FlowDiagram } from "./diagram";
 
 export class FlowEdge extends Mesh {
-  startConnectorId!: string;
-  endConnectorId!: string;
+  from!: string;
+  to!: string;
   intermediatePoints: string[];
   color: number | string
   label?: string | undefined;
@@ -19,8 +19,8 @@ export class FlowEdge extends Mesh {
   routing: EdgeRouting;
   arrowheads: boolean;
 
-  private startConnector: FlowConnector | undefined;
-  private endConnector: FlowConnector | undefined;
+  private fromConnector: FlowConnector | undefined;
+  private toConnector: FlowConnector | undefined;
   private line = new Line()
 
   isFlow = true
@@ -43,23 +43,23 @@ export class FlowEdge extends Mesh {
     this.error = edge.error
     this.routing = edge.routing = edge.routing ?? 'straight'
     this.arrowheads = edge.arrowheads = edge.arrowheads ?? false
-    if (!edge.startConnectorId) {
+    if (!edge.from) {
       console.warn(`Edge ${this.name} start connector id must be defined`)
       return
     }
-    if (!edge.endConnectorId) {
+    if (!edge.to) {
       console.warn(`Edge ${this.name} end connector id must be defined`)
       return
     }
 
-    this.startConnectorId = edge.startConnectorId
-    this.startConnector = diagram.getConnector(this.startConnectorId)
-    this.startConnector?.addEventListener('moved', () => {
+    this.from = edge.from
+    this.fromConnector = diagram.getConnector(this.from)
+    this.fromConnector?.addEventListener('moved', () => {
       this.updateVisuals()
     })
-    this.endConnectorId = edge.endConnectorId
-    this.endConnector = diagram.getConnector(this.endConnectorId)
-    this.endConnector?.addEventListener('moved', () => {
+    this.to = edge.to
+    this.toConnector = diagram.getConnector(this.to)
+    this.toConnector?.addEventListener('moved', () => {
       this.updateVisuals()
     })
 
@@ -77,12 +77,12 @@ export class FlowEdge extends Mesh {
   }
 
   updateVisuals() {
-    if (this.startConnector && this.endConnector) {
+    if (this.fromConnector && this.toConnector) {
       const start = new Vector3()
-      this.startConnector.getWorldPosition(start)
+      this.fromConnector.getWorldPosition(start)
 
       const end = new Vector3()
-      this.endConnector.getWorldPosition(end)
+      this.toConnector.getWorldPosition(end)
 
       const geometry = this.createGeometry(start, end)
       if (geometry)

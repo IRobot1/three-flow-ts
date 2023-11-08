@@ -46,8 +46,8 @@ export type EdgeRouting = "straight" | "curved" | "segmented";
 
 export interface AbstractEdge {
   id: string;
-  startConnectorId: string;
-  endConnectorId: string;
+  from: string;
+  to: string;
   intermediatePoints: string[]; // IDs of intermediate points
   color: number | string;
   label?: string;
