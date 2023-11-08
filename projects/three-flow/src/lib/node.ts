@@ -19,7 +19,7 @@ export class FlowNode extends Mesh {
       this._width = newvalue
       this.dispatchEvent<any>({ type: 'width_change' })
       this.resizeGeometry()
-      this.moveConnector()
+      this.moveConnectors()
     }
   }
 
@@ -30,7 +30,7 @@ export class FlowNode extends Mesh {
       this._height = newvalue
       this.dispatchEvent<any>({ type: 'height_change' })
       this.resizeGeometry()
-      this.moveConnector()
+      this.moveConnectors()
     }
   }
 
@@ -101,14 +101,14 @@ export class FlowNode extends Mesh {
       this._scalar = newvalue
       this.scale.set(newvalue, newvalue, 1)
       this.dispatchEvent<any>({ type: 'scale_change' })
-      this.moveConnector()
+      this.moveConnectors()
     }
   }
 
 
   private labelMesh: Mesh;
-  private inputConnectors: FlowConnector[] = [];
-  private outputConnectors: FlowConnector[] = [];
+   inputConnectors: FlowConnector[] = [];
+  outputConnectors: FlowConnector[] = [];
 
   private nodeResizer: ResizeNode | undefined
   private nodeDragger: DragNode | undefined
@@ -268,7 +268,44 @@ export class FlowNode extends Mesh {
     return connector
   }
 
-  moveConnector() {
+  private removeConnector(connector: FlowConnector): void {
+    this.remove(connector)
+    const index = this.diagram.connectors.findIndex(x => x.id == connector.name)
+    if (index != -1) this.diagram.connectors.splice(index, 1)
+  }
+
+  removeInputConnector(item: FlowConnector): void {
+    let index = this.inputs.indexOf(item.name)
+    if (index != -1) this.inputs.splice(index, 1)
+
+    index = this.inputConnectors.indexOf(item)
+    if (index != -1) {
+      this.inputConnectors.splice(index, 1)
+      if (index < this.inputConnectors.length)
+        this.moveConnectors()
+      this.diagram.removeConnectedEdge(item.name)
+    }
+
+    this.removeConnector(item)
+  }
+
+  removeOutputConnector(item: FlowConnector): void {
+    let index = this.outputs.indexOf(item.name)
+    if (index != -1) this.outputs.splice(index, 1)
+
+    index = this.outputConnectors.indexOf(item)
+    if (index != -1) {
+      this.outputConnectors.splice(index, 1)
+      if (index < this.outputConnectors.length)
+        this.moveConnectors()
+
+      this.diagram.removeConnectedEdge(item.name)
+    }
+
+    this.removeConnector(item)
+  }
+
+  moveConnectors() {
     const starty = this.height / 2 - this.labelsize * 3
     let y = starty
     this.inputConnectors.forEach(connector => {

@@ -32,7 +32,7 @@ export class DragNode {
       // adjust the current position by offset within title
       if (this.dragging) {
         node.position.copy(snapToGrid(e.position.sub(offset)))
-        node.moveConnector()
+        node.moveConnectors()
       }
     });
   }

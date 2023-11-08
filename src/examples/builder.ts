@@ -73,15 +73,33 @@ export class BuilderExample {
       const n1in2 = node1.addInputConnector({})
       const n1out = node1.addOutputConnector({})
 
-      flow.addEdge({ startConnectorId: n3out1.name, endConnectorId: n1in1.name })
-      flow.addEdge({ startConnectorId: n3out2.name, endConnectorId: n1in2.name })
+      const edge1 = flow.addEdge({ startConnectorId: n3out1.name, endConnectorId: n1in1.name })
+      const edge2 = flow.addEdge({ startConnectorId: n3out2.name, endConnectorId: n1in2.name })
 
       const node2 = flow.addNode({ label: 'Title2', color: 'red', position: { x: 2, y: 0, z: 0 } })
       const n2in = node2.addInputConnector({})
-      flow.addEdge({ startConnectorId: n1out.name, endConnectorId: n2in.name })
+      const edge3 = flow.addEdge({ startConnectorId: n1out.name, endConnectorId: n2in.name })
 
-      console.warn(diagram)
 
+      //flow.removeNode(node1)
+      //flow.removeNode(node2)
+      //flow.removeNode(node3)
+
+      //node1.removeInputConnector(n1in1)
+      //node1.removeInputConnector(n1in2)
+      //node1.removeOutputConnector(n1out)
+
+      //node2.removeInputConnector(n2in)
+
+      //node3.removeOutputConnector(n3out2)
+      //node3.removeOutputConnector(n3out1)
+
+      //flow.removeEdge(edge1)
+      //flow.removeEdge(edge2)
+      //flow.removeEdge(edge3)
+
+      console.log(diagram)
+      console.log(interactive)
     });
 
 

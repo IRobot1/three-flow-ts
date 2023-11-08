@@ -33,8 +33,6 @@ export class FlowDiagram extends Object3D {
     this.nodes.push(node);
 
     const mesh = this.createNode(this, node, this.font)
-    this.interactive.selectable.add(mesh)
-    this.interactive.draggable.add(mesh)
     this.add(mesh)
 
     return mesh
@@ -42,14 +40,46 @@ export class FlowDiagram extends Object3D {
 
   public addEdge(edge: Partial<AbstractEdge>): FlowEdge {
     this.edges.push(edge);
+
     const mesh = this.createEdge(this, edge)
-    this.interactive.selectable.add(mesh)
-    this.interactive.draggable.add(mesh)
     this.add(mesh)
 
     return mesh
   }
 
+  public removeNode(node: FlowNode) {
+
+    const inputs = [...node.inputConnectors]
+    inputs.forEach(item => node.removeInputConnector(item))
+
+    const outputs = [...node.outputConnectors]
+    outputs.forEach(item => node.removeOutputConnector(item))
+
+    const index = this.nodes.findIndex(n => n.id == node.name)
+    if (index != -1) this.nodes.splice(index, 1)
+
+    this.interactive.selectable.remove(node)
+    this.interactive.draggable.remove(node)
+
+    this.remove(node)
+    node.dispose()
+  }
+
+  public removeEdge(edge: FlowEdge): void {
+    const index = this.edges.findIndex(e => e.id == edge.name)
+    if (index != -1) this.edges.splice(index, 1)
+    this.remove(edge)
+  }
+
+  public removeConnectedEdge(id: string) {
+    this.children.forEach(child => {
+      if (child.type == 'flowedge') {
+        const edge = child as FlowEdge
+        if (edge.startConnectorId == id || edge.endConnectorId == id)
+          this.removeEdge(edge)
+      }
+    })
+  }
 
   get font() { return this.fonts.get('helvetika')! }
 
