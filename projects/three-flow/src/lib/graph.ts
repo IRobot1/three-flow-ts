@@ -37,6 +37,32 @@ export class FlowGraph extends Object3D {
     return this.options?.fonts?.get(name)
   }
 
+  public hasNode(id: string): FlowNode | undefined {
+    //return this.nodes.find(node => node.id == id) != undefined
+
+    for (const child of this.children) {
+      if (child.type == 'flownode') {
+        const node = child as FlowNode
+        if (node.name == id) return node
+      }
+    }
+    return undefined
+  }
+
+  hasConnector(id: string): FlowConnector | undefined {
+    let connector: FlowConnector | undefined
+
+    // find first matching connector
+    for (const child of this.children) {
+      if (child.type == 'flownode') {
+        const node = child as FlowNode
+        connector = node.getConnector(id)
+        if (connector) break;
+      }
+    }
+    return connector
+  }
+
 
   public addNode(node: Partial<AbstractNode>): FlowNode {
     this.nodes.push(node);
@@ -120,20 +146,6 @@ export class FlowGraph extends Object3D {
   get connectors(): Partial<AbstractConnector>[] { return this.graph.connectors }
   get edges(): Partial<AbstractEdge>[] { return this.graph.edges }
   get version() { return this.graph.version }
-
-  getConnector(id: string): FlowConnector | undefined {
-    let connector: FlowConnector | undefined
-
-    // find first matching connector
-    for (const child of this.children) {
-      if (child.type == 'flownode') {
-        const node = child as FlowNode
-        connector = node.getConnector(id)
-        if (connector) break;
-      }
-    }
-    return connector
-  }
 
   //
   // purpose is node, resize, scale, disabled, error, selected, active, etc
