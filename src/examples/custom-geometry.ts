@@ -9,7 +9,7 @@ import {
   AbstractEdge,
   AbstractNode,
   AbstractGraph,
-  FlowEdge, FlowInteractive, ScaleNode, AbstractGraphOptions
+  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions
 } from "three-flow";
 import { ResizeNode, FlowGraph, FlowConnector } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
@@ -59,6 +59,9 @@ export class CustomGeometryExample {
         position: { x: 0, y: 0, z: 0 },
         nodetype: "function",
         label: "Title1",
+        labelsize: 0.1,
+        labelcolor: 'white',
+        labelfont: 'helvetika',
         inputs: ["3", "4"],
         outputs: ["5"],
         state: "default",
@@ -67,15 +70,18 @@ export class CustomGeometryExample {
         resizable: true,
         scaleable: true,
         scale: 1,
-        labelsize: 0.1,
-        labelcolor: 'white', width: 1, height: 2, color: 'green'
-
+        width: 1,
+        height: 2,
+        color: 'green'
       },
       {
         id: "2",
         position: { x: 2, y: 0, z: 0 },
         nodetype: "return",
         label: "Title2",
+        labelsize: 0.1,
+        labelcolor: 'white',
+        labelfont: 'helvetika',
         inputs: ["6"],
         outputs: [],
         state: "selected",
@@ -84,24 +90,26 @@ export class CustomGeometryExample {
         resizable: false,
         scaleable: true,
         scale: 1,
-        labelsize: 0.1,
-        labelcolor: 'white', width: 1, height: 1, color: 'red'
+        width: 1,
+        height: 1,
+        color: 'red'
       },
       {
         id: "3",
         position: { x: -2, y: 0, z: 0 },
         nodetype: "return",
         label: "Title3",
+        labelsize: 0.1,
+        labelcolor: 'white',
+        labelfont: 'helvetika',
         inputs: [],
-        outputs: ["1","2"],
+        outputs: ["1", "2"],
         state: "default",
         category: "",
         draggable: true,
         resizable: false,
         scaleable: true,
         scale: 1,
-        labelsize: 0.1,
-        labelcolor: 'white',
         width: 1,
         height: 1,
         color: 'gold'
@@ -266,10 +274,13 @@ export class CustomGeometryExample {
     }
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
-      const fontMap: Map<string, Font> = new Map<string, Font>([
-        ['helvetika', font],
-      ]);
-      scene.add(new MyFlowGraph(graph, interactive, fontMap, { gridsize: 0.3 }));
+      const options: FlowGraphOptions = {
+        gridsize: 0.3,
+        fonts: new Map<string, Font>([
+          ['helvetika', font],
+        ])
+      }
+      scene.add(new MyFlowGraph(graph, interactive, options));
     });
 
 
@@ -282,8 +293,8 @@ export class CustomGeometryExample {
 }
 
 class MyFlowGraph extends FlowGraph {
-  constructor(graph: AbstractGraph, interactive: FlowInteractive, fonts: Map<string, Font>, options?: Partial<AbstractGraphOptions>) {
-    super(graph, interactive, fonts, options)
+  constructor(graph: AbstractGraph, interactive: FlowInteractive, options?: FlowGraphOptions) {
+    super(graph, interactive, options)
   }
 
   override createLineMaterial(color: number | string): Material {
@@ -294,7 +305,7 @@ class MyFlowGraph extends FlowGraph {
     return new MeshStandardMaterial({ color: 'orange' });
   }
 
-  override createNode(graph: FlowGraph, node: AbstractNode, font: Font): FlowNode {
+  override createNode(graph: FlowGraph, node: AbstractNode, font?: Font): FlowNode {
     return new MyFlowNode(graph, node, font)
   }
 
@@ -308,7 +319,7 @@ class MyFlowGraph extends FlowGraph {
 }
 
 class MyFlowNode extends FlowNode {
-  constructor(graph: FlowGraph, node: AbstractNode, font: Font) {
+  constructor(graph: FlowGraph, node: AbstractNode, font?: Font) {
     super(graph, node, font);
   }
 

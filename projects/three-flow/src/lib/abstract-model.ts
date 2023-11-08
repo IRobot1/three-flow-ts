@@ -76,6 +76,7 @@ export interface AbstractNode {
   label: string;
   labelsize: number;
   labelcolor: number | string;
+  labelfont: string;
   data?: { [key: string]: any };
   state: NodeState;
   category: string;
@@ -96,6 +97,3 @@ export interface AbstractGraph {
   edges: Partial<AbstractEdge>[]
 }
 
-export interface AbstractGraphOptions {
-  gridsize: number
-}

@@ -40,6 +40,7 @@ export class FlowNode extends Mesh {
   label: string;
   labelsize: number;
   labelcolor: number | string;
+  labelfont?: string;
 
   state: NodeState;
   nodetype: NodeType;
@@ -107,7 +108,7 @@ export class FlowNode extends Mesh {
 
 
   private labelMesh: Mesh;
-   inputConnectors: FlowConnector[] = [];
+  inputConnectors: FlowConnector[] = [];
   outputConnectors: FlowConnector[] = [];
 
   private nodeResizer: ResizeNode | undefined
@@ -132,7 +133,7 @@ export class FlowNode extends Mesh {
     }
   }
 
-  constructor(private graph: FlowGraph, node: Partial<AbstractNode>, private font: Font) {
+  constructor(private graph: FlowGraph, node: Partial<AbstractNode>, private font?: Font) {
     super();
 
     //@ts-ignore
@@ -146,6 +147,7 @@ export class FlowNode extends Mesh {
     this.label = node.label = node.label ?? '';
     this.labelsize = node.labelsize = node.labelsize ?? 0.1
     this.labelcolor = node.labelcolor = node.labelcolor ?? 'black'
+    this.labelfont = node.labelfont
 
     this.state = node.state = node.state ?? 'default';
     this.nodetype = node.nodetype = node.nodetype ?? 'function';
@@ -166,9 +168,15 @@ export class FlowNode extends Mesh {
     if (node.position) this.position.set(node.position.x, node.position.y, node.position.z);
 
 
-    // Create a text mesh for the label
-    const textMaterial = graph.getMaterial('geometry', 'label', this.labelcolor);
     this.labelMesh = new Mesh();
+
+    const textMaterial = graph.getMaterial('geometry', 'label', this.labelcolor);
+    if (this.font) {
+      const geometry = this.createTextGeometry(this.label, { font: this.font, height: 0, size: this.labelsize });
+      geometry.center()
+      this.labelMesh.geometry = geometry;
+    }
+
     this.labelMesh.material = textMaterial
     this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
 
@@ -333,11 +341,6 @@ export class FlowNode extends Mesh {
   }
 
   updateVisuals() {
-
-    // Update the text mesh based on the label and state
-    const geometry = this.createTextGeometry(this.label, { font: this.font, height: 0, size: this.labelsize });
-    geometry.center()
-    this.labelMesh.geometry = geometry;
 
     const setColor = (material: any, color: number | string) => {
       material.color.set(color)

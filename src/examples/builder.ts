@@ -6,7 +6,8 @@ import { ThreeJSApp } from "../app/threejs-app";
 import {
   AbstractGraph,
   FlowInteractive,
-  FlowGraph
+  FlowGraph,
+  FlowGraphOptions
 } from "three-flow";
 
 export class BuilderExample {
@@ -56,11 +57,14 @@ export class BuilderExample {
     }
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
-      const fontMap: Map<string, Font> = new Map<string, Font>([
-        ['helvetika', font],
-      ]);
+      const options: FlowGraphOptions = {
+        gridsize: 0.3,
+        fonts: new Map<string, Font>([
+          ['default', font],
+        ])
+      }
 
-      const flow = new FlowGraph(graph, interactive, fontMap, { gridsize: 0.3 });
+      const flow = new FlowGraph(graph, interactive, options);
       scene.add(flow)
 
       // build the graph programmatically

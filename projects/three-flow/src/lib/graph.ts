@@ -1,5 +1,5 @@
 import { LineBasicMaterial, Material, MeshBasicMaterial, Object3D } from "three";
-import { AbstractConnector, AbstractGraph, AbstractEdge, AbstractNode, AbstractGraphOptions } from "./abstract-model";
+import { AbstractConnector, AbstractGraph, AbstractEdge, AbstractNode } from "./abstract-model";
 import { FlowInteractive } from "./interactive";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
@@ -9,10 +9,14 @@ import { FlowConnector } from "./connector";
 
 export type FlowMaterialType = 'line' | 'geometry'
 
+export interface FlowGraphOptions {
+  gridsize: number
+  fonts?: Map<string, Font>
+}
 
 export class FlowGraph extends Object3D {
   private materials: Map<string, Material>;
-  constructor(private graph: AbstractGraph, public interactive: FlowInteractive, private fonts: Map<string, Font>, private options?: Partial<AbstractGraphOptions>) {
+  constructor(private graph: AbstractGraph, public interactive: FlowInteractive, private options?: Partial<FlowGraphOptions>) {
     super()
     if (!this.graph.version) this.graph.version = 1
     this.materials = new Map();
@@ -29,10 +33,15 @@ export class FlowGraph extends Object3D {
 
   get gridsize(): number { return this.options?.gridsize ?? 0 }
 
+  getFont(name = 'default') {
+    return this.options?.fonts?.get(name)
+  }
+
+
   public addNode(node: Partial<AbstractNode>): FlowNode {
     this.nodes.push(node);
 
-    const mesh = this.createNode(this, node, this.font)
+    const mesh = this.createNode(this, node, this.getFont(node.labelfont))
     this.add(mesh)
 
     return mesh
@@ -81,7 +90,6 @@ export class FlowGraph extends Object3D {
     })
   }
 
-  get font() { return this.fonts.get('helvetika')! }
 
   newNode(): FlowNode {
     const node: AbstractNode = {
@@ -89,6 +97,9 @@ export class FlowGraph extends Object3D {
       position: { x: 0, y: 0, z: 0 },
       nodetype: "function",
       label: "New Node",
+      labelsize: 0.1,
+      labelcolor: 'white',
+      labelfont: 'default',
       inputs: [],
       outputs: [],
       state: "default",
@@ -97,8 +108,6 @@ export class FlowGraph extends Object3D {
       resizable: true,
       scaleable: true,
       scale: 1,
-      labelsize: 0.1,
-      labelcolor: 'white',
       width: 1,
       height: 1,
       color: 'white'
@@ -149,10 +158,10 @@ export class FlowGraph extends Object3D {
   }
 
   createMeshMaterial(color: number | string): Material {
-    return new MeshBasicMaterial({ color, opacity:0.99 });
+    return new MeshBasicMaterial({ color, opacity: 0.99 });
   }
 
-  createNode(graph: FlowGraph, node: Partial<AbstractNode>, font: Font): FlowNode {
+  createNode(graph: FlowGraph, node: Partial<AbstractNode>, font?: Font): FlowNode {
     return new FlowNode(graph, node, font)
   }
 
