@@ -1,4 +1,4 @@
-import { BufferGeometry, CatmullRomCurve3, Line, Mesh, Vector3 } from "three";
+import { BufferGeometry, CatmullRomCurve3, CubicBezierCurve3, Line, Mesh, Vector3 } from "three";
 import { AbstractEdge } from "./abstract-model";
 import { FlowConnector } from "./connector";
 import { FlowGraph } from "./graph";
@@ -74,7 +74,36 @@ export class FlowEdge extends Mesh {
 
   // overridable
   createLine(start: Vector3, end: Vector3): BufferGeometry {
-    const curve = new CatmullRomCurve3([start, end]);
+
+    // Calculate direction and distance between start and end
+    const direction = new Vector3().subVectors(end, start).normalize();
+    const distance = start.distanceTo(end);
+
+    // Define the magnitude of the curve
+    const curveMagnitude =  distance * 0.4;  // connector width/radius * some factor
+
+    let xfactor = 1
+    if (start.y > end.y) xfactor = -1
+
+    let yfactor = 1
+    if (start.x > end.x) yfactor = -1
+
+    // Calculate control points for the curve
+    const controlPoint1 = new Vector3(
+      start.x + direction.y * curveMagnitude * xfactor,
+      start.y  + direction.x * curveMagnitude* yfactor,
+      start.z
+    );
+
+    const controlPoint2 = new Vector3(
+      end.x - direction.y * curveMagnitude * xfactor,
+      end.y - direction.x * curveMagnitude * yfactor,
+      end.z
+    );
+
+    // Create the spline curve with control points
+    const curve = new CubicBezierCurve3(start, controlPoint1, controlPoint2, end);
+
     const curvepoints = curve.getPoints(25);
     return new BufferGeometry().setFromPoints(curvepoints);
   }

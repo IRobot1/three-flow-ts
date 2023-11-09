@@ -107,10 +107,11 @@ export class CivilizationExample {
             from: outlink, to: inlink
           }
           flow.addEdge(edge);
+
+          // export to mermaid
+          //console.log(`${from.replace(/ /g, '')}[${from}] --> ${to.replace(/ /g, '')}[${to}]`);
         })
 
-        // export to mermaid
-        //console.log(`${from.replace(/ /g, '')}[${from}] --> ${to.replace(/ /g, '')}[${to}]`);
       });
 
       console.warn(graph)
@@ -143,7 +144,7 @@ export class CivilizationExample {
         const node = g.node(v)
         const x = flow.hasNode(v)
         if (x) {
-          x.position.set(node.x / 10, node.y / 10, 0)
+          x.position.set(node.x / 10, -node.y / 10, 0)
         }
       })
 
@@ -152,15 +153,15 @@ export class CivilizationExample {
       })
 
       app.camera.position.x = label.width! / 20
-      app.camera.position.y = label.height! / 20
+      app.camera.position.y = -label.height! / 20
       orbit.target.set(app.camera.position.x, app.camera.position.y, 0)
       app.camera.position.z = 10
 
-    //  flow.allNodes.forEach(node => {
-    //    node.save()
-    //  })
-    //  const exporter = new Exporter()
-    //  exporter.saveJSON(graph, 'civilization')
+      //  flow.allNodes.forEach(node => {
+      //    node.save()
+      //  })
+      //  const exporter = new Exporter()
+      //  exporter.saveJSON(graph, 'civilization')
     });
 
     this.dispose = () => {
