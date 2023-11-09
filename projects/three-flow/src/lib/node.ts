@@ -43,6 +43,8 @@ export class FlowNode extends Mesh {
   inputs: string[];
   outputs: string[];
 
+  resizecolor: number | string;
+
   private _resizable: boolean;
   get resizable() { return this._resizable }
   set resizable(newvalue: boolean) {
@@ -73,6 +75,8 @@ export class FlowNode extends Mesh {
     }
   }
 
+  scalecolor: number | string;
+
   private _scalable: boolean;
   get scalable() { return this._scalable }
   set scalable(newvalue: boolean) {
@@ -98,7 +102,6 @@ export class FlowNode extends Mesh {
       this.moveConnectors()
     }
   }
-
 
   private labelMesh: Mesh;
   inputConnectors: FlowConnector[] = [];
@@ -145,8 +148,10 @@ export class FlowNode extends Mesh {
     this.inputs = node.inputs ?? [];
     this.outputs = node.outputs ?? [];
     this._resizable = node.resizable ?? true
+    this.resizecolor = node.resizecolor ?? 'black'
     this._draggable = node.draggable ?? true
     this._scalable = node.scaleable ?? true
+    this.scalecolor = node.scalecolor ?? 'black'
     this._scalar = node.scale ?? 1
 
     if (node.userData) this.userData = node.userData;
@@ -212,7 +217,7 @@ export class FlowNode extends Mesh {
     this.updateVisuals();
 
     if (this.resizable) {
-      const material = graph.getMaterial('geometry', 'resizing', 'white')
+      const material = graph.getMaterial('geometry', 'resizing', this.resizecolor)
       this.nodeResizer = this.createResizer(this, material)
       this.graph.interactive.selectable.add(...this.nodeResizer.selectable)
       this.graph.interactive.draggable.add(...this.nodeResizer.selectable)
@@ -225,7 +230,7 @@ export class FlowNode extends Mesh {
     }
 
     if (this.scalable) {
-      const material = graph.getMaterial('geometry', 'scaling', 'white')
+      const material = graph.getMaterial('geometry', 'scaling', this.scalecolor)
       this.nodeScaler = this.createScaler(this, material)
       this.graph.interactive.selectable.add(...this.nodeScaler.selectable)
       this.graph.interactive.draggable.add(...this.nodeScaler.selectable)

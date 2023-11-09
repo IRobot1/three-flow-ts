@@ -68,8 +68,10 @@ export class BasicExample {
         scale: 1,
         width: 1,
         height: 2,
-        color: 'green'
-
+        color: 'green',
+        resizecolor: 'red',
+        scalecolor:'yellow',
+        userData: {}
       },
       {
         id: "2",
@@ -86,7 +88,10 @@ export class BasicExample {
         scale: 1,
         width: 1,
         height: 1,
-        color: 'red'
+        color: 'red',
+        resizecolor: 'red',
+        scalecolor: 'yellow',
+        userData: {}
       },
       {
         id: "3",
@@ -103,7 +108,10 @@ export class BasicExample {
         scale: 1,
         width: 1,
         height: 1,
-        color: 'gold'
+        color: 'gold',
+        resizecolor: 'red',
+        scalecolor: 'yellow',
+        userData: {}
       }
 
     ];
@@ -112,26 +120,32 @@ export class BasicExample {
       {
         id: "1",
         connectortype: "output",
+        userData: {}
       },
       {
         id: "2",
         connectortype: "output",
+        userData: {}
       },
       {
         id: "3",
         connectortype: "input",
+        userData: {}
       },
       {
         id: "4",
         connectortype: "input",
+        userData: {}
       },
       {
         id: "5",
         connectortype: "output",
+        userData: {}
       },
       {
         id: "6",
         connectortype: "input",
+        userData: {}
       }
     ];
 
@@ -140,16 +154,19 @@ export class BasicExample {
         id: "7",
         from: "1",
         to: "3",
+        userData: {}
       },
       {
         id: "8",
         from: "2",
         to: "4",
+        userData: {}
       },
       {
         id: "9",
         from: "5",
         to: "6",
+        userData: {}
       }
     ];
 

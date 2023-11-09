@@ -1,14 +1,14 @@
 export interface AbstractConnector {
   id: string;
   connectortype: string;
-  userData?: { [key: string]: any };
+  userData: { [key: string]: any };
 }
 
 export interface AbstractEdge {
   id: string;
   from: string;
   to: string;
-  userData?: { [key: string]: any };
+  userData: { [key: string]: any };
 }
 
 export interface AbstractNode {
@@ -23,10 +23,12 @@ export interface AbstractNode {
   labelsize: number;
   labelcolor: number | string;
   labelfont: string;
-  userData?: { [key: string]: any };
+  userData: { [key: string]: any };
   resizable: boolean;
+  resizecolor: number | string;
   draggable: boolean;
   scaleable: boolean;
+  scalecolor: number | string;
   scale: number;
   inputs: string[]; // ids
   outputs: string[]; // ids

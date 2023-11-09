@@ -125,24 +125,8 @@ export class FlowGraph extends Object3D {
 
 
   newNode(): FlowNode {
-    const node: AbstractNode = {
+    const node: Partial<AbstractNode> = {
       id: (this.nodes.length + 1).toString(),
-      x: 0,
-      y: 0,
-      z: 0,
-      label: "New Node",
-      labelsize: 0.1,
-      labelcolor: 'white',
-      labelfont: 'default',
-      inputs: [],
-      outputs: [],
-      draggable: true,
-      resizable: true,
-      scaleable: true,
-      scale: 1,
-      width: 1,
-      height: 1,
-      color: 'white'
     }
 
     return this.addNode(node)
