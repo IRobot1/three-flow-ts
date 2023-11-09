@@ -31,6 +31,10 @@ export class FlowGraph extends Object3D {
 
   }
 
+  dispose() {
+    this.allNodes.forEach(node => node.dispose())
+  }
+
   get gridsize(): number { return this.options?.gridsize ?? 0 }
 
   getFont(name = 'default') {

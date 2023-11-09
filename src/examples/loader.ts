@@ -102,7 +102,11 @@ export class LoaderExample {
     let flow: FlowGraph;
     dropdown.addEventListener('change', function () {
       console.log('You selected: ', this.value);
-      if (flow) scene.remove(flow)
+
+      if (flow) {
+        flow.dispose()
+        scene.remove(flow)
+      }
 
       // Create a file loader to load the JSON file
       const fileLoader = new FileLoader();
@@ -111,6 +115,7 @@ export class LoaderExample {
         console.warn(graph)
         flow = new FlowGraph(graph, interactive, options)
         scene.add(flow);
+
 
         const box = new Box3().setFromObject(flow)
         const center = box.getCenter(new Vector3())
