@@ -68,14 +68,14 @@ export class BuilderExample {
       scene.add(flow)
 
       // build the graph programmatically
-      const node3 = flow.addNode({ label: 'Title3', color: 'gold', position: { x: -2, y: 0, z: 0 } })
+      const node3 = flow.addNode({ label: 'Title3', color: 'gold', x: -2 })
       const n3out1 = node3.addOutputConnector({})
       const n3out2 = node3.addOutputConnector({})
 
-      const node4 = flow.addNode({ label: 'Title4', color: 'gold', position: { x: -2, y: 1.2, z: 0 } })
+      const node4 = flow.addNode({ label: 'Title4', color: 'gold', x: -2, y: 1.2 })
       const n4out1 = node4.addOutputConnector({})
 
-      const node1 = flow.addNode({ label: 'Title1', color: 'green', position: { x: 0, y: 0.5, z: 0 } })
+      const node1 = flow.addNode({ label: 'Title1', color: 'green', y: 0.5 })
       const n1in1 = node1.addInputConnector({})
       const n1in2 = node1.addInputConnector({})
       const n1out = node1.addOutputConnector({})
@@ -84,11 +84,11 @@ export class BuilderExample {
       const edge2 = flow.addEdge({ from: n3out2.name, to: n1in2.name })
       const edge4 = flow.addEdge({ from: n4out1.name, to: n1in1.name })
 
-      const node2 = flow.addNode({ label: 'Title2', color: 'red', position: { x: 2, y: 1.2, z: 0 } })
+      const node2 = flow.addNode({ label: 'Title2', color: 'red', x: 2, y: 1.2 })
       const n2in = node2.addInputConnector({})
       const edge3 = flow.addEdge({ from: n1out.name, to: n2in.name })
 
-      const node5 = flow.addNode({ label: 'Title5', color: 'red', position: { x: 2, y: 0, z: 0 } })
+      const node5 = flow.addNode({ label: 'Title5', color: 'red', x: 2 })
       const n5in = node5.addInputConnector({})
       const edge5 = flow.addEdge({ from: n1out.name, to: n5in.name })
 

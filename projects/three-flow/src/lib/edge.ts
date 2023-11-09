@@ -1,23 +1,13 @@
 import { BufferGeometry, CatmullRomCurve3, Line, Mesh, Vector3 } from "three";
-import { AbstractEdge, EdgeRouting, EdgeState } from "./abstract-model";
+import { AbstractEdge } from "./abstract-model";
 import { FlowConnector } from "./connector";
 import { FlowGraph } from "./graph";
 
 export class FlowEdge extends Mesh {
   from!: string;
   to!: string;
-  intermediatePoints: string[];
-  color: number | string
-  label?: string | undefined;
-  labelsize: number;
-  labelcolor: number | string;
-  selectable: boolean;
-  highlighting: boolean;
+  color = 'white'
   data?: { [key: string]: any; } | undefined;
-  state: EdgeState;
-  error?: string | undefined;
-  routing: EdgeRouting;
-  arrowheads: boolean;
 
   private fromConnector: FlowConnector | undefined;
   private toConnector: FlowConnector | undefined;
@@ -31,18 +21,8 @@ export class FlowEdge extends Mesh {
     this.type = 'flowedge'
 
     this.name = edge.id = edge.id ?? graph.edges.length.toString()
-    this.intermediatePoints = edge.intermediatePoints = edge.intermediatePoints ?? []
-    this.color = edge.color = edge.color ?? 'white'
-    this.label = edge.label = edge.label ?? ''
-    this.labelcolor = edge.labelcolor = edge.labelcolor ?? 'black'
-    this.labelsize = edge.labelsize = edge.labelsize ?? 0.1
-    this.selectable = edge.selectable = edge.selectable ?? true
-    this.highlighting = edge.highlighting = edge.highlighting ?? false
     if (this.data) this.userData = this.data
-    this.state = edge.state = edge.state ?? 'default'
-    this.error = edge.error
-    this.routing = edge.routing = edge.routing ?? 'straight'
-    this.arrowheads = edge.arrowheads = edge.arrowheads ?? false
+
     if (!edge.from) {
       console.warn(`Edge ${this.name} start connector id must be defined`)
       return

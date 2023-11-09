@@ -1,15 +1,14 @@
-import { MeshBasicMaterial, Mesh, Shape, ShapeGeometry, BufferGeometry, ExtrudeGeometryOptions, Material } from "three";
+import { Mesh, Shape, ShapeGeometry, BufferGeometry, Material } from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
-import { AbstractNode, NodeType, NodeState, AbstractConnector } from "./abstract-model";
+import { AbstractNode, AbstractConnector } from "./abstract-model";
 import { FlowConnector } from "./connector";
 import { FlowGraph } from "./graph";
 
 import { ResizeNode } from "./resize-node";
 import { DragNode } from "./drag-node";
 import { ScaleNode } from "./scale-node";
-import { connect } from "rxjs";
 
 export class FlowNode extends Mesh {
   private _width: number
@@ -35,20 +34,14 @@ export class FlowNode extends Mesh {
   }
 
   color: number | string;
-  //location: { x: number; y: number; z: number };
 
-  label: string;
+  label?: string;
   labelsize: number;
   labelcolor: number | string;
   labelfont?: string;
 
-  state: NodeState;
-  nodetype: NodeType;
   inputs: string[];
   outputs: string[];
-  error?: string;
-  documentation?: string;
-  category: string;
 
   private _resizable: boolean;
   get resizable() { return this._resizable }
@@ -142,36 +135,33 @@ export class FlowNode extends Mesh {
     this.name = node.id = node.id ?? graph.nodes.length.toString()
     this._width = node.width = node.width ?? 1;
     this._height = node.height = node.height ?? 1;
-    this.color = node.color = node.color ?? 'white'
+    this.color = node.color ?? 'white'
 
-    this.label = node.label = node.label ?? '';
-    this.labelsize = node.labelsize = node.labelsize ?? 0.1
-    this.labelcolor = node.labelcolor = node.labelcolor ?? 'black'
+    this.label = node.label
+    this.labelsize = node.labelsize ?? 0.1
+    this.labelcolor = node.labelcolor ?? 'black'
     this.labelfont = node.labelfont
 
-    this.state = node.state = node.state ?? 'default';
-    this.nodetype = node.nodetype = node.nodetype ?? 'function';
-    this.inputs = node.inputs = node.inputs ?? [];
-    this.outputs = node.outputs = node.outputs ?? [];
-    this.category = node.category = node.category ?? ''
-    this._resizable = node.resizable = node.resizable ?? true
-    this._draggable = node.draggable = node.draggable ?? true
-    this._scalable = node.scaleable = node.scaleable ?? true
-    this._scalar = node.scale = node.scale ?? 1
+    this.inputs = node.inputs ?? [];
+    this.outputs = node.outputs ?? [];
+    this._resizable = node.resizable ?? true
+    this._draggable = node.draggable ?? true
+    this._scalable = node.scaleable ?? true
+    this._scalar = node.scale ?? 1
 
-    this.error = node.error
-    this.documentation = node.documentation
-    if (node.data) this.userData = node.data;
+    if (node.userData) this.userData = node.userData;
 
     this.material = graph.getMaterial('geometry', 'node', this.color);
 
-    if (node.position) this.position.set(node.position.x, node.position.y, node.position.z);
+    if (node.x) this.position.x = node.x
+    if (node.y) this.position.y = node.y
+    if (node.z) this.position.z = node.z
 
 
     this.labelMesh = new Mesh();
 
     const textMaterial = graph.getMaterial('geometry', 'label', this.labelcolor);
-    if (this.font) {
+    if (this.font && this.label) {
       const geometry = this.createTextGeometry(this.label, { font: this.font, height: 0, size: this.labelsize });
       geometry.center()
       this.labelMesh.geometry = geometry;
@@ -350,21 +340,7 @@ export class FlowNode extends Mesh {
     this.inputConnectors.forEach((connector) => connector.updateVisuals());
     this.outputConnectors.forEach((connector) => connector.updateVisuals());
 
-    //// Update node material based on state
-    //switch (this.state) {
-    //  case 'selected':
-    //    setColor(this.material, 0xaaaaaa);
-    //    break;
-    //  case 'active':
-    //    setColor(this.material, 0x00ff00);
-    //    break;
-    //  case 'disabled':
-    //    setColor(this.material, 0x444444);
-    //    break;
-    //  default:
     setColor(this.material, this.color);
-    //    break;
-    //}
   }
 
   protected roundedRect(width: number, height: number, radius: number): Shape {
