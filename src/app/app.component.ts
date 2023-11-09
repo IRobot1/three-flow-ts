@@ -6,6 +6,7 @@ import { CustomGeometryExample } from '../examples/custom-geometry';
 import { BuilderExample } from '../examples/builder';
 import { LanguagesExample } from '../examples/languages';
 import { CivilizationExample } from '../examples/civilization';
+import { LoaderExample } from '../examples/loader';
 
 
 @Component({
@@ -24,5 +25,6 @@ export class AppComponent {
     app.router.add('builder', () => { return new BuilderExample(app) })
     app.router.add('languages', () => { return new LanguagesExample(app) })
     app.router.add('civilization', () => { return new CivilizationExample(app) })
+    app.router.add('loader', () => { return new LoaderExample(app) })
   }
 }

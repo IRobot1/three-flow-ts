@@ -157,6 +157,14 @@ export class FlowNode extends Mesh {
     if (node.y) this.position.y = node.y
     if (node.z) this.position.z = node.z
 
+    this.save = () => {
+      if (this.inputs.length > 0) node.inputs = this.inputs
+      if (this.outputs.length > 0) node.outputs = this.outputs
+
+      if (this.position.x) node.x = this.position.x
+      if (this.position.y) node.y = this.position.y
+      if (this.position.z) node.z = this.position.z
+    }
 
     this.labelMesh = new Mesh();
 
@@ -382,4 +390,7 @@ export class FlowNode extends Mesh {
   createScaler(node: FlowNode, material: Material): ScaleNode {
     return new ScaleNode(node, material)
   }
+
+  save: () => void
+
 }

@@ -12,6 +12,7 @@ import {
 } from "three-flow";
 import { languagedata } from "./langauge-data";
 import { GraphLabel, graphlib, layout } from "@dagrejs/dagre";
+import { Exporter } from "./export";
 
 
 export class LanguagesExample {
@@ -80,7 +81,7 @@ export class LanguagesExample {
 
         const fromnode = flow.hasNode(from)
         if (!fromnode) {
-          const node = flow.addNode({ id: from, label: from, labelsize:0.2, width: 3 });
+          const node = flow.addNode({ id: from, label: from, labelsize: 0.2, width: 3 });
           node.addOutputConnector({ id: outlink })
         }
         else {
@@ -111,7 +112,7 @@ export class LanguagesExample {
       var g = new graphlib.Graph();
 
       // Set an object for the graph label
-      const label: GraphLabel = { rankdir: 'LR', nodesep:10, edgesep:6, ranksep:50 }
+      const label: GraphLabel = { rankdir: 'LR', nodesep: 10, edgesep: 6, ranksep: 50 }
       g.setGraph(label);
 
       // Default to assigning a new object as a label for each new edge.
@@ -125,7 +126,7 @@ export class LanguagesExample {
       })
 
       graph.edges.forEach(edge => {
-        g.setEdge(edge.from!.replace('out',''), edge.to!.replace('in',''));
+        g.setEdge(edge.from!.replace('out', ''), edge.to!.replace('in', ''));
       })
 
       layout(g)
@@ -143,12 +144,16 @@ export class LanguagesExample {
         edge.updateVisuals()
       })
 
-      app.camera.position.x = label.width!/20
-      app.camera.position.y = label.height!/20
+      app.camera.position.x = label.width! / 20
+      app.camera.position.y = label.height! / 20
       orbit.target.set(app.camera.position.x, app.camera.position.y, 0)
       app.camera.position.z = 10
 
-      
+    //  flow.allNodes.forEach(node => {
+    //    node.save()
+    //  })
+    //  const exporter = new Exporter()
+    //  exporter.saveJSON(graph, 'languages')
     });
 
 

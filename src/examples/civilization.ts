@@ -13,6 +13,7 @@ import {
 
 import { civilizationdata } from "./civilization-data";
 import { GraphLabel, graphlib, layout } from "@dagrejs/dagre";
+import { Exporter } from "./export";
 
 export class CivilizationExample {
 
@@ -155,6 +156,11 @@ export class CivilizationExample {
       orbit.target.set(app.camera.position.x, app.camera.position.y, 0)
       app.camera.position.z = 10
 
+    //  flow.allNodes.forEach(node => {
+    //    node.save()
+    //  })
+    //  const exporter = new Exporter()
+    //  exporter.saveJSON(graph, 'civilization')
     });
 
     this.dispose = () => {
