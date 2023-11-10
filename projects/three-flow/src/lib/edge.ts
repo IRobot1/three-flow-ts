@@ -14,30 +14,30 @@ export class FlowEdge extends Mesh {
   private line = new Line()
 
   isFlow = true
-  constructor(graph: FlowGraph, edge: Partial<AbstractEdge>) {
+  constructor(graph: FlowGraph, edge: AbstractEdge) {
     super()
 
     //@ts-ignore
     this.type = 'flowedge'
 
-    this.name = edge.id = edge.id ?? graph.edges.length.toString()
+    this.name = edge.name = edge.name ?? graph.edges.length.toString()
     if (this.data) this.userData = this.data
 
-    if (!edge.from) {
+    if (!edge.v) {
       console.warn(`Edge ${this.name} start connector id must be defined`)
       return
     }
-    if (!edge.to) {
+    if (!edge.w) {
       console.warn(`Edge ${this.name} end connector id must be defined`)
       return
     }
 
-    this.from = edge.from
+    this.from = edge.v
     this.fromConnector = graph.hasConnector(this.from)
     this.fromConnector?.addEventListener('moved', () => {
       this.updateVisuals()
     })
-    this.to = edge.to
+    this.to = edge.w
     this.toConnector = graph.hasConnector(this.to)
     this.toConnector?.addEventListener('moved', () => {
       this.updateVisuals()

@@ -10,13 +10,13 @@ import { FlowConnector } from "./connector";
 export type FlowMaterialType = 'line' | 'geometry'
 
 export interface FlowGraphOptions {
-  gridsize: number
+  gridsize?: number
   fonts?: Map<string, Font>
 }
 
 export class FlowGraph extends Object3D {
   private materials: Map<string, Material>;
-  constructor(private graph: AbstractGraph, public interactive: FlowInteractive, private options?: Partial<FlowGraphOptions>) {
+  constructor(private graph: AbstractGraph, public interactive: FlowInteractive, private options?: FlowGraphOptions) {
     super()
     if (!this.graph.version) this.graph.version = 1
     this.materials = new Map();
@@ -75,7 +75,7 @@ export class FlowGraph extends Object3D {
     return this.children.filter(child => child.type == 'flowedge') as Array<FlowEdge>
   }
 
-  public addNode(node: Partial<AbstractNode>): FlowNode {
+  public addNode(node: AbstractNode): FlowNode {
     this.nodes.push(node);
 
     const mesh = this.createNode(this, node, this.getFont(node.labelfont))
@@ -84,7 +84,7 @@ export class FlowGraph extends Object3D {
     return mesh
   }
 
-  public addEdge(edge: Partial<AbstractEdge>): FlowEdge {
+  public addEdge(edge: AbstractEdge): FlowEdge {
     this.edges.push(edge);
 
     const mesh = this.createEdge(this, edge)
@@ -101,7 +101,7 @@ export class FlowGraph extends Object3D {
     const outputs = [...node.outputConnectors]
     outputs.forEach(item => node.removeOutputConnector(item))
 
-    const index = this.nodes.findIndex(n => n.id == node.name)
+    const index = this.nodes.findIndex(n => n.text == node.name)
     if (index != -1) this.nodes.splice(index, 1)
 
     this.interactive.selectable.remove(node)
@@ -112,7 +112,7 @@ export class FlowGraph extends Object3D {
   }
 
   public removeEdge(edge: FlowEdge): void {
-    const index = this.edges.findIndex(e => e.id == edge.name)
+    const index = this.edges.findIndex(e => e.name == edge.name)
     if (index != -1) this.edges.splice(index, 1)
     this.remove(edge)
   }
@@ -129,16 +129,16 @@ export class FlowGraph extends Object3D {
 
 
   newNode(): FlowNode {
-    const node: Partial<AbstractNode> = {
-      id: (this.nodes.length + 1).toString(),
+    const node: AbstractNode = {
+      text: (this.nodes.length + 1).toString(),
     }
 
     return this.addNode(node)
   }
 
-  get nodes(): Partial<AbstractNode>[] { return this.graph.nodes }
-  get connectors(): Partial<AbstractConnector>[] { return this.graph.connectors }
-  get edges(): Partial<AbstractEdge>[] { return this.graph.edges }
+  get nodes(): AbstractNode[] { return this.graph.nodes }
+  get connectors(): AbstractConnector[] { return this.graph.connectors }
+  get edges(): AbstractEdge[] { return this.graph.edges }
   get version() { return this.graph.version }
 
   //
@@ -167,15 +167,15 @@ export class FlowGraph extends Object3D {
     return new MeshBasicMaterial({ color, opacity: 0.99 });
   }
 
-  createNode(graph: FlowGraph, node: Partial<AbstractNode>, font?: Font): FlowNode {
+  createNode(graph: FlowGraph, node: AbstractNode, font?: Font): FlowNode {
     return new FlowNode(graph, node, font)
   }
 
-  createConnector(graph: FlowGraph, connector: Partial<AbstractConnector>): FlowConnector {
+  createConnector(graph: FlowGraph, connector: AbstractConnector): FlowConnector {
     return new FlowConnector(graph, connector);
   }
 
-  createEdge(graph: FlowGraph, edge: Partial<AbstractEdge>): FlowEdge {
+  createEdge(graph: FlowGraph, edge: AbstractEdge): FlowEdge {
     return new FlowEdge(graph, edge)
   }
 

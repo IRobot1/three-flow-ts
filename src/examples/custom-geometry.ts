@@ -55,7 +55,7 @@ export class CustomGeometryExample {
 
     const nodes: AbstractNode[] = [
       {
-        id: "1",
+        text: "1",
         x: 0, y: 0, z: 0,
         label: "Title1",
         labelsize: 0.1,
@@ -76,7 +76,7 @@ export class CustomGeometryExample {
 
       },
       {
-        id: "2",
+        text: "2",
         x: 2, y: 0, z: 0,
         label: "Title2",
         labelsize: 0.1,
@@ -97,7 +97,7 @@ export class CustomGeometryExample {
 
       },
       {
-        id: "3",
+        text: "3",
         x: -2, y: 0, z: 0,
         label: "Title3",
         labelsize: 0.1,
@@ -122,32 +122,32 @@ export class CustomGeometryExample {
 
     const connectors: AbstractConnector[] = [
       {
-        id: "1",
+        text: "1",
         connectortype: "output",
         userData: {}
       },
       {
-        id: "2",
+        text: "2",
         connectortype: "output",
         userData: {}
       },
       {
-        id: "3",
+        text: "3",
         connectortype: "input",
         userData: {}
       },
       {
-        id: "4",
+        text: "4",
         connectortype: "input",
         userData: {}
       },
       {
-        id: "5",
+        text: "5",
         connectortype: "output",
         userData: {}
       },
       {
-        id: "6",
+        text: "6",
         connectortype: "input",
         userData: {}
       }
@@ -155,21 +155,21 @@ export class CustomGeometryExample {
 
     const edges: AbstractEdge[] = [
       {
-        id: "7",
-        from: "1",
-        to: "3",
+        name: "7",
+        v: "1",
+        w: "3",
         userData: {}
       },
       {
-        id: "8",
-        from: "2",
-        to: "4",
+        name: "8",
+        v: "2",
+        w: "4",
         userData: {}
       },
       {
-        id: "9",
-        from: "5",
-        to: "6",
+        name: "9",
+        v: "5",
+        w: "6",
         userData: {}
       }
     ];

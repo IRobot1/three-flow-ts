@@ -7,13 +7,13 @@ export class FlowConnector extends Mesh {
   color = 'black'
 
   isFlow = true
-  constructor(private graph: FlowGraph, public connector: Partial<AbstractConnector>) {
+  constructor(private graph: FlowGraph, public connector: AbstractConnector) {
     super()
 
     //@ts-ignore
     this.type = 'flowconnector'
 
-    this.name = connector.id = connector.id ?? graph.connectors.length.toString()
+    this.name = connector.text = connector.text ?? graph.connectors.length.toString()
     this.connectortype = connector.connectortype = connector.connectortype ?? 'input'
 
     if (connector.userData) this.userData = connector.userData

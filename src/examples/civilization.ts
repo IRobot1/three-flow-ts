@@ -78,12 +78,12 @@ export class CivilizationExample {
         let outlink = 'out' + from
         const fromnode = flow.hasNode(from)
         if (!fromnode) {
-          const node = flow.addNode({ id: from, label: from, labelsize: 0.25, width: 3 });
-          node.addOutputConnector({ id: outlink })
+          const node = flow.addNode({ text: from, label: from, labelsize: 0.25, width: 3 });
+          node.addOutputConnector({ text: outlink })
         }
         else {
           if (!fromnode.getConnector(outlink)) {
-            fromnode.addOutputConnector({ id: outlink })
+            fromnode.addOutputConnector({ text: outlink })
           }
         }
         tech.leads_to.forEach(item => {
@@ -93,18 +93,18 @@ export class CivilizationExample {
 
           const tonode = flow.hasNode(to)
           if (!tonode) {
-            const node = flow.addNode({ id: to, label: to, labelsize: 0.25, width: 3 });
-            node.addInputConnector({ id: inlink })
+            const node = flow.addNode({ text: to, label: to, labelsize: 0.25, width: 3 });
+            node.addInputConnector({ text: inlink })
           }
           else {
             if (!tonode.getConnector(inlink)) {
-              tonode.addInputConnector({ id: inlink })
+              tonode.addInputConnector({ text: inlink })
             }
           }
 
 
-          const edge: Partial<AbstractEdge> = {
-            from: outlink, to: inlink
+          const edge: AbstractEdge = {
+            v: outlink, w: inlink
           }
           flow.addEdge(edge);
 
@@ -130,11 +130,11 @@ export class CivilizationExample {
       // metadata about the node. In this case we're going to add labels to each of
       // our nodes.
       graph.nodes.forEach(node => {
-        g.setNode(node.id!, { label: node.label, width: node.width!, height: node.height! });
+        g.setNode(node.text!, { label: node.label, width: node.width!, height: node.height! });
       })
 
       graph.edges.forEach(edge => {
-        g.setEdge(edge.from!.replace('out', ''), edge.to!.replace('in', ''));
+        g.setEdge(edge.v!.replace('out', ''), edge.w!.replace('in', ''));
       })
 
       layout(g)

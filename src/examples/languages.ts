@@ -81,23 +81,23 @@ export class LanguagesExample {
 
         const fromnode = flow.hasNode(from)
         if (!fromnode) {
-          const node = flow.addNode({ id: from, label: from, labelsize: 0.2, width: 3 });
-          node.addOutputConnector({ id: outlink })
+          const node = flow.addNode({ text: from, label: from, labelsize: 0.2, width: 3 });
+          node.addOutputConnector({ text: outlink })
         }
         else {
           outlink = 'out' + from
           if (!fromnode.getConnector(outlink)) {
-            fromnode.addOutputConnector({ id: outlink })
+            fromnode.addOutputConnector({ text: outlink })
           }
         }
 
         if (!flow.hasNode(to)) {
-          const node = flow.addNode({ id: to, label: to, labelsize: 0.2, width: 3 });
-          node.addInputConnector({ id: inlink })
+          const node = flow.addNode({ text: to, label: to, labelsize: 0.2, width: 3 });
+          node.addInputConnector({ text: inlink })
         }
 
-        const edge: Partial<AbstractEdge> = {
-          from: outlink, to: inlink
+        const edge: AbstractEdge = {
+          v: outlink, w: inlink
         }
         flow.addEdge(edge);
 
@@ -122,11 +122,11 @@ export class LanguagesExample {
       // metadata about the node. In this case we're going to add labels to each of
       // our nodes.
       graph.nodes.forEach(node => {
-        g.setNode(node.id!, { label: node.label, width: node.width!, height: node.height! });
+        g.setNode(node.text!, { label: node.label, width: node.width!, height: node.height! });
       })
 
       graph.edges.forEach(edge => {
-        g.setEdge(edge.from!.replace('out', ''), edge.to!.replace('in', ''));
+        g.setEdge(edge.v!.replace('out', ''), edge.w!.replace('in', ''));
       })
 
       layout(g)
