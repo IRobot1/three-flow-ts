@@ -1,10 +1,11 @@
 import { LineBasicMaterial, Material, MeshBasicMaterial, Object3D } from "three";
-import { AbstractConnector, AbstractGraph, AbstractEdge, AbstractNode } from "./abstract-model";
+import { AbstractConnector, AbstractEdge, AbstractGraph, AbstractNode } from "./abstract-model";
 import { FlowInteractive } from "./interactive";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
 import { FlowNode } from "./node";
 import { FlowConnector } from "./connector";
+import { Graph } from "@dagrejs/graphlib";
 
 
 export type FlowMaterialType = 'line' | 'geometry'
@@ -16,19 +17,52 @@ export interface FlowGraphOptions {
 
 export class FlowGraph extends Object3D {
   private materials: Map<string, Material>;
-  constructor(private graph: AbstractGraph, public interactive: FlowInteractive, private options?: FlowGraphOptions) {
+  readonly graph = new Graph()
+
+  constructor(public interactive: FlowInteractive, private options?: FlowGraphOptions) {
     super()
-    if (!this.graph.version) this.graph.version = 1
+    //if (!this.graph.version) this.graph.version = 1
     this.materials = new Map();
 
-    graph.nodes.forEach(node => {
+    this.graph.nodes().forEach(name => {
+      const node = this.graph.node(name)
       this.addNode(node)
     })
-    graph.edges.forEach(edge => {
+    this.graph.edges().forEach(edge => {
       const line = this.createEdge(this, edge)
       this.add(line)
     })
 
+  }
+
+  save(): AbstractGraph {
+    const graph: AbstractGraph = {
+      version: 1,
+      nodes: [], edges: []
+    }
+    this.allNodes.forEach(node => {
+      node.save()
+      graph.nodes.push(node.node)
+    })
+    this.allEdges.forEach(edge => {
+      //edge.save()
+      graph.edges.push(edge.edge)
+    })
+    return graph
+  }
+
+  load(input: AbstractGraph) {
+    const graph = input as Partial<AbstractGraph>
+
+    graph.nodes?.forEach(node => {
+      const mesh = this.createNode(this, node, this.getFont(node.labelfont))
+      this.add(mesh)
+    })
+
+    graph.edges?.forEach(edge => {
+      const line = this.createEdge(this, edge)
+      this.add(line)
+    })
   }
 
   dispose() {
@@ -76,16 +110,21 @@ export class FlowGraph extends Object3D {
   }
 
   public addNode(node: AbstractNode): FlowNode {
-    this.nodes.push(node);
 
     const mesh = this.createNode(this, node, this.getFont(node.labelfont))
     this.add(mesh)
 
+    this.graph.setNode(node.text!, node);
     return mesh
   }
 
+  public addConnector(connector: AbstractConnector) {
+    if (connector.text)
+      this.graph.setNode(connector.text, connector)
+  }
+
   public addEdge(edge: AbstractEdge): FlowEdge {
-    this.edges.push(edge);
+    this.graph.setEdge(edge.v, edge.w, edge);
 
     const mesh = this.createEdge(this, edge)
     this.add(mesh)
@@ -101,8 +140,7 @@ export class FlowGraph extends Object3D {
     const outputs = [...node.outputConnectors]
     outputs.forEach(item => node.removeOutputConnector(item))
 
-    const index = this.nodes.findIndex(n => n.text == node.name)
-    if (index != -1) this.nodes.splice(index, 1)
+    this.graph.removeNode(node.name)
 
     this.interactive.selectable.remove(node)
     this.interactive.draggable.remove(node)
@@ -111,9 +149,14 @@ export class FlowGraph extends Object3D {
     node.dispose()
   }
 
+  public removeConnector(name: string) {
+    this.graph.removeNode(name)
+  }
+
+
   public removeEdge(edge: FlowEdge): void {
-    const index = this.edges.findIndex(e => e.name == edge.name)
-    if (index != -1) this.edges.splice(index, 1)
+    this.graph.removeEdge(edge.edge)
+
     this.remove(edge)
   }
 
@@ -136,10 +179,10 @@ export class FlowGraph extends Object3D {
     return this.addNode(node)
   }
 
-  get nodes(): AbstractNode[] { return this.graph.nodes }
-  get connectors(): AbstractConnector[] { return this.graph.connectors }
-  get edges(): AbstractEdge[] { return this.graph.edges }
-  get version() { return this.graph.version }
+  get nodes(): string[] { return this.graph.nodes() }
+  get connectors(): string[] { return this.graph.nodes() }
+  get edges(): AbstractEdge[] { return this.graph.edges() }
+  //get version() { return this.graph.version }
 
   //
   // purpose is node, resize, scale, disabled, error, selected, active, etc

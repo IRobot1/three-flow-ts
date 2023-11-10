@@ -1,6 +1,7 @@
 import { Edge, Label } from "@dagrejs/dagre";
 
 export interface AbstractConnector extends Label {
+  index?: number; // order when there are multiple
   connectortype?: string;
   userData?: { [key: string]: any };
 }
@@ -27,14 +28,13 @@ export interface AbstractNode extends Label  {
   scaleable?: boolean;
   scalecolor?: number | string;
   scale?: number;
-  inputs?: string[]; // ids
-  outputs?: string[]; // ids
+  inputs?: AbstractConnector[]
+  outputs?: AbstractConnector[]
 }
 
 export interface AbstractGraph {
   version: number;
   nodes: AbstractNode[],
-  connectors: AbstractConnector[],
   edges: AbstractEdge[]
 }
 

@@ -8,8 +8,7 @@ import {
   FlowNode, AbstractConnector,
   AbstractEdge,
   AbstractNode,
-  AbstractGraph,
-  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions
+  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions, AbstractGraph
 } from "three-flow";
 import { ResizeNode, FlowGraph, FlowConnector } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
@@ -61,8 +60,22 @@ export class CustomGeometryExample {
         labelsize: 0.1,
         labelcolor: 'white',
         labelfont: 'helvetika',
-        inputs: ["3", "4"],
-        outputs: ["5"],
+        inputs: [{
+          text: "3",
+          connectortype: "input",
+          userData: {}
+        },
+          {
+            text: "4",
+            connectortype: "input",
+            userData: {}
+          },
+         ],
+        outputs: [{
+          text: "5",
+          connectortype: "output",
+          userData: {}
+        }],
         draggable: true,
         resizable: true,
         scaleable: true,
@@ -82,7 +95,11 @@ export class CustomGeometryExample {
         labelsize: 0.1,
         labelcolor: 'white',
         labelfont: 'helvetika',
-        inputs: ["6"],
+        inputs: [{
+          text: "6",
+          connectortype: "input",
+          userData: {}
+        }],
         outputs: [],
         draggable: true,
         resizable: false,
@@ -104,7 +121,16 @@ export class CustomGeometryExample {
         labelcolor: 'white',
         labelfont: 'helvetika',
         inputs: [],
-        outputs: ["1", "2"],
+        outputs: [{
+          text: "1",
+          connectortype: "output",
+          userData: {}
+        },
+          {
+            text: "2",
+            connectortype: "output",
+            userData: {}
+          },],
         draggable: true,
         resizable: false,
         scaleable: true,
@@ -118,39 +144,6 @@ export class CustomGeometryExample {
 
       }
 
-    ];
-
-    const connectors: AbstractConnector[] = [
-      {
-        text: "1",
-        connectortype: "output",
-        userData: {}
-      },
-      {
-        text: "2",
-        connectortype: "output",
-        userData: {}
-      },
-      {
-        text: "3",
-        connectortype: "input",
-        userData: {}
-      },
-      {
-        text: "4",
-        connectortype: "input",
-        userData: {}
-      },
-      {
-        text: "5",
-        connectortype: "output",
-        userData: {}
-      },
-      {
-        text: "6",
-        connectortype: "input",
-        userData: {}
-      }
     ];
 
     const edges: AbstractEdge[] = [
@@ -180,7 +173,7 @@ export class CustomGeometryExample {
 
     const graph: AbstractGraph = {
       version: 1,
-      nodes, connectors, edges
+      nodes, edges
     }
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
@@ -190,7 +183,12 @@ export class CustomGeometryExample {
           ['helvetika', font],
         ])
       }
-      scene.add(new MyFlowGraph(graph, interactive, options));
+      const flow = new MyFlowGraph(interactive, options)
+      scene.add(flow);
+
+      flow.load(graph)
+
+      console.warn(flow)
     });
 
 
@@ -203,8 +201,8 @@ export class CustomGeometryExample {
 }
 
 class MyFlowGraph extends FlowGraph {
-  constructor(graph: AbstractGraph, interactive: FlowInteractive, options?: FlowGraphOptions) {
-    super(graph, interactive, options)
+  constructor(interactive: FlowInteractive, options?: FlowGraphOptions) {
+    super(interactive, options)
   }
 
   override createLineMaterial(color: number | string): Material {

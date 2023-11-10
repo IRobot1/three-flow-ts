@@ -7,10 +7,10 @@ import {
   AbstractConnector,
   AbstractEdge,
   AbstractNode,
-  AbstractGraph,
   FlowInteractive,
   FlowGraph,
-  FlowGraphOptions
+  FlowGraphOptions,
+  AbstractGraph
 } from "three-flow";
 
 export class LoaderExample {
@@ -111,9 +111,10 @@ export class LoaderExample {
       // Create a file loader to load the JSON file
       const fileLoader = new FileLoader();
       fileLoader.load(`assets/${this.value}`, (data) => {
-        const graph = JSON.parse(<string>data)
+        const graph = <AbstractGraph>JSON.parse(<string>data)
         console.warn(graph)
-        flow = new FlowGraph(graph, interactive, options)
+        flow = new FlowGraph(interactive, options)
+        flow.load(graph)
         scene.add(flow);
 
 

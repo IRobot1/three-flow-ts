@@ -14,7 +14,7 @@ export class FlowEdge extends Mesh {
   private line = new Line()
 
   isFlow = true
-  constructor(graph: FlowGraph, edge: AbstractEdge) {
+  constructor(graph: FlowGraph, public edge: AbstractEdge) {
     super()
 
     //@ts-ignore

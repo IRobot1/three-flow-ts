@@ -5,7 +5,6 @@ import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { ThreeJSApp } from "../app/threejs-app";
 import {
   AbstractEdge,
-  AbstractGraph,
   FlowInteractive,
   FlowGraph,
   FlowGraphOptions
@@ -57,11 +56,6 @@ export class LanguagesExample {
     const loader = new FontLoader();
 
 
-    const graph: AbstractGraph = {
-      version: 1,
-      nodes: [], connectors: [], edges: []
-    }
-
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
       const options: FlowGraphOptions = {
         gridsize: 0.3,
@@ -69,7 +63,7 @@ export class LanguagesExample {
           ['default', font],
         ])
       }
-      const flow = new FlowGraph(graph, interactive, options)
+      const flow = new FlowGraph(interactive, options)
       scene.add(flow);
 
       languagedata.forEach(item => {
@@ -106,8 +100,6 @@ export class LanguagesExample {
 
       });
 
-      console.warn(graph)
-
       // Create a new directed graph 
       var g = new graphlib.Graph();
 
@@ -121,13 +113,14 @@ export class LanguagesExample {
       // Add nodes to the graph. The first argument is the node id. The second is
       // metadata about the node. In this case we're going to add labels to each of
       // our nodes.
-      graph.nodes.forEach(node => {
-        g.setNode(node.text!, { label: node.label, width: node.width!, height: node.height! });
-      })
+      //graph.nodes().forEach(name => {
+      //  const node = graph.node(name)
+      //  g.setNode(node.text!, { label: node.label, width: node.width!, height: node.height! });
+      //})
 
-      graph.edges.forEach(edge => {
-        g.setEdge(edge.v!.replace('out', ''), edge.w!.replace('in', ''));
-      })
+      //graph.edges().forEach(edge => {
+      //  g.setEdge(edge.v!.replace('out', ''), edge.w!.replace('in', ''));
+      //})
 
       layout(g)
       console.warn(g)

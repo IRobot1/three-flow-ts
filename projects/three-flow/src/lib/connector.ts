@@ -13,7 +13,7 @@ export class FlowConnector extends Mesh {
     //@ts-ignore
     this.type = 'flowconnector'
 
-    this.name = connector.text = connector.text ?? graph.connectors.length.toString()
+    this.name = connector.text = connector.text ?? graph.nodes.length.toString()
     this.connectortype = connector.connectortype = connector.connectortype ?? 'input'
 
     if (connector.userData) this.userData = connector.userData

@@ -4,13 +4,12 @@ import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import {
-  AbstractConnector,
   AbstractEdge,
   AbstractNode,
-  AbstractGraph,
   FlowInteractive,
   FlowGraph,
-  FlowGraphOptions
+  FlowGraphOptions,
+  AbstractGraph
 } from "three-flow";
 
 export class BasicExample {
@@ -60,8 +59,22 @@ export class BasicExample {
         labelsize: 0.1,
         labelcolor: 'white',
         labelfont: 'helvetika',
-        inputs: ["3", "4"],
-        outputs: ["5"],
+        inputs: [{
+          text: "3",
+          connectortype: "input",
+          userData: {}
+        },
+        {
+          text: "4",
+          connectortype: "input",
+          userData: {}
+        }
+        ],
+        outputs: [{
+          text: "5",
+          connectortype: "output",
+          userData: {}
+        }],
         draggable: true,
         resizable: true,
         scaleable: true,
@@ -70,7 +83,7 @@ export class BasicExample {
         height: 2,
         color: 'green',
         resizecolor: 'red',
-        scalecolor:'yellow',
+        scalecolor: 'yellow',
         userData: {}
       },
       {
@@ -80,7 +93,11 @@ export class BasicExample {
         labelsize: 0.1,
         labelcolor: 'white',
         labelfont: 'helvetika',
-        inputs: ["6"],
+        inputs: [{
+          text: "6",
+          connectortype: "input",
+          userData: {}
+        }],
         outputs: [],
         draggable: true,
         resizable: false,
@@ -101,7 +118,16 @@ export class BasicExample {
         labelcolor: 'white',
         labelfont: 'helvetika',
         inputs: [],
-        outputs: ["1", "2"],
+        outputs: [{
+          text: "1",
+          connectortype: "output",
+          userData: {}
+        },
+        {
+          text: "2",
+          connectortype: "output",
+          userData: {}
+        },],
         draggable: true,
         resizable: false,
         scaleable: true,
@@ -116,38 +142,6 @@ export class BasicExample {
 
     ];
 
-    const connectors: AbstractConnector[] = [
-      {
-        text: "1",
-        connectortype: "output",
-        userData: {}
-      },
-      {
-        text: "2",
-        connectortype: "output",
-        userData: {}
-      },
-      {
-        text: "3",
-        connectortype: "input",
-        userData: {}
-      },
-      {
-        text: "4",
-        connectortype: "input",
-        userData: {}
-      },
-      {
-        text: "5",
-        connectortype: "output",
-        userData: {}
-      },
-      {
-        text: "6",
-        connectortype: "input",
-        userData: {}
-      }
-    ];
 
     const edges: AbstractEdge[] = [
       {
@@ -176,8 +170,9 @@ export class BasicExample {
 
     const graph: AbstractGraph = {
       version: 1,
-      nodes, connectors, edges
+      nodes, edges
     }
+
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
       const options: FlowGraphOptions = {
@@ -186,7 +181,12 @@ export class BasicExample {
           ['helvetika', font],
         ])
       }
-      scene.add(new FlowGraph(graph, interactive, options));
+      const flow = new FlowGraph(interactive, options)
+      scene.add(flow);
+
+      flow.load(graph)
+
+      console.warn(flow)
     });
 
 

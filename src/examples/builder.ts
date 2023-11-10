@@ -4,7 +4,6 @@ import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import {
-  AbstractGraph,
   FlowInteractive,
   FlowGraph,
   FlowGraphOptions
@@ -49,13 +48,6 @@ export class BuilderExample {
 
     const loader = new FontLoader();
 
-    const graph: AbstractGraph = {
-      version: 1,
-      nodes: [],
-      connectors: [],
-      edges: []
-    }
-
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
       const options: FlowGraphOptions = {
         gridsize: 0.3,
@@ -64,7 +56,7 @@ export class BuilderExample {
         ])
       }
 
-      const flow = new FlowGraph(graph, interactive, options);
+      const flow = new FlowGraph(interactive, options);
       scene.add(flow)
 
       // build the graph programmatically
@@ -114,7 +106,7 @@ export class BuilderExample {
       //flow.removeEdge(edge4)
       //flow.removeEdge(edge5)
 
-      console.log(graph)
+      console.log(flow.graph)
       console.log(interactive)
     });
 
