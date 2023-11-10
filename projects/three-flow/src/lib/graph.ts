@@ -5,7 +5,7 @@ import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
 import { FlowNode } from "./node";
 import { FlowConnector } from "./connector";
-import { Graph } from "@dagrejs/graphlib";
+import { graphlib } from "@dagrejs/dagre";
 
 
 export type FlowMaterialType = 'line' | 'geometry'
@@ -17,7 +17,7 @@ export interface FlowGraphOptions {
 
 export class FlowGraph extends Object3D {
   private materials: Map<string, Material>;
-  readonly graph = new Graph()
+  readonly graph = new graphlib.Graph()
 
   constructor(public interactive: FlowInteractive, private options?: FlowGraphOptions) {
     super()
@@ -155,7 +155,7 @@ export class FlowGraph extends Object3D {
 
 
   public removeEdge(edge: FlowEdge): void {
-    this.graph.removeEdge(edge.edge)
+    this.graph.removeEdge(edge.from, edge.to)
 
     this.remove(edge)
   }
