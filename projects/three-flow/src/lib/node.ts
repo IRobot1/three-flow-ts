@@ -186,29 +186,29 @@ export class FlowNode extends Mesh {
 
     this.add(this.labelMesh);
 
-    // Initialize input connectors
-    const starty = this.height / 2 - this.labelsize * 3
-    let y = starty
-    this.inputs.forEach((connector, index) => {
-      connector.index = index
-      this.addInputConnector(connector)
-      //const threeConnector = this.graph.createConnector(graph, connector);
-      //this.inputConnectors.push(threeConnector);
-      //this.add(threeConnector);
-      //threeConnector.position.set(-this.width / 2, y, 0.001)
-      y -= this.spacing
-    });
+    //// Initialize input connectors
+    //const starty = this.height / 2 - this.labelsize * 3
+    //let y = starty
+    //this.inputs.forEach((connector, index) => {
+    //  connector.index = index
+    //  this.addInputConnector(connector)
+    //  //const threeConnector = this.graph.createConnector(graph, connector);
+    //  //this.inputConnectors.push(threeConnector);
+    //  //this.add(threeConnector);
+    //  //threeConnector.position.set(-this.width / 2, y, 0.001)
+    //  y -= this.spacing
+    //});
 
-    // Initialize output connectors
-    y = starty
-    this.outputs.forEach((connector, index) => {
-      connector.index = index
-      this.addOutputConnector(connector)
-      //const threeConnector = this.graph.createConnector(graph, connector);
-      //this.add(threeConnector);
-      //threeConnector.position.set(this.width / 2, y, 0.001)
-      y -= this.spacing
-    });
+    //// Initialize output connectors
+    //y = starty
+    //this.outputs.forEach((connector, index) => {
+    //  connector.index = index
+    //  this.addOutputConnector(connector)
+    //  const threeConnector = this.graph.createConnector(graph, connector);
+    //  this.add(threeConnector);
+    //  threeConnector.position.set(this.width / 2, y, 0.001)
+    //  y -= this.spacing
+    //});
 
     this.resizeGeometry()
     this.updateVisuals();
@@ -233,6 +233,7 @@ export class FlowNode extends Mesh {
       this.graph.interactive.draggable.add(...this.nodeScaler.selectable)
     }
 
+    this.addEventListener('dragged', () => { this.moveNode() })
   }
 
   private resizeGeometry() {
@@ -310,7 +311,13 @@ export class FlowNode extends Mesh {
     this.removeConnector(item)
   }
 
+  moveNode() {
+    this.dispatchEvent<any>({ type: 'moved' })
+    this.moveConnectors()
+  }
+
   moveConnectors() {
+
     const starty = this.height / 2 - this.labelsize * 3
     let y = starty
     this.inputConnectors.forEach(connector => {

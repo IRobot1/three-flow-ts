@@ -1,4 +1,4 @@
-import { LineBasicMaterial, Material, MeshBasicMaterial, Object3D } from "three";
+import { Box3, LineBasicMaterial, Material, MeshBasicMaterial, Object3D, Vector3 } from "three";
 import { AbstractConnector, AbstractEdge, AbstractGraph, AbstractNode } from "./abstract-model";
 import { FlowInteractive } from "./interactive";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
@@ -63,6 +63,12 @@ export class FlowGraph extends Object3D {
       const line = this.createEdge(this, edge)
       this.add(line)
     })
+  }
+
+  private _center = new Vector3()
+  get center(): Vector3 {
+    const box = new Box3().setFromObject(this)
+    return box.getCenter(this._center)
   }
 
   dispose() {

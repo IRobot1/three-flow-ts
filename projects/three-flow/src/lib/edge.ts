@@ -2,6 +2,7 @@ import { BufferGeometry, CatmullRomCurve3, CubicBezierCurve3, Line, Mesh, Vector
 import { AbstractEdge } from "./abstract-model";
 import { FlowConnector } from "./connector";
 import { FlowGraph } from "./graph";
+import { FlowNode } from "./node";
 
 export class FlowEdge extends Mesh {
   from!: string;
@@ -9,8 +10,8 @@ export class FlowEdge extends Mesh {
   color = 'white'
   data?: { [key: string]: any; } | undefined;
 
-  private fromConnector: FlowConnector | undefined;
-  private toConnector: FlowConnector | undefined;
+  private fromConnector: FlowNode | undefined;
+  private toConnector: FlowNode | undefined;
   private line = new Line()
 
   isFlow = true
@@ -33,12 +34,12 @@ export class FlowEdge extends Mesh {
     }
 
     this.from = edge.v
-    this.fromConnector = graph.hasConnector(this.from)
+    this.fromConnector = graph.hasNode(this.from)
     this.fromConnector?.addEventListener('moved', () => {
       this.updateVisuals()
     })
     this.to = edge.w
-    this.toConnector = graph.hasConnector(this.to)
+    this.toConnector = graph.hasNode(this.to)
     this.toConnector?.addEventListener('moved', () => {
       this.updateVisuals()
     })
@@ -74,37 +75,38 @@ export class FlowEdge extends Mesh {
 
   // overridable
   createLine(start: Vector3, end: Vector3): BufferGeometry {
+    let curvepoints = [start, end]
 
-    // Calculate direction and distance between start and end
-    const direction = new Vector3().subVectors(end, start).normalize();
-    const distance = start.distanceTo(end);
+    //// Calculate direction and distance between start and end
+    //const direction = new Vector3().subVectors(end, start).normalize();
+    //const distance = start.distanceTo(end);
 
-    // Define the magnitude of the curve
-    const curveMagnitude =  distance * 0.4;  // connector width/radius * some factor
+    //// Define the magnitude of the curve
+    //const curveMagnitude =  distance * 0.4;  // connector width/radius * some factor
 
-    let xfactor = 1
-    if (start.y > end.y) xfactor = -1
+    //let xfactor = 1
+    //if (start.y > end.y) xfactor = -1
 
-    let yfactor = 1
-    if (start.x > end.x) yfactor = -1
+    //let yfactor = 1
+    //if (start.x > end.x) yfactor = -1
 
-    // Calculate control points for the curve
-    const controlPoint1 = new Vector3(
-      start.x + direction.y * curveMagnitude * xfactor,
-      start.y  + direction.x * curveMagnitude* yfactor,
-      start.z
-    );
+    //// Calculate control points for the curve
+    //const controlPoint1 = new Vector3(
+    //  start.x + direction.y * curveMagnitude * xfactor,
+    //  start.y  + direction.x * curveMagnitude* yfactor,
+    //  start.z
+    //);
 
-    const controlPoint2 = new Vector3(
-      end.x - direction.y * curveMagnitude * xfactor,
-      end.y - direction.x * curveMagnitude * yfactor,
-      end.z
-    );
+    //const controlPoint2 = new Vector3(
+    //  end.x - direction.y * curveMagnitude * xfactor,
+    //  end.y - direction.x * curveMagnitude * yfactor,
+    //  end.z
+    //);
 
-    // Create the spline curve with control points
-    const curve = new CubicBezierCurve3(start, controlPoint1, controlPoint2, end);
+    //// Create the spline curve with control points
+    //const curve = new CubicBezierCurve3(start, controlPoint1, controlPoint2, end);
 
-    const curvepoints = curve.getPoints(25);
+    //curvepoints = curve.getPoints(25);
     return new BufferGeometry().setFromPoints(curvepoints);
   }
 

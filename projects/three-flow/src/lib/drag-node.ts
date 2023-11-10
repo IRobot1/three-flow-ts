@@ -1,5 +1,4 @@
 import { Object3D, Vector3 } from "three";
-import { FlowNode } from "./node";
 import { InteractiveEventType } from "./interactive";
 
 export class DragNode {
@@ -7,7 +6,7 @@ export class DragNode {
 
   private dragging = false
 
-  constructor(node: FlowNode, gridSize:number) {
+  constructor(node: Object3D, gridSize: number) {
     const snapToGrid = (position: THREE.Vector3): THREE.Vector3 => {
       if (gridSize > 0) {
         // Assuming position is the position of the object being dragged
@@ -32,7 +31,7 @@ export class DragNode {
       // adjust the current position by offset within title
       if (this.dragging) {
         node.position.copy(snapToGrid(e.position.sub(offset)))
-        node.moveConnectors()
+        node.dispatchEvent<any>({ type: 'dragged'})
       }
     });
   }

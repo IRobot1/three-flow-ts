@@ -153,15 +153,15 @@ export class BasicExample {
       {
         name: "8",
         v: "2",
-        w: "4",
+        w: "1",
         userData: {}
       },
-      {
-        name: "9",
-        v: "5",
-        w: "6",
-        userData: {}
-      }
+    //  {
+    //    name: "9",
+    //    v: "5",
+    //    w: "6",
+    //    userData: {}
+    //  }
     ];
 
     const interactive = new FlowInteractive(app, app.camera)

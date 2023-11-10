@@ -2,2936 +2,3612 @@
   "version": 1,
   "nodes": [
     {
-      "id": "Proto Indo-European",
+      "text": "Proto Indo-European",
       "label": "Proto Indo-European",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "outputs": [
-        "outProto Indo-European"
-      ],
       "x": 0.15,
-      "y": 47.9
+      "y": 47.9,
+      "rank": 0
     },
     {
-      "id": "Balto-Slavic",
+      "text": "Balto-Slavic",
       "label": "Balto-Slavic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inBalto-Slavic"
-      ],
-      "outputs": [
-        "outBalto-Slavic"
-      ],
       "x": 5.45,
-      "y": 3.9
+      "y": 3.9,
+      "rank": 2
     },
     {
-      "id": "Germanic",
+      "text": "Germanic",
       "label": "Germanic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inGermanic"
-      ],
-      "outputs": [
-        "outGermanic"
-      ],
       "x": 5.45,
-      "y": 23.7
+      "y": 23.7,
+      "rank": 2
     },
     {
-      "id": "Celtic",
+      "text": "Celtic",
       "label": "Celtic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inCeltic"
-      ],
-      "outputs": [
-        "outCeltic"
-      ],
       "x": 5.45,
-      "y": 35.8
+      "y": 35.8,
+      "rank": 2
     },
     {
-      "id": "Italic",
+      "text": "Italic",
       "label": "Italic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inItalic"
-      ],
-      "outputs": [
-        "outItalic"
-      ],
       "x": 5.45,
-      "y": 41.85
+      "y": 41.85,
+      "rank": 2
     },
     {
-      "id": "Hellenic",
+      "text": "Hellenic",
       "label": "Hellenic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inHellenic"
-      ],
-      "outputs": [
-        "outHellenic"
-      ],
       "x": 5.45,
-      "y": 43.5
+      "y": 43.5,
+      "rank": 2
     },
     {
-      "id": "Anatolian",
+      "text": "Anatolian",
       "label": "Anatolian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inAnatolian"
-      ],
-      "outputs": [
-        "outAnatolian"
-      ],
       "x": 5.45,
-      "y": 46.8
+      "y": 46.8,
+      "rank": 2
     },
     {
-      "id": "Tocharian",
+      "text": "Tocharian",
       "label": "Tocharian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inTocharian"
-      ],
-      "outputs": [
-        "outTocharian"
-      ],
       "x": 5.45,
-      "y": 49.55
+      "y": 49.55,
+      "rank": 2
     },
     {
-      "id": "Indo-Iranian",
+      "text": "Indo-Iranian",
       "label": "Indo-Iranian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inIndo-Iranian"
-      ],
-      "outputs": [
-        "outIndo-Iranian"
-      ],
       "x": 5.45,
-      "y": 53.4
+      "y": 53.4,
+      "rank": 2
     },
     {
-      "id": "Dardic",
+      "text": "Dardic",
       "label": "Dardic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inDardic"
-      ],
-      "outputs": [
-        "outDardic"
-      ],
       "x": 10.75,
-      "y": 51.2
+      "y": 51.2,
+      "rank": 4
     },
     {
-      "id": "Indic",
+      "text": "Indic",
       "label": "Indic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inIndic"
-      ],
-      "outputs": [
-        "outIndic"
-      ],
       "x": 10.75,
-      "y": 52.85
+      "y": 52.85,
+      "rank": 4
     },
     {
-      "id": "Iranian",
+      "text": "Iranian",
       "label": "Iranian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inIranian"
-      ],
-      "outputs": [
-        "outIranian"
-      ],
       "x": 10.75,
-      "y": 61.65
+      "y": 61.65,
+      "rank": 4
     },
     {
-      "id": "Old Persian",
+      "text": "Old Persian",
       "label": "Old Persian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inOld Persian"
-      ],
-      "outputs": [
-        "outOld Persian"
-      ],
       "x": 16.05,
-      "y": 59.45
+      "y": 59.45,
+      "rank": 6
     },
     {
-      "id": "Middle Persian",
+      "text": "Middle Persian",
       "label": "Middle Persian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inMiddle Persian"
-      ],
-      "outputs": [
-        "outMiddle Persian"
-      ],
       "x": 21.35,
-      "y": 58.9
+      "y": 58.9,
+      "rank": 8
     },
     {
-      "id": "Sanskrit",
+      "text": "Sanskrit",
       "label": "Sanskrit",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inSanskrit"
-      ],
-      "outputs": [
-        "outSanskrit"
-      ],
       "x": 16.05,
-      "y": 52.85
+      "y": 52.85,
+      "rank": 6
     },
     {
-      "id": "Osco-Umbrian",
+      "text": "Osco-Umbrian",
       "label": "Osco-Umbrian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inOsco-Umbrian"
-      ],
-      "outputs": [
-        "outOsco-Umbrian"
-      ],
       "x": 10.75,
-      "y": 39.65
+      "y": 39.65,
+      "rank": 4
     },
     {
-      "id": "Latino-Faliscan",
+      "text": "Latino-Faliscan",
       "label": "Latino-Faliscan",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inLatino-Faliscan"
-      ],
-      "outputs": [
-        "outLatino-Faliscan"
-      ],
       "x": 10.75,
-      "y": 41.85
+      "y": 41.85,
+      "rank": 4
     },
     {
-      "id": "Latin",
+      "text": "Latin",
       "label": "Latin",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inLatin"
-      ],
-      "outputs": [
-        "outLatin"
-      ],
       "x": 16.05,
-      "y": 41.3
+      "y": 41.3,
+      "rank": 6
     },
     {
-      "id": "Brythonic",
+      "text": "Brythonic",
       "label": "Brythonic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inBrythonic"
-      ],
-      "outputs": [
-        "outBrythonic"
-      ],
       "x": 10.75,
-      "y": 33.6
+      "y": 33.6,
+      "rank": 4
     },
     {
-      "id": "Goidelic",
+      "text": "Goidelic",
       "label": "Goidelic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inGoidelic"
-      ],
-      "outputs": [
-        "outGoidelic"
-      ],
       "x": 10.75,
-      "y": 37.45
+      "y": 37.45,
+      "rank": 4
     },
     {
-      "id": "North Germanic",
+      "text": "North Germanic",
       "label": "North Germanic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inNorth Germanic"
-      ],
-      "outputs": [
-        "outNorth Germanic"
-      ],
       "x": 10.75,
-      "y": 17.65
+      "y": 17.65,
+      "rank": 4
     },
     {
-      "id": "West Germanic",
+      "text": "West Germanic",
       "label": "West Germanic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inWest Germanic"
-      ],
-      "outputs": [
-        "outWest Germanic"
-      ],
       "x": 10.75,
-      "y": 23.7
+      "y": 23.7,
+      "rank": 4
     },
     {
-      "id": "East Germanic",
+      "text": "East Germanic",
       "label": "East Germanic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inEast Germanic"
-      ],
-      "outputs": [
-        "outEast Germanic"
-      ],
       "x": 10.75,
-      "y": 30.3
+      "y": 30.3,
+      "rank": 4
     },
     {
-      "id": "Old Norse",
+      "text": "Old Norse",
       "label": "Old Norse",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inOld Norse"
-      ],
-      "outputs": [
-        "outOld Norse"
-      ],
       "x": 16.05,
-      "y": 16
+      "y": 16,
+      "rank": 6
     },
     {
-      "id": "Old Swedish",
+      "text": "Old Swedish",
       "label": "Old Swedish",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inOld Swedish"
-      ],
-      "outputs": [
-        "outOld Swedish"
-      ],
       "x": 16.05,
-      "y": 17.65
+      "y": 17.65,
+      "rank": 6
     },
     {
-      "id": "Old Danish",
+      "text": "Old Danish",
       "label": "Old Danish",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inOld Danish"
-      ],
-      "outputs": [
-        "outOld Danish"
-      ],
       "x": 16.05,
-      "y": 18.75
+      "y": 18.75,
+      "rank": 6
     },
     {
-      "id": "Old English",
+      "text": "Old English",
       "label": "Old English",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inOld English"
-      ],
-      "outputs": [
-        "outOld English"
-      ],
       "x": 16.05,
-      "y": 19.85
+      "y": 19.85,
+      "rank": 6
     },
     {
-      "id": "Old Frisian",
+      "text": "Old Frisian",
       "label": "Old Frisian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inOld Frisian"
-      ],
-      "outputs": [
-        "outOld Frisian"
-      ],
       "x": 16.05,
-      "y": 21.5
+      "y": 21.5,
+      "rank": 6
     },
     {
-      "id": "Old Dutch",
+      "text": "Old Dutch",
       "label": "Old Dutch",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inOld Dutch"
-      ],
-      "outputs": [
-        "outOld Dutch"
-      ],
       "x": 16.05,
-      "y": 24.8
+      "y": 24.8,
+      "rank": 6
     },
     {
-      "id": "Old Low German",
+      "text": "Old Low German",
       "label": "Old Low German",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inOld Low German"
-      ],
-      "outputs": [
-        "outOld Low German"
-      ],
       "x": 16.05,
-      "y": 27.55
+      "y": 27.55,
+      "rank": 6
     },
     {
-      "id": "Old High German",
+      "text": "Old High German",
       "label": "Old High German",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inOld High German"
-      ],
-      "outputs": [
-        "outOld High German"
-      ],
       "x": 16.05,
-      "y": 29.2
+      "y": 29.2,
+      "rank": 6
     },
     {
-      "id": "Old Icelandic",
+      "text": "Old Icelandic",
       "label": "Old Icelandic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inOld Icelandic"
-      ],
-      "outputs": [
-        "outOld Icelandic"
-      ],
       "x": 21.35,
-      "y": 14.35
+      "y": 14.35,
+      "rank": 8
     },
     {
-      "id": "Old Norwegian",
+      "text": "Old Norwegian",
       "label": "Old Norwegian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inOld Norwegian"
-      ],
-      "outputs": [
-        "outOld Norwegian"
-      ],
       "x": 21.35,
-      "y": 15.45
+      "y": 15.45,
+      "rank": 8
     },
     {
-      "id": "Middle Norwegian",
+      "text": "Middle Norwegian",
       "label": "Middle Norwegian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inMiddle Norwegian"
-      ],
-      "outputs": [
-        "outMiddle Norwegian"
-      ],
       "x": 26.65,
-      "y": 15.45
+      "y": 15.45,
+      "rank": 10
     },
     {
-      "id": "Middle Swedish",
+      "text": "Middle Swedish",
       "label": "Middle Swedish",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inMiddle Swedish"
-      ],
-      "outputs": [
-        "outMiddle Swedish"
-      ],
       "x": 21.35,
-      "y": 17.65
+      "y": 17.65,
+      "rank": 8
     },
     {
-      "id": "Middle Danish",
+      "text": "Middle Danish",
       "label": "Middle Danish",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inMiddle Danish"
-      ],
-      "outputs": [
-        "outMiddle Danish"
-      ],
       "x": 21.35,
-      "y": 18.75
+      "y": 18.75,
+      "rank": 8
     },
     {
-      "id": "Middle English",
+      "text": "Middle English",
       "label": "Middle English",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inMiddle English"
-      ],
-      "outputs": [
-        "outMiddle English"
-      ],
       "x": 21.35,
-      "y": 19.85
+      "y": 19.85,
+      "rank": 8
     },
     {
-      "id": "Middle Dutch",
+      "text": "Middle Dutch",
       "label": "Middle Dutch",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inMiddle Dutch"
-      ],
-      "outputs": [
-        "outMiddle Dutch"
-      ],
       "x": 21.35,
-      "y": 24.8
+      "y": 24.8,
+      "rank": 8
     },
     {
-      "id": "Middle Low German",
+      "text": "Middle Low German",
       "label": "Middle Low German",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inMiddle Low German"
-      ],
-      "outputs": [
-        "outMiddle Low German"
-      ],
       "x": 21.35,
-      "y": 27.55
+      "y": 27.55,
+      "rank": 8
     },
     {
-      "id": "Middle High German",
+      "text": "Middle High German",
       "label": "Middle High German",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inMiddle High German"
-      ],
-      "outputs": [
-        "outMiddle High German"
-      ],
       "x": 21.35,
-      "y": 29.2
+      "y": 29.2,
+      "rank": 8
     },
     {
-      "id": "Baltic",
+      "text": "Baltic",
       "label": "Baltic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inBaltic"
-      ],
-      "outputs": [
-        "outBaltic"
-      ],
       "x": 10.75,
-      "y": 0.6
+      "y": 0.6,
+      "rank": 4
     },
     {
-      "id": "Slavic",
+      "text": "Slavic",
       "label": "Slavic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inSlavic"
-      ],
-      "outputs": [
-        "outSlavic"
-      ],
       "x": 10.75,
-      "y": 7.2
+      "y": 7.2,
+      "rank": 4
     },
     {
-      "id": "East Slavic",
+      "text": "East Slavic",
       "label": "East Slavic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inEast Slavic"
-      ],
-      "outputs": [
-        "outEast Slavic"
-      ],
       "x": 16.05,
-      "y": 3.35
+      "y": 3.35,
+      "rank": 6
     },
     {
-      "id": "West Slavic",
+      "text": "West Slavic",
       "label": "West Slavic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inWest Slavic"
-      ],
-      "outputs": [
-        "outWest Slavic"
-      ],
       "x": 16.05,
-      "y": 7.75
+      "y": 7.75,
+      "rank": 6
     },
     {
-      "id": "South Slavic",
+      "text": "South Slavic",
       "label": "South Slavic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inSouth Slavic"
-      ],
-      "outputs": [
-        "outSouth Slavic"
-      ],
       "x": 16.05,
-      "y": 12.15
+      "y": 12.15,
+      "rank": 6
     },
     {
-      "id": "Phrygian",
+      "text": "Phrygian",
       "label": "Phrygian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inPhrygian"
-      ],
       "x": 5.45,
-      "y": 54.5
+      "y": 54.5,
+      "rank": 2
     },
     {
-      "id": "Armenian",
+      "text": "Armenian",
       "label": "Armenian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inArmenian"
-      ],
       "x": 5.45,
-      "y": 55.6
+      "y": 55.6,
+      "rank": 2
     },
     {
-      "id": "Albanian",
+      "text": "Albanian",
       "label": "Albanian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inAlbanian"
-      ],
       "x": 5.45,
-      "y": 56.7
+      "y": 56.7,
+      "rank": 2
     },
     {
-      "id": "Thracian",
+      "text": "Thracian",
       "label": "Thracian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inThracian"
-      ],
       "x": 5.45,
-      "y": 57.8
+      "y": 57.8,
+      "rank": 2
     },
     {
-      "id": "Tocharian A",
+      "text": "Tocharian A",
       "label": "Tocharian A",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inTocharian A"
-      ],
       "x": 10.75,
-      "y": 49
+      "y": 49,
+      "rank": 4
     },
     {
-      "id": "Tocharian B",
+      "text": "Tocharian B",
       "label": "Tocharian B",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inTocharian B"
-      ],
       "x": 10.75,
-      "y": 50.1
+      "y": 50.1,
+      "rank": 4
     },
     {
-      "id": "Hittite",
+      "text": "Hittite",
       "label": "Hittite",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inHittite"
-      ],
       "x": 10.75,
-      "y": 44.6
+      "y": 44.6,
+      "rank": 4
     },
     {
-      "id": "Palaic",
+      "text": "Palaic",
       "label": "Palaic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inPalaic"
-      ],
       "x": 10.75,
-      "y": 45.7
+      "y": 45.7,
+      "rank": 4
     },
     {
-      "id": "Luwic",
+      "text": "Luwic",
       "label": "Luwic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inLuwic"
-      ],
       "x": 10.75,
-      "y": 46.8
+      "y": 46.8,
+      "rank": 4
     },
     {
-      "id": "Lydian",
+      "text": "Lydian",
       "label": "Lydian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inLydian"
-      ],
       "x": 10.75,
-      "y": 47.9
+      "y": 47.9,
+      "rank": 4
     },
     {
-      "id": "Balochi",
+      "text": "Balochi",
       "label": "Balochi",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inBalochi"
-      ],
       "x": 16.05,
-      "y": 60.55
+      "y": 60.55,
+      "rank": 6
     },
     {
-      "id": "Kurdish",
+      "text": "Kurdish",
       "label": "Kurdish",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inKurdish"
-      ],
       "x": 16.05,
-      "y": 61.65
+      "y": 61.65,
+      "rank": 6
     },
     {
-      "id": "Pashto",
+      "text": "Pashto",
       "label": "Pashto",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inPashto"
-      ],
       "x": 16.05,
-      "y": 62.75
+      "y": 62.75,
+      "rank": 6
     },
     {
-      "id": "Sogdian",
+      "text": "Sogdian",
       "label": "Sogdian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inSogdian"
-      ],
       "x": 16.05,
-      "y": 63.85
+      "y": 63.85,
+      "rank": 6
     },
     {
-      "id": "Pahlavi",
+      "text": "Pahlavi",
       "label": "Pahlavi",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inPahlavi"
-      ],
       "x": 21.35,
-      "y": 60
+      "y": 60,
+      "rank": 8
     },
     {
-      "id": "Persian",
+      "text": "Persian",
       "label": "Persian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inPersian"
-      ],
       "x": 26.65,
-      "y": 58.9
+      "y": 58.9,
+      "rank": 10
     },
     {
-      "id": "Greek",
+      "text": "Greek",
       "label": "Greek",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inGreek"
-      ],
       "x": 10.75,
-      "y": 43.5
+      "y": 43.5,
+      "rank": 4
     },
     {
-      "id": "Dard",
+      "text": "Dard",
       "label": "Dard",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inDard"
-      ],
       "x": 16.05,
-      "y": 51.2
+      "y": 51.2,
+      "rank": 6
     },
     {
-      "id": "Sindhi",
+      "text": "Sindhi",
       "label": "Sindhi",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inSindhi"
-      ],
       "x": 21.35,
-      "y": 46.25
+      "y": 46.25,
+      "rank": 8
     },
     {
-      "id": "Romani",
+      "text": "Romani",
       "label": "Romani",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inRomani"
-      ],
       "x": 21.35,
-      "y": 47.35
+      "y": 47.35,
+      "rank": 8
     },
     {
-      "id": "Urdu",
+      "text": "Urdu",
       "label": "Urdu",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inUrdu"
-      ],
       "x": 21.35,
-      "y": 48.45
+      "y": 48.45,
+      "rank": 8
     },
     {
-      "id": "Hindi",
+      "text": "Hindi",
       "label": "Hindi",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inHindi"
-      ],
       "x": 21.35,
-      "y": 49.55
+      "y": 49.55,
+      "rank": 8
     },
     {
-      "id": "Bihari",
+      "text": "Bihari",
       "label": "Bihari",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inBihari"
-      ],
       "x": 21.35,
-      "y": 50.65
+      "y": 50.65,
+      "rank": 8
     },
     {
-      "id": "Assamese",
+      "text": "Assamese",
       "label": "Assamese",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inAssamese"
-      ],
       "x": 21.35,
-      "y": 52.3
+      "y": 52.3,
+      "rank": 8
     },
     {
-      "id": "Bengali",
+      "text": "Bengali",
       "label": "Bengali",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inBengali"
-      ],
       "x": 21.35,
-      "y": 53.4
+      "y": 53.4,
+      "rank": 8
     },
     {
-      "id": "Marathi",
+      "text": "Marathi",
       "label": "Marathi",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inMarathi"
-      ],
       "x": 21.35,
-      "y": 54.5
+      "y": 54.5,
+      "rank": 8
     },
     {
-      "id": "Gujarati",
+      "text": "Gujarati",
       "label": "Gujarati",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inGujarati"
-      ],
       "x": 21.35,
-      "y": 55.6
+      "y": 55.6,
+      "rank": 8
     },
     {
-      "id": "Punjabi",
+      "text": "Punjabi",
       "label": "Punjabi",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inPunjabi"
-      ],
       "x": 21.35,
-      "y": 56.7
+      "y": 56.7,
+      "rank": 8
     },
     {
-      "id": "Sinhalese",
+      "text": "Sinhalese",
       "label": "Sinhalese",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inSinhalese"
-      ],
       "x": 21.35,
-      "y": 57.8
+      "y": 57.8,
+      "rank": 8
     },
     {
-      "id": "Umbrian",
+      "text": "Umbrian",
       "label": "Umbrian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inUmbrian"
-      ],
       "x": 16.05,
-      "y": 39.1
+      "y": 39.1,
+      "rank": 6
     },
     {
-      "id": "Oscan",
+      "text": "Oscan",
       "label": "Oscan",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inOscan"
-      ],
       "x": 16.05,
-      "y": 40.2
+      "y": 40.2,
+      "rank": 6
     },
     {
-      "id": "Faliscan",
+      "text": "Faliscan",
       "label": "Faliscan",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inFaliscan"
-      ],
       "x": 16.05,
-      "y": 46.25
+      "y": 46.25,
+      "rank": 6
     },
     {
-      "id": "Portugese",
+      "text": "Portugese",
       "label": "Portugese",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inPortugese"
-      ],
       "x": 21.35,
-      "y": 34.15
+      "y": 34.15,
+      "rank": 8
     },
     {
-      "id": "Spanish",
+      "text": "Spanish",
       "label": "Spanish",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inSpanish"
-      ],
       "x": 21.35,
-      "y": 35.25
+      "y": 35.25,
+      "rank": 8
     },
     {
-      "id": "French",
+      "text": "French",
       "label": "French",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inFrench"
-      ],
       "x": 21.35,
-      "y": 36.35
+      "y": 36.35,
+      "rank": 8
     },
     {
-      "id": "Romanian",
+      "text": "Romanian",
       "label": "Romanian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inRomanian"
-      ],
       "x": 21.35,
-      "y": 37.45
+      "y": 37.45,
+      "rank": 8
     },
     {
-      "id": "Italian",
+      "text": "Italian",
       "label": "Italian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inItalian"
-      ],
       "x": 21.35,
-      "y": 41.85
+      "y": 41.85,
+      "rank": 8
     },
     {
-      "id": "Catalan",
+      "text": "Catalan",
       "label": "Catalan",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inCatalan"
-      ],
       "x": 21.35,
-      "y": 42.95
+      "y": 42.95,
+      "rank": 8
     },
     {
-      "id": "Franco-Provençal",
+      "text": "Franco-Provençal",
       "label": "Franco-Provençal",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inFranco-Provençal"
-      ],
       "x": 21.35,
-      "y": 44.05
+      "y": 44.05,
+      "rank": 8
     },
     {
-      "id": "Rhaeto-Romance",
+      "text": "Rhaeto-Romance",
       "label": "Rhaeto-Romance",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inRhaeto-Romance"
-      ],
       "x": 21.35,
-      "y": 45.15
+      "y": 45.15,
+      "rank": 8
     },
     {
-      "id": "Welsh",
+      "text": "Welsh",
       "label": "Welsh",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inWelsh"
-      ],
       "x": 16.05,
-      "y": 31.4
+      "y": 31.4,
+      "rank": 6
     },
     {
-      "id": "Breton",
+      "text": "Breton",
       "label": "Breton",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inBreton"
-      ],
       "x": 16.05,
-      "y": 32.5
+      "y": 32.5,
+      "rank": 6
     },
     {
-      "id": "Cornish",
+      "text": "Cornish",
       "label": "Cornish",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inCornish"
-      ],
       "x": 16.05,
-      "y": 33.6
+      "y": 33.6,
+      "rank": 6
     },
     {
-      "id": "Cuymbric",
+      "text": "Cuymbric",
       "label": "Cuymbric",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inCuymbric"
-      ],
       "x": 16.05,
-      "y": 34.7
+      "y": 34.7,
+      "rank": 6
     },
     {
-      "id": "Modern Irish",
+      "text": "Modern Irish",
       "label": "Modern Irish",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inModern Irish"
-      ],
       "x": 16.05,
-      "y": 35.8
+      "y": 35.8,
+      "rank": 6
     },
     {
-      "id": "Scottish Gaelic",
+      "text": "Scottish Gaelic",
       "label": "Scottish Gaelic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inScottish Gaelic"
-      ],
       "x": 16.05,
-      "y": 36.9
+      "y": 36.9,
+      "rank": 6
     },
     {
-      "id": "Manx",
+      "text": "Manx",
       "label": "Manx",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inManx"
-      ],
       "x": 16.05,
-      "y": 38
+      "y": 38,
+      "rank": 6
     },
     {
-      "id": "Gothic",
+      "text": "Gothic",
       "label": "Gothic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inGothic"
-      ],
       "x": 16.05,
-      "y": 30.3
+      "y": 30.3,
+      "rank": 6
     },
     {
-      "id": "Low German",
+      "text": "Low German",
       "label": "Low German",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inLow German"
-      ],
       "x": 26.65,
-      "y": 27.55
+      "y": 27.55,
+      "rank": 10
     },
     {
-      "id": "(High) German",
+      "text": "(High) German",
       "label": "(High) German",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "in(High) German"
-      ],
       "x": 26.65,
-      "y": 28.65
+      "y": 28.65,
+      "rank": 10
     },
     {
-      "id": "Yiddish",
+      "text": "Yiddish",
       "label": "Yiddish",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inYiddish"
-      ],
       "x": 26.65,
-      "y": 43.5
+      "y": 43.5,
+      "rank": 10
     },
     {
-      "id": "English",
+      "text": "English",
       "label": "English",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inEnglish"
-      ],
       "x": 26.65,
-      "y": 19.85
+      "y": 19.85,
+      "rank": 10
     },
     {
-      "id": "Hollandic",
+      "text": "Hollandic",
       "label": "Hollandic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inHollandic"
-      ],
       "x": 26.65,
-      "y": 20.95
+      "y": 20.95,
+      "rank": 10
     },
     {
-      "id": "Flemish",
+      "text": "Flemish",
       "label": "Flemish",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inFlemish"
-      ],
       "x": 26.65,
-      "y": 22.05
+      "y": 22.05,
+      "rank": 10
     },
     {
-      "id": "Dutch",
+      "text": "Dutch",
       "label": "Dutch",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inDutch"
-      ],
       "x": 26.65,
-      "y": 23.15
+      "y": 23.15,
+      "rank": 10
     },
     {
-      "id": "Limburgish",
+      "text": "Limburgish",
       "label": "Limburgish",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inLimburgish"
-      ],
       "x": 26.65,
-      "y": 24.25
+      "y": 24.25,
+      "rank": 10
     },
     {
-      "id": "Brabantian",
+      "text": "Brabantian",
       "label": "Brabantian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inBrabantian"
-      ],
       "x": 26.65,
-      "y": 25.35
+      "y": 25.35,
+      "rank": 10
     },
     {
-      "id": "Rhinelandic",
+      "text": "Rhinelandic",
       "label": "Rhinelandic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inRhinelandic"
-      ],
       "x": 26.65,
-      "y": 26.45
+      "y": 26.45,
+      "rank": 10
     },
     {
-      "id": "Frisian",
+      "text": "Frisian",
       "label": "Frisian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inFrisian"
-      ],
       "x": 21.35,
-      "y": 21.5
+      "y": 21.5,
+      "rank": 8
     },
     {
-      "id": "Danish",
+      "text": "Danish",
       "label": "Danish",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inDanish"
-      ],
       "x": 26.65,
-      "y": 18.75
+      "y": 18.75,
+      "rank": 10
     },
     {
-      "id": "Swedish",
+      "text": "Swedish",
       "label": "Swedish",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inSwedish"
-      ],
       "x": 26.65,
-      "y": 17.65
+      "y": 17.65,
+      "rank": 10
     },
     {
-      "id": "Norwegian",
+      "text": "Norwegian",
       "label": "Norwegian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inNorwegian"
-      ],
       "x": 31.95,
-      "y": 15.45
+      "y": 15.45,
+      "rank": 12
     },
     {
-      "id": "Faroese",
+      "text": "Faroese",
       "label": "Faroese",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inFaroese"
-      ],
       "x": 21.35,
-      "y": 16.55
+      "y": 16.55,
+      "rank": 8
     },
     {
-      "id": "Icelandic",
+      "text": "Icelandic",
       "label": "Icelandic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inIcelandic"
-      ],
       "x": 26.65,
-      "y": 14.35
+      "y": 14.35,
+      "rank": 10
     },
     {
-      "id": "Old Prussian",
+      "text": "Old Prussian",
       "label": "Old Prussian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inOld Prussian"
-      ],
       "x": 16.05,
-      "y": 0.05
+      "y": 0.05,
+      "rank": 6
     },
     {
-      "id": "Lithuanian",
+      "text": "Lithuanian",
       "label": "Lithuanian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inLithuanian"
-      ],
       "x": 16.05,
-      "y": 1.15
+      "y": 1.15,
+      "rank": 6
     },
     {
-      "id": "Latvian",
+      "text": "Latvian",
       "label": "Latvian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inLatvian"
-      ],
       "x": 16.05,
-      "y": 2.25
+      "y": 2.25,
+      "rank": 6
     },
     {
-      "id": "Polish",
+      "text": "Polish",
       "label": "Polish",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inPolish"
-      ],
       "x": 21.35,
-      "y": 5.55
+      "y": 5.55,
+      "rank": 8
     },
     {
-      "id": "Slovak",
+      "text": "Slovak",
       "label": "Slovak",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inSlovak"
-      ],
       "x": 21.35,
-      "y": 6.65
+      "y": 6.65,
+      "rank": 8
     },
     {
-      "id": "Czech",
+      "text": "Czech",
       "label": "Czech",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inCzech"
-      ],
       "x": 21.35,
-      "y": 7.75
+      "y": 7.75,
+      "rank": 8
     },
     {
-      "id": "Wendish",
+      "text": "Wendish",
       "label": "Wendish",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inWendish"
-      ],
       "x": 21.35,
-      "y": 8.85
+      "y": 8.85,
+      "rank": 8
     },
     {
-      "id": "Bulgarian",
+      "text": "Bulgarian",
       "label": "Bulgarian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inBulgarian"
-      ],
       "x": 21.35,
-      "y": 0.05
+      "y": 0.05,
+      "rank": 8
     },
     {
-      "id": "Old Church Slavonic",
+      "text": "Old Church Slavonic",
       "label": "Old Church Slavonic",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inOld Church Slavonic"
-      ],
       "x": 21.35,
-      "y": 1.15
+      "y": 1.15,
+      "rank": 8
     },
     {
-      "id": "Macedonian",
+      "text": "Macedonian",
       "label": "Macedonian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inMacedonian"
-      ],
       "x": 21.35,
-      "y": 2.25
+      "y": 2.25,
+      "rank": 8
     },
     {
-      "id": "Serbo-Croatian",
+      "text": "Serbo-Croatian",
       "label": "Serbo-Croatian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inSerbo-Croatian"
-      ],
       "x": 21.35,
-      "y": 3.35
+      "y": 3.35,
+      "rank": 8
     },
     {
-      "id": "Slovene",
+      "text": "Slovene",
       "label": "Slovene",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inSlovene"
-      ],
       "x": 21.35,
-      "y": 4.45
+      "y": 4.45,
+      "rank": 8
     },
     {
-      "id": "Russian",
+      "text": "Russian",
       "label": "Russian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inRussian"
-      ],
       "x": 21.35,
-      "y": 9.95
+      "y": 9.95,
+      "rank": 8
     },
     {
-      "id": "Ukrainian",
+      "text": "Ukrainian",
       "label": "Ukrainian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inUkrainian"
-      ],
       "x": 21.35,
-      "y": 11.05
+      "y": 11.05,
+      "rank": 8
     },
     {
-      "id": "Belarusian",
+      "text": "Belarusian",
       "label": "Belarusian",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inBelarusian"
-      ],
       "x": 21.35,
-      "y": 12.15
+      "y": 12.15,
+      "rank": 8
     },
     {
-      "id": "Rusyn",
+      "text": "Rusyn",
       "label": "Rusyn",
       "labelsize": 0.2,
       "width": 3,
       "height": 1,
-      "inputs": [
-        "inRusyn"
-      ],
       "x": 21.35,
-      "y": 13.25
-    }
-  ],
-  "connectors": [
-    {
-      "id": "outProto Indo-European",
-      "connectortype": "output"
-    },
-    {
-      "id": "inBalto-Slavic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inGermanic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inCeltic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inItalic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inHellenic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inAnatolian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inTocharian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inIndo-Iranian",
-      "connectortype": "input"
-    },
-    {
-      "id": "outIndo-Iranian",
-      "connectortype": "output"
-    },
-    {
-      "id": "inDardic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inIndic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inIranian",
-      "connectortype": "input"
-    },
-    {
-      "id": "outIranian",
-      "connectortype": "output"
-    },
-    {
-      "id": "inOld Persian",
-      "connectortype": "input"
-    },
-    {
-      "id": "outOld Persian",
-      "connectortype": "output"
-    },
-    {
-      "id": "inMiddle Persian",
-      "connectortype": "input"
-    },
-    {
-      "id": "outIndic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inSanskrit",
-      "connectortype": "input"
-    },
-    {
-      "id": "outItalic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inOsco-Umbrian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inLatino-Faliscan",
-      "connectortype": "input"
-    },
-    {
-      "id": "outLatino-Faliscan",
-      "connectortype": "output"
-    },
-    {
-      "id": "inLatin",
-      "connectortype": "input"
-    },
-    {
-      "id": "outCeltic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inBrythonic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inGoidelic",
-      "connectortype": "input"
-    },
-    {
-      "id": "outGermanic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inNorth Germanic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inWest Germanic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inEast Germanic",
-      "connectortype": "input"
-    },
-    {
-      "id": "outNorth Germanic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inOld Norse",
-      "connectortype": "input"
-    },
-    {
-      "id": "inOld Swedish",
-      "connectortype": "input"
-    },
-    {
-      "id": "inOld Danish",
-      "connectortype": "input"
-    },
-    {
-      "id": "outWest Germanic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inOld English",
-      "connectortype": "input"
-    },
-    {
-      "id": "inOld Frisian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inOld Dutch",
-      "connectortype": "input"
-    },
-    {
-      "id": "inOld Low German",
-      "connectortype": "input"
-    },
-    {
-      "id": "inOld High German",
-      "connectortype": "input"
-    },
-    {
-      "id": "outOld Norse",
-      "connectortype": "output"
-    },
-    {
-      "id": "inOld Icelandic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inOld Norwegian",
-      "connectortype": "input"
-    },
-    {
-      "id": "outOld Norwegian",
-      "connectortype": "output"
-    },
-    {
-      "id": "inMiddle Norwegian",
-      "connectortype": "input"
-    },
-    {
-      "id": "outOld Swedish",
-      "connectortype": "output"
-    },
-    {
-      "id": "inMiddle Swedish",
-      "connectortype": "input"
-    },
-    {
-      "id": "outOld Danish",
-      "connectortype": "output"
-    },
-    {
-      "id": "inMiddle Danish",
-      "connectortype": "input"
-    },
-    {
-      "id": "outOld English",
-      "connectortype": "output"
-    },
-    {
-      "id": "inMiddle English",
-      "connectortype": "input"
-    },
-    {
-      "id": "outOld Dutch",
-      "connectortype": "output"
-    },
-    {
-      "id": "inMiddle Dutch",
-      "connectortype": "input"
-    },
-    {
-      "id": "outOld Low German",
-      "connectortype": "output"
-    },
-    {
-      "id": "inMiddle Low German",
-      "connectortype": "input"
-    },
-    {
-      "id": "outOld High German",
-      "connectortype": "output"
-    },
-    {
-      "id": "inMiddle High German",
-      "connectortype": "input"
-    },
-    {
-      "id": "outBalto-Slavic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inBaltic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inSlavic",
-      "connectortype": "input"
-    },
-    {
-      "id": "outSlavic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inEast Slavic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inWest Slavic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inSouth Slavic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inPhrygian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inArmenian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inAlbanian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inThracian",
-      "connectortype": "input"
-    },
-    {
-      "id": "outTocharian",
-      "connectortype": "output"
-    },
-    {
-      "id": "inTocharian A",
-      "connectortype": "input"
-    },
-    {
-      "id": "inTocharian B",
-      "connectortype": "input"
-    },
-    {
-      "id": "outAnatolian",
-      "connectortype": "output"
-    },
-    {
-      "id": "inHittite",
-      "connectortype": "input"
-    },
-    {
-      "id": "inPalaic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inLuwic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inLydian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inBalochi",
-      "connectortype": "input"
-    },
-    {
-      "id": "inKurdish",
-      "connectortype": "input"
-    },
-    {
-      "id": "inPashto",
-      "connectortype": "input"
-    },
-    {
-      "id": "inSogdian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inPahlavi",
-      "connectortype": "input"
-    },
-    {
-      "id": "outMiddle Persian",
-      "connectortype": "output"
-    },
-    {
-      "id": "inPersian",
-      "connectortype": "input"
-    },
-    {
-      "id": "outHellenic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inGreek",
-      "connectortype": "input"
-    },
-    {
-      "id": "outDardic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inDard",
-      "connectortype": "input"
-    },
-    {
-      "id": "outSanskrit",
-      "connectortype": "output"
-    },
-    {
-      "id": "inSindhi",
-      "connectortype": "input"
-    },
-    {
-      "id": "inRomani",
-      "connectortype": "input"
-    },
-    {
-      "id": "inUrdu",
-      "connectortype": "input"
-    },
-    {
-      "id": "inHindi",
-      "connectortype": "input"
-    },
-    {
-      "id": "inBihari",
-      "connectortype": "input"
-    },
-    {
-      "id": "inAssamese",
-      "connectortype": "input"
-    },
-    {
-      "id": "inBengali",
-      "connectortype": "input"
-    },
-    {
-      "id": "inMarathi",
-      "connectortype": "input"
-    },
-    {
-      "id": "inGujarati",
-      "connectortype": "input"
-    },
-    {
-      "id": "inPunjabi",
-      "connectortype": "input"
-    },
-    {
-      "id": "inSinhalese",
-      "connectortype": "input"
-    },
-    {
-      "id": "outOsco-Umbrian",
-      "connectortype": "output"
-    },
-    {
-      "id": "inUmbrian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inOscan",
-      "connectortype": "input"
-    },
-    {
-      "id": "inFaliscan",
-      "connectortype": "input"
-    },
-    {
-      "id": "outLatin",
-      "connectortype": "output"
-    },
-    {
-      "id": "inPortugese",
-      "connectortype": "input"
-    },
-    {
-      "id": "inSpanish",
-      "connectortype": "input"
-    },
-    {
-      "id": "inFrench",
-      "connectortype": "input"
-    },
-    {
-      "id": "inRomanian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inItalian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inCatalan",
-      "connectortype": "input"
-    },
-    {
-      "id": "inFranco-Provençal",
-      "connectortype": "input"
-    },
-    {
-      "id": "inRhaeto-Romance",
-      "connectortype": "input"
-    },
-    {
-      "id": "outBrythonic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inWelsh",
-      "connectortype": "input"
-    },
-    {
-      "id": "inBreton",
-      "connectortype": "input"
-    },
-    {
-      "id": "inCornish",
-      "connectortype": "input"
-    },
-    {
-      "id": "inCuymbric",
-      "connectortype": "input"
-    },
-    {
-      "id": "outGoidelic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inModern Irish",
-      "connectortype": "input"
-    },
-    {
-      "id": "inScottish Gaelic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inManx",
-      "connectortype": "input"
-    },
-    {
-      "id": "outEast Germanic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inGothic",
-      "connectortype": "input"
-    },
-    {
-      "id": "outMiddle Low German",
-      "connectortype": "output"
-    },
-    {
-      "id": "inLow German",
-      "connectortype": "input"
-    },
-    {
-      "id": "outMiddle High German",
-      "connectortype": "output"
-    },
-    {
-      "id": "in(High) German",
-      "connectortype": "input"
-    },
-    {
-      "id": "inYiddish",
-      "connectortype": "input"
-    },
-    {
-      "id": "outMiddle English",
-      "connectortype": "output"
-    },
-    {
-      "id": "inEnglish",
-      "connectortype": "input"
-    },
-    {
-      "id": "outMiddle Dutch",
-      "connectortype": "output"
-    },
-    {
-      "id": "inHollandic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inFlemish",
-      "connectortype": "input"
-    },
-    {
-      "id": "inDutch",
-      "connectortype": "input"
-    },
-    {
-      "id": "inLimburgish",
-      "connectortype": "input"
-    },
-    {
-      "id": "inBrabantian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inRhinelandic",
-      "connectortype": "input"
-    },
-    {
-      "id": "outOld Frisian",
-      "connectortype": "output"
-    },
-    {
-      "id": "inFrisian",
-      "connectortype": "input"
-    },
-    {
-      "id": "outMiddle Danish",
-      "connectortype": "output"
-    },
-    {
-      "id": "inDanish",
-      "connectortype": "input"
-    },
-    {
-      "id": "outMiddle Swedish",
-      "connectortype": "output"
-    },
-    {
-      "id": "inSwedish",
-      "connectortype": "input"
-    },
-    {
-      "id": "outMiddle Norwegian",
-      "connectortype": "output"
-    },
-    {
-      "id": "inNorwegian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inFaroese",
-      "connectortype": "input"
-    },
-    {
-      "id": "outOld Icelandic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inIcelandic",
-      "connectortype": "input"
-    },
-    {
-      "id": "outBaltic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inOld Prussian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inLithuanian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inLatvian",
-      "connectortype": "input"
-    },
-    {
-      "id": "outWest Slavic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inPolish",
-      "connectortype": "input"
-    },
-    {
-      "id": "inSlovak",
-      "connectortype": "input"
-    },
-    {
-      "id": "inCzech",
-      "connectortype": "input"
-    },
-    {
-      "id": "inWendish",
-      "connectortype": "input"
-    },
-    {
-      "id": "outEast Slavic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inBulgarian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inOld Church Slavonic",
-      "connectortype": "input"
-    },
-    {
-      "id": "inMacedonian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inSerbo-Croatian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inSlovene",
-      "connectortype": "input"
-    },
-    {
-      "id": "outSouth Slavic",
-      "connectortype": "output"
-    },
-    {
-      "id": "inRussian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inUkrainian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inBelarusian",
-      "connectortype": "input"
-    },
-    {
-      "id": "inRusyn",
-      "connectortype": "input"
+      "y": 13.25,
+      "rank": 8
     }
   ],
   "edges": [
     {
-      "from": "outProto Indo-European",
-      "to": "inBalto-Slavic",
-      "id": "1"
-    },
-    {
-      "from": "outProto Indo-European",
-      "to": "inGermanic",
-      "id": "2"
-    },
-    {
-      "from": "outProto Indo-European",
-      "to": "inCeltic",
-      "id": "3"
-    },
-    {
-      "from": "outProto Indo-European",
-      "to": "inItalic",
-      "id": "4"
-    },
-    {
-      "from": "outProto Indo-European",
-      "to": "inHellenic",
-      "id": "5"
-    },
-    {
-      "from": "outProto Indo-European",
-      "to": "inAnatolian",
-      "id": "6"
-    },
-    {
-      "from": "outProto Indo-European",
-      "to": "inTocharian",
-      "id": "7"
-    },
-    {
-      "from": "outProto Indo-European",
-      "to": "inIndo-Iranian",
-      "id": "8"
-    },
-    {
-      "from": "outIndo-Iranian",
-      "to": "inDardic",
-      "id": "9"
-    },
-    {
-      "from": "outIndo-Iranian",
-      "to": "inIndic",
-      "id": "10"
-    },
-    {
-      "from": "outIndo-Iranian",
-      "to": "inIranian",
-      "id": "11"
-    },
-    {
-      "from": "outIranian",
-      "to": "inOld Persian",
-      "id": "12"
-    },
-    {
-      "from": "outOld Persian",
-      "to": "inMiddle Persian",
-      "id": "13"
-    },
-    {
-      "from": "outIndic",
-      "to": "inSanskrit",
-      "id": "14"
-    },
-    {
-      "from": "outItalic",
-      "to": "inOsco-Umbrian",
-      "id": "15"
-    },
-    {
-      "from": "outItalic",
-      "to": "inLatino-Faliscan",
-      "id": "16"
-    },
-    {
-      "from": "outLatino-Faliscan",
-      "to": "inLatin",
-      "id": "17"
-    },
-    {
-      "from": "outCeltic",
-      "to": "inBrythonic",
-      "id": "18"
-    },
-    {
-      "from": "outCeltic",
-      "to": "inGoidelic",
-      "id": "19"
-    },
-    {
-      "from": "outGermanic",
-      "to": "inNorth Germanic",
-      "id": "20"
-    },
-    {
-      "from": "outGermanic",
-      "to": "inWest Germanic",
-      "id": "21"
-    },
-    {
-      "from": "outGermanic",
-      "to": "inEast Germanic",
-      "id": "22"
-    },
-    {
-      "from": "outNorth Germanic",
-      "to": "inOld Norse",
-      "id": "23"
-    },
-    {
-      "from": "outNorth Germanic",
-      "to": "inOld Swedish",
-      "id": "24"
-    },
-    {
-      "from": "outNorth Germanic",
-      "to": "inOld Danish",
-      "id": "25"
-    },
-    {
-      "from": "outWest Germanic",
-      "to": "inOld English",
-      "id": "26"
-    },
-    {
-      "from": "outWest Germanic",
-      "to": "inOld Frisian",
-      "id": "27"
-    },
-    {
-      "from": "outWest Germanic",
-      "to": "inOld Dutch",
-      "id": "28"
-    },
-    {
-      "from": "outWest Germanic",
-      "to": "inOld Low German",
-      "id": "29"
-    },
-    {
-      "from": "outWest Germanic",
-      "to": "inOld High German",
-      "id": "30"
-    },
-    {
-      "from": "outOld Norse",
-      "to": "inOld Icelandic",
-      "id": "31"
-    },
-    {
-      "from": "outOld Norse",
-      "to": "inOld Norwegian",
-      "id": "32"
-    },
-    {
-      "from": "outOld Norwegian",
-      "to": "inMiddle Norwegian",
-      "id": "33"
-    },
-    {
-      "from": "outOld Swedish",
-      "to": "inMiddle Swedish",
-      "id": "34"
-    },
-    {
-      "from": "outOld Danish",
-      "to": "inMiddle Danish",
-      "id": "35"
-    },
-    {
-      "from": "outOld English",
-      "to": "inMiddle English",
-      "id": "36"
-    },
-    {
-      "from": "outOld Dutch",
-      "to": "inMiddle Dutch",
-      "id": "37"
-    },
-    {
-      "from": "outOld Low German",
-      "to": "inMiddle Low German",
-      "id": "38"
-    },
-    {
-      "from": "outOld High German",
-      "to": "inMiddle High German",
-      "id": "39"
-    },
-    {
-      "from": "outBalto-Slavic",
-      "to": "inBaltic",
-      "id": "40"
-    },
-    {
-      "from": "outBalto-Slavic",
-      "to": "inSlavic",
-      "id": "41"
-    },
-    {
-      "from": "outSlavic",
-      "to": "inEast Slavic",
-      "id": "42"
-    },
-    {
-      "from": "outSlavic",
-      "to": "inWest Slavic",
-      "id": "43"
-    },
-    {
-      "from": "outSlavic",
-      "to": "inSouth Slavic",
-      "id": "44"
-    },
-    {
-      "from": "outProto Indo-European",
-      "to": "inPhrygian",
-      "id": "45"
-    },
-    {
-      "from": "outProto Indo-European",
-      "to": "inArmenian",
-      "id": "46"
-    },
-    {
-      "from": "outProto Indo-European",
-      "to": "inAlbanian",
-      "id": "47"
-    },
-    {
-      "from": "outProto Indo-European",
-      "to": "inThracian",
-      "id": "48"
-    },
-    {
-      "from": "outTocharian",
-      "to": "inTocharian A",
-      "id": "49"
-    },
-    {
-      "from": "outTocharian",
-      "to": "inTocharian B",
-      "id": "50"
-    },
-    {
-      "from": "outAnatolian",
-      "to": "inHittite",
-      "id": "51"
-    },
-    {
-      "from": "outAnatolian",
-      "to": "inPalaic",
-      "id": "52"
-    },
-    {
-      "from": "outAnatolian",
-      "to": "inLuwic",
-      "id": "53"
-    },
-    {
-      "from": "outAnatolian",
-      "to": "inLydian",
-      "id": "54"
-    },
-    {
-      "from": "outIranian",
-      "to": "inBalochi",
-      "id": "55"
-    },
-    {
-      "from": "outIranian",
-      "to": "inKurdish",
-      "id": "56"
-    },
-    {
-      "from": "outIranian",
-      "to": "inPashto",
-      "id": "57"
-    },
-    {
-      "from": "outIranian",
-      "to": "inSogdian",
-      "id": "58"
-    },
-    {
-      "from": "outOld Persian",
-      "to": "inPahlavi",
-      "id": "59"
-    },
-    {
-      "from": "outMiddle Persian",
-      "to": "inPersian",
-      "id": "60"
-    },
-    {
-      "from": "outHellenic",
-      "to": "inGreek",
-      "id": "61"
-    },
-    {
-      "from": "outDardic",
-      "to": "inDard",
-      "id": "62"
-    },
-    {
-      "from": "outSanskrit",
-      "to": "inSindhi",
-      "id": "63"
-    },
-    {
-      "from": "outSanskrit",
-      "to": "inRomani",
-      "id": "64"
-    },
-    {
-      "from": "outSanskrit",
-      "to": "inUrdu",
-      "id": "65"
-    },
-    {
-      "from": "outSanskrit",
-      "to": "inHindi",
-      "id": "66"
-    },
-    {
-      "from": "outSanskrit",
-      "to": "inBihari",
-      "id": "67"
-    },
-    {
-      "from": "outSanskrit",
-      "to": "inAssamese",
-      "id": "68"
-    },
-    {
-      "from": "outSanskrit",
-      "to": "inBengali",
-      "id": "69"
-    },
-    {
-      "from": "outSanskrit",
-      "to": "inMarathi",
-      "id": "70"
-    },
-    {
-      "from": "outSanskrit",
-      "to": "inGujarati",
-      "id": "71"
-    },
-    {
-      "from": "outSanskrit",
-      "to": "inPunjabi",
-      "id": "72"
-    },
-    {
-      "from": "outSanskrit",
-      "to": "inSinhalese",
-      "id": "73"
-    },
-    {
-      "from": "outOsco-Umbrian",
-      "to": "inUmbrian",
-      "id": "74"
-    },
-    {
-      "from": "outOsco-Umbrian",
-      "to": "inOscan",
-      "id": "75"
-    },
-    {
-      "from": "outLatino-Faliscan",
-      "to": "inFaliscan",
-      "id": "76"
-    },
-    {
-      "from": "outLatin",
-      "to": "inPortugese",
-      "id": "77"
-    },
-    {
-      "from": "outLatin",
-      "to": "inSpanish",
-      "id": "78"
-    },
-    {
-      "from": "outLatin",
-      "to": "inFrench",
-      "id": "79"
-    },
-    {
-      "from": "outLatin",
-      "to": "inRomanian",
-      "id": "80"
-    },
-    {
-      "from": "outLatin",
-      "to": "inItalian",
-      "id": "81"
-    },
-    {
-      "from": "outLatin",
-      "to": "inCatalan",
-      "id": "82"
-    },
-    {
-      "from": "outLatin",
-      "to": "inFranco-Provençal",
-      "id": "83"
-    },
-    {
-      "from": "outLatin",
-      "to": "inRhaeto-Romance",
-      "id": "84"
-    },
-    {
-      "from": "outBrythonic",
-      "to": "inWelsh",
-      "id": "85"
-    },
-    {
-      "from": "outBrythonic",
-      "to": "inBreton",
-      "id": "86"
-    },
-    {
-      "from": "outBrythonic",
-      "to": "inCornish",
-      "id": "87"
-    },
-    {
-      "from": "outBrythonic",
-      "to": "inCuymbric",
-      "id": "88"
-    },
-    {
-      "from": "outGoidelic",
-      "to": "inModern Irish",
-      "id": "89"
-    },
-    {
-      "from": "outGoidelic",
-      "to": "inScottish Gaelic",
-      "id": "90"
-    },
-    {
-      "from": "outGoidelic",
-      "to": "inManx",
-      "id": "91"
-    },
-    {
-      "from": "outEast Germanic",
-      "to": "inGothic",
-      "id": "92"
-    },
-    {
-      "from": "outMiddle Low German",
-      "to": "inLow German",
-      "id": "93"
-    },
-    {
-      "from": "outMiddle High German",
-      "to": "in(High) German",
-      "id": "94"
-    },
-    {
-      "from": "outMiddle High German",
-      "to": "inYiddish",
-      "id": "95"
-    },
-    {
-      "from": "outMiddle English",
-      "to": "inEnglish",
-      "id": "96"
-    },
-    {
-      "from": "outMiddle Dutch",
-      "to": "inHollandic",
-      "id": "97"
-    },
-    {
-      "from": "outMiddle Dutch",
-      "to": "inFlemish",
-      "id": "98"
-    },
-    {
-      "from": "outMiddle Dutch",
-      "to": "inDutch",
-      "id": "99"
-    },
-    {
-      "from": "outMiddle Dutch",
-      "to": "inLimburgish",
-      "id": "100"
-    },
-    {
-      "from": "outMiddle Dutch",
-      "to": "inBrabantian",
-      "id": "101"
-    },
-    {
-      "from": "outMiddle Dutch",
-      "to": "inRhinelandic",
-      "id": "102"
-    },
-    {
-      "from": "outOld Frisian",
-      "to": "inFrisian",
-      "id": "103"
-    },
-    {
-      "from": "outMiddle Danish",
-      "to": "inDanish",
-      "id": "104"
-    },
-    {
-      "from": "outMiddle Swedish",
-      "to": "inSwedish",
-      "id": "105"
-    },
-    {
-      "from": "outMiddle Norwegian",
-      "to": "inNorwegian",
-      "id": "106"
-    },
-    {
-      "from": "outOld Norse",
-      "to": "inFaroese",
-      "id": "107"
-    },
-    {
-      "from": "outOld Icelandic",
-      "to": "inIcelandic",
-      "id": "108"
-    },
-    {
-      "from": "outBaltic",
-      "to": "inOld Prussian",
-      "id": "109"
-    },
-    {
-      "from": "outBaltic",
-      "to": "inLithuanian",
-      "id": "110"
-    },
-    {
-      "from": "outBaltic",
-      "to": "inLatvian",
-      "id": "111"
-    },
-    {
-      "from": "outWest Slavic",
-      "to": "inPolish",
-      "id": "112"
-    },
-    {
-      "from": "outWest Slavic",
-      "to": "inSlovak",
-      "id": "113"
-    },
-    {
-      "from": "outWest Slavic",
-      "to": "inCzech",
-      "id": "114"
-    },
-    {
-      "from": "outWest Slavic",
-      "to": "inWendish",
-      "id": "115"
-    },
-    {
-      "from": "outEast Slavic",
-      "to": "inBulgarian",
-      "id": "116"
-    },
-    {
-      "from": "outEast Slavic",
-      "to": "inOld Church Slavonic",
-      "id": "117"
-    },
-    {
-      "from": "outEast Slavic",
-      "to": "inMacedonian",
-      "id": "118"
-    },
-    {
-      "from": "outEast Slavic",
-      "to": "inSerbo-Croatian",
-      "id": "119"
-    },
-    {
-      "from": "outEast Slavic",
-      "to": "inSlovene",
-      "id": "120"
-    },
-    {
-      "from": "outSouth Slavic",
-      "to": "inRussian",
-      "id": "121"
-    },
-    {
-      "from": "outSouth Slavic",
-      "to": "inUkrainian",
-      "id": "122"
-    },
-    {
-      "from": "outSouth Slavic",
-      "to": "inBelarusian",
-      "id": "123"
-    },
-    {
-      "from": "outSouth Slavic",
-      "to": "inRusyn",
-      "id": "124"
+      "v": "Proto Indo-European",
+      "w": "Balto-Slavic",
+      "name": "1",
+      "points": [
+        {
+          "x": 1.5301136363636363,
+          "y": 478.5
+        },
+        {
+          "x": 28,
+          "y": 39
+        },
+        {
+          "x": 53,
+          "y": 39
+        }
+      ]
+    },
+    {
+      "v": "Proto Indo-European",
+      "w": "Germanic",
+      "name": "2",
+      "points": [
+        {
+          "x": 1.5547520661157024,
+          "y": 478.5
+        },
+        {
+          "x": 28,
+          "y": 237
+        },
+        {
+          "x": 53,
+          "y": 237
+        }
+      ]
+    },
+    {
+      "v": "Proto Indo-European",
+      "w": "Celtic",
+      "name": "3",
+      "points": [
+        {
+          "x": 1.609504132231405,
+          "y": 478.5
+        },
+        {
+          "x": 28,
+          "y": 358
+        },
+        {
+          "x": 53,
+          "y": 358
+        }
+      ]
+    },
+    {
+      "v": "Proto Indo-European",
+      "w": "Italic",
+      "name": "4",
+      "points": [
+        {
+          "x": 1.71900826446281,
+          "y": 478.5
+        },
+        {
+          "x": 28,
+          "y": 418.5
+        },
+        {
+          "x": 53,
+          "y": 418.5
+        }
+      ]
+    },
+    {
+      "v": "Proto Indo-European",
+      "w": "Hellenic",
+      "name": "5",
+      "points": [
+        {
+          "x": 1.8011363636363638,
+          "y": 478.5
+        },
+        {
+          "x": 28,
+          "y": 435
+        },
+        {
+          "x": 53,
+          "y": 435
+        }
+      ]
+    },
+    {
+      "v": "Proto Indo-European",
+      "w": "Anatolian",
+      "name": "6",
+      "points": [
+        {
+          "x": 2.7045454545454546,
+          "y": 478.5
+        },
+        {
+          "x": 28,
+          "y": 468
+        },
+        {
+          "x": 53,
+          "y": 468
+        }
+      ]
+    },
+    {
+      "v": "Proto Indo-European",
+      "w": "Tocharian",
+      "name": "7",
+      "points": [
+        {
+          "x": 2.3030303030303028,
+          "y": 479.5
+        },
+        {
+          "x": 28,
+          "y": 495.5
+        },
+        {
+          "x": 53,
+          "y": 495.5
+        }
+      ]
+    },
+    {
+      "v": "Proto Indo-European",
+      "w": "Indo-Iranian",
+      "name": "8",
+      "points": [
+        {
+          "x": 1.740909090909091,
+          "y": 479.5
+        },
+        {
+          "x": 28,
+          "y": 534
+        },
+        {
+          "x": 53,
+          "y": 534
+        }
+      ]
+    },
+    {
+      "v": "Indo-Iranian",
+      "w": "Dardic",
+      "name": "9",
+      "points": [
+        {
+          "x": 55.10227272727273,
+          "y": 533.5
+        },
+        {
+          "x": 81,
+          "y": 512
+        },
+        {
+          "x": 106,
+          "y": 512
+        }
+      ]
+    },
+    {
+      "v": "Indo-Iranian",
+      "w": "Indic",
+      "name": "10",
+      "points": [
+        {
+          "x": 56,
+          "y": 533.688679245283
+        },
+        {
+          "x": 81,
+          "y": 528.5
+        },
+        {
+          "x": 106,
+          "y": 528.5
+        }
+      ]
+    },
+    {
+      "v": "Indo-Iranian",
+      "w": "Iranian",
+      "name": "11",
+      "points": [
+        {
+          "x": 54.660606060606064,
+          "y": 534.5
+        },
+        {
+          "x": 81,
+          "y": 616.5
+        },
+        {
+          "x": 106,
+          "y": 616.5
+        }
+      ]
+    },
+    {
+      "v": "Iranian",
+      "w": "Old Persian",
+      "name": "12",
+      "points": [
+        {
+          "x": 108.10227272727273,
+          "y": 616
+        },
+        {
+          "x": 134,
+          "y": 594.5
+        },
+        {
+          "x": 159,
+          "y": 594.5
+        }
+      ]
+    },
+    {
+      "v": "Old Persian",
+      "w": "Middle Persian",
+      "name": "13",
+      "points": [
+        {
+          "x": 162,
+          "y": 594.188679245283
+        },
+        {
+          "x": 187,
+          "y": 589
+        },
+        {
+          "x": 212,
+          "y": 589
+        }
+      ]
+    },
+    {
+      "v": "Indic",
+      "w": "Sanskrit",
+      "name": "14",
+      "points": [
+        {
+          "x": 109,
+          "y": 528.5
+        },
+        {
+          "x": 134,
+          "y": 528.5
+        },
+        {
+          "x": 159,
+          "y": 528.5
+        }
+      ]
+    },
+    {
+      "v": "Italic",
+      "w": "Osco-Umbrian",
+      "name": "15",
+      "points": [
+        {
+          "x": 55.10227272727273,
+          "y": 418
+        },
+        {
+          "x": 81,
+          "y": 396.5
+        },
+        {
+          "x": 106,
+          "y": 396.5
+        }
+      ]
+    },
+    {
+      "v": "Italic",
+      "w": "Latino-Faliscan",
+      "name": "16",
+      "points": [
+        {
+          "x": 56,
+          "y": 418.5
+        },
+        {
+          "x": 81,
+          "y": 418.5
+        },
+        {
+          "x": 106,
+          "y": 418.5
+        }
+      ]
+    },
+    {
+      "v": "Latino-Faliscan",
+      "w": "Latin",
+      "name": "17",
+      "points": [
+        {
+          "x": 109,
+          "y": 418.188679245283
+        },
+        {
+          "x": 134,
+          "y": 413
+        },
+        {
+          "x": 159,
+          "y": 413
+        }
+      ]
+    },
+    {
+      "v": "Celtic",
+      "w": "Brythonic",
+      "name": "18",
+      "points": [
+        {
+          "x": 55.10227272727273,
+          "y": 357.5
+        },
+        {
+          "x": 81,
+          "y": 336
+        },
+        {
+          "x": 106,
+          "y": 336
+        }
+      ]
+    },
+    {
+      "v": "Celtic",
+      "w": "Goidelic",
+      "name": "19",
+      "points": [
+        {
+          "x": 55.303030303030305,
+          "y": 358.5
+        },
+        {
+          "x": 81,
+          "y": 374.5
+        },
+        {
+          "x": 106,
+          "y": 374.5
+        }
+      ]
+    },
+    {
+      "v": "Germanic",
+      "w": "North Germanic",
+      "name": "20",
+      "points": [
+        {
+          "x": 54.71900826446281,
+          "y": 236.5
+        },
+        {
+          "x": 81,
+          "y": 176.5
+        },
+        {
+          "x": 106,
+          "y": 176.5
+        }
+      ]
+    },
+    {
+      "v": "Germanic",
+      "w": "West Germanic",
+      "name": "21",
+      "points": [
+        {
+          "x": 56,
+          "y": 237
+        },
+        {
+          "x": 81,
+          "y": 237
+        },
+        {
+          "x": 106,
+          "y": 237
+        }
+      ]
+    },
+    {
+      "v": "Germanic",
+      "w": "East Germanic",
+      "name": "22",
+      "points": [
+        {
+          "x": 54.70075757575758,
+          "y": 237.5
+        },
+        {
+          "x": 81,
+          "y": 303
+        },
+        {
+          "x": 106,
+          "y": 303
+        }
+      ]
+    },
+    {
+      "v": "North Germanic",
+      "w": "Old Norse",
+      "name": "23",
+      "points": [
+        {
+          "x": 108.3030303030303,
+          "y": 176
+        },
+        {
+          "x": 134,
+          "y": 160
+        },
+        {
+          "x": 159,
+          "y": 160
+        }
+      ]
+    },
+    {
+      "v": "North Germanic",
+      "w": "Old Swedish",
+      "name": "24",
+      "points": [
+        {
+          "x": 109,
+          "y": 176.5
+        },
+        {
+          "x": 134,
+          "y": 176.5
+        },
+        {
+          "x": 159,
+          "y": 176.5
+        }
+      ]
+    },
+    {
+      "v": "North Germanic",
+      "w": "Old Danish",
+      "name": "25",
+      "points": [
+        {
+          "x": 108.70454545454545,
+          "y": 177
+        },
+        {
+          "x": 134,
+          "y": 187.5
+        },
+        {
+          "x": 159,
+          "y": 187.5
+        }
+      ]
+    },
+    {
+      "v": "West Germanic",
+      "w": "Old English",
+      "name": "26",
+      "points": [
+        {
+          "x": 107.84415584415585,
+          "y": 236.5
+        },
+        {
+          "x": 134,
+          "y": 198.5
+        },
+        {
+          "x": 159,
+          "y": 198.5
+        }
+      ]
+    },
+    {
+      "v": "West Germanic",
+      "w": "Old Frisian",
+      "name": "27",
+      "points": [
+        {
+          "x": 108.10227272727273,
+          "y": 236.5
+        },
+        {
+          "x": 134,
+          "y": 215
+        },
+        {
+          "x": 159,
+          "y": 215
+        }
+      ]
+    },
+    {
+      "v": "West Germanic",
+      "w": "Old Dutch",
+      "name": "28",
+      "points": [
+        {
+          "x": 108.70454545454545,
+          "y": 237.5
+        },
+        {
+          "x": 134,
+          "y": 248
+        },
+        {
+          "x": 159,
+          "y": 248
+        }
+      ]
+    },
+    {
+      "v": "West Germanic",
+      "w": "Old Low German",
+      "name": "29",
+      "points": [
+        {
+          "x": 107.84415584415585,
+          "y": 237.5
+        },
+        {
+          "x": 134,
+          "y": 275.5
+        },
+        {
+          "x": 159,
+          "y": 275.5
+        }
+      ]
+    },
+    {
+      "v": "West Germanic",
+      "w": "Old High German",
+      "name": "30",
+      "points": [
+        {
+          "x": 107.74090909090908,
+          "y": 237.5
+        },
+        {
+          "x": 134,
+          "y": 292
+        },
+        {
+          "x": 159,
+          "y": 292
+        }
+      ]
+    },
+    {
+      "v": "Old Norse",
+      "w": "Old Icelandic",
+      "name": "31",
+      "points": [
+        {
+          "x": 161.3030303030303,
+          "y": 159.5
+        },
+        {
+          "x": 187,
+          "y": 143.5
+        },
+        {
+          "x": 212,
+          "y": 143.5
+        }
+      ]
+    },
+    {
+      "v": "Old Norse",
+      "w": "Old Norwegian",
+      "name": "32",
+      "points": [
+        {
+          "x": 162,
+          "y": 159.68867924528303
+        },
+        {
+          "x": 187,
+          "y": 154.5
+        },
+        {
+          "x": 212,
+          "y": 154.5
+        }
+      ]
+    },
+    {
+      "v": "Old Norwegian",
+      "w": "Middle Norwegian",
+      "name": "33",
+      "points": [
+        {
+          "x": 215,
+          "y": 154.5
+        },
+        {
+          "x": 240,
+          "y": 154.5
+        },
+        {
+          "x": 265,
+          "y": 154.5
+        }
+      ]
+    },
+    {
+      "v": "Old Swedish",
+      "w": "Middle Swedish",
+      "name": "34",
+      "points": [
+        {
+          "x": 162,
+          "y": 176.5
+        },
+        {
+          "x": 187,
+          "y": 176.5
+        },
+        {
+          "x": 212,
+          "y": 176.5
+        }
+      ]
+    },
+    {
+      "v": "Old Danish",
+      "w": "Middle Danish",
+      "name": "35",
+      "points": [
+        {
+          "x": 162,
+          "y": 187.5
+        },
+        {
+          "x": 187,
+          "y": 187.5
+        },
+        {
+          "x": 212,
+          "y": 187.5
+        }
+      ]
+    },
+    {
+      "v": "Old English",
+      "w": "Middle English",
+      "name": "36",
+      "points": [
+        {
+          "x": 162,
+          "y": 198.5
+        },
+        {
+          "x": 187,
+          "y": 198.5
+        },
+        {
+          "x": 212,
+          "y": 198.5
+        }
+      ]
+    },
+    {
+      "v": "Old Dutch",
+      "w": "Middle Dutch",
+      "name": "37",
+      "points": [
+        {
+          "x": 162,
+          "y": 248
+        },
+        {
+          "x": 187,
+          "y": 248
+        },
+        {
+          "x": 212,
+          "y": 248
+        }
+      ]
+    },
+    {
+      "v": "Old Low German",
+      "w": "Middle Low German",
+      "name": "38",
+      "points": [
+        {
+          "x": 162,
+          "y": 275.5
+        },
+        {
+          "x": 187,
+          "y": 275.5
+        },
+        {
+          "x": 212,
+          "y": 275.5
+        }
+      ]
+    },
+    {
+      "v": "Old High German",
+      "w": "Middle High German",
+      "name": "39",
+      "points": [
+        {
+          "x": 162,
+          "y": 292
+        },
+        {
+          "x": 187,
+          "y": 292
+        },
+        {
+          "x": 212,
+          "y": 292
+        }
+      ]
+    },
+    {
+      "v": "Balto-Slavic",
+      "w": "Baltic",
+      "name": "40",
+      "points": [
+        {
+          "x": 54.90151515151515,
+          "y": 38.5
+        },
+        {
+          "x": 81,
+          "y": 6
+        },
+        {
+          "x": 106,
+          "y": 6
+        }
+      ]
+    },
+    {
+      "v": "Balto-Slavic",
+      "w": "Slavic",
+      "name": "41",
+      "points": [
+        {
+          "x": 54.90151515151515,
+          "y": 39.5
+        },
+        {
+          "x": 81,
+          "y": 72
+        },
+        {
+          "x": 106,
+          "y": 72
+        }
+      ]
+    },
+    {
+      "v": "Slavic",
+      "w": "East Slavic",
+      "name": "42",
+      "points": [
+        {
+          "x": 107.84415584415585,
+          "y": 71.5
+        },
+        {
+          "x": 134,
+          "y": 33.5
+        },
+        {
+          "x": 159,
+          "y": 33.5
+        }
+      ]
+    },
+    {
+      "v": "Slavic",
+      "w": "West Slavic",
+      "name": "43",
+      "points": [
+        {
+          "x": 109,
+          "y": 72.31132075471699
+        },
+        {
+          "x": 134,
+          "y": 77.5
+        },
+        {
+          "x": 159,
+          "y": 77.5
+        }
+      ]
+    },
+    {
+      "v": "Slavic",
+      "w": "South Slavic",
+      "name": "44",
+      "points": [
+        {
+          "x": 107.76767676767676,
+          "y": 72.5
+        },
+        {
+          "x": 134,
+          "y": 121.5
+        },
+        {
+          "x": 159,
+          "y": 121.5
+        }
+      ]
+    },
+    {
+      "v": "Proto Indo-European",
+      "w": "Phrygian",
+      "name": "45",
+      "points": [
+        {
+          "x": 1.7007575757575757,
+          "y": 479.5
+        },
+        {
+          "x": 28,
+          "y": 545
+        },
+        {
+          "x": 53,
+          "y": 545
+        }
+      ]
+    },
+    {
+      "v": "Proto Indo-European",
+      "w": "Armenian",
+      "name": "46",
+      "points": [
+        {
+          "x": 1.672077922077922,
+          "y": 479.5
+        },
+        {
+          "x": 28,
+          "y": 556
+        },
+        {
+          "x": 53,
+          "y": 556
+        }
+      ]
+    },
+    {
+      "v": "Proto Indo-European",
+      "w": "Albanian",
+      "name": "47",
+      "points": [
+        {
+          "x": 1.6505681818181819,
+          "y": 479.5
+        },
+        {
+          "x": 28,
+          "y": 567
+        },
+        {
+          "x": 53,
+          "y": 567
+        }
+      ]
+    },
+    {
+      "v": "Proto Indo-European",
+      "w": "Thracian",
+      "name": "48",
+      "points": [
+        {
+          "x": 1.6338383838383839,
+          "y": 479.5
+        },
+        {
+          "x": 28,
+          "y": 578
+        },
+        {
+          "x": 53,
+          "y": 578
+        }
+      ]
+    },
+    {
+      "v": "Tocharian",
+      "w": "Tocharian A",
+      "name": "49",
+      "points": [
+        {
+          "x": 56,
+          "y": 495.188679245283
+        },
+        {
+          "x": 81,
+          "y": 490
+        },
+        {
+          "x": 106,
+          "y": 490
+        }
+      ]
+    },
+    {
+      "v": "Tocharian",
+      "w": "Tocharian B",
+      "name": "50",
+      "points": [
+        {
+          "x": 56,
+          "y": 495.811320754717
+        },
+        {
+          "x": 81,
+          "y": 501
+        },
+        {
+          "x": 106,
+          "y": 501
+        }
+      ]
+    },
+    {
+      "v": "Anatolian",
+      "w": "Hittite",
+      "name": "51",
+      "points": [
+        {
+          "x": 55.10227272727273,
+          "y": 467.5
+        },
+        {
+          "x": 81,
+          "y": 446
+        },
+        {
+          "x": 106,
+          "y": 446
+        }
+      ]
+    },
+    {
+      "v": "Anatolian",
+      "w": "Palaic",
+      "name": "52",
+      "points": [
+        {
+          "x": 55.70454545454545,
+          "y": 467.5
+        },
+        {
+          "x": 81,
+          "y": 457
+        },
+        {
+          "x": 106,
+          "y": 457
+        }
+      ]
+    },
+    {
+      "v": "Anatolian",
+      "w": "Luwic",
+      "name": "53",
+      "points": [
+        {
+          "x": 56,
+          "y": 468
+        },
+        {
+          "x": 81,
+          "y": 468
+        },
+        {
+          "x": 106,
+          "y": 468
+        }
+      ]
+    },
+    {
+      "v": "Anatolian",
+      "w": "Lydian",
+      "name": "54",
+      "points": [
+        {
+          "x": 55.70454545454545,
+          "y": 468.5
+        },
+        {
+          "x": 81,
+          "y": 479
+        },
+        {
+          "x": 106,
+          "y": 479
+        }
+      ]
+    },
+    {
+      "v": "Iranian",
+      "w": "Balochi",
+      "name": "55",
+      "points": [
+        {
+          "x": 108.70454545454545,
+          "y": 616
+        },
+        {
+          "x": 134,
+          "y": 605.5
+        },
+        {
+          "x": 159,
+          "y": 605.5
+        }
+      ]
+    },
+    {
+      "v": "Iranian",
+      "w": "Kurdish",
+      "name": "56",
+      "points": [
+        {
+          "x": 109,
+          "y": 616.5
+        },
+        {
+          "x": 134,
+          "y": 616.5
+        },
+        {
+          "x": 159,
+          "y": 616.5
+        }
+      ]
+    },
+    {
+      "v": "Iranian",
+      "w": "Pashto",
+      "name": "57",
+      "points": [
+        {
+          "x": 108.70454545454545,
+          "y": 617
+        },
+        {
+          "x": 134,
+          "y": 627.5
+        },
+        {
+          "x": 159,
+          "y": 627.5
+        }
+      ]
+    },
+    {
+      "v": "Iranian",
+      "w": "Sogdian",
+      "name": "58",
+      "points": [
+        {
+          "x": 108.10227272727273,
+          "y": 617
+        },
+        {
+          "x": 134,
+          "y": 638.5
+        },
+        {
+          "x": 159,
+          "y": 638.5
+        }
+      ]
+    },
+    {
+      "v": "Old Persian",
+      "w": "Pahlavi",
+      "name": "59",
+      "points": [
+        {
+          "x": 162,
+          "y": 594.811320754717
+        },
+        {
+          "x": 187,
+          "y": 600
+        },
+        {
+          "x": 212,
+          "y": 600
+        }
+      ]
+    },
+    {
+      "v": "Middle Persian",
+      "w": "Persian",
+      "name": "60",
+      "points": [
+        {
+          "x": 215,
+          "y": 589
+        },
+        {
+          "x": 240,
+          "y": 589
+        },
+        {
+          "x": 265,
+          "y": 589
+        }
+      ]
+    },
+    {
+      "v": "Hellenic",
+      "w": "Greek",
+      "name": "61",
+      "points": [
+        {
+          "x": 56,
+          "y": 435
+        },
+        {
+          "x": 81,
+          "y": 435
+        },
+        {
+          "x": 106,
+          "y": 435
+        }
+      ]
+    },
+    {
+      "v": "Dardic",
+      "w": "Dard",
+      "name": "62",
+      "points": [
+        {
+          "x": 109,
+          "y": 512
+        },
+        {
+          "x": 134,
+          "y": 512
+        },
+        {
+          "x": 159,
+          "y": 512
+        }
+      ]
+    },
+    {
+      "v": "Sanskrit",
+      "w": "Sindhi",
+      "name": "63",
+      "points": [
+        {
+          "x": 160.70075757575756,
+          "y": 528
+        },
+        {
+          "x": 187,
+          "y": 462.5
+        },
+        {
+          "x": 212,
+          "y": 462.5
+        }
+      ]
+    },
+    {
+      "v": "Sanskrit",
+      "w": "Romani",
+      "name": "64",
+      "points": [
+        {
+          "x": 160.7409090909091,
+          "y": 528
+        },
+        {
+          "x": 187,
+          "y": 473.5
+        },
+        {
+          "x": 212,
+          "y": 473.5
+        }
+      ]
+    },
+    {
+      "v": "Sanskrit",
+      "w": "Urdu",
+      "name": "65",
+      "points": [
+        {
+          "x": 160.80113636363637,
+          "y": 528
+        },
+        {
+          "x": 187,
+          "y": 484.5
+        },
+        {
+          "x": 212,
+          "y": 484.5
+        }
+      ]
+    },
+    {
+      "v": "Sanskrit",
+      "w": "Hindi",
+      "name": "66",
+      "points": [
+        {
+          "x": 160.90151515151516,
+          "y": 528
+        },
+        {
+          "x": 187,
+          "y": 495.5
+        },
+        {
+          "x": 212,
+          "y": 495.5
+        }
+      ]
+    },
+    {
+      "v": "Sanskrit",
+      "w": "Bihari",
+      "name": "67",
+      "points": [
+        {
+          "x": 161.10227272727272,
+          "y": 528
+        },
+        {
+          "x": 187,
+          "y": 506.5
+        },
+        {
+          "x": 212,
+          "y": 506.5
+        }
+      ]
+    },
+    {
+      "v": "Sanskrit",
+      "w": "Assamese",
+      "name": "68",
+      "points": [
+        {
+          "x": 162,
+          "y": 528.188679245283
+        },
+        {
+          "x": 187,
+          "y": 523
+        },
+        {
+          "x": 212,
+          "y": 523
+        }
+      ]
+    },
+    {
+      "v": "Sanskrit",
+      "w": "Bengali",
+      "name": "69",
+      "points": [
+        {
+          "x": 162,
+          "y": 528.811320754717
+        },
+        {
+          "x": 187,
+          "y": 534
+        },
+        {
+          "x": 212,
+          "y": 534
+        }
+      ]
+    },
+    {
+      "v": "Sanskrit",
+      "w": "Marathi",
+      "name": "70",
+      "points": [
+        {
+          "x": 161.3030303030303,
+          "y": 529
+        },
+        {
+          "x": 187,
+          "y": 545
+        },
+        {
+          "x": 212,
+          "y": 545
+        }
+      ]
+    },
+    {
+      "v": "Sanskrit",
+      "w": "Gujarati",
+      "name": "71",
+      "points": [
+        {
+          "x": 160.98181818181817,
+          "y": 529
+        },
+        {
+          "x": 187,
+          "y": 556
+        },
+        {
+          "x": 212,
+          "y": 556
+        }
+      ]
+    },
+    {
+      "v": "Sanskrit",
+      "w": "Punjabi",
+      "name": "72",
+      "points": [
+        {
+          "x": 160.84415584415584,
+          "y": 529
+        },
+        {
+          "x": 187,
+          "y": 567
+        },
+        {
+          "x": 212,
+          "y": 567
+        }
+      ]
+    },
+    {
+      "v": "Sanskrit",
+      "w": "Sinhalese",
+      "name": "73",
+      "points": [
+        {
+          "x": 160.76767676767676,
+          "y": 529
+        },
+        {
+          "x": 187,
+          "y": 578
+        },
+        {
+          "x": 212,
+          "y": 578
+        }
+      ]
+    },
+    {
+      "v": "Osco-Umbrian",
+      "w": "Umbrian",
+      "name": "74",
+      "points": [
+        {
+          "x": 109,
+          "y": 396.188679245283
+        },
+        {
+          "x": 134,
+          "y": 391
+        },
+        {
+          "x": 159,
+          "y": 391
+        }
+      ]
+    },
+    {
+      "v": "Osco-Umbrian",
+      "w": "Oscan",
+      "name": "75",
+      "points": [
+        {
+          "x": 109,
+          "y": 396.811320754717
+        },
+        {
+          "x": 134,
+          "y": 402
+        },
+        {
+          "x": 159,
+          "y": 402
+        }
+      ]
+    },
+    {
+      "v": "Latino-Faliscan",
+      "w": "Faliscan",
+      "name": "76",
+      "points": [
+        {
+          "x": 107.80113636363636,
+          "y": 419
+        },
+        {
+          "x": 134,
+          "y": 462.5
+        },
+        {
+          "x": 159,
+          "y": 462.5
+        }
+      ]
+    },
+    {
+      "v": "Latin",
+      "w": "Portugese",
+      "name": "77",
+      "points": [
+        {
+          "x": 160.6853146853147,
+          "y": 412.5
+        },
+        {
+          "x": 187,
+          "y": 341.5
+        },
+        {
+          "x": 212,
+          "y": 341.5
+        }
+      ]
+    },
+    {
+      "v": "Latin",
+      "w": "Spanish",
+      "name": "78",
+      "points": [
+        {
+          "x": 160.71900826446281,
+          "y": 412.5
+        },
+        {
+          "x": 187,
+          "y": 352.5
+        },
+        {
+          "x": 212,
+          "y": 352.5
+        }
+      ]
+    },
+    {
+      "v": "Latin",
+      "w": "French",
+      "name": "79",
+      "points": [
+        {
+          "x": 160.76767676767676,
+          "y": 412.5
+        },
+        {
+          "x": 187,
+          "y": 363.5
+        },
+        {
+          "x": 212,
+          "y": 363.5
+        }
+      ]
+    },
+    {
+      "v": "Latin",
+      "w": "Romanian",
+      "name": "80",
+      "points": [
+        {
+          "x": 160.84415584415584,
+          "y": 412.5
+        },
+        {
+          "x": 187,
+          "y": 374.5
+        },
+        {
+          "x": 212,
+          "y": 374.5
+        }
+      ]
+    },
+    {
+      "v": "Latin",
+      "w": "Italian",
+      "name": "81",
+      "points": [
+        {
+          "x": 162,
+          "y": 413.311320754717
+        },
+        {
+          "x": 187,
+          "y": 418.5
+        },
+        {
+          "x": 212,
+          "y": 418.5
+        }
+      ]
+    },
+    {
+      "v": "Latin",
+      "w": "Catalan",
+      "name": "82",
+      "points": [
+        {
+          "x": 161.3030303030303,
+          "y": 413.5
+        },
+        {
+          "x": 187,
+          "y": 429.5
+        },
+        {
+          "x": 212,
+          "y": 429.5
+        }
+      ]
+    },
+    {
+      "v": "Latin",
+      "w": "Franco-Provençal",
+      "name": "83",
+      "points": [
+        {
+          "x": 160.98181818181817,
+          "y": 413.5
+        },
+        {
+          "x": 187,
+          "y": 440.5
+        },
+        {
+          "x": 212,
+          "y": 440.5
+        }
+      ]
+    },
+    {
+      "v": "Latin",
+      "w": "Rhaeto-Romance",
+      "name": "84",
+      "points": [
+        {
+          "x": 160.84415584415584,
+          "y": 413.5
+        },
+        {
+          "x": 187,
+          "y": 451.5
+        },
+        {
+          "x": 212,
+          "y": 451.5
+        }
+      ]
+    },
+    {
+      "v": "Brythonic",
+      "w": "Welsh",
+      "name": "85",
+      "points": [
+        {
+          "x": 108.10227272727273,
+          "y": 335.5
+        },
+        {
+          "x": 134,
+          "y": 314
+        },
+        {
+          "x": 159,
+          "y": 314
+        }
+      ]
+    },
+    {
+      "v": "Brythonic",
+      "w": "Breton",
+      "name": "86",
+      "points": [
+        {
+          "x": 108.70454545454545,
+          "y": 335.5
+        },
+        {
+          "x": 134,
+          "y": 325
+        },
+        {
+          "x": 159,
+          "y": 325
+        }
+      ]
+    },
+    {
+      "v": "Brythonic",
+      "w": "Cornish",
+      "name": "87",
+      "points": [
+        {
+          "x": 109,
+          "y": 336
+        },
+        {
+          "x": 134,
+          "y": 336
+        },
+        {
+          "x": 159,
+          "y": 336
+        }
+      ]
+    },
+    {
+      "v": "Brythonic",
+      "w": "Cuymbric",
+      "name": "88",
+      "points": [
+        {
+          "x": 108.70454545454545,
+          "y": 336.5
+        },
+        {
+          "x": 134,
+          "y": 347
+        },
+        {
+          "x": 159,
+          "y": 347
+        }
+      ]
+    },
+    {
+      "v": "Goidelic",
+      "w": "Modern Irish",
+      "name": "89",
+      "points": [
+        {
+          "x": 108.3030303030303,
+          "y": 374
+        },
+        {
+          "x": 134,
+          "y": 358
+        },
+        {
+          "x": 159,
+          "y": 358
+        }
+      ]
+    },
+    {
+      "v": "Goidelic",
+      "w": "Scottish Gaelic",
+      "name": "90",
+      "points": [
+        {
+          "x": 109,
+          "y": 374.188679245283
+        },
+        {
+          "x": 134,
+          "y": 369
+        },
+        {
+          "x": 159,
+          "y": 369
+        }
+      ]
+    },
+    {
+      "v": "Goidelic",
+      "w": "Manx",
+      "name": "91",
+      "points": [
+        {
+          "x": 109,
+          "y": 374.811320754717
+        },
+        {
+          "x": 134,
+          "y": 380
+        },
+        {
+          "x": 159,
+          "y": 380
+        }
+      ]
+    },
+    {
+      "v": "East Germanic",
+      "w": "Gothic",
+      "name": "92",
+      "points": [
+        {
+          "x": 109,
+          "y": 303
+        },
+        {
+          "x": 134,
+          "y": 303
+        },
+        {
+          "x": 159,
+          "y": 303
+        }
+      ]
+    },
+    {
+      "v": "Middle Low German",
+      "w": "Low German",
+      "name": "93",
+      "points": [
+        {
+          "x": 215,
+          "y": 275.5
+        },
+        {
+          "x": 240,
+          "y": 275.5
+        },
+        {
+          "x": 265,
+          "y": 275.5
+        }
+      ]
+    },
+    {
+      "v": "Middle High German",
+      "w": "(High) German",
+      "name": "94",
+      "points": [
+        {
+          "x": 215,
+          "y": 291.688679245283
+        },
+        {
+          "x": 240,
+          "y": 286.5
+        },
+        {
+          "x": 265,
+          "y": 286.5
+        }
+      ]
+    },
+    {
+      "v": "Middle High German",
+      "w": "Yiddish",
+      "name": "95",
+      "points": [
+        {
+          "x": 213.59265734265733,
+          "y": 292.5
+        },
+        {
+          "x": 240,
+          "y": 435
+        },
+        {
+          "x": 265,
+          "y": 435
+        }
+      ]
+    },
+    {
+      "v": "Middle English",
+      "w": "English",
+      "name": "96",
+      "points": [
+        {
+          "x": 215,
+          "y": 198.5
+        },
+        {
+          "x": 240,
+          "y": 198.5
+        },
+        {
+          "x": 265,
+          "y": 198.5
+        }
+      ]
+    },
+    {
+      "v": "Middle Dutch",
+      "w": "Hollandic",
+      "name": "97",
+      "points": [
+        {
+          "x": 213.84415584415584,
+          "y": 247.5
+        },
+        {
+          "x": 240,
+          "y": 209.5
+        },
+        {
+          "x": 265,
+          "y": 209.5
+        }
+      ]
+    },
+    {
+      "v": "Middle Dutch",
+      "w": "Flemish",
+      "name": "98",
+      "points": [
+        {
+          "x": 213.98181818181817,
+          "y": 247.5
+        },
+        {
+          "x": 240,
+          "y": 220.5
+        },
+        {
+          "x": 265,
+          "y": 220.5
+        }
+      ]
+    },
+    {
+      "v": "Middle Dutch",
+      "w": "Dutch",
+      "name": "99",
+      "points": [
+        {
+          "x": 214.3030303030303,
+          "y": 247.5
+        },
+        {
+          "x": 240,
+          "y": 231.5
+        },
+        {
+          "x": 265,
+          "y": 231.5
+        }
+      ]
+    },
+    {
+      "v": "Middle Dutch",
+      "w": "Limburgish",
+      "name": "100",
+      "points": [
+        {
+          "x": 215,
+          "y": 247.68867924528303
+        },
+        {
+          "x": 240,
+          "y": 242.5
+        },
+        {
+          "x": 265,
+          "y": 242.5
+        }
+      ]
+    },
+    {
+      "v": "Middle Dutch",
+      "w": "Brabantian",
+      "name": "101",
+      "points": [
+        {
+          "x": 215,
+          "y": 248.31132075471697
+        },
+        {
+          "x": 240,
+          "y": 253.5
+        },
+        {
+          "x": 265,
+          "y": 253.5
+        }
+      ]
+    },
+    {
+      "v": "Middle Dutch",
+      "w": "Rhinelandic",
+      "name": "102",
+      "points": [
+        {
+          "x": 214.3030303030303,
+          "y": 248.5
+        },
+        {
+          "x": 240,
+          "y": 264.5
+        },
+        {
+          "x": 265,
+          "y": 264.5
+        }
+      ]
+    },
+    {
+      "v": "Old Frisian",
+      "w": "Frisian",
+      "name": "103",
+      "points": [
+        {
+          "x": 162,
+          "y": 215
+        },
+        {
+          "x": 187,
+          "y": 215
+        },
+        {
+          "x": 212,
+          "y": 215
+        }
+      ]
+    },
+    {
+      "v": "Middle Danish",
+      "w": "Danish",
+      "name": "104",
+      "points": [
+        {
+          "x": 215,
+          "y": 187.5
+        },
+        {
+          "x": 240,
+          "y": 187.5
+        },
+        {
+          "x": 265,
+          "y": 187.5
+        }
+      ]
+    },
+    {
+      "v": "Middle Swedish",
+      "w": "Swedish",
+      "name": "105",
+      "points": [
+        {
+          "x": 215,
+          "y": 176.5
+        },
+        {
+          "x": 240,
+          "y": 176.5
+        },
+        {
+          "x": 265,
+          "y": 176.5
+        }
+      ]
+    },
+    {
+      "v": "Middle Norwegian",
+      "w": "Norwegian",
+      "name": "106",
+      "points": [
+        {
+          "x": 268,
+          "y": 154.5
+        },
+        {
+          "x": 293,
+          "y": 154.5
+        },
+        {
+          "x": 318,
+          "y": 154.5
+        }
+      ]
+    },
+    {
+      "v": "Old Norse",
+      "w": "Faroese",
+      "name": "107",
+      "points": [
+        {
+          "x": 162,
+          "y": 160.31132075471697
+        },
+        {
+          "x": 187,
+          "y": 165.5
+        },
+        {
+          "x": 212,
+          "y": 165.5
+        }
+      ]
+    },
+    {
+      "v": "Old Icelandic",
+      "w": "Icelandic",
+      "name": "108",
+      "points": [
+        {
+          "x": 215,
+          "y": 143.5
+        },
+        {
+          "x": 240,
+          "y": 143.5
+        },
+        {
+          "x": 265,
+          "y": 143.5
+        }
+      ]
+    },
+    {
+      "v": "Baltic",
+      "w": "Old Prussian",
+      "name": "109",
+      "points": [
+        {
+          "x": 109,
+          "y": 5.688679245283019
+        },
+        {
+          "x": 134,
+          "y": 0.5
+        },
+        {
+          "x": 159,
+          "y": 0.5
+        }
+      ]
+    },
+    {
+      "v": "Baltic",
+      "w": "Lithuanian",
+      "name": "110",
+      "points": [
+        {
+          "x": 109,
+          "y": 6.311320754716981
+        },
+        {
+          "x": 134,
+          "y": 11.5
+        },
+        {
+          "x": 159,
+          "y": 11.5
+        }
+      ]
+    },
+    {
+      "v": "Baltic",
+      "w": "Latvian",
+      "name": "111",
+      "points": [
+        {
+          "x": 108.3030303030303,
+          "y": 6.5
+        },
+        {
+          "x": 134,
+          "y": 22.5
+        },
+        {
+          "x": 159,
+          "y": 22.5
+        }
+      ]
+    },
+    {
+      "v": "West Slavic",
+      "w": "Polish",
+      "name": "112",
+      "points": [
+        {
+          "x": 161.10227272727272,
+          "y": 77
+        },
+        {
+          "x": 187,
+          "y": 55.5
+        },
+        {
+          "x": 212,
+          "y": 55.5
+        }
+      ]
+    },
+    {
+      "v": "West Slavic",
+      "w": "Slovak",
+      "name": "113",
+      "points": [
+        {
+          "x": 161.70454545454547,
+          "y": 77
+        },
+        {
+          "x": 187,
+          "y": 66.5
+        },
+        {
+          "x": 212,
+          "y": 66.5
+        }
+      ]
+    },
+    {
+      "v": "West Slavic",
+      "w": "Czech",
+      "name": "114",
+      "points": [
+        {
+          "x": 162,
+          "y": 77.5
+        },
+        {
+          "x": 187,
+          "y": 77.5
+        },
+        {
+          "x": 212,
+          "y": 77.5
+        }
+      ]
+    },
+    {
+      "v": "West Slavic",
+      "w": "Wendish",
+      "name": "115",
+      "points": [
+        {
+          "x": 161.70454545454547,
+          "y": 78
+        },
+        {
+          "x": 187,
+          "y": 88.5
+        },
+        {
+          "x": 212,
+          "y": 88.5
+        }
+      ]
+    },
+    {
+      "v": "East Slavic",
+      "w": "Bulgarian",
+      "name": "116",
+      "points": [
+        {
+          "x": 160.90151515151516,
+          "y": 33
+        },
+        {
+          "x": 187,
+          "y": 0.5
+        },
+        {
+          "x": 212,
+          "y": 0.5
+        }
+      ]
+    },
+    {
+      "v": "East Slavic",
+      "w": "Old Church Slavonic",
+      "name": "117",
+      "points": [
+        {
+          "x": 161.10227272727272,
+          "y": 33
+        },
+        {
+          "x": 187,
+          "y": 11.5
+        },
+        {
+          "x": 212,
+          "y": 11.5
+        }
+      ]
+    },
+    {
+      "v": "East Slavic",
+      "w": "Macedonian",
+      "name": "118",
+      "points": [
+        {
+          "x": 161.70454545454547,
+          "y": 33
+        },
+        {
+          "x": 187,
+          "y": 22.5
+        },
+        {
+          "x": 212,
+          "y": 22.5
+        }
+      ]
+    },
+    {
+      "v": "East Slavic",
+      "w": "Serbo-Croatian",
+      "name": "119",
+      "points": [
+        {
+          "x": 162,
+          "y": 33.5
+        },
+        {
+          "x": 187,
+          "y": 33.5
+        },
+        {
+          "x": 212,
+          "y": 33.5
+        }
+      ]
+    },
+    {
+      "v": "East Slavic",
+      "w": "Slovene",
+      "name": "120",
+      "points": [
+        {
+          "x": 161.70454545454547,
+          "y": 34
+        },
+        {
+          "x": 187,
+          "y": 44.5
+        },
+        {
+          "x": 212,
+          "y": 44.5
+        }
+      ]
+    },
+    {
+      "v": "South Slavic",
+      "w": "Russian",
+      "name": "121",
+      "points": [
+        {
+          "x": 161.10227272727272,
+          "y": 121
+        },
+        {
+          "x": 187,
+          "y": 99.5
+        },
+        {
+          "x": 212,
+          "y": 99.5
+        }
+      ]
+    },
+    {
+      "v": "South Slavic",
+      "w": "Ukrainian",
+      "name": "122",
+      "points": [
+        {
+          "x": 161.70454545454547,
+          "y": 121
+        },
+        {
+          "x": 187,
+          "y": 110.5
+        },
+        {
+          "x": 212,
+          "y": 110.5
+        }
+      ]
+    },
+    {
+      "v": "South Slavic",
+      "w": "Belarusian",
+      "name": "123",
+      "points": [
+        {
+          "x": 162,
+          "y": 121.5
+        },
+        {
+          "x": 187,
+          "y": 121.5
+        },
+        {
+          "x": 212,
+          "y": 121.5
+        }
+      ]
+    },
+    {
+      "v": "South Slavic",
+      "w": "Rusyn",
+      "name": "124",
+      "points": [
+        {
+          "x": 161.70454545454547,
+          "y": 122
+        },
+        {
+          "x": 187,
+          "y": 132.5
+        },
+        {
+          "x": 212,
+          "y": 132.5
+        }
+      ]
     }
   ]
 }

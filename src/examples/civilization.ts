@@ -73,11 +73,11 @@ export class CivilizationExample {
         const fromnode = flow.hasNode(from)
         if (!fromnode) {
           const node = flow.addNode({ text: from, label: from, labelsize: 0.25, width: 3 });
-          node.addOutputConnector({ text: outlink })
+          //node.addOutputConnector({ text: outlink })
         }
         else {
           if (!fromnode.getConnector(outlink)) {
-            fromnode.addOutputConnector({ text: outlink })
+            //fromnode.addOutputConnector({ text: outlink })
           }
         }
         tech.leads_to.forEach(item => {
@@ -88,17 +88,17 @@ export class CivilizationExample {
           const tonode = flow.hasNode(to)
           if (!tonode) {
             const node = flow.addNode({ text: to, label: to, labelsize: 0.25, width: 3 });
-            node.addInputConnector({ text: inlink })
+            //node.addInputConnector({ text: inlink })
           }
           else {
             if (!tonode.getConnector(inlink)) {
-              tonode.addInputConnector({ text: inlink })
+              //tonode.addInputConnector({ text: inlink })
             }
           }
 
 
           const edge: AbstractEdge = {
-            v: outlink, w: inlink
+            v: from, w: to
           }
           flow.addEdge(edge);
 
@@ -111,7 +111,7 @@ export class CivilizationExample {
       console.warn(flow.graph)
 
       // Create a new directed graph 
-      var g = new graphlib.Graph();
+      var g = flow.graph
 
       // Set an object for the graph label
       const label: GraphLabel = { rankdir: 'LR', nodesep: 10, edgesep: 12, ranksep: 50 }
@@ -133,11 +133,11 @@ export class CivilizationExample {
       //})
 
       layout(g)
-      console.warn(g)
+      console.warn(flow.save())
 
-      g.nodes().forEach(v => {
-        const node = g.node(v)
-        const x = flow.hasNode(v)
+      g.nodes().forEach(name => {
+        const node = g.node(name)
+        const x = flow.hasNode(name)
         if (x) {
           x.position.set(node.x / 10, -node.y / 10, 0)
         }
@@ -147,16 +147,17 @@ export class CivilizationExample {
         edge.updateVisuals()
       })
 
-      app.camera.position.x = label.width! / 20
-      app.camera.position.y = -label.height! / 20
+      const center = flow.center
+      app.camera.position.x = center.x
+      app.camera.position.y = center.y
       orbit.target.set(app.camera.position.x, app.camera.position.y, 0)
       app.camera.position.z = 10
 
-      //  flow.allNodes.forEach(node => {
-      //    node.save()
-      //  })
-      //  const exporter = new Exporter()
-      //  exporter.saveJSON(graph, 'civilization')
+    //  flow.allNodes.forEach(node => {
+    //    node.save()
+    //  })
+    //  const exporter = new Exporter()
+    //  exporter.saveJSON(flow.save(), 'civilization')
     });
 
     this.dispose = () => {

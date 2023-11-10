@@ -65,12 +65,12 @@ export class CustomGeometryExample {
           connectortype: "input",
           userData: {}
         },
-          {
-            text: "4",
-            connectortype: "input",
-            userData: {}
-          },
-         ],
+        {
+          text: "4",
+          connectortype: "input",
+          userData: {}
+        },
+        ],
         outputs: [{
           text: "5",
           connectortype: "output",
@@ -126,11 +126,11 @@ export class CustomGeometryExample {
           connectortype: "output",
           userData: {}
         },
-          {
-            text: "2",
-            connectortype: "output",
-            userData: {}
-          },],
+        {
+          text: "2",
+          connectortype: "output",
+          userData: {}
+        },],
         draggable: true,
         resizable: false,
         scaleable: true,
@@ -156,15 +156,15 @@ export class CustomGeometryExample {
       {
         name: "8",
         v: "2",
-        w: "4",
+        w: "1",
         userData: {}
       },
-      {
-        name: "9",
-        v: "5",
-        w: "6",
-        userData: {}
-      }
+      //{
+      //  name: "9",
+      //  v: "5",
+      //  w: "6",
+      //  userData: {}
+      //}
     ];
 
     const interactive = new FlowInteractive(app, app.camera)
@@ -226,17 +226,18 @@ class MyFlowGraph extends FlowGraph {
   }
 }
 
+const depth = 0.03
 class MyFlowNode extends FlowNode {
   constructor(graph: FlowGraph, node: AbstractNode, font?: Font) {
     super(graph, node, font);
   }
 
   override createGeometry(): BufferGeometry {
-    return new BoxGeometry(this.width, this.height, 0.01)
+    return new BoxGeometry(this.width, this.height, depth)
   }
 
   override createTextGeometry(label: string, options: TextGeometryParameters): BufferGeometry {
-    options.height = 0.01
+    options.height = depth
     return super.createTextGeometry(label, options)
   }
 

@@ -1,12 +1,9 @@
-import { AmbientLight, Box2, Box3, Color, FileLoader, PointLight, Scene, Vector3 } from "three";
+import { AmbientLight, Color, FileLoader, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import {
-  AbstractConnector,
-  AbstractEdge,
-  AbstractNode,
   FlowInteractive,
   FlowGraph,
   FlowGraphOptions,
@@ -118,8 +115,7 @@ export class LoaderExample {
         scene.add(flow);
 
 
-        const box = new Box3().setFromObject(flow)
-        const center = box.getCenter(new Vector3())
+        const center = flow.center
         app.camera.position.x = center.x
         app.camera.position.y = center.y
         orbit.target.set(app.camera.position.x, app.camera.position.y, 0)
