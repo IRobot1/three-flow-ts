@@ -4,7 +4,7 @@ import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
 import { FlowNode } from "./node";
 import { FlowConnector } from "./connector";
-import { graphlib } from "@dagrejs/dagre";
+import { GraphLabel, graphlib, layout } from "@dagrejs/dagre";
 
 
 export type FlowMaterialType = 'line' | 'geometry'
@@ -61,6 +61,27 @@ export class FlowGraph extends Object3D {
       const line = this.createEdge(this, edge)
       this.add(line)
     })
+  }
+
+  layout(label: GraphLabel) {
+    this.graph.setGraph(label);
+
+    layout(this.graph)
+
+    // reposition the nodes
+    this.graph.nodes().forEach(name => {
+      const data = this.graph.node(name)
+      const node = this.hasNode(name)
+      if (node) {
+        node.position.set(data.x, -data.y, 0)
+      }
+    })
+
+    // redraw edges using calculated points
+    this.allEdges.forEach(edge => {
+      edge.updateVisuals()
+    })
+
   }
 
   private _center = new Vector3()

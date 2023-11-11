@@ -65,7 +65,7 @@ export class FlowEdge extends Mesh {
     // use layout when provided
     if (this.edge.points) {
       this.edge.points.forEach(point => {
-        curvepoints.push(new Vector3(point.x, point.y, 0))
+        curvepoints.push(new Vector3(point.x, -point.y, 0))
       })
     }
     else if (this.fromConnector && this.toConnector) {

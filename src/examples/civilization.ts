@@ -12,7 +12,6 @@ import {
 } from "three-flow";
 
 import { civilizationdata } from "./civilization-data";
-import { GraphLabel, layout } from "@dagrejs/dagre";
 import { Exporter } from "./export";
 
 export class CivilizationExample {
@@ -112,29 +111,7 @@ export class CivilizationExample {
 
       });
 
-      console.warn(flow.graph)
-
-      // Create a new directed graph 
-      var g = flow.graph
-
-      // Set an object for the graph label
-      const label: GraphLabel = { rankdir: 'LR', nodesep: 0.1, edgesep: 1, ranksep: 4 }
-      g.setGraph(label);
-
-      layout(g)
-      console.warn(flow.save())
-
-      g.nodes().forEach(name => {
-        const node = g.node(name)
-        const x = flow.hasNode(name)
-        if (x) {
-          x.position.set(node.x , node.y , 0)
-        }
-      })
-
-      flow.allEdges.forEach(edge => {
-        edge.updateVisuals()
-      })
+      flow.layout({ rankdir: 'LR', nodesep: 0.1, edgesep: 1, ranksep: 4 });
 
       const center = flow.getCenter()
       app.camera.position.x = center.x
@@ -142,9 +119,6 @@ export class CivilizationExample {
       orbit.target.set(app.camera.position.x, app.camera.position.y, 0)
       app.camera.position.z = 16
 
-      //  flow.allNodes.forEach(node => {
-      //    node.save()
-      //  })
       //  const exporter = new Exporter()
       //  exporter.saveJSON(flow.save(), 'civilization')
     });
