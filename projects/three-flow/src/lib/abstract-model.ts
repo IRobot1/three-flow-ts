@@ -23,7 +23,11 @@ export interface AbstractNode extends Label {
   y?: number;
   z?: number;
   width?: number;
+  minwidth?: number;
+  maxwidth?: number;
   height?: number;
+  minheight?: number;
+  maxheight?: number;
   color?: number | string;
   label?: string;
   labelsize?: number;

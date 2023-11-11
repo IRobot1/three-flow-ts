@@ -1,4 +1,4 @@
-import { BufferGeometry, Material, Mesh, PlaneGeometry, Vector3 } from "three";
+import { BufferGeometry, Material, MathUtils, Mesh, PlaneGeometry, Vector3 } from "three";
 import { InteractiveEventType } from "./interactive";
 import { FlowNode } from "./node";
 import { FlowHandle } from "./abstract-model";
@@ -62,16 +62,14 @@ export class ResizeNode {
         diff.x *= width_direction
 
         // clamp width between min and max
-        //this.node.width = MathUtils.clamp(startwidth - diff.x * 2, this.node.minwidth, this.node.maxwidth)
-        this.node.width = startwidth - diff.x * 2
+        this.node.width = MathUtils.clamp(startwidth - diff.x * 2, this.node.minwidth, this.node.maxwidth)
       }
 
       if (height_direction) {
         diff.y *= height_direction
 
         // clamp height between min and max
-        //this.height = MathUtils.clamp(startheight - diff.y * 2, this.node.minheight, this.node.maxheight)
-        this.node.height = startheight - diff.y * 2
+        this.node.height = MathUtils.clamp(startheight - diff.y * 2, this.node.minheight, this.node.maxheight)
       }
       //e.stop = true;
     });

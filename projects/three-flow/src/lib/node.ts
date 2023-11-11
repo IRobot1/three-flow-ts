@@ -1,4 +1,4 @@
-import { Mesh, Shape, ShapeGeometry, BufferGeometry } from "three";
+import { Mesh, Shape, ShapeGeometry, BufferGeometry, MathUtils } from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
@@ -18,6 +18,8 @@ export class FlowNode extends Mesh {
       //this.moveConnectors()
     }
   }
+  minwidth: number;
+  maxwidth: number;
 
   private _height: number
   get height() { return this._height }
@@ -29,6 +31,8 @@ export class FlowNode extends Mesh {
       //this.moveConnectors()
     }
   }
+  minheight: number;
+  maxheight: number;
 
   color: number | string;
 
@@ -101,8 +105,14 @@ export class FlowNode extends Mesh {
     //@ts-ignore
     this.type = 'flownode'
     this.name = node.text = node.text ?? graph.nodes.length.toString()
+
     this._width = node.width = node.width ?? 1;
+    this.minwidth = node.minwidth ?? this.width
+    this.maxwidth = node.maxwidth ?? Number.POSITIVE_INFINITY
+
     this._height = node.height = node.height ?? 1;
+    this.minheight = node.minheight ?? this.height;
+    this.maxheight = node.maxheight ?? Number.POSITIVE_INFINITY
     this.color = node.color ?? 'white'
 
     this.label = node.label
