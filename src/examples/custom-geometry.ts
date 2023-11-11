@@ -194,7 +194,7 @@ export class CustomGeometryExample {
 
       flow.load(graph)
 
-      console.warn(flow)
+      console.log(flow)
     });
 
 
@@ -267,7 +267,6 @@ class MyFlowEdge extends FlowEdge {
   }
 
   override createGeometry(curvepoints: Array<Vector3>, thickness: number): BufferGeometry | undefined {
-    console.warn(thickness)
     const curve = new CatmullRomCurve3(curvepoints);
     return new TubeGeometry(curve, 8, thickness)
   }

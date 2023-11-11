@@ -89,7 +89,7 @@ export class BuilderExample {
       //const node5 = node5.addInputConnector({})
       const edge5 = flow.addEdge({ v: node1.name, w: node5.name })
 
-      console.warn(flow.save())
+      console.log(flow.save())
       //flow.removeNode(node1)
       //flow.removeNode(node2)
       //flow.removeNode(node3)
@@ -111,8 +111,8 @@ export class BuilderExample {
       //flow.removeEdge(edge4)
       //flow.removeEdge(edge5)
 
-      console.log(flow.graph)
-      console.log(interactive)
+      //console.warn(flow.graph)
+      //console.warn(interactive)
     });
 
 

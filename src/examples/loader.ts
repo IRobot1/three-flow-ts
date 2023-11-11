@@ -120,8 +120,8 @@ export class LoaderExample {
         const graph = <AbstractGraph>JSON.parse(<string>data)
 
         flow.load(graph)
-        console.warn(flow.save())
-        console.warn(interactive)
+        console.log(flow.save())
+        //console.warn(interactive)
 
         const center = flow.getCenter()
         app.camera.position.x = center.x

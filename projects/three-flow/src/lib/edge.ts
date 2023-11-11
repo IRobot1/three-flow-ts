@@ -15,7 +15,7 @@ export class FlowEdge extends Mesh {
 
   private fromConnector: FlowNode | undefined;
   private toConnector: FlowNode | undefined;
-  private line = new Line()
+  private line?: Line
 
   isFlow = true
   constructor(graph: FlowGraph, public edge: AbstractEdge) {
@@ -50,10 +50,9 @@ export class FlowEdge extends Mesh {
 
     this.updateVisuals()
 
-    if (this.line.geometry) {
+    if (this.line) {
       this.line.material = this.material
       this.line.position.z = -0.001
-      this.add(this.line)
     }
 
   }
@@ -87,8 +86,13 @@ export class FlowEdge extends Mesh {
       const geometry = this.createGeometry(curvepoints, this.thickness)
       if (geometry)
         this.geometry = geometry
-      else
+      else {
+        if (!this.line) {
+          this.line = new Line()
+          this.add(this.line)
+        }
         this.line.geometry = this.createLine(curvepoints)
+      }
     }
   }
 
