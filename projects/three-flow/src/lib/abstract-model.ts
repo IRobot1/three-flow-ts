@@ -1,4 +1,5 @@
 import { Edge, Label } from "@dagrejs/dagre";
+import { Mesh } from "three";
 
 export interface AbstractConnector extends Label {
   index?: number; // order when there are multiple
@@ -43,5 +44,14 @@ export interface AbstractGraph {
   version: number;
   nodes: AbstractNode[],
   edges: AbstractEdge[]
+}
+
+
+export interface FlowHandle {
+  id: string;
+  widthchange: (mesh: Mesh) => void
+  heightchange: (mesh: Mesh) => void
+  width_direction: number // -1, 0 or 1
+  height_direction: number // -1, 0, or 1
 }
 

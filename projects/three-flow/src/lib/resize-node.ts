@@ -1,7 +1,7 @@
-import { BufferGeometry, Material, Mesh, MeshBasicMaterial, PlaneGeometry, Vector3 } from "three";
+import { BufferGeometry, Material, Mesh, PlaneGeometry, Vector3 } from "three";
 import { InteractiveEventType } from "./interactive";
 import { FlowNode } from "./node";
-
+import { FlowHandle } from "./abstract-model";
 
 export class ResizeNode {
   public enabled = true
@@ -9,63 +9,29 @@ export class ResizeNode {
   selectable: Array<Mesh> = []
 
   constructor(private node: FlowNode, material: Material) {
+    const points = this.createResizeHandles()
+    points.forEach(point => {
+      const mesh = this.createMesh()
+      mesh.name = `resizing${point.id}`
+      mesh.material = material
 
-    const leftresizing = this.buildMesh('resizing', 'left')
-    leftresizing.material = material
+      mesh.visible = false
 
-    const rightresizing = this.buildMesh('resizing', 'right')
-    rightresizing.material = material
+      this.resizeready(mesh, point.width_direction, point.height_direction);
 
-    const bottomresizing = this.buildMesh('resizing', 'bottom')
-    bottomresizing.material = material
+      this.node.addEventListener('width_change', () => {
+        point.widthchange(mesh)
+      })
+      point.widthchange(mesh)
 
-    this.addResizing(leftresizing, rightresizing, bottomresizing)
+      this.node.addEventListener('height_change', () => {
+        point.heightchange(mesh)
+      })
+      point.heightchange(mesh)
 
-    this.selectable.push(leftresizing, rightresizing, bottomresizing)
-
-  }
-
-  private buildMesh(type: string, position: string): Mesh {
-    const geometry = this.createGeometry(0.1)
-    const mesh = new Mesh(geometry)
-
-    mesh.name = `${type}${position}`
-    mesh.position.z = 0.001
-
-    return mesh
-  }
-
-  addResizing(left: Mesh, right: Mesh, bottom: Mesh) {
-    this.node.add(left, right, bottom);
-
-    left.position.x = -this.node.width / 2
-    left.position.y = this.node.height / 2 - this.node.labelsize * 1.2
-    left.visible = false
-
-    this.resizeready(left, 1, 0);
-
-    this.node.addEventListener('width_change', () => {
-      left.position.x = -this.node.width / 2
-      right.position.x = this.node.width / 2
+      this.selectable.push(mesh)
+      node.add(mesh)
     })
-
-    right.position.x = this.node.width / 2
-    right.position.y = this.node.height / 2 - this.node.labelsize * 1.2
-    right.visible = false
-
-    this.resizeready(right, -1, 0);
-
-    bottom.position.y = -this.node.height / 2
-    bottom.visible = false
-
-    this.resizeready(bottom, 0);
-
-    this.node.addEventListener('height_change', () => {
-      left.position.y = this.node.height / 2 - this.node.labelsize * 1.2
-      right.position.y = this.node.height / 2 - this.node.labelsize * 1.2
-      bottom.position.y = -this.node.height / 2
-    })
-
   }
 
   private dragging = false
@@ -116,8 +82,54 @@ export class ResizeNode {
   }
 
   // overridable
+  createMesh(): Mesh {
+    const geometry = this.createGeometry(0.1)
+    const mesh = new Mesh(geometry)
+
+    mesh.position.z = 0.001
+    return mesh
+  }
+
+
   createGeometry(size: number): BufferGeometry {
     return new PlaneGeometry(size, size)
+  }
+
+  createResizeHandles(): Array<FlowHandle> {
+    const left = <FlowHandle>{
+      id: 'left',
+      widthchange: (mesh: Mesh) => {
+        mesh.position.x = -this.node.width / 2
+      },
+      heightchange: (mesh: Mesh) => {
+        mesh.position.y = this.node.height / 2 - this.node.labelsize * 1.2
+      },
+      width_direction: 1,
+      height_direction: 0
+    }
+    const right = <FlowHandle>{
+      id: 'right',
+      widthchange: (mesh: Mesh) => {
+        mesh.position.x = this.node.width / 2
+      },
+      heightchange: (mesh: Mesh) => {
+        mesh.position.y = this.node.height / 2 - this.node.labelsize * 1.2
+      },
+      width_direction: -1,
+      height_direction: 0
+    }
+    const bottom = <FlowHandle>{
+      id: 'bottom',
+      widthchange: (mesh: Mesh) => {
+      },
+      heightchange: (mesh: Mesh) => {
+        mesh.position.y = -this.node.height / 2
+      },
+      width_direction: 0,
+      height_direction: 1
+    }
+
+    return [left, right, bottom]
   }
 
 }
