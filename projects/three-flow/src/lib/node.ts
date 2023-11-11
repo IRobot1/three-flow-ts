@@ -85,6 +85,8 @@ export class FlowNode extends Mesh {
       this.moveConnectors()
     }
   }
+  minscale: number;
+  maxscale: number;
 
   private labelMesh: Mesh;
   inputConnectors: FlowConnector[] = [];
@@ -127,7 +129,10 @@ export class FlowNode extends Mesh {
     this._draggable = node.draggable ?? true
     this._scalable = node.scaleable ?? true
     this.scalecolor = node.scalecolor ?? 'black'
+
     this._scalar = node.scale ?? 1
+    this.minscale = node.minscale ?? this.scalar;
+    this.maxscale = node.maxscale ?? Number.POSITIVE_INFINITY;
 
     if (node.userData) this.userData = node.userData;
 

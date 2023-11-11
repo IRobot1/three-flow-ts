@@ -40,6 +40,8 @@ export interface AbstractNode extends Label {
   scaleable?: boolean;
   scalecolor?: number | string;
   scale?: number;
+  minscale?: number;
+  maxscale?: number;
   inputs?: AbstractConnector[]
   outputs?: AbstractConnector[]
 }

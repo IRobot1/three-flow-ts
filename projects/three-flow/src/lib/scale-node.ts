@@ -1,4 +1,4 @@
-import { BufferGeometry, Material, Mesh, PlaneGeometry, Vector3 } from "three"
+import { BufferGeometry, Material, MathUtils, Mesh, PlaneGeometry, Vector3 } from "three"
 import { FlowNode } from "./node"
 import { InteractiveEventType } from "./interactive"
 import { FlowHandle } from "./abstract-model"
@@ -59,8 +59,7 @@ export class ScaleNode {
       diff.multiplyScalar(direction)
 
       // only scale my horizontal movement in order to keep aspect ratio the same
-      //const scale = MathUtils.clamp(startscale - diff.x * 2, this.minscale, this.maxscale)
-      const scale = startscale - diff.x * 2
+      const scale = MathUtils.clamp(startscale - diff.x * 2, this.node.minscale, this.node.maxscale)
       this.node.scalar = scale
     });
 
