@@ -7,7 +7,8 @@ import {
   AbstractEdge,
   FlowInteractive,
   FlowGraph,
-  FlowGraphOptions
+  FlowGraphOptions,
+  GraphInteraction
 } from "three-flow";
 
 import { civilizationdata } from "./civilization-data";
@@ -66,6 +67,9 @@ export class CivilizationExample {
       const flow = new FlowGraph(options)
       scene.add(flow);
 
+      // make the flow interactive
+      new GraphInteraction(flow, interactive)
+
       civilizationdata.forEach(tech => {
         const from = tech.tech_name;
 
@@ -114,11 +118,8 @@ export class CivilizationExample {
       var g = flow.graph
 
       // Set an object for the graph label
-      const label: GraphLabel = { rankdir: 'LR', nodesep: 10, edgesep: 12, ranksep: 50 }
+      const label: GraphLabel = { rankdir: 'LR', nodesep: 0.1, edgesep: 1, ranksep: 4 }
       g.setGraph(label);
-
-      // Default to assigning a new object as a label for each new edge.
-      g.setDefaultEdgeLabel(function () { return {}; });
 
       layout(g)
       console.warn(flow.save())
@@ -127,7 +128,7 @@ export class CivilizationExample {
         const node = g.node(name)
         const x = flow.hasNode(name)
         if (x) {
-          x.position.set(node.x / 10, -node.y / 10, 0)
+          x.position.set(node.x , node.y , 0)
         }
       })
 

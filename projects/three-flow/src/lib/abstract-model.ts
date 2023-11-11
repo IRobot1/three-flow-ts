@@ -7,10 +7,11 @@ export interface AbstractConnector extends Label {
 }
 
 export interface AbstractEdge extends Edge {
+  points?: Array<{ x: number, y: number }>
   userData?: { [key: string]: any };
 }
 
-export interface AbstractNode extends Label  {
+export interface AbstractNode extends Label {
   x?: number;
   y?: number;
   z?: number;

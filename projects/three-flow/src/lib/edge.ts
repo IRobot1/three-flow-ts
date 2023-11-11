@@ -1,6 +1,5 @@
-import { BufferGeometry, CatmullRomCurve3, CubicBezierCurve3, Line, Mesh, Vector3 } from "three";
+import { BufferGeometry, CatmullRomCurve3, Line, Mesh, Vector3 } from "three";
 import { AbstractEdge } from "./abstract-model";
-import { FlowConnector } from "./connector";
 import { FlowGraph } from "./graph";
 import { FlowNode } from "./node";
 
@@ -33,16 +32,19 @@ export class FlowEdge extends Mesh {
       return
     }
 
+    const dragged = () => {
+      // invalidate layout points
+      if (this.edge.points) this.edge.points = undefined
+
+      this.updateVisuals()
+    }
+
     this.from = edge.v
     this.fromConnector = graph.hasNode(this.from)
-    this.fromConnector?.addEventListener('dragged', () => {
-      this.updateVisuals()
-    })
+    this.fromConnector?.addEventListener('dragged', dragged)
     this.to = edge.w
     this.toConnector = graph.hasNode(this.to)
-    this.toConnector?.addEventListener('dragged', () => {
-      this.updateVisuals()
-    })
+    this.toConnector?.addEventListener('dragged', dragged)
 
 
     this.material = graph.getMaterial('line', 'edge', this.color)
@@ -58,59 +60,45 @@ export class FlowEdge extends Mesh {
   }
 
   updateVisuals() {
-    if (this.fromConnector && this.toConnector) {
+    const curvepoints: Array<Vector3> = []
+
+    // use layout when provided
+    if (this.edge.points) {
+      this.edge.points.forEach(point => {
+        curvepoints.push(new Vector3(point.x, point.y, 0))
+      })
+    }
+    else if (this.fromConnector && this.toConnector) {
       const start = new Vector3()
       this.fromConnector.getWorldPosition(start)
 
       const end = new Vector3()
       this.toConnector.getWorldPosition(end)
 
-      const geometry = this.createGeometry(start, end)
+      curvepoints.push(start, end)
+    }
+
+    if (curvepoints.length > 0) {
+      const geometry = this.createGeometry(curvepoints)
       if (geometry)
         this.geometry = geometry
       else
-        this.line.geometry = this.createLine(start, end)
+        this.line.geometry = this.createLine(curvepoints)
     }
   }
 
   // overridable
-  createLine(start: Vector3, end: Vector3): BufferGeometry {
-    let curvepoints = [start, end]
+  createLine(curvepoints: Array<Vector3>): BufferGeometry {
 
-    //// Calculate direction and distance between start and end
-    //const direction = new Vector3().subVectors(end, start).normalize();
-    //const distance = start.distanceTo(end);
+    const curve = new CatmullRomCurve3(curvepoints);
 
-    //// Define the magnitude of the curve
-    //const curveMagnitude =  distance * 0.4;  // connector width/radius * some factor
+    // only smooth if there are more then start and end
+    if (curvepoints.length > 2) curvepoints = curve.getPoints(25);
 
-    //let xfactor = 1
-    //if (start.y > end.y) xfactor = -1
-
-    //let yfactor = 1
-    //if (start.x > end.x) yfactor = -1
-
-    //// Calculate control points for the curve
-    //const controlPoint1 = new Vector3(
-    //  start.x + direction.y * curveMagnitude * xfactor,
-    //  start.y  + direction.x * curveMagnitude* yfactor,
-    //  start.z
-    //);
-
-    //const controlPoint2 = new Vector3(
-    //  end.x - direction.y * curveMagnitude * xfactor,
-    //  end.y - direction.x * curveMagnitude * yfactor,
-    //  end.z
-    //);
-
-    //// Create the spline curve with control points
-    //const curve = new CubicBezierCurve3(start, controlPoint1, controlPoint2, end);
-
-    //curvepoints = curve.getPoints(25);
     return new BufferGeometry().setFromPoints(curvepoints);
   }
 
-  createGeometry(start: Vector3, end: Vector3): BufferGeometry | undefined {
+  createGeometry(curvepoints: Array<Vector3>): BufferGeometry | undefined {
     return undefined
   }
 

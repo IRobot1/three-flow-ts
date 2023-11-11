@@ -264,8 +264,8 @@ class MyFlowEdge extends FlowEdge {
     super(graph, edge)
   }
 
-  override createGeometry(start: Vector3, end: Vector3): BufferGeometry | undefined {
-    const curve = new CatmullRomCurve3([start, end]);
+  override createGeometry(curvepoints: Array<Vector3>): BufferGeometry | undefined {
+    const curve = new CatmullRomCurve3(curvepoints);
     return new TubeGeometry(curve, 8, 0.01)
   }
 }

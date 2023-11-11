@@ -104,11 +104,8 @@ export class LanguagesExample {
       var g = flow.graph
 
       // Set an object for the graph label
-      const label: GraphLabel = { rankdir: 'LR', nodesep: 10, edgesep: 6, ranksep: 50 }
+      const label: GraphLabel = { rankdir: 'LR', nodesep: 0.1, edgesep: 1, ranksep: 4 }
       g.setGraph(label);
-
-      // Default to assigning a new object as a label for each new edge.
-      g.setDefaultEdgeLabel(function () { return {}; });
 
       layout(g)
       console.warn(flow.save())
@@ -117,7 +114,7 @@ export class LanguagesExample {
         const node = g.node(name)
         const x = flow.hasNode(name)
         if (x) {
-          x.position.set(node.x / 10, node.y / 10, 0)
+          x.position.set(node.x , node.y , 0)
         }
       })
 
@@ -130,7 +127,6 @@ export class LanguagesExample {
       app.camera.position.y = center.y
       orbit.target.set(app.camera.position.x, app.camera.position.y, 0)
       app.camera.position.z = 16
-
 
       //  flow.allNodes.forEach(node => {
       //    node.save()
