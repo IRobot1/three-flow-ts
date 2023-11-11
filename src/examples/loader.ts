@@ -123,7 +123,7 @@ export class LoaderExample {
         console.warn(flow.save())
         console.warn(interactive)
 
-        const center = flow.center
+        const center = flow.getCenter()
         app.camera.position.x = center.x
         app.camera.position.y = center.y
         orbit.target.set(app.camera.position.x, app.camera.position.y, 0)

@@ -64,7 +64,7 @@ export class FlowGraph extends Object3D {
   }
 
   private _center = new Vector3()
-  get center(): Vector3 {
+  getCenter(): Vector3 {
     const box = new Box3().setFromObject(this)
     return box.getCenter(this._center)
   }

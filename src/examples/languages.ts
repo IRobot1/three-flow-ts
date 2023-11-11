@@ -125,11 +125,11 @@ export class LanguagesExample {
         edge.updateVisuals()
       })
 
-      const center = flow.center
+      const center = flow.getCenter()
       app.camera.position.x = center.x
       app.camera.position.y = center.y
       orbit.target.set(app.camera.position.x, app.camera.position.y, 0)
-      app.camera.position.z = 10
+      app.camera.position.z = 16
 
 
       //  flow.allNodes.forEach(node => {
