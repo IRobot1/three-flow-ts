@@ -1,4 +1,4 @@
-import { Mesh, Shape, ShapeGeometry, BufferGeometry, MathUtils } from "three";
+import { Mesh, BufferGeometry, PlaneGeometry } from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
@@ -75,6 +75,8 @@ export class FlowNode extends Mesh {
     }
   }
 
+  selectable: boolean;
+
   private _scalar: number
   get scalar() { return this._scalar }
   set scalar(newvalue: number) {
@@ -128,6 +130,7 @@ export class FlowNode extends Mesh {
     this.resizecolor = node.resizecolor ?? 'black'
     this._draggable = node.draggable ?? true
     this._scalable = node.scaleable ?? true
+    this.selectable = node.selectable ?? true
     this.scalecolor = node.scalecolor ?? 'black'
 
     this._scalar = node.scale ?? 1
@@ -313,28 +316,11 @@ export class FlowNode extends Mesh {
     setColor(this.material, this.color);
   }
 
-  protected roundedRect(width: number, height: number, radius: number): Shape {
-    const ctx = new Shape();
-    const halfwidth = width / 2
-    const halfheight = height / 2
-    ctx.moveTo(-halfwidth + radius, -halfheight);
-    ctx.lineTo(halfwidth - radius, -halfheight);
-    ctx.quadraticCurveTo(halfwidth, -halfheight, halfwidth, -halfheight + radius);
-    ctx.lineTo(halfwidth, halfheight - radius);
-    ctx.quadraticCurveTo(halfwidth, halfheight, halfwidth - radius, halfheight);
-    ctx.lineTo(-halfwidth + radius, halfheight);
-    ctx.quadraticCurveTo(-halfwidth, halfheight, -halfwidth, halfheight - radius);
-    ctx.lineTo(-halfwidth, -halfheight + radius);
-    ctx.quadraticCurveTo(-halfwidth, -halfheight, -halfwidth + radius, -halfheight);
-    ctx.closePath();
-    return ctx;
-  }
+
 
   // overridable
   createGeometry(): BufferGeometry {
-    const radius = Math.min(this.width, this.height) * 0.1
-    const shape = this.roundedRect(this.width, this.height, radius)
-    return new ShapeGeometry(shape)
+    return new PlaneGeometry(this.width, this.height)
   }
 
   createTextGeometry(label: string, options: any): BufferGeometry {

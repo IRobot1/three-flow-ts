@@ -16,6 +16,8 @@ export class GraphInteraction {
       if (index != -1) {
         this.nodes[index].dispose()
         this.nodes.splice(index, 1)
+
+        if (node.selectable) interactive.selectable.remove(node)
       }
     })
 
@@ -24,6 +26,8 @@ export class GraphInteraction {
       const node = e.node as FlowNode
       this.nodes.push(new NodeInteractive(node, this))
 
+      // enable mouse enter/leave/missed events
+      if (node.selectable) interactive.selectable.add(node)
     })
 
     flow.addEventListener('dispose', () => this.dispose())
@@ -42,6 +46,7 @@ class NodeInteractive {
   dispose = () => { }
 
   constructor(public node: FlowNode, graph: GraphInteraction) {
+
 
     this.nodeResizer = this.createResizer(node, graph.flow.getMaterial('geometry', 'resizing', node.resizecolor))
     const resizableChanged = () => {

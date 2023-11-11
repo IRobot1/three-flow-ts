@@ -22,6 +22,15 @@ export class FlowGraph extends Object3D {
   private materials: Map<string, Material>;
   readonly graph = new graphlib.Graph()
 
+  private _active: FlowNode | undefined;
+  get active() { return this._active }
+  set active(newvalue: FlowNode | undefined) {
+    if (newvalue != this._active) {
+      this._active = newvalue
+      this.dispatchEvent<any>({ type: 'active_change' })
+    }
+  }
+
   constructor(private options?: FlowGraphOptions) {
     super()
     //if (!this.graph.version) this.graph.version = 1

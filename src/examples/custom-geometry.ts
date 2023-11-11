@@ -8,7 +8,7 @@ import {
   FlowNode, AbstractConnector,
   AbstractEdge,
   AbstractNode,
-  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions, AbstractGraph, GraphInteraction
+  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions, AbstractGraph, GraphInteraction, NodeBorder
 } from "three-flow";
 import { ResizeNode, FlowGraph, FlowConnector } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
@@ -55,43 +55,18 @@ export class CustomGeometryExample {
     const nodes: AbstractNode[] = [
       {
         text: "1",
-        x: 0, y: 0, z: 0,
-        label: "Title1",
-        labelsize: 0.1,
-        labelcolor: 'white',
+        y: 2,
+        label: "Movable / Enabled",
         labelfont: 'helvetika',
-        inputs: [{
-          text: "3",
-          connectortype: "input",
-          userData: {}
-        },
-        {
-          text: "4",
-          connectortype: "input",
-          userData: {}
-        },
-        ],
-        outputs: [{
-          text: "5",
-          connectortype: "output",
-          userData: {}
-        }],
-        draggable: true,
-        resizable: true,
-        scaleable: true,
-        scale: 1,
-        width: 1,
+        selectable: true,
+        width: 1.5,
         height: 2,
         color: 'green',
-        resizecolor: 'red',
-        scalecolor: 'yellow',
-        userData: {}
-
       },
       {
         text: "2",
         x: 2, y: 0, z: 0,
-        label: "Title2",
+        label: "Pinned, Disabled",
         labelsize: 0.1,
         labelcolor: 'white',
         labelfont: 'helvetika',
@@ -101,11 +76,12 @@ export class CustomGeometryExample {
           userData: {}
         }],
         outputs: [],
-        draggable: true,
+        draggable: false,
         resizable: false,
         scaleable: true,
+        selectable: false,
         scale: 1,
-        width: 1,
+        width: 1.5,
         height: 1,
         color: 'red',
         resizecolor: 'red',
@@ -116,7 +92,7 @@ export class CustomGeometryExample {
       {
         text: "3",
         x: -2, y: 0, z: 0,
-        label: "Title3",
+        label: "Pinned / Enabled",
         labelsize: 0.1,
         labelcolor: 'white',
         labelfont: 'helvetika',
@@ -131,40 +107,49 @@ export class CustomGeometryExample {
           connectortype: "output",
           userData: {}
         },],
-        draggable: true,
+        draggable: false,
         resizable: false,
+        selectable: true,
         scaleable: true,
         scale: 1,
-        width: 1,
+        width: 1.5,
         height: 1,
         color: 'gold',
         resizecolor: 'red',
         scalecolor: 'yellow',
         userData: {}
+      },
 
-      }
+            {
+        text: "4",
+        y: -2,
+        label: "Movable / Disabled",
+        labelfont: 'helvetika',
+        selectable: false,
+        width: 1.5,
+        height: 2,
+        color: 'green',
+      },
 
     ];
 
     const edges: AbstractEdge[] = [
       {
-        name: "7",
         v: "1",
         w: "3",
-        userData: {}
       },
       {
-        name: "8",
-        v: "2",
-        w: "1",
-        userData: {}
+        v: "1",
+        w: "2",
       },
-      //{
-      //  name: "9",
-      //  v: "5",
-      //  w: "6",
-      //  userData: {}
-      //}
+      {
+        v: "4",
+        w: "3",
+      },
+      {
+        v: "4",
+        w: "2",
+      },
     ];
 
     const interactive = new FlowInteractive(app, app.camera)
@@ -234,8 +219,13 @@ class MyFlowGraph extends FlowGraph {
 
 const depth = 0.03
 class MyFlowNode extends FlowNode {
+  border: NodeBorder;
+
   constructor(graph: FlowGraph, node: AbstractNode, font?: Font) {
     super(graph, node, font);
+
+    this.border = new NodeBorder(this, graph)
+    this.add(this.border)
   }
 
   override createGeometry(): BufferGeometry {
