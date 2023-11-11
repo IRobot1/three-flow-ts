@@ -63,7 +63,7 @@ export class LanguagesExample {
           ['default', font],
         ])
       }
-      const flow = new FlowGraph(interactive, options)
+      const flow = new FlowGraph(options)
       scene.add(flow);
 
       languagedata.forEach(item => {
@@ -75,7 +75,7 @@ export class LanguagesExample {
 
         const fromnode = flow.hasNode(from)
         if (!fromnode) {
-          const node = flow.addNode({ text: from, label: from, labelsize: 0.2, width: 3 });
+          const node = flow.setNode({ text: from, label: from, labelsize: 0.2, width: 3 });
           //node.addOutputConnector({ text: outlink })
         }
         else {
@@ -86,7 +86,7 @@ export class LanguagesExample {
         }
 
         if (!flow.hasNode(to)) {
-          const node = flow.addNode({ text: to, label: to, labelsize: 0.2, width: 3 });
+          const node = flow.setNode({ text: to, label: to, labelsize: 0.2, width: 3 });
           // node.addInputConnector({ text: inlink })
         }
 
@@ -110,18 +110,6 @@ export class LanguagesExample {
       // Default to assigning a new object as a label for each new edge.
       g.setDefaultEdgeLabel(function () { return {}; });
 
-      // Add nodes to the graph. The first argument is the node id. The second is
-      // metadata about the node. In this case we're going to add labels to each of
-      // our nodes.
-      //graph.nodes().forEach(name => {
-      //  const node = graph.node(name)
-      //  g.setNode(node.text!, { label: node.label, width: node.width!, height: node.height! });
-      //})
-
-      //graph.edges().forEach(edge => {
-      //  g.setEdge(edge.v!.replace('out', ''), edge.w!.replace('in', ''));
-      //})
-
       layout(g)
       console.warn(flow.save())
 
@@ -144,11 +132,11 @@ export class LanguagesExample {
       app.camera.position.z = 10
 
 
-    //  flow.allNodes.forEach(node => {
-    //    node.save()
-    //  })
-    //  const exporter = new Exporter()
-    //  exporter.saveJSON(flow.save(), 'languages')
+      //  flow.allNodes.forEach(node => {
+      //    node.save()
+      //  })
+      //  const exporter = new Exporter()
+      //  exporter.saveJSON(flow.save(), 'languages')
     });
 
 

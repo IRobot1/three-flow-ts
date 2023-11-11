@@ -35,12 +35,12 @@ export class FlowEdge extends Mesh {
 
     this.from = edge.v
     this.fromConnector = graph.hasNode(this.from)
-    this.fromConnector?.addEventListener('moved', () => {
+    this.fromConnector?.addEventListener('dragged', () => {
       this.updateVisuals()
     })
     this.to = edge.w
     this.toConnector = graph.hasNode(this.to)
-    this.toConnector?.addEventListener('moved', () => {
+    this.toConnector?.addEventListener('dragged', () => {
       this.updateVisuals()
     })
 

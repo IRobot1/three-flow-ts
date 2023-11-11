@@ -7,7 +7,8 @@ import {
   FlowInteractive,
   FlowGraph,
   FlowGraphOptions,
-  AbstractGraph
+  AbstractGraph,
+  GraphInteraction
 } from "three-flow";
 
 export class LoaderExample {
@@ -105,15 +106,22 @@ export class LoaderExample {
         scene.remove(flow)
       }
 
+      flow = new FlowGraph(options)
+      scene.add(flow);
+
+      // make the flow interactive
+      new GraphInteraction(flow, interactive)
+
       // Create a file loader to load the JSON file
       const fileLoader = new FileLoader();
       fileLoader.load(`assets/${this.value}`, (data) => {
-        const graph = <AbstractGraph>JSON.parse(<string>data)
-        console.warn(graph)
-        flow = new FlowGraph(interactive, options)
-        flow.load(graph)
-        scene.add(flow);
+        flow.dispose()
 
+        const graph = <AbstractGraph>JSON.parse(<string>data)
+
+        flow.load(graph)
+        console.warn(flow.save())
+        console.warn(interactive)
 
         const center = flow.center
         app.camera.position.x = center.x

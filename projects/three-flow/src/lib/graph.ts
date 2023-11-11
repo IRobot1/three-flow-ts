@@ -1,6 +1,5 @@
 import { Box3, LineBasicMaterial, Material, MeshBasicMaterial, Object3D, Vector3 } from "three";
 import { AbstractConnector, AbstractEdge, AbstractGraph, AbstractNode } from "./abstract-model";
-import { FlowInteractive } from "./interactive";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
 import { FlowNode } from "./node";
@@ -19,14 +18,14 @@ export class FlowGraph extends Object3D {
   private materials: Map<string, Material>;
   readonly graph = new graphlib.Graph()
 
-  constructor(public interactive: FlowInteractive, private options?: FlowGraphOptions) {
+  constructor(private options?: FlowGraphOptions) {
     super()
     //if (!this.graph.version) this.graph.version = 1
     this.materials = new Map();
 
     this.graph.nodes().forEach(name => {
       const node = this.graph.node(name)
-      this.addNode(node)
+      this.setNode(node)
     })
     this.graph.edges().forEach(edge => {
       const line = this.createEdge(this, edge)
@@ -55,8 +54,7 @@ export class FlowGraph extends Object3D {
     const graph = input as Partial<AbstractGraph>
 
     graph.nodes?.forEach(node => {
-      const mesh = this.createNode(this, node, this.getFont(node.labelfont))
-      this.add(mesh)
+      this.addNode(node)
     })
 
     graph.edges?.forEach(edge => {
@@ -73,6 +71,7 @@ export class FlowGraph extends Object3D {
 
   dispose() {
     this.allNodes.forEach(node => node.dispose())
+    this.dispatchEvent<any>({ type: 'dispose' })
   }
 
   get gridsize(): number { return this.options?.gridsize ?? 0 }
@@ -115,13 +114,21 @@ export class FlowGraph extends Object3D {
     return this.children.filter(child => child.type == 'flowedge') as Array<FlowEdge>
   }
 
-  public addNode(node: AbstractNode): FlowNode {
+  private addNode(item: AbstractNode): FlowNode {
+    const node = this.createNode(this, item, this.getFont(item.labelfont))
+    this.add(node)
 
-    const mesh = this.createNode(this, node, this.getFont(node.labelfont))
-    this.add(mesh)
+    this.dispatchEvent<any>({ type: 'node-added', node })
+    return node
+  }
 
+  public setNode(node: AbstractNode): FlowNode {
+    const mesh = this.addNode(node)
+
+    // addNode can assign node.text, so must be after
     this.graph.setNode(node.text!, node);
-    return mesh
+
+    return mesh;
   }
 
   public addConnector(connector: AbstractConnector) {
@@ -148,8 +155,7 @@ export class FlowGraph extends Object3D {
 
     this.graph.removeNode(node.name)
 
-    this.interactive.selectable.remove(node)
-    this.interactive.draggable.remove(node)
+    this.dispatchEvent<any>({ type: 'node-removed', node })
 
     this.remove(node)
     node.dispose()
@@ -182,7 +188,7 @@ export class FlowGraph extends Object3D {
       text: (this.nodes.length + 1).toString(),
     }
 
-    return this.addNode(node)
+    return this.setNode(node)
   }
 
   get nodes(): string[] { return this.graph.nodes() }

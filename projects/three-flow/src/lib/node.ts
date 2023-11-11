@@ -1,4 +1,4 @@
-import { Mesh, Shape, ShapeGeometry, BufferGeometry, Material } from "three";
+import { Mesh, Shape, ShapeGeometry, BufferGeometry } from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
@@ -6,10 +6,6 @@ import { AbstractNode, AbstractConnector } from "./abstract-model";
 import { FlowConnector } from "./connector";
 import { FlowGraph } from "./graph";
 
-import { ResizeNode } from "./resize-node";
-import { DragNode } from "./drag-node";
-import { ScaleNode } from "./scale-node";
-import { connect } from "rxjs";
 
 export class FlowNode extends Mesh {
   private _width: number
@@ -17,9 +13,9 @@ export class FlowNode extends Mesh {
   set width(newvalue: number) {
     if (this._width != newvalue) {
       this._width = newvalue
-      this.dispatchEvent<any>({ type: 'width_change' })
       this.resizeGeometry()
-      this.moveConnectors()
+      this.dispatchEvent<any>({ type: 'width_change' })
+      //this.moveConnectors()
     }
   }
 
@@ -28,9 +24,9 @@ export class FlowNode extends Mesh {
   set height(newvalue: number) {
     if (this._height != newvalue) {
       this._height = newvalue
-      this.dispatchEvent<any>({ type: 'height_change' })
       this.resizeGeometry()
-      this.moveConnectors()
+      this.dispatchEvent<any>({ type: 'height_change' })
+      //this.moveConnectors()
     }
   }
 
@@ -51,13 +47,7 @@ export class FlowNode extends Mesh {
   set resizable(newvalue: boolean) {
     if (this._resizable != newvalue) {
       this._resizable = newvalue;
-      if (this.nodeResizer) {
-        if (newvalue)
-          this.graph.interactive.selectable.add(...this.nodeResizer.selectable)
-        else
-          this.graph.interactive.selectable.remove(...this.nodeResizer.selectable)
-        this.nodeResizer.enabled = newvalue
-      }
+      this.dispatchEvent<any>({ type: 'resizable_change' })
     }
   }
 
@@ -66,13 +56,7 @@ export class FlowNode extends Mesh {
   set draggable(newvalue: boolean) {
     if (this._draggable != newvalue) {
       this._draggable = newvalue;
-      if (this.nodeDragger) {
-        if (newvalue)
-          this.graph.interactive.selectable.add(this)
-        else
-          this.graph.interactive.selectable.remove(this)
-        this.nodeDragger.enabled = newvalue
-      }
+      this.dispatchEvent<any>({ type: 'draggable_change' })
     }
   }
 
@@ -83,13 +67,7 @@ export class FlowNode extends Mesh {
   set scalable(newvalue: boolean) {
     if (this._scalable != newvalue) {
       this._scalable = newvalue;
-      if (this.nodeScaler) {
-        if (newvalue)
-          this.graph.interactive.selectable.add(...this.nodeScaler.selectable)
-        else
-          this.graph.interactive.selectable.remove(...this.nodeScaler.selectable)
-        this.nodeScaler.enabled = newvalue
-      }
+      this.dispatchEvent<any>({ type: 'scalable_change' })
     }
   }
 
@@ -108,27 +86,14 @@ export class FlowNode extends Mesh {
   inputConnectors: FlowConnector[] = [];
   outputConnectors: FlowConnector[] = [];
 
-  private nodeResizer: ResizeNode | undefined
-  private nodeDragger: DragNode | undefined
-  private nodeScaler: ScaleNode | undefined
   private spacing = 0.22
 
   isFlow = true
 
   dispose() {
-    if (this.nodeResizer) {
-      this.graph.interactive.selectable.remove(...this.nodeResizer.selectable)
-      this.graph.interactive.draggable.remove(...this.nodeResizer.selectable)
-    }
-    if (this.nodeDragger) {
-      this.graph.interactive.selectable.remove(this)
-      this.graph.interactive.draggable.remove(this)
-    }
-    if (this.nodeScaler) {
-      this.graph.interactive.selectable.remove(...this.nodeScaler.selectable)
-      this.graph.interactive.draggable.remove(...this.nodeScaler.selectable)
-    }
+    this.dispatchEvent<any>({ type: 'dispose' })
   }
+
 
   constructor(private graph: FlowGraph, public node: AbstractNode, private font?: Font) {
     super();
@@ -213,27 +178,8 @@ export class FlowNode extends Mesh {
     this.resizeGeometry()
     this.updateVisuals();
 
-    if (this.resizable) {
-      const material = graph.getMaterial('geometry', 'resizing', this.resizecolor)
-      this.nodeResizer = this.createResizer(this, material)
-      this.graph.interactive.selectable.add(...this.nodeResizer.selectable)
-      this.graph.interactive.draggable.add(...this.nodeResizer.selectable)
-    }
 
-    if (this.draggable) {
-      this.nodeDragger = this.createDragger(this, graph.gridsize)
-      this.graph.interactive.selectable.add(this)
-      this.graph.interactive.draggable.add(this)
-    }
 
-    if (this.scalable) {
-      const material = graph.getMaterial('geometry', 'scaling', this.scalecolor)
-      this.nodeScaler = this.createScaler(this, material)
-      this.graph.interactive.selectable.add(...this.nodeScaler.selectable)
-      this.graph.interactive.draggable.add(...this.nodeScaler.selectable)
-    }
-
-    this.addEventListener('dragged', () => { this.moveNode() })
   }
 
   private resizeGeometry() {
@@ -257,7 +203,7 @@ export class FlowNode extends Mesh {
     this.inputConnectors.push(connector);
 
     const index = input.index ?? 0
-   connector.position.set(-this.width / 2, this.height / 2 - this.labelsize * 3 - this.spacing * index, 0.001)
+    connector.position.set(-this.width / 2, this.height / 2 - this.labelsize * 3 - this.spacing * index, 0.001)
 
     this.updateVisuals()
     return connector
@@ -311,11 +257,6 @@ export class FlowNode extends Mesh {
     this.removeConnector(item)
   }
 
-  moveNode() {
-    this.dispatchEvent<any>({ type: 'moved' })
-    this.moveConnectors()
-  }
-
   moveConnectors() {
 
     const starty = this.height / 2 - this.labelsize * 3
@@ -324,14 +265,14 @@ export class FlowNode extends Mesh {
       connector.position.x = -this.width / 2
       connector.position.y = y
       y -= this.spacing
-      connector.dispatchEvent<any>({ type: 'moved' })
+      connector.dispatchEvent<any>({ type: 'dragged' })
     })
     y = starty
     this.outputConnectors.forEach(connector => {
       connector.position.x = this.width / 2
       connector.position.y = y
       y -= this.spacing
-      connector.dispatchEvent<any>({ type: 'moved' })
+      connector.dispatchEvent<any>({ type: 'dragged' })
     })
   }
 
@@ -385,17 +326,6 @@ export class FlowNode extends Mesh {
     return new TextGeometry(label, options);
   }
 
-  createResizer(node: FlowNode, material: Material): ResizeNode {
-    return new ResizeNode(node, material)
-  }
-
-  createDragger(node: FlowNode, gridSize: number): DragNode {
-    return new DragNode(node, gridSize)
-  }
-
-  createScaler(node: FlowNode, material: Material): ScaleNode {
-    return new ScaleNode(node, material)
-  }
 
   save: () => void
 

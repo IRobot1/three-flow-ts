@@ -8,7 +8,7 @@ import {
   FlowNode, AbstractConnector,
   AbstractEdge,
   AbstractNode,
-  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions, AbstractGraph
+  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions, AbstractGraph, GraphInteraction
 } from "three-flow";
 import { ResizeNode, FlowGraph, FlowConnector } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
@@ -183,8 +183,12 @@ export class CustomGeometryExample {
           ['helvetika', font],
         ])
       }
-      const flow = new MyFlowGraph(interactive, options)
+      const flow = new MyFlowGraph(options)
       scene.add(flow);
+
+      // make the flow interactive
+      new GraphInteraction(flow, interactive)
+
 
       flow.load(graph)
 
@@ -201,8 +205,8 @@ export class CustomGeometryExample {
 }
 
 class MyFlowGraph extends FlowGraph {
-  constructor(interactive: FlowInteractive, options?: FlowGraphOptions) {
-    super(interactive, options)
+  constructor(options?: FlowGraphOptions) {
+    super(options)
   }
 
   override createLineMaterial(color: number | string): Material {
@@ -239,14 +243,6 @@ class MyFlowNode extends FlowNode {
   override createTextGeometry(label: string, options: TextGeometryParameters): BufferGeometry {
     options.height = depth
     return super.createTextGeometry(label, options)
-  }
-
-  override createResizer(node: FlowNode, material: Material): ResizeNode {
-    return new MyResizeNode(node, material)
-  }
-
-  override createScaler(node: FlowNode, material: Material): ScaleNode {
-    return new MyScaleNode(node, material)
   }
 }
 

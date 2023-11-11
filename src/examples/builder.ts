@@ -6,7 +6,8 @@ import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowInteractive,
   FlowGraph,
-  FlowGraphOptions
+  FlowGraphOptions,
+  GraphInteraction
 } from "three-flow";
 
 export class BuilderExample {
@@ -56,18 +57,22 @@ export class BuilderExample {
         ])
       }
 
-      const flow = new FlowGraph(interactive, options);
+      const flow = new FlowGraph(options);
       scene.add(flow)
 
+      // make the flow interactive
+      new GraphInteraction(flow, interactive)
+
+
       // build the graph programmatically
-      const node3 = flow.addNode({ label: 'Title3', color: 'gold', x: -2 })
+      const node3 = flow.setNode({ label: 'Node3', color: 'gold', x: -2 })
       //const node3 = node3.addOutputConnector({})
       //const node3 = node3.addOutputConnector({})
 
-      const node4 = flow.addNode({ label: 'Title4', color: 'gold', x: -2, y: 1.2 })
+      const node4 = flow.setNode({ label: 'Node4', color: 'gold', x: -2, y: 1.2 })
       //const node4 = node4.addOutputConnector({})
 
-      const node1 = flow.addNode({ label: 'Title1', color: 'green', y: 0.5 })
+      const node1 = flow.setNode({ label: 'Node1', color: 'green', y: 0.5 })
       //const node1 = node1.addInputConnector({})
       //const node1 = node1.addInputConnector({})
       //const node1 = node1.addOutputConnector({})
@@ -76,11 +81,11 @@ export class BuilderExample {
       //const edge2 = flow.addEdge({ v: node3.name, w: node1.name })
       const edge4 = flow.addEdge({ v: node4.name, w: node1.name })
 
-      const node2 = flow.addNode({ label: 'Title2', color: 'red', x: 2, y: 1.2 })
+      const node2 = flow.setNode({ label: 'Node2', color: 'red', x: 2, y: 1.2 })
       //const node2 = node2.addInputConnector({})
       const edge3 = flow.addEdge({ v: node1.name, w: node2.name })
 
-      const node5 = flow.addNode({ label: 'Title5', color: 'red', x: 2 })
+      const node5 = flow.setNode({ label: 'Node5', color: 'red', x: 2 })
       //const node5 = node5.addInputConnector({})
       const edge5 = flow.addEdge({ v: node1.name, w: node5.name })
 

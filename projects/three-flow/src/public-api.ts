@@ -8,6 +8,8 @@ export * from './lib/interactive'
 export * from './lib/drag-node'
 export * from './lib/resize-node'
 export * from './lib/scale-node'
+export * from './lib/graph-interactive'
+
 
 export * from './lib/graph';
 export * from './lib/connector';

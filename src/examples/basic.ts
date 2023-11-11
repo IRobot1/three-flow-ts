@@ -9,7 +9,7 @@ import {
   FlowInteractive,
   FlowGraph,
   FlowGraphOptions,
-  AbstractGraph
+  AbstractGraph,
 } from "three-flow";
 
 export class BasicExample {
@@ -156,12 +156,12 @@ export class BasicExample {
         w: "1",
         userData: {}
       },
-    //  {
-    //    name: "9",
-    //    v: "5",
-    //    w: "6",
-    //    userData: {}
-    //  }
+      //  {
+      //    name: "9",
+      //    v: "5",
+      //    w: "6",
+      //    userData: {}
+      //  }
     ];
 
     const interactive = new FlowInteractive(app, app.camera)
@@ -181,12 +181,12 @@ export class BasicExample {
           ['helvetika', font],
         ])
       }
-      const flow = new FlowGraph(interactive, options)
+
+      // read-only flow
+      const flow = new FlowGraph(options)
       scene.add(flow);
 
       flow.load(graph)
-
-      console.warn(flow)
     });
 
 
