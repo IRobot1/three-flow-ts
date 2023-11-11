@@ -6,8 +6,14 @@ export interface AbstractConnector extends Label {
   userData?: { [key: string]: any };
 }
 
+export type EdgeLineStyle = 'straight' | 'spline'
+
 export interface AbstractEdge extends Edge {
   points?: Array<{ x: number, y: number }>
+  color?: number | string;
+  linestyle?: EdgeLineStyle;
+  divisions?: number;
+  thickness?: number;
   userData?: { [key: string]: any };
 }
 

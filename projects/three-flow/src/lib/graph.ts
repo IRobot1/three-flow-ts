@@ -1,5 +1,5 @@
 import { Box3, LineBasicMaterial, Material, MeshBasicMaterial, Object3D, Vector3 } from "three";
-import { AbstractConnector, AbstractEdge, AbstractGraph, AbstractNode } from "./abstract-model";
+import { AbstractConnector, AbstractEdge, AbstractGraph, AbstractNode, EdgeLineStyle } from "./abstract-model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
 import { FlowNode } from "./node";
@@ -12,6 +12,10 @@ export type FlowMaterialType = 'line' | 'geometry'
 export interface FlowGraphOptions {
   gridsize?: number
   fonts?: Map<string, Font>
+  linecolor?: number | string
+  linestyle?: EdgeLineStyle
+  linedivisions?: number
+  linethickness?: number
 }
 
 export class FlowGraph extends Object3D {
@@ -28,7 +32,7 @@ export class FlowGraph extends Object3D {
       this.setNode(node)
     })
     this.graph.edges().forEach(edge => {
-      const line = this.createEdge(this, edge)
+      const line = this.addEdge(edge)
       this.add(line)
     })
 
@@ -58,7 +62,7 @@ export class FlowGraph extends Object3D {
     })
 
     graph.edges?.forEach(edge => {
-      const line = this.createEdge(this, edge)
+      const line = this.addEdge(edge)
       this.add(line)
     })
   }
@@ -157,13 +161,22 @@ export class FlowGraph extends Object3D {
       this.graph.setNode(connector.text, connector)
   }
 
-  public addEdge(edge: AbstractEdge): FlowEdge {
+  public addEdge(item: AbstractEdge): FlowEdge {
+    if (!item.color) item.color = this.options?.linecolor
+    if (!item.linestyle) item.linestyle = this.options?.linestyle
+    if (!item.divisions) item.divisions = this.options?.linedivisions
+    if (!item.thickness) item.thickness = this.options?.linethickness
+
+    const edge = this.createEdge(this, item)
+    this.add(edge)
+
+    this.dispatchEvent<any>({ type: 'edge-added', edge })
+    return edge
+  }
+
+  public setEdge(edge: AbstractEdge): FlowEdge {
     this.graph.setEdge(edge.v, edge.w, edge);
-
-    const mesh = this.createEdge(this, edge)
-    this.add(mesh)
-
-    return mesh
+    return this.addEdge(edge)
   }
 
   public removeNode(node: FlowNode) {

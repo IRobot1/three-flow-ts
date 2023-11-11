@@ -61,7 +61,8 @@ export class CivilizationExample {
         gridsize: 0.3,
         fonts: new Map<string, Font>([
           ['default', font],
-        ])
+        ]),
+        linedivisions: 5
       }
       const flow = new FlowGraph(options)
       scene.add(flow);
@@ -103,7 +104,7 @@ export class CivilizationExample {
           const edge: AbstractEdge = {
             v: from, w: to
           }
-          flow.addEdge(edge);
+          flow.setEdge(edge);
 
           // export to mermaid
           //console.log(`${from.replace(/ /g, '')}[${from}] --> ${to.replace(/ /g, '')}[${to}]`);

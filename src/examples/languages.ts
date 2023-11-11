@@ -60,7 +60,8 @@ export class LanguagesExample {
         gridsize: 0.3,
         fonts: new Map<string, Font>([
           ['default', font],
-        ])
+        ]),
+        linestyle: 'straight'
       }
       const flow = new FlowGraph(options)
       scene.add(flow);
@@ -92,7 +93,7 @@ export class LanguagesExample {
         const edge: AbstractEdge = {
           v: from, w: to
         }
-        flow.addEdge(edge);
+        flow.setEdge(edge);
 
         // export to mermaid
         //console.log(`${from.replace(/ /g, '')}[${from}] --> ${to.replace(/ /g, '')}[${to}]`);

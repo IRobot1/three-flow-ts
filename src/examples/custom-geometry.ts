@@ -181,7 +181,9 @@ export class CustomGeometryExample {
         gridsize: 0.3,
         fonts: new Map<string, Font>([
           ['helvetika', font],
-        ])
+        ]),
+        linethickness: 0.015,
+        linecolor: 'orange'
       }
       const flow = new MyFlowGraph(options)
       scene.add(flow);
@@ -209,9 +211,9 @@ class MyFlowGraph extends FlowGraph {
     super(options)
   }
 
-  override createLineMaterial(color: number | string): Material {
-    return new LineBasicMaterial({ color: 'orange' });
-  }
+  //override createLineMaterial(color: number | string): Material {
+  //  return new LineBasicMaterial({ color });
+  //}
 
   override createMeshMaterial(color: number | string): Material {
     return new MeshStandardMaterial({ color: 'orange' });
@@ -264,9 +266,10 @@ class MyFlowEdge extends FlowEdge {
     super(graph, edge)
   }
 
-  override createGeometry(curvepoints: Array<Vector3>): BufferGeometry | undefined {
+  override createGeometry(curvepoints: Array<Vector3>, thickness: number): BufferGeometry | undefined {
+    console.warn(thickness)
     const curve = new CatmullRomCurve3(curvepoints);
-    return new TubeGeometry(curve, 8, 0.01)
+    return new TubeGeometry(curve, 8, thickness)
   }
 }
 
