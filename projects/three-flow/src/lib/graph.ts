@@ -1,9 +1,10 @@
 import { Box3, LineBasicMaterial, Material, MeshBasicMaterial, Object3D, Vector3 } from "three";
-import { AbstractEdge, AbstractGraph, AbstractNode, EdgeLineStyle } from "./abstract-model";
+import { AbstractEdge, AbstractGraph, AbstractNode, AbstractRoute, EdgeLineStyle } from "./abstract-model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
 import { FlowNode } from "./node";
 import { GraphLabel, graphlib, layout } from "@dagrejs/dagre";
+import { FlowRoute } from "./route";
 
 
 export type FlowMaterialType = 'line' | 'geometry'
@@ -76,6 +77,10 @@ export class FlowGraph extends Object3D {
   }
 
   layout(label: GraphLabel) {
+    if (!label.nodesep) label.nodesep = 0.1
+    if (!label.edgesep) label.edgesep = 1
+    if (!label.ranksep) label.ranksep = 4
+
     this.graph.setGraph(label);
 
     layout(this.graph)
@@ -114,7 +119,6 @@ export class FlowGraph extends Object3D {
   }
 
   public hasNode(id: string): FlowNode | undefined {
-    //return this.nodes.find(node => node.id == id) != undefined
 
     for (const child of this.children) {
       if (child.type == 'flownode') {
@@ -146,6 +150,23 @@ export class FlowGraph extends Object3D {
 
     // addNode can assign node.text, so must be after
     this.graph.setNode(node.text!, node);
+
+    return mesh;
+  }
+
+  private addRoute(item: AbstractRoute): FlowNode {
+    const route = this.createRoute(this, item)
+    this.add(route)
+
+    this.dispatchEvent<any>({ type: 'node-added', node: route })
+    return route
+  }
+
+  public setRoute(route: AbstractRoute): FlowNode {
+    const mesh = this.addRoute(route)
+
+    // addNode can assign node.text, so must be after
+    this.graph.setNode(route.text!, route);
 
     return mesh;
   }
@@ -243,6 +264,9 @@ export class FlowGraph extends Object3D {
     return new FlowNode(graph, node)
   }
 
+  createRoute(graph: FlowGraph, route: AbstractRoute): FlowNode {
+    return new FlowRoute(graph, route)
+  }
 
   createEdge(graph: FlowGraph, edge: AbstractEdge): FlowEdge {
     return new FlowEdge(graph, edge)

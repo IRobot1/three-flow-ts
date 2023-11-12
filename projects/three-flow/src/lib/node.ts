@@ -7,27 +7,25 @@ import { FlowGraph } from "./graph";
 
 
 export class FlowNode extends Mesh {
-  private _width: number
+  protected _width: number
   get width() { return this._width }
   set width(newvalue: number) {
     if (this._width != newvalue) {
       this._width = newvalue
       this.resizeGeometry()
       this.dispatchEvent<any>({ type: 'width_change' })
-      //this.moveConnectors()
     }
   }
   minwidth: number;
   maxwidth: number;
 
-  private _height: number
+  protected _height: number
   get height() { return this._height }
   set height(newvalue: number) {
     if (this._height != newvalue) {
       this._height = newvalue
       this.resizeGeometry()
       this.dispatchEvent<any>({ type: 'height_change' })
-      //this.moveConnectors()
     }
   }
   minheight: number;
@@ -155,8 +153,11 @@ export class FlowNode extends Mesh {
 
     this.add(this.labelMesh);
 
-    this.resizeGeometry()
-    this.updateVisuals();
+    // allow derived classes access to "this" by delaying one frame
+    requestAnimationFrame(() => {
+      this.resizeGeometry()
+      this.updateVisuals();
+    })
   }
 
   private resizeGeometry() {

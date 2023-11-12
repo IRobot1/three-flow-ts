@@ -63,6 +63,10 @@ export interface AbstractNode extends Label {
   maxscale?: number;
 }
 
+export interface AbstractRoute extends AbstractNode {
+  radius?: number
+}
+
 export interface AbstractGraph {
   version: number;
   nodes: AbstractNode[],
