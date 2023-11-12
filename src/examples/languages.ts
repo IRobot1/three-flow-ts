@@ -91,7 +91,7 @@ export class LanguagesExample {
         }
 
         const edge: AbstractEdge = {
-          v: from, w: to
+          v: from, w: to, toarrow: { }
         }
         flow.setEdge(edge);
 

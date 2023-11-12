@@ -102,7 +102,7 @@ export class CivilizationExample {
 
 
           const edge: AbstractEdge = {
-            v: from, w: to
+            v: from, w: to, toarrow: { indent: 0 }
           }
           flow.setEdge(edge);
 

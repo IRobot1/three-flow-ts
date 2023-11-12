@@ -7,15 +7,33 @@ export interface AbstractConnector extends Label {
   userData?: { [key: string]: any };
 }
 
+export type ArrowType = 'from' | 'to'
+export type ArrowStyle = 'default'
+
+export interface AbstractArrow {
+  type?: ArrowType;
+  width?: number;
+  height?: number;
+  indent?: number;
+
+  color?: number | string;
+  arrowstyle?: ArrowStyle;
+  scale?: number;
+  translate?: number;
+}
+
 export type EdgeLineStyle = 'straight' | 'spline'
 
 export interface AbstractEdge extends Edge {
-  points?: Array<{ x: number, y: number }>
   color?: number | string;
   linestyle?: EdgeLineStyle;
   divisions?: number;
   thickness?: number;
+  toarrow?: AbstractArrow;
+  fromarrow?: AbstractArrow;
   userData?: { [key: string]: any };
+
+  points?: Array<{ x: number, y: number }>  // layout positions of line segments
 }
 
 export interface AbstractNode extends Label {
