@@ -3,7 +3,6 @@ import { AbstractConnector, AbstractEdge, AbstractGraph, AbstractNode, EdgeLineS
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
 import { FlowNode } from "./node";
-import { FlowConnector } from "./connector";
 import { GraphLabel, graphlib, layout } from "@dagrejs/dagre";
 
 
@@ -126,20 +125,6 @@ export class FlowGraph extends Object3D {
     return undefined
   }
 
-  hasConnector(id: string): FlowConnector | undefined {
-    let connector: FlowConnector | undefined
-
-    // find first matching connector
-    for (const child of this.children) {
-      if (child.type == 'flownode') {
-        const node = child as FlowNode
-        connector = node.getConnector(id)
-        if (connector) break;
-      }
-    }
-    return connector
-  }
-
   get allNodes(): Array<FlowNode> {
     return this.children.filter(child => child.type == 'flownode') as Array<FlowNode>
   }
@@ -189,12 +174,6 @@ export class FlowGraph extends Object3D {
   }
 
   public removeNode(node: FlowNode) {
-
-    const inputs = [...node.inputConnectors]
-    inputs.forEach(item => node.removeInputConnector(item))
-
-    const outputs = [...node.outputConnectors]
-    outputs.forEach(item => node.removeOutputConnector(item))
 
     this.graph.removeNode(node.name)
 
@@ -269,9 +248,6 @@ export class FlowGraph extends Object3D {
     return new FlowNode(graph, node, font)
   }
 
-  createConnector(graph: FlowGraph, connector: AbstractConnector): FlowConnector {
-    return new FlowConnector(graph, connector);
-  }
 
   createEdge(graph: FlowGraph, edge: AbstractEdge): FlowEdge {
     return new FlowEdge(graph, edge)

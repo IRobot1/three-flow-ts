@@ -3,7 +3,6 @@ import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
 import { AbstractNode, AbstractConnector } from "./abstract-model";
-import { FlowConnector } from "./connector";
 import { FlowGraph } from "./graph";
 
 
@@ -40,9 +39,6 @@ export class FlowNode extends Mesh {
   labelsize: number;
   labelcolor: number | string;
   labelfont?: string;
-
-  inputs: AbstractConnector[];
-  outputs: AbstractConnector[];
 
   resizecolor: number | string;
 
@@ -84,17 +80,12 @@ export class FlowNode extends Mesh {
       this._scalar = newvalue
       this.scale.set(newvalue, newvalue, 1)
       this.dispatchEvent<any>({ type: 'scale_change' })
-      this.moveConnectors()
     }
   }
   minscale: number;
   maxscale: number;
 
   private labelMesh: Mesh;
-  inputConnectors: FlowConnector[] = [];
-  outputConnectors: FlowConnector[] = [];
-
-  private spacing = 0.22
 
   isFlow = true
 
@@ -124,8 +115,6 @@ export class FlowNode extends Mesh {
     this.labelcolor = node.labelcolor ?? 'black'
     this.labelfont = node.labelfont
 
-    this.inputs = node.inputs ?? [];
-    this.outputs = node.outputs ?? [];
     this._resizable = node.resizable ?? true
     this.resizecolor = node.resizecolor ?? 'black'
     this._draggable = node.draggable ?? true
@@ -146,9 +135,6 @@ export class FlowNode extends Mesh {
     if (node.z) this.position.z = node.z
 
     this.save = () => {
-      if (this.inputs.length > 0) node.inputs = this.inputs
-      if (this.outputs.length > 0) node.outputs = this.outputs
-
       if (this.position.x) node.x = this.position.x
       if (this.position.y) node.y = this.position.y
       if (this.position.z) node.z = this.position.z
@@ -169,35 +155,8 @@ export class FlowNode extends Mesh {
 
     this.add(this.labelMesh);
 
-    //// Initialize input connectors
-    //const starty = this.height / 2 - this.labelsize * 3
-    //let y = starty
-    //this.inputs.forEach((connector, index) => {
-    //  connector.index = index
-    //  this.addInputConnector(connector)
-    //  //const threeConnector = this.graph.createConnector(graph, connector);
-    //  //this.inputConnectors.push(threeConnector);
-    //  //this.add(threeConnector);
-    //  //threeConnector.position.set(-this.width / 2, y, 0.001)
-    //  y -= this.spacing
-    //});
-
-    //// Initialize output connectors
-    //y = starty
-    //this.outputs.forEach((connector, index) => {
-    //  connector.index = index
-    //  this.addOutputConnector(connector)
-    //  const threeConnector = this.graph.createConnector(graph, connector);
-    //  this.add(threeConnector);
-    //  threeConnector.position.set(this.width / 2, y, 0.001)
-    //  y -= this.spacing
-    //});
-
     this.resizeGeometry()
     this.updateVisuals();
-
-
-
   }
 
   private resizeGeometry() {
@@ -205,102 +164,6 @@ export class FlowNode extends Mesh {
     this.geometry = this.createGeometry()
 
     this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
-
-  }
-
-  private addConnector(data: AbstractConnector): FlowConnector {
-    const connector = this.graph.createConnector(this.graph, data)
-    this.add(connector)
-    this.graph.addConnector(data)
-    return connector
-  }
-
-  addInputConnector(input: AbstractConnector): FlowConnector {
-    input.connectortype = 'input'
-    const connector = this.addConnector(input)
-    this.inputConnectors.push(connector);
-
-    const index = input.index ?? 0
-    connector.position.set(-this.width / 2, this.height / 2 - this.labelsize * 3 - this.spacing * index, 0.001)
-
-    this.updateVisuals()
-    return connector
-  }
-
-  addOutputConnector(output: AbstractConnector): FlowConnector {
-    output.connectortype = 'output'
-    const connector = this.addConnector(output)
-    this.outputConnectors.push(connector);
-
-    const index = output.index ?? 0
-    connector.position.set(this.width / 2, this.height / 2 - this.labelsize * 3 - this.spacing * index, 0.001)
-
-    connector.updateVisuals()
-    return connector
-  }
-
-  private removeConnector(connector: FlowConnector): void {
-    this.remove(connector)
-    this.graph.removeConnector(connector.name)
-  }
-
-  removeInputConnector(item: FlowConnector): void {
-    let index = this.inputs.indexOf(item.connector)
-    if (index != -1) this.inputs.splice(index, 1)
-
-    index = this.inputConnectors.indexOf(item)
-    if (index != -1) {
-      this.inputConnectors.splice(index, 1)
-      if (index < this.inputConnectors.length)
-        this.moveConnectors()
-      this.graph.removeConnectedEdge(item.name)
-    }
-
-    this.removeConnector(item)
-  }
-
-  removeOutputConnector(item: FlowConnector): void {
-    let index = this.outputs.indexOf(item.connector)
-    if (index != -1) this.outputs.splice(index, 1)
-
-    index = this.outputConnectors.indexOf(item)
-    if (index != -1) {
-      this.outputConnectors.splice(index, 1)
-      if (index < this.outputConnectors.length)
-        this.moveConnectors()
-
-      this.graph.removeConnectedEdge(item.name)
-    }
-
-    this.removeConnector(item)
-  }
-
-  moveConnectors() {
-
-    const starty = this.height / 2 - this.labelsize * 3
-    let y = starty
-    this.inputConnectors.forEach(connector => {
-      connector.position.x = -this.width / 2
-      connector.position.y = y
-      y -= this.spacing
-      connector.dispatchEvent<any>({ type: 'dragged' })
-    })
-    y = starty
-    this.outputConnectors.forEach(connector => {
-      connector.position.x = this.width / 2
-      connector.position.y = y
-      y -= this.spacing
-      connector.dispatchEvent<any>({ type: 'dragged' })
-    })
-  }
-
-  // used when node is moved and edge needs to redraw using new connector position
-  getConnector(id: string): FlowConnector | undefined {
-    let connector = this.inputConnectors.find(c => c.name == id)
-    if (!connector) {
-      connector = this.outputConnectors.find(c => c.name == id)
-    }
-    return connector;
   }
 
   updateVisuals() {
@@ -308,10 +171,6 @@ export class FlowNode extends Mesh {
     const setColor = (material: any, color: number | string) => {
       material.color.set(color)
     }
-
-    // Update connectors
-    this.inputConnectors.forEach((connector) => connector.updateVisuals());
-    this.outputConnectors.forEach((connector) => connector.updateVisuals());
 
     setColor(this.material, this.color);
   }

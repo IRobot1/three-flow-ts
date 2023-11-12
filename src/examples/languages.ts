@@ -78,12 +78,12 @@ export class LanguagesExample {
           const node = flow.setNode({ text: from, label: from, labelsize: 0.2, width: 3 });
           //node.addOutputConnector({ text: outlink })
         }
-        else {
-          outlink = 'out' + from
-          if (!fromnode.getConnector(outlink)) {
-            //fromnode.addOutputConnector({ text: outlink })
-          }
-        }
+        //else {
+        //  outlink = 'out' + from
+        //  if (!fromnode.getConnector(outlink)) {
+        //    //fromnode.addOutputConnector({ text: outlink })
+        //  }
+        //}
 
         if (!flow.hasNode(to)) {
           const node = flow.setNode({ text: to, label: to, labelsize: 0.2, width: 3 });

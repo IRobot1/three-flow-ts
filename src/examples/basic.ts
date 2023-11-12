@@ -59,22 +59,6 @@ export class BasicExample {
         labelsize: 0.1,
         labelcolor: 'white',
         labelfont: 'helvetika',
-        inputs: [{
-          text: "3",
-          connectortype: "input",
-          userData: {}
-        },
-        {
-          text: "4",
-          connectortype: "input",
-          userData: {}
-        }
-        ],
-        outputs: [{
-          text: "5",
-          connectortype: "output",
-          userData: {}
-        }],
         draggable: true,
         resizable: true,
         scaleable: true,
@@ -84,7 +68,6 @@ export class BasicExample {
         color: 'green',
         resizecolor: 'red',
         scalecolor: 'yellow',
-        userData: {}
       },
       {
         text: "2",
@@ -93,12 +76,6 @@ export class BasicExample {
         labelsize: 0.1,
         labelcolor: 'white',
         labelfont: 'helvetika',
-        inputs: [{
-          text: "6",
-          connectortype: "input",
-          userData: {}
-        }],
-        outputs: [],
         draggable: true,
         resizable: false,
         scaleable: true,
@@ -108,7 +85,6 @@ export class BasicExample {
         color: 'red',
         resizecolor: 'red',
         scalecolor: 'yellow',
-        userData: {}
       },
       {
         text: "3",
@@ -117,17 +93,6 @@ export class BasicExample {
         labelsize: 0.1,
         labelcolor: 'white',
         labelfont: 'helvetika',
-        inputs: [],
-        outputs: [{
-          text: "1",
-          connectortype: "output",
-          userData: {}
-        },
-        {
-          text: "2",
-          connectortype: "output",
-          userData: {}
-        },],
         draggable: true,
         resizable: false,
         scaleable: true,
@@ -137,7 +102,6 @@ export class BasicExample {
         color: 'gold',
         resizecolor: 'red',
         scalecolor: 'yellow',
-        userData: {}
       }
 
     ];
@@ -148,20 +112,12 @@ export class BasicExample {
         name: "7",
         v: "1",
         w: "3",
-        userData: {}
       },
       {
         name: "8",
         v: "2",
         w: "1",
-        userData: {}
-      },
-      //  {
-      //    name: "9",
-      //    v: "5",
-      //    w: "6",
-      //    userData: {}
-      //  }
+      }
     ];
 
     const interactive = new FlowInteractive(app, app.camera)

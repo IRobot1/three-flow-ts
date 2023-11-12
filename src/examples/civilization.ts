@@ -80,9 +80,9 @@ export class CivilizationExample {
           //node.addOutputConnector({ text: outlink })
         }
         else {
-          if (!fromnode.getConnector(outlink)) {
-            //fromnode.addOutputConnector({ text: outlink })
-          }
+        //  if (!fromnode.getConnector(outlink)) {
+        //    //fromnode.addOutputConnector({ text: outlink })
+        //  }
         }
         tech.leads_to.forEach(item => {
           const to = item;
@@ -94,11 +94,11 @@ export class CivilizationExample {
             const node = flow.setNode({ text: to, label: to, labelsize: 0.25, width: 3 });
             //node.addInputConnector({ text: inlink })
           }
-          else {
-            if (!tonode.getConnector(inlink)) {
-              //tonode.addInputConnector({ text: inlink })
-            }
-          }
+          //else {
+          //  if (!tonode.getConnector(inlink)) {
+          //    //tonode.addInputConnector({ text: inlink })
+          //  }
+          //}
 
 
           const edge: AbstractEdge = {

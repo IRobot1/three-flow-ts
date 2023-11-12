@@ -61,8 +61,6 @@ export interface AbstractNode extends Label {
   scale?: number;
   minscale?: number;
   maxscale?: number;
-  inputs?: AbstractConnector[]
-  outputs?: AbstractConnector[]
 }
 
 export interface AbstractGraph {

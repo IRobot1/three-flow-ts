@@ -1,16 +1,16 @@
-import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, Color, ExtrudeGeometry, LineBasicMaterial, Material, MeshStandardMaterial, PointLight, Scene, Shape, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, Color, Material, MeshStandardMaterial, PointLight, Scene, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TubeGeometry } from "three";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import {
-  FlowNode, AbstractConnector,
+  FlowNode,
   AbstractEdge,
   AbstractNode,
   FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions, AbstractGraph, GraphInteraction, NodeBorder
 } from "three-flow";
-import { ResizeNode, FlowGraph, FlowConnector } from "three-flow";
+import { ResizeNode, FlowGraph } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 
 export class CustomGeometryExample {
@@ -70,12 +70,6 @@ export class CustomGeometryExample {
         labelsize: 0.1,
         labelcolor: 'white',
         labelfont: 'helvetika',
-        inputs: [{
-          text: "6",
-          connectortype: "input",
-          userData: {}
-        }],
-        outputs: [],
         draggable: false,
         resizable: false,
         scaleable: true,
@@ -86,7 +80,7 @@ export class CustomGeometryExample {
         color: 'red',
         resizecolor: 'red',
         scalecolor: 'yellow',
-        userData: {}
+        
 
       },
       {
@@ -96,17 +90,6 @@ export class CustomGeometryExample {
         labelsize: 0.1,
         labelcolor: 'white',
         labelfont: 'helvetika',
-        inputs: [],
-        outputs: [{
-          text: "1",
-          connectortype: "output",
-          userData: {}
-        },
-        {
-          text: "2",
-          connectortype: "output",
-          userData: {}
-        },],
         draggable: false,
         resizable: false,
         selectable: true,
@@ -117,10 +100,10 @@ export class CustomGeometryExample {
         color: 'gold',
         resizecolor: 'red',
         scalecolor: 'yellow',
-        userData: {}
+        
       },
 
-            {
+      {
         text: "4",
         y: -2,
         label: "Movable / Disabled",
@@ -208,10 +191,6 @@ class MyFlowGraph extends FlowGraph {
     return new MyFlowNode(graph, node, font)
   }
 
-  override createConnector(graph: FlowGraph, connector: AbstractConnector): FlowConnector {
-    return new MyFlowConnector(graph, connector);
-  }
-
   override createEdge(graph: FlowGraph, edge: AbstractEdge): FlowEdge {
     return new MyFlowEdge(graph, edge)
   }
@@ -236,19 +215,6 @@ class MyFlowNode extends FlowNode {
     options.height = depth
     return super.createTextGeometry(label, options)
   }
-}
-
-class MyFlowConnector extends FlowConnector {
-  constructor(graph: FlowGraph, connector: AbstractConnector) {
-    super(graph, connector)
-  }
-
-  override createGeometry(size: number): BufferGeometry {
-    const shape = new Shape()
-    shape.ellipse(0, 0, 0.1, 0.1, 0, Math.PI * 2)
-    return new ExtrudeGeometry(shape, { bevelEnabled: false, depth: 0.01 })
-  }
-
 }
 
 class MyFlowEdge extends FlowEdge {
