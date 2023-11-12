@@ -2,7 +2,7 @@ import { Mesh, BufferGeometry, PlaneGeometry } from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
-import { AbstractNode, AbstractConnector } from "./abstract-model";
+import { AbstractNode } from "./abstract-model";
 import { FlowGraph } from "./graph";
 
 
@@ -38,7 +38,6 @@ export class FlowNode extends Mesh {
   label?: string;
   labelsize: number;
   labelcolor: number | string;
-  labelfont?: string;
 
   resizecolor: number | string;
 
@@ -86,6 +85,7 @@ export class FlowNode extends Mesh {
   maxscale: number;
 
   private labelMesh: Mesh;
+  private font?: Font;
 
   isFlow = true
 
@@ -94,7 +94,7 @@ export class FlowNode extends Mesh {
   }
 
 
-  constructor(private graph: FlowGraph, public node: AbstractNode, private font?: Font) {
+  constructor(private graph: FlowGraph, public node: AbstractNode) {
     super();
 
     //@ts-ignore
@@ -113,7 +113,7 @@ export class FlowNode extends Mesh {
     this.label = node.label
     this.labelsize = node.labelsize ?? 0.1
     this.labelcolor = node.labelcolor ?? 'black'
-    this.labelfont = node.labelfont
+    this.font = graph.getFont(node.labelfont)
 
     this._resizable = node.resizable ?? true
     this.resizecolor = node.resizecolor ?? 'black'

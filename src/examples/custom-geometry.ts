@@ -187,8 +187,8 @@ class MyFlowGraph extends FlowGraph {
     return new MeshStandardMaterial({ color: 'orange' });
   }
 
-  override createNode(graph: FlowGraph, node: AbstractNode, font?: Font): FlowNode {
-    return new MyFlowNode(graph, node, font)
+  override createNode(graph: FlowGraph, node: AbstractNode): FlowNode {
+    return new MyFlowNode(graph, node)
   }
 
   override createEdge(graph: FlowGraph, edge: AbstractEdge): FlowEdge {
@@ -200,8 +200,8 @@ const depth = 0.03
 class MyFlowNode extends FlowNode {
   border: NodeBorder;
 
-  constructor(graph: FlowGraph, node: AbstractNode, font?: Font) {
-    super(graph, node, font);
+  constructor(graph: FlowGraph, node: AbstractNode) {
+    super(graph, node);
 
     this.border = new NodeBorder(this, graph)
     this.add(this.border)

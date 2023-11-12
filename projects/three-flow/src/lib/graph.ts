@@ -1,5 +1,5 @@
 import { Box3, LineBasicMaterial, Material, MeshBasicMaterial, Object3D, Vector3 } from "three";
-import { AbstractConnector, AbstractEdge, AbstractGraph, AbstractNode, EdgeLineStyle } from "./abstract-model";
+import { AbstractEdge, AbstractGraph, AbstractNode, EdgeLineStyle } from "./abstract-model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
 import { FlowNode } from "./node";
@@ -134,7 +134,7 @@ export class FlowGraph extends Object3D {
   }
 
   private addNode(item: AbstractNode): FlowNode {
-    const node = this.createNode(this, item, this.getFont(item.labelfont))
+    const node = this.createNode(this, item)
     this.add(node)
 
     this.dispatchEvent<any>({ type: 'node-added', node })
@@ -148,11 +148,6 @@ export class FlowGraph extends Object3D {
     this.graph.setNode(node.text!, node);
 
     return mesh;
-  }
-
-  public addConnector(connector: AbstractConnector) {
-    if (connector.text)
-      this.graph.setNode(connector.text, connector)
   }
 
   public addEdge(item: AbstractEdge): FlowEdge {
@@ -244,8 +239,8 @@ export class FlowGraph extends Object3D {
     return new MeshBasicMaterial({ color, opacity: 0.99 });
   }
 
-  createNode(graph: FlowGraph, node: AbstractNode, font?: Font): FlowNode {
-    return new FlowNode(graph, node, font)
+  createNode(graph: FlowGraph, node: AbstractNode): FlowNode {
+    return new FlowNode(graph, node)
   }
 
 
