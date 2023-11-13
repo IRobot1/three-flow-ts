@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, Color, Material, MeshStandardMaterial, PointLight, Scene, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, Color, Material, MeshBasicMaterial, MeshStandardMaterial, PointLight, Scene, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TubeGeometry } from "three";
@@ -12,6 +12,7 @@ import {
 } from "three-flow";
 import { ResizeNode, FlowGraph } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
+import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
 export class CustomGeometryExample {
 
@@ -118,8 +119,10 @@ export class CustomGeometryExample {
 
     const edges: AbstractEdge[] = [
       {
+        name: '1',
         v: "1",
         w: "3",
+        color: 0xff0000,
       },
       {
         v: "1",
@@ -144,6 +147,9 @@ export class CustomGeometryExample {
       nodes, edges
     }
 
+    const gui = new GUI();
+
+
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
       const options: FlowGraphOptions = {
         gridsize: 0.3,
@@ -151,7 +157,8 @@ export class CustomGeometryExample {
           ['helvetika', font],
         ]),
         linethickness: 0.015,
-        linecolor: 'orange'
+        linecolor: 0x2ead25,
+        linestyle:'spline'
       }
       const flow = new MyFlowGraph(options)
       scene.add(flow);
@@ -159,10 +166,30 @@ export class CustomGeometryExample {
       // make the flow interactive
       new GraphInteraction(flow, interactive)
 
-
       flow.load(graph)
-
       console.log(flow)
+
+      flow.layout()
+      const center = flow.getCenter()
+      app.camera.position.x = center.x
+      app.camera.position.y = center.y
+      orbit.target.set(app.camera.position.x, app.camera.position.y, 0)
+
+
+      gui.add(flow, 'layout').name("Layout")
+
+      const edge1 = flow.hasEdge('1')!
+      const edgegui = gui.addFolder('Edge Properties')
+
+      edgegui.add<any, any>(edge1, 'linestyle', ['straight', 'spline']).name('Line Style').onChange(() => {
+        flow.layout()
+      })
+      edgegui.add<any, any>(edge1, 'divisions', 3, 15).name('Spline Division').step(1)
+      edgegui.addColor(edge1, 'color').name('Line Color')
+      edgegui.add<any, any>(edge1, 'thickness', 0.01, 0.05).name('Line Width')
+    //  toarrow ?: AbstractArrow;
+    //  fromarrow ?: AbstractArrow;
+
     });
 
 
@@ -179,11 +206,11 @@ class MyFlowGraph extends FlowGraph {
     super(options)
   }
 
-  //override createLineMaterial(color: number | string): Material {
-  //  return new LineBasicMaterial({ color });
-  //}
+  override createLineMaterial(purpose: string, color: number | string): Material {
+    return new MeshBasicMaterial({ color });
+  }
 
-  override createMeshMaterial(color: number | string): Material {
+  override createMeshMaterial(purpose: string, color: number | string): Material {
     return new MeshStandardMaterial({ color });
   }
 
@@ -196,7 +223,7 @@ class MyFlowGraph extends FlowGraph {
   }
 }
 
-const depth = 0.03
+const depth = 0.15 
 class MyFlowNode extends FlowNode {
   border: NodeBorder;
 
@@ -224,7 +251,7 @@ class MyFlowEdge extends FlowEdge {
 
   override createGeometry(curvepoints: Array<Vector3>, thickness: number): BufferGeometry | undefined {
     const curve = new CatmullRomCurve3(curvepoints);
-    return new TubeGeometry(curve, 8, thickness)
+    return new TubeGeometry(curve, curvepoints.length, thickness)
   }
 }
 

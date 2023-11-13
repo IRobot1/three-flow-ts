@@ -81,7 +81,7 @@ export class FlowGraph extends Object3D {
     })
   }
 
-  layout(label: GraphLabel, filter?: (nodeId: string) => boolean) {
+  layout(label: GraphLabel = { rankdir:'LR' }, filter?: (nodeId: string) => boolean) {
     if (!label.nodesep) label.nodesep = 0.1
     if (!label.edgesep) label.edgesep = 1
     if (!label.ranksep) label.ranksep = 4
@@ -132,6 +132,10 @@ export class FlowGraph extends Object3D {
     return this.options?.fonts?.get(name)
   }
 
+  get allNodes(): Array<FlowNode> {
+    return this.children.filter(child => child.type == 'flownode') as Array<FlowNode>
+  }
+
   public hasNode(id: string): FlowNode | undefined {
 
     for (const child of this.children) {
@@ -141,14 +145,6 @@ export class FlowGraph extends Object3D {
       }
     }
     return undefined
-  }
-
-  get allNodes(): Array<FlowNode> {
-    return this.children.filter(child => child.type == 'flownode') as Array<FlowNode>
-  }
-
-  get allEdges(): Array<FlowEdge> {
-    return this.children.filter(child => child.type == 'flowedge') as Array<FlowEdge>
   }
 
   private addNode(item: AbstractNode): FlowNode {
@@ -185,6 +181,40 @@ export class FlowGraph extends Object3D {
     return mesh;
   }
 
+  public removeNode(node: FlowNode) {
+
+    this.graph.removeNode(node.name)
+
+    this.dispatchEvent<any>({ type: 'node-removed', node })
+
+    this.remove(node)
+    node.dispose()
+  }
+
+  newNode(): FlowNode {
+    const node: AbstractNode = {
+      text: (this.nodes.length + 1).toString(),
+    }
+
+    return this.setNode(node)
+  }
+
+
+  get allEdges(): Array<FlowEdge> {
+    return this.children.filter(child => child.type == 'flowedge') as Array<FlowEdge>
+  }
+
+  public hasEdge(id: string): FlowEdge | undefined {
+
+    for (const child of this.children) {
+      if (child.type == 'flowedge') {
+        const edge = child as FlowEdge
+        if (edge.name == id) return edge
+      }
+    }
+    return undefined
+  }
+
   public addEdge(item: AbstractEdge): FlowEdge {
     if (!item.color) item.color = this.options?.linecolor
     if (!item.linestyle) item.linestyle = this.options?.linestyle
@@ -203,34 +233,15 @@ export class FlowGraph extends Object3D {
     return this.addEdge(edge)
   }
 
-  public removeNode(node: FlowNode) {
-
-    this.graph.removeNode(node.name)
-
-    this.dispatchEvent<any>({ type: 'node-removed', node })
-
-    this.remove(node)
-    node.dispose()
-  }
-
   public removeEdge(edge: FlowEdge): void {
     this.graph.removeEdge(edge.from, edge.to)
 
     this.remove(edge)
   }
 
-  newNode(): FlowNode {
-    const node: AbstractNode = {
-      text: (this.nodes.length + 1).toString(),
-    }
-
-    return this.setNode(node)
-  }
-
   get nodes(): string[] { return this.graph.nodes() }
   get connectors(): string[] { return this.graph.nodes() }
   get edges(): AbstractEdge[] { return this.graph.edges() }
-  //get version() { return this.graph.version }
 
   //
   // purpose is node, resize, scale, disabled, error, selected, active, etc
@@ -241,20 +252,20 @@ export class FlowGraph extends Object3D {
     if (!this.materials.has(key)) {
       let material
       if (type == 'line')
-        material = this.createLineMaterial(color);
+        material = this.createLineMaterial(purpose, color);
       else
-        material = this.createMeshMaterial(color);
+        material = this.createMeshMaterial(purpose, color);
       this.materials.set(key, material);
     }
     return this.materials.get(key)!;
   }
 
   // allow overriding
-  createLineMaterial(color: number | string): Material {
+  createLineMaterial(purpose: string, color: number | string): Material {
     return new LineBasicMaterial({ color });
   }
 
-  createMeshMaterial(color: number | string): Material {
+  createMeshMaterial(purpose: string, color: number | string): Material {
     return new MeshBasicMaterial({ color, opacity: 0.99 });
   }
 

@@ -1,4 +1,4 @@
-import { BufferGeometry, CatmullRomCurve3, Line, MathUtils, Mesh, Vector2, Vector3 } from "three";
+import { BufferGeometry, CatmullRomCurve3, Line, MathUtils, Mesh, MeshBasicMaterial, Vector2, Vector3 } from "three";
 import { AbstractArrow, AbstractEdge, EdgeLineStyle } from "./abstract-model";
 import { FlowGraph } from "./graph";
 import { FlowNode } from "./node";
@@ -7,10 +7,45 @@ import { FlowArrow } from "./arrow";
 export class FlowEdge extends Mesh {
   from: string;
   to: string;
-  color: number | string;
-  linestyle: EdgeLineStyle;
-  divisions: number
-  thickness: number
+
+  private _color: number | string;
+  get color() { return this._color }
+  set color(newvalue: number | string) {
+    if (this._color != newvalue) {
+      this._color = newvalue;
+      (this.material as any).color.set(newvalue)
+    }
+  }
+
+  private _linestyle: EdgeLineStyle;
+  get linestyle() { return this._linestyle }
+  set linestyle(newvalue: EdgeLineStyle) {
+    if (this._linestyle != newvalue) {
+      if (this._linestyle == 'spline') this.edge.points = undefined
+      this._linestyle = newvalue
+      this.updateVisuals()
+    }
+  }
+
+  private _divisions: number
+  get divisions() { return this._divisions }
+  set divisions(newvalue: number) {
+    newvalue = Math.max(3, newvalue)
+    if (this._divisions != newvalue) {
+      this._divisions = newvalue
+      this.updateVisuals()
+    }
+  }
+
+  private _thickness: number
+  get thickness() { return this._thickness }
+  set thickness(newvalue: number) {
+    if (this._thickness != newvalue) {
+      this._thickness = newvalue
+      this.updateVisuals()
+    }
+  }
+
   data?: { [key: string]: any; } | undefined;
 
   fromNode: FlowNode | undefined;
@@ -66,10 +101,10 @@ export class FlowEdge extends Mesh {
     }
 
 
-    this.color = edge.color ?? 'white'
-    this.linestyle = edge.linestyle ?? 'spline'
-    this.divisions = edge.divisions ?? 20
-    this.thickness = edge.thickness ?? 0.01
+    this._color = edge.color ?? 'white'
+    this._linestyle = edge.linestyle ?? 'spline'
+    this._divisions = edge.divisions ?? 20
+    this._thickness = edge.thickness ?? 0.01
 
     this.material = graph.getMaterial('line', 'edge', this.color)
 
@@ -93,7 +128,7 @@ export class FlowEdge extends Mesh {
     const to = new Vector3()
 
     // use layout when provided
-    if (this.edge.points) {
+    if (this.linestyle == 'spline' && this.edge.points) {
       this.edge.points.forEach(point => {
         curvepoints.push(new Vector3(point.x, -point.y, 0))
       })
@@ -129,8 +164,6 @@ export class FlowEdge extends Mesh {
       // only smooth if there are more then start and end
       if (this.linestyle == 'spline' && curvepoints.length > 2) {
         curvepoints = curve.getPoints(this.divisions);
-        from.copy(curvepoints[0])
-        to.copy(curvepoints[curvepoints.length - 1])
       }
 
       const geometry = this.createGeometry(curvepoints, this.thickness)
