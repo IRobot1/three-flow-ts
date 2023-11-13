@@ -21,6 +21,9 @@ export class DragNode {
 
     let offset: Vector3
     node.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
+      // remember where in the mesh the mouse was clicked to avoid jump on first drag
+      offset = e.position.sub(node.position).clone()
+
       this.dragging = true
     });
     node.addEventListener(InteractiveEventType.DRAGEND, () => { this.dragging = false });
@@ -28,7 +31,7 @@ export class DragNode {
     node.addEventListener(InteractiveEventType.DRAG, (e: any) => {
       let position = e.position.clone() as Vector3
       if (this.dragging) {
-        node.position.copy(snapToGrid(position))
+        node.position.copy(snapToGrid(e.position.sub(offset)))
         node.dispatchEvent<any>({ type: 'dragged'})
       }
     });
