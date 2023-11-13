@@ -1,4 +1,4 @@
-import { AbstractConnector } from "./abstract-model";
+import { AbstractConnector } from "./model";
 import { BufferGeometry, CircleGeometry, Mesh } from "three";
 import { FlowGraph } from "./graph";
 

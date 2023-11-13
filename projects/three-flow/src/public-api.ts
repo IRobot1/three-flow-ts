@@ -2,7 +2,7 @@
  * Public API Surface of three-flow
  */
 
-export * from './lib/abstract-model';
+export * from './lib/model';
 
 export * from './lib/interactive'
 export * from './lib/drag-node'

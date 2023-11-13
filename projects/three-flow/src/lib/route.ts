@@ -1,5 +1,5 @@
 import { BufferGeometry, CircleGeometry } from "three";
-import { AbstractRoute } from "./abstract-model";
+import { AbstractRoute } from "./model";
 import { FlowGraph } from "./graph";
 import { FlowNode } from "./node";
 

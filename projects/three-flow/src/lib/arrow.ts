@@ -1,7 +1,6 @@
-import { BufferGeometry, CylinderGeometry, Mesh, Shape, ShapeGeometry, Vector3 } from "three";
-import { AbstractArrow, ArrowStyle } from "./abstract-model";
+import { BufferGeometry, Mesh, Shape, ShapeGeometry } from "three";
+import { AbstractArrow, ArrowStyle } from "./model";
 import { FlowEdge } from "./edge";
-import { MathUtils } from "three/src/math/MathUtils";
 
 
 export class FlowArrow extends Mesh {

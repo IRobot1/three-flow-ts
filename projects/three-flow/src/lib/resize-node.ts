@@ -1,7 +1,7 @@
 import { BufferGeometry, Material, MathUtils, Mesh, PlaneGeometry, Vector3 } from "three";
 import { InteractiveEventType } from "./interactive";
 import { FlowNode } from "./node";
-import { FlowHandle } from "./abstract-model";
+import { FlowHandle } from "./model";
 
 export class ResizeNode {
   public enabled = true

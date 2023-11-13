@@ -1,5 +1,5 @@
 import { Box3, LineBasicMaterial, Material, MeshBasicMaterial, Object3D, Vector3 } from "three";
-import { AbstractEdge, AbstractGraph, AbstractNode, AbstractRoute, EdgeLineStyle } from "./abstract-model";
+import { AbstractEdge, AbstractGraph, AbstractNode, AbstractRoute, EdgeLineStyle } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
 import { FlowNode } from "./node";

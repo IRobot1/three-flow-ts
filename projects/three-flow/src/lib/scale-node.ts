@@ -1,7 +1,7 @@
 import { BufferGeometry, Material, MathUtils, Mesh, PlaneGeometry, Vector3 } from "three"
 import { FlowNode } from "./node"
 import { InteractiveEventType } from "./interactive"
-import { FlowHandle } from "./abstract-model"
+import { FlowHandle } from "./model"
 
 export class ScaleNode {
   public enabled = true

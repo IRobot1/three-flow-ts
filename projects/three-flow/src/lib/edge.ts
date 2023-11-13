@@ -1,5 +1,5 @@
 import { BufferGeometry, CatmullRomCurve3, Line, MathUtils, Mesh, MeshBasicMaterial, Vector2, Vector3 } from "three";
-import { AbstractArrow, AbstractEdge, EdgeLineStyle } from "./abstract-model";
+import { AbstractArrow, AbstractEdge, EdgeLineStyle } from "./model";
 import { FlowGraph } from "./graph";
 import { FlowNode } from "./node";
 import { FlowArrow } from "./arrow";
