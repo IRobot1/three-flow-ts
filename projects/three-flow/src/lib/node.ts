@@ -31,7 +31,14 @@ export class FlowNode extends Mesh {
   minheight: number;
   maxheight: number;
 
-  color: number | string;
+  private _color: number | string;
+  get color() { return this._color }
+  set color(newvalue: number | string) {
+    if (this._color != newvalue) {
+      this._color = newvalue;
+      (this.material as any).color.set(newvalue)
+    }
+  }
 
   label?: string;
   labelsize: number;
@@ -92,7 +99,7 @@ export class FlowNode extends Mesh {
   }
 
 
-  constructor(private graph: FlowGraph, public node: AbstractNode) {
+  constructor(public graph: FlowGraph, public node: AbstractNode) {
     super();
 
     //@ts-ignore
@@ -107,7 +114,7 @@ export class FlowNode extends Mesh {
     this._height = node.height = node.height ?? 1;
     this.minheight = node.minheight ?? this.height;
     this.maxheight = node.maxheight ?? Number.POSITIVE_INFINITY
-    this.color = node.color ?? 'white'
+    this._color = node.color ?? 'white'
 
     this.label = node.label
     this.labelsize = node.labelsize ?? 0.1
@@ -117,7 +124,7 @@ export class FlowNode extends Mesh {
     this._resizable = node.resizable ?? true
     this.resizecolor = node.resizecolor ?? 'black'
     this._draggable = node.draggable ?? true
-    this._scalable = node.scaleable ?? true
+    this._scalable = node.scalable ?? true
     this.selectable = node.selectable ?? true
     this.scalecolor = node.scalecolor ?? 'black'
 
@@ -168,14 +175,7 @@ export class FlowNode extends Mesh {
     this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
   }
 
-  updateVisuals() {
-
-    const setColor = (material: any, color: number | string) => {
-      material.color.set(color)
-    }
-
-    setColor(this.material, this.color);
-  }
+  updateVisuals() {  }
 
 
 

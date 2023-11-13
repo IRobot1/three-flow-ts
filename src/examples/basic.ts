@@ -1,6 +1,7 @@
 import { AmbientLight, Color, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 
 import { ThreeJSApp } from "../app/threejs-app";
 import {
@@ -10,6 +11,7 @@ import {
   FlowGraph,
   FlowGraphOptions,
   AbstractGraph,
+  GraphInteraction,
 } from "three-flow";
 
 export class BasicExample {
@@ -61,13 +63,13 @@ export class BasicExample {
         labelfont: 'helvetika',
         draggable: true,
         resizable: true,
-        scaleable: true,
+        scalable: true,
         scale: 1,
         width: 1,
         height: 2,
-        color: 'green',
-        resizecolor: 'red',
-        scalecolor: 'yellow',
+        color: 0x297029,
+        resizecolor: 0xff0000,
+        scalecolor: 0xfff370,
       },
       {
         text: "2",
@@ -78,13 +80,13 @@ export class BasicExample {
         labelfont: 'helvetika',
         draggable: true,
         resizable: false,
-        scaleable: true,
+        scalable: true,
         scale: 1,
         width: 1,
         height: 1,
         color: 'red',
-        resizecolor: 'red',
-        scalecolor: 'yellow',
+        resizecolor: 0xff0000,
+        scalecolor: 0xfff370,
       },
       {
         text: "3",
@@ -95,13 +97,13 @@ export class BasicExample {
         labelfont: 'helvetika',
         draggable: true,
         resizable: false,
-        scaleable: true,
+        scalable: true,
         scale: 1,
         width: 1,
         height: 1,
         color: 'gold',
-        resizecolor: 'red',
-        scalecolor: 'yellow',
+        resizecolor: 0xff0000,
+        scalecolor: 0xfff370,
       }
 
     ];
@@ -130,6 +132,8 @@ export class BasicExample {
     }
 
 
+    const gui = new GUI();
+
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
       const options: FlowGraphOptions = {
         gridsize: 0.3,
@@ -142,12 +146,41 @@ export class BasicExample {
       const flow = new FlowGraph(options)
       scene.add(flow);
 
+      // make the flow interactive
+      new GraphInteraction(flow, interactive)
+
       flow.load(graph)
+
+      const node1 = flow.hasNode('1')!
+
+      gui.add(flow, 'gridsize', 0, 1).name('Snap-to-Grid Size')
+
+      const folder = gui.addFolder('Node Properties')
+      folder.add<any,any>(node1, 'width', 0.3, 3).name('Width')
+      folder.add<any, any>(node1, 'minwidth', 0.3, 3).name('Min Width')
+      folder.add<any, any>(node1, 'maxwidth', 0.3, 3).name('Max Width')
+      folder.add<any,any>(node1, 'height', 0.3, 3).name('Height')
+      folder.add<any, any>(node1, 'minwidth', 0.3, 3).name('Min Height')
+      folder.add<any, any>(node1, 'maxwidth', 0.3, 3).name('Max Height')
+      folder.addColor(node1, 'color').name('Color')
+      folder.add<any, any>(node1, 'label').name('Label')
+      folder.add<any, any>(node1, 'labelsize', 0.3, 3).name('Label Size')
+      folder.addColor(node1, 'labelcolor').name('Label Color')
+      //labelfont ?: string;
+      //userData ?: { [key: string]: any };
+      folder.add<any, any>(node1, 'resizable').name('Resizable')
+      folder.addColor(node1, 'resizecolor').name('Resize Color')
+      folder.add<any, any>(node1, 'draggable').name('Draggable')
+      folder.add<any, any>(node1, 'scalable').name('Scalable')
+      folder.addColor(node1, 'scalecolor').name('Scale Color')
+      folder.add<any, any>(node1, 'scalar', 0.1, 5).name('Scale')
+      folder.add<any, any>(node1, 'minscale', 0.1, 2).name('Min Scale')
+      folder.add<any, any>(node1, 'maxscale', 0.1, 2).name('Max Scale')
     });
 
 
-
     this.dispose = () => {
+      gui.destroy()
       orbit.dispose()
     }
 

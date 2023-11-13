@@ -33,7 +33,9 @@ export class FlowGraph extends Object3D {
 
   constructor(private options?: FlowGraphOptions) {
     super()
-    //if (!this.graph.version) this.graph.version = 1
+
+    this.gridsize = options?.gridsize ?? 0
+
     this.materials = new Map();
 
     this.graph.nodes().forEach(name => {
@@ -68,13 +70,13 @@ export class FlowGraph extends Object3D {
 
     graph.nodes?.forEach(node => {
       if (node.type == 'route')
-        this.addRoute(node)
+        this.setRoute(node)
       else
-        this.addNode(node)
+        this.setNode(node)
     })
 
     graph.edges?.forEach(edge => {
-      const line = this.addEdge(edge)
+      const line = this.setEdge(edge)
       this.add(line)
     })
   }
@@ -115,7 +117,13 @@ export class FlowGraph extends Object3D {
     this.dispatchEvent<any>({ type: 'dispose' })
   }
 
-  get gridsize(): number { return this.options?.gridsize ?? 0 }
+  private _gridsize = 0
+  get gridsize(): number { return this._gridsize }
+  set gridsize(newvalue: number) {
+    if (this._gridsize != newvalue) {
+      this._gridsize = newvalue;
+    }
+  }
 
   getFont(name = 'default') {
     return this.options?.fonts?.get(name)
@@ -202,27 +210,11 @@ export class FlowGraph extends Object3D {
     node.dispose()
   }
 
-  public removeConnector(name: string) {
-    this.graph.removeNode(name)
-  }
-
-
   public removeEdge(edge: FlowEdge): void {
     this.graph.removeEdge(edge.from, edge.to)
 
     this.remove(edge)
   }
-
-  public removeConnectedEdge(id: string) {
-    this.children.forEach(child => {
-      if (child.type == 'flowedge') {
-        const edge = child as FlowEdge
-        if (edge.from == id || edge.to == id)
-          this.removeEdge(edge)
-      }
-    })
-  }
-
 
   newNode(): FlowNode {
     const node: AbstractNode = {

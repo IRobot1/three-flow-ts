@@ -1,13 +1,15 @@
 import { Object3D, Vector3 } from "three";
 import { InteractiveEventType } from "./interactive";
+import { FlowNode } from "./node";
 
 export class DragNode {
   public enabled = true
 
   private dragging = false
 
-  constructor(node: Object3D, gridSize: number) {
+  constructor(node: FlowNode, gridSize: number) {
     const snapToGrid = (position: THREE.Vector3): THREE.Vector3 => {
+      const gridSize = node.graph.gridsize
       if (gridSize > 0) {
         // Assuming position is the position of the object being dragged
         position.x = Math.round(position.x / gridSize) * gridSize;

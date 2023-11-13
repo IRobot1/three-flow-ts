@@ -57,7 +57,7 @@ export interface AbstractNode extends Label {
   resizable?: boolean;
   resizecolor?: number | string;
   draggable?: boolean;
-  scaleable?: boolean;
+  scalable?: boolean;
   selectable?: boolean;
   scalecolor?: number | string;
   scale?: number;
