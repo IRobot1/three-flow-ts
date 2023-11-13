@@ -19,18 +19,14 @@ export class DragNode {
 
     let offset: Vector3
     node.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
-
-      // so we can click anywhere in the title, remember offset within title where we started dragging
-      offset = e.position.sub(node.position).clone()
       this.dragging = true
     });
     node.addEventListener(InteractiveEventType.DRAGEND, () => { this.dragging = false });
 
     node.addEventListener(InteractiveEventType.DRAG, (e: any) => {
-
-      // adjust the current position by offset within title
+      let position = e.position.clone() as Vector3
       if (this.dragging) {
-        node.position.copy(snapToGrid(e.position.sub(offset)))
+        node.position.copy(snapToGrid(position))
         node.dispatchEvent<any>({ type: 'dragged'})
       }
     });

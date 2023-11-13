@@ -155,14 +155,11 @@ export class FlowInteractive {
           _plane.setFromNormalAndCoplanarPoint(_selected.getWorldDirection(_plane.normal), _worldPosition.setFromMatrixPosition(_selected.matrixWorld));
 
           if (raycaster.ray.intersectPlane(_plane, _intersection)) {
-            let owner = _selected.parent
-            if (owner.type != 'Scene') owner = _selected
-            _inverseMatrix.copy(owner.matrixWorld).invert();
-            _inverseMatrix.makeScale(1, 1, 1)
-            _intersection.applyMatrix4(_inverseMatrix)
+            _inverseMatrix.copy(_selected.parent.matrixWorld).invert();
+
+            _selected.dispatchEvent({ type: InteractiveEventType.DRAGSTART, position: _intersection, data: _intersects });
           }
 
-          _selected.dispatchEvent({ type: InteractiveEventType.DRAGSTART, position: _intersection, data: _intersects });
         }
       }
       if (event.type == 'pointermove') {
@@ -170,11 +167,10 @@ export class FlowInteractive {
 
           if (raycaster.ray.intersectPlane(_plane, _intersection)) {
 
-            _intersection.applyMatrix4(_inverseMatrix)
+            // let selected object decide if dragging is allowed
+            _selected.dispatchEvent({ type: InteractiveEventType.DRAG, position: _intersection.applyMatrix4(_inverseMatrix) });
           }
 
-          // let selected object decide if dragging is allowed
-          _selected.dispatchEvent({ type: InteractiveEventType.DRAG, position: _intersection });
 
         }
       }

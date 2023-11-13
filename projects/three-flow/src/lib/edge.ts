@@ -117,8 +117,8 @@ export class FlowEdge extends Mesh {
       }
     }
     else if (this.fromNode && this.toNode) {
-      this.fromNode.getWorldPosition(from)
-      this.toNode.getWorldPosition(to)
+      from.copy(this.fromNode.position)
+      to.copy(this.toNode.position)
 
       curvepoints.push(from, to)
     }

@@ -1,4 +1,4 @@
-import { AmbientLight, Color, PointLight, Scene } from "three";
+import { AmbientLight, AxesHelper, Color, MathUtils, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 
@@ -49,7 +49,7 @@ export class CivilizationExample {
         orbit.enableRotate = !orbit.enableRotate
     })
 
-
+    //scene.add(new AxesHelper())
 
     const interactive = new FlowInteractive(app, app.camera)
 
@@ -66,6 +66,7 @@ export class CivilizationExample {
       }
       const flow = new FlowGraph(options)
       scene.add(flow);
+      flow.rotation.x = MathUtils.degToRad(-15) 
 
       // make the flow interactive
       new GraphInteraction(flow, interactive)
