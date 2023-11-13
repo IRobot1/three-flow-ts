@@ -156,10 +156,10 @@ export class BasicExample {
       gui.add(flow, 'gridsize', 0, 1).name('Snap-to-Grid Size')
 
       const folder = gui.addFolder('Node Properties')
-      folder.add<any,any>(node1, 'width', 0.3, 3).name('Width')
+      folder.add<any, any>(node1, 'width', 0.3, 3).name('Width')
       folder.add<any, any>(node1, 'minwidth', 0.3, 3).name('Min Width')
       folder.add<any, any>(node1, 'maxwidth', 0.3, 3).name('Max Width')
-      folder.add<any,any>(node1, 'height', 0.3, 3).name('Height')
+      folder.add<any, any>(node1, 'height', 0.3, 3).name('Height')
       folder.add<any, any>(node1, 'minheight', 0.3, 3).name('Min Height')
       folder.add<any, any>(node1, 'maxheight', 0.3, 3).name('Max Height')
       folder.addColor(node1, 'color').name('Color')
@@ -176,6 +176,18 @@ export class BasicExample {
       folder.add<any, any>(node1, 'scalar', 0.1, 5).name('Scale')
       folder.add<any, any>(node1, 'minscale', 0.1, 2).name('Min Scale')
       folder.add<any, any>(node1, 'maxscale', 0.1, 3).name('Max Scale')
+
+      //
+      // After moving a node, dispatch dragged event to notify all edges to redraw
+      //
+      //  const node2 = flow.hasNode('2')!
+      //  let factor = 0.1
+      //  setInterval(() => {
+      //    if (node2.position.y < -2 || node2.position.y > 2)
+      //      factor = -factor
+      //    node2.position.y += factor
+      //    node2.dispatchEvent<any>({ type: 'dragged' })
+      //  }, 100)
     });
 
 
