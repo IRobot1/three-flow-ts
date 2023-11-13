@@ -12,8 +12,8 @@ export * from './lib/graph-interactive'
 
 export * from './lib/node-border'
 
-
 export * from './lib/graph';
 export * from './lib/connector';
 export * from './lib/node';
 export * from './lib/edge';
+export * from './lib/arrow';

@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, Color, Material, MeshBasicMaterial, MeshStandardMaterial, PointLight, Scene, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, Color, DoubleSide, ExtrudeGeometry, FrontSide, Material, MeshBasicMaterial, MeshStandardMaterial, PointLight, Scene, Shape, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TubeGeometry } from "three";
@@ -8,7 +8,7 @@ import {
   FlowNode,
   AbstractEdge,
   AbstractNode,
-  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions, AbstractGraph, GraphInteraction, NodeBorder
+  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions, AbstractGraph, GraphInteraction, NodeBorder, FlowArrow, AbstractArrow, ArrowStyle
 } from "three-flow";
 import { ResizeNode, FlowGraph } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
@@ -81,7 +81,7 @@ export class CustomGeometryExample {
         color: 'red',
         resizecolor: 'red',
         scalecolor: 'yellow',
-        
+
 
       },
       {
@@ -101,7 +101,7 @@ export class CustomGeometryExample {
         color: 'gold',
         resizecolor: 'red',
         scalecolor: 'yellow',
-        
+
       },
 
       {
@@ -123,6 +123,7 @@ export class CustomGeometryExample {
         v: "1",
         w: "3",
         color: 0xff0000,
+        toarrow: { color: 0xff0000 }
       },
       {
         v: "1",
@@ -158,7 +159,7 @@ export class CustomGeometryExample {
         ]),
         linethickness: 0.015,
         linecolor: 0x2ead25,
-        linestyle:'spline'
+        linestyle: 'spline'
       }
       const flow = new MyFlowGraph(options)
       scene.add(flow);
@@ -179,6 +180,8 @@ export class CustomGeometryExample {
       gui.add(flow, 'layout').name("Layout")
 
       const edge1 = flow.hasEdge('1')!
+      const arrow1 = edge1.toArrow as FlowArrow
+
       const edgegui = gui.addFolder('Edge Properties')
 
       edgegui.add<any, any>(edge1, 'linestyle', ['straight', 'spline']).name('Line Style').onChange(() => {
@@ -187,14 +190,22 @@ export class CustomGeometryExample {
       edgegui.add<any, any>(edge1, 'divisions', 3, 15).name('Spline Division').step(1)
       edgegui.addColor(edge1, 'color').name('Line Color')
       edgegui.add<any, any>(edge1, 'thickness', 0.01, 0.05).name('Line Width')
-    //  toarrow ?: AbstractArrow;
-    //  fromarrow ?: AbstractArrow;
 
+      const arrowgui = gui.addFolder('Arrow Properties')
+      arrowgui.addColor(arrow1, 'color').name('Arrow Color')
+      arrowgui.add<any, any>(arrow1, 'width', 0.1, 0.3).name('Arrow Width')
+      arrowgui.add<any, any>(arrow1, 'height', 0.2, 0.5).name('Arrow Height')
+      arrowgui.add<any, any>(arrow1, 'indent', 0, 0.2).name('Arrow Indent')
+      //arrowstyle ?: ArrowStyle;
+
+      arrowgui.add<any, any>(arrow1, 'scalar', 0.5, 2).name('Scale')
+ 
     });
 
 
 
     this.dispose = () => {
+      gui.close()
       orbit.dispose()
     }
 
@@ -211,7 +222,7 @@ class MyFlowGraph extends FlowGraph {
   }
 
   override createMeshMaterial(purpose: string, color: number | string): Material {
-    return new MeshStandardMaterial({ color });
+    return new MeshStandardMaterial({ color, side: purpose == 'arrow' ? DoubleSide : FrontSide });
   }
 
   override createNode(graph: FlowGraph, node: AbstractNode): FlowNode {
@@ -223,7 +234,7 @@ class MyFlowGraph extends FlowGraph {
   }
 }
 
-const depth = 0.15 
+const depth = 0.15
 class MyFlowNode extends FlowNode {
   border: NodeBorder;
 
@@ -252,6 +263,23 @@ class MyFlowEdge extends FlowEdge {
   override createGeometry(curvepoints: Array<Vector3>, thickness: number): BufferGeometry | undefined {
     const curve = new CatmullRomCurve3(curvepoints);
     return new TubeGeometry(curve, curvepoints.length, thickness)
+  }
+
+  override createArrow(arrow: AbstractArrow): FlowArrow {
+    return new MyArrow(this, arrow)
+  }
+}
+
+class MyArrow extends FlowArrow {
+  override createArrow(style: ArrowStyle): BufferGeometry {
+    const shape = new Shape()
+      .lineTo(-this.width, this.height + this.indent)
+      .lineTo(0, this.height)
+      .lineTo(this.width, this.height + this.indent)
+
+    const geometry = new ExtrudeGeometry(shape, { bevelEnabled: false, depth: 0.1 });
+    geometry.translate(0, 0, -0.05)
+    return geometry
   }
 }
 

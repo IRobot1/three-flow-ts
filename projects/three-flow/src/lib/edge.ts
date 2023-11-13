@@ -5,8 +5,8 @@ import { FlowNode } from "./node";
 import { FlowArrow } from "./arrow";
 
 export class FlowEdge extends Mesh {
-  from: string;
-  to: string;
+  readonly from: string;
+  readonly to: string;
 
   private _color: number | string;
   get color() { return this._color }
@@ -21,7 +21,7 @@ export class FlowEdge extends Mesh {
   get linestyle() { return this._linestyle }
   set linestyle(newvalue: EdgeLineStyle) {
     if (this._linestyle != newvalue) {
-      if (this._linestyle == 'spline') this.edge.points = undefined
+      if (this._linestyle == 'spline') this.removeArrows()
       this._linestyle = newvalue
       this.updateVisuals()
     }
@@ -48,10 +48,10 @@ export class FlowEdge extends Mesh {
 
   data?: { [key: string]: any; } | undefined;
 
-  fromNode: FlowNode | undefined;
-  toNode: FlowNode | undefined;
-  private fromArrow: FlowArrow | undefined;
-  private toArrow: FlowArrow | undefined;
+  readonly fromNode: FlowNode | undefined;
+  readonly toNode: FlowNode | undefined;
+  public fromArrow: FlowArrow | undefined;
+  public toArrow: FlowArrow | undefined;
   private line?: Line
 
   isFlow = true
@@ -65,20 +65,7 @@ export class FlowEdge extends Mesh {
     if (this.data) this.userData = this.data
 
     const dragged = () => {
-      // invalidate layout points
-      if (this.edge.points) this.edge.points = undefined
-
-      // and arrows
-      if (this.toArrow) {
-        this.remove(this.toArrow)
-        this.toArrow = undefined
-      }
-
-      if (this.fromArrow) {
-        this.remove(this.fromArrow)
-        this.fromArrow = undefined
-      }
-
+this.removeArrows()
       this.updateVisuals()
     }
 
@@ -117,6 +104,22 @@ export class FlowEdge extends Mesh {
 
   }
 
+  private removeArrows() {
+    // invalidate layout points
+    if (this.edge.points) this.edge.points = undefined
+
+    // and arrows
+    if (this.toArrow) {
+      this.remove(this.toArrow)
+      this.toArrow = undefined
+    }
+
+    if (this.fromArrow) {
+      this.remove(this.fromArrow)
+      this.fromArrow = undefined
+    }
+  }
+
   private arrowLookAt(source:Vector3, target:Vector3) {
     // Calculate the angle to rotate
     return Math.atan2(target.y - source.y, target.x - source.x) 
@@ -140,14 +143,14 @@ export class FlowEdge extends Mesh {
         this.toArrow.position.copy(to)
         if (this.toNode) {
           const angle = this.arrowLookAt(this.toArrow.position, this.toNode.position)
-          this.toArrow.geometry.rotateZ(angle+MathUtils.degToRad(90))
+          this.toArrow.rotate = angle+MathUtils.degToRad(90)
         }
       }
       if (this.fromArrow) {
         this.fromArrow.position.copy(from)
         if (this.fromNode) {
           const angle = this.arrowLookAt(this.fromArrow.position, this.fromNode.position)
-          this.fromArrow.geometry.rotateZ(angle + MathUtils.degToRad(90))
+          this.fromArrow.rotate = angle + MathUtils.degToRad(90)
         }
       }
     }

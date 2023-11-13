@@ -19,7 +19,6 @@ export interface AbstractArrow {
   color?: number | string;
   arrowstyle?: ArrowStyle;
   scale?: number;
-  translate?: number;
 }
 
 export type EdgeLineStyle = 'straight' | 'spline'
