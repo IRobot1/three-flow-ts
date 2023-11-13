@@ -81,17 +81,20 @@ export class FlowGraph extends Object3D {
     })
   }
 
-  layout(label: GraphLabel) {
+  layout(label: GraphLabel, filter?: (nodeId: string) => boolean) {
     if (!label.nodesep) label.nodesep = 0.1
     if (!label.edgesep) label.edgesep = 1
     if (!label.ranksep) label.ranksep = 4
 
     this.graph.setGraph(label);
 
-    layout(this.graph)
+    let filteredgraph = this.graph
+    if (filter) filteredgraph = this.graph.filterNodes(filter)
+
+    layout(filteredgraph)
 
     // reposition the nodes
-    this.graph.nodes().forEach(name => {
+    filteredgraph.nodes().forEach(name => {
       const data = this.graph.node(name)
       const node = this.hasNode(name)
       if (node) {
