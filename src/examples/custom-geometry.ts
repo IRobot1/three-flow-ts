@@ -205,7 +205,7 @@ export class CustomGeometryExample {
 
 
     this.dispose = () => {
-      gui.close()
+      gui.destroy()
       orbit.dispose()
     }
 
