@@ -60,7 +60,7 @@ export class ScaleNode {
       // adjust for direction
       diff.multiplyScalar(direction)
 
-      this.node.scalar = startscale - diff.x * 2
+      this.node.scalar = startscale - (diff.x * 2 * startscale)
     });
 
     mesh.addEventListener(InteractiveEventType.POINTERENTER, () => { if (!this.scaling) mesh.visible = true; });

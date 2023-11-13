@@ -157,7 +157,7 @@ export class FlowInteractive {
           if (raycaster.ray.intersectPlane(_plane, _intersection)) {
             _inverseMatrix.copy(_selected.parent.matrixWorld).invert();
 
-            _selected.dispatchEvent({ type: InteractiveEventType.DRAGSTART, position: _intersection, data: _intersects });
+            _selected.dispatchEvent({ type: InteractiveEventType.DRAGSTART, position: _intersection.applyMatrix4(_inverseMatrix), data: _intersects });
           }
 
         }
