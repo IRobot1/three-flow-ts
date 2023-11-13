@@ -184,7 +184,7 @@ class MyFlowGraph extends FlowGraph {
   //}
 
   override createMeshMaterial(color: number | string): Material {
-    return new MeshStandardMaterial({ color: 'orange' });
+    return new MeshStandardMaterial({ color });
   }
 
   override createNode(graph: FlowGraph, node: AbstractNode): FlowNode {
