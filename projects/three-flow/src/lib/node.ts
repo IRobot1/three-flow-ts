@@ -1,4 +1,4 @@
-import { Mesh, BufferGeometry, PlaneGeometry } from "three";
+import { Mesh, BufferGeometry, PlaneGeometry, MathUtils } from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
@@ -10,6 +10,7 @@ export class FlowNode extends Mesh {
   protected _width: number
   get width() { return this._width }
   set width(newvalue: number) {
+    newvalue = MathUtils.clamp(newvalue, this.minwidth, this.maxwidth)
     if (this._width != newvalue) {
       this._width = newvalue
       this.resizeGeometry()
@@ -22,6 +23,7 @@ export class FlowNode extends Mesh {
   protected _height: number
   get height() { return this._height }
   set height(newvalue: number) {
+    newvalue = MathUtils.clamp(newvalue, this.minheight, this.maxheight)
     if (this._height != newvalue) {
       this._height = newvalue
       this.resizeGeometry()
@@ -40,9 +42,34 @@ export class FlowNode extends Mesh {
     }
   }
 
-  label?: string;
-  labelsize: number;
-  labelcolor: number | string;
+  private _label: string | undefined
+  get label() { return this._label }
+  set label(newvalue: string | undefined) {
+    if (this._label != newvalue) {
+      this._label = newvalue;
+      if (newvalue) {
+        this.updateLabel()
+      }
+    }
+  }
+
+  private _labelsize: number;
+  get labelsize() { return this._labelsize }
+  set labelsize(newvalue: number) {
+    if (this._labelsize != newvalue) {
+      this._labelsize = newvalue;
+      this.updateLabel()
+    }
+  }
+
+  private _labelcolor: number | string;
+  get labelcolor() { return this._labelcolor }
+  set labelcolor(newvalue: number | string) {
+    if (this._labelcolor != newvalue) {
+      this._labelcolor = newvalue;
+      (this.labelMesh.material as any).color.set(newvalue)
+    }
+  }
 
   resizecolor: number | string;
 
@@ -80,6 +107,7 @@ export class FlowNode extends Mesh {
   private _scalar: number
   get scalar() { return this._scalar }
   set scalar(newvalue: number) {
+    newvalue = MathUtils.clamp(newvalue, this.minscale, this.maxscale)
     if (this._scalar != newvalue) {
       this._scalar = newvalue
       this.scale.set(newvalue, newvalue, 1)
@@ -116,9 +144,9 @@ export class FlowNode extends Mesh {
     this.maxheight = node.maxheight ?? Number.POSITIVE_INFINITY
     this._color = node.color ?? 'white'
 
-    this.label = node.label
-    this.labelsize = node.labelsize ?? 0.1
-    this.labelcolor = node.labelcolor ?? 'black'
+    this._label = node.label
+    this._labelsize = node.labelsize ?? 0.1
+    this._labelcolor = node.labelcolor ?? 'black'
     this.font = graph.getFont(node.labelfont)
 
     this._resizable = node.resizable ?? true
@@ -150,11 +178,7 @@ export class FlowNode extends Mesh {
     this.labelMesh.name = 'label'
 
     const textMaterial = graph.getMaterial('geometry', 'label', this.labelcolor);
-    if (this.font && this.label) {
-      const geometry = this.createTextGeometry(this.label, { font: this.font, height: 0, size: this.labelsize });
-      geometry.center()
-      this.labelMesh.geometry = geometry;
-    }
+    this.updateLabel();
 
     this.labelMesh.material = textMaterial
     this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
@@ -168,6 +192,14 @@ export class FlowNode extends Mesh {
     })
   }
 
+  private updateLabel() {
+    if (this.font && this.label) {
+      const geometry = this.createTextGeometry(this.label, { font: this.font, height: 0, size: this.labelsize });
+      geometry.center()
+      this.labelMesh.geometry = geometry;
+    }
+  }
+
   private resizeGeometry() {
     this.geometry.dispose()
     this.geometry = this.createGeometry()
@@ -175,7 +207,7 @@ export class FlowNode extends Mesh {
     this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
   }
 
-  updateVisuals() {  }
+  updateVisuals() { }
 
 
 

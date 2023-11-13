@@ -59,7 +59,7 @@ export class BasicExample {
         x: 0, y: 0, z: 0,
         label: "Title1",
         labelsize: 0.1,
-        labelcolor: 'white',
+        labelcolor: 0xffffff,
         labelfont: 'helvetika',
         draggable: true,
         resizable: true,
@@ -76,7 +76,7 @@ export class BasicExample {
         x: 2, y: 0, z: 0,
         label: "Title2",
         labelsize: 0.1,
-        labelcolor: 'white',
+        labelcolor: 0xffffff,
         labelfont: 'helvetika',
         draggable: true,
         resizable: false,
@@ -93,7 +93,7 @@ export class BasicExample {
         x: -2, y: 0, z: 0,
         label: "Title3",
         labelsize: 0.1,
-        labelcolor: 'white',
+        labelcolor: 0xffffff,
         labelfont: 'helvetika',
         draggable: true,
         resizable: false,
@@ -160,11 +160,11 @@ export class BasicExample {
       folder.add<any, any>(node1, 'minwidth', 0.3, 3).name('Min Width')
       folder.add<any, any>(node1, 'maxwidth', 0.3, 3).name('Max Width')
       folder.add<any,any>(node1, 'height', 0.3, 3).name('Height')
-      folder.add<any, any>(node1, 'minwidth', 0.3, 3).name('Min Height')
-      folder.add<any, any>(node1, 'maxwidth', 0.3, 3).name('Max Height')
+      folder.add<any, any>(node1, 'minheight', 0.3, 3).name('Min Height')
+      folder.add<any, any>(node1, 'maxheight', 0.3, 3).name('Max Height')
       folder.addColor(node1, 'color').name('Color')
       folder.add<any, any>(node1, 'label').name('Label')
-      folder.add<any, any>(node1, 'labelsize', 0.3, 3).name('Label Size')
+      folder.add<any, any>(node1, 'labelsize', 0.05, 0.3).name('Label Size')
       folder.addColor(node1, 'labelcolor').name('Label Color')
       //labelfont ?: string;
       //userData ?: { [key: string]: any };
@@ -175,7 +175,7 @@ export class BasicExample {
       folder.addColor(node1, 'scalecolor').name('Scale Color')
       folder.add<any, any>(node1, 'scalar', 0.1, 5).name('Scale')
       folder.add<any, any>(node1, 'minscale', 0.1, 2).name('Min Scale')
-      folder.add<any, any>(node1, 'maxscale', 0.1, 2).name('Max Scale')
+      folder.add<any, any>(node1, 'maxscale', 0.1, 3).name('Max Scale')
     });
 
 

@@ -61,17 +61,14 @@ export class ResizeNode {
       if (width_direction) {
         diff.x *= width_direction
 
-        // clamp width between min and max
-        this.node.width = MathUtils.clamp(startwidth - diff.x * 2, this.node.minwidth, this.node.maxwidth)
+        this.node.width = startwidth - diff.x * 2
       }
 
       if (height_direction) {
         diff.y *= height_direction
 
-        // clamp height between min and max
-        this.node.height = MathUtils.clamp(startheight - diff.y * 2, this.node.minheight, this.node.maxheight)
+        this.node.height = startheight - diff.y * 2
       }
-      //e.stop = true;
     });
 
 

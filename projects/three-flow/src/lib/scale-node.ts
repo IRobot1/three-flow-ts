@@ -53,14 +53,14 @@ export class ScaleNode {
     })
 
     mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
+      if (!this.node.scalable) return
+
       const diff = e.position.sub(startposition) as Vector3
 
       // adjust for direction
       diff.multiplyScalar(direction)
 
-      // only scale my horizontal movement in order to keep aspect ratio the same
-      const scale = MathUtils.clamp(startscale - diff.x * 2, this.node.minscale, this.node.maxscale)
-      this.node.scalar = scale
+      this.node.scalar = startscale - diff.x * 2
     });
 
     mesh.addEventListener(InteractiveEventType.POINTERENTER, () => { if (!this.scaling) mesh.visible = true; });
