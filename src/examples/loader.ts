@@ -85,7 +85,8 @@ export class LoaderExample {
     // Options for the dropdown
     let list = [
       { textContent: 'Language Graph', value: 'languages.json' },
-      { textContent: 'Civilization Tech Tree', value: 'civilization.json' }
+      { textContent: 'Civilization Tech Tree', value: 'civilization.json' },
+      { textContent: 'Builder', value: 'builder.json' }
     ];
 
     // Add options to the dropdown

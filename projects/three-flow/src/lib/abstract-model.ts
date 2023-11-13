@@ -36,7 +36,9 @@ export interface AbstractEdge extends Edge {
   points?: Array<{ x: number, y: number }>  // layout positions of line segments
 }
 
+export type AbstractNodeType = 'node' | 'route'
 export interface AbstractNode extends Label {
+  type?: AbstractNodeType
   x?: number;
   y?: number;
   z?: number;

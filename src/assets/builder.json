@@ -1,0 +1,178 @@
+{
+  "version": 1,
+  "nodes": [
+    {
+      "label": "Node3",
+      "color": "gold",
+      "x": 0.5,
+      "text": "0",
+      "type": "node",
+      "width": 1,
+      "height": 1,
+      "y": -0.5,
+      "rank": 0
+    },
+    {
+      "label": "Node4",
+      "color": "gold",
+      "x": 0.5,
+      "y": -1.6,
+      "text": "1",
+      "type": "node",
+      "width": 1,
+      "height": 1,
+      "rank": 0
+    },
+    {
+      "label": "Node1",
+      "color": "green",
+      "y": -1.05,
+      "text": "2",
+      "type": "node",
+      "width": 1,
+      "height": 1,
+      "x": 2.5,
+      "rank": 2
+    },
+    {
+      "label": "Node2",
+      "color": "red",
+      "x": 4.5,
+      "y": -0.55,
+      "text": "3",
+      "type": "node",
+      "width": 1,
+      "height": 1,
+      "rank": 4
+    },
+    {
+      "label": "Node5",
+      "color": "red",
+      "x": 6.5,
+      "y": -1.55,
+      "text": "4",
+      "type": "node",
+      "width": 1,
+      "height": 1,
+      "rank": 6
+    },
+    {
+      "color": "blue",
+      "y": -1.55,
+      "type": "route",
+      "scaleable": false,
+      "resizable": false,
+      "radius": 0.1,
+      "width": 0.1,
+      "height": 0.1,
+      "text": "5",
+      "x": 4.5,
+      "rank": 4
+    }
+  ],
+  "edges": [
+    {
+      "v": "0",
+      "w": "2",
+      "name": "1",
+      "points": [
+        {
+          "x": 1,
+          "y": 0.5
+        },
+        {
+          "x": 1.5,
+          "y": 0.5
+        },
+        {
+          "x": 2,
+          "y": 0.775
+        }
+      ]
+    },
+    {
+      "v": "1",
+      "w": "2",
+      "name": "2",
+      "points": [
+        {
+          "x": 1,
+          "y": 1.6
+        },
+        {
+          "x": 1.5,
+          "y": 1.6
+        },
+        {
+          "x": 2,
+          "y": 1.3250000000000002
+        }
+      ]
+    },
+    {
+      "v": "2",
+      "w": "3",
+      "name": "3",
+      "points": [
+        {
+          "x": 3,
+          "y": 0.8
+        },
+        {
+          "x": 3.5,
+          "y": 0.55
+        },
+        {
+          "x": 4,
+          "y": 0.55
+        }
+      ]
+    },
+    {
+      "v": "2",
+      "w": "5",
+      "toarrow": {
+        "type": "to"
+      },
+      "name": "4",
+      "points": [
+        {
+          "x": 3,
+          "y": 1.3
+        },
+        {
+          "x": 3.5,
+          "y": 1.55
+        },
+        {
+          "x": 4.45,
+          "y": 1.55
+        }
+      ]
+    },
+    {
+      "v": "5",
+      "w": "4",
+      "toarrow": {
+        "indent": 0,
+        "color": "gold",
+        "type": "to"
+      },
+      "name": "5",
+      "points": [
+        {
+          "x": 4.55,
+          "y": 1.55
+        },
+        {
+          "x": 5.5,
+          "y": 1.55
+        },
+        {
+          "x": 6,
+          "y": 1.55
+        }
+      ]
+    }
+  ]
+}

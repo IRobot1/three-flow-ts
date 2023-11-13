@@ -98,6 +98,7 @@ export class FlowNode extends Mesh {
     //@ts-ignore
     this.type = 'flownode'
     this.name = node.text = node.text ?? graph.nodes.length.toString()
+    node.type = node.type ?? 'node'
 
     this._width = node.width = node.width ?? 1;
     this.minwidth = node.minwidth ?? this.width

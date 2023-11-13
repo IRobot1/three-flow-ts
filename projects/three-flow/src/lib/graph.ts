@@ -67,7 +67,10 @@ export class FlowGraph extends Object3D {
     const graph = input as Partial<AbstractGraph>
 
     graph.nodes?.forEach(node => {
-      this.addNode(node)
+      if (node.type == 'route')
+        this.addRoute(node)
+      else
+        this.addNode(node)
     })
 
     graph.edges?.forEach(edge => {
