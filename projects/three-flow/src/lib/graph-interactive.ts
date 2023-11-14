@@ -5,14 +5,13 @@ import { FlowInteractive } from "./interactive";
 import { FlowNode } from "./node";
 import { ResizeNode } from "./resize-node";
 import { ScaleNode } from "./scale-node";
-import { FlowEdgeData, FlowNodeData } from "./model";
 
-export class GraphInteraction<TNodeData extends FlowNodeData, TEdgeData extends FlowEdgeData> {
-  private nodes: Array<NodeInteractive<TNodeData, TEdgeData>> = []
-  constructor(public flow: FlowGraph<TNodeData, TEdgeData>, public interactive: FlowInteractive) {
+export class GraphInteraction {
+  private nodes: Array<NodeInteractive> = []
+  constructor(public flow: FlowGraph, public interactive: FlowInteractive) {
 
     flow.addEventListener('node-removed', (e: any) => {
-      const node = e.node as FlowNode<TNodeData, TEdgeData>
+      const node = e.node as FlowNode
       const index = this.nodes.findIndex(x => x.node == node)
       if (index != -1) {
         this.nodes[index].dispose()
@@ -24,7 +23,7 @@ export class GraphInteraction<TNodeData extends FlowNodeData, TEdgeData extends 
 
 
     flow.addEventListener('node-added', (e: any) => {
-      const node = e.node as FlowNode<TNodeData, TEdgeData>
+      const node = e.node as FlowNode
       this.nodes.push(new NodeInteractive(node, this))
 
       // enable mouse enter/leave/missed events
@@ -39,14 +38,14 @@ export class GraphInteraction<TNodeData extends FlowNodeData, TEdgeData extends 
   }
 }
 
-class NodeInteractive<TNodeData extends FlowNodeData, TEdgeData extends FlowEdgeData> {
-  private nodeResizer: ResizeNode<TNodeData, TEdgeData>
-  private nodeDragger: DragNode<TNodeData, TEdgeData>
-  private nodeScaler: ScaleNode<TNodeData, TEdgeData>
+class NodeInteractive {
+  private nodeResizer: ResizeNode
+  private nodeDragger: DragNode
+  private nodeScaler: ScaleNode
 
   dispose = () => { }
 
-  constructor(public node: FlowNode<TNodeData, TEdgeData>, graph: GraphInteraction<TNodeData, TEdgeData>) {
+  constructor(public node: FlowNode, graph: GraphInteraction) {
 
 
     this.nodeResizer = this.createResizer(node, graph.flow.getMaterial('geometry', 'resizing', node.resizecolor))
@@ -113,15 +112,15 @@ class NodeInteractive<TNodeData extends FlowNodeData, TEdgeData extends FlowEdge
     }
   }
 
-  createResizer(node: FlowNode<TNodeData, TEdgeData>, material: Material): ResizeNode<TNodeData, TEdgeData> {
+  createResizer(node: FlowNode, material: Material): ResizeNode {
     return new ResizeNode(node, material)
   }
 
-  createDragger(node: FlowNode<TNodeData, TEdgeData>, gridSize: number): DragNode<TNodeData, TEdgeData> {
+  createDragger(node: FlowNode, gridSize: number): DragNode {
     return new DragNode(node, gridSize)
   }
 
-  createScaler(node: FlowNode<TNodeData, TEdgeData>, material: Material): ScaleNode<TNodeData, TEdgeData> {
+  createScaler(node: FlowNode, material: Material): ScaleNode {
     return new ScaleNode(node, material)
   }
 

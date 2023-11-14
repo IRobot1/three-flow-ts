@@ -1,14 +1,14 @@
 import { BufferGeometry, Material, MathUtils, Mesh, PlaneGeometry, Vector3 } from "three"
 import { FlowNode } from "./node"
 import { InteractiveEventType } from "./interactive"
-import { FlowEdgeData, FlowHandleData, FlowNodeData } from "./model"
+import { FlowHandleData } from "./model"
 
-export class ScaleNode<TNodeData extends FlowNodeData, TEdgeData extends FlowEdgeData> {
+export class ScaleNode {
   public enabled = true
 
   selectable: Array<Mesh> = []
 
-  constructor(private node: FlowNode<TNodeData, TEdgeData>, material: Material) {
+  constructor(private node: FlowNode, material: Material) {
     const points = this.createScaleHandles()
     points.forEach(point => {
       const mesh = this.createMesh()

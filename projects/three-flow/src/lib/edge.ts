@@ -1,10 +1,10 @@
-import { BufferGeometry, CatmullRomCurve3, Line, MathUtils, Mesh, MeshBasicMaterial, Object3D, Vector2, Vector3 } from "three";
-import { FlowArrowData, FlowEdgeData, EdgeLineStyle, FlowNodeData } from "./model";
+import { BufferGeometry, CatmullRomCurve3, Line, MathUtils, Mesh, MeshBasicMaterial, Vector2, Vector3 } from "three";
+import { FkiwArrowData, FlowEdgeData, EdgeLineStyle } from "./model";
 import { FlowGraph } from "./graph";
 import { FlowNode } from "./node";
 import { FlowArrow } from "./arrow";
 
-export class FlowEdge<TNodeData extends FlowNodeData, TEdgeData extends FlowEdgeData> extends Mesh {
+export class FlowEdge extends Mesh {
   readonly from: string;
   readonly to: string;
 
@@ -48,14 +48,14 @@ export class FlowEdge<TNodeData extends FlowNodeData, TEdgeData extends FlowEdge
 
   data?: { [key: string]: any; } | undefined;
 
-  readonly fromNode: FlowNode<TNodeData, TEdgeData> | undefined;
-  readonly toNode: FlowNode<TNodeData, TEdgeData> | undefined;
-  public fromArrow: FlowArrow<TNodeData, TEdgeData> | undefined;
-  public toArrow: FlowArrow<TNodeData, TEdgeData> | undefined;
+  readonly fromNode: FlowNode | undefined;
+  readonly toNode: FlowNode | undefined;
+  public fromArrow: FlowArrow | undefined;
+  public toArrow: FlowArrow | undefined;
   private line?: Line
 
   isFlow = true
-  constructor(public graph: FlowGraph<TNodeData, TEdgeData>, public edge: TEdgeData) {
+  constructor(public graph: FlowGraph, public edge: FlowEdgeData) {
     super()
 
     //@ts-ignore
@@ -79,12 +79,12 @@ this.removeArrows()
     if (edge.fromarrow) {
       edge.fromarrow.type = edge.fromarrow.type ?? 'from'
       this.fromArrow = this.createArrow(edge.fromarrow)
-      this.add(<Object3D>this.fromArrow)
+      this.add(this.fromArrow)
     }
     if (edge.toarrow) {
       edge.toarrow.type = edge.toarrow.type ?? 'to'
       this.toArrow = this.createArrow(edge.toarrow)
-      this.add(<Object3D>this.toArrow)
+      this.add(this.toArrow)
     }
 
 
@@ -194,7 +194,7 @@ this.removeArrows()
     return undefined
   }
 
-  createArrow(arrow: FlowArrowData): FlowArrow<TNodeData, TEdgeData> {
+  createArrow(arrow: FkiwArrowData): FlowArrow {
     return new FlowArrow(this, arrow)
   }
 }

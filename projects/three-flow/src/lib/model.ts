@@ -10,7 +10,7 @@ export interface FlowConnectorData extends Label {
 export type ArrowType = 'from' | 'to'
 export type ArrowStyle = 'default'
 
-export interface FlowArrowData {
+export interface FkiwArrowData {
   type?: ArrowType;
   width?: number;
   height?: number;
@@ -28,8 +28,8 @@ export interface FlowEdgeData extends Edge {
   linestyle?: EdgeLineStyle;
   divisions?: number;
   thickness?: number;
-  toarrow?: FlowArrowData;
-  fromarrow?: FlowArrowData;
+  toarrow?: FkiwArrowData;
+  fromarrow?: FkiwArrowData;
   userData?: { [key: string]: any };
 
   points?: Array<{ x: number, y: number }>  // layout positions of line segments

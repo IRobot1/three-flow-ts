@@ -1,18 +1,18 @@
 import { BufferGeometry, CircleGeometry } from "three";
-import { FlowEdgeData, FlowNodeData, FlowRouteData } from "./model";
+import { FlowRouteData } from "./model";
 import { FlowGraph } from "./graph";
 import { FlowNode } from "./node";
 
-export class FlowRoute<TNodeData extends FlowNodeData, TEdgeData extends FlowEdgeData> extends FlowNode<TNodeData, TEdgeData> {
+export class FlowRoute extends FlowNode {
   radius: number;
 
-  constructor(graph: FlowGraph<TNodeData, TEdgeData>, private route: FlowRouteData) {
+  constructor(graph: FlowGraph, private route: FlowRouteData) {
     route.type = 'route'
     route.resizable = route.scalable = false // don't allow
     route.radius = route.radius ?? 0.1
     route.height = route.width = route.radius
 
-    super(graph, <TNodeData>route);
+    super(graph, route);
 
     this.radius = route.radius!
   }

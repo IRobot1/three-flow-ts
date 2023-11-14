@@ -1,9 +1,9 @@
 import { BufferGeometry, Mesh, Shape, ShapeGeometry } from "three";
-import { FlowArrowData, ArrowStyle, FlowNodeData, FlowEdgeData } from "./model";
+import { FkiwArrowData, ArrowStyle } from "./model";
 import { FlowEdge } from "./edge";
 
 
-export class FlowArrow<TNodeData extends FlowNodeData, TEdgeData extends FlowEdgeData> extends Mesh {
+export class FlowArrow extends Mesh {
 
   private _color: number | string;
   get color() { return this._color }
@@ -66,7 +66,7 @@ export class FlowArrow<TNodeData extends FlowNodeData, TEdgeData extends FlowEdg
     }
   }
 
-  constructor(edge: FlowEdge<TNodeData, TEdgeData>, public arrow: FlowArrowData) {
+  constructor(edge: FlowEdge, public arrow: FkiwArrowData) {
     super()
 
     this._color = arrow.color ?? 0x000000

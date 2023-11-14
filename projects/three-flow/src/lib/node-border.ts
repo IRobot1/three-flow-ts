@@ -2,12 +2,11 @@ import { BufferGeometry, Mesh, MeshBasicMaterial, PlaneGeometry } from "three";
 import { FlowNode } from "./node";
 import { FlowGraph } from "./graph";
 import { InteractiveEventType } from "./interactive";
-import { FlowEdgeData, FlowNodeData } from "./model";
 
 
-export class NodeBorder<TNodeData extends FlowNodeData, TEdgeData extends FlowEdgeData> extends Mesh {
+export class NodeBorder extends Mesh {
 
-  constructor(public node: FlowNode<TNodeData, TEdgeData>, graph: FlowGraph<TNodeData, TEdgeData>) {
+  constructor(public node: FlowNode, graph: FlowGraph) {
     super()
 
     this.material = new MeshBasicMaterial({ color: 'black' })

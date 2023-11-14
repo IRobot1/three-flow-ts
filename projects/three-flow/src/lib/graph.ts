@@ -18,13 +18,13 @@ export interface FlowGraphOptions {
   linethickness?: number
 }
 
-export class FlowGraph<TNodeData extends FlowNodeData, TEdgeData extends FlowEdgeData> extends Object3D {
+export class FlowGraph extends Object3D {
   private materials: Map<string, Material>;
   readonly graph = new graphlib.Graph()
 
-  private _active: FlowNode<TNodeData, TEdgeData> | undefined;
+  private _active: FlowNode | undefined;
   get active() { return this._active }
-  set active(newvalue: FlowNode<TNodeData, TEdgeData> | undefined) {
+  set active(newvalue: FlowNode | undefined) {
     if (newvalue != this._active) {
       this._active = newvalue
       this.dispatchEvent<any>({ type: 'active_change' })
@@ -40,10 +40,10 @@ export class FlowGraph<TNodeData extends FlowNodeData, TEdgeData extends FlowEdg
 
     this.graph.nodes().forEach(name => {
       const node = this.graph.node(name)
-      this.setNode(<TNodeData>node)
+      this.setNode(node)
     })
     this.graph.edges().forEach(edge => {
-      const line = this.addEdge(<TEdgeData>edge)
+      const line = this.addEdge(edge)
       this.add(line)
     })
 
@@ -72,11 +72,11 @@ export class FlowGraph<TNodeData extends FlowNodeData, TEdgeData extends FlowEdg
       if (node.type == 'route')
         this.setRoute(node)
       else
-        this.setNode(<TNodeData>node)
+        this.setNode(node)
     })
 
     graph.edges?.forEach(edge => {
-      const line = this.setEdge(<TEdgeData>edge)
+      const line = this.setEdge(edge)
       this.add(line)
     })
   }
@@ -132,22 +132,22 @@ export class FlowGraph<TNodeData extends FlowNodeData, TEdgeData extends FlowEdg
     return this.options?.fonts?.get(name)
   }
 
-  get allNodes(): Array<FlowNode<TNodeData, TEdgeData>> {
-    return this.children.filter(child => child.type == 'flownode') as Array<FlowNode<TNodeData, TEdgeData>>
+  get allNodes(): Array<FlowNode> {
+    return this.children.filter(child => child.type == 'flownode') as Array<FlowNode>
   }
 
-  public hasNode(id: string): FlowNode<TNodeData, TEdgeData> | undefined {
+  public hasNode(id: string): FlowNode | undefined {
 
     for (const child of this.children) {
       if (child.type == 'flownode') {
-        const node = child as FlowNode<TNodeData, TEdgeData>
+        const node = child as FlowNode
         if (node.name == id) return node
       }
     }
     return undefined
   }
 
-  private addNode(item: TNodeData): FlowNode<TNodeData, TEdgeData> {
+  private addNode(item: FlowNodeData): FlowNode {
     const node = this.createNode(this, item)
     this.add(node)
 
@@ -155,7 +155,7 @@ export class FlowGraph<TNodeData extends FlowNodeData, TEdgeData extends FlowEdg
     return node
   }
 
-  public setNode(node: TNodeData): FlowNode<TNodeData, TEdgeData> {
+  public setNode(node: FlowNodeData): FlowNode {
     const mesh = this.addNode(node)
 
     // addNode can assign node.text, so must be after
@@ -164,7 +164,7 @@ export class FlowGraph<TNodeData extends FlowNodeData, TEdgeData extends FlowEdg
     return mesh;
   }
 
-  private addRoute(item: FlowRouteData): FlowNode<TNodeData, TEdgeData> {
+  private addRoute(item: FlowRouteData): FlowNode {
     const route = this.createRoute(this, item)
     this.add(route)
 
@@ -172,7 +172,7 @@ export class FlowGraph<TNodeData extends FlowNodeData, TEdgeData extends FlowEdg
     return route
   }
 
-  public setRoute(route: FlowRouteData): FlowNode<TNodeData, TEdgeData> {
+  public setRoute(route: FlowRouteData): FlowNode {
     const mesh = this.addRoute(route)
 
     // addNode can assign node.text, so must be after
@@ -181,7 +181,7 @@ export class FlowGraph<TNodeData extends FlowNodeData, TEdgeData extends FlowEdg
     return mesh;
   }
 
-  public removeNode(node: FlowNode<TNodeData, TEdgeData>) {
+  public removeNode(node: FlowNode) {
 
     this.graph.removeNode(node.name)
 
@@ -191,8 +191,8 @@ export class FlowGraph<TNodeData extends FlowNodeData, TEdgeData extends FlowEdg
     node.dispose()
   }
 
-  newNode(): FlowNode<TNodeData, TEdgeData> {
-    const node = <TNodeData> {
+  newNode(): FlowNode {
+    const node: FlowNodeData = {
       text: (this.nodes.length + 1).toString(),
     }
 
@@ -200,22 +200,22 @@ export class FlowGraph<TNodeData extends FlowNodeData, TEdgeData extends FlowEdg
   }
 
 
-  get allEdges(): Array<FlowEdge<TNodeData, TEdgeData>> {
-    return this.children.filter(child => child.type == 'flowedge') as Array<FlowEdge<TNodeData, TEdgeData>>
+  get allEdges(): Array<FlowEdge> {
+    return this.children.filter(child => child.type == 'flowedge') as Array<FlowEdge>
   }
 
-  public hasEdge(id: string): FlowEdge<TNodeData, TEdgeData> | undefined {
+  public hasEdge(id: string): FlowEdge | undefined {
 
     for (const child of this.children) {
       if (child.type == 'flowedge') {
-        const edge = child as FlowEdge<TNodeData, TEdgeData>
+        const edge = child as FlowEdge
         if (edge.name == id) return edge
       }
     }
     return undefined
   }
 
-  public addEdge(item: TEdgeData): FlowEdge<TNodeData, TEdgeData> {
+  public addEdge(item: FlowEdgeData): FlowEdge {
     if (!item.color) item.color = this.options?.linecolor
     if (!item.linestyle) item.linestyle = this.options?.linestyle
     if (!item.divisions) item.divisions = this.options?.linedivisions
@@ -228,12 +228,12 @@ export class FlowGraph<TNodeData extends FlowNodeData, TEdgeData extends FlowEdg
     return edge
   }
 
-  public setEdge(edge: TEdgeData): FlowEdge<TNodeData, TEdgeData> {
+  public setEdge(edge: FlowEdgeData): FlowEdge {
     this.graph.setEdge(edge.v, edge.w, edge);
     return this.addEdge(edge)
   }
 
-  public removeEdge(edge: FlowEdge<TNodeData, TEdgeData>): void {
+  public removeEdge(edge: FlowEdge): void {
     this.graph.removeEdge(edge.from, edge.to)
 
     this.remove(edge)
@@ -269,16 +269,16 @@ export class FlowGraph<TNodeData extends FlowNodeData, TEdgeData extends FlowEdg
     return new MeshBasicMaterial({ color, opacity: 0.99 });
   }
 
-  createNode(graph: FlowGraph<TNodeData, TEdgeData>, node: TNodeData): FlowNode<TNodeData, TEdgeData> {
-    return new FlowNode<TNodeData, TEdgeData>(graph, node)
+  createNode(graph: FlowGraph, node: FlowNodeData): FlowNode {
+    return new FlowNode(graph, node)
   }
 
-  createRoute(graph: FlowGraph<TNodeData, TEdgeData>, route: FlowRouteData): FlowNode<TNodeData, TEdgeData> {
+  createRoute(graph: FlowGraph, route: FlowRouteData): FlowNode {
     return new FlowRoute(graph, route)
   }
 
-  createEdge(graph: FlowGraph<TNodeData, TEdgeData>, edge: TEdgeData): FlowEdge<TNodeData, TEdgeData> {
-    return new FlowEdge<TNodeData, TEdgeData>(graph, edge)
+  createEdge(graph: FlowGraph, edge: FlowEdgeData): FlowEdge {
+    return new FlowEdge(graph, edge)
   }
 
 }
