@@ -2,11 +2,11 @@ import { Mesh, BufferGeometry, PlaneGeometry, MathUtils } from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
-import { FlowNodeData } from "./model";
+import { FlowEdgeData, FlowNodeData } from "./model";
 import { FlowGraph } from "./graph";
 
 
-export class FlowNode extends Mesh {
+export class FlowNode<TNodeData extends FlowNodeData, TEdgeData extends FlowEdgeData> extends Mesh {
   protected _width: number
   get width() { return this._width }
   set width(newvalue: number) {
@@ -127,7 +127,7 @@ export class FlowNode extends Mesh {
   }
 
 
-  constructor(public graph: FlowGraph, public node: FlowNodeData) {
+  constructor(public graph: FlowGraph<TNodeData, TEdgeData>, public node: TNodeData) {
     super();
 
     //@ts-ignore

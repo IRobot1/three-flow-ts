@@ -1,13 +1,13 @@
-import { FlowConnectorData } from "./model";
+import { FlowConnectorData, FlowEdgeData, FlowNodeData } from "./model";
 import { BufferGeometry, CircleGeometry, Mesh } from "three";
 import { FlowGraph } from "./graph";
 
-export class FlowConnector extends Mesh {
+export class FlowConnector<TNodeData extends FlowNodeData, TEdgeData extends FlowEdgeData> extends Mesh {
   connectortype: string;
   color = 'black'
 
   isFlow = true
-  constructor(private graph: FlowGraph, public connector: FlowConnectorData) {
+  constructor(private graph: FlowGraph<TNodeData,TEdgeData>, public connector: FlowConnectorData) {
     super()
 
     //@ts-ignore

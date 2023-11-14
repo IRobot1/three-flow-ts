@@ -1,13 +1,14 @@
 import { Object3D, Vector3 } from "three";
 import { InteractiveEventType } from "./interactive";
 import { FlowNode } from "./node";
+import { FlowEdgeData, FlowNodeData } from "./model";
 
-export class DragNode {
+export class DragNode<TNodeData extends FlowNodeData, TEdgeData extends FlowEdgeData> {
   public enabled = true
 
   private dragging = false
 
-  constructor(node: FlowNode, gridSize: number) {
+  constructor(node: FlowNode<TNodeData, TEdgeData>, gridSize: number) {
     const snapToGrid = (position: THREE.Vector3): THREE.Vector3 => {
       const gridSize = node.graph.gridsize
       if (gridSize > 0) {

@@ -8,7 +8,9 @@ import {
   FlowGraph,
   FlowGraphOptions,
   FlowGraphData,
-  GraphInteraction
+  GraphInteraction,
+  FlowNodeData,
+  FlowEdgeData
 } from "three-flow";
 
 export class LoaderExample {
@@ -98,7 +100,7 @@ export class LoaderExample {
     });
 
     // Event listener for the dropdown
-    let flow: FlowGraph;
+    let flow: FlowGraph<FlowNodeData, FlowEdgeData>;
     dropdown.addEventListener('change', function () {
       console.log('You selected: ', this.value);
 

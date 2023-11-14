@@ -8,7 +8,7 @@ import {
   FlowNode,
   FlowEdgeData,
   FlowNodeData,
-  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions, FlowGraphData, GraphInteraction, NodeBorder, FlowArrow, FkiwArrowData, ArrowStyle
+  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions, FlowGraphData, GraphInteraction, NodeBorder, FlowArrow, FlowArrowData, ArrowStyle
 } from "three-flow";
 import { ResizeNode, FlowGraph } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
@@ -180,7 +180,7 @@ export class CustomGeometryExample {
       gui.add(flow, 'layout').name("Layout")
 
       const edge1 = flow.hasEdge('1')!
-      const arrow1 = edge1.toArrow as FlowArrow
+      const arrow1 = edge1.toArrow as FlowArrow<FlowNodeData, FlowEdgeData>
 
       const edgegui = gui.addFolder('Edge Properties')
 
@@ -212,7 +212,7 @@ export class CustomGeometryExample {
   }
 }
 
-class MyFlowGraph extends FlowGraph {
+class MyFlowGraph<TNodeData extends FlowNodeData, TEdgeData extends FlowEdgeData> extends FlowGraph<TNodeData, TEdgeData> {
   constructor(options?: FlowGraphOptions) {
     super(options)
   }
@@ -225,20 +225,20 @@ class MyFlowGraph extends FlowGraph {
     return new MeshStandardMaterial({ color, side: purpose == 'arrow' ? DoubleSide : FrontSide });
   }
 
-  override createNode(graph: FlowGraph, node: FlowNodeData): FlowNode {
+  override createNode(graph: FlowGraph<TNodeData, TEdgeData>, node: TNodeData): FlowNode<TNodeData, TEdgeData> {
     return new MyFlowNode(graph, node)
   }
 
-  override createEdge(graph: FlowGraph, edge: FlowEdgeData): FlowEdge {
+  override createEdge(graph: FlowGraph<TNodeData, TEdgeData>, edge: TEdgeData): FlowEdge<TNodeData, TEdgeData> {
     return new MyFlowEdge(graph, edge)
   }
 }
 
 const depth = 0.15
-class MyFlowNode extends FlowNode {
-  border: NodeBorder;
+class MyFlowNode<TNodeData extends FlowNodeData, TEdgeData extends FlowEdgeData> extends FlowNode<TNodeData, TEdgeData> {
+  border: NodeBorder<TNodeData, TEdgeData>;
 
-  constructor(graph: FlowGraph, node: FlowNodeData) {
+  constructor(graph: FlowGraph<TNodeData, TEdgeData>, node: TNodeData) {
     super(graph, node);
 
     this.border = new NodeBorder(this, graph)
@@ -255,8 +255,8 @@ class MyFlowNode extends FlowNode {
   }
 }
 
-class MyFlowEdge extends FlowEdge {
-  constructor(graph: FlowGraph, edge: FlowEdgeData) {
+class MyFlowEdge<TNodeData extends FlowNodeData, TEdgeData extends FlowEdgeData> extends FlowEdge<TNodeData, TEdgeData> {
+  constructor(graph: FlowGraph<TNodeData, TEdgeData>, edge: TEdgeData) {
     super(graph, edge)
   }
 
@@ -265,12 +265,12 @@ class MyFlowEdge extends FlowEdge {
     return new TubeGeometry(curve, curvepoints.length, thickness)
   }
 
-  override createArrow(arrow: FkiwArrowData): FlowArrow {
+  override createArrow(arrow: FlowArrowData): FlowArrow<TNodeData, TEdgeData> {
     return new MyArrow(this, arrow)
   }
 }
 
-class MyArrow extends FlowArrow {
+class MyArrow<TNodeData extends FlowNodeData, TEdgeData extends FlowEdgeData> extends FlowArrow<TNodeData, TEdgeData> {
   override createArrow(style: ArrowStyle): BufferGeometry {
     const shape = new Shape()
       .lineTo(-this.width, this.height + this.indent)
@@ -283,8 +283,8 @@ class MyArrow extends FlowArrow {
   }
 }
 
-class MyResizeNode extends ResizeNode {
-  constructor(node: FlowNode, material: Material) {
+class MyResizeNode<TNodeData extends FlowNodeData, TEdgeData extends FlowEdgeData> extends ResizeNode<TNodeData, TEdgeData> {
+  constructor(node: FlowNode<TNodeData, TEdgeData>, material: Material) {
     super(node, material)
   }
 
@@ -294,8 +294,8 @@ class MyResizeNode extends ResizeNode {
 
 }
 
-class MyScaleNode extends ScaleNode {
-  constructor(node: FlowNode, material: Material) {
+class MyScaleNode<TNodeData extends FlowNodeData, TEdgeData extends FlowEdgeData> extends ScaleNode<TNodeData, TEdgeData> {
+  constructor(node: FlowNode<TNodeData, TEdgeData>, material: Material) {
     super(node, material)
   }
 
