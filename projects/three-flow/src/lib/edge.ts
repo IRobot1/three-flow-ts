@@ -1,5 +1,5 @@
 import { BufferGeometry, CatmullRomCurve3, Line, MathUtils, Mesh, MeshBasicMaterial, Vector2, Vector3 } from "three";
-import { FkiwArrowData, FlowEdgeData, EdgeLineStyle } from "./model";
+import { FlowArrowData, FlowEdgeData, EdgeLineStyle } from "./model";
 import { FlowGraph } from "./graph";
 import { FlowNode } from "./node";
 import { FlowArrow } from "./arrow";
@@ -194,7 +194,7 @@ this.removeArrows()
     return undefined
   }
 
-  createArrow(arrow: FkiwArrowData): FlowArrow {
+  createArrow(arrow: FlowArrowData): FlowArrow {
     return new FlowArrow(this, arrow)
   }
 }

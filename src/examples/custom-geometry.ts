@@ -8,7 +8,7 @@ import {
   FlowNode,
   FlowEdgeData,
   FlowNodeData,
-  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions, FlowGraphData, GraphInteraction, NodeBorder, FlowArrow, FkiwArrowData, ArrowStyle
+  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions, FlowGraphData, GraphInteraction, NodeBorder, FlowArrow, FlowArrowData, ArrowStyle
 } from "three-flow";
 import { ResizeNode, FlowGraph } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
@@ -265,7 +265,7 @@ class MyFlowEdge extends FlowEdge {
     return new TubeGeometry(curve, curvepoints.length, thickness)
   }
 
-  override createArrow(arrow: FkiwArrowData): FlowArrow {
+  override createArrow(arrow: FlowArrowData): FlowArrow {
     return new MyArrow(this, arrow)
   }
 }
