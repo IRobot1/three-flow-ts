@@ -69,17 +69,17 @@ export class FlowArrow extends Mesh {
   constructor(edge: FlowEdge, public arrow: FlowArrowData) {
     super()
 
-    this._color = arrow.color ?? 0x000000
-    this._width = arrow.width ?? 0.15
-    this._height = arrow.height ?? 0.3
-    this._indent = arrow.indent ?? 0.05
+    this._color = arrow.color ? arrow.color : 0x000000
+    this._width = arrow.width ? arrow.width : 0.15
+    this._height = arrow.height ? arrow.height : 0.3
+    this._indent = arrow.indent ? arrow.indent : 0.05
 
-    this.arrowstyle = arrow.arrowstyle ?? 'default'
+    this.arrowstyle = arrow.arrowstyle ? arrow.arrowstyle : 'default'
 
     this.material = edge.graph.getMaterial('geometry', 'arrow', this.color)
     this.updateVisuals()
 
-    this._scalar = arrow.scale ?? 1
+    this._scalar = arrow.scale ? arrow.scale : 1
 
   }
 

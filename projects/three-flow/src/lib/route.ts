@@ -9,7 +9,7 @@ export class FlowRoute extends FlowNode {
   constructor(graph: FlowGraph, private route: FlowRouteData) {
     route.type = 'route'
     route.resizable = route.scalable = false // don't allow
-    route.radius = route.radius ?? 0.1
+    route.radius = route.radius ? route.radius : 0.1
     route.height = route.width = route.radius
 
     super(graph, route);

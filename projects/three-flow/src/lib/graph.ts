@@ -34,7 +34,10 @@ export class FlowGraph extends Object3D {
   constructor(private options?: FlowGraphOptions) {
     super()
 
-    this.gridsize = options?.gridsize ?? 0
+    if (options && options.gridsize != undefined)
+      this.gridsize = options.gridsize
+    else
+      this.gridsize = 0
 
     this.materials = new Map();
 
@@ -68,20 +71,24 @@ export class FlowGraph extends Object3D {
   load(input: FlowGraphData) {
     const graph = input as Partial<FlowGraphData>
 
-    graph.nodes?.forEach(node => {
-      if (node.type == 'route')
-        this.setRoute(node)
-      else
-        this.setNode(node)
-    })
+    if (graph.nodes) {
+      graph.nodes.forEach(node => {
+        if (node.type == 'route')
+          this.setRoute(node)
+        else
+          this.setNode(node)
+      })
+    }
 
-    graph.edges?.forEach(edge => {
-      const line = this.setEdge(edge)
-      this.add(line)
-    })
+    if (graph.edges) {
+      graph.edges.forEach(edge => {
+        const line = this.setEdge(edge)
+        this.add(line)
+      })
+    }
   }
 
-  layout(label: GraphLabel = { rankdir:'LR' }, filter?: (nodeId: string) => boolean) {
+  layout(label: GraphLabel = { rankdir: 'LR' }, filter?: (nodeId: string) => boolean) {
     if (!label.nodesep) label.nodesep = 0.1
     if (!label.edgesep) label.edgesep = 1
     if (!label.ranksep) label.ranksep = 4
@@ -129,7 +136,9 @@ export class FlowGraph extends Object3D {
   }
 
   getFont(name = 'default') {
-    return this.options?.fonts?.get(name)
+    if (this.options && this.options.fonts)
+      return this.options.fonts.get(name)
+    return undefined
   }
 
   get allNodes(): Array<FlowNode> {
@@ -216,10 +225,10 @@ export class FlowGraph extends Object3D {
   }
 
   public addEdge(item: FlowEdgeData): FlowEdge {
-    if (!item.color) item.color = this.options?.linecolor
-    if (!item.linestyle) item.linestyle = this.options?.linestyle
-    if (!item.divisions) item.divisions = this.options?.linedivisions
-    if (!item.thickness) item.thickness = this.options?.linethickness
+    if (!item.color && this.options) item.color = this.options.linecolor
+    if (!item.linestyle && this.options) item.linestyle = this.options.linestyle
+    if (!item.divisions && this.options) item.divisions = this.options.linedivisions
+    if (!item.thickness && this.options) item.thickness = this.options.linethickness
 
     const edge = this.createEdge(this, item)
     this.add(edge)

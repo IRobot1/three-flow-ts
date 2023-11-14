@@ -61,37 +61,37 @@ export class FlowEdge extends Mesh {
     //@ts-ignore
     this.type = 'flowedge'
 
-    this.name = edge.name = edge.name ?? graph.edges.length.toString()
+    this.name = edge.name = edge.name ? edge.name : graph.edges.length.toString()
     if (this.data) this.userData = this.data
 
     const dragged = () => {
-this.removeArrows()
+      this.removeArrows()
       this.updateVisuals()
     }
 
     this.from = edge.v
     this.fromNode = graph.hasNode(this.from)
-    this.fromNode?.addEventListener(FlowEventType.DRAGGED, dragged)
+    if (this.fromNode) this.fromNode.addEventListener(FlowEventType.DRAGGED, dragged)
     this.to = edge.w
     this.toNode = graph.hasNode(this.to)
-    this.toNode?.addEventListener(FlowEventType.DRAGGED, dragged)
+    if (this.toNode) this.toNode.addEventListener(FlowEventType.DRAGGED, dragged)
 
     if (edge.fromarrow) {
-      edge.fromarrow.type = edge.fromarrow.type ?? 'from'
+      edge.fromarrow.type = edge.fromarrow.type ? edge.fromarrow.type : 'from'
       this.fromArrow = this.createArrow(edge.fromarrow)
       this.add(this.fromArrow)
     }
     if (edge.toarrow) {
-      edge.toarrow.type = edge.toarrow.type ?? 'to'
+      edge.toarrow.type = edge.toarrow.type ? edge.toarrow.type : 'to'
       this.toArrow = this.createArrow(edge.toarrow)
       this.add(this.toArrow)
     }
 
 
-    this._color = edge.color ?? 'white'
-    this._linestyle = edge.linestyle ?? 'spline'
-    this._divisions = edge.divisions ?? 20
-    this._thickness = edge.thickness ?? 0.01
+    this._color = edge.color ? edge.color : 'white'
+    this._linestyle = edge.linestyle ? edge.linestyle : 'spline'
+    this._divisions = edge.divisions ? edge.divisions : 20
+    this._thickness = edge.thickness ? edge.thickness : 0.01
 
     this.material = graph.getMaterial('line', 'edge', this.color)
 
@@ -120,9 +120,9 @@ this.removeArrows()
     }
   }
 
-  private arrowLookAt(source:Vector3, target:Vector3) {
+  private arrowLookAt(source: Vector3, target: Vector3) {
     // Calculate the angle to rotate
-    return Math.atan2(target.y - source.y, target.x - source.x) 
+    return Math.atan2(target.y - source.y, target.x - source.x)
   }
 
   updateVisuals() {
@@ -136,14 +136,14 @@ this.removeArrows()
         curvepoints.push(new Vector3(point.x, -point.y, 0))
       })
       from.copy(curvepoints[0])
-      to.copy(curvepoints[curvepoints.length-1])
+      to.copy(curvepoints[curvepoints.length - 1])
 
 
       if (this.toArrow) {
         this.toArrow.position.copy(to)
         if (this.toNode) {
           const angle = this.arrowLookAt(this.toArrow.position, this.toNode.position)
-          this.toArrow.rotate = angle+MathUtils.degToRad(90)
+          this.toArrow.rotate = angle + MathUtils.degToRad(90)
         }
       }
       if (this.fromArrow) {

@@ -1,6 +1,6 @@
 {
   "name": "three-flow-js",
-  "version": "0.0.1",
+  "version": "0.1.2",
   "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^15.1.0",

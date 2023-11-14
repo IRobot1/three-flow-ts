@@ -132,33 +132,33 @@ export class FlowNode extends Mesh {
 
     //@ts-ignore
     this.type = 'flownode'
-    this.name = node.text = node.text ?? graph.nodes.length.toString()
-    node.type = node.type ?? 'node'
+    this.name = node.text = node.text ? node.text : graph.nodes.length.toString()
+    node.type = node.type ? node.type : 'node'
 
-    this._width = node.width = node.width ?? 1;
-    this.minwidth = node.minwidth ?? this.width
-    this.maxwidth = node.maxwidth ?? Number.POSITIVE_INFINITY
+    this._width = node.width = node.width ? node.width : 1;
+    this.minwidth = node.minwidth ? node.minwidth : this.width
+    this.maxwidth = node.maxwidth ? node.maxwidth : Number.POSITIVE_INFINITY
 
-    this._height = node.height = node.height ?? 1;
-    this.minheight = node.minheight ?? this.height;
-    this.maxheight = node.maxheight ?? Number.POSITIVE_INFINITY
-    this._color = node.color ?? 'white'
+    this._height = node.height = node.height ? node.height : 1;
+    this.minheight = node.minheight ? node.minheight : this.height;
+    this.maxheight = node.maxheight ? node.maxheight : Number.POSITIVE_INFINITY
+    this._color = node.color ? node.color : 'white'
 
     this._label = node.label
-    this._labelsize = node.labelsize ?? 0.1
-    this._labelcolor = node.labelcolor ?? 'black'
+    this._labelsize = node.labelsize ? node.labelsize : 0.1
+    this._labelcolor = node.labelcolor ? node.labelcolor : 'black'
     this.font = graph.getFont(node.labelfont)
 
-    this._resizable = node.resizable ?? true
-    this.resizecolor = node.resizecolor ?? 'black'
-    this._draggable = node.draggable ?? true
-    this._scalable = node.scalable ?? true
-    this.selectable = node.selectable ?? true
-    this.scalecolor = node.scalecolor ?? 'black'
+    this._resizable = node.resizable ? node.resizable : true
+    this.resizecolor = node.resizecolor ? node.resizecolor : 'black'
+    this._draggable = node.draggable ? node.draggable : true
+    this._scalable = node.scalable ? node.scalable : true
+    this.selectable = node.selectable ? node.selectable : true
+    this.scalecolor = node.scalecolor ? node.scalecolor : 'black'
 
-    this._scalar = node.scale ?? 1
-    this.minscale = node.minscale ?? this.scalar;
-    this.maxscale = node.maxscale ?? Number.POSITIVE_INFINITY;
+    this._scalar = node.scale ? node.scale : 1
+    this.minscale = node.minscale ? node.minscale : this.scalar;
+    this.maxscale = node.maxscale ? node.maxscale : Number.POSITIVE_INFINITY;
 
     if (node.userData) this.userData = node.userData;
 
