@@ -9,6 +9,7 @@ import {
   FlowGraphOptions,
   GraphInteraction
 } from "three-flow";
+import { Exporter } from "./export";
 
 export class BuilderExample {
 
@@ -118,6 +119,10 @@ export class BuilderExample {
 
       //console.warn(flow.graph)
       //console.warn(interactive)
+
+      //const exporter = new Exporter()
+      //exporter.saveJSON(flow.save(), 'builder')
+
     });
 
 

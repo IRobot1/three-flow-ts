@@ -20,8 +20,7 @@ export class LoaderExample {
     const scene = new Scene()
     app.scene = scene
 
-    app.camera.position.y = 0.5
-    app.camera.position.z = 5
+    app.camera.position.z = 10
 
     scene.background = new Color(0x444444)
 
@@ -122,13 +121,6 @@ export class LoaderExample {
 
         flow.load(graph)
         console.log(flow.save())
-        //console.warn(interactive)
-
-        const center = flow.getCenter()
-        app.camera.position.x = center.x
-        app.camera.position.y = center.y
-        orbit.target.set(app.camera.position.x, app.camera.position.y, 0)
-        app.camera.position.z = 10
       });
     });
 

@@ -167,14 +167,14 @@ export class FlowNode extends Mesh {
 
     this.material = graph.getMaterial('geometry', 'node', this.color);
 
-    if (node.x) this.position.x = node.x
-    if (node.y) this.position.y = node.y
-    if (node.z) this.position.z = node.z
+    if (node.x != undefined) this.position.x = node.x
+    if (node.y != undefined) this.position.y = node.y
+    if (node.z != undefined) this.position.z = node.z
 
     this.save = () => {
-      if (this.position.x) node.x = this.position.x
-      if (this.position.y) node.y = this.position.y
-      if (this.position.z) node.z = this.position.z
+      node.x = this.position.x
+      node.y = this.position.y
+      node.z = this.position.z
     }
 
     this.labelMaterial = graph.getMaterial('geometry', 'label', this.labelcolor)!;

@@ -60,7 +60,7 @@ export class LanguagesExample {
         fonts: new Map<string, Font>([
           ['default', font],
         ]),
-        linestyle: 'straight'
+        linestyle: 'spline'
       }
       const flow = new FlowGraph(options)
       scene.add(flow);
