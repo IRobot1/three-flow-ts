@@ -20,7 +20,7 @@ export interface FlowGraphOptions {
 
 export class FlowGraph extends Object3D {
   private materials: Map<string, Material>;
-  readonly graph = new graphlib.Graph()
+  private graph = new graphlib.Graph()
 
   private _active: FlowNode | undefined;
   get active() { return this._active }

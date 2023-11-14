@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, Color, DoubleSide, ExtrudeGeometry, FrontSide, Material, MeshBasicMaterial, MeshStandardMaterial, PointLight, Scene, Shape, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, Color, DoubleSide, ExtrudeGeometry, FrontSide, Material, Mesh, MeshBasicMaterial, MeshStandardMaterial, PointLight, Scene, Shape, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TubeGeometry } from "three";
@@ -249,9 +249,9 @@ class MyFlowNode extends FlowNode {
     return new BoxGeometry(this.width, this.height, depth)
   }
 
-  override createTextGeometry(label: string, options: TextGeometryParameters): BufferGeometry {
+  override createText(label: string, options: TextGeometryParameters): Mesh {
     options.height = depth
-    return super.createTextGeometry(label, options)
+    return super.createText(label, options)
   }
 }
 

@@ -1,5 +1,5 @@
-import { Mesh, BufferGeometry, PlaneGeometry, MathUtils } from "three";
-import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
+import { Mesh, BufferGeometry, PlaneGeometry, MathUtils, Material } from "three";
+import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
 import { FlowEventType, FlowNodeData } from "./model";
@@ -67,7 +67,8 @@ export class FlowNode extends Mesh {
   set labelcolor(newvalue: number | string) {
     if (this._labelcolor != newvalue) {
       this._labelcolor = newvalue;
-      (this.labelMesh.material as any).color.set(newvalue)
+      if (this.labelMesh)
+        (this.labelMesh.material as any).color.set(newvalue)
     }
   }
 
@@ -117,7 +118,9 @@ export class FlowNode extends Mesh {
   minscale: number;
   maxscale: number;
 
-  private labelMesh: Mesh;
+  private labelMesh?: Mesh;
+  private labelMaterial: Material;
+
   private font?: Font;
 
   isFlow = true
@@ -174,29 +177,28 @@ export class FlowNode extends Mesh {
       if (this.position.z) node.z = this.position.z
     }
 
-    this.labelMesh = new Mesh();
-    this.labelMesh.name = 'label'
+    this.labelMaterial = graph.getMaterial('geometry', 'label', this.labelcolor)!;
 
-    const textMaterial = graph.getMaterial('geometry', 'label', this.labelcolor);
-    this.updateLabel();
 
-    this.labelMesh.material = textMaterial
-    this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
-
-    this.add(this.labelMesh);
-
-    // allow derived classes access to "this" by delaying one frame
+    // allow derived classes access to "this" by delaying one frame or to override methods
     requestAnimationFrame(() => {
+      this.updateLabel();
       this.resizeGeometry()
       this.updateVisuals();
     })
   }
 
   private updateLabel() {
-    if (this.font && this.label) {
-      const geometry = this.createTextGeometry(this.label, { font: this.font, height: 0, size: this.labelsize });
-      geometry.center()
-      this.labelMesh.geometry = geometry;
+    if (this.label) {
+      if (this.labelMesh) this.remove(this.labelMesh)
+
+      this.labelMesh = this.createText(this.label, { font: this.font, height: 0, size: this.labelsize });
+      this.labelMesh.name = 'label'
+
+      this.labelMesh.material = this.labelMaterial
+      this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
+
+      this.add(this.labelMesh);
     }
   }
 
@@ -204,7 +206,7 @@ export class FlowNode extends Mesh {
     this.geometry.dispose()
     this.geometry = this.createGeometry()
 
-    this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
+    if (this.labelMesh) this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
   }
 
   updateVisuals() { }
@@ -216,8 +218,17 @@ export class FlowNode extends Mesh {
     return new PlaneGeometry(this.width, this.height)
   }
 
-  createTextGeometry(label: string, options: any): BufferGeometry {
-    return new TextGeometry(label, options);
+  createText(label: string, options: any): Mesh {
+    const params = options as TextGeometryParameters;
+    const mesh = new Mesh()
+
+    // only add text if font is loaded
+    if (params.font) {
+      mesh.geometry = new TextGeometry(label, params)
+      mesh.geometry.center()
+    }
+
+    return mesh
   }
 
 
