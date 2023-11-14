@@ -100,17 +100,24 @@ export class FlowGraph extends Object3D {
 
     layout(filteredgraph)
 
+    const centerx = label.width!/2
+    const centery = label.height!/2
+
     // reposition the nodes
     filteredgraph.nodes().forEach(name => {
       const data = this.graph.node(name)
       const node = this.hasNode(name)
       if (node) {
-        node.position.set(data.x, -data.y, 0)
+        node.position.set(data.x-centerx, -data.y+centery, 0)
       }
     })
 
     // redraw edges using calculated points
     this.allEdges.forEach(edge => {
+      edge.edge.points?.forEach(point => {
+        point.x -= centerx
+        point.y -= centery
+      })
       edge.updateVisuals()
     })
 

@@ -1,4 +1,4 @@
-import { AmbientLight, Color, PointLight, Scene } from "three";
+import { AmbientLight, AxesHelper, Color, MathUtils, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 
@@ -22,8 +22,7 @@ export class LanguagesExample {
     const scene = new Scene()
     app.scene = scene
 
-    app.camera.position.y = 0.5
-    app.camera.position.z = 5
+    app.camera.position.z = 15
 
     scene.background = new Color(0x444444)
 
@@ -40,7 +39,7 @@ export class LanguagesExample {
 
     const orbit = new OrbitControls(app.camera, app.domElement);
     orbit.target.set(0, app.camera.position.y, 0)
-    orbit.enableRotate = false;
+    orbit.enableRotate = true;
     orbit.update();
 
     window.addEventListener('keydown', (e: KeyboardEvent) => {
@@ -48,7 +47,7 @@ export class LanguagesExample {
         orbit.enableRotate = !orbit.enableRotate
     })
 
-
+    // scene.add(new AxesHelper())
 
     const interactive = new FlowInteractive(app, app.camera)
 
@@ -91,7 +90,7 @@ export class LanguagesExample {
         }
 
         const edge: FlowEdgeData = {
-          v: from, w: to, toarrow: { }
+          v: from, w: to
         }
         flow.setEdge(edge);
 
@@ -102,11 +101,7 @@ export class LanguagesExample {
 
       flow.layout({ rankdir: 'TB', nodesep: 0.1, edgesep: 1, ranksep: 4 });
 
-      const center = flow.getCenter()
-      app.camera.position.x = center.x
-      app.camera.position.y = center.y
-      orbit.target.set(app.camera.position.x, app.camera.position.y, 0)
-      app.camera.position.z = 16
+      flow.rotation.y = MathUtils.degToRad(-45)
 
       //  const exporter = new Exporter()
       //  exporter.saveJSON(flow.save(), 'languages')
