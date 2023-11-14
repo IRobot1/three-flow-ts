@@ -83,3 +83,19 @@ export interface FlowHandleData {
   height_direction: number // -1, 0, or 1
 }
 
+
+export const FlowEventType = {
+  DISPOSE: 'dispose',
+  DRAGGED: 'dragged',
+  NODE_ADDED: 'node_added',
+  NODE_REMOVED: 'node_removed',
+  EDGE_ADDED: 'edge_added',
+  EDGE_REMOVED:'edge_removed',
+  ACTIVE_CHANGED: 'active_changed',
+  WIDTH_CHANGED: 'width_changed',
+  HEIGHT_CHANGED: 'height_changed',
+  SCALE_CHANGED: 'scale_changed',
+  DRAGGABLE_CHANGED: 'draggable_changed',
+  SCALABLE_CHANGED: 'scalable_changed',
+  RESIZABLE_CHANGED: 'resizable_changed',
+}

@@ -1,5 +1,5 @@
 import { BufferGeometry, CatmullRomCurve3, Line, MathUtils, Mesh, MeshBasicMaterial, Vector2, Vector3 } from "three";
-import { FlowArrowData, FlowEdgeData, EdgeLineStyle } from "./model";
+import { FlowArrowData, FlowEdgeData, EdgeLineStyle, FlowEventType } from "./model";
 import { FlowGraph } from "./graph";
 import { FlowNode } from "./node";
 import { FlowArrow } from "./arrow";
@@ -71,10 +71,10 @@ this.removeArrows()
 
     this.from = edge.v
     this.fromNode = graph.hasNode(this.from)
-    this.fromNode?.addEventListener('dragged', dragged)
+    this.fromNode?.addEventListener(FlowEventType.DRAGGED, dragged)
     this.to = edge.w
     this.toNode = graph.hasNode(this.to)
-    this.toNode?.addEventListener('dragged', dragged)
+    this.toNode?.addEventListener(FlowEventType.DRAGGED, dragged)
 
     if (edge.fromarrow) {
       edge.fromarrow.type = edge.fromarrow.type ?? 'from'

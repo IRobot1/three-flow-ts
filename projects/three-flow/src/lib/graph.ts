@@ -1,5 +1,5 @@
 import { Box3, LineBasicMaterial, Material, MeshBasicMaterial, Object3D, Vector3 } from "three";
-import { FlowEdgeData, FlowGraphData, FlowNodeData, FlowRouteData, EdgeLineStyle } from "./model";
+import { FlowEdgeData, FlowGraphData, FlowNodeData, FlowRouteData, EdgeLineStyle, FlowEventType } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
 import { FlowNode } from "./node";
@@ -27,7 +27,7 @@ export class FlowGraph extends Object3D {
   set active(newvalue: FlowNode | undefined) {
     if (newvalue != this._active) {
       this._active = newvalue
-      this.dispatchEvent<any>({ type: 'active_change' })
+      this.dispatchEvent<any>({ type: FlowEventType.ACTIVE_CHANGED })
     }
   }
 
@@ -117,7 +117,7 @@ export class FlowGraph extends Object3D {
 
   dispose() {
     this.allNodes.forEach(node => node.dispose())
-    this.dispatchEvent<any>({ type: 'dispose' })
+    this.dispatchEvent<any>({ type: FlowEventType.DISPOSE })
   }
 
   private _gridsize = 0
@@ -151,7 +151,7 @@ export class FlowGraph extends Object3D {
     const node = this.createNode(this, item)
     this.add(node)
 
-    this.dispatchEvent<any>({ type: 'node-added', node })
+    this.dispatchEvent<any>({ type: FlowEventType.NODE_ADDED, node })
     return node
   }
 
@@ -168,7 +168,7 @@ export class FlowGraph extends Object3D {
     const route = this.createRoute(this, item)
     this.add(route)
 
-    this.dispatchEvent<any>({ type: 'node-added', node: route })
+    this.dispatchEvent<any>({ type: FlowEventType.NODE_ADDED, node: route })
     return route
   }
 
@@ -185,7 +185,7 @@ export class FlowGraph extends Object3D {
 
     this.graph.removeNode(node.name)
 
-    this.dispatchEvent<any>({ type: 'node-removed', node })
+    this.dispatchEvent<any>({ type: FlowEventType.NODE_REMOVED, node })
 
     this.remove(node)
     node.dispose()
@@ -224,7 +224,7 @@ export class FlowGraph extends Object3D {
     const edge = this.createEdge(this, item)
     this.add(edge)
 
-    this.dispatchEvent<any>({ type: 'edge-added', edge })
+    this.dispatchEvent<any>({ type: FlowEventType.EDGE_ADDED, edge })
     return edge
   }
 
@@ -235,6 +235,8 @@ export class FlowGraph extends Object3D {
 
   public removeEdge(edge: FlowEdge): void {
     this.graph.removeEdge(edge.from, edge.to)
+
+    this.dispatchEvent<any>({ type: FlowEventType.EDGE_REMOVED, edge })
 
     this.remove(edge)
   }

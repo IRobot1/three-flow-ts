@@ -1,7 +1,7 @@
 import { BufferGeometry, Material, MathUtils, Mesh, PlaneGeometry, Vector3 } from "three";
 import { InteractiveEventType } from "./interactive";
 import { FlowNode } from "./node";
-import { FlowHandleData } from "./model";
+import { FlowEventType, FlowHandleData } from "./model";
 
 export class ResizeNode {
   public enabled = true
@@ -19,12 +19,12 @@ export class ResizeNode {
 
       this.resizeready(mesh, point.width_direction, point.height_direction);
 
-      this.node.addEventListener('width_change', () => {
+      this.node.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
         point.widthchange(mesh)
       })
       point.widthchange(mesh)
 
-      this.node.addEventListener('height_change', () => {
+      this.node.addEventListener(FlowEventType.HEIGHT_CHANGED, () => {
         point.heightchange(mesh)
       })
       point.heightchange(mesh)

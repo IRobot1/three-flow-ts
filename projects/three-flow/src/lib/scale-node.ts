@@ -1,7 +1,7 @@
 import { BufferGeometry, Material, MathUtils, Mesh, PlaneGeometry, Vector3 } from "three"
 import { FlowNode } from "./node"
 import { InteractiveEventType } from "./interactive"
-import { FlowHandleData } from "./model"
+import { FlowEventType, FlowHandleData } from "./model"
 
 export class ScaleNode {
   public enabled = true
@@ -19,12 +19,12 @@ export class ScaleNode {
 
       this.scaleready(mesh, point.width_direction);
 
-      this.node.addEventListener('width_change', () => {
+      this.node.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
         point.widthchange(mesh)
       })
       point.widthchange(mesh)
 
-      this.node.addEventListener('height_change', () => {
+      this.node.addEventListener(FlowEventType.HEIGHT_CHANGED, () => {
         point.heightchange(mesh)
       })
       point.heightchange(mesh)

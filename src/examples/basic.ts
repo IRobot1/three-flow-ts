@@ -12,6 +12,7 @@ import {
   FlowGraphOptions,
   FlowGraphData,
   GraphInteraction,
+  FlowEventType,
 } from "three-flow";
 
 export class BasicExample {
@@ -180,14 +181,14 @@ export class BasicExample {
       //
       // After moving a node, dispatch dragged event to notify all edges to redraw
       //
-      //  const node2 = flow.hasNode('2')!
-      //  let factor = 0.1
-      //  setInterval(() => {
-      //    if (node2.position.y < -2 || node2.position.y > 2)
-      //      factor = -factor
-      //    node2.position.y += factor
-      //    node2.dispatchEvent<any>({ type: 'dragged' })
-      //  }, 100)
+      //const node2 = flow.hasNode('2')!
+      //let factor = 0.1
+      //setInterval(() => {
+      //  if (node2.position.y < -2 || node2.position.y > 2)
+      //    factor = -factor
+      //  node2.position.y += factor
+      //  node2.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
+      //}, 100)
     });
 
 

@@ -2,6 +2,7 @@ import { BufferGeometry, Mesh, MeshBasicMaterial, PlaneGeometry } from "three";
 import { FlowNode } from "./node";
 import { FlowGraph } from "./graph";
 import { InteractiveEventType } from "./interactive";
+import { FlowEventType } from "./model";
 
 
 export class NodeBorder extends Mesh {
@@ -16,7 +17,7 @@ export class NodeBorder extends Mesh {
     let active = false
     this.activeChanged(active)
 
-    graph.addEventListener('active_change', () => {
+    graph.addEventListener(FlowEventType.ACTIVE_CHANGED, () => {
       if (!node.selectable) return
       if (graph.active != node) {
         active = false
@@ -49,10 +50,10 @@ export class NodeBorder extends Mesh {
     })
 
 
-    node.addEventListener('width_change', () => {
+    node.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
       this.geometry = this.createGeometry(node.width + 0.08, node.height + 0.08)
     })
-    node.addEventListener('height_change', () => {
+    node.addEventListener(FlowEventType.HEIGHT_CHANGED, () => {
       this.geometry = this.createGeometry(node.width + 0.08, node.height + 0.08)
     })
 

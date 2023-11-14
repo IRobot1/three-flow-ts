@@ -1,6 +1,7 @@
 import { Object3D, Vector3 } from "three";
 import { InteractiveEventType } from "./interactive";
 import { FlowNode } from "./node";
+import { FlowEventType } from "./model";
 
 export class DragNode {
   public enabled = true
@@ -32,7 +33,7 @@ export class DragNode {
       let position = e.position.clone() as Vector3
       if (this.dragging) {
         node.position.copy(snapToGrid(e.position.sub(offset)))
-        node.dispatchEvent<any>({ type: 'dragged'})
+        node.dispatchEvent<any>({ type: FlowEventType.DRAGGED})
       }
     });
   }

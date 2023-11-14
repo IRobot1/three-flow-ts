@@ -2,7 +2,7 @@ import { Mesh, BufferGeometry, PlaneGeometry, MathUtils } from "three";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
-import { FlowNodeData } from "./model";
+import { FlowEventType, FlowNodeData } from "./model";
 import { FlowGraph } from "./graph";
 
 
@@ -14,7 +14,7 @@ export class FlowNode extends Mesh {
     if (this._width != newvalue) {
       this._width = newvalue
       this.resizeGeometry()
-      this.dispatchEvent<any>({ type: 'width_change' })
+      this.dispatchEvent<any>({ type: FlowEventType.WIDTH_CHANGED })
     }
   }
   minwidth: number;
@@ -27,7 +27,7 @@ export class FlowNode extends Mesh {
     if (this._height != newvalue) {
       this._height = newvalue
       this.resizeGeometry()
-      this.dispatchEvent<any>({ type: 'height_change' })
+      this.dispatchEvent<any>({ type: FlowEventType.HEIGHT_CHANGED })
     }
   }
   minheight: number;
@@ -78,7 +78,7 @@ export class FlowNode extends Mesh {
   set resizable(newvalue: boolean) {
     if (this._resizable != newvalue) {
       this._resizable = newvalue;
-      this.dispatchEvent<any>({ type: 'resizable_change' })
+      this.dispatchEvent<any>({ type: FlowEventType.RESIZABLE_CHANGED })
     }
   }
 
@@ -87,7 +87,7 @@ export class FlowNode extends Mesh {
   set draggable(newvalue: boolean) {
     if (this._draggable != newvalue) {
       this._draggable = newvalue;
-      this.dispatchEvent<any>({ type: 'draggable_change' })
+      this.dispatchEvent<any>({ type: FlowEventType.DRAGGABLE_CHANGED })
     }
   }
 
@@ -98,7 +98,7 @@ export class FlowNode extends Mesh {
   set scalable(newvalue: boolean) {
     if (this._scalable != newvalue) {
       this._scalable = newvalue;
-      this.dispatchEvent<any>({ type: 'scalable_change' })
+      this.dispatchEvent<any>({ type: FlowEventType.SCALABLE_CHANGED })
     }
   }
 
@@ -111,7 +111,7 @@ export class FlowNode extends Mesh {
     if (this._scalar != newvalue) {
       this._scalar = newvalue
       this.scale.set(newvalue, newvalue, 1)
-      this.dispatchEvent<any>({ type: 'scale_change' })
+      this.dispatchEvent<any>({ type: FlowEventType.SCALE_CHANGED })
     }
   }
   minscale: number;
@@ -123,7 +123,7 @@ export class FlowNode extends Mesh {
   isFlow = true
 
   dispose() {
-    this.dispatchEvent<any>({ type: 'dispose' })
+    this.dispatchEvent<any>({ type: FlowEventType.DISPOSE })
   }
 
 

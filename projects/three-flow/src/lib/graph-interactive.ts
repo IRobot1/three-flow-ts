@@ -5,12 +5,13 @@ import { FlowInteractive } from "./interactive";
 import { FlowNode } from "./node";
 import { ResizeNode } from "./resize-node";
 import { ScaleNode } from "./scale-node";
+import { FlowEventType } from "./model";
 
 export class GraphInteraction {
   private nodes: Array<NodeInteractive> = []
   constructor(public flow: FlowGraph, public interactive: FlowInteractive) {
 
-    flow.addEventListener('node-removed', (e: any) => {
+    flow.addEventListener(FlowEventType.NODE_REMOVED, (e: any) => {
       const node = e.node as FlowNode
       const index = this.nodes.findIndex(x => x.node == node)
       if (index != -1) {
@@ -22,7 +23,7 @@ export class GraphInteraction {
     })
 
 
-    flow.addEventListener('node-added', (e: any) => {
+    flow.addEventListener(FlowEventType.NODE_ADDED, (e: any) => {
       const node = e.node as FlowNode
       this.nodes.push(new NodeInteractive(node, this))
 
@@ -30,7 +31,7 @@ export class GraphInteraction {
       if (node.selectable) interactive.selectable.add(node)
     })
 
-    flow.addEventListener('dispose', () => this.dispose())
+    flow.addEventListener(FlowEventType.DISPOSE, () => this.dispose())
   }
 
   dispose() {
@@ -60,7 +61,7 @@ class NodeInteractive {
       }
       this.nodeResizer.enabled = node.resizable
     }
-    node.addEventListener('resizable_change', () => { resizableChanged() })
+    node.addEventListener(FlowEventType.RESIZABLE_CHANGED, () => { resizableChanged() })
     resizableChanged()
 
     this.nodeScaler = this.createScaler(node, graph.flow.getMaterial('geometry', 'scaling', node.scalecolor))
@@ -75,7 +76,7 @@ class NodeInteractive {
       }
       this.nodeScaler.enabled = node.scalable
     }
-    node.addEventListener('scalable_change', () => { scalebleChanged() })
+    node.addEventListener(FlowEventType.SCALABLE_CHANGED, () => { scalebleChanged() })
     scalebleChanged()
 
     this.nodeDragger = this.createDragger(node, graph.flow.gridsize)
@@ -86,14 +87,14 @@ class NodeInteractive {
         graph.interactive.draggable.remove(node)
       this.nodeDragger.enabled = node.draggable
     }
-    node.addEventListener('draggable_change', () => { drag() })
+    node.addEventListener(FlowEventType.DRAGGABLE_CHANGED, () => { drag() })
     drag()
 
     //
     // To intercept dragged event in derived class, add the following
     //
-    // node.addEventListener('dragged', () => { })
-    //
+    // node.addEventListener(FlowEventType.DRAGGED, () => { })
+    
 
     this.dispose = () => {
       if (this.nodeResizer) {
