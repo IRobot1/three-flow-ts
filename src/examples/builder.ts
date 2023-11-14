@@ -10,6 +10,7 @@ import {
   GraphInteraction
 } from "three-flow";
 import { Exporter } from "./export";
+import { DagreLayout } from "./dagre-layout";
 
 export class BuilderExample {
 
@@ -55,7 +56,8 @@ export class BuilderExample {
         gridsize: 0.3,
         fonts: new Map<string, Font>([
           ['default', font],
-        ])
+        ]),
+        layout: new DagreLayout()
       }
 
       const flow = new FlowGraph(options);

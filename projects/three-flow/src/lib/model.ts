@@ -1,7 +1,8 @@
-import { Edge, Label } from "@dagrejs/dagre";
+import { Edge } from "@dagrejs/graphlib";
 import { Mesh } from "three";
 
-export interface FlowConnectorData extends Label {
+export interface FlowConnectorData {
+  text?: string;
   index?: number; // order when there are multiple
   connectortype?: string;
   userData?: { [key: string]: any };
@@ -36,7 +37,8 @@ export interface FlowEdgeData extends Edge {
 }
 
 export type AbstractNodeType = 'node' | 'route'
-export interface FlowNodeData extends Label {
+export interface FlowNodeData {
+  text?: string;
   type?: AbstractNodeType
   x?: number;
   y?: number;
@@ -90,7 +92,7 @@ export const FlowEventType = {
   NODE_ADDED: 'node_added',
   NODE_REMOVED: 'node_removed',
   EDGE_ADDED: 'edge_added',
-  EDGE_REMOVED:'edge_removed',
+  EDGE_REMOVED: 'edge_removed',
   ACTIVE_CHANGED: 'active_changed',
   WIDTH_CHANGED: 'width_changed',
   HEIGHT_CHANGED: 'height_changed',
@@ -98,4 +100,16 @@ export const FlowEventType = {
   DRAGGABLE_CHANGED: 'draggable_changed',
   SCALABLE_CHANGED: 'scalable_changed',
   RESIZABLE_CHANGED: 'resizable_changed',
+}
+
+export interface FlowLayout {
+  removeEdge(from: string, to: string): any;
+  setEdge(v: string, w: string, edge: FlowEdgeData): any;
+  removeNode(name: string): any;
+  setNode(name: string, node: FlowNodeData): any;
+  filterNodes(callback: (nodeId: string) => boolean): any;
+  nodes(): Array<string>;
+  edges(): Array<FlowEdgeData>;
+  node(name: string): any;
+  layout(options: any, filter?: (nodeId: string) => boolean): boolean;
 }

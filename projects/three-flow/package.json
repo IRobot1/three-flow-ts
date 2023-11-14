@@ -1,13 +1,13 @@
 {
   "name": "three-flow-js",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "license": "MIT",
   "peerDependencies": {
-    "@angular/common": "^15.1.0",
-    "@angular/core": "^15.1.0"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@dagrejs/graphlib": "^2.1.13",
+    "three": "^0.158.0"
   },
   "sideEffects": false
 }

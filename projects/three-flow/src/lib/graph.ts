@@ -1,11 +1,10 @@
 import { Box3, LineBasicMaterial, Material, MeshBasicMaterial, Object3D, Vector3 } from "three";
-import { FlowEdgeData, FlowGraphData, FlowNodeData, FlowRouteData, EdgeLineStyle, FlowEventType } from "./model";
+import { FlowEdgeData, FlowGraphData, FlowNodeData, FlowRouteData, EdgeLineStyle, FlowEventType, FlowLayout } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
 import { FlowNode } from "./node";
-import { GraphLabel, graphlib, layout } from "@dagrejs/dagre";
 import { FlowRoute } from "./route";
-
+import { NoLayout } from "./layout";
 
 export type FlowMaterialType = 'line' | 'geometry'
 
@@ -16,11 +15,12 @@ export interface FlowGraphOptions {
   linestyle?: EdgeLineStyle
   linedivisions?: number
   linethickness?: number
+  layout?: FlowLayout
 }
 
 export class FlowGraph extends Object3D {
   private materials: Map<string, Material>;
-  private graph = new graphlib.Graph()
+  private graph!: FlowLayout
 
   private _active: FlowNode | undefined;
   get active() { return this._active }
@@ -34,10 +34,17 @@ export class FlowGraph extends Object3D {
   constructor(private options?: FlowGraphOptions) {
     super()
 
-    if (options && options.gridsize != undefined)
-      this.gridsize = options.gridsize
-    else
-      this.gridsize = 0
+    if (options) {
+      if (options.gridsize != undefined)
+        this.gridsize = options.gridsize
+      else
+        this.gridsize = 0
+
+      if (options.layout)
+        this.graph = options.layout
+      else
+      this.graph = new NoLayout()
+    }
 
     this.materials = new Map();
 
@@ -88,39 +95,29 @@ export class FlowGraph extends Object3D {
     }
   }
 
-  layout(label: GraphLabel = { rankdir: 'LR' }, filter?: (nodeId: string) => boolean) {
-    if (!label.nodesep) label.nodesep = 0.1
-    if (!label.edgesep) label.edgesep = 1
-    if (!label.ranksep) label.ranksep = 4
+  layout(label: any = { }, filter?: (nodeId: string) => boolean) {
+    if (this.graph.layout(label, filter)) {
 
-    this.graph.setGraph(label);
+      const centerx = label.width! / 2
+      const centery = label.height! / 2
 
-    let filteredgraph = this.graph
-    if (filter) filteredgraph = this.graph.filterNodes(filter)
-
-    layout(filteredgraph)
-
-    const centerx = label.width!/2
-    const centery = label.height!/2
-
-    // reposition the nodes
-    filteredgraph.nodes().forEach(name => {
-      const data = this.graph.node(name)
-      const node = this.hasNode(name)
-      if (node) {
-        node.position.set(data.x-centerx, -data.y+centery, 0)
-      }
-    })
-
-    // redraw edges using calculated points
-    this.allEdges.forEach(edge => {
-      edge.edge.points?.forEach(point => {
-        point.x -= centerx
-        point.y -= centery
+      // reposition the nodes
+      this.allNodes.forEach(node => {
+        const data = this.graph.node(node.name)
+        if (node) {
+          node.position.set(data.x - centerx, -data.y + centery, 0)
+        }
       })
-      edge.updateVisuals()
-    })
 
+      // redraw edges using calculated points
+      this.allEdges.forEach(edge => {
+        edge.edge.points?.forEach(point => {
+          point.x -= centerx
+          point.y -= centery
+        })
+        edge.updateVisuals()
+      })
+    }
   }
 
   private _center = new Vector3()

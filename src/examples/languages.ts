@@ -11,6 +11,7 @@ import {
 } from "three-flow";
 import { languagedata } from "./langauge-data";
 import { Exporter } from "./export";
+import { DagreLayout } from "./dagre-layout";
 
 
 export class LanguagesExample {
@@ -60,7 +61,8 @@ export class LanguagesExample {
         fonts: new Map<string, Font>([
           ['default', font],
         ]),
-        linestyle: 'spline'
+        linestyle: 'spline',
+        layout:new DagreLayout()
       }
       const flow = new FlowGraph(options)
       scene.add(flow);

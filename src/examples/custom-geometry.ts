@@ -13,6 +13,15 @@ import {
 import { ResizeNode, FlowGraph } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
+import { DagreLayout } from "./dagre-layout";
+
+interface MyFlowNodeData extends FlowNodeData {
+  test:string
+}
+
+interface MyFlowEdgeData extends FlowEdgeData {
+  test: string
+}
 
 export class CustomGeometryExample {
 
@@ -53,7 +62,7 @@ export class CustomGeometryExample {
     //scene.add(new AxesHelper(3))
 
 
-    const nodes: FlowNodeData[] = [
+    const nodes: MyFlowNodeData[] = [
       {
         text: "1",
         y: 2,
@@ -63,6 +72,7 @@ export class CustomGeometryExample {
         width: 1.5,
         height: 2,
         color: 'green',
+        test:'1'
       },
       {
         text: "2",
@@ -73,7 +83,7 @@ export class CustomGeometryExample {
         labelfont: 'helvetika',
         draggable: false,
         resizable: false,
-        scaleable: true,
+        scalable: true,
         selectable: false,
         scale: 1,
         width: 1.5,
@@ -81,8 +91,7 @@ export class CustomGeometryExample {
         color: 'red',
         resizecolor: 'red',
         scalecolor: 'yellow',
-
-
+        test: '2'
       },
       {
         text: "3",
@@ -94,16 +103,15 @@ export class CustomGeometryExample {
         draggable: false,
         resizable: false,
         selectable: true,
-        scaleable: true,
+        scalable: true,
         scale: 1,
         width: 1.5,
         height: 1,
         color: 'gold',
         resizecolor: 'red',
         scalecolor: 'yellow',
-
+        test: '3'
       },
-
       {
         text: "4",
         y: -2,
@@ -113,29 +121,34 @@ export class CustomGeometryExample {
         width: 1.5,
         height: 2,
         color: 'green',
+        test: '4'
       },
 
     ];
 
-    const edges: FlowEdgeData[] = [
+    const edges: MyFlowEdgeData[] = [
       {
         name: '1',
         v: "1",
         w: "3",
         color: 0xff0000,
-        toarrow: { color: 0xff0000 }
+        toarrow: { color: 0xff0000 },
+        test:'1'
       },
       {
         v: "1",
         w: "2",
+        test: '2'
       },
       {
         v: "4",
         w: "3",
+        test: '3'
       },
       {
         v: "4",
         w: "2",
+        test: '4'
       },
     ];
 
@@ -159,7 +172,8 @@ export class CustomGeometryExample {
         ]),
         linethickness: 0.015,
         linecolor: 0x2ead25,
-        linestyle: 'spline'
+        linestyle: 'spline',
+        layout : new DagreLayout()
       }
       const flow = new MyFlowGraph(options)
       scene.add(flow);
@@ -225,11 +239,11 @@ class MyFlowGraph extends FlowGraph {
     return new MeshStandardMaterial({ color, side: purpose == 'arrow' ? DoubleSide : FrontSide });
   }
 
-  override createNode(graph: FlowGraph, node: FlowNodeData): FlowNode {
+  override createNode(graph: FlowGraph, node: MyFlowNodeData): FlowNode {
     return new MyFlowNode(graph, node)
   }
 
-  override createEdge(graph: FlowGraph, edge: FlowEdgeData): FlowEdge {
+  override createEdge(graph: FlowGraph, edge: MyFlowEdgeData): FlowEdge {
     return new MyFlowEdge(graph, edge)
   }
 }
@@ -238,7 +252,7 @@ const depth = 0.15
 class MyFlowNode extends FlowNode {
   border: NodeBorder;
 
-  constructor(graph: FlowGraph, node: FlowNodeData) {
+  constructor(graph: FlowGraph, node: MyFlowNodeData) {
     super(graph, node);
 
     this.border = new NodeBorder(this, graph)
@@ -256,7 +270,7 @@ class MyFlowNode extends FlowNode {
 }
 
 class MyFlowEdge extends FlowEdge {
-  constructor(graph: FlowGraph, edge: FlowEdgeData) {
+  constructor(graph: FlowGraph, edge: MyFlowEdgeData) {
     super(graph, edge)
   }
 

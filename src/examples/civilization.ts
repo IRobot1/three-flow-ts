@@ -13,6 +13,7 @@ import {
 
 import { civilizationdata } from "./civilization-data";
 import { Exporter } from "./export";
+import { DagreLayout } from "./dagre-layout";
 
 export class CivilizationExample {
 
@@ -62,7 +63,8 @@ export class CivilizationExample {
         fonts: new Map<string, Font>([
           ['default', font],
         ]),
-        linedivisions: 5
+        linedivisions: 5,
+        layout: new DagreLayout()
       }
       const flow = new FlowGraph(options)
       scene.add(flow);
