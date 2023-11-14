@@ -7,7 +7,7 @@ import {
   FlowInteractive,
   FlowGraph,
   FlowGraphOptions,
-  AbstractGraph,
+  FlowGraphData,
   GraphInteraction
 } from "three-flow";
 
@@ -118,7 +118,7 @@ export class LoaderExample {
       fileLoader.load(`assets/${this.value}`, (data) => {
         flow.dispose()
 
-        const graph = <AbstractGraph>JSON.parse(<string>data)
+        const graph = <FlowGraphData>JSON.parse(<string>data)
 
         flow.load(graph)
         console.log(flow.save())

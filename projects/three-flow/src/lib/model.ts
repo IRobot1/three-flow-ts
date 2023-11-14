@@ -1,7 +1,7 @@
 import { Edge, Label } from "@dagrejs/dagre";
 import { Mesh } from "three";
 
-export interface AbstractConnector extends Label {
+export interface FlowConnectorData extends Label {
   index?: number; // order when there are multiple
   connectortype?: string;
   userData?: { [key: string]: any };
@@ -10,7 +10,7 @@ export interface AbstractConnector extends Label {
 export type ArrowType = 'from' | 'to'
 export type ArrowStyle = 'default'
 
-export interface AbstractArrow {
+export interface FkiwArrowData {
   type?: ArrowType;
   width?: number;
   height?: number;
@@ -23,20 +23,20 @@ export interface AbstractArrow {
 
 export type EdgeLineStyle = 'straight' | 'spline'
 
-export interface AbstractEdge extends Edge {
+export interface FlowEdgeData extends Edge {
   color?: number | string;
   linestyle?: EdgeLineStyle;
   divisions?: number;
   thickness?: number;
-  toarrow?: AbstractArrow;
-  fromarrow?: AbstractArrow;
+  toarrow?: FkiwArrowData;
+  fromarrow?: FkiwArrowData;
   userData?: { [key: string]: any };
 
   points?: Array<{ x: number, y: number }>  // layout positions of line segments
 }
 
 export type AbstractNodeType = 'node' | 'route'
-export interface AbstractNode extends Label {
+export interface FlowNodeData extends Label {
   type?: AbstractNodeType
   x?: number;
   y?: number;
@@ -64,18 +64,18 @@ export interface AbstractNode extends Label {
   maxscale?: number;
 }
 
-export interface AbstractRoute extends AbstractNode {
+export interface FlowRouteData extends FlowNodeData {
   radius?: number
 }
 
-export interface AbstractGraph {
+export interface FlowGraphData {
   version: number;
-  nodes: AbstractNode[],
-  edges: AbstractEdge[]
+  nodes: FlowNodeData[],
+  edges: FlowEdgeData[]
 }
 
 
-export interface FlowHandle {
+export interface FlowHandleData {
   id: string;
   widthchange: (mesh: Mesh) => void
   heightchange: (mesh: Mesh) => void

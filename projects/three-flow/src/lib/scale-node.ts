@@ -1,7 +1,7 @@
 import { BufferGeometry, Material, MathUtils, Mesh, PlaneGeometry, Vector3 } from "three"
 import { FlowNode } from "./node"
 import { InteractiveEventType } from "./interactive"
-import { FlowHandle } from "./model"
+import { FlowHandleData } from "./model"
 
 export class ScaleNode {
   public enabled = true
@@ -82,8 +82,8 @@ export class ScaleNode {
     return mesh
   }
 
-  createScaleHandles(): Array<FlowHandle> {
-    const left = <FlowHandle>{
+  createScaleHandles(): Array<FlowHandleData> {
+    const left = <FlowHandleData>{
       id: 'left',
       widthchange: (mesh: Mesh) => {
         mesh.position.x = -this.node.width / 2
@@ -94,7 +94,7 @@ export class ScaleNode {
       width_direction: 1,
       height_direction: 0
     }
-    const right = <FlowHandle>{
+    const right = <FlowHandleData>{
       id: 'right',
       widthchange: (mesh: Mesh) => {
         mesh.position.x = this.node.width / 2

@@ -1,5 +1,5 @@
 import { Box3, LineBasicMaterial, Material, MeshBasicMaterial, Object3D, Vector3 } from "three";
-import { AbstractEdge, AbstractGraph, AbstractNode, AbstractRoute, EdgeLineStyle } from "./model";
+import { FlowEdgeData, FlowGraphData, FlowNodeData, FlowRouteData, EdgeLineStyle } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
 import { FlowNode } from "./node";
@@ -49,8 +49,8 @@ export class FlowGraph extends Object3D {
 
   }
 
-  save(): AbstractGraph {
-    const graph: AbstractGraph = {
+  save(): FlowGraphData {
+    const graph: FlowGraphData = {
       version: 1,
       nodes: [], edges: []
     }
@@ -65,8 +65,8 @@ export class FlowGraph extends Object3D {
     return graph
   }
 
-  load(input: AbstractGraph) {
-    const graph = input as Partial<AbstractGraph>
+  load(input: FlowGraphData) {
+    const graph = input as Partial<FlowGraphData>
 
     graph.nodes?.forEach(node => {
       if (node.type == 'route')
@@ -147,7 +147,7 @@ export class FlowGraph extends Object3D {
     return undefined
   }
 
-  private addNode(item: AbstractNode): FlowNode {
+  private addNode(item: FlowNodeData): FlowNode {
     const node = this.createNode(this, item)
     this.add(node)
 
@@ -155,7 +155,7 @@ export class FlowGraph extends Object3D {
     return node
   }
 
-  public setNode(node: AbstractNode): FlowNode {
+  public setNode(node: FlowNodeData): FlowNode {
     const mesh = this.addNode(node)
 
     // addNode can assign node.text, so must be after
@@ -164,7 +164,7 @@ export class FlowGraph extends Object3D {
     return mesh;
   }
 
-  private addRoute(item: AbstractRoute): FlowNode {
+  private addRoute(item: FlowRouteData): FlowNode {
     const route = this.createRoute(this, item)
     this.add(route)
 
@@ -172,7 +172,7 @@ export class FlowGraph extends Object3D {
     return route
   }
 
-  public setRoute(route: AbstractRoute): FlowNode {
+  public setRoute(route: FlowRouteData): FlowNode {
     const mesh = this.addRoute(route)
 
     // addNode can assign node.text, so must be after
@@ -192,7 +192,7 @@ export class FlowGraph extends Object3D {
   }
 
   newNode(): FlowNode {
-    const node: AbstractNode = {
+    const node: FlowNodeData = {
       text: (this.nodes.length + 1).toString(),
     }
 
@@ -215,7 +215,7 @@ export class FlowGraph extends Object3D {
     return undefined
   }
 
-  public addEdge(item: AbstractEdge): FlowEdge {
+  public addEdge(item: FlowEdgeData): FlowEdge {
     if (!item.color) item.color = this.options?.linecolor
     if (!item.linestyle) item.linestyle = this.options?.linestyle
     if (!item.divisions) item.divisions = this.options?.linedivisions
@@ -228,7 +228,7 @@ export class FlowGraph extends Object3D {
     return edge
   }
 
-  public setEdge(edge: AbstractEdge): FlowEdge {
+  public setEdge(edge: FlowEdgeData): FlowEdge {
     this.graph.setEdge(edge.v, edge.w, edge);
     return this.addEdge(edge)
   }
@@ -241,7 +241,7 @@ export class FlowGraph extends Object3D {
 
   get nodes(): string[] { return this.graph.nodes() }
   get connectors(): string[] { return this.graph.nodes() }
-  get edges(): AbstractEdge[] { return this.graph.edges() }
+  get edges(): FlowEdgeData[] { return this.graph.edges() }
 
   //
   // purpose is node, resize, scale, disabled, error, selected, active, etc
@@ -269,15 +269,15 @@ export class FlowGraph extends Object3D {
     return new MeshBasicMaterial({ color, opacity: 0.99 });
   }
 
-  createNode(graph: FlowGraph, node: AbstractNode): FlowNode {
+  createNode(graph: FlowGraph, node: FlowNodeData): FlowNode {
     return new FlowNode(graph, node)
   }
 
-  createRoute(graph: FlowGraph, route: AbstractRoute): FlowNode {
+  createRoute(graph: FlowGraph, route: FlowRouteData): FlowNode {
     return new FlowRoute(graph, route)
   }
 
-  createEdge(graph: FlowGraph, edge: AbstractEdge): FlowEdge {
+  createEdge(graph: FlowGraph, edge: FlowEdgeData): FlowEdge {
     return new FlowEdge(graph, edge)
   }
 

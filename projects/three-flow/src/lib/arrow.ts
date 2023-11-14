@@ -1,5 +1,5 @@
 import { BufferGeometry, Mesh, Shape, ShapeGeometry } from "three";
-import { AbstractArrow, ArrowStyle } from "./model";
+import { FkiwArrowData, ArrowStyle } from "./model";
 import { FlowEdge } from "./edge";
 
 
@@ -66,7 +66,7 @@ export class FlowArrow extends Mesh {
     }
   }
 
-  constructor(edge: FlowEdge, public arrow: AbstractArrow) {
+  constructor(edge: FlowEdge, public arrow: FkiwArrowData) {
     super()
 
     this._color = arrow.color ?? 0x000000

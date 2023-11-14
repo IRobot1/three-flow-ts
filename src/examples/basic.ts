@@ -5,12 +5,12 @@ import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 
 import { ThreeJSApp } from "../app/threejs-app";
 import {
-  AbstractEdge,
-  AbstractNode,
+  FlowEdgeData,
+  FlowNodeData,
   FlowInteractive,
   FlowGraph,
   FlowGraphOptions,
-  AbstractGraph,
+  FlowGraphData,
   GraphInteraction,
 } from "three-flow";
 
@@ -53,7 +53,7 @@ export class BasicExample {
     //scene.add(new AxesHelper(3))
 
 
-    const nodes: AbstractNode[] = [
+    const nodes: FlowNodeData[] = [
       {
         text: "1",
         x: 0, y: 0, z: 0,
@@ -109,7 +109,7 @@ export class BasicExample {
     ];
 
 
-    const edges: AbstractEdge[] = [
+    const edges: FlowEdgeData[] = [
       {
         name: "7",
         v: "1",
@@ -126,7 +126,7 @@ export class BasicExample {
 
     const loader = new FontLoader();
 
-    const graph: AbstractGraph = {
+    const graph: FlowGraphData = {
       version: 1,
       nodes, edges
     }

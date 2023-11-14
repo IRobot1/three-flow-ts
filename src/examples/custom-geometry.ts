@@ -6,9 +6,9 @@ import { TubeGeometry } from "three";
 import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowNode,
-  AbstractEdge,
-  AbstractNode,
-  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions, AbstractGraph, GraphInteraction, NodeBorder, FlowArrow, AbstractArrow, ArrowStyle
+  FlowEdgeData,
+  FlowNodeData,
+  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions, FlowGraphData, GraphInteraction, NodeBorder, FlowArrow, FkiwArrowData, ArrowStyle
 } from "three-flow";
 import { ResizeNode, FlowGraph } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
@@ -53,7 +53,7 @@ export class CustomGeometryExample {
     //scene.add(new AxesHelper(3))
 
 
-    const nodes: AbstractNode[] = [
+    const nodes: FlowNodeData[] = [
       {
         text: "1",
         y: 2,
@@ -117,7 +117,7 @@ export class CustomGeometryExample {
 
     ];
 
-    const edges: AbstractEdge[] = [
+    const edges: FlowEdgeData[] = [
       {
         name: '1',
         v: "1",
@@ -143,7 +143,7 @@ export class CustomGeometryExample {
 
     const loader = new FontLoader();
 
-    const graph: AbstractGraph = {
+    const graph: FlowGraphData = {
       version: 1,
       nodes, edges
     }
@@ -225,11 +225,11 @@ class MyFlowGraph extends FlowGraph {
     return new MeshStandardMaterial({ color, side: purpose == 'arrow' ? DoubleSide : FrontSide });
   }
 
-  override createNode(graph: FlowGraph, node: AbstractNode): FlowNode {
+  override createNode(graph: FlowGraph, node: FlowNodeData): FlowNode {
     return new MyFlowNode(graph, node)
   }
 
-  override createEdge(graph: FlowGraph, edge: AbstractEdge): FlowEdge {
+  override createEdge(graph: FlowGraph, edge: FlowEdgeData): FlowEdge {
     return new MyFlowEdge(graph, edge)
   }
 }
@@ -238,7 +238,7 @@ const depth = 0.15
 class MyFlowNode extends FlowNode {
   border: NodeBorder;
 
-  constructor(graph: FlowGraph, node: AbstractNode) {
+  constructor(graph: FlowGraph, node: FlowNodeData) {
     super(graph, node);
 
     this.border = new NodeBorder(this, graph)
@@ -256,7 +256,7 @@ class MyFlowNode extends FlowNode {
 }
 
 class MyFlowEdge extends FlowEdge {
-  constructor(graph: FlowGraph, edge: AbstractEdge) {
+  constructor(graph: FlowGraph, edge: FlowEdgeData) {
     super(graph, edge)
   }
 
@@ -265,7 +265,7 @@ class MyFlowEdge extends FlowEdge {
     return new TubeGeometry(curve, curvepoints.length, thickness)
   }
 
-  override createArrow(arrow: AbstractArrow): FlowArrow {
+  override createArrow(arrow: FkiwArrowData): FlowArrow {
     return new MyArrow(this, arrow)
   }
 }

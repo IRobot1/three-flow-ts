@@ -1,12 +1,12 @@
 import { BufferGeometry, CircleGeometry } from "three";
-import { AbstractRoute } from "./model";
+import { FlowRouteData } from "./model";
 import { FlowGraph } from "./graph";
 import { FlowNode } from "./node";
 
 export class FlowRoute extends FlowNode {
   radius: number;
 
-  constructor(graph: FlowGraph, private route: AbstractRoute) {
+  constructor(graph: FlowGraph, private route: FlowRouteData) {
     route.type = 'route'
     route.resizable = route.scalable = false // don't allow
     route.radius = route.radius ?? 0.1
