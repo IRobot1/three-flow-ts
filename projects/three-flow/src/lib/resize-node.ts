@@ -97,7 +97,7 @@ export class ResizeNode {
         mesh.position.x = -this.node.width / 2
       },
       heightchange: (mesh: Mesh) => {
-        mesh.position.y = this.node.height / 2 - this.node.labelsize * 1.2
+        //mesh.position.y = this.node.height / 2 - this.node.labelsize * 1.2
       },
       width_direction: 1,
       height_direction: 0
@@ -108,7 +108,7 @@ export class ResizeNode {
         mesh.position.x = this.node.width / 2
       },
       heightchange: (mesh: Mesh) => {
-        mesh.position.y = this.node.height / 2 - this.node.labelsize * 1.2
+        //mesh.position.y = this.node.height / 2 - this.node.labelsize * 1.2
       },
       width_direction: -1,
       height_direction: 0
@@ -123,8 +123,18 @@ export class ResizeNode {
       width_direction: 0,
       height_direction: 1
     }
+    const top = <FlowHandleParameters>{
+      id: 'bottom',
+      widthchange: (mesh: Mesh) => {
+      },
+      heightchange: (mesh: Mesh) => {
+        mesh.position.y = this.node.height / 2
+      },
+      width_direction: 0,
+      height_direction: -1
+    }
 
-    return [left, right, bottom]
+    return [left, right, bottom, top]
   }
 
 }
