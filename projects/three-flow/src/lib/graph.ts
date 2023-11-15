@@ -24,7 +24,7 @@ export class FlowGraph extends Object3D {
 
   private _nodeCount = 0
   get nodeCount() { return this._nodeCount }
-  
+
   private _edgeCount = 0
   get edgeCount() { return this._edgeCount }
 
@@ -49,7 +49,7 @@ export class FlowGraph extends Object3D {
       if (options.layout)
         this.graph = options.layout
       else
-      this.graph = new NoOpLayout()
+        this.graph = new NoOpLayout()
     }
 
     this.materials = new Map();
@@ -91,7 +91,7 @@ export class FlowGraph extends Object3D {
     }
   }
 
-  layout(label: any = { }, filter?: (nodeId: string) => boolean) {
+  layout(label: any = {}, filter?: (nodeId: string) => boolean) {
     if (this.graph.layout(label, filter)) {
 
       const centerx = label.width! / 2
@@ -107,10 +107,11 @@ export class FlowGraph extends Object3D {
 
       // redraw edges using calculated points
       this.allEdges.forEach(edge => {
-        edge.edge.points?.forEach(point => {
-          point.x -= centerx
-          point.y -= centery
-        })
+        if (edge.edge.points)
+          edge.edge.points.forEach(point => {
+            point.x -= centerx
+            point.y -= centery
+          })
         edge.updateVisuals()
       })
     }

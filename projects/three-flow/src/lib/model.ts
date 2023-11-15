@@ -24,7 +24,7 @@ export interface FlowArrowParameters {
 export type EdgeLineStyle = 'straight' | 'spline'
 
 export interface FlowEdgeParameters  {
-  // first four fields make data compatible with dagre
+  // first four fields make parameters compatible with dagre for easier layout
   v: string;
   w: string;
   name?: string;
