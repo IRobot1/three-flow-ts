@@ -92,29 +92,36 @@ export class FlowDiagram extends Object3D {
   }
 
   layout(label: any = {}, filter?: (nodeId: string) => boolean) {
-    if (this.graph.layout(label, filter)) {
+    const result = this.graph.layout(label, filter)
 
-      const centerx = label.width! / 2
-      const centery = label.height! / 2
+    const centerx = result.width! / 2
+    const centery = result.height! / 2
 
-      // reposition the nodes
-      this.allNodes.forEach(node => {
-        const data = this.graph.node(node.name)
-        if (node) {
-          node.position.set(data.x - centerx, -data.y + centery, 0)
-        }
-      })
+    result.nodes.forEach(node => {
+      const item = this.hasNode(node.id)
+      if (item) {
+        item.position.set(node.x! - centerx, -node.y! + centery, 0)
+      }
+    })
 
-      // redraw edges using calculated points
-      this.allEdges.forEach(edge => {
-        if (edge.edge.points)
-          edge.edge.points.forEach(point => {
-            point.x -= centerx
-            point.y -= centery
-          })
-        edge.updateVisuals()
-      })
-    }
+    // redraw edges using calculated points
+    result.edges.forEach(edge => {
+      const item = this.hasEdge(edge.id)
+      if (item) {
+        item.edge.points = []
+        edge.points.forEach(point => {
+          if (item.edge.points) {
+            item.edge.points.push({
+              x: point.x - centerx,
+              y: point.y - centery
+            })
+          }
+        })
+
+        item.updateVisuals()
+      }
+    })
+
   }
 
   private _center = new Vector3()
@@ -204,9 +211,13 @@ export class FlowDiagram extends Object3D {
     node.dispose()
   }
 
+  nextNodeId(): string {
+    return `n${this.nodeCount}`
+  }
+
   newNode(): FlowNode {
     const node: FlowNodeParameters = {
-      text: (this.nodes.length + 1).toString(),
+      text: this.nextNodeId(),
     }
 
     return this.setNode(node)
@@ -242,14 +253,16 @@ export class FlowDiagram extends Object3D {
   }
 
   public setEdge(edge: FlowEdgeParameters): FlowEdge {
-    this.graph.setEdge(edge.v, edge.w, edge);
+    const mesh = this.addEdge(edge)
     this._edgeCount++;
-    return this.addEdge(edge)
+
+    this.graph.setEdge(edge.v, edge.w, edge);
+    return mesh;
   }
 
   public removeEdge(edge: FlowEdge): void {
 
-    this.graph.removeEdge(edge.from, edge.to)
+    this.graph.removeEdge(edge.edge, edge.from, edge.to)
     this._edgeCount--
 
     this.dispatchEvent<any>({ type: FlowEventType.EDGE_REMOVED, edge })
@@ -257,9 +270,9 @@ export class FlowDiagram extends Object3D {
     this.remove(edge)
   }
 
-  get nodes(): string[] { return this.graph.nodes() }
-  get connectors(): string[] { return this.graph.nodes() }
-  get edges(): FlowEdgeParameters[] { return this.graph.edges() }
+  nextEdgeId(): string {
+    return `e${this.edgeCount}`
+  }
 
   //
   // purpose is node, resize, scale, disabled, error, selected, active, etc

@@ -61,7 +61,7 @@ export class FlowEdge extends Mesh {
     //@ts-ignore
     this.type = 'flowedge'
 
-    this.name = edge.name = edge.name ? edge.name : diagram.edgeCount.toString()
+    this.name = edge.name = edge.name ? edge.name : diagram.nextEdgeId()
     if (this.data) this.userData = this.data
 
     const dragged = () => {
