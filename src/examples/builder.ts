@@ -12,6 +12,7 @@ import {
 } from "three-flow";
 import { Exporter } from "./export";
 import { DagreLayout } from "./dagre-layout";
+import { CytoscapeLayout } from "./cytoscape-layout";
 
 interface MyFlowNodeParameters extends FlowNodeParameters {
   shape: string
@@ -60,7 +61,7 @@ export class BuilderExample {
         fonts: new Map<string, Font>([
           ['default', font],
         ]),
-        layout: new DagreLayout()
+        layout: new CytoscapeLayout()
       }
 
       const flow = new FlowDiagram(options);
