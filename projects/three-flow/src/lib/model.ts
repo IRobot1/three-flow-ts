@@ -23,7 +23,7 @@ export interface FlowArrowParameters {
 
 export type EdgeLineStyle = 'straight' | 'spline'
 
-export interface FlowEdgeParameters  {
+export interface FlowEdgeParameters {
   // first four fields make parameters compatible with dagre for easier layout
   v: string;
   w: string;
@@ -67,6 +67,7 @@ export interface FlowNodeParameters {
   scale?: number;
   minscale?: number;
   maxscale?: number;
+  hidden?: boolean;
 }
 
 export interface FlowRouteParameters extends FlowNodeParameters {
@@ -103,6 +104,7 @@ export const FlowEventType = {
   DRAGGABLE_CHANGED: 'draggable_changed',
   SCALABLE_CHANGED: 'scalable_changed',
   RESIZABLE_CHANGED: 'resizable_changed',
+  HIDDEN_CHANGED: 'hidden_changed',
 }
 
 export interface FlowLayout {

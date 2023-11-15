@@ -118,6 +118,17 @@ export class FlowNode extends Mesh {
   minscale: number;
   maxscale: number;
 
+  private _hidden: boolean;
+  get hidden() { return this._hidden }
+  set hidden(newvalue: boolean) {
+    if (this._hidden != newvalue) {
+      this._hidden = newvalue;
+      this.visible = !newvalue;
+      this.dispatchEvent<any>({ type: FlowEventType.HIDDEN_CHANGED })
+    }
+  }
+
+
   private labelMesh?: Mesh;
   private labelMaterial: Material;
 
@@ -171,10 +182,15 @@ export class FlowNode extends Mesh {
     if (node.y != undefined) this.position.y = node.y
     if (node.z != undefined) this.position.z = node.z
 
+    this._hidden = !this.visible
+    if (node.hidden != undefined)
+      this.hidden = node.hidden
+
     this.save = () => {
       node.x = this.position.x
       node.y = this.position.y
       node.z = this.position.z
+      if (!this.visible) node.hidden = true
     }
 
     this.labelMaterial = diagram.getMaterial('geometry', 'label', this.labelcolor)!;

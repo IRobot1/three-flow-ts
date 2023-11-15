@@ -71,10 +71,24 @@ export class FlowEdge extends Mesh {
 
     this.from = edge.v
     this.fromNode = diagram.hasNode(this.from)
-    if (this.fromNode) this.fromNode.addEventListener(FlowEventType.DRAGGED, dragged)
+    if (this.fromNode) {
+      this.fromNode.addEventListener(FlowEventType.DRAGGED, dragged)
+
+      this.fromNode.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
+        if (this.fromNode)
+          this.visible = this.fromNode.visible
+      })
+    }
     this.to = edge.w
     this.toNode = diagram.hasNode(this.to)
-    if (this.toNode) this.toNode.addEventListener(FlowEventType.DRAGGED, dragged)
+    if (this.toNode) {
+      this.toNode.addEventListener(FlowEventType.DRAGGED, dragged)
+
+      this.toNode.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
+        if (this.toNode)
+          this.visible = this.toNode.visible
+      })
+    }
 
     if (edge.fromarrow) {
       edge.fromarrow.type = edge.fromarrow.type ? edge.fromarrow.type : 'from'
@@ -101,6 +115,7 @@ export class FlowEdge extends Mesh {
       this.line.material = this.material
       this.line.position.z = -0.001
     }
+
 
   }
 

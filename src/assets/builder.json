@@ -65,8 +65,6 @@
       "color": "blue",
       "y": -0.5,
       "type": "route",
-      "scalable": false,
-      "resizable": false,
       "radius": 0.1,
       "width": 0.1,
       "height": 0.1,

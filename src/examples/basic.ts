@@ -173,6 +173,7 @@ export class BasicExample {
       folder.add<any, any>(node1, 'scalar', 0.1, 5).name('Scale')
       folder.add<any, any>(node1, 'minscale', 0.1, 2).name('Min Scale')
       folder.add<any, any>(node1, 'maxscale', 0.1, 3).name('Max Scale')
+      folder.add<any, any>(node1, 'hidden').name('Hidden')
 
       //
       // After moving a node, dispatch dragged event to notify all edges to redraw

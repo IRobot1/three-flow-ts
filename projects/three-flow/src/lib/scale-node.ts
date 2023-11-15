@@ -42,6 +42,8 @@ export class ScaleNode {
     let startscale: number
 
     mesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
+      if (this.node.hidden) return
+
       startposition = e.position.clone()
       startscale = this.node.scale.x
       this.scaling = true
@@ -53,7 +55,7 @@ export class ScaleNode {
     })
 
     mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
-      if (!this.node.scalable) return
+      if (!this.node.scalable || this.node.hidden) return
 
       const diff = e.position.sub(startposition) as Vector3
 

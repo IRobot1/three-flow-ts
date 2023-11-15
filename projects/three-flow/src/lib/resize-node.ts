@@ -42,20 +42,20 @@ export class ResizeNode {
     let startheight: number
 
     mesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
-      if (!this.enabled) return
+      if (!this.enabled || this.node.hidden) return
       startposition = e.position.clone()
       startwidth = this.node.width
       startheight = this.node.height
       this.dragging = true
     })
     mesh.addEventListener(InteractiveEventType.DRAGEND, () => {
-      if (!this.enabled) return
+      if (!this.enabled || this.node.hidden) return
       this.dragging = false
       mesh.visible = false
     })
 
     mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
-      if (!this.enabled) return
+      if (!this.enabled || this.node.hidden) return
       const diff = e.position.sub(startposition) as Vector3
 
       if (width_direction) {
