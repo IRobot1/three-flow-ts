@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, Color, MathUtils, PointLight, Scene } from "three";
+import { AmbientLight, AxesHelper, Color, MathUtils, Mesh, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 
@@ -6,11 +6,15 @@ import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowEdgeParameters,
   FlowDiagram,
-  FlowDiagramOptions
+  FlowDiagramOptions,
+  FlowNode,
+  FlowNodeParameters
 } from "three-flow";
 import { languagedata } from "./langauge-data";
 import { Exporter } from "./export";
 import { DagreLayout } from "./dagre-layout";
+// @ts-ignore
+import { Text } from "troika-three-text";
 
 
 export class LanguagesExample {
@@ -59,9 +63,9 @@ export class LanguagesExample {
           ['default', font],
         ]),
         linestyle: 'spline',
-        layout:new DagreLayout()
+        layout: new DagreLayout()
       }
-      const flow = new FlowDiagram(options)
+      const flow = new MyFlowDiagram(options)
       scene.add(flow);
 
       languagedata.forEach(item => {
@@ -113,5 +117,22 @@ export class LanguagesExample {
     }
 
 
+  }
+}
+
+class MyFlowNode extends FlowNode {
+  override createText(text: string, options: any): Mesh {
+    const label = new Text();
+    label.text = text;
+    label.anchorX = "center";
+    label.anchorY = 'middle';
+    label.fontSize = 0.3;
+    label.sync();
+    return label;
+  }
+}
+class MyFlowDiagram extends FlowDiagram {
+  override createNode(diagram: FlowDiagram, node: FlowNodeParameters): FlowNode {
+    return new MyFlowNode(diagram, node)
   }
 }
