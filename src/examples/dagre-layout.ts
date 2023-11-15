@@ -1,10 +1,10 @@
 import { GraphLabel, graphlib, layout } from "@dagrejs/dagre";
-import { FlowEdgeParameters, FlowLayout, FlowNodeParameters } from "three-flow";
+import { FlowEdgeParameters, FlowLayout, FlowNodeParameters, LayoutResult } from "three-flow";
 
 export class DagreLayout implements FlowLayout {
   private graph = new graphlib.Graph()
 
-  removeEdge(from: string, to: string): any {
+  removeEdge(edge: FlowEdgeParameters, from: string, to: string): any {
     return this.graph.removeEdge(from, to)
   }
   setEdge(from: string, to: string, edge: FlowEdgeParameters): any {
@@ -16,19 +16,7 @@ export class DagreLayout implements FlowLayout {
   setNode(name: string, node: FlowNodeParameters): unknown {
     return this.graph.setNode(name, node)
   }
-  filterNodes(callback: (nodeId: string) => boolean) {
-    return this.graph.filterNodes(callback)
-  }
-  nodes(): string[] {
-    return this.graph.nodes()
-  }
-  edges(): FlowEdgeParameters[] {
-    return this.graph.edges();
-  }
-  node(name: string) {
-    return this.graph.node(name)
-  }
-  layout(label: GraphLabel, filter?: ((nodeId: string) => boolean) | undefined): boolean {
+  layout(label: GraphLabel, filter?: ((nodeId: string) => boolean) | undefined): LayoutResult {
     if (!label.rankdir) label.rankdir = 'LR'
     if (!label.nodesep) label.nodesep = 0.1
     if (!label.edgesep) label.edgesep = 1
@@ -41,23 +29,25 @@ export class DagreLayout implements FlowLayout {
 
     layout(filteredgraph)
 
+    const result = <LayoutResult>{
+      width: label.width,
+      height: label.height,
+      nodes: [], edges: []
+    }
     // reposition the nodes
     filteredgraph.nodes().forEach(name => {
       const data = this.graph.node(name)
       const filtered = filteredgraph.node(name)
-      data.x = filtered.x
-      data.y = filtered.y
+      result.nodes.push({ id: name, x: filtered.x, y: filtered.y })
     })
 
-    // only need to copy if filtered graph is different
-    if (filteredgraph != this.graph) {
-      filteredgraph.edges().forEach(name => {
-        const data = this.graph.edge(name.v, name.w)
-        const filtered = filteredgraph.edge(name)
-        data.points = filtered.points
-      })
-    }
-    return true;
+    filteredgraph.edges().forEach(name => {
+      const data = this.graph.edge(name.v, name.w) as FlowEdgeParameters
+      const filtered = filteredgraph.edge(name)
+      result.edges.push({ id: data.name!, points: filtered.points })
+    })
+
+    return result;
   }
 
 }
