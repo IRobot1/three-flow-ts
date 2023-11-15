@@ -1,4 +1,4 @@
-import { AmbientLight, Color, PointLight, Scene } from "three";
+import { AmbientLight, BufferGeometry, Color, PointLight, Scene, Shape, ShapeGeometry } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 
@@ -6,10 +6,16 @@ import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowDiagram,
   FlowDiagramOptions,
-  FlowInteraction
+  FlowInteraction,
+  FlowNode,
+  FlowNodeParameters
 } from "three-flow";
 import { Exporter } from "./export";
 import { DagreLayout } from "./dagre-layout";
+
+interface MyFlowNodeParameters extends FlowNodeParameters {
+  shape: string
+}
 
 export class BuilderExample {
 
@@ -60,6 +66,31 @@ export class BuilderExample {
       const flow = new FlowDiagram(options);
       scene.add(flow)
 
+      flow.createNode = (graph: FlowDiagram, mynode: MyFlowNodeParameters): FlowNode => {
+        const result = new FlowNode(graph, mynode);
+        mynode.shape = 'round'
+        result.createGeometry = (): BufferGeometry => {
+          const width = result.width!
+          const height = result.height!
+          const radius = 0.3
+
+          const halfwidth = width / 2
+          const halfheight = height / 2
+          const ctx = new Shape()
+            .moveTo(-halfwidth + radius, -halfheight)
+            .lineTo(halfwidth - radius, -halfheight)
+            .quadraticCurveTo(halfwidth, -halfheight, halfwidth, -halfheight + radius)
+            .lineTo(halfwidth, halfheight - radius)
+            .quadraticCurveTo(halfwidth, halfheight, halfwidth - radius, halfheight)
+            .lineTo(-halfwidth + radius, halfheight)
+            .quadraticCurveTo(-halfwidth, halfheight, -halfwidth, halfheight - radius)
+            .lineTo(-halfwidth, -halfheight + radius)
+            .quadraticCurveTo(-halfwidth, -halfheight, -halfwidth + radius, -halfheight)
+
+          return new ShapeGeometry(ctx);
+        }
+        return result;
+      };
       // make the flow interactive
       new FlowInteraction(flow, app, app.camera)
 
