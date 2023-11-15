@@ -7,8 +7,8 @@ export class DagreLayout implements FlowLayout {
   removeEdge(from: string, to: string): any {
     return this.graph.removeEdge(from, to)
   }
-  setEdge(v: string, w: string, edge: FlowEdgeData): any {
-    return this.graph.setEdge(v, w, edge)
+  setEdge(from: string, to: string, edge: FlowEdgeData): any {
+    return this.graph.setEdge(from, to, edge)
   }
   removeNode(name: string): any {
     return this.graph.removeNode(name)

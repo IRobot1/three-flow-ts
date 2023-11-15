@@ -135,7 +135,7 @@ export class FlowNode extends Mesh {
 
     //@ts-ignore
     this.type = 'flownode'
-    this.name = node.text = node.text ? node.text : graph.nodes.length.toString()
+    this.name = node.text = node.text ? node.text : graph.nodeCount.toString()
     node.type = node.type ? node.type : 'node'
 
     this._width = node.width = node.width ? node.width : 1;

@@ -1,4 +1,3 @@
-import { Edge } from "@dagrejs/graphlib";
 import { Mesh } from "three";
 
 export interface FlowConnectorData {
@@ -24,7 +23,13 @@ export interface FlowArrowData {
 
 export type EdgeLineStyle = 'straight' | 'spline'
 
-export interface FlowEdgeData extends Edge {
+export interface FlowEdgeData  {
+  // first four fields make data compatible with dagre
+  v: string;
+  w: string;
+  name?: string;
+  points?: Array<{ x: number, y: number }>  // layout positions of line segments
+
   color?: number | string;
   linestyle?: EdgeLineStyle;
   divisions?: number;
@@ -32,8 +37,6 @@ export interface FlowEdgeData extends Edge {
   toarrow?: FlowArrowData;
   fromarrow?: FlowArrowData;
   userData?: { [key: string]: any };
-
-  points?: Array<{ x: number, y: number }>  // layout positions of line segments
 }
 
 export type AbstractNodeType = 'node' | 'route'
@@ -104,10 +107,9 @@ export const FlowEventType = {
 
 export interface FlowLayout {
   removeEdge(from: string, to: string): any;
-  setEdge(v: string, w: string, edge: FlowEdgeData): any;
+  setEdge(from: string, to: string, edge: FlowEdgeData): any;
   removeNode(name: string): any;
   setNode(name: string, node: FlowNodeData): any;
-  filterNodes(callback: (nodeId: string) => boolean): any;
   nodes(): Array<string>;
   edges(): Array<FlowEdgeData>;
   node(name: string): any;

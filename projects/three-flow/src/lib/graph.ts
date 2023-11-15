@@ -4,7 +4,7 @@ import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
 import { FlowNode } from "./node";
 import { FlowRoute } from "./route";
-import { NoLayout } from "./layout";
+import { NoOpLayout } from "./noop-layout";
 
 export type FlowMaterialType = 'line' | 'geometry'
 
@@ -19,8 +19,14 @@ export interface FlowGraphOptions {
 }
 
 export class FlowGraph extends Object3D {
-  private materials: Map<string, Material>;
+  private materials: Map<string, Material>
   private graph!: FlowLayout
+
+  private _nodeCount = 0
+  get nodeCount() { return this._nodeCount }
+  
+  private _edgeCount = 0
+  get edgeCount() { return this._edgeCount }
 
   private _active: FlowNode | undefined;
   get active() { return this._active }
@@ -43,20 +49,10 @@ export class FlowGraph extends Object3D {
       if (options.layout)
         this.graph = options.layout
       else
-      this.graph = new NoLayout()
+      this.graph = new NoOpLayout()
     }
 
     this.materials = new Map();
-
-    this.graph.nodes().forEach(name => {
-      const node = this.graph.node(name)
-      this.setNode(node)
-    })
-    this.graph.edges().forEach(edge => {
-      const line = this.addEdge(edge)
-      this.add(line)
-    })
-
   }
 
   save(): FlowGraphData {
@@ -173,6 +169,7 @@ export class FlowGraph extends Object3D {
 
     // addNode can assign node.text, so must be after
     this.graph.setNode(node.text!, node);
+    this._nodeCount++
 
     return mesh;
   }
@@ -190,6 +187,7 @@ export class FlowGraph extends Object3D {
 
     // addNode can assign node.text, so must be after
     this.graph.setNode(route.text!, route);
+    this._nodeCount++;
 
     return mesh;
   }
@@ -197,6 +195,7 @@ export class FlowGraph extends Object3D {
   public removeNode(node: FlowNode) {
 
     this.graph.removeNode(node.name)
+    this._nodeCount--
 
     this.dispatchEvent<any>({ type: FlowEventType.NODE_REMOVED, node })
 
@@ -243,11 +242,14 @@ export class FlowGraph extends Object3D {
 
   public setEdge(edge: FlowEdgeData): FlowEdge {
     this.graph.setEdge(edge.v, edge.w, edge);
+    this._edgeCount++;
     return this.addEdge(edge)
   }
 
   public removeEdge(edge: FlowEdge): void {
+
     this.graph.removeEdge(edge.from, edge.to)
+    this._edgeCount--
 
     this.dispatchEvent<any>({ type: FlowEventType.EDGE_REMOVED, edge })
 
