@@ -1,6 +1,6 @@
 import { Mesh } from "three";
 
-export interface FlowConnectorData {
+export interface FlowConnectorParameters {
   text?: string;
   index?: number; // order when there are multiple
   connectortype?: string;
@@ -10,7 +10,7 @@ export interface FlowConnectorData {
 export type ArrowType = 'from' | 'to'
 export type ArrowStyle = 'default'
 
-export interface FlowArrowData {
+export interface FlowArrowParameters {
   type?: ArrowType;
   width?: number;
   height?: number;
@@ -23,7 +23,7 @@ export interface FlowArrowData {
 
 export type EdgeLineStyle = 'straight' | 'spline'
 
-export interface FlowEdgeData  {
+export interface FlowEdgeParameters  {
   // first four fields make data compatible with dagre
   v: string;
   w: string;
@@ -34,13 +34,13 @@ export interface FlowEdgeData  {
   linestyle?: EdgeLineStyle;
   divisions?: number;
   thickness?: number;
-  toarrow?: FlowArrowData;
-  fromarrow?: FlowArrowData;
+  toarrow?: FlowArrowParameters;
+  fromarrow?: FlowArrowParameters;
   userData?: { [key: string]: any };
 }
 
 export type AbstractNodeType = 'node' | 'route'
-export interface FlowNodeData {
+export interface FlowNodeParameters {
   text?: string;
   type?: AbstractNodeType
   x?: number;
@@ -69,18 +69,18 @@ export interface FlowNodeData {
   maxscale?: number;
 }
 
-export interface FlowRouteData extends FlowNodeData {
+export interface FlowRouteParameters extends FlowNodeParameters {
   radius?: number
 }
 
 export interface FlowGraphData {
   version: number;
-  nodes: FlowNodeData[],
-  edges: FlowEdgeData[]
+  nodes: FlowNodeParameters[],
+  edges: FlowEdgeParameters[]
 }
 
 
-export interface FlowHandleData {
+export interface FlowHandleParameters {
   id: string;
   widthchange: (mesh: Mesh) => void
   heightchange: (mesh: Mesh) => void
@@ -107,11 +107,11 @@ export const FlowEventType = {
 
 export interface FlowLayout {
   removeEdge(from: string, to: string): any;
-  setEdge(from: string, to: string, edge: FlowEdgeData): any;
+  setEdge(from: string, to: string, edge: FlowEdgeParameters): any;
   removeNode(name: string): any;
-  setNode(name: string, node: FlowNodeData): any;
+  setNode(name: string, node: FlowNodeParameters): any;
   nodes(): Array<string>;
-  edges(): Array<FlowEdgeData>;
+  edges(): Array<FlowEdgeParameters>;
   node(name: string): any;
   layout(options: any, filter?: (nodeId: string) => boolean): boolean;
 }

@@ -6,20 +6,20 @@ import { TubeGeometry } from "three";
 import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowNode,
-  FlowEdgeData,
-  FlowNodeData,
-  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions, FlowGraphData, GraphInteraction, NodeBorder, FlowArrow, FlowArrowData, ArrowStyle
+  FlowEdgeParameters,
+  FlowNodeParameters,
+  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions, FlowGraphData, GraphInteraction, NodeBorder, FlowArrow, FlowArrowParameters, ArrowStyle
 } from "three-flow";
 import { ResizeNode, FlowGraph } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 import { DagreLayout } from "./dagre-layout";
 
-interface MyFlowNodeData extends FlowNodeData {
+interface MyFlowNodeData extends FlowNodeParameters {
   test:string
 }
 
-interface MyFlowEdgeData extends FlowEdgeData {
+interface MyFlowEdgeData extends FlowEdgeParameters {
   test: string
 }
 
@@ -279,7 +279,7 @@ class MyFlowEdge extends FlowEdge {
     return new TubeGeometry(curve, curvepoints.length, thickness)
   }
 
-  override createArrow(arrow: FlowArrowData): FlowArrow {
+  override createArrow(arrow: FlowArrowParameters) {
     return new MyArrow(this, arrow)
   }
 }

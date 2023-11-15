@@ -2,7 +2,7 @@ import { Mesh, BufferGeometry, PlaneGeometry, MathUtils, Material } from "three"
 import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
-import { FlowEventType, FlowNodeData } from "./model";
+import { FlowEventType, FlowNodeParameters } from "./model";
 import { FlowGraph } from "./graph";
 
 
@@ -130,7 +130,7 @@ export class FlowNode extends Mesh {
   }
 
 
-  constructor(public graph: FlowGraph, public node: FlowNodeData) {
+  constructor(public graph: FlowGraph, public node: FlowNodeParameters) {
     super();
 
     //@ts-ignore

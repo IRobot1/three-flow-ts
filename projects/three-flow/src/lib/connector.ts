@@ -1,4 +1,4 @@
-import { FlowConnectorData } from "./model";
+import { FlowConnectorParameters } from "./model";
 import { BufferGeometry, CircleGeometry, Mesh } from "three";
 import { FlowGraph } from "./graph";
 
@@ -7,7 +7,7 @@ export class FlowConnector extends Mesh {
   color = 'black'
 
   isFlow = true
-  constructor(private graph: FlowGraph, public connector: FlowConnectorData) {
+  constructor(private graph: FlowGraph, public connector: FlowConnectorParameters) {
     super()
 
     //@ts-ignore

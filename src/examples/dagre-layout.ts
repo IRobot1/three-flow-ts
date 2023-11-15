@@ -1,5 +1,5 @@
 import { GraphLabel, graphlib, layout } from "@dagrejs/dagre";
-import { FlowEdgeData, FlowLayout, FlowNodeData } from "three-flow";
+import { FlowEdgeParameters, FlowLayout, FlowNodeParameters } from "three-flow";
 
 export class DagreLayout implements FlowLayout {
   private graph = new graphlib.Graph()
@@ -7,13 +7,13 @@ export class DagreLayout implements FlowLayout {
   removeEdge(from: string, to: string): any {
     return this.graph.removeEdge(from, to)
   }
-  setEdge(from: string, to: string, edge: FlowEdgeData): any {
+  setEdge(from: string, to: string, edge: FlowEdgeParameters): any {
     return this.graph.setEdge(from, to, edge)
   }
   removeNode(name: string): any {
     return this.graph.removeNode(name)
   }
-  setNode(name: string, node: FlowNodeData): unknown {
+  setNode(name: string, node: FlowNodeParameters): unknown {
     return this.graph.setNode(name, node)
   }
   filterNodes(callback: (nodeId: string) => boolean) {
@@ -22,7 +22,7 @@ export class DagreLayout implements FlowLayout {
   nodes(): string[] {
     return this.graph.nodes()
   }
-  edges(): FlowEdgeData[] {
+  edges(): FlowEdgeParameters[] {
     return this.graph.edges();
   }
   node(name: string) {

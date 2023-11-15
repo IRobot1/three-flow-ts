@@ -3,10 +3,10 @@
   "version": "0.1.7",
   "license": "MIT",
   "peerDependencies": {
+    "three": "^0.158.0"
   },
   "dependencies": {
-    "tslib": "^2.3.0",
-    "three": "^0.158.0"
+    "tslib": "^2.3.0"
   },
   "sideEffects": false
 }

@@ -5,8 +5,8 @@ import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 
 import { ThreeJSApp } from "../app/threejs-app";
 import {
-  FlowEdgeData,
-  FlowNodeData,
+  FlowEdgeParameters,
+  FlowNodeParameters,
   FlowInteractive,
   FlowGraph,
   FlowGraphOptions,
@@ -54,7 +54,7 @@ export class BasicExample {
     //scene.add(new AxesHelper(3))
 
 
-    const nodes: FlowNodeData[] = [
+    const nodes: FlowNodeParameters[] = [
       {
         text: "1",
         x: 0, y: 0, z: 0,
@@ -110,7 +110,7 @@ export class BasicExample {
     ];
 
 
-    const edges: FlowEdgeData[] = [
+    const edges: FlowEdgeParameters[] = [
       {
         name: "7",
         v: "1",

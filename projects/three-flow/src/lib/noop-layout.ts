@@ -1,23 +1,23 @@
-import { FlowEdgeData, FlowLayout, FlowNodeData } from "./model";
+import { FlowEdgeParameters, FlowLayout, FlowNodeParameters } from "./model";
 
 export class NoOpLayout implements FlowLayout {
 
   removeEdge(from: string, to: string): any {
     return undefined
   }
-  setEdge(v: string, w: string, edge: FlowEdgeData): any {
+  setEdge(v: string, w: string, edge: FlowEdgeParameters): any {
     return undefined
   }
   removeNode(name: string): any {
     return undefined
   }
-  setNode(name: string, node: FlowNodeData): any {
+  setNode(name: string, node: FlowNodeParameters): any {
     return undefined
   }
   nodes(): string[] {
     return []
   }
-  edges(): FlowEdgeData[] {
+  edges(): FlowEdgeParameters[] {
     return []
   }
   node(name: string): any {

@@ -4,7 +4,7 @@ import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import {
-  FlowEdgeData,
+  FlowEdgeParameters,
   FlowInteractive,
   FlowGraph,
   FlowGraphOptions
@@ -91,7 +91,7 @@ export class LanguagesExample {
           // node.addInputConnector({ text: inlink })
         }
 
-        const edge: FlowEdgeData = {
+        const edge: FlowEdgeParameters = {
           v: from, w: to
         }
         flow.setEdge(edge);

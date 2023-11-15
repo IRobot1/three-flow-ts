@@ -1,5 +1,5 @@
 import { BufferGeometry, CatmullRomCurve3, Line, MathUtils, Mesh, MeshBasicMaterial, Vector2, Vector3 } from "three";
-import { FlowArrowData, FlowEdgeData, EdgeLineStyle, FlowEventType } from "./model";
+import { FlowArrowParameters, FlowEdgeParameters, EdgeLineStyle, FlowEventType } from "./model";
 import { FlowGraph } from "./graph";
 import { FlowNode } from "./node";
 import { FlowArrow } from "./arrow";
@@ -55,7 +55,7 @@ export class FlowEdge extends Mesh {
   private line?: Line
 
   isFlow = true
-  constructor(public graph: FlowGraph, public edge: FlowEdgeData) {
+  constructor(public graph: FlowGraph, public edge: FlowEdgeParameters) {
     super()
 
     //@ts-ignore
@@ -194,7 +194,7 @@ export class FlowEdge extends Mesh {
     return undefined
   }
 
-  createArrow(arrow: FlowArrowData): FlowArrow {
+  createArrow(arrow: FlowArrowParameters): FlowArrow {
     return new FlowArrow(this, arrow)
   }
 }
