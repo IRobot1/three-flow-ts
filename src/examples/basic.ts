@@ -8,10 +8,10 @@ import {
   FlowEdgeParameters,
   FlowNodeParameters,
   FlowInteractive,
-  FlowGraph,
-  FlowGraphOptions,
-  FlowGraphData,
-  GraphInteraction,
+  FlowDiagram,
+  FlowDiagramOptions,
+  FlowDiagramParameters,
+  DiagramInteraction,
   FlowEventType,
 } from "three-flow";
 
@@ -127,7 +127,7 @@ export class BasicExample {
 
     const loader = new FontLoader();
 
-    const graph: FlowGraphData = {
+    const diagram: FlowDiagramParameters = {
       version: 1,
       nodes, edges
     }
@@ -136,7 +136,7 @@ export class BasicExample {
     const gui = new GUI();
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
-      const options: FlowGraphOptions = {
+      const options: FlowDiagramOptions = {
         gridsize: 0.3,
         fonts: new Map<string, Font>([
           ['helvetika', font],
@@ -144,13 +144,13 @@ export class BasicExample {
       }
 
       // read-only flow
-      const flow = new FlowGraph(options)
+      const flow = new FlowDiagram(options)
       scene.add(flow);
 
       // make the flow interactive
-      new GraphInteraction(flow, interactive)
+      new DiagramInteraction(flow, interactive)
 
-      flow.load(graph)
+      flow.load(diagram)
 
       const node1 = flow.hasNode('1')!
 

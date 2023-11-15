@@ -6,9 +6,9 @@ import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowEdgeParameters,
   FlowInteractive,
-  FlowGraph,
-  FlowGraphOptions,
-  GraphInteraction
+  FlowDiagram,
+  FlowDiagramOptions,
+  DiagramInteraction
 } from "three-flow";
 
 import { civilizationdata } from "./civilization-data";
@@ -58,7 +58,7 @@ export class CivilizationExample {
 
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
-      const options: FlowGraphOptions = {
+      const options: FlowDiagramOptions = {
         gridsize: 0.3,
         fonts: new Map<string, Font>([
           ['default', font],
@@ -66,12 +66,12 @@ export class CivilizationExample {
         linedivisions: 5,
         layout: new DagreLayout()
       }
-      const flow = new FlowGraph(options)
+      const flow = new FlowDiagram(options)
       scene.add(flow);
       flow.rotation.x = MathUtils.degToRad(-15) 
 
       // make the flow interactive
-      new GraphInteraction(flow, interactive)
+      new DiagramInteraction(flow, interactive)
 
       civilizationdata.forEach(tech => {
         const from = tech.tech_name;

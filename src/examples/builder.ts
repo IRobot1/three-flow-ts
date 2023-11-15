@@ -5,9 +5,9 @@ import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowInteractive,
-  FlowGraph,
-  FlowGraphOptions,
-  GraphInteraction
+  FlowDiagram,
+  FlowDiagramOptions,
+  DiagramInteraction
 } from "three-flow";
 import { Exporter } from "./export";
 import { DagreLayout } from "./dagre-layout";
@@ -52,7 +52,7 @@ export class BuilderExample {
     const loader = new FontLoader();
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
-      const options: FlowGraphOptions = {
+      const options: FlowDiagramOptions = {
         gridsize: 0.3,
         fonts: new Map<string, Font>([
           ['default', font],
@@ -60,14 +60,14 @@ export class BuilderExample {
         layout: new DagreLayout()
       }
 
-      const flow = new FlowGraph(options);
+      const flow = new FlowDiagram(options);
       scene.add(flow)
 
       // make the flow interactive
-      new GraphInteraction(flow, interactive)
+      new DiagramInteraction(flow, interactive)
 
 
-      // build the graph programmatically
+      // build the diagram programmatically
       const node3 = flow.setNode({ label: 'Node3', color: 'gold', x: -2 })
       //const node3 = node3.addOutputConnector({})
       //const node3 = node3.addOutputConnector({})
@@ -119,7 +119,6 @@ export class BuilderExample {
       //flow.removeEdge(edge4)
       //flow.removeEdge(edge5)
 
-      //console.warn(flow.graph)
       //console.warn(interactive)
 
       //const exporter = new Exporter()

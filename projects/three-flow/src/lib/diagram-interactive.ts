@@ -1,15 +1,15 @@
 import { Material } from "three";
 import { DragNode } from "./drag-node";
-import { FlowGraph } from "./graph";
+import { FlowDiagram } from "./diagram";
 import { FlowInteractive } from "./interactive";
 import { FlowNode } from "./node";
 import { ResizeNode } from "./resize-node";
 import { ScaleNode } from "./scale-node";
 import { FlowEventType } from "./model";
 
-export class GraphInteraction {
+export class DiagramInteraction {
   private nodes: Array<NodeInteractive> = []
-  constructor(public flow: FlowGraph, public interactive: FlowInteractive) {
+  constructor(public flow: FlowDiagram, public interactive: FlowInteractive) {
 
     flow.addEventListener(FlowEventType.NODE_REMOVED, (e: any) => {
       const node = e.node as FlowNode
@@ -46,45 +46,45 @@ class NodeInteractive {
 
   dispose = () => { }
 
-  constructor(public node: FlowNode, graph: GraphInteraction) {
+  constructor(public node: FlowNode, source: DiagramInteraction) {
 
 
-    this.nodeResizer = this.createResizer(node, graph.flow.getMaterial('geometry', 'resizing', node.resizecolor))
+    this.nodeResizer = this.createResizer(node, source.flow.getMaterial('geometry', 'resizing', node.resizecolor))
     const resizableChanged = () => {
       if (node.resizable) {
-        graph.interactive.selectable.add(...this.nodeResizer.selectable)
-        graph.interactive.draggable.add(...this.nodeResizer.selectable)
+        source.interactive.selectable.add(...this.nodeResizer.selectable)
+        source.interactive.draggable.add(...this.nodeResizer.selectable)
       }
       else {
-        graph.interactive.selectable.remove(...this.nodeResizer.selectable)
-        graph.interactive.draggable.remove(...this.nodeResizer.selectable)
+        source.interactive.selectable.remove(...this.nodeResizer.selectable)
+        source.interactive.draggable.remove(...this.nodeResizer.selectable)
       }
       this.nodeResizer.enabled = node.resizable
     }
     node.addEventListener(FlowEventType.RESIZABLE_CHANGED, () => { resizableChanged() })
     resizableChanged()
 
-    this.nodeScaler = this.createScaler(node, graph.flow.getMaterial('geometry', 'scaling', node.scalecolor))
+    this.nodeScaler = this.createScaler(node, source.flow.getMaterial('geometry', 'scaling', node.scalecolor))
     const scalebleChanged = () => {
       if (node.scalable) {
-        graph.interactive.selectable.add(...this.nodeScaler.selectable)
-        graph.interactive.draggable.add(...this.nodeScaler.selectable)
+        source.interactive.selectable.add(...this.nodeScaler.selectable)
+        source.interactive.draggable.add(...this.nodeScaler.selectable)
       }
       else {
-        graph.interactive.selectable.remove(...this.nodeScaler.selectable)
-        graph.interactive.draggable.remove(...this.nodeScaler.selectable)
+        source.interactive.selectable.remove(...this.nodeScaler.selectable)
+        source.interactive.draggable.remove(...this.nodeScaler.selectable)
       }
       this.nodeScaler.enabled = node.scalable
     }
     node.addEventListener(FlowEventType.SCALABLE_CHANGED, () => { scalebleChanged() })
     scalebleChanged()
 
-    this.nodeDragger = this.createDragger(node, graph.flow.gridsize)
+    this.nodeDragger = this.createDragger(node, source.flow.gridsize)
     const drag = () => {
       if (node.draggable)
-        graph.interactive.draggable.add(node)
+        source.interactive.draggable.add(node)
       else
-        graph.interactive.draggable.remove(node)
+        source.interactive.draggable.remove(node)
       this.nodeDragger.enabled = node.draggable
     }
     node.addEventListener(FlowEventType.DRAGGABLE_CHANGED, () => { drag() })
@@ -98,16 +98,16 @@ class NodeInteractive {
 
     this.dispose = () => {
       if (this.nodeResizer) {
-        graph.interactive.selectable.remove(...this.nodeResizer.selectable)
-        graph.interactive.draggable.remove(...this.nodeResizer.selectable)
+        source.interactive.selectable.remove(...this.nodeResizer.selectable)
+        source.interactive.draggable.remove(...this.nodeResizer.selectable)
       }
       if (this.nodeDragger) {
-        graph.interactive.selectable.remove(node)
-        graph.interactive.draggable.remove(node)
+        source.interactive.selectable.remove(node)
+        source.interactive.draggable.remove(node)
       }
       if (this.nodeScaler) {
-        graph.interactive.selectable.remove(...this.nodeScaler.selectable)
-        graph.interactive.draggable.remove(...this.nodeScaler.selectable)
+        source.interactive.selectable.remove(...this.nodeScaler.selectable)
+        source.interactive.draggable.remove(...this.nodeScaler.selectable)
       }
 
     }

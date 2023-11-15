@@ -5,10 +5,10 @@ import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowInteractive,
-  FlowGraph,
-  FlowGraphOptions,
-  FlowGraphData,
-  GraphInteraction
+  FlowDiagram,
+  FlowDiagramOptions,
+  FlowDiagramParameters,
+  DiagramInteraction
 } from "three-flow";
 
 export class LoaderExample {
@@ -75,7 +75,7 @@ export class LoaderExample {
     // Create and append the placeholder option
     var placeholderOption = document.createElement('option');
     placeholderOption.value = "";
-    placeholderOption.textContent = "Select a JSON graph file";
+    placeholderOption.textContent = "Select a JSON diagram file";
     placeholderOption.disabled = true;
     placeholderOption.selected = true;
     placeholderOption.hidden = true;
@@ -83,7 +83,7 @@ export class LoaderExample {
 
     // Options for the dropdown
     let list = [
-      { textContent: 'Language Graph', value: 'languages.json' },
+      { textContent: 'Language Evoluation', value: 'languages.json' },
       { textContent: 'Civilization Tech Tree', value: 'civilization.json' },
       { textContent: 'Builder', value: 'builder.json' }
     ];
@@ -97,7 +97,7 @@ export class LoaderExample {
     });
 
     // Event listener for the dropdown
-    let flow: FlowGraph;
+    let flow: FlowDiagram;
     dropdown.addEventListener('change', function () {
       console.log('You selected: ', this.value);
 
@@ -106,26 +106,26 @@ export class LoaderExample {
         scene.remove(flow)
       }
 
-      flow = new FlowGraph(options)
+      flow = new FlowDiagram(options)
       scene.add(flow);
 
       // make the flow interactive
-      new GraphInteraction(flow, interactive)
+      new DiagramInteraction(flow, interactive)
 
       // Create a file loader to load the JSON file
       const fileLoader = new FileLoader();
       fileLoader.load(`assets/${this.value}`, (data) => {
         flow.dispose()
 
-        const graph = <FlowGraphData>JSON.parse(<string>data)
+        const diagram = <FlowDiagramParameters>JSON.parse(<string>data)
 
-        flow.load(graph)
+        flow.load(diagram)
         console.log(flow.save())
       });
     });
 
 
-    const options: FlowGraphOptions = {
+    const options: FlowDiagramOptions = {
       gridsize: 0.3,
     }
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {

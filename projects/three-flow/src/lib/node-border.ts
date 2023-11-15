@@ -1,13 +1,13 @@
 import { BufferGeometry, Mesh, MeshBasicMaterial, PlaneGeometry } from "three";
 import { FlowNode } from "./node";
-import { FlowGraph } from "./graph";
+import { FlowDiagram } from "./diagram";
 import { InteractiveEventType } from "./interactive";
 import { FlowEventType } from "./model";
 
 
 export class NodeBorder extends Mesh {
 
-  constructor(public node: FlowNode, graph: FlowGraph) {
+  constructor(public node: FlowNode, diagram: FlowDiagram) {
     super()
 
     this.material = new MeshBasicMaterial({ color: 'black' })
@@ -17,9 +17,9 @@ export class NodeBorder extends Mesh {
     let active = false
     this.activeChanged(active)
 
-    graph.addEventListener(FlowEventType.ACTIVE_CHANGED, () => {
+    diagram.addEventListener(FlowEventType.ACTIVE_CHANGED, () => {
       if (!node.selectable) return
-      if (graph.active != node) {
+      if (diagram.active != node) {
         active = false
       }
       this.activeChanged(active)
@@ -27,13 +27,13 @@ export class NodeBorder extends Mesh {
 
     node.addEventListener(InteractiveEventType.DRAGSTART, () => {
       if (!node.selectable) return
-      graph.active = node
+      diagram.active = node
       active = true
       this.activeChanged(active)
     })
     node.addEventListener('click', () => {
       if (!node.selectable || node.draggable) return
-      graph.active = node
+      diagram.active = node
       active = !active
       this.activeChanged(active)
     })
@@ -46,7 +46,7 @@ export class NodeBorder extends Mesh {
       this.hoverChanged(active, false)
     })
     node.addEventListener(InteractiveEventType.POINTERMISSED, () => {
-      graph.active = undefined
+      diagram.active = undefined
     })
 
 

@@ -10,7 +10,7 @@ export class DragNode {
 
   constructor(node: FlowNode, gridSize: number) {
     const snapToGrid = (position: THREE.Vector3): THREE.Vector3 => {
-      const gridSize = node.graph.gridsize
+      const gridSize = node.diagram.gridsize
       if (gridSize > 0) {
         // Assuming position is the position of the object being dragged
         position.x = Math.round(position.x / gridSize) * gridSize;

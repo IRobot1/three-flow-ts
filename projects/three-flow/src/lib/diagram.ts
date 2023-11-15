@@ -1,5 +1,5 @@
 import { Box3, LineBasicMaterial, Material, MeshBasicMaterial, Object3D, Vector3 } from "three";
-import { FlowEdgeParameters, FlowGraphData, FlowNodeParameters, FlowRouteParameters, EdgeLineStyle, FlowEventType, FlowLayout } from "./model";
+import { FlowEdgeParameters, FlowDiagramParameters, FlowNodeParameters, FlowRouteParameters, EdgeLineStyle, FlowEventType, FlowLayout } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
 import { FlowNode } from "./node";
@@ -8,7 +8,7 @@ import { NoOpLayout } from "./noop-layout";
 
 export type FlowMaterialType = 'line' | 'geometry'
 
-export interface FlowGraphOptions {
+export interface FlowDiagramOptions {
   gridsize?: number
   fonts?: Map<string, Font>
   linecolor?: number | string
@@ -18,7 +18,7 @@ export interface FlowGraphOptions {
   layout?: FlowLayout
 }
 
-export class FlowGraph extends Object3D {
+export class FlowDiagram extends Object3D {
   private materials: Map<string, Material>
   private graph!: FlowLayout
 
@@ -37,7 +37,7 @@ export class FlowGraph extends Object3D {
     }
   }
 
-  constructor(private options?: FlowGraphOptions) {
+  constructor(private options?: FlowDiagramOptions) {
     super()
 
     if (options) {
@@ -55,27 +55,27 @@ export class FlowGraph extends Object3D {
     this.materials = new Map();
   }
 
-  save(): FlowGraphData {
-    const graph: FlowGraphData = {
+  save(): FlowDiagramParameters {
+    const diagram: FlowDiagramParameters = {
       version: 1,
       nodes: [], edges: []
     }
     this.allNodes.forEach(node => {
       node.save()
-      graph.nodes.push(node.node)
+      diagram.nodes.push(node.node)
     })
     this.allEdges.forEach(edge => {
       //edge.save()
-      graph.edges.push(edge.edge)
+      diagram.edges.push(edge.edge)
     })
-    return graph
+    return diagram
   }
 
-  load(input: FlowGraphData) {
-    const graph = input as Partial<FlowGraphData>
+  load(input: FlowDiagramParameters) {
+    const diagram = input as Partial<FlowDiagramParameters>
 
-    if (graph.nodes) {
-      graph.nodes.forEach(node => {
+    if (diagram.nodes) {
+      diagram.nodes.forEach(node => {
         if (node.type == 'route')
           this.setRoute(node)
         else
@@ -83,8 +83,8 @@ export class FlowGraph extends Object3D {
       })
     }
 
-    if (graph.edges) {
-      graph.edges.forEach(edge => {
+    if (diagram.edges) {
+      diagram.edges.forEach(edge => {
         const line = this.setEdge(edge)
         this.add(line)
       })
@@ -287,16 +287,16 @@ export class FlowGraph extends Object3D {
     return new MeshBasicMaterial({ color, opacity: 0.99 });
   }
 
-  createNode(graph: FlowGraph, node: FlowNodeParameters): FlowNode {
-    return new FlowNode(graph, node)
+  createNode(diagram: FlowDiagram, node: FlowNodeParameters): FlowNode {
+    return new FlowNode(diagram, node)
   }
 
-  createRoute(graph: FlowGraph, route: FlowRouteParameters): FlowNode {
-    return new FlowRoute(graph, route)
+  createRoute(diagram: FlowDiagram, route: FlowRouteParameters): FlowNode {
+    return new FlowRoute(diagram, route)
   }
 
-  createEdge(graph: FlowGraph, edge: FlowEdgeParameters): FlowEdge {
-    return new FlowEdge(graph, edge)
+  createEdge(diagram: FlowDiagram, edge: FlowEdgeParameters): FlowEdge {
+    return new FlowEdge(diagram, edge)
   }
 
 }

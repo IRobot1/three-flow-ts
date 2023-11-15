@@ -1,6 +1,6 @@
 import { BufferGeometry, CatmullRomCurve3, Line, MathUtils, Mesh, MeshBasicMaterial, Vector2, Vector3 } from "three";
 import { FlowArrowParameters, FlowEdgeParameters, EdgeLineStyle, FlowEventType } from "./model";
-import { FlowGraph } from "./graph";
+import { FlowDiagram } from "./diagram";
 import { FlowNode } from "./node";
 import { FlowArrow } from "./arrow";
 
@@ -55,13 +55,13 @@ export class FlowEdge extends Mesh {
   private line?: Line
 
   isFlow = true
-  constructor(public graph: FlowGraph, public edge: FlowEdgeParameters) {
+  constructor(public diagram: FlowDiagram, public edge: FlowEdgeParameters) {
     super()
 
     //@ts-ignore
     this.type = 'flowedge'
 
-    this.name = edge.name = edge.name ? edge.name : graph.edgeCount.toString()
+    this.name = edge.name = edge.name ? edge.name : diagram.edgeCount.toString()
     if (this.data) this.userData = this.data
 
     const dragged = () => {
@@ -70,10 +70,10 @@ export class FlowEdge extends Mesh {
     }
 
     this.from = edge.v
-    this.fromNode = graph.hasNode(this.from)
+    this.fromNode = diagram.hasNode(this.from)
     if (this.fromNode) this.fromNode.addEventListener(FlowEventType.DRAGGED, dragged)
     this.to = edge.w
-    this.toNode = graph.hasNode(this.to)
+    this.toNode = diagram.hasNode(this.to)
     if (this.toNode) this.toNode.addEventListener(FlowEventType.DRAGGED, dragged)
 
     if (edge.fromarrow) {
@@ -93,7 +93,7 @@ export class FlowEdge extends Mesh {
     this._divisions = edge.divisions ? edge.divisions : 20
     this._thickness = edge.thickness ? edge.thickness : 0.01
 
-    this.material = graph.getMaterial('line', 'edge', this.color)
+    this.material = diagram.getMaterial('line', 'edge', this.color)
 
     this.updateVisuals()
 

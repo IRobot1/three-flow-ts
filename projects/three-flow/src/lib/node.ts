@@ -3,7 +3,7 @@ import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometr
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
 import { FlowEventType, FlowNodeParameters } from "./model";
-import { FlowGraph } from "./graph";
+import { FlowDiagram } from "./diagram";
 
 
 export class FlowNode extends Mesh {
@@ -130,12 +130,12 @@ export class FlowNode extends Mesh {
   }
 
 
-  constructor(public graph: FlowGraph, public node: FlowNodeParameters) {
+  constructor(public diagram: FlowDiagram, public node: FlowNodeParameters) {
     super();
 
     //@ts-ignore
     this.type = 'flownode'
-    this.name = node.text = node.text ? node.text : graph.nodeCount.toString()
+    this.name = node.text = node.text ? node.text : diagram.nodeCount.toString()
     node.type = node.type ? node.type : 'node'
 
     this._width = node.width = node.width ? node.width : 1;
@@ -150,7 +150,7 @@ export class FlowNode extends Mesh {
     this._label = node.label
     this._labelsize = node.labelsize ? node.labelsize : 0.1
     this._labelcolor = node.labelcolor ? node.labelcolor : 'black'
-    this.font = graph.getFont(node.labelfont)
+    this.font = diagram.getFont(node.labelfont)
 
     this._resizable = node.resizable ? node.resizable : true
     this.resizecolor = node.resizecolor ? node.resizecolor : 'black'
@@ -165,7 +165,7 @@ export class FlowNode extends Mesh {
 
     if (node.userData) this.userData = node.userData;
 
-    this.material = graph.getMaterial('geometry', 'node', this.color);
+    this.material = diagram.getMaterial('geometry', 'node', this.color);
 
     if (node.x != undefined) this.position.x = node.x
     if (node.y != undefined) this.position.y = node.y
@@ -177,7 +177,7 @@ export class FlowNode extends Mesh {
       node.z = this.position.z
     }
 
-    this.labelMaterial = graph.getMaterial('geometry', 'label', this.labelcolor)!;
+    this.labelMaterial = diagram.getMaterial('geometry', 'label', this.labelcolor)!;
 
 
     // allow derived classes access to "this" by delaying one frame or to override methods

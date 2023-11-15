@@ -6,8 +6,8 @@ import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowEdgeParameters,
   FlowInteractive,
-  FlowGraph,
-  FlowGraphOptions
+  FlowDiagram,
+  FlowDiagramOptions
 } from "three-flow";
 import { languagedata } from "./langauge-data";
 import { Exporter } from "./export";
@@ -56,7 +56,7 @@ export class LanguagesExample {
 
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
-      const options: FlowGraphOptions = {
+      const options: FlowDiagramOptions = {
         gridsize: 0.3,
         fonts: new Map<string, Font>([
           ['default', font],
@@ -64,7 +64,7 @@ export class LanguagesExample {
         linestyle: 'spline',
         layout:new DagreLayout()
       }
-      const flow = new FlowGraph(options)
+      const flow = new FlowDiagram(options)
       scene.add(flow);
 
       languagedata.forEach(item => {

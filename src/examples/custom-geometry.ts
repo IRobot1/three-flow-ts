@@ -8,9 +8,9 @@ import {
   FlowNode,
   FlowEdgeParameters,
   FlowNodeParameters,
-  FlowEdge, FlowInteractive, ScaleNode, FlowGraphOptions, FlowGraphData, GraphInteraction, NodeBorder, FlowArrow, FlowArrowParameters, ArrowStyle
+  FlowEdge, FlowInteractive, ScaleNode, FlowDiagramOptions, FlowDiagramParameters, DiagramInteraction, NodeBorder, FlowArrow, FlowArrowParameters, ArrowStyle
 } from "three-flow";
-import { ResizeNode, FlowGraph } from "three-flow";
+import { ResizeNode, FlowDiagram } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 import { DagreLayout } from "./dagre-layout";
@@ -156,7 +156,7 @@ export class CustomGeometryExample {
 
     const loader = new FontLoader();
 
-    const graph: FlowGraphData = {
+    const diagram: FlowDiagramParameters = {
       version: 1,
       nodes, edges
     }
@@ -165,7 +165,7 @@ export class CustomGeometryExample {
 
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
-      const options: FlowGraphOptions = {
+      const options: FlowDiagramOptions = {
         gridsize: 0.3,
         fonts: new Map<string, Font>([
           ['helvetika', font],
@@ -175,13 +175,13 @@ export class CustomGeometryExample {
         linestyle: 'spline',
         layout : new DagreLayout()
       }
-      const flow = new MyFlowGraph(options)
+      const flow = new MyFlowDiagram(options)
       scene.add(flow);
 
       // make the flow interactive
-      new GraphInteraction(flow, interactive)
+      new DiagramInteraction(flow, interactive)
 
-      flow.load(graph)
+      flow.load(diagram)
       console.log(flow)
 
       flow.layout()
@@ -226,8 +226,8 @@ export class CustomGeometryExample {
   }
 }
 
-class MyFlowGraph extends FlowGraph {
-  constructor(options?: FlowGraphOptions) {
+class MyFlowDiagram extends FlowDiagram {
+  constructor(options?: FlowDiagramOptions) {
     super(options)
   }
 
@@ -239,12 +239,12 @@ class MyFlowGraph extends FlowGraph {
     return new MeshStandardMaterial({ color, side: purpose == 'arrow' ? DoubleSide : FrontSide });
   }
 
-  override createNode(graph: FlowGraph, node: MyFlowNodeData): FlowNode {
-    return new MyFlowNode(graph, node)
+  override createNode(diagram: FlowDiagram, node: MyFlowNodeData): FlowNode {
+    return new MyFlowNode(diagram, node)
   }
 
-  override createEdge(graph: FlowGraph, edge: MyFlowEdgeData): FlowEdge {
-    return new MyFlowEdge(graph, edge)
+  override createEdge(diagram: FlowDiagram, edge: MyFlowEdgeData): FlowEdge {
+    return new MyFlowEdge(diagram, edge)
   }
 }
 
@@ -252,10 +252,10 @@ const depth = 0.15
 class MyFlowNode extends FlowNode {
   border: NodeBorder;
 
-  constructor(graph: FlowGraph, node: MyFlowNodeData) {
-    super(graph, node);
+  constructor(diagram: FlowDiagram, node: MyFlowNodeData) {
+    super(diagram, node);
 
-    this.border = new NodeBorder(this, graph)
+    this.border = new NodeBorder(this, diagram)
     this.add(this.border)
   }
 
@@ -270,8 +270,8 @@ class MyFlowNode extends FlowNode {
 }
 
 class MyFlowEdge extends FlowEdge {
-  constructor(graph: FlowGraph, edge: MyFlowEdgeData) {
-    super(graph, edge)
+  constructor(diagram: FlowDiagram, edge: MyFlowEdgeData) {
+    super(diagram, edge)
   }
 
   override createGeometry(curvepoints: Array<Vector3>, thickness: number): BufferGeometry | undefined {

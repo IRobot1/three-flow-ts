@@ -73,7 +73,7 @@ export interface FlowRouteParameters extends FlowNodeParameters {
   radius?: number
 }
 
-export interface FlowGraphData {
+export interface FlowDiagramParameters {
   version: number;
   nodes: FlowNodeParameters[],
   edges: FlowEdgeParameters[]
