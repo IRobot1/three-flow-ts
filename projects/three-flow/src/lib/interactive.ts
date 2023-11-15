@@ -1,201 +1,136 @@
-import { Vector2, Raycaster, Renderer, Camera, Object3D, Plane, Vector3, Matrix4, Intersection, BaseEvent } from 'three';
+import { Camera, Material, Renderer } from "three";
+import { DragNode } from "./drag-node";
+import { FlowDiagram } from "./diagram";
+import { ThreeInteractive } from "./three-interactive";
+import { FlowNode } from "./node";
+import { ResizeNode } from "./resize-node";
+import { ScaleNode } from "./scale-node";
+import { FlowEventType } from "./model";
 
-export const InteractiveEventType = {
-  POINTERENTER: 'pointerenter',
-  POINTERLEAVE: 'pointerleave',
-  POINTERMISSED: 'pointermissed',
-  DRAGSTART: 'dragstart',
-  DRAG: 'drag',
-  DRAGEND: 'dragend',
-}
+export class FlowInteraction {
+  private nodes: Array<NodeInteractive> = []
+  readonly interactive: ThreeInteractive
 
-export interface InteractiveDragStartEvent extends BaseEvent { position: Vector3, data: Array<Intersection> }
-export interface InteractiveDragEvent extends BaseEvent { position: Vector3 }
-export interface InteractiveDragEnd extends BaseEvent { position: Vector3 }
+  constructor(public flow: FlowDiagram,renderer: Renderer, camera: Camera) {
+    this.interactive = this.createThreeInteractive(renderer, camera)
+
+    flow.addEventListener(FlowEventType.NODE_REMOVED, (e: any) => {
+      const node = e.node as FlowNode
+      const index = this.nodes.findIndex(x => x.node == node)
+      if (index != -1) {
+        this.nodes[index].dispose()
+        this.nodes.splice(index, 1)
+
+        if (node.selectable) this.interactive.selectable.remove(node)
+      }
+    })
 
 
-export class FlowObjects {
-  private _list: Array<Object3D> = [];
+    flow.addEventListener(FlowEventType.NODE_ADDED, (e: any) => {
+      const node = e.node as FlowNode
+      this.nodes.push(new NodeInteractive(node, this))
 
-  get list(): Array<Object3D> { return this._list; }
+      // enable mouse enter/leave/missed events
+      if (node.selectable) this.interactive.selectable.add(node)
+    })
 
-  add(...object: Object3D[]) {
-    this._list.push(...object);
+    flow.addEventListener(FlowEventType.DISPOSE, () => this.dispose())
   }
 
-  remove(...object: Object3D[]) {
-    object.forEach(item => {
-      const index = this._list.findIndex(x => x == item);
-      if (index != undefined && index != -1)
-        this._list.splice(index, 1);
-    });
+  createThreeInteractive(renderer: Renderer, camera: Camera): ThreeInteractive {
+    return new ThreeInteractive(renderer, camera)
+  }
+
+  dispose() {
+    this.nodes.forEach(node => node.dispose())
   }
 }
 
-
-export class FlowInteractive {
-  public selectable = new FlowObjects()
-  public draggable = new FlowObjects()
-
+class NodeInteractive {
+  private nodeResizer: ResizeNode
+  private nodeDragger: DragNode
+  private nodeScaler: ScaleNode
 
   dispose = () => { }
 
-  constructor(renderer: Renderer, camera: Camera) {
+  constructor(public node: FlowNode, source: FlowInteraction) {
 
-    const _pointer = new Vector2();
-    const _plane = new Plane();
-    const _offset = new Vector3();
-    const _worldPosition = new Vector3();
-    const _intersection = new Vector3();
-    const _inverseMatrix = new Matrix4();
 
-    const entered: Array<Object3D> = [];
-
-    let _selected: any;
-
-    const _event = { type: '', position: _intersection, data: [] as Array<Intersection>, stop: false };
-
-    const raycaster = new Raycaster();
-
-    // Pointer Events
-
-    const element = document;
-
-    const onPointerEvent = (event: PointerEvent | MouseEvent) => {
-      event.stopPropagation();
-
-      const rect = renderer.domElement.getBoundingClientRect();
-
-      _pointer.x = (event.clientX - rect.left) / rect.width * 2 - 1;
-      _pointer.y = - (event.clientY - rect.top) / rect.height * 2 + 1;
-
-      raycaster.setFromCamera(_pointer, camera);
-      let _intersects = raycaster.intersectObjects(this.selectable.list, false);
-
-      _event.data = _intersects
-
-      if (_intersects.length > 0) {
-        // remember what's overlapping
-        const overlapping = new Set<Object3D>(entered)
-
-        _event.stop = false
-        _intersects.forEach(intersection => {
-          // stop bubbling event to anything behind last object
-          if (_event.stop) return
-
-          const object = intersection.object;
-
-          // ignore anything not in the scene
-          if (!object.parent) return
-
-          if (!entered.includes(object)) {
-            if (!_selected) {
-              _event.type = InteractiveEventType.POINTERENTER;
-              object.dispatchEvent<any>(_event);
-              entered.push(object);
-            }
-          }
-          else
-            overlapping.delete(object)
-
-          _event.type = event.type;
-
-          object.dispatchEvent<any>(_event);
-
-        })
-
-        // anything that hasn't been removed is no longer overlapping
-        overlapping.forEach(object => {
-          if (object == _selected) return
-          _event.type = InteractiveEventType.POINTERLEAVE;
-          object.dispatchEvent<any>(_event);
-
-          // if entered, remove it
-          const index = entered.indexOf(object)
-          if (index != -1) {
-            entered.splice(index, 1)
-          }
-        })
+    this.nodeResizer = this.createResizer(node, source.flow.getMaterial('geometry', 'resizing', node.resizecolor))
+    const resizableChanged = () => {
+      if (node.resizable) {
+        source.interactive.selectable.add(...this.nodeResizer.selectable)
+        source.interactive.draggable.add(...this.nodeResizer.selectable)
       }
-
       else {
-        // warning - in else, only check event, not _event
-
-        entered.forEach(item => {
-          if (item == _selected) return
-          _event.type = InteractiveEventType.POINTERLEAVE;
-          item.dispatchEvent<any>(_event);
-        })
-        entered.length = 0
-
-        // some popup selectables close when clicking outside of them, for example, dropdown menu and color picker
-        if (event.type == 'click') {
-          _event.type = InteractiveEventType.POINTERMISSED;
-          this.selectable.list.forEach(item => {
-            if (item.visible)
-              item.dispatchEvent<any>(_event)
-          })
-        }
+        source.interactive.selectable.remove(...this.nodeResizer.selectable)
+        source.interactive.draggable.remove(...this.nodeResizer.selectable)
       }
-
-      // prevent dragging if last event was stopped
-      if (!_selected && _event.stop) return
-
-      _intersects = raycaster.intersectObjects(this.draggable.list, false);
-      _event.data = _intersects
-
-      if (_intersects.length > 0) {
-        const intersection = _intersects[0];
-
-        const object = intersection.object;
-
-        if (event.type == 'pointerdown') {
-          _selected = object;
-
-          _plane.setFromNormalAndCoplanarPoint(_selected.getWorldDirection(_plane.normal), _worldPosition.setFromMatrixPosition(_selected.matrixWorld));
-
-          if (raycaster.ray.intersectPlane(_plane, _intersection)) {
-            _inverseMatrix.copy(_selected.parent.matrixWorld).invert();
-
-            _selected.dispatchEvent({ type: InteractiveEventType.DRAGSTART, position: _intersection.applyMatrix4(_inverseMatrix), data: _intersects });
-          }
-
-        }
-      }
-      if (event.type == 'pointermove') {
-        if (_selected) {
-
-          if (raycaster.ray.intersectPlane(_plane, _intersection)) {
-
-            // let selected object decide if dragging is allowed
-            _selected.dispatchEvent({ type: InteractiveEventType.DRAG, position: _intersection.applyMatrix4(_inverseMatrix) });
-          }
-
-
-        }
-      }
-      else if (event.type == 'pointerup') {
-        if (_selected) {
-
-          _selected.dispatchEvent({ type: InteractiveEventType.DRAGEND, position: _intersection });
-
-          _selected = undefined;
-
-        }
-      }
+      this.nodeResizer.enabled = node.resizable
     }
+    node.addEventListener(FlowEventType.RESIZABLE_CHANGED, () => { resizableChanged() })
+    resizableChanged()
 
-    element.addEventListener('pointerdown', onPointerEvent);
-    element.addEventListener('pointerup', onPointerEvent);
-    element.addEventListener('pointermove', onPointerEvent);
-    element.addEventListener('click', onPointerEvent);
+    this.nodeScaler = this.createScaler(node, source.flow.getMaterial('geometry', 'scaling', node.scalecolor))
+    const scalebleChanged = () => {
+      if (node.scalable) {
+        source.interactive.selectable.add(...this.nodeScaler.selectable)
+        source.interactive.draggable.add(...this.nodeScaler.selectable)
+      }
+      else {
+        source.interactive.selectable.remove(...this.nodeScaler.selectable)
+        source.interactive.draggable.remove(...this.nodeScaler.selectable)
+      }
+      this.nodeScaler.enabled = node.scalable
+    }
+    node.addEventListener(FlowEventType.SCALABLE_CHANGED, () => { scalebleChanged() })
+    scalebleChanged()
+
+    this.nodeDragger = this.createDragger(node, source.flow.gridsize)
+    const drag = () => {
+      if (node.draggable)
+        source.interactive.draggable.add(node)
+      else
+        source.interactive.draggable.remove(node)
+      this.nodeDragger.enabled = node.draggable
+    }
+    node.addEventListener(FlowEventType.DRAGGABLE_CHANGED, () => { drag() })
+    drag()
+
+    //
+    // To intercept dragged event in derived class, add the following
+    //
+    // node.addEventListener(FlowEventType.DRAGGED, () => { })
+    
 
     this.dispose = () => {
-      element.removeEventListener('pointerdown', onPointerEvent);
-      element.removeEventListener('pointerup', onPointerEvent);
-      element.removeEventListener('pointermove', onPointerEvent);
-      element.removeEventListener('click', onPointerEvent);
+      if (this.nodeResizer) {
+        source.interactive.selectable.remove(...this.nodeResizer.selectable)
+        source.interactive.draggable.remove(...this.nodeResizer.selectable)
+      }
+      if (this.nodeDragger) {
+        source.interactive.selectable.remove(node)
+        source.interactive.draggable.remove(node)
+      }
+      if (this.nodeScaler) {
+        source.interactive.selectable.remove(...this.nodeScaler.selectable)
+        source.interactive.draggable.remove(...this.nodeScaler.selectable)
+      }
+
     }
   }
+
+  createResizer(node: FlowNode, material: Material): ResizeNode {
+    return new ResizeNode(node, material)
+  }
+
+  createDragger(node: FlowNode, gridSize: number): DragNode {
+    return new DragNode(node, gridSize)
+  }
+
+  createScaler(node: FlowNode, material: Material): ScaleNode {
+    return new ScaleNode(node, material)
+  }
+
 
 }

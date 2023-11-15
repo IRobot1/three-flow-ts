@@ -7,12 +7,10 @@ import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowEdgeParameters,
   FlowNodeParameters,
-  FlowInteractive,
   FlowDiagram,
   FlowDiagramOptions,
   FlowDiagramParameters,
-  DiagramInteraction,
-  FlowEventType,
+  FlowInteraction,
 } from "three-flow";
 
 export class BasicExample {
@@ -123,8 +121,6 @@ export class BasicExample {
       }
     ];
 
-    const interactive = new FlowInteractive(app, app.camera)
-
     const loader = new FontLoader();
 
     const diagram: FlowDiagramParameters = {
@@ -148,7 +144,7 @@ export class BasicExample {
       scene.add(flow);
 
       // make the flow interactive
-      new DiagramInteraction(flow, interactive)
+      new FlowInteraction(flow, app, app.camera)
 
       flow.load(diagram)
 

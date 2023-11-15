@@ -4,11 +4,10 @@ import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import {
-  FlowInteractive,
   FlowDiagram,
   FlowDiagramOptions,
   FlowDiagramParameters,
-  DiagramInteraction
+  FlowInteraction
 } from "three-flow";
 
 export class LoaderExample {
@@ -45,8 +44,6 @@ export class LoaderExample {
         orbit.enableRotate = !orbit.enableRotate
     })
 
-
-    const interactive = new FlowInteractive(app, app.camera)
 
     const loader = new FontLoader();
 
@@ -110,7 +107,7 @@ export class LoaderExample {
       scene.add(flow);
 
       // make the flow interactive
-      new DiagramInteraction(flow, interactive)
+      new FlowInteraction(flow, app, app.camera)
 
       // Create a file loader to load the JSON file
       const fileLoader = new FileLoader();

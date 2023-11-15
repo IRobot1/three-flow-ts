@@ -1,5 +1,5 @@
 import { BufferGeometry, Material, MathUtils, Mesh, PlaneGeometry, Vector3 } from "three";
-import { InteractiveEventType } from "./interactive";
+import { InteractiveEventType } from "./three-interactive";
 import { FlowNode } from "./node";
 import { FlowEventType, FlowHandleParameters } from "./model";
 

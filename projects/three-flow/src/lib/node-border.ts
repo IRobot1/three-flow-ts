@@ -1,7 +1,7 @@
 import { BufferGeometry, Mesh, MeshBasicMaterial, PlaneGeometry } from "three";
 import { FlowNode } from "./node";
 import { FlowDiagram } from "./diagram";
-import { InteractiveEventType } from "./interactive";
+import { InteractiveEventType } from "./three-interactive";
 import { FlowEventType } from "./model";
 
 

@@ -1,6 +1,6 @@
 import { AmbientLight, CircleGeometry, MathUtils, Mesh, MeshBasicMaterial, PointLight, SRGBColorSpace, Scene, TextureLoader, Vector3 } from "three";
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowInteractive, InteractiveEventType, FlowObjects } from "three-flow";
+import { ThreeInteractive, InteractiveEventType } from "three-flow";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 
@@ -62,7 +62,7 @@ export class GalleryExample {
 
     const ROTATION = 15
 
-    const interactive = new FlowInteractive(app, app.camera)
+    const interactive = new ThreeInteractive(app, app.camera)
 
     const black = new MeshBasicMaterial({ color: 'black' })
 

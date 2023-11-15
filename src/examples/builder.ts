@@ -4,10 +4,9 @@ import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import {
-  FlowInteractive,
   FlowDiagram,
   FlowDiagramOptions,
-  DiagramInteraction
+  FlowInteraction
 } from "three-flow";
 import { Exporter } from "./export";
 import { DagreLayout } from "./dagre-layout";
@@ -47,8 +46,6 @@ export class BuilderExample {
         orbit.enableRotate = !orbit.enableRotate
     })
 
-    const interactive = new FlowInteractive(app, app.camera)
-
     const loader = new FontLoader();
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
@@ -64,7 +61,7 @@ export class BuilderExample {
       scene.add(flow)
 
       // make the flow interactive
-      new DiagramInteraction(flow, interactive)
+      new FlowInteraction(flow, app, app.camera)
 
 
       // build the diagram programmatically

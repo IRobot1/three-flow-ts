@@ -4,11 +4,11 @@
 
 export * from './lib/model';
 
-export * from './lib/interactive'
+export * from './lib/three-interactive'
 export * from './lib/drag-node'
 export * from './lib/resize-node'
 export * from './lib/scale-node'
-export * from './lib/diagram-interactive'
+export * from './lib/interactive'
 
 export * from './lib/node-border'
 

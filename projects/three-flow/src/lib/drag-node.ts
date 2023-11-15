@@ -1,5 +1,5 @@
 import { Object3D, Vector3 } from "three";
-import { InteractiveEventType } from "./interactive";
+import { InteractiveEventType } from "./three-interactive";
 import { FlowNode } from "./node";
 import { FlowEventType } from "./model";
 

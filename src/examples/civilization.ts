@@ -5,10 +5,9 @@ import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowEdgeParameters,
-  FlowInteractive,
   FlowDiagram,
   FlowDiagramOptions,
-  DiagramInteraction
+  FlowInteraction
 } from "three-flow";
 
 import { civilizationdata } from "./civilization-data";
@@ -52,8 +51,6 @@ export class CivilizationExample {
 
     //scene.add(new AxesHelper())
 
-    const interactive = new FlowInteractive(app, app.camera)
-
     const loader = new FontLoader();
 
 
@@ -71,7 +68,7 @@ export class CivilizationExample {
       flow.rotation.x = MathUtils.degToRad(-15) 
 
       // make the flow interactive
-      new DiagramInteraction(flow, interactive)
+      new FlowInteraction(flow, app, app.camera)
 
       civilizationdata.forEach(tech => {
         const from = tech.tech_name;

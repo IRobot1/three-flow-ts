@@ -8,7 +8,15 @@ import {
   FlowNode,
   FlowEdgeParameters,
   FlowNodeParameters,
-  FlowEdge, FlowInteractive, ScaleNode, FlowDiagramOptions, FlowDiagramParameters, DiagramInteraction, NodeBorder, FlowArrow, FlowArrowParameters, ArrowStyle
+  FlowEdge,
+  ScaleNode,
+  FlowDiagramOptions,
+  FlowDiagramParameters,
+  FlowInteraction,
+  NodeBorder,
+  FlowArrow,
+  FlowArrowParameters,
+  ArrowStyle
 } from "three-flow";
 import { ResizeNode, FlowDiagram } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
@@ -152,8 +160,6 @@ export class CustomGeometryExample {
       },
     ];
 
-    const interactive = new FlowInteractive(app, app.camera)
-
     const loader = new FontLoader();
 
     const diagram: FlowDiagramParameters = {
@@ -179,7 +185,7 @@ export class CustomGeometryExample {
       scene.add(flow);
 
       // make the flow interactive
-      new DiagramInteraction(flow, interactive)
+      new FlowInteraction(flow, app, app.camera)
 
       flow.load(diagram)
       console.log(flow)

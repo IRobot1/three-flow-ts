@@ -5,7 +5,6 @@ import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowEdgeParameters,
-  FlowInteractive,
   FlowDiagram,
   FlowDiagramOptions
 } from "three-flow";
@@ -49,8 +48,6 @@ export class LanguagesExample {
     })
 
     // scene.add(new AxesHelper())
-
-    const interactive = new FlowInteractive(app, app.camera)
 
     const loader = new FontLoader();
 
