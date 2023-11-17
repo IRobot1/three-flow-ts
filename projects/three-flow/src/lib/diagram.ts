@@ -133,6 +133,7 @@ export class FlowDiagram extends Object3D {
   dispose() {
     this.allNodes.forEach(node => node.dispose())
     this.dispatchEvent<any>({ type: FlowEventType.DISPOSE })
+    this.children.length = 0
   }
 
   private _gridsize = 0
