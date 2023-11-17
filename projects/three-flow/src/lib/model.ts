@@ -57,6 +57,7 @@ export interface FlowNodeParameters {
   labelsize?: number;
   labelcolor?: number | string;
   labelfont?: string;
+  labelpadding?: number;
   userData?: { [key: string]: any };
   resizable?: boolean;
   resizecolor?: number | string;

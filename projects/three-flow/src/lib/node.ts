@@ -1,4 +1,4 @@
-import { Mesh, BufferGeometry, PlaneGeometry, MathUtils, Material } from "three";
+import { Mesh, BufferGeometry, PlaneGeometry, MathUtils, Material, Box2, Vector2, Vector3 } from "three";
 import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
@@ -72,6 +72,17 @@ export class FlowNode extends Mesh {
     }
   }
 
+  private _labelpadding: number;
+  get labelpadding() { return this._labelpadding }
+  set labelpadding(newvalue: number) {
+    if (this._labelpadding != newvalue) {
+      this._labelpadding = newvalue;
+      this.updateLabel()
+    }
+  }
+
+
+
   resizecolor: number | string;
 
   private _resizable: boolean;
@@ -128,6 +139,7 @@ export class FlowNode extends Mesh {
     }
   }
 
+  private autoSize = true
 
   private labelMesh?: Mesh;
   private labelMaterial: Material;
@@ -161,6 +173,7 @@ export class FlowNode extends Mesh {
     this._label = node.label
     this._labelsize = node.labelsize ? node.labelsize : 0.1
     this._labelcolor = node.labelcolor ? node.labelcolor : 'black'
+    this._labelpadding = node.labelpadding ? node.labelpadding : 0.1
     this.font = diagram.getFont(node.labelfont)
 
     this._resizable = node.resizable ? node.resizable : true
@@ -212,17 +225,31 @@ export class FlowNode extends Mesh {
       this.labelMesh.name = 'label'
 
       this.labelMesh.material = this.labelMaterial
-      this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
+      this.labelMesh.position.set(0, 0, 0.001)
 
       this.add(this.labelMesh);
+
+      if (this.autoSize) {
+        this.labelMesh.geometry.computeBoundingBox()
+        const box = this.labelMesh.geometry.boundingBox
+        if (box) {
+          const size = box.getSize(new Vector3())
+          const newwidth = size.x + this.labelpadding * 2
+          if (newwidth > this.width) {
+            this.width = newwidth
+          }
+          const newheight = size.y + this.labelpadding * 2
+          if (newheight > this.height) {
+            this.height = newheight
+          }
+        }
+      }
     }
   }
 
   private resizeGeometry() {
     this.geometry.dispose()
     this.geometry = this.createGeometry()
-
-    if (this.labelMesh) this.labelMesh.position.set(0, this.height / 2 - this.labelsize * 1.2, 0.001)
   }
 
   updateVisuals() { }
