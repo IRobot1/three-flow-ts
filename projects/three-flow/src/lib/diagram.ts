@@ -132,6 +132,7 @@ export class FlowDiagram extends Object3D {
 
   dispose() {
     this.allNodes.forEach(node => node.dispose())
+    if (this.options && this.options.layout) this.options.layout.dispose()
     this.dispatchEvent<any>({ type: FlowEventType.DISPOSE })
     this.children.length = 0
   }

@@ -121,4 +121,5 @@ export interface FlowLayout {
   setNode(name: string, node: FlowNodeParameters): any;
   removeNode(name: string): any;
   layout(options: any, filter?: (nodeId: string) => boolean): LayoutResult;
+  dispose(): void;
 }

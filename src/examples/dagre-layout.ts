@@ -4,6 +4,9 @@ import { FlowEdgeParameters, FlowLayout, FlowNodeParameters, LayoutResult } from
 export class DagreLayout implements FlowLayout {
   private graph = new graphlib.Graph()
 
+  dispose() {
+    this.graph = new graphlib.Graph()
+  }
   removeEdge(edge: FlowEdgeParameters, from: string, to: string): any {
     return this.graph.removeEdge(from, to)
   }

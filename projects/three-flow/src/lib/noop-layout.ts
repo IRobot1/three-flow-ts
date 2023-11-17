@@ -2,6 +2,8 @@ import { FlowEdgeParameters, FlowLayout, FlowNodeParameters, LayoutResult } from
 
 export class NoOpLayout implements FlowLayout {
 
+  dispose() { }
+
   removeEdge(edge: FlowEdgeParameters, from: string, to: string): any {
     return undefined
   }
@@ -16,6 +18,5 @@ export class NoOpLayout implements FlowLayout {
   }
   layout(options: any, filter?: ((nodeId: string) => boolean) | undefined): LayoutResult {
     return <LayoutResult>{ width: 0, height: 0, nodes: [], edges: [] }
-      ;
   }
 }
