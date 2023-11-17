@@ -25,7 +25,7 @@ const gallery: Gallery = {
     { title: 'Language Evoluation', position: { x: 1.51, y: 0.87, z: 0 }, assetimage: 'languages', route: 'languages' },
     { title: 'Civiilization Tech Tree', position: { x: 1.51, y: -0.87, z: 0 }, assetimage: 'civilization', route: 'civilization' },
     { title: 'Loader from JSON', position: { x: -1.51, y: 0.87, z: 0 }, assetimage: 'loader', route: 'loader', },
-    //  { title: 'Data Entry', position: { x: -1.51 , y: -0.87, z: 0 }, assetimage: 'dataentry', route: 'dataentry' },
+      { title: 'Mermaid', position: { x: -1.51 , y: -0.87, z: 0 }, assetimage: 'placeholder', route: 'mermaid' },
     //  { title: 'List', position: { x: 0 , y: 1.74, z: 0 }, assetimage: 'list', route: 'list' },
     //  { title: 'Panel', position: { x: 0 , y: -1.74, z: 0 }, assetimage: 'panel', route: 'panel' },
     //  { title: 'Radio', position: { x: -3.02 , y: 1.74, z: 0 }, assetimage: 'radio', route: 'radio' },
