@@ -1,42 +1,47 @@
 Flowchart
-  = ws layout:LayoutDirective ws items:(Statement ws)* { return { layout: layout, edges:items.map(item => item[0]) } }
+  = ws Layout ws items:(SubgraphStatement ws)* { return { type: 'Flowchart', edges:items.map(item => item[0]) } }
+  
+Layout
+ = "graph" / "flowchart"
+ 
+SubgraphStatement
+  = Subgraph / Statement / Connection
+  
+Statement
+  = LayoutDirective / Edge 
 
 LayoutDirective
-  = Layout ws direction:("TD" / "LR" / "TB" / "BT" / "RL")
+  = "direction"? ws direction:("TD" / "LR" / "TB" / "BT" / "RL")
     {
       return { type: 'Layout', direction };
     }
     
-Layout
- = "graph" / "flowchart"
- 
-Statement
-  = Edge // NodeDeclaration / Subgraph 
-
-NodeDeclaration
-  = id:Identifier ws label:Label
+Subgraph
+  = "subgraph" ws id:Identifier ws items:(Statement ws)* ws "end"
     {
-      return { type: 'Node', id, label };
+      return { type: 'Subgraph', id, edges:items.map(item => item[0]) };
     }
+    
 
 Edge
-  = from:Connection ws arrow:Arrow ws label:LabelDescription? ws to:Connection ws
+  = from:Connection ws arrow:Arrow ws label:EdgeLabel? ws to:Connection ws
     {
-      return { type: 'Edge', from, to, arrow };
+      return { type: 'Edge', from, to, arrow, label: label? label : '' };
     }
-  / from:Connection 
+    
+StringLiteral 
+  = "\"" text:$[^\"]+ "\""
     {
-      return { type: 'Edge', from };
+      return text.trim()
     }
-
-
+    
 Identifier
   = text:$[A-Za-z0-9_]+ { return text.trim() }
 
 Connection
-   = id:Identifier label:Label { return { id, label }}
-   / id:Identifier { return { id }}
- 
+   = id:Identifier label:Label { return { type:'Node', id, label }}
+   / id:Identifier { return { type: 'Node', id }}
+
 Label
   = DoubleCircleLabel
   / CircleLabel
@@ -53,8 +58,12 @@ Label
   / ParallelogramAltLabel
   / RectangularLabel
 
+RectangularText
+  = $[^\]\"]+ 
+  / StringLiteral 
+  
 RectangularLabel
-  = "[" l:$[^\]]+ "]" { return { type: 'rectangular', label: l.trim() }; }
+  = "[" label:RectangularText "]" { return { type: 'rectangular', label }; }
 
 RoundLabel
   = "(" l:$[^)]+ ")" { return { type: 'roundrectangle', label: l.trim() }; }
@@ -95,7 +104,7 @@ TrapezoidLabel
 TrapezoidAltLabel
   = "[\\" l:$[^/]+ "/]" { return { type: 'trapezoid_alt', label: l.trim() }; }
 
-LabelDescription
+EdgeLabel
   = "|" text:$[^|]+ "|"
     {
       return text.trim();
@@ -103,5 +112,12 @@ LabelDescription
 Arrow
   = "-->" / "---" / "-.->" / "<--" / "<-.-" / "--" 
 
+LineTerminator
+  = [\n\r\u2028\u2029]
+  
+SingleLineComment
+  = "%%" (!LineTerminator .)*
+  
 ws "whitespace"
-  = [ \t\n\r\;]*
+  = ([ \t\n\r\;] / SingleLineComment)*
+

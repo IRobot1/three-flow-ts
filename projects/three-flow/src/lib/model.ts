@@ -111,7 +111,7 @@ export const FlowEventType = {
 export interface LayoutResult {
   width: number
   height:number
-  nodes: Array<{ id: string, x: number, y: number }>
+  nodes: Array<{ id: string, x: number, y: number, width:number, height:number }>
   edges: Array<{ id: string, points: Array<{ x: number, y: number }> }>
 }
 
@@ -120,6 +120,7 @@ export interface FlowLayout {
   removeEdge(edge: FlowEdgeParameters, from: string, to: string): any;
   setNode(name: string, node: FlowNodeParameters): any;
   removeNode(name: string): any;
+  setParent(parent: string, id: string): any;
   layout(options: any, filter?: (nodeId: string) => boolean): LayoutResult;
   dispose(): void;
 }

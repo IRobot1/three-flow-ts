@@ -16,6 +16,9 @@ export class NoOpLayout implements FlowLayout {
   setNode(name: string, node: FlowNodeParameters): any {
     return undefined
   }
+  setParent(parent: string, id: string): any {
+    return undefined
+  }
   layout(options: any, filter?: ((nodeId: string) => boolean) | undefined): LayoutResult {
     return <LayoutResult>{ width: 0, height: 0, nodes: [], edges: [] }
   }

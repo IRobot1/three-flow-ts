@@ -101,6 +101,9 @@ export class FlowDiagram extends Object3D {
       const item = this.hasNode(node.id)
       if (item) {
         item.position.set(node.x! - centerx, -node.y! + centery, 0)
+        item.width = node.width
+        item.height = node.height
+        item.node
       }
     })
 
@@ -155,15 +158,23 @@ export class FlowDiagram extends Object3D {
     return this.children.filter(child => child.type == 'flownode') as Array<FlowNode>
   }
 
-  public hasNode(id: string): FlowNode | undefined {
-
-    for (const child of this.children) {
+  private nodeChild(id: string, children: Array<Object3D>): FlowNode | undefined {
+    for (const child of children) {
       if (child.type == 'flownode') {
         const node = child as FlowNode
         if (node.name == id) return node
+
+        if (child.children.length > 0) {
+          const result = this.nodeChild(id, child.children)
+          if (result) return result
+        }
       }
     }
     return undefined
+  }
+
+  public hasNode(id: string): FlowNode | undefined {
+    return this.nodeChild(id, this.children)
   }
 
   private addNode(item: FlowNodeParameters): FlowNode {
@@ -182,6 +193,11 @@ export class FlowDiagram extends Object3D {
     this._nodeCount++
 
     return mesh;
+  }
+
+  public setNodeParent(parent: FlowNode, child: FlowNode) {
+    this.graph.setParent(parent.name, child.name)
+    parent.add(child)
   }
 
   private addRoute(item: FlowRouteParameters): FlowNode {
@@ -230,15 +246,21 @@ export class FlowDiagram extends Object3D {
     return this.children.filter(child => child.type == 'flowedge') as Array<FlowEdge>
   }
 
-  public hasEdge(id: string): FlowEdge | undefined {
-
-    for (const child of this.children) {
+  private edgeChild(id: string, children: Array<Object3D>): FlowEdge | undefined {
+    for (const child of children) {
       if (child.type == 'flowedge') {
         const edge = child as FlowEdge
         if (edge.name == id) return edge
       }
+      if (child.children.length > 0) {
+        const result = this.edgeChild(id, child.children)
+        if (result) return result
+      }
     }
     return undefined
+  }
+  public hasEdge(id: string): FlowEdge | undefined {
+    return this.edgeChild(id, this.children)
   }
 
   public addEdge(item: FlowEdgeParameters): FlowEdge {
@@ -257,9 +279,13 @@ export class FlowDiagram extends Object3D {
   public setEdge(edge: FlowEdgeParameters): FlowEdge {
     const mesh = this.addEdge(edge)
     this._edgeCount++;
-
     this.graph.setEdge(edge.v, edge.w, edge);
     return mesh;
+  }
+
+  public setEdgeParent(parent: FlowNode, child: FlowEdge) {
+    parent.add(child)
+    child.position.z += 0.01
   }
 
   public removeEdge(edge: FlowEdge): void {

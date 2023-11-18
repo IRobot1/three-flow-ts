@@ -15,29 +15,42 @@ import {
 import { parse } from './mermaid/parser.js'
 import { DagreLayout } from "./dagre-layout"
 import { GraphLabel } from "@dagrejs/dagre"
-import { basicflowchart, complexflowchart, mediumflowchart, shapesflowchart } from "./mermaid/examples"
+import { basicflowchart, complexflowchart, mediumflowchart, shapesflowchart, subgraphflowchart } from "./mermaid/examples"
 
 type ShapeType = 'rectangular' | 'roundrectangle' | 'rhombus' | 'stadium' | 'subroutine' | 'database' | 'circle' | 'asymmetric' | 'hexagonal' | 'parallelogram' | 'parallelogram_alt' | 'trapezoid' | 'trapezoid_alt'
 
 interface MermaidNode {
+  type: EdgeType
   id: string
+  title?: string
   label?: { type: ShapeType, label?: string }
 }
 
-type ArrowType = '-->' | '---' | '-.->' | '<--' | '<-.-' | '--' 
+type ArrowType = '-->' | '---' | '-.->' | '<--' | '<-.-' | '--'
 
+type EdgeType = 'Node' | 'Edge' | 'Subgraph' | 'Layout'
+
+interface MermaidDirection {
+  type: EdgeType;
+  direction: string
+}
 interface MermaidEdge {
+  type: EdgeType;
   from: MermaidNode
   to: MermaidNode
   arrow: ArrowType
 }
+type MermaidEdgeType = MermaidEdge | MermaidDirection | MermaidNode | MermaidFlowchart
 interface MermaidFlowchart {
-  layout: { type: string, direction: string }
-  edges: Array<MermaidEdge>
+  type: EdgeType
+  id: string
+  direction: string
+  edges: Array<MermaidEdgeType>
 }
 
 interface ShapeNodeParameters extends FlowNodeParameters {
   shape: ShapeType
+  issubgraph: boolean
 }
 
 export class MermaidExample {
@@ -114,6 +127,7 @@ export class MermaidExample {
       { textContent: 'Shapes', data: shapesflowchart },
       { textContent: 'Medium', data: mediumflowchart },
       { textContent: 'Complex', data: complexflowchart },
+      { textContent: 'Sub Graph', data: subgraphflowchart },
     ]
 
     // Add options to the dropdown
@@ -155,48 +169,31 @@ export class MermaidExample {
 
         try {
           parsedOutput = parse(flowchart) as MermaidFlowchart
-          console.log(parsedOutput)
+          console.warn(parsedOutput)
         } catch (error) {
           console.error('Parsing error:', error)
         }
 
-        parsedOutput.edges.forEach(edge => {
-          const from = edge.from
-          let node = flow.hasNode(from.id)
-          if (!node) {
-            if (!from.label) from.label = { type: 'rectangular', label: from.id }
-            flow.setNode(<ShapeNodeParameters>{ text: from.id, label: from.label.label, labelsize: 0.15, height: 0.5, shape: from.label.type })
-          }
+        flow.dispatchEvent<any>({ type: 'mermaid-change' })
+        if (!parsedOutput.direction) parsedOutput.direction = 'LR'
+        flow.layout(<GraphLabel>{ rankdir: parsedOutput.direction, ranksep: 1 })
 
-
-          const to = edge.to
-          if (to) {
-            const edgeparams: FlowEdgeParameters = { v: from.id, w: to.id }
-
-            node = flow.hasNode(to.id)
-            if (!node) {
-              if (!to.label) to.label = { type: 'rectangular', label: to.id }
-              flow.setNode(<ShapeNodeParameters>{ text: to.id, label: to.label.label, labelsize: 0.15, height: 0.5, shape: to.label.type })
+        requestAnimationFrame(() => {
+          parsedOutput.edges.filter(edge => edge.type == 'Subgraph').forEach(item => {
+            const subgraph = item as MermaidFlowchart
+            const node = flow.hasNode(subgraph.id)
+            if (node && node.labelMesh) {
+              node.labelMesh.position.y = node.height / 2 - 0.1
             }
-
-            switch (edge.arrow) {
-              case '-.->':
-              case '-->':
-                edgeparams.toarrow = { type: 'to' }
-                break
-              case '---':
-                break
-              default:
-                console.warn('Unhandled edge arrow', edge.arrow)
-                break
-            }
-            flow.setEdge(edgeparams)
-          }
+          })
         })
 
-        flow.layout(<GraphLabel>{ rankdir: parsedOutput.layout.direction, ranksep: 1 })
-
         console.warn(flow.save())
+        console.warn(flow)
+      })
+
+      flow.addEventListener('mermaid-change', () => {
+        this.processEdges(parsedOutput, flow)
       })
 
 
@@ -206,6 +203,93 @@ export class MermaidExample {
       orbit.dispose()
     }
 
+  }
+
+  private processEdges(parsedOutput: MermaidFlowchart, flow: FlowDiagram, parent?: FlowNode) {
+    parsedOutput.edges.forEach(item => {
+      if (item.type == 'Subgraph') {
+        const chart = item as MermaidFlowchart
+        let label = chart.id
+        let shape = 'rectangular'
+        const parent = flow.setNode(<ShapeNodeParameters>{ text: chart.id, label, labelsize: 0.15, shape, color: 'red', issubgraph: true })
+        this.processEdges(chart, flow, parent)
+      }
+      else if (item.type == 'Node') {
+        const from = item as MermaidNode
+        let node = flow.hasNode(from.id)
+        if (!node) {
+          let label = from.id
+          let shape = 'rectangular'
+          if (from.label) {
+            if (from.label.label) label = from.label.label
+            shape = from.label.type
+          }
+
+          if (from.title) label = from.title
+
+          const fromnode = flow.setNode(<ShapeNodeParameters>{ text: from.id, label, labelsize: 0.15, height: 0.5, shape })
+          if (parent) {
+            flow.setNodeParent(parent, fromnode)
+          }
+        }
+      }
+      else if (item.type == 'Edge') {
+        const edge = item as MermaidEdge
+        const from = edge.from
+        let node = flow.hasNode(from.id)
+        if (!node) {
+          let label = from.id
+          let shape = 'rectangular'
+          if (from.label) {
+            if (from.label.label) label = from.label.label
+            shape = from.label.type
+          }
+
+          if (from.title) label = from.title
+
+          const fromnode = flow.setNode(<ShapeNodeParameters>{ text: from.id, label, labelsize: 0.15, height: 0.5, shape })
+          if (parent) {
+            flow.setNodeParent(parent, fromnode)
+          }
+        }
+
+
+        const to = edge.to
+        if (to) {
+          const edgeparams: FlowEdgeParameters = { v: from.id, w: to.id }
+
+          node = flow.hasNode(to.id)
+          if (!node) {
+            if (!to.label) to.label = { type: 'rectangular', label: to.id }
+            const tonode = flow.setNode(<ShapeNodeParameters>{ text: to.id, label: to.label.label, labelsize: 0.15, height: 0.5, shape: to.label.type })
+            if (parent) {
+              flow.setNodeParent(parent, tonode)
+            }
+          }
+
+          switch (edge.arrow) {
+            case '-.->':
+            case '-->':
+              edgeparams.toarrow = { type: 'to' }
+              break
+            case '---':
+              break
+            default:
+              console.warn('Unhandled edge arrow', edge.arrow)
+              break
+          }
+          const edgenode = flow.setEdge(edgeparams)
+          if (parent) { flow.setEdgeParent(parent, edgenode) }
+        }
+      }
+      else if (item.type == 'Layout') {
+        const edge = item as MermaidDirection
+        parsedOutput.direction = edge.direction
+      }
+      else {
+        console.warn('Unhandled edge type', item.type)
+      }
+    })
   }
 
   private createNode(diagram: FlowDiagram, node: ShapeNodeParameters): MermaidShapeNode {
@@ -239,19 +323,10 @@ class MermaidShapeNode extends FlowNode {
   private stadiumShape(width: number, height: number): Shape {
     var radius = height / 2
     const shape = new Shape()
-      // Start at the top of the left semi-circle
       .moveTo(-width / 2 + radius, height / 2)
-
-      // Left semi-circle, counter-clockwise
       .absarc(-width / 2 + radius, 0, radius, Math.PI / 2, -Math.PI / 2, false)
-
-      // Bottom line (right side)
       .lineTo(width / 2 - radius, -height / 2)
-
-      // Right semi-circle
       .absarc(width / 2 - radius, 0, radius, -Math.PI / 2, Math.PI / 2, false)
-
-      // Top line (left side)
       .lineTo(-width / 2 + radius, height / 2)
 
     return shape

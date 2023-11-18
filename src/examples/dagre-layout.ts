@@ -1,11 +1,14 @@
 import { GraphLabel, graphlib, layout } from "@dagrejs/dagre";
 import { FlowEdgeParameters, FlowLayout, FlowNodeParameters, LayoutResult } from "three-flow";
 
+const options = { multigraph:true, compound:true }
+
 export class DagreLayout implements FlowLayout {
-  private graph = new graphlib.Graph()
+
+  private graph = new graphlib.Graph(options)
 
   dispose() {
-    this.graph = new graphlib.Graph()
+    this.graph = new graphlib.Graph(options)
   }
   removeEdge(edge: FlowEdgeParameters, from: string, to: string): any {
     return this.graph.removeEdge(from, to)
@@ -19,6 +22,10 @@ export class DagreLayout implements FlowLayout {
   setNode(name: string, node: FlowNodeParameters): unknown {
     return this.graph.setNode(name, node)
   }
+  setParent(parent: string, id: string): any {
+    return this.graph.setParent(id, parent)
+  }
+
   layout(label: GraphLabel, filter?: ((nodeId: string) => boolean) | undefined): LayoutResult {
     if (!label.rankdir) label.rankdir = 'LR'
     if (!label.nodesep) label.nodesep = 0.1
@@ -30,6 +37,7 @@ export class DagreLayout implements FlowLayout {
     let filteredgraph = this.graph
     if (filter) filteredgraph = this.graph.filterNodes(filter)
 
+    console.warn(filteredgraph)
     layout(filteredgraph)
 
     const result = <LayoutResult>{
@@ -41,7 +49,7 @@ export class DagreLayout implements FlowLayout {
     filteredgraph.nodes().forEach(name => {
       const data = this.graph.node(name)
       const filtered = filteredgraph.node(name)
-      result.nodes.push({ id: name, x: filtered.x, y: filtered.y })
+      result.nodes.push({ id: name, x: filtered.x, y: filtered.y, width:filtered.width, height:filtered.height })
     })
 
     filteredgraph.edges().forEach(name => {

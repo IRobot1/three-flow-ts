@@ -141,7 +141,7 @@ export class FlowNode extends Mesh {
 
   private autoSize = true
 
-  private labelMesh?: Mesh;
+  labelMesh?: Mesh;
   private labelMaterial: Material;
 
   private font?: Font;

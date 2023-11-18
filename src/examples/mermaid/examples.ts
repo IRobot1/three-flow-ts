@@ -4,7 +4,8 @@ export const basicflowchart = `graph LR
     B -->|Yes| C[Do Something]
     B -->|No| D[Do Something Else]
     C --> E[End]
-    D --> E`
+    D --> E
+`
 
 export const shapesflowchart = `graph LR
 Start1 --- A(Rounded Rectangle)
@@ -93,3 +94,61 @@ flowchart LR
     f3-->f4
     f4-->d3
   `
+
+export const subgraphflowchart = `
+flowchart LR
+subgraph import
+  direction LR
+ 1X[import] --> 1A[*]
+ 1A --> 1B[as]
+ 1B --> 1C[THREE]
+ 1C --> 1D[from]
+ 1D --> 1E['three']
+end
+subgraph scene
+  direction LR
+  2X[const] --> 2A[scene]
+  2A --> 2B[=]
+  2B --> 2C[new]
+  2C --> 2D["Scene()"]
+end 
+subgraph camera
+  direction LR
+  3X[const] --> 3A[camera]
+  3A --> 3B[=]
+  3B --> 3C[new]
+  3C --> 3D["PerspectiveCamera("]
+  3D --> 3E[75,]
+  3E --> 3F[window.innerWith]
+  3F --> 3G["/"]
+  3G --> 3H[window.innerHeight,]
+  3H --> 3I[0.1,]
+  3I --> 3J["1000)"]
+end 
+subgraph renderer
+  direction LR
+  4X[const] --> 4A[renderer]
+  4A --> 4B[=]
+  4B --> 4C[new]
+  4C --> 4D["WebGLRenderer()"]
+end 
+subgraph setSize
+  direction LR
+  5X["renderer.setSize("] --> 5A[window.innerWidth,]
+  5A --> 5B["window.innerHeight)"]
+end 
+subgraph appendChild
+  direction LR
+  6X["document.body.appendChild"] --> 6A["("]
+  6A --> 6B["render.domElement"]
+  6B --> 6C[")"]
+end 
+
+xgraph[Creating the Scene]
+`
+//xgraph-- > import
+//xgraph --> scene
+//xgraph-- > camera
+//xgraph-- > renderer
+//xgraph-- > setSize
+//xgraph-- > appendChild
