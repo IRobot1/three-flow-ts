@@ -15,7 +15,7 @@ import {
 import { parse } from './mermaid/parser.js'
 import { DagreLayout } from "./dagre-layout"
 import { GraphLabel } from "@dagrejs/dagre"
-import { basicflowchart, complexflowchart, shapesflowchart } from "./mermaid/examples"
+import { basicflowchart, complexflowchart, mediumflowchart, shapesflowchart } from "./mermaid/examples"
 
 type ShapeType = 'rectangular' | 'roundrectangle' | 'rhombus' | 'stadium' | 'subroutine' | 'database' | 'circle' | 'asymmetric' | 'hexagonal' | 'parallelogram' | 'parallelogram_alt' | 'trapezoid' | 'trapezoid_alt'
 
@@ -24,7 +24,7 @@ interface MermaidNode {
   label?: { type: ShapeType, label?: string }
 }
 
-type ArrowType = '---' | '-->' | '<--'
+type ArrowType = '-->' | '---' | '-.->' | '<--' | '<-.-' | '--' 
 
 interface MermaidEdge {
   from: MermaidNode
@@ -112,6 +112,7 @@ export class MermaidExample {
     let list = [
       { textContent: 'Basic', data: basicflowchart },
       { textContent: 'Shapes', data: shapesflowchart },
+      { textContent: 'Medium', data: mediumflowchart },
       { textContent: 'Complex', data: complexflowchart },
     ]
 
@@ -167,26 +168,30 @@ export class MermaidExample {
             flow.setNode(<ShapeNodeParameters>{ text: from.id, label: from.label.label, labelsize: 0.15, height: 0.5, shape: from.label.type })
           }
 
+
           const to = edge.to
-          node = flow.hasNode(to.id)
-          if (!node) {
-            if (!to.label) to.label = { type: 'rectangular', label: to.id }
-            flow.setNode(<ShapeNodeParameters>{ text: to.id, label: to.label.label, labelsize: 0.15, height: 0.5, shape: to.label.type })
-          }
+          if (to) {
+            const edgeparams: FlowEdgeParameters = { v: from.id, w: to.id }
 
-          const edgeparams: FlowEdgeParameters = { v: from.id, w: to.id }
+            node = flow.hasNode(to.id)
+            if (!node) {
+              if (!to.label) to.label = { type: 'rectangular', label: to.id }
+              flow.setNode(<ShapeNodeParameters>{ text: to.id, label: to.label.label, labelsize: 0.15, height: 0.5, shape: to.label.type })
+            }
 
-          switch (edge.arrow) {
-            case '-->':
-              edgeparams.toarrow = { type: 'to' }
-              break
-            case '---':
-              break
-            default:
-              console.warn('Unhandled edge arrow', edge.arrow)
-              break
+            switch (edge.arrow) {
+              case '-.->':
+              case '-->':
+                edgeparams.toarrow = { type: 'to' }
+                break
+              case '---':
+                break
+              default:
+                console.warn('Unhandled edge arrow', edge.arrow)
+                break
+            }
+            flow.setEdge(edgeparams)
           }
-          flow.setEdge(edgeparams)
         })
 
         flow.layout(<GraphLabel>{ rankdir: parsedOutput.layout.direction, ranksep: 1 })
@@ -320,10 +325,10 @@ class MermaidShapeNode extends FlowNode {
 
     // Outer rectangle
     const shape = new Shape()
-      .moveTo(-halfwidth-indent, halfheight)
+      .moveTo(-halfwidth - indent, halfheight)
       .lineTo(halfwidth, halfheight)
       .lineTo(halfwidth, -halfheight)
-      .lineTo(-halfwidth-indent, -halfheight)
+      .lineTo(-halfwidth - indent, -halfheight)
       .lineTo(-halfwidth, 0)
 
     return shape
@@ -337,10 +342,10 @@ class MermaidShapeNode extends FlowNode {
     const shape = new Shape()
       .moveTo(-halfwidth, halfheight)
       .lineTo(halfwidth, halfheight)
-      .lineTo(halfwidth+outdent, 0)
+      .lineTo(halfwidth + outdent, 0)
       .lineTo(halfwidth, -halfheight)
       .lineTo(-halfwidth, -halfheight)
-      .lineTo(-halfwidth-outdent, 0)
+      .lineTo(-halfwidth - outdent, 0)
 
     return shape
   }
@@ -351,10 +356,10 @@ class MermaidShapeNode extends FlowNode {
 
     // Outer rectangle
     const shape = new Shape()
-      .moveTo(-halfwidth+offset, halfheight)
-      .lineTo(halfwidth+offset, halfheight)
-      .lineTo(halfwidth-offset, -halfheight)
-      .lineTo(-halfwidth-offset, -halfheight)
+      .moveTo(-halfwidth + offset, halfheight)
+      .lineTo(halfwidth + offset, halfheight)
+      .lineTo(halfwidth - offset, -halfheight)
+      .lineTo(-halfwidth - offset, -halfheight)
 
     return shape
   }
@@ -365,10 +370,10 @@ class MermaidShapeNode extends FlowNode {
 
     // Outer rectangle
     const shape = new Shape()
-      .moveTo(-halfwidth+offset, halfheight)
-      .lineTo(halfwidth-offset, halfheight)
-      .lineTo(halfwidth+offset, -halfheight)
-      .lineTo(-halfwidth-offset, -halfheight)
+      .moveTo(-halfwidth + offset, halfheight)
+      .lineTo(halfwidth - offset, halfheight)
+      .lineTo(halfwidth + offset, -halfheight)
+      .lineTo(-halfwidth - offset, -halfheight)
 
     return shape
   }
@@ -394,7 +399,7 @@ class MermaidShapeNode extends FlowNode {
         result = new ShapeGeometry(this.rhombusShape(this.width, this.height))
         break
       case 'circle':
-        result = new CircleGeometry(this.width/2)
+        result = new CircleGeometry(this.width / 2)
         break
       case 'asymmetric':
         result = new ShapeGeometry(this.asymmetricShape(this.width, this.height))

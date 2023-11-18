@@ -2,7 +2,7 @@ Flowchart
   = ws layout:LayoutDirective ws items:(Statement ws)* { return { layout: layout, edges:items.map(item => item[0]) } }
 
 LayoutDirective
-  = Layout ws direction:("LR" / "TB" / "BT" / "RL")
+  = Layout ws direction:("TD" / "LR" / "TB" / "BT" / "RL")
     {
       return { type: 'Layout', direction };
     }
@@ -20,16 +20,22 @@ NodeDeclaration
     }
 
 Edge
-  = ws from:Connection ws arrow:Arrow ws label:LabelDescription? ws to:Connection ws
+  = from:Connection ws arrow:Arrow ws label:LabelDescription? ws to:Connection ws
     {
       return { type: 'Edge', from, to, arrow };
     }
+  / from:Connection 
+    {
+      return { type: 'Edge', from };
+    }
+
 
 Identifier
   = text:$[A-Za-z0-9_]+ { return text.trim() }
 
 Connection
- = id:Identifier label:Label? { return { id, label }}
+   = id:Identifier label:Label { return { id, label }}
+   / id:Identifier { return { id }}
  
 Label
   = DoubleCircleLabel
@@ -95,7 +101,7 @@ LabelDescription
       return text.trim();
     }
 Arrow
-  = "-->" / "---"
+  = "-->" / "---" / "-.->" / "<--" / "<-.-" / "--" 
 
 ws "whitespace"
-  = [ \t\n\r]*
+  = [ \t\n\r\;]*

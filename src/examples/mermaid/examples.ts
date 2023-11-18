@@ -22,7 +22,7 @@ L --- M((Double Circle))
 M --- N((Circle))
 `
 
-export const complexflowchart = `graph TB
+export const mediumflowchart = `graph TB
     Bat(fa-car-battery Batteries) -->|150a 50mm| ShutOff
     Bat -->|150a 50mm| Shunt
 
@@ -56,3 +56,40 @@ export const complexflowchart = `graph TB
     SolarCont --> BusNeg
     SolarCont --> BusPos
 `
+
+export const complexflowchart = `
+flowchart LR
+    p1>bank_name]
+    p2>seller_info]
+
+
+    s1[[1-withdraw_money]]
+    s2[[2-purchase_bike]]
+
+
+    f1[go_to_bank]
+    f2[withdraw_from_atm]
+    f3[contact_seller]
+    f4[trade_bike]
+
+
+    d1[(reads: customer_identification)]
+    d2[(reads/writes: customer_balance)]
+    d3[(writes: e_document_sign)]
+
+
+    s1-.->s2;
+
+
+    p1-->|inputs|s1
+    s1-->|calls|f1
+    f1-->|calls|f2
+    f2-->d1
+    f2-->d2
+
+
+    p2-->|inputs|s2
+    s2-->f3
+    f3-->f4
+    f4-->d3
+  `
