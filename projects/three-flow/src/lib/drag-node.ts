@@ -36,7 +36,8 @@ export class DragNode {
 
       let position = e.position.clone() as Vector3
       if (this.dragging) {
-        node.position.copy(snapToGrid(e.position.sub(offset)))
+        node.position.copy(snapToGrid(position.sub(offset)))
+        node.position.z = e.position.z // restore z after subtraction
         node.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
       }
     });

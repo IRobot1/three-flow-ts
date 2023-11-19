@@ -172,6 +172,7 @@ export class FlowEdge extends Mesh {
     else if (this.fromNode && this.toNode) {
       from.copy(this.fromNode.position)
       to.copy(this.toNode.position)
+      from.z = to.z = 0
 
       curvepoints.push(from, to)
     }
@@ -183,7 +184,6 @@ export class FlowEdge extends Mesh {
       if (this.linestyle == 'spline' && curvepoints.length > 2) {
         curvepoints = curve.getPoints(this.divisions);
       }
-
       const geometry = this.createGeometry(curvepoints, this.thickness)
       if (geometry)
         this.geometry = geometry

@@ -37,6 +37,9 @@ export class FlowDiagram extends Object3D {
     }
   }
 
+  nodezdepth = 0.1
+  edgezdepth = 0.05
+
   constructor(private options?: FlowDiagramOptions) {
     super()
 
@@ -230,6 +233,7 @@ export class FlowDiagram extends Object3D {
   public setNodeParent(parent: FlowNode, child: FlowNode) {
     this.graph.setParent(parent.name, child.name)
     parent.add(child)
+    child.position.z = this.nodezdepth
   }
 
   private addRoute(item: FlowRouteParameters): FlowNode {
@@ -317,7 +321,7 @@ export class FlowDiagram extends Object3D {
 
   public setEdgeParent(parent: FlowNode, child: FlowEdge) {
     parent.add(child)
-    child.position.z += 0.01
+    child.position.z = this.edgezdepth
   }
 
   public removeEdge(edge: FlowEdge): void {
