@@ -1,9 +1,10 @@
 import { Mesh } from "three";
 
+export type ConnectorType = 'input' | 'output'
 export interface FlowConnectorParameters {
-  text?: string;
+  id: string;
+  connectortype?: ConnectorType; // default is input
   index?: number; // order when there are multiple
-  connectortype?: string;
   userData?: { [key: string]: any };
 }
 
@@ -69,6 +70,8 @@ export interface FlowNodeParameters {
   minscale?: number;
   maxscale?: number;
   hidden?: boolean;
+  connectors?: FlowConnectorParameters[]
+
 }
 
 export interface FlowRouteParameters extends FlowNodeParameters {

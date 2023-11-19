@@ -11,6 +11,7 @@ import {
   FlowDiagramOptions,
   FlowDiagramParameters,
   FlowInteraction,
+  FlowConnectors,
 } from "three-flow";
 
 export class BasicExample {
@@ -69,6 +70,11 @@ export class BasicExample {
         color: 0x297029,
         resizecolor: 0xff0000,
         scalecolor: 0xfff370,
+        connectors: [
+          { id: "3", },
+          { id: "4", },
+          { id: "5", connectortype: 'output' }
+        ],
       },
       {
         text: "2",
@@ -86,6 +92,9 @@ export class BasicExample {
         color: 'red',
         resizecolor: 0xff0000,
         scalecolor: 0xfff370,
+        connectors: [
+          { id: "6" }
+        ],
       },
       {
         text: "3",
@@ -103,6 +112,10 @@ export class BasicExample {
         color: 'gold',
         resizecolor: 0xff0000,
         scalecolor: 0xfff370,
+        connectors: [
+          { id: "1", connectortype: 'output' },
+          { id: "2", connectortype: 'output' },
+        ]
       }
 
     ];
@@ -145,6 +158,7 @@ export class BasicExample {
 
       // make the flow interactive
       new FlowInteraction(flow, app, app.camera)
+      new FlowConnectors(flow)
 
       flow.load(diagram)
 
