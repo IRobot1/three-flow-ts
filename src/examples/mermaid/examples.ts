@@ -157,12 +157,12 @@ export const subgraph2flowchart = `flowchart TD
 subgraph Wednesday
   T1[Make brine] --> T2[Brine turkey]
   P1[Mix pie crust] --> P2[Bake pie crust]
-  R1[Cook sausage]
-  B2[Make bread dough]
-  B2 -- Let dough rise --> B4[Bake bread]
+  R1[Cook sausage] --> X
+  B2[Make bread dough] --> Y
+  B2 --> B4[Bake bread]
 end
 
-T2 -- Let turkey brine overnight --> T3[Roast turkey]
+T2 --> T3[Roast turkey]
 T3 --> D
 P2 --> P3[Make pie filling]
 P3 --> P4[Chill pie]
@@ -177,6 +177,7 @@ B4 --> D
 T3 --> S1[Make turkey stock]
 S1 --> S2[Make soup]
 D --> L[Leftovers!]
+
 `
 
 export const subgraph3flowchart = `graph TD
@@ -199,17 +200,17 @@ subgraph ServerSide
 end
  
 subgraph MessageQueue
-  M[Kafka]
+  M[Kafka] --> X
 end
  
-A -- Notify changes --> D
-D -- Watch events --> G
-G -- Notify events --> D
-F -- Upload Download files --> H
-H -- Store Retrieve chunks --> I
-F -- Process metadata --> J
-J -- Store metadata --> K
-F -- Push notifications --> L
-L -- Publish messages --> M
-M -- Subscribe to messages --> G
+A --> D
+D --> G
+G --> D
+F --> H
+H --> I
+F --> J
+J --> K
+F --> L
+L --> M
+M --> G
 `
