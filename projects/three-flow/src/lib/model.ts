@@ -69,6 +69,7 @@ export interface FlowNodeParameters {
   minscale?: number;
   maxscale?: number;
   hidden?: boolean;
+  [key: string]: any;
 }
 
 export interface FlowRouteParameters extends FlowNodeParameters {

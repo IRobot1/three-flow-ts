@@ -145,10 +145,71 @@ subgraph appendChild
 end 
 
 xgraph[Creating the Scene]
+xgraph --> import
+xgraph --> scene
+xgraph --> camera
+xgraph --> renderer
+xgraph --> setSize
+xgraph --> appendChild
 `
-//xgraph-- > import
-//xgraph --> scene
-//xgraph-- > camera
-//xgraph-- > renderer
-//xgraph-- > setSize
-//xgraph-- > appendChild
+
+export const subgraph2flowchart = `flowchart TD
+subgraph Wednesday
+  T1[Make brine] --> T2[Brine turkey]
+  P1[Mix pie crust] --> P2[Bake pie crust]
+  R1[Cook sausage]
+  B2[Make bread dough]
+  B2 -- Let dough rise --> B4[Bake bread]
+end
+
+T2 -- Let turkey brine overnight --> T3[Roast turkey]
+T3 --> D
+P2 --> P3[Make pie filling]
+P3 --> P4[Chill pie]
+P4 --> D[Thanksgiving dinner]
+R1 --> R2[Mix dressing]
+R2 --> R3[Bake dressing]
+R3 --> D
+M1[Peel potatoes] --> M2[Boil potatoes]
+M2 --> M3[Mash potatoes]
+M3 --> D
+B4 --> D
+T3 --> S1[Make turkey stock]
+S1 --> S2[Make soup]
+D --> L[Leftovers!]
+`
+
+export const subgraph3flowchart = `graph TD
+ 
+subgraph MobileClient
+  A[Local Database] --> B[Index Controller]
+  B --> C[Chunk Controller]
+  C --> D[Watcher]
+end
+ 
+subgraph ServerSide
+  E[Load Balancer] --> F[Controllers]
+  E --> G[Watcher]
+  F --> H[File Processing Server]
+  H --> I[Cloud Storage]
+  F --> J[Metadata Server]
+  J --> K[Metadata Database]
+  J --> L[Notification Server]
+  L --> G
+end
+ 
+subgraph MessageQueue
+  M[Kafka]
+end
+ 
+A -- Notify changes --> D
+D -- Watch events --> G
+G -- Notify events --> D
+F -- Upload Download files --> H
+H -- Store Retrieve chunks --> I
+F -- Process metadata --> J
+J -- Store metadata --> K
+F -- Push notifications --> L
+L -- Publish messages --> M
+M -- Subscribe to messages --> G
+`

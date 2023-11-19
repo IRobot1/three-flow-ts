@@ -15,7 +15,7 @@ import {
 import { parse } from './mermaid/parser.js'
 import { DagreLayout } from "./dagre-layout"
 import { GraphLabel } from "@dagrejs/dagre"
-import { basicflowchart, complexflowchart, mediumflowchart, shapesflowchart, subgraphflowchart } from "./mermaid/examples"
+import { basicflowchart, complexflowchart, mediumflowchart, shapesflowchart, subgraph2flowchart, subgraph3flowchart, subgraphflowchart } from "./mermaid/examples"
 
 type ShapeType = 'rectangular' | 'roundrectangle' | 'rhombus' | 'stadium' | 'subroutine' | 'database' | 'circle' | 'asymmetric' | 'hexagonal' | 'parallelogram' | 'parallelogram_alt' | 'trapezoid' | 'trapezoid_alt'
 
@@ -127,7 +127,9 @@ export class MermaidExample {
       { textContent: 'Shapes', data: shapesflowchart },
       { textContent: 'Medium', data: mediumflowchart },
       { textContent: 'Complex', data: complexflowchart },
-      { textContent: 'Sub Graph', data: subgraphflowchart },
+      { textContent: 'Sub Graph 1', data: subgraphflowchart },
+      { textContent: 'Sub Graph 2', data: subgraph2flowchart },
+      { textContent: 'Sub Graph 3', data: subgraph3flowchart },
     ]
 
     // Add options to the dropdown
