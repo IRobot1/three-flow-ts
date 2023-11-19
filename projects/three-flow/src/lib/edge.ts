@@ -1,4 +1,4 @@
-import { BufferGeometry, CatmullRomCurve3, Line, MathUtils, Mesh, MeshBasicMaterial, Object3D, Vector2, Vector3 } from "three";
+import { BufferGeometry, CatmullRomCurve3, Line, MathUtils, Matrix4, Mesh, MeshBasicMaterial, Object3D, Vector2, Vector3 } from "three";
 import { FlowArrowParameters, FlowEdgeParameters, EdgeLineStyle, FlowEventType } from "./model";
 import { FlowDiagram } from "./diagram";
 import { FlowNode } from "./node";
@@ -74,12 +74,14 @@ export class FlowEdge extends Mesh {
     const fromNode = diagram.hasNode(this.from)
     if (fromNode) {
       fromNode.addEventListener(FlowEventType.DRAGGED, dragged)
+      fromNode.addEventListener(FlowEventType.SCALE_CHANGED, dragged)
 
       fromNode.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
         if (fromNode)
           this.visible = fromNode.visible
       })
       this.fromConnector = fromNode.getConnector(edge.fromconnector)
+      if (this.fromConnector) this.fromConnector.addEventListener(FlowEventType.DRAGGED, dragged)
     }
 
     this.to = edge.w
@@ -87,12 +89,14 @@ export class FlowEdge extends Mesh {
     const toNode = diagram.hasNode(this.to)
     if (toNode) {
       toNode.addEventListener(FlowEventType.DRAGGED, dragged)
+      toNode.addEventListener(FlowEventType.SCALE_CHANGED, dragged)
 
       toNode.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
         if (toNode)
           this.visible = toNode.visible
       })
       this.toConnector = toNode.getConnector(edge.toconnector)
+      if (this.toConnector) this.toConnector.addEventListener(FlowEventType.DRAGGED, dragged)
     }
 
     if (edge.fromarrow) {
@@ -145,6 +149,14 @@ export class FlowEdge extends Mesh {
     return Math.atan2(target.y - source.y, target.x - source.x)
   }
 
+  // Get position of connector relative to diagram
+  private getConnectorPosition(connector: Object3D, diagram: Object3D): Vector3 {
+    let connectorWorldPosition = new Vector3();
+    connector.localToWorld(connectorWorldPosition);
+
+    return diagram.worldToLocal(connectorWorldPosition);
+  }
+
   updateVisuals() {
     let curvepoints: Array<Vector3> = []
     const from = new Vector3()
@@ -175,8 +187,8 @@ export class FlowEdge extends Mesh {
       }
     }
     else if (this.fromConnector && this.toConnector) {
-      from.copy(this.fromConnector.getWorldPosition(new Vector3()))
-      to.copy(this.toConnector.getWorldPosition(new Vector3()))
+      from.copy(this.getConnectorPosition(this.fromConnector, this.diagram))
+      to.copy(this.getConnectorPosition(this.toConnector, this.diagram))
 
       curvepoints.push(from, to)
     }
