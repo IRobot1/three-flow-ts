@@ -1,4 +1,4 @@
-import { Mesh, BufferGeometry, PlaneGeometry, MathUtils, Material, Box2, Vector2, Vector3 } from "three";
+import { Mesh, BufferGeometry, PlaneGeometry, MathUtils, Material, Box2, Vector2, Vector3, Object3D } from "three";
 import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
@@ -274,6 +274,9 @@ export class FlowNode extends Mesh {
     return mesh
   }
 
+  getConnector(id?: string): Object3D {
+    return this
+  }
 
   save: () => void
 

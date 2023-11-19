@@ -26,8 +26,8 @@ export type EdgeLineStyle = 'straight' | 'spline'
 
 export interface FlowEdgeParameters {
   // first four fields make parameters compatible with dagre for easier layout
-  v: string;
-  w: string;
+  v: string; // from node id
+  w: string; // to node id
   name?: string;
   points?: Array<{ x: number, y: number }>  // layout positions of line segments
 
@@ -38,6 +38,9 @@ export interface FlowEdgeParameters {
   toarrow?: FlowArrowParameters;
   fromarrow?: FlowArrowParameters;
   userData?: { [key: string]: any };
+
+  fromconnector?: string; // optional connector id on from node
+  toconnector?: string;   // optional connector id on to node
 }
 
 export type AbstractNodeType = 'node' | 'route'

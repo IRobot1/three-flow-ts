@@ -1,5 +1,5 @@
 import { FlowConnectorParameters, FlowEventType } from "./model"
-import { BufferGeometry, CircleGeometry, Mesh } from "three"
+import { BufferGeometry, CircleGeometry, Mesh, Object3D } from "three"
 import { FlowDiagram } from "./diagram"
 import { FlowNode } from "./node"
 
@@ -9,11 +9,20 @@ export class FlowConnectors {
     diagram.addEventListener(FlowEventType.NODE_ADDED, (e: any) => {
       const node = e.node as FlowNode
       if (node.node.connectors) {
-        const connector = new NodeConnectors(node, node.node.connectors)
-        this.connectors.push(connector)
+        const connectors = new NodeConnectors(node, node.node.connectors)
+        this.connectors.push(connectors)
+
+        const getConnector = (id?: string): Object3D => {
+          if (!id) return node
+
+          const mesh = connectors.hasConnector(id)
+          return mesh ? mesh : node
+        }
+        node.getConnector = getConnector
       }
     })
   }
+
 
   //addConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>): NodeConnectors {
   //  if (!node.node.connectors) node.node.connectors = []
@@ -25,7 +34,7 @@ export class FlowConnectors {
 
   //removeConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>) {
   //  connectors.forEach(connector => {
-      
+
   //  })
   //}
 }
@@ -34,7 +43,7 @@ export class NodeConnectors {
   // options
   spacing = 0.1
 
-  constructor(private node: FlowNode, connectors: Array<FlowConnectorParameters>) {
+  constructor(private node: FlowNode, public connectors: Array<FlowConnectorParameters>) {
 
     if (node.node.connectors) {
       node.node.connectors.forEach((connector, index) => {
@@ -51,6 +60,18 @@ export class NodeConnectors {
       this.moveConnectors()
     })
 
+  }
+
+  hasConnector(id: string): ConnectorMesh | undefined {
+
+    for (const child of this.node.children) {
+      if (child.type == 'flowconnector') {
+        const connector = child as ConnectorMesh
+        if (connector.name == id) return connector
+      }
+    }
+
+    return undefined
   }
 
   addConnector(item: FlowConnectorParameters): ConnectorMesh {
@@ -122,7 +143,6 @@ class ConnectorMesh extends Mesh {
     this.name = connector.id
     this.index = (connector.index != undefined) ? connector.index : 0
     this.connectortype = connector.connectortype ? connector.connectortype : 'input'
-    this.name = this.connectortype + this.index.toString()
 
     if (connector.userData) this.userData = connector.userData
 

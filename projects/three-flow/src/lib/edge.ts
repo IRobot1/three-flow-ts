@@ -1,4 +1,4 @@
-import { BufferGeometry, CatmullRomCurve3, Line, MathUtils, Mesh, MeshBasicMaterial, Vector2, Vector3 } from "three";
+import { BufferGeometry, CatmullRomCurve3, Line, MathUtils, Mesh, MeshBasicMaterial, Object3D, Vector2, Vector3 } from "three";
 import { FlowArrowParameters, FlowEdgeParameters, EdgeLineStyle, FlowEventType } from "./model";
 import { FlowDiagram } from "./diagram";
 import { FlowNode } from "./node";
@@ -48,8 +48,8 @@ export class FlowEdge extends Mesh {
 
   data?: { [key: string]: any; } | undefined;
 
-  readonly fromNode: FlowNode | undefined;
-  readonly toNode: FlowNode | undefined;
+  readonly fromConnector: Object3D | undefined
+  readonly toConnector: Object3D | undefined
   public fromArrow: FlowArrow | undefined;
   public toArrow: FlowArrow | undefined;
   private line?: Line
@@ -70,24 +70,29 @@ export class FlowEdge extends Mesh {
     }
 
     this.from = edge.v
-    this.fromNode = diagram.hasNode(this.from)
-    if (this.fromNode) {
-      this.fromNode.addEventListener(FlowEventType.DRAGGED, dragged)
 
-      this.fromNode.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
-        if (this.fromNode)
-          this.visible = this.fromNode.visible
+    const fromNode = diagram.hasNode(this.from)
+    if (fromNode) {
+      fromNode.addEventListener(FlowEventType.DRAGGED, dragged)
+
+      fromNode.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
+        if (fromNode)
+          this.visible = fromNode.visible
       })
+      this.fromConnector = fromNode.getConnector(edge.fromconnector)
     }
-    this.to = edge.w
-    this.toNode = diagram.hasNode(this.to)
-    if (this.toNode) {
-      this.toNode.addEventListener(FlowEventType.DRAGGED, dragged)
 
-      this.toNode.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
-        if (this.toNode)
-          this.visible = this.toNode.visible
+    this.to = edge.w
+
+    const toNode = diagram.hasNode(this.to)
+    if (toNode) {
+      toNode.addEventListener(FlowEventType.DRAGGED, dragged)
+
+      toNode.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
+        if (toNode)
+          this.visible = toNode.visible
       })
+      this.toConnector = toNode.getConnector(edge.toconnector)
     }
 
     if (edge.fromarrow) {
@@ -156,22 +161,22 @@ export class FlowEdge extends Mesh {
 
       if (this.toArrow) {
         this.toArrow.position.copy(to)
-        if (this.toNode) {
-          const angle = this.arrowLookAt(this.toArrow.position, this.toNode.position)
+        if (this.toConnector) {
+          const angle = this.arrowLookAt(this.toArrow.position, this.toConnector.position)
           this.toArrow.rotate = angle + MathUtils.degToRad(90)
         }
       }
       if (this.fromArrow) {
         this.fromArrow.position.copy(from)
-        if (this.fromNode) {
-          const angle = this.arrowLookAt(this.fromArrow.position, this.fromNode.position)
+        if (this.fromConnector) {
+          const angle = this.arrowLookAt(this.fromArrow.position, this.fromConnector.position)
           this.fromArrow.rotate = angle + MathUtils.degToRad(90)
         }
       }
     }
-    else if (this.fromNode && this.toNode) {
-      from.copy(this.fromNode.position)
-      to.copy(this.toNode.position)
+    else if (this.fromConnector && this.toConnector) {
+      from.copy(this.fromConnector.getWorldPosition(new Vector3()))
+      to.copy(this.toConnector.getWorldPosition(new Vector3()))
 
       curvepoints.push(from, to)
     }

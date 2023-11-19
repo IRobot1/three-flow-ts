@@ -71,9 +71,9 @@ export class BasicExample {
         resizecolor: 0xff0000,
         scalecolor: 0xfff370,
         connectors: [
-          { id: "3", },
-          { id: "4", },
-          { id: "5", connectortype: 'output' }
+          { id: "n1c1", },
+          { id: "n1c2", },
+          { id: "n1c3", connectortype: 'output' }
         ],
       },
       {
@@ -93,7 +93,7 @@ export class BasicExample {
         resizecolor: 0xff0000,
         scalecolor: 0xfff370,
         connectors: [
-          { id: "6" }
+          { id: "n2c1" }
         ],
       },
       {
@@ -113,8 +113,8 @@ export class BasicExample {
         resizecolor: 0xff0000,
         scalecolor: 0xfff370,
         connectors: [
-          { id: "1", connectortype: 'output' },
-          { id: "2", connectortype: 'output' },
+          { id: "n3c1", connectortype: 'output' },
+          { id: "n3c2", connectortype: 'output' },
         ]
       }
 
@@ -123,14 +123,22 @@ export class BasicExample {
 
     const edges: FlowEdgeParameters[] = [
       {
-        name: "7",
         v: "1",
         w: "3",
+        fromconnector: "n1c1" ,
+        toconnector: "n3c1" ,
       },
       {
-        name: "8",
+        v: "1",
+        w: "3",
+        fromconnector: "n1c2" ,
+        toconnector: "n3c2" ,
+      },
+      {
         v: "2",
         w: "1",
+        fromconnector:"n2c1",
+        toconnector: "n1c3"
       }
     ];
 
