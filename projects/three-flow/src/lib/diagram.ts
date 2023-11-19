@@ -1,4 +1,4 @@
-import { Box3, LineBasicMaterial, Material, MeshBasicMaterial, Object3D, Vector3 } from "three";
+import { Box3, LineBasicMaterial, Material, Matrix4, MeshBasicMaterial, Object3D, Vector3 } from "three";
 import { FlowEdgeParameters, FlowDiagramParameters, FlowNodeParameters, FlowRouteParameters, EdgeLineStyle, FlowEventType, FlowLayout } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
@@ -39,6 +39,9 @@ export class FlowDiagram extends Object3D {
 
   constructor(private options?: FlowDiagramOptions) {
     super()
+
+    // @ts-ignore
+    this.type = 'flowdiagram';
 
     if (options) {
       if (options.gridsize != undefined)
@@ -91,6 +94,24 @@ export class FlowDiagram extends Object3D {
     }
   }
 
+  // Correct position if node is part of a subgraph
+  private setPositionOfChild(diagram: Object3D, subgraph: Object3D, node: Object3D, desiredPosition: Vector3): Vector3 {
+    diagram.updateMatrixWorld();
+    subgraph.updateMatrixWorld();
+
+    let localPosition = desiredPosition
+
+    if (node.parent === subgraph) {
+      let worldPosition = desiredPosition.applyMatrix4(diagram.matrixWorld);
+
+      let inverseMatrixB = new Matrix4().copy(subgraph.matrixWorld).invert();
+
+      localPosition = worldPosition.applyMatrix4(inverseMatrixB);
+    }
+
+    return localPosition
+  }
+
   layout(label: any = {}, filter?: (nodeId: string) => boolean) {
     const result = this.graph.layout(label, filter)
 
@@ -100,10 +121,11 @@ export class FlowDiagram extends Object3D {
     result.nodes.forEach(node => {
       const item = this.hasNode(node.id)
       if (item) {
-        item.position.set(node.x! - centerx, -node.y! + centery, 0)
+        const desiredPostion = new Vector3(node.x! - centerx, -node.y! + centery, item.position.z)
+        const localPosition = this.setPositionOfChild(this, item.parent!, item, desiredPostion)
+        item.position.copy(localPosition)
         item.width = node.width
         item.height = node.height
-        item.node
       }
     })
 
@@ -113,10 +135,20 @@ export class FlowDiagram extends Object3D {
       if (item) {
         item.edge.points = []
         edge.points.forEach(point => {
+          let desiredPosition = new Vector3(point.x - centerx, point.y - centery, item.position.z)
+
+          // This works, but not sure why there needs to be a difference
+          if (item.parent == this)
+            desiredPosition.y = point.y - centery
+          else
+            desiredPosition.y = -point.y + centery
+
+          const localPosition = this.setPositionOfChild(this, item.parent!, item, desiredPosition)
+
           if (item.edge.points) {
             item.edge.points.push({
-              x: point.x - centerx,
-              y: point.y - centery
+              x: localPosition.x,
+              y: localPosition.y,
             })
           }
         })
