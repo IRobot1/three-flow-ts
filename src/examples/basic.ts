@@ -71,9 +71,9 @@ export class BasicExample {
         resizecolor: 0xff0000,
         scalecolor: 0xfff370,
         connectors: [
-          { id: "n1c1", },
-          { id: "n1c2", },
-          { id: "n1c3", anchor: 'right' }
+          { id: "n1c1", anchor: 'left' },
+          { id: "n1c2", anchor: 'left', index: 1 },
+          { id: "n1c3", anchor: 'right', index: 0 }
         ],
       },
       {
@@ -93,7 +93,7 @@ export class BasicExample {
         resizecolor: 0xff0000,
         scalecolor: 0xfff370,
         connectors: [
-          { id: "n2c1" }
+          { id: "n2c1", anchor: 'left' }
         ],
       },
       {
@@ -114,7 +114,7 @@ export class BasicExample {
         scalecolor: 0xfff370,
         connectors: [
           { id: "n3c1", anchor: 'right' },
-          { id: "n3c2", anchor: 'right' },
+          { id: "n3c2", anchor: 'right', index: 1 },
         ]
       }
 
@@ -125,19 +125,19 @@ export class BasicExample {
       {
         v: "1",
         w: "3",
-        fromconnector: "n1c1" ,
-        toconnector: "n3c1" ,
+        fromconnector: "n1c1",
+        toconnector: "n3c1",
       },
       {
         v: "1",
         w: "3",
-        fromconnector: "n1c2" ,
-        toconnector: "n3c2" ,
+        fromconnector: "n1c2",
+        toconnector: "n3c2",
       },
       {
         v: "2",
         w: "1",
-        fromconnector:"n2c1",
+        fromconnector: "n2c1",
         toconnector: "n1c3"
       }
     ];
