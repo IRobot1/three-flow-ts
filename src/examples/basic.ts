@@ -7,6 +7,7 @@ import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowEdgeParameters,
   FlowNodeParameters,
+  FlowConnectorParameters,
   FlowDiagram,
   FlowDiagramOptions,
   FlowDiagramParameters,
@@ -166,11 +167,51 @@ export class BasicExample {
 
       // make the flow interactive
       new FlowInteraction(flow, app, app.camera)
-      new FlowConnectors(flow)
+      const connectors = new FlowConnectors(flow)
 
       flow.load(diagram)
 
+      //
+      // how to add connectors dynamically
+      //
+      //const connectors = new FlowConnectors(flow)
+      //diagram.nodes.forEach(item => {
+      //  const node = flow.hasNode(item.text!)!
+      //  connectors.addConnectors(node, item.connectors!)
+      //})
+
+      //diagram.edges.forEach(item => {
+      //  const edge = flow.hasEdge(item.name!)!
+      //  edge.addConnector(item.fromconnector, item.toconnector)
+      //})
+
+      //
+      // how to remove connectors dynamically, order doesn't matter, but remember to do both edge and node
+      //
+      //diagram.edges.forEach(item => {
+      //  const edge = flow.hasEdge(item.name!)!
+      //  edge.removeConnector()
+      //})
+      //diagram.nodes.forEach(item => {
+      //  const node = flow.hasNode(item.text!)!
+      //  connectors.removeConnectors(node, item.connectors!)
+      //})
+
       const node1 = flow.hasNode('1')!
+
+      //
+      // how to add and remove edges and connectors at runtime
+      //
+      //const connector = <FlowConnectorParameters>{ id: "n1c4", anchor: 'right', index: 1 }
+      //connectors.addConnectors(node1, [connector])
+      ////connectors.removeConnectors(node1, [connector])
+
+      //const edge4 = flow.addEdge({ v: "2", w: "1" })
+      //edge4.addConnector("n2c1", "n1c4")
+      ////flow.removeEdge(edge4)
+      ////edge4.removeConnector()
+
+      console.warn(flow.save())
 
       gui.add(flow, 'gridsize', 0, 1).name('Snap-to-Grid Size')
 

@@ -5,42 +5,68 @@ import { FlowNode } from "./node"
 
 const CONNECTOR_SIZE = 0.2
 export class FlowConnectors {
-  connectors: Array<NodeConnectors> = []
+  private connectors = new Map<string, NodeConnectors>()
+
   constructor(diagram: FlowDiagram) {
     diagram.addEventListener(FlowEventType.NODE_ADDED, (e: any) => {
       const node = e.node as FlowNode
       if (node.node.connectors) {
-        const connectors = new NodeConnectors(node, node.node.connectors)
-        this.connectors.push(connectors)
-
-        const getConnector = (id?: string): Object3D => {
-          if (!id) return node
-
-          const mesh = connectors.hasConnector(id)
-          return mesh ? mesh : node
-        }
-        node.getConnector = getConnector
+        this.createConnectors(node, node.node.connectors)
       }
     })
   }
 
 
-  //addConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>): NodeConnectors {
-  //  if (!node.node.connectors) node.node.connectors = []
-  //  node.node.connectors.concat(connectors)
-  //  const connector = new NodeConnectors(node, connectors)
-  //  this.connectors.push(connector)
-  //  return connector
-  //}
+  private createConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>): NodeConnectors {
+    const nodeconnectors = new NodeConnectors(node, connectors)
+    this.connectors.set(node.name, nodeconnectors)
 
-  //removeConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>) {
-  //  connectors.forEach(connector => {
+    const getConnector = (id?: string): Object3D => {
+      if (!id) return node
 
-  //  })
-  //}
+      const mesh = nodeconnectors.hasConnector(id)
+      return mesh ? mesh : node
+    }
+    node.getConnector = getConnector
+    return nodeconnectors
+  }
+
+  addConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>) {
+    let nodeconnectors = this.connectors.get(node.name)
+    if (nodeconnectors) {
+      // add to existing
+      connectors.forEach(connector => {
+        if (nodeconnectors) nodeconnectors.addConnector(connector)
+
+        if (!node.node.connectors) node.node.connectors = []
+        node.node.connectors.push(connector)
+      })
+    }
+    else {
+      this.createConnectors(node, connectors)
+      node.node.connectors = connectors
+    }
+  }
+
+  removeConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>) {
+    let nodeconnectors = this.connectors.get(node.name)
+    if (nodeconnectors) {
+      connectors.forEach(connector => {
+        if (nodeconnectors) nodeconnectors.removeConnector(connector)
+      });
+
+      // use copy for safe removal
+      [...connectors].forEach(connector => {
+        if (node.node.connectors) {
+          const index = node.node.connectors.findIndex(x => x.id == connector.id)
+          if (index != -1) node.node.connectors.splice(index, 1)
+        }
+      })
+    }
+  }
 }
 
-export class NodeConnectors {
+class NodeConnectors {
   // options
   spacing = 0.1
   total: any = { left: 0, right: 0, top: 0, bottom: 0 }
@@ -82,43 +108,33 @@ export class NodeConnectors {
     this.node.add(connector)
     this.total[item.anchor]++;
 
-    // TODO: add to node.connectors, might need set method which doesn't add
-
     this.moveConnectors()
 
     this.updateVisuals()
     return connector
   }
 
-  removeConnector(item: ConnectorMesh): void {
+  removeConnector(connector: FlowConnectorParameters): void {
+    const item = this.hasConnector(connector.id)
+    if (item) this.removeConnectorMesh(item)
+  }
+
+
+  private removeConnectorMesh(item: ConnectorMesh): void {
     this.node.remove(item)
     this.total[item.anchor]--;
-
-    // TODO: remove from node.connectors
 
     this.moveConnectors()
   }
 
-
-  //get inputConnectors() {
-  //  return (this.node.children as Array<ConnectorMesh>)
-  //    .filter(item => item.type == 'flowconnector' && item.anchor == 'left')
-  //    .sort((a, b) => a.index - b.index)
-  //}
-
-  //get outputConnectors() {
-  //  return (this.node.children as Array<ConnectorMesh>)
-  //    .filter(item => item.type == 'flowconnector' && item.anchor == 'right')
-  //    .sort((a, b) => a.index - b.index)
-  //}
 
   getConnectors() {
     return (this.node.children as Array<ConnectorMesh>)
       .filter(item => item.type == 'flowconnector')
   }
 
-  private calculateOffset(n: number, index: number): number {
-    const totalWidth = n * CONNECTOR_SIZE + (n - 1) * this.spacing;
+  private calculateOffset(count: number, index: number): number {
+    const totalWidth = count * CONNECTOR_SIZE + (count - 1) * this.spacing;
     const startPosition = -totalWidth / 2;
 
     // Calculate the x position of the center of the specified mesh
@@ -143,7 +159,7 @@ export class NodeConnectors {
         break;
     }
 
-      const count = this.total[anchor]
+    const count = this.total[anchor]
     // left and right
     if (anchor == 'left' || anchor == 'right') {
       const position = y + this.calculateOffset(count, connector.index)
@@ -198,7 +214,7 @@ class ConnectorMesh extends Mesh {
 
     if (connector.userData) this.userData = connector.userData
 
-    this.geometry = this.createGeometry(CONNECTOR_SIZE/2)
+    this.geometry = this.createGeometry(CONNECTOR_SIZE / 2)
 
     this.material = diagram.getMaterial('geometry', 'connector', this.color)
 

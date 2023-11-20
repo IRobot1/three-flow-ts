@@ -3,6 +3,7 @@ import { FlowArrowParameters, FlowEdgeParameters, EdgeLineStyle, FlowEventType }
 import { FlowDiagram } from "./diagram";
 import { FlowNode } from "./node";
 import { FlowArrow } from "./arrow";
+import { FlowConnectorParameters } from "../../../../dist/three-flow";
 
 export class FlowEdge extends Mesh {
   readonly from: string;
@@ -48,10 +49,16 @@ export class FlowEdge extends Mesh {
 
   data?: { [key: string]: any; } | undefined;
 
-  readonly fromConnector: Object3D | undefined
-  readonly toConnector: Object3D | undefined
   public fromArrow: FlowArrow | undefined;
   public toArrow: FlowArrow | undefined;
+
+
+  private readonly fromNode: FlowNode | undefined
+  private readonly toNode: FlowNode | undefined
+
+  private fromConnector: Object3D | undefined
+  private toConnector: Object3D | undefined
+
   private line?: Line
 
   isFlow = true
@@ -64,40 +71,34 @@ export class FlowEdge extends Mesh {
     this.name = edge.name = edge.name ? edge.name : diagram.nextEdgeId()
     if (this.data) this.userData = this.data
 
-    const dragged = () => {
-      this.removeArrows()
-      this.updateVisuals()
-    }
 
     this.from = edge.v
 
-    const fromNode = diagram.hasNode(this.from)
-    if (fromNode) {
-      fromNode.addEventListener(FlowEventType.DRAGGED, dragged)
-      fromNode.addEventListener(FlowEventType.SCALE_CHANGED, dragged)
+    this.fromNode = diagram.hasNode(this.from)
+    if (this.fromNode) {
+      this.fromNode.addEventListener(FlowEventType.DRAGGED, () => { this.dragged() })
+      this.fromNode.addEventListener(FlowEventType.SCALE_CHANGED, () => { this.dragged() })
 
-      fromNode.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
-        if (fromNode)
-          this.visible = fromNode.visible
+      this.fromNode.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
+        if (this.fromNode)
+          this.visible = this.fromNode.visible
       })
-      this.fromConnector = fromNode.getConnector(edge.fromconnector)
-      if (this.fromConnector) this.fromConnector.addEventListener(FlowEventType.DRAGGED, dragged)
     }
 
     this.to = edge.w
 
-    const toNode = diagram.hasNode(this.to)
-    if (toNode) {
-      toNode.addEventListener(FlowEventType.DRAGGED, dragged)
-      toNode.addEventListener(FlowEventType.SCALE_CHANGED, dragged)
+    this.toNode = diagram.hasNode(this.to)
+    if (this.toNode) {
+      this.toNode.addEventListener(FlowEventType.DRAGGED, () => { this.dragged() })
+      this.toNode.addEventListener(FlowEventType.SCALE_CHANGED, () => { this.dragged() })
 
-      toNode.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
-        if (toNode)
-          this.visible = toNode.visible
+      this.toNode.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
+        if (this.toNode)
+          this.visible = this.toNode.visible
       })
-      this.toConnector = toNode.getConnector(edge.toconnector)
-      if (this.toConnector) this.toConnector.addEventListener(FlowEventType.DRAGGED, dragged)
     }
+
+    this.addConnector(edge.fromconnector, edge.toconnector)
 
     if (edge.fromarrow) {
       edge.fromarrow.type = edge.fromarrow.type ? edge.fromarrow.type : 'from'
@@ -124,8 +125,46 @@ export class FlowEdge extends Mesh {
       this.line.material = this.material
       this.line.position.z = -0.001
     }
+  }
 
+  private dragged() {
+    this.removeArrows()
+    this.updateVisuals()
+  }
 
+  addConnector(fromconnector?: string, toconnector?: string) {
+    let update = false
+    if (this.fromNode) {
+      this.fromConnector = this.fromNode.getConnector(fromconnector)
+      if (this.fromConnector != this.fromNode) {
+        this.fromConnector.addEventListener(FlowEventType.DRAGGED, () => { this.dragged() })
+        this.edge.fromconnector = fromconnector
+        update = true
+      }
+    }
+    if (this.toNode) {
+      this.toConnector = this.toNode.getConnector(toconnector)
+      if (this.toConnector != this.toNode) {
+        this.toConnector.addEventListener(FlowEventType.DRAGGED, () => { this.dragged() })
+        this.edge.toconnector = toconnector
+        update = true
+      }
+    }
+    if (update) this.updateVisuals()
+  }
+
+  removeConnector() {
+    if (this.fromNode) {
+      if (this.fromConnector) this.fromConnector.removeEventListener(FlowEventType.DRAGGED, this.dragged)
+      this.fromConnector = this.fromNode.getConnector(undefined)
+      this.edge.fromconnector = undefined
+    }
+    if (this.toNode) {
+      if (this.toConnector) this.toConnector.removeEventListener(FlowEventType.DRAGGED, this.dragged)
+      this.toConnector = this.toNode.getConnector(undefined)
+      this.edge.toconnector = undefined
+    }
+    this.updateVisuals()
   }
 
   private removeArrows() {
