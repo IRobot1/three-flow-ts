@@ -75,14 +75,14 @@ export class NodeConnectors {
   }
 
   addConnector(item: FlowConnectorParameters): ConnectorMesh {
-    if (!item.connectortype) item.connectortype = 'input'
+    if (!item.anchor) item.anchor = 'left'
     const connector = this.createConnector(this.node.diagram, item)
 
     this.node.add(connector)
 
     // TODO: add to node.connectors
 
-    const side = item.connectortype == 'input' ? -1 : 1
+    const side = item.anchor == 'left' ? -1 : 1
     connector.position.set(side * this.node.width / 2, this.spacing * connector.index, 0.001)
 
     this.updateVisuals()
@@ -98,13 +98,13 @@ export class NodeConnectors {
 
   get inputConnectors() {
     return (this.node.children as Array<ConnectorMesh>)
-      .filter(item => item.type == 'flowconnector' && item.connectortype == 'input')
+      .filter(item => item.type == 'flowconnector' && item.connectortype == 'left')
       .sort((a, b) => a.index - b.index)
   }
 
   get outputConnectors() {
     return (this.node.children as Array<ConnectorMesh>)
-      .filter(item => item.type == 'flowconnector' && item.connectortype == 'output')
+      .filter(item => item.type == 'flowconnector' && item.connectortype == 'right')
       .sort((a, b) => a.index - b.index)
   }
 
@@ -142,7 +142,7 @@ class ConnectorMesh extends Mesh {
     this.type = 'flowconnector'
     this.name = connector.id
     this.index = (connector.index != undefined) ? connector.index : 0
-    this.connectortype = connector.connectortype ? connector.connectortype : 'input'
+    this.connectortype = connector.anchor ? connector.anchor : 'left'
 
     if (connector.userData) this.userData = connector.userData
 

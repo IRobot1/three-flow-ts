@@ -1,9 +1,9 @@
 import { Mesh } from "three";
 
-export type ConnectorType = 'input' | 'output'
+export type AnchorType = 'left' | 'right' | 'top' | 'bottom'
 export interface FlowConnectorParameters {
   id: string;
-  connectortype?: ConnectorType; // default is input
+  anchor?: AnchorType; // default is left
   index?: number; // order when there are multiple
   userData?: { [key: string]: any };
 }
