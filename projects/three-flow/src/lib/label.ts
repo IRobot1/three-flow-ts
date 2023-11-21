@@ -1,13 +1,13 @@
-import { Material, Mesh, Object3D, Vector3 } from "three";
+import { Material, Matrix4, Mesh, Object3D, Vector3 } from "three";
 import { FlowEventType, FlowLabelParameters, LabelAlignX, LabelAlignY } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowDiagram } from "./diagram";
 import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 
 export class FlowLabel extends Object3D {
-  private _text: string | undefined
+  private _text: string
   get text() { return this._text }
-  set text(newvalue: string | undefined) {
+  set text(newvalue: string) {
     if (this._text != newvalue) {
       this._text = newvalue;
       if (newvalue != undefined) {
@@ -68,7 +68,7 @@ export class FlowLabel extends Object3D {
 
   public readonly font?: Font;
 
-  public labelMesh!: Mesh
+  public labelMesh?: Mesh
 
   private labelMaterial: Material;
 
@@ -76,7 +76,7 @@ export class FlowLabel extends Object3D {
   constructor(diagram: FlowDiagram, parameters: FlowLabelParameters) {
     super()
 
-    this._text = parameters.text
+    this._text = parameters.text ? parameters.text : ''
     this._size = parameters.size ? parameters.size : 0.1
     this._color = parameters.color ? parameters.color : 'black'
     this._padding = parameters.padding ? parameters.padding : 0.1
@@ -89,8 +89,15 @@ export class FlowLabel extends Object3D {
 
   }
 
+  private labelmatrix = new Matrix4()
+
   public updateLabel() {
-    if (this.labelMesh) this.remove(this.labelMesh)
+    if (this.labelMesh) {
+      // preserve position and rotation before removing
+      this.labelmatrix.copy(this.labelMesh.matrix)
+      this.remove(this.labelMesh)
+    }
+    this.labelMesh = undefined
 
     if (this.text == undefined) return
 
@@ -100,14 +107,17 @@ export class FlowLabel extends Object3D {
     this.labelMesh.name = 'label'
 
     this.labelMesh.material = this.labelMaterial
-    this.labelMesh.position.set(0, 0, 0.001)
+    this.labelMesh.position.z = 0.001
 
-    this.labelMesh.geometry.computeBoundingBox()
-    const box = this.labelMesh.geometry.boundingBox
-    const size = box!.getSize(new Vector3())
+    // restore position and rotation before removing
+    this.labelMesh.applyMatrix4(this.labelmatrix)
 
-    this.width = size.x + this.padding * 2
-    this.height = size.y + this.padding * 2
+    //this.labelMesh.geometry.computeBoundingBox()
+    //const box = this.labelMesh.geometry.boundingBox
+    //const size = box!.getSize(new Vector3())
+
+    //this.width = size.x + this.padding * 2
+    //this.height = size.y + this.padding * 2
   }
 
   private textsize = new Vector3()

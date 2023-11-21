@@ -2,19 +2,54 @@ import { Mesh, BufferGeometry, PlaneGeometry, MathUtils, Material, Box2, Vector2
 import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
-import { FlowEventType, FlowLabelParameters, FlowNodeParameters } from "./model";
+import { AnchorType, FlowEventType, FlowLabelParameters, FlowNodeParameters, FlowTransform } from "./model";
 import { FlowDiagram } from "./diagram";
 import { FlowLabel } from "./label";
+import { FlowUtils } from "./utils";
 
 
 export class FlowNode extends Mesh {
+  private moveLabelX(xdiff: number) {
+    if (!this.label.labelMesh) return
+    switch (this.labelanchor) {
+      case 'left':
+        xdiff = -xdiff
+        break;
+      case 'top':
+      case 'bottom':
+        xdiff = 0
+        break;
+    }
+    this.label.labelMesh.position.x += xdiff
+  }
+
+  private moveLabelY(ydiff: number) {
+    if (!this.label.labelMesh) return
+    switch (this.labelanchor) {
+      case 'bottom':
+        ydiff = -ydiff
+        break;
+      case 'left':
+      case 'right':
+        ydiff = 0
+        break;
+    }
+    this.label.labelMesh.position.y += ydiff
+  }
+
+
   protected _width: number
   get width() { return this._width }
   set width(newvalue: number) {
     newvalue = MathUtils.clamp(newvalue, this.minwidth, this.maxwidth)
     if (this._width != newvalue) {
+      const diff = newvalue - this._width
       this._width = newvalue
       this.resizeGeometry()
+
+      // move label by difference in width change
+      this.moveLabelX(diff / 2)
+
       this.dispatchEvent<any>({ type: FlowEventType.WIDTH_CHANGED })
     }
   }
@@ -26,8 +61,12 @@ export class FlowNode extends Mesh {
   set height(newvalue: number) {
     newvalue = MathUtils.clamp(newvalue, this.minheight, this.maxheight)
     if (this._height != newvalue) {
+      const diff = newvalue - this._height
       this._height = newvalue
       this.resizeGeometry()
+
+      // move label by difference in height change
+      this.moveLabelY(diff / 2)
       this.dispatchEvent<any>({ type: FlowEventType.HEIGHT_CHANGED })
     }
   }
@@ -101,7 +140,9 @@ export class FlowNode extends Mesh {
 
   private autoSize = true
 
-  public label?: FlowLabel
+  public label: FlowLabel
+  public labelanchor: AnchorType
+  public labeltransform?: FlowTransform;
 
 
   isFlow = true
@@ -128,23 +169,25 @@ export class FlowNode extends Mesh {
     this.maxheight = node.maxheight ? node.maxheight : Number.POSITIVE_INFINITY
     this._color = node.color ? node.color : 'white'
 
-    if (node.label) {
-      this.label = this.diagram.createLabel(node.label)
-      this.add(this.label)
+    if (!node.label) node.label = {}
+    this.label = this.diagram.createLabel(node.label)
+    this.add(this.label)
 
-      if (this.autoSize) {
-        this.label.addEventListener(FlowEventType.WIDTH_CHANGED, (e: any) => {
-          if (e.width > this.width) {
-            this.width = e.width
-          }
-        })
-        this.label.addEventListener(FlowEventType.HEIGHT_CHANGED, (e: any) => {
-          if (e.height > this.height) {
-            this.height = e.height
-          }
-        })
-      }
+    if (this.autoSize) {
+      this.label.addEventListener(FlowEventType.WIDTH_CHANGED, (e: any) => {
+        if (e.width > this.width) {
+          this.width = e.width
+        }
+      })
+      this.label.addEventListener(FlowEventType.HEIGHT_CHANGED, (e: any) => {
+        if (e.height > this.height) {
+          this.height = e.height
+        }
+      })
     }
+
+    this.labelanchor = node.labelanchor ? node.labelanchor : 'center'
+    this.labeltransform = node.labeltransform
 
     this._resizable = node.resizable ? node.resizable : true
     this.resizecolor = node.resizecolor ? node.resizecolor : 'black'
@@ -186,9 +229,40 @@ export class FlowNode extends Mesh {
     })
   }
 
-  private updateLabel() {
-    if (this.label) this.label.updateLabel()
+  private positionLabel(anchor: AnchorType, labelMesh: Mesh) {
+    let x = 0, y = 0
+    switch (anchor) {
+      case 'left':
+        x = -this.width / 2
+        break
+      case 'right':
+        x = this.width / 2
+        break
+      case 'top':
+        y = this.height / 2
+        break
+      case 'bottom':
+        y = -this.height / 2
+        break;
+      case 'center':
+        break;
+      default:
+        console.warn('Unhandled node anchor type', anchor)
+        break;
+    }
 
+    labelMesh.position.set(x, y, labelMesh.position.z)
+  }
+
+  private updateLabel() {
+    this.label.updateLabel()
+
+    if (this.label.labelMesh) {
+      this.positionLabel(this.labelanchor, this.label.labelMesh)
+    }
+
+    if (this.labeltransform && this.label.labelMesh)
+      FlowUtils.transformObject(this.labeltransform, this.label.labelMesh)
   }
 
   private resizeGeometry() {

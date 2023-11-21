@@ -1,4 +1,9 @@
-import { Mesh } from "three";
+import { EulerOrder, Mesh, Vector3 } from "three";
+
+export interface FlowTransform {
+  translate?: { x?: number, y?: number, z?: number }
+  rotate?: { x?: number, y?: number, z?: number }
+}
 
 export type LabelAlignX = 'center' | 'left' | 'right'
 export type LabelAlignY = 'middle' | 'top' | 'bottom'
@@ -13,7 +18,7 @@ export interface FlowLabelParameters {
   alignY?: LabelAlignY
 }
 
-export type AnchorType = 'left' | 'right' | 'top' | 'bottom'
+export type AnchorType = 'left' | 'right' | 'top' | 'bottom' | 'center'
 export interface FlowConnectorParameters {
   id: string;
   anchor?: AnchorType; // default is left
@@ -73,6 +78,8 @@ export interface FlowNodeParameters {
   maxheight?: number;
   color?: number | string;
   label?: FlowLabelParameters;
+  labelanchor?: AnchorType;
+  labeltransform?: FlowTransform;
   userData?: { [key: string]: any };
   resizable?: boolean;
   resizecolor?: number | string;
