@@ -1,5 +1,5 @@
 import { Material, Mesh, Object3D, Vector3 } from "three";
-import { FlowEventType, FlowLabelParameters } from "./model";
+import { FlowEventType, FlowLabelParameters, LabelAlign } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowDiagram } from "./diagram";
 import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
@@ -63,6 +63,8 @@ export class FlowLabel extends Object3D {
     }
   }
 
+  public align: LabelAlign
+
   public readonly font?: Font;
 
   public labelMesh!: Mesh
@@ -77,6 +79,7 @@ export class FlowLabel extends Object3D {
     this._size = parameters.size ? parameters.size : 0.1
     this._color = parameters.color ? parameters.color : 'black'
     this._padding = parameters.padding ? parameters.padding : 0.1
+    this.align = parameters.align ? parameters.align : 'center'
 
     this.labelMaterial = diagram.getMaterial('geometry', 'label', this.color)!;
     this.font = diagram.getFont(parameters.font)
@@ -89,7 +92,7 @@ export class FlowLabel extends Object3D {
 
     if (this.text == undefined) return
 
-    this.labelMesh = this.createText(this.text, { font: this.font, height: 0, size: this.size });
+    this.labelMesh = this.createText(this.text, { align: this.align, font: this.font, height: 0, size: this.size });
     this.add(this.labelMesh);
 
     this.labelMesh.name = 'label'
@@ -114,7 +117,21 @@ export class FlowLabel extends Object3D {
     // only add text if font is loaded
     if (params.font) {
       mesh.geometry = new TextGeometry(label, params)
-      mesh.geometry.center()
+      mesh.geometry.computeBoundingBox()
+      switch (<LabelAlign>options.align) {
+        case 'center':
+          mesh.geometry.center()
+          break
+        case 'right':
+          if (mesh.geometry.boundingBox) {
+            const size = mesh.geometry.boundingBox.getSize(new Vector3())
+            mesh.geometry.translate(-size.x, 0, 0)
+          }
+          break
+        case 'left':
+        default:
+          break
+      }
     }
 
     return mesh

@@ -1,11 +1,14 @@
 import { Mesh } from "three";
 
+export type LabelAlign = 'center' | 'left' | 'right'
+
 export interface FlowLabelParameters {
   text?: string;
   size?: number;
   color?: number | string;
   font?: string;
   padding?: number;
+  align?: LabelAlign
 }
 
 export type AnchorType = 'left' | 'right' | 'top' | 'bottom'
