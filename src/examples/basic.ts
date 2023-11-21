@@ -228,9 +228,9 @@ export class BasicExample {
       folder.add<any, any>(node1, 'minheight', 0.3, 3).name('Min Height')
       folder.add<any, any>(node1, 'maxheight', 0.3, 3).name('Max Height')
       folder.addColor(node1, 'color').name('Color')
-      folder.add<any, any>(node1, 'label').name('Label')
-      folder.add<any, any>(node1, 'labelsize', 0.05, 0.3).name('Label Size')
-      folder.addColor(node1, 'labelcolor').name('Label Color')
+      folder.add<any, any>(node1.label!, 'text').name('Label')
+      folder.add<any, any>(node1.label!, 'size', 0.05, 0.3).name('Label Size')
+      folder.addColor(node1.label!, 'color').name('Label Color')
       //labelfont ?: string;
       //userData ?: { [key: string]: any };
       folder.add<any, any>(node1, 'resizable').name('Resizable')

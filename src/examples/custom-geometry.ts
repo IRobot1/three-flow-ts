@@ -16,7 +16,9 @@ import {
   NodeBorder,
   FlowArrow,
   FlowArrowParameters,
-  ArrowStyle
+  ArrowStyle,
+  FlowLabelParameters,
+  FlowLabel
 } from "three-flow";
 import { ResizeNode, FlowDiagram } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
@@ -259,6 +261,11 @@ class MyFlowDiagram extends FlowDiagram {
   override createEdge(diagram: FlowDiagram, edge: MyFlowEdgeData): FlowEdge {
     return new MyFlowEdge(diagram, edge)
   }
+
+  override createLabel(label: FlowLabelParameters) : FlowLabel {
+    return new MyFlowLabel(this, label)
+  }
+
 }
 
 const depth = 0.15
@@ -276,10 +283,6 @@ class MyFlowNode extends FlowNode {
     return new BoxGeometry(this.width, this.height, depth)
   }
 
-  override createText(label: string, options: TextGeometryParameters): Mesh {
-    options.height = depth
-    return super.createText(label, options)
-  }
 }
 
 class MyFlowEdge extends FlowEdge {
@@ -328,6 +331,15 @@ class MyScaleNode extends ScaleNode {
 
   override createGeometry(size: number) {
     return new BoxGeometry(size, size, 0.01)
+  }
+
+}
+
+class MyFlowLabel extends FlowLabel {
+
+  override createText(label: string, options: TextGeometryParameters): Mesh {
+    options.height = depth
+    return super.createText(label, options)
   }
 
 }

@@ -2,8 +2,9 @@ import { Mesh, BufferGeometry, PlaneGeometry, MathUtils, Material, Box2, Vector2
 import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
-import { FlowEventType, FlowNodeParameters } from "./model";
+import { FlowEventType, FlowLabelParameters, FlowNodeParameters } from "./model";
 import { FlowDiagram } from "./diagram";
+import { FlowLabel } from "./label";
 
 
 export class FlowNode extends Mesh {
@@ -41,47 +42,6 @@ export class FlowNode extends Mesh {
       (this.material as any).color.set(newvalue)
     }
   }
-
-  private _label: string | undefined
-  get label() { return this._label }
-  set label(newvalue: string | undefined) {
-    if (this._label != newvalue) {
-      this._label = newvalue;
-      if (newvalue) {
-        this.updateLabel()
-      }
-    }
-  }
-
-  private _labelsize = 0.1
-  get labelsize() { return this._labelsize }
-  set labelsize(newvalue: number) {
-    if (this._labelsize != newvalue) {
-      this._labelsize = newvalue;
-      this.updateLabel()
-    }
-  }
-
-  private _labelcolor: number | string = 'black'
-  get labelcolor() { return this._labelcolor }
-  set labelcolor(newvalue: number | string) {
-    if (this._labelcolor != newvalue) {
-      this._labelcolor = newvalue;
-      if (this.labelMesh)
-        (this.labelMesh.material as any).color.set(newvalue)
-    }
-  }
-
-  private _labelpadding = 0.1
-  get labelpadding() { return this._labelpadding }
-  set labelpadding(newvalue: number) {
-    if (this._labelpadding != newvalue) {
-      this._labelpadding = newvalue;
-      this.updateLabel()
-    }
-  }
-
-
 
   resizecolor: number | string;
 
@@ -141,10 +101,8 @@ export class FlowNode extends Mesh {
 
   private autoSize = true
 
-  private labelMesh?: Mesh;
-  private labelMaterial: Material;
+  public label?: FlowLabel
 
-  private font?: Font;
 
   isFlow = true
 
@@ -171,11 +129,21 @@ export class FlowNode extends Mesh {
     this._color = node.color ? node.color : 'white'
 
     if (node.label) {
-      this._label = node.label.text
-      this._labelsize = node.label.size ? node.label.size : 0.1
-      this._labelcolor = node.label.color ? node.label.color : 'black'
-      this._labelpadding = node.label.padding ? node.label.padding : 0.1
-      this.font = diagram.getFont(node.label.font)
+      this.label = this.diagram.createLabel(node.label)
+      this.add(this.label)
+
+      if (this.autoSize) {
+        this.label.addEventListener(FlowEventType.WIDTH_CHANGED, (e: any) => {
+          if (e.width > this.width) {
+            this.width = e.width
+          }
+        })
+        this.label.addEventListener(FlowEventType.HEIGHT_CHANGED, (e: any) => {
+          if (e.height > this.height) {
+            this.height = e.height
+          }
+        })
+      }
     }
 
     this._resizable = node.resizable ? node.resizable : true
@@ -208,7 +176,6 @@ export class FlowNode extends Mesh {
       if (!this.visible) node.hidden = true
     }
 
-    this.labelMaterial = diagram.getMaterial('geometry', 'label', this.labelcolor)!;
 
 
     // allow derived classes access to "this" by delaying one frame or to override methods
@@ -220,33 +187,8 @@ export class FlowNode extends Mesh {
   }
 
   private updateLabel() {
-    if (this.label) {
-      if (this.labelMesh) this.remove(this.labelMesh)
+    if (this.label) this.label.updateLabel()
 
-      this.labelMesh = this.createText(this.label, { font: this.font, height: 0, size: this.labelsize });
-      this.labelMesh.name = 'label'
-
-      this.labelMesh.material = this.labelMaterial
-      this.labelMesh.position.set(0, 0, 0.001)
-
-      this.add(this.labelMesh);
-
-      if (this.autoSize) {
-        this.labelMesh.geometry.computeBoundingBox()
-        const box = this.labelMesh.geometry.boundingBox
-        if (box) {
-          const size = box.getSize(new Vector3())
-          const newwidth = size.x + this.labelpadding * 2
-          if (newwidth > this.width) {
-            this.width = newwidth
-          }
-          const newheight = size.y + this.labelpadding * 2
-          if (newheight > this.height) {
-            this.height = newheight
-          }
-        }
-      }
-    }
   }
 
   private resizeGeometry() {
@@ -261,19 +203,6 @@ export class FlowNode extends Mesh {
   // overridable
   createGeometry(): BufferGeometry {
     return new PlaneGeometry(this.width, this.height)
-  }
-
-  createText(label: string, options: any): Mesh {
-    const params = options as TextGeometryParameters;
-    const mesh = new Mesh()
-
-    // only add text if font is loaded
-    if (params.font) {
-      mesh.geometry = new TextGeometry(label, params)
-      mesh.geometry.center()
-    }
-
-    return mesh
   }
 
   getConnector(id?: string): Object3D {

@@ -3,8 +3,10 @@
   "nodes": [
     {
       "text": "Agriculture",
-      "label": "Agriculture",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Agriculture",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -15,8 +17,10 @@
     },
     {
       "text": "Pottery",
-      "label": "Pottery",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Pottery",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -27,8 +31,10 @@
     },
     {
       "text": "Animal husbandry",
-      "label": "Animal husbandry",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Animal husbandry",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -39,8 +45,10 @@
     },
     {
       "text": "Archery",
-      "label": "Archery",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Archery",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -51,8 +59,10 @@
     },
     {
       "text": "Mining",
-      "label": "Mining",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Mining",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -63,8 +73,10 @@
     },
     {
       "text": "Archaeology",
-      "label": "Archaeology",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Archaeology",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -75,8 +87,10 @@
     },
     {
       "text": "Biology",
-      "label": "Biology",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Biology",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -87,8 +101,10 @@
     },
     {
       "text": "Dynamite",
-      "label": "Dynamite",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Dynamite",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -99,8 +115,10 @@
     },
     {
       "text": "Railroad",
-      "label": "Railroad",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Railroad",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -111,8 +129,10 @@
     },
     {
       "text": "Industrialization",
-      "label": "Industrialization",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Industrialization",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -123,8 +143,10 @@
     },
     {
       "text": "Steam power",
-      "label": "Steam power",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Steam power",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -135,8 +157,10 @@
     },
     {
       "text": "Metallurgy",
-      "label": "Metallurgy",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Metallurgy",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -147,8 +171,10 @@
     },
     {
       "text": "Rifling",
-      "label": "Rifling",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Rifling",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -159,8 +185,10 @@
     },
     {
       "text": "Military science",
-      "label": "Military science",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Military science",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -171,8 +199,10 @@
     },
     {
       "text": "Navigation",
-      "label": "Navigation",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Navigation",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -183,8 +213,10 @@
     },
     {
       "text": "Scientific theory",
-      "label": "Scientific theory",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Scientific theory",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -195,8 +227,10 @@
     },
     {
       "text": "Economics",
-      "label": "Economics",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Economics",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -207,8 +241,10 @@
     },
     {
       "text": "Refrigeration",
-      "label": "Refrigeration",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Refrigeration",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -219,8 +255,10 @@
     },
     {
       "text": "Gunpowder",
-      "label": "Gunpowder",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Gunpowder",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -231,8 +269,10 @@
     },
     {
       "text": "Chemistry",
-      "label": "Chemistry",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Chemistry",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -243,8 +283,10 @@
     },
     {
       "text": "Telecommunications",
-      "label": "Telecommunications",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Telecommunications",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -255,8 +297,10 @@
     },
     {
       "text": "Globalization",
-      "label": "Globalization",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Globalization",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -267,8 +311,10 @@
     },
     {
       "text": "Particle physics",
-      "label": "Particle physics",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Particle physics",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -279,8 +325,10 @@
     },
     {
       "text": "The Internet",
-      "label": "The Internet",
-      "labelsize": 0.25,
+      "label": {
+        "text": "The Internet",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -291,8 +339,10 @@
     },
     {
       "text": "Banking",
-      "label": "Banking",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Banking",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -303,8 +353,10 @@
     },
     {
       "text": "Architecture",
-      "label": "Architecture",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Architecture",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -315,8 +367,10 @@
     },
     {
       "text": "Electricity",
-      "label": "Electricity",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Electricity",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -327,8 +381,10 @@
     },
     {
       "text": "Radio",
-      "label": "Radio",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Radio",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -339,8 +395,10 @@
     },
     {
       "text": "Replaceable parts",
-      "label": "Replaceable parts",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Replaceable parts",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -351,8 +409,10 @@
     },
     {
       "text": "Printing press",
-      "label": "Printing press",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Printing press",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -363,8 +423,10 @@
     },
     {
       "text": "Fertilizer",
-      "label": "Fertilizer",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Fertilizer",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -375,8 +437,10 @@
     },
     {
       "text": "Future tech",
-      "label": "Future tech",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Future tech",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -387,8 +451,10 @@
     },
     {
       "text": "Stealth",
-      "label": "Stealth",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Stealth",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -399,8 +465,10 @@
     },
     {
       "text": "Satellites",
-      "label": "Satellites",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Satellites",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -411,8 +479,10 @@
     },
     {
       "text": "Nuclear fusion",
-      "label": "Nuclear fusion",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Nuclear fusion",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -423,8 +493,10 @@
     },
     {
       "text": "Robotics",
-      "label": "Robotics",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Robotics",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -435,8 +507,10 @@
     },
     {
       "text": "Nanotechnology",
-      "label": "Nanotechnology",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Nanotechnology",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -447,8 +521,10 @@
     },
     {
       "text": "Lasers",
-      "label": "Lasers",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Lasers",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -459,8 +535,10 @@
     },
     {
       "text": "Ecology",
-      "label": "Ecology",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Ecology",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -471,8 +549,10 @@
     },
     {
       "text": "Mobile tactics",
-      "label": "Mobile tactics",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Mobile tactics",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -483,8 +563,10 @@
     },
     {
       "text": "Penicillin",
-      "label": "Penicillin",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Penicillin",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -495,8 +577,10 @@
     },
     {
       "text": "Rocketry",
-      "label": "Rocketry",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Rocketry",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -507,8 +591,10 @@
     },
     {
       "text": "Advanced ballistics",
-      "label": "Advanced ballistics",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Advanced ballistics",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -519,8 +605,10 @@
     },
     {
       "text": "Computers",
-      "label": "Computers",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Computers",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -531,8 +619,10 @@
     },
     {
       "text": "Nuclear fission",
-      "label": "Nuclear fission",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Nuclear fission",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -543,8 +633,10 @@
     },
     {
       "text": "Radar",
-      "label": "Radar",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Radar",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -555,8 +647,10 @@
     },
     {
       "text": "Plastics",
-      "label": "Plastics",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Plastics",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -567,8 +661,10 @@
     },
     {
       "text": "Electronics",
-      "label": "Electronics",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Electronics",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -579,8 +675,10 @@
     },
     {
       "text": "Atomic theory",
-      "label": "Atomic theory",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Atomic theory",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -591,8 +689,10 @@
     },
     {
       "text": "Combustion",
-      "label": "Combustion",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Combustion",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -603,8 +703,10 @@
     },
     {
       "text": "Ballistics",
-      "label": "Ballistics",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Ballistics",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -615,8 +717,10 @@
     },
     {
       "text": "Combined arms",
-      "label": "Combined arms",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Combined arms",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -627,8 +731,10 @@
     },
     {
       "text": "Flight",
-      "label": "Flight",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Flight",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -639,8 +745,10 @@
     },
     {
       "text": "Astronomy",
-      "label": "Astronomy",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Astronomy",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -651,8 +759,10 @@
     },
     {
       "text": "Acoustics",
-      "label": "Acoustics",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Acoustics",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -663,8 +773,10 @@
     },
     {
       "text": "Steel",
-      "label": "Steel",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Steel",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -675,8 +787,10 @@
     },
     {
       "text": "Guilds",
-      "label": "Guilds",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Guilds",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -687,8 +801,10 @@
     },
     {
       "text": "Machinery",
-      "label": "Machinery",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Machinery",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -699,8 +815,10 @@
     },
     {
       "text": "Chivalry",
-      "label": "Chivalry",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Chivalry",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -711,8 +829,10 @@
     },
     {
       "text": "Physics",
-      "label": "Physics",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Physics",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -723,8 +843,10 @@
     },
     {
       "text": "Philosophy",
-      "label": "Philosophy",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Philosophy",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -735,8 +857,10 @@
     },
     {
       "text": "Theology",
-      "label": "Theology",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Theology",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -747,8 +871,10 @@
     },
     {
       "text": "Compass",
-      "label": "Compass",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Compass",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -759,8 +885,10 @@
     },
     {
       "text": "Optics",
-      "label": "Optics",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Optics",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -771,8 +899,10 @@
     },
     {
       "text": "Education",
-      "label": "Education",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Education",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -783,8 +913,10 @@
     },
     {
       "text": "Mathematics",
-      "label": "Mathematics",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Mathematics",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -795,8 +927,10 @@
     },
     {
       "text": "Currency",
-      "label": "Currency",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Currency",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -807,8 +941,10 @@
     },
     {
       "text": "Engineering",
-      "label": "Engineering",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Engineering",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -819,8 +955,10 @@
     },
     {
       "text": "Metal casting",
-      "label": "Metal casting",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Metal casting",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -831,8 +969,10 @@
     },
     {
       "text": "Writing",
-      "label": "Writing",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Writing",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -843,8 +983,10 @@
     },
     {
       "text": "Drama and poetry",
-      "label": "Drama and poetry",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Drama and poetry",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -855,8 +997,10 @@
     },
     {
       "text": "Civil service",
-      "label": "Civil service",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Civil service",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -867,8 +1011,10 @@
     },
     {
       "text": "Trapping",
-      "label": "Trapping",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Trapping",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -879,8 +1025,10 @@
     },
     {
       "text": "Horseback riding",
-      "label": "Horseback riding",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Horseback riding",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -891,8 +1039,10 @@
     },
     {
       "text": "Construction",
-      "label": "Construction",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Construction",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -903,8 +1053,10 @@
     },
     {
       "text": "Sailing",
-      "label": "Sailing",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Sailing",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -915,8 +1067,10 @@
     },
     {
       "text": "Calendar",
-      "label": "Calendar",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Calendar",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -927,8 +1081,10 @@
     },
     {
       "text": "Masonry",
-      "label": "Masonry",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Masonry",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -939,8 +1095,10 @@
     },
     {
       "text": "Bronze working",
-      "label": "Bronze working",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Bronze working",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -951,8 +1109,10 @@
     },
     {
       "text": "Iron working",
-      "label": "Iron working",
-      "labelsize": 0.25,
+      "label": {
+        "text": "Iron working",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -963,8 +1123,10 @@
     },
     {
       "text": "The wheel",
-      "label": "The wheel",
-      "labelsize": 0.25,
+      "label": {
+        "text": "The wheel",
+        "size": 0.25
+      },
       "width": 3,
       "type": "node",
       "height": 1,
@@ -983,7 +1145,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "1",
+      "name": "e0",
       "points": [
         {
           "x": -59.349137931034484,
@@ -1015,7 +1177,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "2",
+      "name": "e1",
       "points": [
         {
           "x": -59.266666666666666,
@@ -1039,7 +1201,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "3",
+      "name": "e2",
       "points": [
         {
           "x": -58.6025641025641,
@@ -1063,7 +1225,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "4",
+      "name": "e3",
       "points": [
         {
           "x": -59.01724137931034,
@@ -1087,7 +1249,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "5",
+      "name": "e4",
       "points": [
         {
           "x": 5,
@@ -1111,7 +1273,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "6",
+      "name": "e5",
       "points": [
         {
           "x": 12,
@@ -1135,7 +1297,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "7",
+      "name": "e6",
       "points": [
         {
           "x": 5,
@@ -1159,7 +1321,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "8",
+      "name": "e7",
       "points": [
         {
           "x": -2.2931034482758648,
@@ -1183,7 +1345,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "9",
+      "name": "e8",
       "points": [
         {
           "x": -2,
@@ -1207,7 +1369,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "10",
+      "name": "e9",
       "points": [
         {
           "x": -2,
@@ -1231,7 +1393,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "11",
+      "name": "e10",
       "points": [
         {
           "x": -2,
@@ -1255,7 +1417,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "12",
+      "name": "e11",
       "points": [
         {
           "x": 5,
@@ -1279,7 +1441,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "13",
+      "name": "e12",
       "points": [
         {
           "x": -2.676470588235297,
@@ -1303,7 +1465,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "14",
+      "name": "e13",
       "points": [
         {
           "x": -2,
@@ -1327,7 +1489,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "15",
+      "name": "e14",
       "points": [
         {
           "x": -2,
@@ -1351,7 +1513,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "16",
+      "name": "e15",
       "points": [
         {
           "x": 12,
@@ -1375,7 +1537,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "17",
+      "name": "e16",
       "points": [
         {
           "x": -9,
@@ -1399,7 +1561,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "18",
+      "name": "e17",
       "points": [
         {
           "x": -9,
@@ -1423,7 +1585,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "19",
+      "name": "e18",
       "points": [
         {
           "x": 47,
@@ -1447,7 +1609,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "20",
+      "name": "e19",
       "points": [
         {
           "x": 47,
@@ -1471,7 +1633,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "21",
+      "name": "e20",
       "points": [
         {
           "x": 46.62903225806451,
@@ -1495,7 +1657,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "22",
+      "name": "e21",
       "points": [
         {
           "x": -10.067901234567898,
@@ -1519,7 +1681,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "23",
+      "name": "e22",
       "points": [
         {
           "x": -9.35245901639344,
@@ -1543,7 +1705,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "24",
+      "name": "e23",
       "points": [
         {
           "x": 11.666666666666671,
@@ -1567,7 +1729,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "25",
+      "name": "e24",
       "points": [
         {
           "x": 12,
@@ -1591,7 +1753,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "26",
+      "name": "e25",
       "points": [
         {
           "x": 12,
@@ -1615,7 +1777,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "27",
+      "name": "e26",
       "points": [
         {
           "x": -9.333333333333336,
@@ -1639,7 +1801,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "28",
+      "name": "e27",
       "points": [
         {
           "x": -9,
@@ -1663,7 +1825,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "29",
+      "name": "e28",
       "points": [
         {
           "x": -2,
@@ -1687,7 +1849,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "30",
+      "name": "e29",
       "points": [
         {
           "x": -2,
@@ -1711,7 +1873,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "31",
+      "name": "e30",
       "points": [
         {
           "x": 54,
@@ -1735,7 +1897,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "32",
+      "name": "e31",
       "points": [
         {
           "x": 54,
@@ -1759,7 +1921,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "33",
+      "name": "e32",
       "points": [
         {
           "x": 5,
@@ -1783,7 +1945,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "34",
+      "name": "e33",
       "points": [
         {
           "x": 47,
@@ -1807,7 +1969,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "35",
+      "name": "e34",
       "points": [
         {
           "x": 45.849999999999994,
@@ -1831,7 +1993,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "36",
+      "name": "e35",
       "points": [
         {
           "x": 47,
@@ -1855,7 +2017,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "37",
+      "name": "e36",
       "points": [
         {
           "x": 46.66666666666667,
@@ -1879,7 +2041,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "38",
+      "name": "e37",
       "points": [
         {
           "x": 47,
@@ -1903,7 +2065,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "39",
+      "name": "e38",
       "points": [
         {
           "x": 54,
@@ -1927,7 +2089,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "40",
+      "name": "e39",
       "points": [
         {
           "x": 54,
@@ -1951,7 +2113,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "41",
+      "name": "e40",
       "points": [
         {
           "x": 40,
@@ -1975,7 +2137,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "42",
+      "name": "e41",
       "points": [
         {
           "x": 39.62903225806451,
@@ -1999,7 +2161,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "43",
+      "name": "e42",
       "points": [
         {
           "x": 33,
@@ -2023,7 +2185,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "44",
+      "name": "e43",
       "points": [
         {
           "x": 39.66666666666667,
@@ -2047,7 +2209,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "45",
+      "name": "e44",
       "points": [
         {
           "x": 40,
@@ -2071,7 +2233,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "46",
+      "name": "e45",
       "points": [
         {
           "x": 40,
@@ -2095,7 +2257,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "47",
+      "name": "e46",
       "points": [
         {
           "x": 40,
@@ -2119,7 +2281,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "48",
+      "name": "e47",
       "points": [
         {
           "x": 38.92682926829268,
@@ -2143,7 +2305,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "49",
+      "name": "e48",
       "points": [
         {
           "x": 47,
@@ -2167,7 +2329,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "50",
+      "name": "e49",
       "points": [
         {
           "x": 47,
@@ -2191,7 +2353,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "51",
+      "name": "e50",
       "points": [
         {
           "x": 47,
@@ -2215,7 +2377,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "52",
+      "name": "e51",
       "points": [
         {
           "x": 39.21428571428571,
@@ -2239,7 +2401,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "53",
+      "name": "e52",
       "points": [
         {
           "x": 40,
@@ -2263,7 +2425,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "54",
+      "name": "e53",
       "points": [
         {
           "x": 32.75,
@@ -2287,7 +2449,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "55",
+      "name": "e54",
       "points": [
         {
           "x": 32.59375,
@@ -2311,7 +2473,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "56",
+      "name": "e55",
       "points": [
         {
           "x": 31.92682926829268,
@@ -2335,7 +2497,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "57",
+      "name": "e56",
       "points": [
         {
           "x": 19,
@@ -2359,7 +2521,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "58",
+      "name": "e57",
       "points": [
         {
           "x": 54,
@@ -2383,7 +2545,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "59",
+      "name": "e58",
       "points": [
         {
           "x": 54,
@@ -2407,7 +2569,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "60",
+      "name": "e59",
       "points": [
         {
           "x": 26,
@@ -2431,7 +2593,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "61",
+      "name": "e60",
       "points": [
         {
           "x": 26,
@@ -2455,7 +2617,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "62",
+      "name": "e61",
       "points": [
         {
           "x": 19,
@@ -2479,7 +2641,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "63",
+      "name": "e62",
       "points": [
         {
           "x": 19,
@@ -2503,7 +2665,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "64",
+      "name": "e63",
       "points": [
         {
           "x": 19,
@@ -2535,7 +2697,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "65",
+      "name": "e64",
       "points": [
         {
           "x": 25.35365853658537,
@@ -2559,7 +2721,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "66",
+      "name": "e65",
       "points": [
         {
           "x": 26,
@@ -2583,7 +2745,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "67",
+      "name": "e66",
       "points": [
         {
           "x": 33,
@@ -2607,7 +2769,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "68",
+      "name": "e67",
       "points": [
         {
           "x": 19,
@@ -2631,7 +2793,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "69",
+      "name": "e68",
       "points": [
         {
           "x": 19,
@@ -2655,7 +2817,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "70",
+      "name": "e69",
       "points": [
         {
           "x": 5,
@@ -2679,7 +2841,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "71",
+      "name": "e70",
       "points": [
         {
           "x": 32.093220338983045,
@@ -2703,7 +2865,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "72",
+      "name": "e71",
       "points": [
         {
           "x": 33,
@@ -2727,7 +2889,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "73",
+      "name": "e72",
       "points": [
         {
           "x": 3.8414634146341484,
@@ -2751,7 +2913,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "74",
+      "name": "e73",
       "points": [
         {
           "x": 4.666666666666671,
@@ -2775,7 +2937,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "75",
+      "name": "e74",
       "points": [
         {
           "x": 5,
@@ -2799,7 +2961,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "76",
+      "name": "e75",
       "points": [
         {
           "x": 19,
@@ -2823,7 +2985,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "77",
+      "name": "e76",
       "points": [
         {
           "x": 19,
@@ -2847,7 +3009,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "78",
+      "name": "e77",
       "points": [
         {
           "x": 26,
@@ -2871,7 +3033,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "79",
+      "name": "e78",
       "points": [
         {
           "x": -9,
@@ -2895,7 +3057,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "80",
+      "name": "e79",
       "points": [
         {
           "x": -9,
@@ -2919,7 +3081,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "81",
+      "name": "e80",
       "points": [
         {
           "x": -16,
@@ -2943,7 +3105,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "82",
+      "name": "e81",
       "points": [
         {
           "x": -23,
@@ -2967,7 +3129,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "83",
+      "name": "e82",
       "points": [
         {
           "x": -23,
@@ -2991,7 +3153,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "84",
+      "name": "e83",
       "points": [
         {
           "x": -16,
@@ -3015,7 +3177,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "85",
+      "name": "e84",
       "points": [
         {
           "x": -16,
@@ -3039,7 +3201,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "86",
+      "name": "e85",
       "points": [
         {
           "x": -3.18888888888889,
@@ -3063,7 +3225,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "87",
+      "name": "e86",
       "points": [
         {
           "x": -2,
@@ -3087,7 +3249,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "88",
+      "name": "e87",
       "points": [
         {
           "x": -30,
@@ -3111,7 +3273,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "89",
+      "name": "e88",
       "points": [
         {
           "x": -16,
@@ -3135,7 +3297,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "90",
+      "name": "e89",
       "points": [
         {
           "x": -16,
@@ -3159,7 +3321,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "91",
+      "name": "e90",
       "points": [
         {
           "x": -16,
@@ -3183,7 +3345,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "92",
+      "name": "e91",
       "points": [
         {
           "x": -16,
@@ -3207,7 +3369,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "93",
+      "name": "e92",
       "points": [
         {
           "x": -23,
@@ -3231,7 +3393,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "94",
+      "name": "e93",
       "points": [
         {
           "x": -23,
@@ -3255,7 +3417,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "95",
+      "name": "e94",
       "points": [
         {
           "x": -23.625,
@@ -3279,7 +3441,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "96",
+      "name": "e95",
       "points": [
         {
           "x": 11.179611650485441,
@@ -3303,7 +3465,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "97",
+      "name": "e96",
       "points": [
         {
           "x": 12,
@@ -3327,7 +3489,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "98",
+      "name": "e97",
       "points": [
         {
           "x": 12,
@@ -3351,7 +3513,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "99",
+      "name": "e98",
       "points": [
         {
           "x": -37,
@@ -3375,7 +3537,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "100",
+      "name": "e99",
       "points": [
         {
           "x": -37.333333333333336,
@@ -3399,7 +3561,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "101",
+      "name": "e100",
       "points": [
         {
           "x": -23,
@@ -3423,7 +3585,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "102",
+      "name": "e101",
       "points": [
         {
           "x": -23,
@@ -3447,7 +3609,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "103",
+      "name": "e102",
       "points": [
         {
           "x": -30,
@@ -3471,7 +3633,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "104",
+      "name": "e103",
       "points": [
         {
           "x": -30.333333333333332,
@@ -3503,7 +3665,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "105",
+      "name": "e104",
       "points": [
         {
           "x": -37.35245901639344,
@@ -3527,7 +3689,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "106",
+      "name": "e105",
       "points": [
         {
           "x": -37,
@@ -3551,7 +3713,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "107",
+      "name": "e106",
       "points": [
         {
           "x": -23,
@@ -3575,7 +3737,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "108",
+      "name": "e107",
       "points": [
         {
           "x": -23,
@@ -3599,7 +3761,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "109",
+      "name": "e108",
       "points": [
         {
           "x": -16.40625,
@@ -3623,7 +3785,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "110",
+      "name": "e109",
       "points": [
         {
           "x": -16,
@@ -3647,7 +3809,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "111",
+      "name": "e110",
       "points": [
         {
           "x": -16,
@@ -3671,7 +3833,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "112",
+      "name": "e111",
       "points": [
         {
           "x": -44,
@@ -3695,7 +3857,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "113",
+      "name": "e112",
       "points": [
         {
           "x": -37,
@@ -3719,7 +3881,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "114",
+      "name": "e113",
       "points": [
         {
           "x": -30,
@@ -3743,7 +3905,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "115",
+      "name": "e114",
       "points": [
         {
           "x": -44.81372549019608,
@@ -3775,7 +3937,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "116",
+      "name": "e115",
       "points": [
         {
           "x": -44.313559322033896,
@@ -3799,7 +3961,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "117",
+      "name": "e116",
       "points": [
         {
           "x": -44.37096774193549,
@@ -3823,7 +3985,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "118",
+      "name": "e117",
       "points": [
         {
           "x": -51,
@@ -3847,7 +4009,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "119",
+      "name": "e118",
       "points": [
         {
           "x": -51,
@@ -3879,7 +4041,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "120",
+      "name": "e119",
       "points": [
         {
           "x": -30,
@@ -3903,7 +4065,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "121",
+      "name": "e120",
       "points": [
         {
           "x": -30,
@@ -3927,7 +4089,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "122",
+      "name": "e121",
       "points": [
         {
           "x": -30,
@@ -3951,7 +4113,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "123",
+      "name": "e122",
       "points": [
         {
           "x": -37,
@@ -3983,7 +4145,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "124",
+      "name": "e123",
       "points": [
         {
           "x": -44.91666666666667,
@@ -4007,7 +4169,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "125",
+      "name": "e124",
       "points": [
         {
           "x": -44,
@@ -4031,7 +4193,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "126",
+      "name": "e125",
       "points": [
         {
           "x": -44.91176470588235,
@@ -4055,7 +4217,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "127",
+      "name": "e126",
       "points": [
         {
           "x": -44,
@@ -4079,7 +4241,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "128",
+      "name": "e127",
       "points": [
         {
           "x": -37,
@@ -4103,7 +4265,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "129",
+      "name": "e128",
       "points": [
         {
           "x": -30.333333333333332,
@@ -4127,7 +4289,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "130",
+      "name": "e129",
       "points": [
         {
           "x": -30,
@@ -4151,7 +4313,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "131",
+      "name": "e130",
       "points": [
         {
           "x": -37,
@@ -4175,7 +4337,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "132",
+      "name": "e131",
       "points": [
         {
           "x": -51,
@@ -4199,7 +4361,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "133",
+      "name": "e132",
       "points": [
         {
           "x": -51,
@@ -4223,7 +4385,7 @@
         "type": "to"
       },
       "divisions": 5,
-      "name": "134",
+      "name": "e133",
       "points": [
         {
           "x": -51,

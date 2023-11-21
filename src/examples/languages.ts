@@ -8,7 +8,9 @@ import {
   FlowDiagram,
   FlowDiagramOptions,
   FlowNode,
-  FlowNodeParameters
+  FlowNodeParameters,
+  FlowLabel,
+  FlowLabelParameters
 } from "three-flow";
 import { languagedata } from "./langauge-data";
 import { Exporter } from "./export";
@@ -120,7 +122,7 @@ export class LanguagesExample {
   }
 }
 
-class MyFlowNode extends FlowNode {
+class MyFlowLabel extends FlowLabel {
   override createText(text: string, options: any): Mesh {
     const label = new Text();
     label.text = text;
@@ -132,7 +134,7 @@ class MyFlowNode extends FlowNode {
   }
 }
 class MyFlowDiagram extends FlowDiagram {
-  override createNode(diagram: FlowDiagram, node: FlowNodeParameters): FlowNode {
-    return new MyFlowNode(diagram, node)
+  override createLabel(label: FlowLabelParameters): FlowLabel {
+    return new MyFlowLabel(this, label)
   }
 }

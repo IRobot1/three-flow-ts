@@ -1,10 +1,11 @@
 import { Box3, LineBasicMaterial, Material, MeshBasicMaterial, Object3D, Vector3 } from "three";
-import { FlowEdgeParameters, FlowDiagramParameters, FlowNodeParameters, FlowRouteParameters, EdgeLineStyle, FlowEventType, FlowLayout } from "./model";
+import { FlowEdgeParameters, FlowDiagramParameters, FlowNodeParameters, FlowRouteParameters, EdgeLineStyle, FlowEventType, FlowLayout, FlowLabelParameters } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
 import { FlowNode } from "./node";
 import { FlowRoute } from "./route";
 import { NoOpLayout } from "./noop-layout";
+import { FlowLabel } from "./label";
 
 export type FlowMaterialType = 'line' | 'geometry'
 
@@ -312,6 +313,10 @@ export class FlowDiagram extends Object3D {
 
   createEdge(diagram: FlowDiagram, edge: FlowEdgeParameters): FlowEdge {
     return new FlowEdge(diagram, edge)
+  }
+
+  createLabel(label: FlowLabelParameters) : FlowLabel {
+    return new FlowLabel(this, label)
   }
 
 }

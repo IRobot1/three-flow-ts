@@ -2,10 +2,12 @@
   "version": 1,
   "nodes": [
     {
-      "label": "Node3",
+      "label": {
+        "text": "Node3"
+      },
       "color": "gold",
       "x": -3,
-      "text": "0",
+      "text": "n0",
       "type": "node",
       "width": 1,
       "height": 1,
@@ -15,11 +17,13 @@
       "z": 0
     },
     {
-      "label": "Node4",
+      "label": {
+        "text": "Node4"
+      },
       "color": "gold",
       "x": -3,
       "y": -0.55,
-      "text": "1",
+      "text": "n1",
       "type": "node",
       "width": 1,
       "height": 1,
@@ -28,10 +32,12 @@
       "z": 0
     },
     {
-      "label": "Node1",
+      "label": {
+        "text": "Node1"
+      },
       "color": "green",
       "y": 0,
-      "text": "2",
+      "text": "n2",
       "type": "node",
       "width": 1,
       "height": 1,
@@ -41,11 +47,13 @@
       "z": 0
     },
     {
-      "label": "Node2",
+      "label": {
+        "text": "Node2"
+      },
       "color": "red",
       "x": 1,
       "y": 0.5,
-      "text": "3",
+      "text": "n3",
       "type": "node",
       "width": 1,
       "height": 1,
@@ -54,11 +62,13 @@
       "z": 0
     },
     {
-      "label": "Node5",
+      "label": {
+        "text": "Node5"
+      },
       "color": "red",
       "x": 3,
       "y": -0.5,
-      "text": "4",
+      "text": "n4",
       "type": "node",
       "width": 1,
       "height": 1,
@@ -73,7 +83,7 @@
       "radius": 0.1,
       "width": 0.1,
       "height": 0.1,
-      "text": "5",
+      "text": "n5",
       "x": 1,
       "rank": 4,
       "z": 0
@@ -81,9 +91,9 @@
   ],
   "edges": [
     {
-      "v": "0",
-      "w": "2",
-      "name": "1",
+      "v": "n0",
+      "w": "n2",
+      "name": "e0",
       "points": [
         {
           "x": -2.5,
@@ -100,9 +110,9 @@
       ]
     },
     {
-      "v": "1",
-      "w": "2",
-      "name": "2",
+      "v": "n1",
+      "w": "n2",
+      "name": "e1",
       "points": [
         {
           "x": -2.5,
@@ -119,9 +129,9 @@
       ]
     },
     {
-      "v": "2",
-      "w": "3",
-      "name": "3",
+      "v": "n2",
+      "w": "n3",
+      "name": "e2",
       "points": [
         {
           "x": -0.5,
@@ -138,12 +148,12 @@
       ]
     },
     {
-      "v": "2",
-      "w": "5",
+      "v": "n2",
+      "w": "n5",
       "toarrow": {
         "type": "to"
       },
-      "name": "4",
+      "name": "e3",
       "points": [
         {
           "x": -0.5,
@@ -160,14 +170,14 @@
       ]
     },
     {
-      "v": "5",
-      "w": "4",
+      "v": "n5",
+      "w": "n4",
       "toarrow": {
         "indent": 0,
         "color": "gold",
         "type": "to"
       },
-      "name": "5",
+      "name": "e4",
       "points": [
         {
           "x": 1.0499999999999998,
