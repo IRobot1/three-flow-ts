@@ -214,7 +214,9 @@ class ConnectorMesh extends Mesh {
 
     if (connector.userData) this.userData = connector.userData
 
-    this.geometry = this.createGeometry(CONNECTOR_SIZE / 2)
+    const size = CONNECTOR_SIZE / 2
+    this.geometry = this.createGeometry(size)
+    this.translateGeometry(size)
 
     this.material = diagram.getMaterial('geometry', 'connector', this.color)
 
@@ -224,6 +226,24 @@ class ConnectorMesh extends Mesh {
     return new CircleGeometry(size)
   }
 
+  translateGeometry(size: number) {
+    let x = 0, y = 0
+    switch (this.anchor) {
+      case 'left':
+        x = size
+        break
+      case 'right':
+        x = -size
+        break
+      case 'top':
+        y = size
+        break
+      case 'bottom':
+        y = -size
+        break
+    }
+    this.geometry.translate(x, y, 0)
+  }
   updateVisuals() {
   }
 }
