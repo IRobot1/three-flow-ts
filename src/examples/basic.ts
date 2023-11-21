@@ -25,7 +25,7 @@ export class BasicExample {
     app.scene = scene
 
     app.camera.position.y = 0.5
-    app.camera.position.z = 5
+    app.camera.position.z = 2
 
     scene.background = new Color(0x444444)
 
@@ -59,10 +59,11 @@ export class BasicExample {
         text: "1",
         x: 0, y: 0, z: 0,
         label: {
-          text: "Title1",
+          //text: "Title1",
           size: 0.1,
           color: 0xffffff,
-          font: 'helvetika'},
+          font: 'helvetika'
+        },
         draggable: true,
         resizable: true,
         scalable: true,
@@ -73,9 +74,9 @@ export class BasicExample {
         resizecolor: 0xff0000,
         scalecolor: 0xfff370,
         connectors: [
-          { id: "n1c1", anchor: 'left' },
+          { id: "n1c1", anchor: 'left', index: 0, label: { text: 'input', font: 'helvetika', color: 'white', alignX: 'left' } },
           { id: "n1c2", anchor: 'left', index: 1 },
-          { id: "n1c3", anchor: 'right', index: 0 }
+          { id: "n1c3", anchor: 'right', index: 0, label: { text: 'output', font: 'helvetika', color: 'white', alignX: 'right' } }
         ],
       },
       {

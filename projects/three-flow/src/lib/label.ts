@@ -1,5 +1,5 @@
 import { Material, Mesh, Object3D, Vector3 } from "three";
-import { FlowEventType, FlowLabelParameters, LabelAlign } from "./model";
+import { FlowEventType, FlowLabelParameters, LabelAlignX, LabelAlignY } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowDiagram } from "./diagram";
 import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
@@ -63,7 +63,8 @@ export class FlowLabel extends Object3D {
     }
   }
 
-  public align: LabelAlign
+  public alignX: LabelAlignX
+  public alignY: LabelAlignY
 
   public readonly font?: Font;
 
@@ -79,7 +80,8 @@ export class FlowLabel extends Object3D {
     this._size = parameters.size ? parameters.size : 0.1
     this._color = parameters.color ? parameters.color : 'black'
     this._padding = parameters.padding ? parameters.padding : 0.1
-    this.align = parameters.align ? parameters.align : 'center'
+    this.alignX = parameters.alignX ? parameters.alignX : 'center'
+    this.alignY = parameters.alignY ? parameters.alignY : 'middle'
 
     this.labelMaterial = diagram.getMaterial('geometry', 'label', this.color)!;
     this.font = diagram.getFont(parameters.font)
@@ -92,7 +94,7 @@ export class FlowLabel extends Object3D {
 
     if (this.text == undefined) return
 
-    this.labelMesh = this.createText(this.text, { align: this.align, font: this.font, height: 0, size: this.size });
+    this.labelMesh = this.createText(this.text, { alignX: this.alignX, alignY: this.alignY, font: this.font, height: 0, size: this.size });
     this.add(this.labelMesh);
 
     this.labelMesh.name = 'label'
@@ -102,13 +104,14 @@ export class FlowLabel extends Object3D {
 
     this.labelMesh.geometry.computeBoundingBox()
     const box = this.labelMesh.geometry.boundingBox
-    if (box) {
-      const size = box.getSize(new Vector3())
+    const size = box!.getSize(new Vector3())
 
-      this.width = size.x + this.padding * 2
-      this.height = size.y + this.padding * 2
-    }
+    this.width = size.x + this.padding * 2
+    this.height = size.y + this.padding * 2
   }
+
+  private textsize = new Vector3()
+  private textcenter = new Vector3()
 
   createText(label: string, options: any): Mesh {
     const params = options as TextGeometryParameters;
@@ -117,21 +120,35 @@ export class FlowLabel extends Object3D {
     // only add text if font is loaded
     if (params.font) {
       mesh.geometry = new TextGeometry(label, params)
+
       mesh.geometry.computeBoundingBox()
-      switch (<LabelAlign>options.align) {
+      const size = mesh.geometry.boundingBox!.getSize(this.textsize)
+      const center = mesh.geometry.boundingBox!.getCenter(this.textcenter)
+
+      let x = 0, y = 0
+      switch (<LabelAlignX>options.alignX) {
         case 'center':
-          mesh.geometry.center()
+          x = -center.x
           break
         case 'right':
-          if (mesh.geometry.boundingBox) {
-            const size = mesh.geometry.boundingBox.getSize(new Vector3())
-            mesh.geometry.translate(-size.x, 0, 0)
-          }
+          x = -size.x
           break
         case 'left':
         default:
           break
       }
+      switch (<LabelAlignY>options.alignY) {
+        case 'middle':
+          y = -center.y
+          break
+        case 'top':
+          y = -size.y
+          break
+        case 'bottom':
+        default:
+          break
+      }
+      mesh.geometry.translate(x, y, 0)
     }
 
     return mesh

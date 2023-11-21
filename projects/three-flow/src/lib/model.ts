@@ -1,6 +1,7 @@
 import { Mesh } from "three";
 
-export type LabelAlign = 'center' | 'left' | 'right'
+export type LabelAlignX = 'center' | 'left' | 'right'
+export type LabelAlignY = 'middle' | 'top' | 'bottom'
 
 export interface FlowLabelParameters {
   text?: string;
@@ -8,7 +9,8 @@ export interface FlowLabelParameters {
   color?: number | string;
   font?: string;
   padding?: number;
-  align?: LabelAlign
+  alignX?: LabelAlignX
+  alignY?: LabelAlignY
 }
 
 export type AnchorType = 'left' | 'right' | 'top' | 'bottom'
@@ -17,6 +19,8 @@ export interface FlowConnectorParameters {
   anchor?: AnchorType; // default is left
   index?: number; // order when there are multiple
   userData?: { [key: string]: any };
+  label?: FlowLabelParameters
+  labeloffset?: number // default is 1.5 times size of geometry
 }
 
 export type ArrowType = 'from' | 'to'
@@ -123,7 +127,7 @@ export const FlowEventType = {
 
 export interface LayoutResult {
   width: number
-  height:number
+  height: number
   nodes: Array<{ id: string, x: number, y: number }>
   edges: Array<{ id: string, points: Array<{ x: number, y: number }> }>
 }

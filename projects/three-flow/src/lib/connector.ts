@@ -2,6 +2,7 @@ import { AnchorType, FlowConnectorParameters, FlowEventType } from "./model"
 import { BufferGeometry, CircleGeometry, Mesh, Object3D } from "three"
 import { FlowDiagram } from "./diagram"
 import { FlowNode } from "./node"
+import { FlowLabel } from "./label"
 
 const CONNECTOR_SIZE = 0.2
 export class FlowConnectors {
@@ -157,6 +158,11 @@ class NodeConnectors {
       case 'bottom':
         y = -this.node.height / 2
         break;
+      case 'center':
+        break;
+      default:
+        console.warn('Unhandled connector anchor type', anchor)
+        break;
     }
 
     const count = this.total[anchor]
@@ -201,6 +207,8 @@ class ConnectorMesh extends Mesh {
   index: number
   anchor: AnchorType
   color = 'black'
+  label?: FlowLabel
+  labeloffset: number
 
   isFlow = true
   constructor(private diagram: FlowDiagram, public connector: FlowConnectorParameters) {
@@ -211,12 +219,33 @@ class ConnectorMesh extends Mesh {
     this.name = connector.id
     this.index = (connector.index != undefined) ? connector.index : 0
     this.anchor = connector.anchor ? connector.anchor : 'left'
-
-    if (connector.userData) this.userData = connector.userData
+    this.labeloffset = connector.labeloffset ? connector.labeloffset : 1.5
 
     const size = CONNECTOR_SIZE / 2
+
+    if (connector.label) {
+      this.label = diagram.createLabel(connector.label)
+      this.add(this.label)
+      this.label.updateLabel()
+      switch (this.anchor) {
+        case 'left':
+          this.label.position.x = size * this.labeloffset
+          break
+        case 'right':
+          this.label.position.x = -size * this.labeloffset
+          break
+        case 'top':
+          this.label.position.y = -size * this.labeloffset
+          break
+        case 'bottom':
+          this.label.position.y = size * this.labeloffset
+          break
+      }
+    }
+    if (connector.userData) this.userData = connector.userData
+
     this.geometry = this.createGeometry(size)
-    this.translateGeometry(size)
+    //this.translateGeometry(size)
 
     this.material = diagram.getMaterial('geometry', 'connector', this.color)
 
