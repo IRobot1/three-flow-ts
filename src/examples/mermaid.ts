@@ -165,7 +165,7 @@ export class MermaidExample {
           let node = flow.hasNode(from.id)
           if (!node) {
             if (!from.label) from.label = { type: 'rectangular', label: from.id }
-            flow.setNode(<ShapeNodeParameters>{ text: from.id, label: from.label.label, labelsize: 0.15, height: 0.5, shape: from.label.type })
+            flow.setNode(<ShapeNodeParameters>{ text: from.id, label: { text: from.label.label, size: 0.15 }, height: 0.5, shape: from.label.type })
           }
 
 
@@ -176,7 +176,7 @@ export class MermaidExample {
             node = flow.hasNode(to.id)
             if (!node) {
               if (!to.label) to.label = { type: 'rectangular', label: to.id }
-              flow.setNode(<ShapeNodeParameters>{ text: to.id, label: to.label.label, labelsize: 0.15, height: 0.5, shape: to.label.type })
+              flow.setNode(<ShapeNodeParameters>{ text: to.id, label: { text: to.label.label, size: 0.15 }, height: 0.5, shape: to.label.type })
             }
 
             switch (edge.arrow) {

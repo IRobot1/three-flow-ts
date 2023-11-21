@@ -53,7 +53,7 @@ export class FlowNode extends Mesh {
     }
   }
 
-  private _labelsize: number;
+  private _labelsize = 0.1
   get labelsize() { return this._labelsize }
   set labelsize(newvalue: number) {
     if (this._labelsize != newvalue) {
@@ -62,7 +62,7 @@ export class FlowNode extends Mesh {
     }
   }
 
-  private _labelcolor: number | string;
+  private _labelcolor: number | string = 'black'
   get labelcolor() { return this._labelcolor }
   set labelcolor(newvalue: number | string) {
     if (this._labelcolor != newvalue) {
@@ -72,7 +72,7 @@ export class FlowNode extends Mesh {
     }
   }
 
-  private _labelpadding: number;
+  private _labelpadding = 0.1
   get labelpadding() { return this._labelpadding }
   set labelpadding(newvalue: number) {
     if (this._labelpadding != newvalue) {
@@ -170,11 +170,13 @@ export class FlowNode extends Mesh {
     this.maxheight = node.maxheight ? node.maxheight : Number.POSITIVE_INFINITY
     this._color = node.color ? node.color : 'white'
 
-    this._label = node.label
-    this._labelsize = node.labelsize ? node.labelsize : 0.1
-    this._labelcolor = node.labelcolor ? node.labelcolor : 'black'
-    this._labelpadding = node.labelpadding ? node.labelpadding : 0.1
-    this.font = diagram.getFont(node.labelfont)
+    if (node.label) {
+      this._label = node.label.text
+      this._labelsize = node.label.size ? node.label.size : 0.1
+      this._labelcolor = node.label.color ? node.label.color : 'black'
+      this._labelpadding = node.label.padding ? node.label.padding : 0.1
+      this.font = diagram.getFont(node.label.font)
+    }
 
     this._resizable = node.resizable ? node.resizable : true
     this.resizecolor = node.resizecolor ? node.resizecolor : 'black'

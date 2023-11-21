@@ -58,10 +58,11 @@ export class BasicExample {
       {
         text: "1",
         x: 0, y: 0, z: 0,
-        label: "Title1",
-        labelsize: 0.1,
-        labelcolor: 0xffffff,
-        labelfont: 'helvetika',
+        label: {
+          text: "Title1",
+          size: 0.1,
+          color: 0xffffff,
+          font: 'helvetika'},
         draggable: true,
         resizable: true,
         scalable: true,
@@ -80,10 +81,12 @@ export class BasicExample {
       {
         text: "2",
         x: 2, y: 0, z: 0,
-        label: "Title2",
-        labelsize: 0.1,
-        labelcolor: 0xffffff,
-        labelfont: 'helvetika',
+        label: {
+          text: "Title2",
+          size: 0.1,
+          color: 0xffffff,
+          font: 'helvetika'
+        },
         draggable: true,
         resizable: false,
         scalable: true,
@@ -100,10 +103,12 @@ export class BasicExample {
       {
         text: "3",
         x: -2, y: 0, z: 0,
-        label: "Title3",
-        labelsize: 0.1,
-        labelcolor: 0xffffff,
-        labelfont: 'helvetika',
+        label: {
+          text: "Title3",
+          size: 0.1,
+          color: 0xffffff,
+          font: 'helvetika'
+        },
         draggable: true,
         resizable: false,
         scalable: true,

@@ -1,5 +1,13 @@
 import { Mesh } from "three";
 
+export interface FlowLabelParameters {
+  text?: string;
+  size?: number;
+  color?: number | string;
+  font?: string;
+  padding?: number;
+}
+
 export type AnchorType = 'left' | 'right' | 'top' | 'bottom'
 export interface FlowConnectorParameters {
   id: string;
@@ -57,11 +65,7 @@ export interface FlowNodeParameters {
   minheight?: number;
   maxheight?: number;
   color?: number | string;
-  label?: string;
-  labelsize?: number;
-  labelcolor?: number | string;
-  labelfont?: string;
-  labelpadding?: number;
+  label?: FlowLabelParameters;
   userData?: { [key: string]: any };
   resizable?: boolean;
   resizecolor?: number | string;

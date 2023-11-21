@@ -74,8 +74,10 @@ export class CustomGeometryExample {
       {
         text: "1",
         y: 2,
-        label: "Movable / Enabled",
-        labelfont: 'helvetika',
+        label: {
+          text: "Movable / Enabled",
+          font: 'helvetika'
+        },
         selectable: true,
         width: 1.5,
         height: 2,
@@ -85,10 +87,11 @@ export class CustomGeometryExample {
       {
         text: "2",
         x: 2, y: 0, z: 0,
-        label: "Pinned, Disabled",
-        labelsize: 0.1,
-        labelcolor: 'white',
-        labelfont: 'helvetika',
+        label: {
+          text: "Pinned, Disabled",
+          size: 0.1,
+          color: 'white',
+          font: 'helvetika'},
         draggable: false,
         resizable: false,
         scalable: true,
@@ -104,10 +107,12 @@ export class CustomGeometryExample {
       {
         text: "3",
         x: -2, y: 0, z: 0,
-        label: "Pinned / Enabled",
-        labelsize: 0.1,
-        labelcolor: 'white',
-        labelfont: 'helvetika',
+        label: {
+          text: "Pinned / Enabled",
+          size: 0.1,
+          color: 'white',
+          font: 'helvetika'
+        },
         draggable: false,
         resizable: false,
         selectable: true,
@@ -123,8 +128,10 @@ export class CustomGeometryExample {
       {
         text: "4",
         y: -2,
-        label: "Movable / Disabled",
-        labelfont: 'helvetika',
+        label: {
+          text: "Movable / Disabled",
+          font: 'helvetika'
+        },
         selectable: false,
         width: 1.5,
         height: 2,
