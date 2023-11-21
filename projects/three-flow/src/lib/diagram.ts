@@ -168,7 +168,7 @@ export class FlowDiagram extends Object3D {
   }
 
   private addNode(item: FlowNodeParameters): FlowNode {
-    const node = this.createNode(this, item)
+    const node = this.createNode(item)
     this.add(node)
 
     this.dispatchEvent<any>({ type: FlowEventType.NODE_ADDED, node })
@@ -186,7 +186,7 @@ export class FlowDiagram extends Object3D {
   }
 
   private addRoute(item: FlowRouteParameters): FlowNode {
-    const route = this.createRoute(this, item)
+    const route = this.createRoute(item)
     this.add(route)
 
     this.dispatchEvent<any>({ type: FlowEventType.NODE_ADDED, node: route })
@@ -248,7 +248,7 @@ export class FlowDiagram extends Object3D {
     if (!item.divisions && this.options) item.divisions = this.options.linedivisions
     if (!item.thickness && this.options) item.thickness = this.options.linethickness
 
-    const edge = this.createEdge(this, item)
+    const edge = this.createEdge(item)
     this.add(edge)
 
     this.dispatchEvent<any>({ type: FlowEventType.EDGE_ADDED, edge })
@@ -303,16 +303,16 @@ export class FlowDiagram extends Object3D {
     return new MeshBasicMaterial({ color, opacity: 0.99 });
   }
 
-  createNode(diagram: FlowDiagram, node: FlowNodeParameters): FlowNode {
-    return new FlowNode(diagram, node)
+  createNode(node: FlowNodeParameters): FlowNode {
+    return new FlowNode(this, node)
   }
 
-  createRoute(diagram: FlowDiagram, route: FlowRouteParameters): FlowNode {
-    return new FlowRoute(diagram, route)
+  createRoute(route: FlowRouteParameters): FlowNode {
+    return new FlowRoute(this, route)
   }
 
-  createEdge(diagram: FlowDiagram, edge: FlowEdgeParameters): FlowEdge {
-    return new FlowEdge(diagram, edge)
+  createEdge(edge: FlowEdgeParameters): FlowEdge {
+    return new FlowEdge(this, edge)
   }
 
   createLabel(label: FlowLabelParameters) : FlowLabel {

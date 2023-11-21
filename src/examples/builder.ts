@@ -66,8 +66,8 @@ export class BuilderExample {
       const flow = new FlowDiagram(options);
       scene.add(flow)
 
-      flow.createNode = (graph: FlowDiagram, mynode: MyFlowNodeParameters): FlowNode => {
-        const result = new FlowNode(graph, mynode);
+      flow.createNode = (mynode: MyFlowNodeParameters): FlowNode => {
+        const result = new FlowNode(flow, mynode);
         mynode.shape = 'round'
         result.createGeometry = (): BufferGeometry => {
           const width = result.width!

@@ -24,7 +24,7 @@ interface MermaidNode {
   label?: { type: ShapeType, label?: string }
 }
 
-type ArrowType = '-->' | '---' | '-.->' | '<--' | '<-.-' | '--' 
+type ArrowType = '-->' | '---' | '-.->' | '<--' | '<-.-' | '--'
 
 interface MermaidEdge {
   from: MermaidNode
@@ -139,7 +139,9 @@ export class MermaidExample {
       const flow = new FlowDiagram(options)
       scene.add(flow)
 
-      flow.createNode = this.createNode
+      flow.createNode = (node: ShapeNodeParameters): MermaidShapeNode => {
+        return new MermaidShapeNode(flow, node)
+      }
 
       // make the flow interactive
       new FlowInteraction(flow, app, app.camera)
@@ -208,9 +210,6 @@ export class MermaidExample {
 
   }
 
-  private createNode(diagram: FlowDiagram, node: ShapeNodeParameters): MermaidShapeNode {
-    return new MermaidShapeNode(diagram, node)
-  }
 }
 
 class MermaidShapeNode extends FlowNode {

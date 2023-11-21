@@ -254,12 +254,12 @@ class MyFlowDiagram extends FlowDiagram {
     return new MeshStandardMaterial({ color, side: purpose == 'arrow' ? DoubleSide : FrontSide });
   }
 
-  override createNode(diagram: FlowDiagram, node: MyFlowNodeData): FlowNode {
-    return new MyFlowNode(diagram, node)
+  override createNode(node: MyFlowNodeData): FlowNode {
+    return new MyFlowNode(this, node)
   }
 
-  override createEdge(diagram: FlowDiagram, edge: MyFlowEdgeData): FlowEdge {
-    return new MyFlowEdge(diagram, edge)
+  override createEdge(edge: MyFlowEdgeData): FlowEdge {
+    return new MyFlowEdge(this, edge)
   }
 
   override createLabel(label: FlowLabelParameters) : FlowLabel {
