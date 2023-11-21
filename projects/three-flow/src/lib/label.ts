@@ -119,12 +119,12 @@ export class FlowLabel extends Object3D {
       this.labelMesh.rotation.copy(this.labelrotation)
     }
 
-    //this.labelMesh.geometry.computeBoundingBox()
-    //const box = this.labelMesh.geometry.boundingBox
-    //const size = box!.getSize(new Vector3())
+    this.labelMesh.geometry.computeBoundingBox()
+    const box = this.labelMesh.geometry.boundingBox
+    const size = box!.getSize(new Vector3())
 
-    //this.width = size.x + this.padding * 2
-    //this.height = size.y + this.padding * 2
+    this.width = size.x + this.padding * 2
+    this.height = size.y + this.padding * 2
   }
 
   private textsize = new Vector3()
