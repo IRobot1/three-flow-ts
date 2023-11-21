@@ -1,4 +1,4 @@
-import { Material, Matrix4, Mesh, Object3D, Vector3 } from "three";
+import { Euler, Material, Matrix4, Mesh, Object3D, Vector3 } from "three";
 import { FlowEventType, FlowLabelParameters, LabelAlignX, LabelAlignY } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowDiagram } from "./diagram";
@@ -89,12 +89,16 @@ export class FlowLabel extends Object3D {
 
   }
 
-  private labelmatrix = new Matrix4()
+  private labelposition = new Vector3()
+  private labelrotation = new Euler()
 
   public updateLabel() {
+    let restore = false
     if (this.labelMesh) {
       // preserve position and rotation before removing
-      this.labelmatrix.copy(this.labelMesh.matrix)
+      this.labelposition.copy(this.labelMesh.position)
+      this.labelrotation.copy(this.labelMesh.rotation)
+      restore = true
       this.remove(this.labelMesh)
     }
     this.labelMesh = undefined
@@ -110,7 +114,10 @@ export class FlowLabel extends Object3D {
     this.labelMesh.position.z = 0.001
 
     // restore position and rotation before removing
-    this.labelMesh.applyMatrix4(this.labelmatrix)
+    if (restore) {
+      this.labelMesh.position.copy(this.labelposition)
+      this.labelMesh.rotation.copy(this.labelrotation)
+    }
 
     //this.labelMesh.geometry.computeBoundingBox()
     //const box = this.labelMesh.geometry.boundingBox
