@@ -138,7 +138,7 @@ export class FlowNode extends Mesh {
     }
   }
 
-  private autoSize = true
+  private autoGrow = true
 
   public label: FlowLabel
   public labelanchor: AnchorType
@@ -173,7 +173,7 @@ export class FlowNode extends Mesh {
     this.label = this.diagram.createLabel(node.label)
     this.add(this.label)
 
-    if (this.autoSize) {
+    if (this.autoGrow) {
       this.label.addEventListener(FlowEventType.WIDTH_CHANGED, (e: any) => {
         if (e.width > this.width) {
           this.width = e.width
