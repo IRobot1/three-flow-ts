@@ -207,7 +207,7 @@ export class NodeConnectors {
 class ConnectorMesh extends Mesh {
   index: number
   anchor: AnchorType
-  color = 'black'
+  color: number | string = 'black'
   label?: FlowLabel
   labeloffset: number
   transform?: FlowTransform; // adjust position and rotation
@@ -226,6 +226,7 @@ class ConnectorMesh extends Mesh {
     this.labeloffset = parameters.labeloffset ? parameters.labeloffset : 1.5
     this.transform = parameters.transform
     this.shape = parameters.shape ? parameters.shape : 'circle'
+    this.color = parameters.color ? parameters.color : 'black'
 
     this.hidden = parameters.hidden != undefined ? parameters.hidden : false
     this.visible = !this.hidden

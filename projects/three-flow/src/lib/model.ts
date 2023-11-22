@@ -29,6 +29,7 @@ export interface FlowConnectorParameters {
   transform?: FlowTransform; // adjust position and rotation
   shape?: string // allow each connector to have custom shape
   hidden?: boolean
+  color?: number | string
 }
 
 export type ArrowType = 'from' | 'to'

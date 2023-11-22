@@ -132,7 +132,7 @@ export class BasicExample {
         scalecolor: 0xfff370,
         connectors: [
           { id: "n3c1", anchor: 'right', hidden: true },
-          { id: "n3c2", anchor: 'right', index: 1 },
+          { id: "n3c2", anchor: 'right', index: 1, color: 'green' },
         ]
       }
 
@@ -186,12 +186,18 @@ export class BasicExample {
       new FlowInteraction(flow, app, app.camera)
       const connectors = new FlowConnectors(flow)
 
+      let triangle: BufferGeometry
+      let hexagon: BufferGeometry
+
       // globally override connector shape based on parameters
       connectors.createGeometry = (size: number, parameters: FlowConnectorParameters): BufferGeometry => {
+        if (!triangle) triangle = new CircleGeometry(size, 3)
+        if (!hexagon) hexagon = new CircleGeometry(size, 6)
+
         if (parameters.anchor == 'left')
-          return new CircleGeometry(size, 3)
+          return triangle
         else
-          return new CircleGeometry(size, 6)
+          return hexagon
       }
 
       flow.load(diagram)
