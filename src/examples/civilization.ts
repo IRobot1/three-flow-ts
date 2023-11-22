@@ -104,7 +104,7 @@ export class CivilizationExample {
           const edge: FlowEdgeParameters = {
             v: from, w: to, toarrow: { indent: 0 }
           }
-          flow.setEdge(edge);
+          flow.addEdge(edge);
 
           // export to mermaid
           //console.log(`${from.replace(/ /g, '')}[${from}] --> ${to.replace(/ /g, '')}[${to}]`);

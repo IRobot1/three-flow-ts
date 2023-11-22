@@ -192,7 +192,7 @@ export class MermaidExample {
                 console.warn('Unhandled edge arrow', edge.arrow)
                 break
             }
-            flow.setEdge(edgeparams)
+            flow.addEdge(edgeparams)
           }
         })
 

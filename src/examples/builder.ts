@@ -108,20 +108,20 @@ export class BuilderExample {
       //const node1 = node1.addInputConnector({})
       //const node1 = node1.addOutputConnector({})
 
-      const edge1 = flow.setEdge({ v: node3.name, w: node1.name })
+      const edge1 = flow.addEdge({ v: node3.name, w: node1.name })
       //const edge2 = flow.addEdge({ v: node3.name, w: node1.name })
-      const edge4 = flow.setEdge({ v: node4.name, w: node1.name })
+      const edge4 = flow.addEdge({ v: node4.name, w: node1.name })
 
       const node2 = flow.addNode({ label: { text: 'Node2' }, color: 'red', x: 2, y: 1.2 })
       //const node2 = node2.addInputConnector({})
-      const edge3 = flow.setEdge({ v: node1.name, w: node2.name })
+      const edge3 = flow.addEdge({ v: node1.name, w: node2.name })
 
       const node5 = flow.addNode({ label: {text: 'Node5'}, color: 'red', x: 2, y: -2 })
       //const node5 = node5.addInputConnector({})
 
       const route1 = flow.setRoute({ color: 'blue', y: -1 })
-      const edge6 = flow.setEdge({ v: node1.name, w: route1.name, toarrow: {} })
-      const edge5 = flow.setEdge({ v: route1.name, w: node5.name, toarrow: { indent: 0, color: 'gold' } })
+      const edge6 = flow.addEdge({ v: node1.name, w: route1.name, toarrow: {} })
+      const edge5 = flow.addEdge({ v: route1.name, w: node5.name, toarrow: { indent: 0, color: 'gold' } })
 
       flow.layout({ rankdir: 'LR', ranksep: 1 })
 

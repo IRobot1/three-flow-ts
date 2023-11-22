@@ -97,7 +97,7 @@ export class LanguagesExample {
         const edge: FlowEdgeParameters = {
           v: from, w: to
         }
-        flow.setEdge(edge);
+        flow.addEdge(edge);
 
         // export to mermaid
         //console.log(`${from.replace(/ /g, '')}[${from}] --> ${to.replace(/ /g, '')}[${to}]`);

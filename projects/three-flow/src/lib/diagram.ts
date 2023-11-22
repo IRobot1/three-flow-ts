@@ -242,7 +242,7 @@ export class FlowDiagram extends Object3D {
     return undefined
   }
 
-  public addEdge(item: FlowEdgeParameters): FlowEdge {
+  private setEdge(item: FlowEdgeParameters): FlowEdge {
     if (!item.color && this.options) item.color = this.options.linecolor
     if (!item.linestyle && this.options) item.linestyle = this.options.linestyle
     if (!item.divisions && this.options) item.divisions = this.options.linedivisions
@@ -250,15 +250,16 @@ export class FlowDiagram extends Object3D {
 
     const edge = this.createEdge(item)
     this.add(edge)
+    this._edgeCount++;
 
     this.dispatchEvent<any>({ type: FlowEventType.EDGE_ADDED, edge })
     return edge
   }
 
-  public setEdge(edge: FlowEdgeParameters): FlowEdge {
-    const mesh = this.addEdge(edge)
-    this._edgeCount++;
+  public addEdge(edge: FlowEdgeParameters): FlowEdge {
+    const mesh = this.setEdge(edge)
 
+    // setEdge can assign edge.name, so must be after
     this.graph.setEdge(edge.v, edge.w, edge);
     return mesh;
   }
