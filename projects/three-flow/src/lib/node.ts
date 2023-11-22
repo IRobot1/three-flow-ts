@@ -208,9 +208,8 @@ export class FlowNode extends Mesh {
     if (node.y != undefined) this.position.y = node.y
     if (node.z != undefined) this.position.z = node.z
 
-    this._hidden = !this.visible
-    if (node.hidden != undefined)
-      this.hidden = node.hidden
+    this._hidden = node.hidden != undefined ? node.hidden : false
+    this.visible = !this.hidden
 
     this.save = () => {
       node.x = this.position.x

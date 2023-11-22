@@ -212,6 +212,7 @@ class ConnectorMesh extends Mesh {
   labeloffset: number
   transform?: FlowTransform; // adjust position and rotation
   shape!: string
+  hidden = false
 
   isFlow = true
   constructor(private node: NodeConnectors, public parameters: FlowConnectorParameters) {
@@ -225,6 +226,9 @@ class ConnectorMesh extends Mesh {
     this.labeloffset = parameters.labeloffset ? parameters.labeloffset : 1.5
     this.transform = parameters.transform
     this.shape = parameters.shape ? parameters.shape : 'circle'
+
+    this.hidden = parameters.hidden != undefined ? parameters.hidden : false
+    this.visible = !this.hidden
 
     const size = CONNECTOR_SIZE / 2
     const diagram = node.connectors.diagram
@@ -255,7 +259,6 @@ class ConnectorMesh extends Mesh {
       FlowUtils.transformGeometry(this.transform, this.geometry)
 
     this.material = diagram.getMaterial('geometry', 'connector', this.color)
-
   }
 
   updateVisuals() { }

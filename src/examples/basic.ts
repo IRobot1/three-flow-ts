@@ -131,7 +131,7 @@ export class BasicExample {
         resizecolor: 0xff0000,
         scalecolor: 0xfff370,
         connectors: [
-          { id: "n3c1", anchor: 'right' },
+          { id: "n3c1", anchor: 'right', hidden: true },
           { id: "n3c2", anchor: 'right', index: 1 },
         ]
       }
