@@ -79,7 +79,7 @@ export class LanguagesExample {
 
         const fromnode = flow.hasNode(from)
         if (!fromnode) {
-          const node = flow.setNode({ text: from, label: { text: from, size: 0.2 }, width: 3 });
+          const node = flow.addNode({ text: from, label: { text: from, size: 0.2 }, width: 3 });
           //node.addOutputConnector({ text: outlink })
         }
         //else {
@@ -90,7 +90,7 @@ export class LanguagesExample {
         //}
 
         if (!flow.hasNode(to)) {
-          const node = flow.setNode({ text: to, label: { text: to, size: 0.2 }, width: 3 });
+          const node = flow.addNode({ text: to, label: { text: to, size: 0.2 }, width: 3 });
           // node.addInputConnector({ text: inlink })
         }
 
