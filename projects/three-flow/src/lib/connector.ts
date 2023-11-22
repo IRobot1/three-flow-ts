@@ -12,9 +12,8 @@ export class FlowConnectors {
   constructor(public diagram: FlowDiagram) {
     diagram.addEventListener(FlowEventType.NODE_ADDED, (e: any) => {
       const node = e.node as FlowNode
-      if (node.node.connectors) {
-        this.createConnectors(node, node.node.connectors)
-      }
+      if (!node.node.connectors) node.node.connectors = []
+      this.createConnectors(node, node.node.connectors)
     })
   }
 

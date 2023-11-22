@@ -197,6 +197,25 @@ export class BasicExample {
       flow.load(diagram)
 
       //
+      // how to override connector shape for a specific node or type of node
+      //
+      const node4 = flow.addNode({ text: '4', x: -2, y: 1.5, color: 'blue', label: { text: 'Title4', font: 'helvetika', color: 'white' } })
+
+      // for a specific node, override connector shape based on parameters
+      const connectors1 = connectors.hasNode('4')!
+      connectors1.createGeometry = (size: number, parameters: FlowConnectorParameters): BufferGeometry => {
+        if (parameters.anchor == 'left')
+          return new CircleGeometry(size, 4)
+        else
+          return new CircleGeometry(size, 8)
+      }
+      connectors.addConnectors(node4, [{ id: 'n4c1', anchor: 'right' }])
+      connectors.addConnectors(node4, [{ id: 'n4c2', anchor: 'left' }])
+
+      // add the edge between nodes and specific connectors
+      flow.addEdge({ v: '4', w: '1', fromconnector: 'n4c1', toconnector: 'n1c2' })
+
+      //
       // how to add connectors dynamically
       //
       //const connectors = new FlowConnectors(flow)
