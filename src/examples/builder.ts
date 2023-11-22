@@ -119,7 +119,7 @@ export class BuilderExample {
       const node5 = flow.addNode({ label: {text: 'Node5'}, color: 'red', x: 2, y: -2 })
       //const node5 = node5.addInputConnector({})
 
-      const route1 = flow.setRoute({ color: 'blue', y: -1 })
+      const route1 = flow.addRoute({ color: 'blue', y: -1 })
       const edge6 = flow.addEdge({ v: node1.name, w: route1.name, toarrow: {} })
       const edge5 = flow.addEdge({ v: route1.name, w: node5.name, toarrow: { indent: 0, color: 'gold' } })
 

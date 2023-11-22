@@ -185,20 +185,20 @@ export class FlowDiagram extends Object3D {
     return mesh;
   }
 
-  private addRoute(item: FlowRouteParameters): FlowNode {
+  private setRoute(item: FlowRouteParameters): FlowNode {
     const route = this.createRoute(item)
     this.add(route)
+    this._nodeCount++;
 
     this.dispatchEvent<any>({ type: FlowEventType.NODE_ADDED, node: route })
     return route
   }
 
-  public setRoute(route: FlowRouteParameters): FlowNode {
-    const mesh = this.addRoute(route)
+  public addRoute(route: FlowRouteParameters): FlowNode {
+    const mesh = this.setRoute(route)
 
-    // addNode can assign node.text, so must be after
+    // setRoute can assign node.text, so must be done before adding to graph
     this.graph.setNode(route.text!, route);
-    this._nodeCount++;
 
     return mesh;
   }
@@ -259,7 +259,7 @@ export class FlowDiagram extends Object3D {
   public addEdge(edge: FlowEdgeParameters): FlowEdge {
     const mesh = this.setEdge(edge)
 
-    // setEdge can assign edge.name, so must be after
+    // setEdge can assign edge.name, so must be before adding to graph
     this.graph.setEdge(edge.v, edge.w, edge);
     return mesh;
   }
