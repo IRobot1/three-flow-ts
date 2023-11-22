@@ -26,6 +26,7 @@ export interface FlowConnectorParameters {
   userData?: { [key: string]: any };
   label?: FlowLabelParameters
   labeloffset?: number // default is 1.5 times size of geometry
+  transform?: FlowTransform; // adjust position and rotation
 }
 
 export type ArrowType = 'from' | 'to'

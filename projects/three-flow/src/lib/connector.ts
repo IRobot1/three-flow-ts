@@ -1,8 +1,9 @@
-import { AnchorType, FlowConnectorParameters, FlowEventType } from "./model"
+import { AnchorType, FlowConnectorParameters, FlowEventType, FlowTransform } from "./model"
 import { BufferGeometry, CircleGeometry, Mesh, Object3D } from "three"
 import { FlowDiagram } from "./diagram"
 import { FlowNode } from "./node"
 import { FlowLabel } from "./label"
+import { FlowUtils } from "./utils"
 
 const CONNECTOR_SIZE = 0.2
 export class FlowConnectors {
@@ -209,6 +210,7 @@ class ConnectorMesh extends Mesh {
   color = 'black'
   label?: FlowLabel
   labeloffset: number
+  transform?: FlowTransform; // adjust position and rotation
 
   isFlow = true
   constructor(private diagram: FlowDiagram, public connector: FlowConnectorParameters) {
@@ -220,6 +222,7 @@ class ConnectorMesh extends Mesh {
     this.index = (connector.index != undefined) ? connector.index : 0
     this.anchor = connector.anchor ? connector.anchor : 'left'
     this.labeloffset = connector.labeloffset ? connector.labeloffset : 1.5
+    this.transform = connector.transform
 
     const size = CONNECTOR_SIZE / 2
 
@@ -245,7 +248,8 @@ class ConnectorMesh extends Mesh {
     if (connector.userData) this.userData = connector.userData
 
     this.geometry = this.createGeometry(size)
-    //this.translateGeometry(size)
+    if (this.transform)
+      FlowUtils.transformGeometry(this.transform, this.geometry)
 
     this.material = diagram.getMaterial('geometry', 'connector', this.color)
 
@@ -255,25 +259,6 @@ class ConnectorMesh extends Mesh {
     return new CircleGeometry(size)
   }
 
-  translateGeometry(size: number) {
-    let x = 0, y = 0
-    switch (this.anchor) {
-      case 'left':
-        x = size
-        break
-      case 'right':
-        x = -size
-        break
-      case 'top':
-        y = size
-        break
-      case 'bottom':
-        y = -size
-        break
-    }
-    this.geometry.translate(x, y, 0)
-  }
-  updateVisuals() {
-  }
+  updateVisuals() { }
 }
 

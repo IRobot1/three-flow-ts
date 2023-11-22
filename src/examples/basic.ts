@@ -1,4 +1,4 @@
-import { AmbientLight, Color, PointLight, Scene } from "three";
+import { AmbientLight, BufferGeometry, Color, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
@@ -105,7 +105,7 @@ export class BasicExample {
         resizecolor: 0xff0000,
         scalecolor: 0xfff370,
         connectors: [
-          { id: "n2c1", anchor: 'left' }
+          { id: "n2c1", anchor: 'left', transform: { translate: { x: 0.1 } } },
         ],
       },
       {
