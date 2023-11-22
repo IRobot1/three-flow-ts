@@ -5,7 +5,6 @@ import { FlowNode } from "./node"
 import { FlowLabel } from "./label"
 import { FlowUtils } from "./utils"
 
-const CONNECTOR_SIZE = 0.2
 export class FlowConnectors {
   private connectorsMap = new Map<string, NodeConnectors>()
 
@@ -71,8 +70,8 @@ export class FlowConnectors {
   }
 
   // overridables
-  createGeometry(size: number, parameters: FlowConnectorParameters): BufferGeometry {
-    return new CircleGeometry(size)
+  createGeometry(parameters: FlowConnectorParameters): BufferGeometry {
+    return new CircleGeometry(parameters.radius)
   }
 }
 
@@ -143,12 +142,12 @@ export class NodeConnectors {
       .filter(item => item.type == 'flowconnector')
   }
 
-  private calculateOffset(count: number, index: number): number {
-    const totalWidth = count * CONNECTOR_SIZE + (count - 1) * this.spacing;
+  private calculateOffset(count: number, index: number, width: number): number {
+    const totalWidth = count * width + (count - 1) * this.spacing;
     const startPosition = -totalWidth / 2;
 
     // Calculate the x position of the center of the specified mesh
-    return startPosition + (CONNECTOR_SIZE / 2) + (index * (CONNECTOR_SIZE + this.spacing));
+    return startPosition + (width / 2) + (index * (width + this.spacing));
   }
 
   private positionConnector(connector: ConnectorMesh) {
@@ -177,11 +176,11 @@ export class NodeConnectors {
     const count = this.total[anchor]
     // left and right
     if (anchor == 'left' || anchor == 'right') {
-      const position = y + this.calculateOffset(count, connector.index)
+      const position = y + this.calculateOffset(count, connector.index, connector.width)
       connector.position.set(x, position, 0.001)
     }
     else {
-      const position = x + this.calculateOffset(count, connector.index)
+      const position = x + this.calculateOffset(count, connector.index, connector.width)
       connector.position.set(position, y, 0.001)
     }
   }
@@ -198,8 +197,8 @@ export class NodeConnectors {
 
 
   // overridables
-  createGeometry(size: number, parameters: FlowConnectorParameters): BufferGeometry {
-    return this.connectors.createGeometry(size, parameters)
+  createGeometry(parameters: FlowConnectorParameters): BufferGeometry {
+    return this.connectors.createGeometry(parameters)
   }
 
 }
@@ -213,6 +212,9 @@ class ConnectorMesh extends Mesh {
   transform?: FlowTransform; // adjust position and rotation
   shape!: string
   hidden = false
+  width: number
+  height: number
+  radius: number
 
   isFlow = true
   constructor(private node: NodeConnectors, public parameters: FlowConnectorParameters) {
@@ -227,11 +229,13 @@ class ConnectorMesh extends Mesh {
     this.transform = parameters.transform
     this.shape = parameters.shape ? parameters.shape : 'circle'
     this.color = parameters.color ? parameters.color : 'black'
+    this.radius = parameters.radius = parameters.radius != undefined ? parameters.radius : 0.1
+    this.width = parameters.width = parameters.width != undefined ? parameters.width : this.radius * 2
+    this.height = parameters.height = parameters.height != undefined ? parameters.height : this.radius * 2
 
     this.hidden = parameters.hidden != undefined ? parameters.hidden : false
     this.visible = !this.hidden
 
-    const size = CONNECTOR_SIZE / 2
     const diagram = node.connectors.diagram
 
     if (parameters.label) {
@@ -240,22 +244,22 @@ class ConnectorMesh extends Mesh {
       this.label.updateLabel()
       switch (this.anchor) {
         case 'left':
-          this.label.position.x = size * this.labeloffset
+          this.label.position.x = this.width / 2 * this.labeloffset
           break
         case 'right':
-          this.label.position.x = -size * this.labeloffset
+          this.label.position.x = -this.width / 2 * this.labeloffset
           break
         case 'top':
-          this.label.position.y = -size * this.labeloffset
+          this.label.position.y = -this.height / 2 * this.labeloffset
           break
         case 'bottom':
-          this.label.position.y = size * this.labeloffset
+          this.label.position.y = this.height / 2 * this.labeloffset
           break
       }
     }
     if (parameters.userData) this.userData = parameters.userData
 
-    this.geometry = this.node.createGeometry(size, parameters)
+    this.geometry = this.node.createGeometry(parameters)
     if (this.transform)
       FlowUtils.transformGeometry(this.transform, this.geometry)
 

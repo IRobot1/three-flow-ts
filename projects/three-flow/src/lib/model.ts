@@ -30,6 +30,9 @@ export interface FlowConnectorParameters {
   shape?: string // allow each connector to have custom shape
   hidden?: boolean
   color?: number | string
+  radius?: number // shape radius
+  width?: number  // if shape has specific width, otherwise radius*2
+  height?: number // if shape has specific height, otherwise radius*2
 }
 
 export type ArrowType = 'from' | 'to'

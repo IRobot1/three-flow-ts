@@ -190,9 +190,9 @@ export class BasicExample {
       let hexagon: BufferGeometry
 
       // globally override connector shape based on parameters
-      connectors.createGeometry = (size: number, parameters: FlowConnectorParameters): BufferGeometry => {
-        if (!triangle) triangle = new CircleGeometry(size, 3)
-        if (!hexagon) hexagon = new CircleGeometry(size, 6)
+      connectors.createGeometry = (parameters: FlowConnectorParameters): BufferGeometry => {
+        if (!triangle) triangle = new CircleGeometry(parameters.radius, 3)
+        if (!hexagon) hexagon = new CircleGeometry(parameters.radius, 6)
 
         if (parameters.anchor == 'left')
           return triangle
@@ -209,11 +209,17 @@ export class BasicExample {
 
       // for a specific node, override connector shape based on parameters
       const connectors1 = connectors.hasNode('4')!
-      connectors1.createGeometry = (size: number, parameters: FlowConnectorParameters): BufferGeometry => {
+      let square: BufferGeometry
+      let octagon: BufferGeometry
+
+      connectors1.createGeometry = (parameters: FlowConnectorParameters): BufferGeometry => {
+        if (!square) square = new CircleGeometry(parameters.radius, 4)
+        if (!octagon) octagon = new CircleGeometry(parameters.radius, 8)
+
         if (parameters.anchor == 'left')
-          return new CircleGeometry(size, 4)
+          return square
         else
-          return new CircleGeometry(size, 8)
+          return octagon
       }
       connectors.addConnectors(node4, [{ id: 'n4c1', anchor: 'right' }])
       connectors.addConnectors(node4, [{ id: 'n4c2', anchor: 'left' }])
