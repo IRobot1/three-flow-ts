@@ -27,6 +27,7 @@ export interface FlowConnectorParameters {
   label?: FlowLabelParameters
   labeloffset?: number // default is 1.5 times size of geometry
   transform?: FlowTransform; // adjust position and rotation
+  shape?: string // allow each connector to have custom shape
 }
 
 export type ArrowType = 'from' | 'to'

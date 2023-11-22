@@ -1,4 +1,4 @@
-import { AmbientLight, BufferGeometry, Color, PointLight, Scene } from "three";
+import { AmbientLight, BufferGeometry, CircleGeometry, Color, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
@@ -105,7 +105,7 @@ export class BasicExample {
         resizecolor: 0xff0000,
         scalecolor: 0xfff370,
         connectors: [
-          { id: "n2c1", anchor: 'left', transform: { translate: { x: 0.1 } } },
+          { id: "n2c1", anchor: 'left', shape: 'cube', transform: { rotate: { z: 180 } } },
         ],
       },
       {
@@ -185,6 +185,14 @@ export class BasicExample {
       // make the flow interactive
       new FlowInteraction(flow, app, app.camera)
       const connectors = new FlowConnectors(flow)
+
+      // globally override connector shape based on parameters
+      connectors.createGeometry = (size: number, parameters: FlowConnectorParameters): BufferGeometry => {
+        if (parameters.anchor == 'left')
+          return new CircleGeometry(size, 3)
+        else
+          return new CircleGeometry(size, 6)
+      }
 
       flow.load(diagram)
 

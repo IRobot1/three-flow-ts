@@ -7,9 +7,9 @@ import { FlowUtils } from "./utils"
 
 const CONNECTOR_SIZE = 0.2
 export class FlowConnectors {
-  private connectors = new Map<string, NodeConnectors>()
+  private connectorsMap = new Map<string, NodeConnectors>()
 
-  constructor(diagram: FlowDiagram) {
+  constructor(public diagram: FlowDiagram) {
     diagram.addEventListener(FlowEventType.NODE_ADDED, (e: any) => {
       const node = e.node as FlowNode
       if (node.node.connectors) {
@@ -20,8 +20,8 @@ export class FlowConnectors {
 
 
   private createConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>): NodeConnectors {
-    const nodeconnectors = new NodeConnectors(node, connectors)
-    this.connectors.set(node.name, nodeconnectors)
+    const nodeconnectors = new NodeConnectors(this, node, connectors)
+    this.connectorsMap.set(node.name, nodeconnectors)
 
     const getConnector = (id?: string): Object3D => {
       if (!id) return node
@@ -33,8 +33,12 @@ export class FlowConnectors {
     return nodeconnectors
   }
 
+  hasNode(id: string): NodeConnectors | undefined {
+    return this.connectorsMap.get(id)
+  }
+
   addConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>) {
-    let nodeconnectors = this.connectors.get(node.name)
+    let nodeconnectors = this.connectorsMap.get(node.name)
     if (nodeconnectors) {
       // add to existing
       connectors.forEach(connector => {
@@ -51,7 +55,7 @@ export class FlowConnectors {
   }
 
   removeConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>) {
-    let nodeconnectors = this.connectors.get(node.name)
+    let nodeconnectors = this.connectorsMap.get(node.name)
     if (nodeconnectors) {
       connectors.forEach(connector => {
         if (nodeconnectors) nodeconnectors.removeConnector(connector)
@@ -66,14 +70,19 @@ export class FlowConnectors {
       })
     }
   }
+
+  // overridables
+  createGeometry(size: number, parameters: FlowConnectorParameters): BufferGeometry {
+    return new CircleGeometry(size)
+  }
 }
 
-class NodeConnectors {
+export class NodeConnectors {
   // options
   spacing = 0.1
   total: any = { left: 0, right: 0, top: 0, bottom: 0 }
 
-  constructor(private node: FlowNode, public connectors: Array<FlowConnectorParameters>) {
+  constructor(public connectors: FlowConnectors, private node: FlowNode, public parameters: Array<FlowConnectorParameters>) {
 
     if (node.node.connectors) {
       node.node.connectors.forEach(connector => {
@@ -105,7 +114,7 @@ class NodeConnectors {
 
   addConnector(item: FlowConnectorParameters): ConnectorMesh {
     if (!item.anchor) item.anchor = 'left'
-    const connector = this.createConnector(this.node.diagram, item)
+    const connector = new ConnectorMesh(this, item)
 
     this.node.add(connector)
     this.total[item.anchor]++;
@@ -178,30 +187,22 @@ class NodeConnectors {
     }
   }
 
-  moveConnectors() {
+  private moveConnectors() {
 
     this.getConnectors().forEach(connector => {
       this.positionConnector(connector)
       connector.dispatchEvent<any>({ type: 'dragged' })
     })
-    //  this.inputConnectors.forEach(connector => {
-    //    this.positionConnector(connector, 'left')
-    //    connector.dispatchEvent<any>({ type: 'dragged' })
-    //  })
-    //  this.outputConnectors.forEach(connector => {
-    //    this.positionConnector(connector, 'right')
-    //    connector.dispatchEvent<any>({ type: 'dragged' })
-    //  })
   }
 
-  updateVisuals() {
+  updateVisuals() { }
 
-  }
-  // overridable
 
-  createConnector(diagram: FlowDiagram, connector: FlowConnectorParameters): ConnectorMesh {
-    return new ConnectorMesh(diagram, connector)
+  // overridables
+  createGeometry(size: number, parameters: FlowConnectorParameters): BufferGeometry {
+    return this.connectors.createGeometry(size, parameters)
   }
+
 }
 
 class ConnectorMesh extends Mesh {
@@ -211,23 +212,26 @@ class ConnectorMesh extends Mesh {
   label?: FlowLabel
   labeloffset: number
   transform?: FlowTransform; // adjust position and rotation
+  shape!: string
 
   isFlow = true
-  constructor(private diagram: FlowDiagram, public connector: FlowConnectorParameters) {
+  constructor(private node: NodeConnectors, public parameters: FlowConnectorParameters) {
     super()
 
     //@ts-ignore
     this.type = 'flowconnector'
-    this.name = connector.id
-    this.index = (connector.index != undefined) ? connector.index : 0
-    this.anchor = connector.anchor ? connector.anchor : 'left'
-    this.labeloffset = connector.labeloffset ? connector.labeloffset : 1.5
-    this.transform = connector.transform
+    this.name = parameters.id
+    this.index = (parameters.index != undefined) ? parameters.index : 0
+    this.anchor = parameters.anchor ? parameters.anchor : 'left'
+    this.labeloffset = parameters.labeloffset ? parameters.labeloffset : 1.5
+    this.transform = parameters.transform
+    this.shape = parameters.shape ? parameters.shape : 'circle'
 
     const size = CONNECTOR_SIZE / 2
+    const diagram = node.connectors.diagram
 
-    if (connector.label) {
-      this.label = diagram.createLabel(connector.label)
+    if (parameters.label) {
+      this.label = diagram.createLabel(parameters.label)
       this.add(this.label)
       this.label.updateLabel()
       switch (this.anchor) {
@@ -245,18 +249,14 @@ class ConnectorMesh extends Mesh {
           break
       }
     }
-    if (connector.userData) this.userData = connector.userData
+    if (parameters.userData) this.userData = parameters.userData
 
-    this.geometry = this.createGeometry(size)
+    this.geometry = this.node.createGeometry(size, parameters)
     if (this.transform)
       FlowUtils.transformGeometry(this.transform, this.geometry)
 
     this.material = diagram.getMaterial('geometry', 'connector', this.color)
 
-  }
-
-  createGeometry(size: number): BufferGeometry {
-    return new CircleGeometry(size)
   }
 
   updateVisuals() { }
