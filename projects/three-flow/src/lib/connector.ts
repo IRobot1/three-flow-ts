@@ -113,7 +113,6 @@ export class NodeConnectors {
   addConnector(item: FlowConnectorParameters): ConnectorMesh {
     if (!item.anchor) item.anchor = 'left'
     const connector = new ConnectorMesh(this, item)
-
     this.node.add(connector)
     this.total[item.anchor]++;
 
@@ -178,10 +177,14 @@ export class NodeConnectors {
     if (anchor == 'left' || anchor == 'right') {
       const position = y + this.calculateOffset(count, connector.index, connector.width)
       connector.position.set(x, position, 0.001)
+      if (connector.transform)
+        FlowUtils.transformObject(connector.transform, connector)
     }
     else {
       const position = x + this.calculateOffset(count, connector.index, connector.width)
       connector.position.set(position, y, 0.001)
+      if (connector.transform)
+        FlowUtils.transformObject(connector.transform, connector)
     }
   }
 
@@ -260,9 +263,6 @@ class ConnectorMesh extends Mesh {
     if (parameters.userData) this.userData = parameters.userData
 
     this.geometry = this.node.createGeometry(parameters)
-    if (this.transform)
-      FlowUtils.transformGeometry(this.transform, this.geometry)
-
     this.material = diagram.getMaterial('geometry', 'connector', this.color)
   }
 
