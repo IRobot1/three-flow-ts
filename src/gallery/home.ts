@@ -71,8 +71,7 @@ export class GalleryExample {
   dispose = () => { }
 
   constructor(app: ThreeJSApp) {
-    app.camera.position.y = 0//-0.3;
-    app.camera.position.z = 3
+    app.camera.position.z = 4
 
     const scene = new Scene()
     app.scene = scene;
@@ -116,7 +115,7 @@ export class GalleryExample {
         label: { text: "Custom Geometry" },
         connectors: [
           { id: "c1custom", anchor: 'top', color: 'white ' },
-          { id: "c2custom", anchor: 'right', color: 'white ' }
+          { id: "c2custom", anchor: 'bottom', color: 'white ' }
         ],
       },
       {
@@ -159,10 +158,19 @@ export class GalleryExample {
       {
         text: 'mermaid',
         label: { text: "Mermaid Flowchart" },
-        x: 2.5, y: -0.5,
+        x: 1.5, y: -0.5,
         assetimage: 'mermaid', route: 'mermaid',
         connectors: [
           { id: "c1mermaid", anchor: 'top', color: 'white ' },
+        ],
+      },
+      {
+        text: 'visuals',
+        label: { text: "Visuals" },
+        x: 4, y: 1,
+        assetimage: 'visuals', route: 'visuals',
+        connectors: [
+          { id: "c1visuals", anchor: 'top', color: 'white ' },
         ],
       },
     ];
@@ -206,6 +214,12 @@ export class GalleryExample {
         fromconnector: "c2builder",
         toconnector: "c1loader"
       },
+      {
+        v: "basic",
+        w: "visuals",
+        fromconnector: "c2basic",
+        toconnector: "c1visuals"
+      },
     ];
 
     const diagram: FlowDiagramParameters = {
@@ -224,9 +238,11 @@ export class GalleryExample {
 
     // common adjustments
     nodes.forEach(node => {
+      if (node.x == undefined) node.x = 0
+      node.x -= 1
       node.draggable = false
       node.label!.color = 'white'
-      node.label!.size = 0.01
+      node.label!.size = 0.15
       node.label!.hidden = true
       node.labelanchor = 'top'
       node.labeltransform = {

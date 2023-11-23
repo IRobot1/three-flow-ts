@@ -7,9 +7,9 @@ export class TroikaFlowLabel extends FlowLabel {
   override createText(text: string, options: any): Mesh {
     const label = new Text();
     label.text = text;
-    label.anchorX = "center";
-    label.anchorY = 'middle';
-    label.fontSize = 0.3;
+    label.anchorX = this.alignX
+    label.anchorY = this.alignY
+    label.fontSize = this.size
     label.sync();
     return label;
   }

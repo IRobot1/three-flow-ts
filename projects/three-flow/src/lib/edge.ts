@@ -1,9 +1,8 @@
-import { BufferGeometry, CatmullRomCurve3, Line, MathUtils, Matrix4, Mesh, MeshBasicMaterial, Object3D, Vector2, Vector3 } from "three";
+import { BufferGeometry, CatmullRomCurve3, Line, MathUtils, Mesh, Object3D, Vector3 } from "three";
 import { FlowArrowParameters, FlowEdgeParameters, EdgeLineStyle, FlowEventType } from "./model";
 import { FlowDiagram } from "./diagram";
 import { FlowNode } from "./node";
 import { FlowArrow } from "./arrow";
-import { FlowConnectorParameters } from "../../../../dist/three-flow";
 
 export class FlowEdge extends Mesh {
   readonly from: string;
