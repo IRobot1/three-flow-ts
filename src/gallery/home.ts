@@ -1,50 +1,78 @@
-import { AmbientLight, CircleGeometry, MathUtils, Mesh, MeshBasicMaterial, PointLight, SRGBColorSpace, Scene, TextureLoader, Vector3 } from "three";
+import { AmbientLight, BufferGeometry, MathUtils, MeshBasicMaterial, PointLight, SRGBColorSpace, Scene, Shape, ShapeGeometry, TextureLoader, Vector2 } from "three";
+import { ThreeInteractive, InteractiveEventType, FlowDiagram, FlowLabelParameters, FlowLabel, FlowNodeParameters, FlowEdgeParameters, FlowConnectors, FlowDiagramParameters, FlowNode } from "three-flow";
+
 import { ThreeJSApp } from "../app/threejs-app";
-import { ThreeInteractive, InteractiveEventType } from "three-flow";
-import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
-import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import { TroikaFlowLabel } from "../examples/troika-label";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
+class MyFlowDiagram extends FlowDiagram {
+  loader = new TextureLoader()
 
-interface Tile {
-  title: string
-  position: { x: number, y: number, z: number }
+  override createLabel(label: FlowLabelParameters): FlowLabel {
+    return new TroikaFlowLabel(this, label)
+  }
+
+  override createNode(node: Tile): FlowNode {
+    return new MyFlowNode(this, node)
+  }
+}
+
+class MyFlowNode extends FlowNode {
+  constructor(diagram: MyFlowDiagram, tile: Tile) {
+    super(diagram, tile)
+
+    const texture = diagram.loader.load('/assets/examples/' + tile.assetimage + '.png')
+    texture.colorSpace = SRGBColorSpace
+    texture.offset.set(0.5, 0.5)
+    this.material = new MeshBasicMaterial({ color: 'white', map: texture })
+
+    const node = this
+    node.addEventListener(InteractiveEventType.POINTERENTER, () => {
+      node.position.z = 0.02
+      node.label.visible = true
+    })
+    node.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
+      node.position.z = 0
+      node.label.visible = false
+    })
+
+  }
+
+  private rectangularShape(width: number, height: number, radius: number): Shape {
+    const halfwidth = width / 2
+    const halfheight = height / 2
+
+    const shape = new Shape()
+      .moveTo(-halfwidth + radius, -halfheight)
+      .lineTo(halfwidth - radius, -halfheight)
+      .quadraticCurveTo(halfwidth, -halfheight, halfwidth, -halfheight + radius)
+      .lineTo(halfwidth, halfheight - radius)
+      .quadraticCurveTo(halfwidth, halfheight, halfwidth - radius, halfheight)
+      .lineTo(-halfwidth + radius, halfheight)
+      .quadraticCurveTo(-halfwidth, halfheight, -halfwidth, halfheight - radius)
+      .lineTo(-halfwidth, -halfheight + radius)
+      .quadraticCurveTo(-halfwidth, -halfheight, -halfwidth + radius, -halfheight)
+
+    return shape
+  }
+
+  override createGeometry(): BufferGeometry {
+    return new ShapeGeometry(this.rectangularShape(this.node.width!, this.node.height!, 0.1))
+  }
+
+}
+interface Tile extends FlowNodeParameters {
   assetimage: string
-  titleblack?: boolean
   route: string
 }
 
-interface Gallery {
-  tiles: Array<Tile>
-}
 
-const gallery: Gallery = {
-  tiles: [
-    { title: 'Basic', position: { x: 0, y: 0, z: 0 }, assetimage: 'basic', route: 'basic' },
-    { title: 'Custom Geometry', position: { x: 3.02, y: 0, z: 0 }, assetimage: 'geometry', route: 'geometry', titleblack: false },
-    { title: 'Builder', position: { x: -3.02, y: 0, z: 0 }, assetimage: 'builder', route: 'builder' },
-    { title: 'Language Evoluation', position: { x: 1.51, y: 0.87, z: 0 }, assetimage: 'languages', route: 'languages' },
-    { title: 'Civiilization Tech Tree', position: { x: 1.51, y: -0.87, z: 0 }, assetimage: 'civilization', route: 'civilization' },
-    { title: 'Loader from JSON', position: { x: -1.51, y: 0.87, z: 0 }, assetimage: 'loader', route: 'loader', },
-      { title: 'Mermaid', position: { x: -1.51 , y: -0.87, z: 0 }, assetimage: 'placeholder', route: 'mermaid' },
-    //  { title: 'List', position: { x: 0 , y: 1.74, z: 0 }, assetimage: 'list', route: 'list' },
-    //  { title: 'Panel', position: { x: 0 , y: -1.74, z: 0 }, assetimage: 'panel', route: 'panel' },
-    //  { title: 'Radio', position: { x: -3.02 , y: 1.74, z: 0 }, assetimage: 'radio', route: 'radio' },
-    //  { title: 'Select', position: { x: 3.02 , y: 1.74, z: 0 }, assetimage: 'select', route: 'select' },
-    //  { title: 'Slider', position: { x: -3.02 , y: -1.74, z: 0 }, assetimage: 'slider', route: 'slider' },
-    //  { title: 'Drag Panel', position: { x: 3.02 , y: -1.74, z: 0 }, assetimage: 'dragpanel', route: 'dragpanel' },
-    //  { title: 'Icon', position: { x: -4.53, y: 0.87, z: 0 }, assetimage: 'icon', route: 'icon' },
-    //  { title: 'Layout', position: { x: 4.53, y: 0.87, z: 0 }, assetimage: 'layout', route: 'layout' },
-    //  { title: 'Window', position: { x: -4.53, y: -0.87, z: 0 }, assetimage: 'window', route: 'window', titleblack: true },
-    //  { title: 'Material Buttons', position: { x: 4.53, y: -0.87, z: 0 }, assetimage: 'materialbuttons', route: 'materialbuttons' },
-    //  { title: 'Progress Bar', position: { x: -1.51, y: 2.61, z: 0 }, assetimage: 'progressbar', route: 'progressbar' },
-  ]
-}
 export class GalleryExample {
   dispose = () => { }
 
   constructor(app: ThreeJSApp) {
-    app.camera.position.y = -0.3;
-    app.camera.position.z = 5
+    app.camera.position.y = 0//-0.3;
+    app.camera.position.z = 3
 
     const scene = new Scene()
     app.scene = scene;
@@ -60,53 +88,174 @@ export class GalleryExample {
     light.shadow.mapSize.width = light.shadow.mapSize.height = 512 * 2
     scene.add(light)
 
+    const orbit = new OrbitControls(app.camera, app.domElement);
+    orbit.target.set(0, app.camera.position.y, 0)
+    //orbit.enableRotate = false;
+    orbit.update();
+
     const ROTATION = 15
+    scene.rotation.x = MathUtils.degToRad(-ROTATION)
 
     const interactive = new ThreeInteractive(app, app.camera)
 
-    const black = new MeshBasicMaterial({ color: 'black' })
+    const nodes: Tile[] = [
+      {
+        text: "basic",
+        assetimage: 'basic', route: 'basic',
+        y: 2,
+        label: { text: "Basic" },
+        connectors: [
+          { id: "c1basic", anchor: 'left', color: 'white ' },
+          { id: "c2basic", anchor: 'right', color: 'white ' }
+        ],
+      },
+      {
+        text: 'custom',
+        x: 1.5, y: 1,
+        assetimage: 'geometry', route: 'geometry',
+        label: { text: "Custom Geometry" },
+        connectors: [
+          { id: "c1custom", anchor: 'top', color: 'white ' },
+          { id: "c2custom", anchor: 'right', color: 'white ' }
+        ],
+      },
+      {
+        text: 'builder',
+        label: { text: "Builder" },
+        x: -1.5, y: 1,
+        assetimage: 'builder', route: 'builder',
+        connectors: [
+          { id: "c1builder", anchor: 'top', color: 'white ' },
+          { id: "c2builder", anchor: 'bottom', color: 'white ' }
+        ],
+      },
+      {
+        text: 'loader',
+        x: 0, y: -0.5,
+        label: { text: "Loader from JSON" },
+        assetimage: 'loader', route: 'loader',
+        connectors: [
+          { id: "c1loader", anchor: 'top', color: 'white ' },
+        ],
+      },
+      {
+        text: 'languages',
+        label: { text: "Languages" },
+        x: -3, y: -0.5,
+        assetimage: 'languages', route: 'languages',
+        connectors: [
+          { id: "c1languages", anchor: 'top', color: 'white ' },
+        ],
+      },
+      {
+        text: 'civilization',
+        label: { text: "Civiilization Tech Tree" },
+        x: -1.5, y: -0.5,
+        assetimage: 'civilization', route: 'civilization',
+        connectors: [
+          { id: "c1civilization", anchor: 'top', color: 'white ' },
+        ],
+      },
+      {
+        text: 'mermaid',
+        label: { text: "Mermaid Flowchart" },
+        x: 2.5, y: -0.5,
+        assetimage: 'mermaid', route: 'mermaid',
+        connectors: [
+          { id: "c1mermaid", anchor: 'top', color: 'white ' },
+        ],
+      },
+    ];
 
-    const loader = new TextureLoader()
 
-    const fontloader = new FontLoader();
-    fontloader.load("assets/helvetiker_regular.typeface.json", (font) => {
-      gallery.tiles.forEach(info => {
-        const tile = new Mesh(new CircleGeometry(1, 6))
-        const texture = loader.load('/assets/examples/' + info.assetimage + '.png')
-        texture.colorSpace = SRGBColorSpace
-        tile.material = new MeshBasicMaterial({ color: 'white', map: texture })
-        tile.position.set(info.position.x, info.position.y, info.position.z)
-        scene.add(tile)
+    const edges: FlowEdgeParameters[] = [
+      {
+        v: "basic",
+        w: "custom",
+        fromconnector: "c2basic",
+        toconnector: "c1custom",
+        color: 'white'
+      },
+      {
+        v: "custom",
+        w: "mermaid",
+        fromconnector: "c2custom",
+        toconnector: "c1mermaid",
+      },
+      {
+        v: "basic",
+        w: "builder",
+        fromconnector: "c1basic",
+        toconnector: "c1builder"
+      },
+      {
+        v: "builder",
+        w: "languages",
+        fromconnector: "c2builder",
+        toconnector: "c1languages"
+      },
+      {
+        v: "builder",
+        w: "civilization",
+        fromconnector: "c2builder",
+        toconnector: "c1civilization"
+      },
+      {
+        v: "builder",
+        w: "loader",
+        fromconnector: "c2builder",
+        toconnector: "c1loader"
+      },
+    ];
 
-        const geometry = new TextGeometry(info.title, { height: 0, font, size: 0.15 })
-        geometry.center()
-        const label = new Mesh(geometry)
-        label.visible = false
-        label.position.y -= 0.5
-        label.position.z = 0.1
-        if (info.titleblack) label.material = black
-        tile.add(label)
+    const diagram: FlowDiagramParameters = {
+      version: 1,
+      nodes, edges
+    }
 
+    const flow = new MyFlowDiagram()
+    scene.add(flow);
 
-        tile.addEventListener(InteractiveEventType.POINTERENTER, () => {
-          tile.position.z = 0.1
-          label.visible = true
-        })
-        tile.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
-          tile.position.z = 0
-          label.visible = false
-        })
-        tile.addEventListener('click', () => { app.navigateto(info.route) })
+    // make the flow interactive
+    //new FlowInteraction(flow, app, app.camera)
 
-        interactive.selectable.add(tile)
+    // support connectors
+    new FlowConnectors(flow)
+
+    // common adjustments
+    nodes.forEach(node => {
+      node.draggable = false
+      node.label!.color = 'white'
+      node.label!.size = 0.01
+      node.label!.hidden = true
+      node.labelanchor = 'top'
+      node.labeltransform = {
+        rotate: { x: 15 }, translate: { y: 0.15 }
+      }
+      node.connectors?.forEach(c => {
+        c.radius = 0.03
+        c.color = 'white'
       })
-    });
+    })
 
-    scene.rotation.x = MathUtils.degToRad(-ROTATION)
+    //edges.forEach(edge => {
+    //})
+
+    flow.load(diagram)
+
+    // add click to navigate to example
+    flow.allNodes.forEach(node => {
+      const tile = node.node as Tile
+      node.addEventListener('click', () => { app.navigateto(tile.route) })
+
+      interactive.selectable.add(node)
+    })
 
 
 
     this.dispose = () => {
+      flow.dispose()
+      orbit.dispose()
       interactive.dispose()
     }
   }

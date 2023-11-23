@@ -201,12 +201,13 @@ export class MermaidExample {
         console.warn(flow.save())
       })
 
-
+      this.dispose = () => {
+        document.body.removeChild(dropdown)
+        flow.dispose()
+        orbit.dispose()
+      }
     })
 
-    this.dispose = () => {
-      orbit.dispose()
-    }
 
   }
 

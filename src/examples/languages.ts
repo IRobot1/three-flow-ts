@@ -15,8 +15,7 @@ import {
 import { languagedata } from "./langauge-data";
 import { Exporter } from "./export";
 import { DagreLayout } from "./dagre-layout";
-// @ts-ignore
-import { Text } from "troika-three-text";
+import { TroikaFlowLabel } from "./troika-label";
 
 
 export class LanguagesExample {
@@ -122,19 +121,8 @@ export class LanguagesExample {
   }
 }
 
-class MyFlowLabel extends FlowLabel {
-  override createText(text: string, options: any): Mesh {
-    const label = new Text();
-    label.text = text;
-    label.anchorX = "center";
-    label.anchorY = 'middle';
-    label.fontSize = 0.3;
-    label.sync();
-    return label;
-  }
-}
 class MyFlowDiagram extends FlowDiagram {
   override createLabel(label: FlowLabelParameters): FlowLabel {
-    return new MyFlowLabel(this, label)
+    return new TroikaFlowLabel(this, label)
   }
 }
