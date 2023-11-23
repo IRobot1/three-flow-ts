@@ -266,7 +266,7 @@ export class FlowNode extends Mesh {
 
   private resizeGeometry() {
     this.geometry.dispose()
-    this.geometry = this.createGeometry()
+    this.geometry = this.createGeometry(this.node)
   }
 
   updateVisuals() { }
@@ -274,7 +274,7 @@ export class FlowNode extends Mesh {
 
 
   // overridable
-  createGeometry(): BufferGeometry {
+  createGeometry(parameters: FlowNodeParameters): BufferGeometry {
     return new PlaneGeometry(this.width, this.height)
   }
 

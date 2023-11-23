@@ -5,6 +5,19 @@ import { MathUtils } from "three/src/math/MathUtils";
 export class FlowUtils {
   static transformObject(transform: FlowTransform, object: Object3D) {
     if (transform.rotate) {
+      if (transform.rotate.x) object.rotation.x += MathUtils.degToRad(transform.rotate.x)
+      if (transform.rotate.y) object.rotation.y += MathUtils.degToRad(transform.rotate.y)
+      if (transform.rotate.z) object.rotation.z += MathUtils.degToRad(transform.rotate.z)
+    }
+    if (transform.translate) {
+      if (transform.translate.x) object.position.x += transform.translate.x
+      if (transform.translate.y) object.position.y += transform.translate.y
+      if (transform.translate.z) object.position.z += transform.translate.z
+    }
+  }
+
+  static transformObject2(transform: FlowTransform, object: Object3D) {
+    if (transform.rotate) {
       if (transform.rotate.x) object.rotateX(MathUtils.degToRad(transform.rotate.x))
       if (transform.rotate.y) object.rotateY(MathUtils.degToRad(transform.rotate.y))
       if (transform.rotate.z) object.rotateZ(MathUtils.degToRad(transform.rotate.z))

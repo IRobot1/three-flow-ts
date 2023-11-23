@@ -49,9 +49,10 @@ export class FlowDiagram extends Object3D {
 
       if (options.layout)
         this.graph = options.layout
-      else
-        this.graph = new NoOpLayout()
     }
+
+    if (!this.graph)
+      this.graph = new NoOpLayout()
 
     this.materials = new Map();
   }
@@ -316,7 +317,7 @@ export class FlowDiagram extends Object3D {
     return new FlowEdge(this, edge)
   }
 
-  createLabel(label: FlowLabelParameters) : FlowLabel {
+  createLabel(label: FlowLabelParameters): FlowLabel {
     return new FlowLabel(this, label)
   }
 
