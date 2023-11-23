@@ -16,6 +16,7 @@ export interface FlowLabelParameters {
   padding?: number;
   alignX?: LabelAlignX
   alignY?: LabelAlignY
+  hidden?: boolean
 }
 
 export type AnchorType = 'left' | 'right' | 'top' | 'bottom' | 'center'

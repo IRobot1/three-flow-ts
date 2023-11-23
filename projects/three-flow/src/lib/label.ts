@@ -63,12 +63,13 @@ export class FlowLabel extends Object3D {
     }
   }
 
-  public alignX: LabelAlignX
-  public alignY: LabelAlignY
+  alignX: LabelAlignX
+  alignY: LabelAlignY
+  hidden: boolean
 
-  public readonly font?: Font;
+  readonly font?: Font;
 
-  public labelMesh?: Mesh
+  labelMesh?: Mesh
 
   private labelMaterial: Material;
 
@@ -82,6 +83,8 @@ export class FlowLabel extends Object3D {
     this._padding = parameters.padding ? parameters.padding : 0.1
     this.alignX = parameters.alignX ? parameters.alignX : 'center'
     this.alignY = parameters.alignY ? parameters.alignY : 'middle'
+    this.hidden = parameters.hidden != undefined ? parameters.hidden : false
+    this.visible = !this.hidden
 
     this.labelMaterial = diagram.getMaterial('geometry', 'label', this.color)!;
     this.font = diagram.getFont(parameters.font)
