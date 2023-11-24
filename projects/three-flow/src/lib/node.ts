@@ -189,11 +189,11 @@ export class FlowNode extends Mesh {
     this.labelanchor = node.labelanchor ? node.labelanchor : 'center'
     this.labeltransform = node.labeltransform
 
-    this._resizable = node.resizable ? node.resizable : true
+    this._resizable = node.resizable != undefined ? node.resizable : true
     this.resizecolor = node.resizecolor ? node.resizecolor : 'black'
-    this._draggable = node.draggable ? node.draggable : true
-    this._scalable = node.scalable ? node.scalable : true
-    this.selectable = node.selectable ? node.selectable : true
+    this._draggable = node.draggable != undefined ? node.draggable : true
+    this._scalable = node.scalable != undefined ? node.scalable : true
+    this.selectable = node.selectable != undefined ? node.selectable : true
     this.scalecolor = node.scalecolor ? node.scalecolor : 'black'
 
     this._scalar = node.scale ? node.scale : 1

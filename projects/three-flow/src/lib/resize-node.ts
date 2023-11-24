@@ -4,8 +4,6 @@ import { FlowNode } from "./node";
 import { FlowEventType, FlowHandleParameters } from "./model";
 
 export class ResizeNode {
-  public enabled = true
-
   selectable: Array<Mesh> = []
 
   constructor(private node: FlowNode, material: Material) {
@@ -42,20 +40,24 @@ export class ResizeNode {
     let startheight: number
 
     mesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
-      if (!this.enabled || this.node.hidden) return
+      if (!this.node.resizable || this.node.hidden) return
+
       startposition = e.position.clone()
       startwidth = this.node.width
       startheight = this.node.height
       this.dragging = true
     })
     mesh.addEventListener(InteractiveEventType.DRAGEND, () => {
-      if (!this.enabled || this.node.hidden) return
+      if (!this.node.resizable || this.node.hidden) return
+
       this.dragging = false
       mesh.visible = false
     })
 
     mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
-      if (!this.enabled || this.node.hidden) return
+      console.warn(this.node.resizable)
+      if (!this.node.resizable || this.node.hidden) return
+
       const diff = e.position.sub(startposition) as Vector3
 
       if (width_direction) {

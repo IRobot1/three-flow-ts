@@ -4,8 +4,6 @@ import { InteractiveEventType } from "./three-interactive"
 import { FlowEventType, FlowHandleParameters } from "./model"
 
 export class ScaleNode {
-  public enabled = true
-
   selectable: Array<Mesh> = []
 
   constructor(private node: FlowNode, material: Material) {
@@ -42,7 +40,7 @@ export class ScaleNode {
     let startscale: number
 
     mesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
-      if (this.node.hidden) return
+      if (!this.node.scalable || this.node.hidden) return
 
       startposition = e.position.clone()
       startscale = this.node.scale.x
@@ -50,6 +48,7 @@ export class ScaleNode {
     })
 
     mesh.addEventListener(InteractiveEventType.DRAGEND, () => {
+      if (!this.node.scalable || this.node.hidden) return
       this.scaling = false
       mesh.visible = false
     })

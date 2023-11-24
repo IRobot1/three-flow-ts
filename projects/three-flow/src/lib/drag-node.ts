@@ -4,7 +4,6 @@ import { FlowNode } from "./node";
 import { FlowEventType } from "./model";
 
 export class DragNode {
-  public enabled = true
 
   private dragging = false
 
@@ -22,7 +21,7 @@ export class DragNode {
 
     let offset: Vector3
     node.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
-      if (node.hidden) return
+      if (!node.draggable || node.hidden) return
 
       // remember where in the mesh the mouse was clicked to avoid jump on first drag
       offset = e.position.sub(node.position).clone()
@@ -32,7 +31,7 @@ export class DragNode {
     node.addEventListener(InteractiveEventType.DRAGEND, () => { this.dragging = false });
 
     node.addEventListener(InteractiveEventType.DRAG, (e: any) => {
-      if (node.hidden) return
+      if (!node.draggable || node.hidden) return
 
       let position = e.position.clone() as Vector3
       if (this.dragging) {

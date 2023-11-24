@@ -66,7 +66,6 @@ class NodeInteractive {
         source.interactive.selectable.remove(...this.nodeResizer.selectable)
         source.interactive.draggable.remove(...this.nodeResizer.selectable)
       }
-      this.nodeResizer.enabled = node.resizable
     }
     node.addEventListener(FlowEventType.RESIZABLE_CHANGED, () => { resizableChanged() })
     resizableChanged()
@@ -81,7 +80,6 @@ class NodeInteractive {
         source.interactive.selectable.remove(...this.nodeScaler.selectable)
         source.interactive.draggable.remove(...this.nodeScaler.selectable)
       }
-      this.nodeScaler.enabled = node.scalable
     }
     node.addEventListener(FlowEventType.SCALABLE_CHANGED, () => { scalebleChanged() })
     scalebleChanged()
@@ -92,7 +90,6 @@ class NodeInteractive {
         source.interactive.draggable.add(node)
       else
         source.interactive.draggable.remove(node)
-      this.nodeDragger.enabled = node.draggable
     }
     node.addEventListener(FlowEventType.DRAGGABLE_CHANGED, () => { drag() })
     drag()
