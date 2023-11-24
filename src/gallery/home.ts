@@ -178,7 +178,7 @@ export class GalleryExample {
         text: 'popout',
         label: { text: "2D Popout" },
         x: 3, y: -0.5,
-        assetimage: 'placeholder', route: 'popout',
+        assetimage: 'popout', route: 'popout',
         connectors: [
           { id: "c1popout", anchor: 'top', color: 'white ' },
         ],

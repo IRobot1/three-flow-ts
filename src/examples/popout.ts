@@ -20,6 +20,7 @@ interface PopoutShape extends FlowNodeParameters {
   extruderadius: number
   extrudedepth: number
   extrudecolor: string
+  icon: string
 }
 
 interface PopoutGroupParameters {
@@ -49,18 +50,16 @@ export class PopoutExample {
     background.receiveShadow = background.castShadow = true
     scene.add(background)
 
-    //background.rotation.x = MathUtils.degToRad(-15)
+    //const ambient = new AmbientLight()
+    //ambient.intensity = 2
+    //scene.add(ambient)
 
-    const ambient = new AmbientLight()
-    ambient.intensity = 2
-    scene.add(ambient)
-
-    //const light = new SpotLight(0xffffff, 20, 20, 5, 1)
-    //light.position.set(2, 2, 4)
-    //light.castShadow = true
-    //light.shadow.bias = -0.001 // this prevents artifacts
-    //light.shadow.mapSize.width = light.shadow.mapSize.height = 512 / 2
-    //scene.add(light)
+    const light = new SpotLight(0xffffff, 30, 20, 5, 1)
+    light.position.set(3, 3, 4)
+    light.castShadow = true
+    light.shadow.bias = -0.001 // this prevents artifacts
+    light.shadow.mapSize.width = light.shadow.mapSize.height = 512 
+    scene.add(light)
 
     const orbit = new OrbitControls(app.camera, app.domElement);
     orbit.target.set(0, app.camera.position.y, 0)
@@ -74,18 +73,19 @@ export class PopoutExample {
 
     const flow = new PopoutFlowDiagram()
     background.add(flow);
-    flow.position.z = 0.3
+    flow.position.z = 0.1
 
 
     const connectors = new FlowConnectors(flow)
 
     const top = flow.addNode(<PopoutShape>{
-      y: 1, shape: 'circle', color: 'black', extrudecolor: '#545B5B', extruderadius:0.35, extrudedepth:0.1,
+      y: 1, shape: 'circle', color: 'black', extrudecolor: '#545B5B', extruderadius: 0.35, extrudedepth: 0.05,
+      icon: 'diversity_3',
       label: {
-        text: 'Lorem ipsum dolor sit amet, consectetur', size: 0.1,
+        text: 'Lorem ipsum dolor sit amet, consectetur', size: 0.05, wrapwidth: 0.5,
         color: 'white',
       },
-      labeltransform: { translate: { z: 0.101 } },
+      labeltransform: { translate: { y: -0.1, z: 0.051 } },
       connectors: [
         { id: 'topleft', anchor: 'left', hidden: true },
         { id: 'topmiddle', anchor: 'bottom', hidden: true },
@@ -132,6 +132,8 @@ export class PopoutExample {
     const node = flow.addNode(<PopoutShape>{
       x, y, width: 2, height: 0.5, shape: 'stadium',
       label: { text: 'LORUM IPSUM', size: 0.1, color: 'white' },
+      labelanchor: 'top',
+      labeltransform: { translate: { x: -0.2, y: -0.12 } },
       color: parameters.color, extrudecolor: parameters.extrudecolor,
       connectors: [
         { id: 'c1' + prefix, anchor: 'top', hidden: true },
@@ -143,9 +145,9 @@ export class PopoutExample {
 
 
     const A = flow.addNode(<PopoutShape>{
-      x: x - 0.7, y: y - 1, width: 0.5, height:0.5, extruderadius: 0.2, extrudedepth: 0.1,
+      x: x - 0.7, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05,
       label: { text: 'A', size: 0.25, color: 'white' },
-      labeltransform: { translate: { z: 0.101 } },
+      labeltransform: { translate: { z: 0.051 } },
       shape: 'circle', color: parameters.Acolor, extrudecolor: parameters.Aextrudecolor,
       connectors: [
         { id: prefix + 'lefttop', anchor: 'top', hidden: true },
@@ -158,9 +160,9 @@ export class PopoutExample {
     flow.addEdge({ v: leftroute2.name, w: A.name, toconnector: prefix + 'lefttop', color: 'black' })
 
     const B = flow.addNode(<PopoutShape>{
-      x, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.1,
+      x, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05,
       label: { text: 'B', size: 0.25, color: 'white' },
-      labeltransform: { translate: { z: 0.101 } },
+      labeltransform: { translate: { z: 0.051 } },
       shape: 'circle', color: parameters.Bcolor, extrudecolor: parameters.Bextrudecolor,
       connectors: [
         { id: prefix + 'middletop', anchor: 'top', hidden: true },
@@ -169,9 +171,9 @@ export class PopoutExample {
     flow.addEdge({ v: node.name, w: B.name, fromconnector: 'c3' + prefix, toconnector: prefix + 'middletop', color: 'black' })
 
     const C = flow.addNode(<PopoutShape>{
-      x: x + 0.7, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.1,
+      x: x + 0.7, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05,
       label: { text: 'C', size: 0.25, color: 'white' },
-      labeltransform: { translate: { z: 0.101 } },
+      labeltransform: { translate: { z: 0.051 } },
       shape: 'circle', color: parameters.Ccolor, extrudecolor: parameters.Cextrudecolor,
       connectors: [
         { id: prefix + 'rightttop', anchor: 'top', hidden: true },
@@ -216,6 +218,15 @@ class PopoutCircleNode extends FlowNode {
     mesh.position.z = 0.001
     mesh.castShadow = true
     this.add(mesh)
+
+    if (parameters.icon) {
+      const iconparams = <FlowLabelParameters>{ text: parameters.icon, isicon: true, size: 0.3, color: 'white' }
+      const icon = diagram.createLabel(iconparams)
+      icon.position.set(0, 0.15, 0.051)
+      icon.updateLabel()
+
+      this.add(icon)
+    }
   }
 
   override createGeometry(parameters: PopoutShape): BufferGeometry {
@@ -234,7 +245,6 @@ class PopoutCircleNode extends FlowNode {
       bevelEnabled: false // no bevel
     };
 
-    // Create an extruded geometry from the circle shape
     return new ExtrudeGeometry(circleShape, extrudeSettings);
   }
 }
@@ -246,6 +256,23 @@ class PopoutStadiumNode extends FlowNode {
     mesh.position.set(this.width / 2 - 0.3, 0, 0.001)
     mesh.castShadow = true
     this.add(mesh)
+
+    const iconparams = <FlowLabelParameters>{ text: 'person', isicon: true, size: 0.3, color: 'white' }
+    const icon = diagram.createLabel(iconparams)
+    icon.position.set(0, 0, 0.051)
+    icon.updateLabel()
+    mesh.add(icon)
+
+    const subtitle = diagram.createLabel({
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna',
+      size: 0.05, wrapwidth: 1,
+      color: 'white', textalign: 'justify'
+    })
+    subtitle.updateLabel()
+    subtitle.position.set(-0.2, -0.05, subtitle.position.z)
+    this.add(subtitle)
+
+
   }
 
   createCircle(parameters: PopoutShape): BufferGeometry {
