@@ -167,10 +167,20 @@ export class GalleryExample {
       {
         text: 'visuals',
         label: { text: "Visuals" },
-        x: 4, y: 1,
+        x: 4.5, y: 1,
         assetimage: 'visuals', route: 'visuals',
         connectors: [
           { id: "c1visuals", anchor: 'top', color: 'white ' },
+          { id: "c2visuals", anchor: 'bottom', color: 'white ' },
+        ],
+      },
+      {
+        text: 'popout',
+        label: { text: "2D Popout" },
+        x: 3, y: -0.5,
+        assetimage: 'placeholder', route: 'popout',
+        connectors: [
+          { id: "c1popout", anchor: 'top', color: 'white ' },
         ],
       },
     ];
@@ -219,6 +229,12 @@ export class GalleryExample {
         w: "visuals",
         fromconnector: "c2basic",
         toconnector: "c1visuals"
+      },
+      {
+        v: "visuals",
+        w: "popout",
+        fromconnector: "c2visuals",
+        toconnector: "c1popout"
       },
     ];
 

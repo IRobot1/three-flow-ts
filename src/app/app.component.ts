@@ -9,6 +9,7 @@ import { CivilizationExample } from '../examples/civilization';
 import { LoaderExample } from '../examples/loader';
 import { MermaidExample } from '../examples/mermaid';
 import { ProcessExample } from '../examples/process';
+import { PopoutExample } from '../examples/popout';
 
 
 @Component({
@@ -30,5 +31,6 @@ export class AppComponent {
     app.router.add('loader', () => { return new LoaderExample(app) })
     app.router.add('mermaid', () => { return new MermaidExample(app) })
     app.router.add('visuals', () => { return new ProcessExample(app) })
+    app.router.add('popout', () => { return new PopoutExample(app) })
   }
 }
