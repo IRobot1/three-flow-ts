@@ -68,6 +68,7 @@ export class FlowLabel extends Object3D {
   hidden: boolean
   wrapwidth: number
   textalign: LabelTextAlign
+  isicon: boolean
 
   readonly font?: Font;
 
@@ -87,6 +88,7 @@ export class FlowLabel extends Object3D {
     this.alignY = parameters.alignY ? parameters.alignY : 'middle'
     this.wrapwidth = parameters.wrapwidth ? parameters.wrapwidth : Infinity
     this.textalign = parameters.textalign ? parameters.textalign : 'left'
+    this.isicon = parameters.isicon ? parameters.isicon : false
 
     this.hidden = parameters.hidden != undefined ? parameters.hidden : false
     this.visible = !this.hidden

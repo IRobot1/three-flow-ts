@@ -11,6 +11,7 @@ export type LabelTextAlign = 'left' | 'right' | 'center' | 'justify'
 
 export interface FlowLabelParameters {
   text?: string;
+  isicon?: boolean // text is the name of an icon. see https://fonts.google.com/icons
   size?: number;
   color?: number | string;
   font?: string;
