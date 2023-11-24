@@ -7,6 +7,7 @@ export interface FlowTransform {
 
 export type LabelAlignX = 'center' | 'left' | 'right'
 export type LabelAlignY = 'middle' | 'top' | 'bottom'
+export type LabelTextAlign = 'left' | 'right' | 'center' | 'justify'
 
 export interface FlowLabelParameters {
   text?: string;
@@ -17,6 +18,8 @@ export interface FlowLabelParameters {
   alignX?: LabelAlignX
   alignY?: LabelAlignY
   hidden?: boolean
+  wrapwidth?: number
+  textalign?: LabelTextAlign
 }
 
 export type AnchorType = 'left' | 'right' | 'top' | 'bottom' | 'center'

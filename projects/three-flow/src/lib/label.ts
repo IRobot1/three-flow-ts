@@ -1,5 +1,5 @@
 import { Euler, Material, Matrix4, Mesh, Object3D, Vector3 } from "three";
-import { FlowEventType, FlowLabelParameters, LabelAlignX, LabelAlignY } from "./model";
+import { FlowEventType, FlowLabelParameters, LabelAlignX, LabelAlignY, LabelTextAlign } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowDiagram } from "./diagram";
 import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
@@ -66,6 +66,8 @@ export class FlowLabel extends Object3D {
   alignX: LabelAlignX
   alignY: LabelAlignY
   hidden: boolean
+  wrapwidth: number
+  textalign: LabelTextAlign
 
   readonly font?: Font;
 
@@ -83,6 +85,9 @@ export class FlowLabel extends Object3D {
     this._padding = parameters.padding ? parameters.padding : 0.1
     this.alignX = parameters.alignX ? parameters.alignX : 'center'
     this.alignY = parameters.alignY ? parameters.alignY : 'middle'
+    this.wrapwidth = parameters.wrapwidth ? parameters.wrapwidth : Infinity
+    this.textalign = parameters.textalign ? parameters.textalign : 'left'
+
     this.hidden = parameters.hidden != undefined ? parameters.hidden : false
     this.visible = !this.hidden
 
