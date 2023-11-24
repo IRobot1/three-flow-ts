@@ -183,6 +183,15 @@ export class GalleryExample {
           { id: "c1popout", anchor: 'top', color: 'white ' },
         ],
       },
+      {
+        text: 'frames',
+        label: { text: "Tranparent Frames" },
+        x: 4.5, y: -0.5,
+        assetimage: 'frames', route: 'frames',
+        connectors: [
+          { id: "c1frames", anchor: 'top', color: 'white ' },
+        ],
+      },
     ];
 
 
@@ -235,6 +244,12 @@ export class GalleryExample {
         w: "popout",
         fromconnector: "c2visuals",
         toconnector: "c1popout"
+      },
+      {
+        v: "visuals",
+        w: "frames",
+        fromconnector: "c2visuals",
+        toconnector: "c1frames"
       },
     ];
 

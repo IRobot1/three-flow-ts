@@ -10,6 +10,7 @@ import { LoaderExample } from '../examples/loader';
 import { MermaidExample } from '../examples/mermaid';
 import { ProcessExample } from '../examples/process';
 import { PopoutExample } from '../examples/popout';
+import { FramesExample } from '../examples/frames';
 
 
 @Component({
@@ -32,5 +33,6 @@ export class AppComponent {
     app.router.add('mermaid', () => { return new MermaidExample(app) })
     app.router.add('visuals', () => { return new ProcessExample(app) })
     app.router.add('popout', () => { return new PopoutExample(app) })
+    app.router.add('frames', () => { return new FramesExample(app) })
   }
 }
