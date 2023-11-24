@@ -1,4 +1,4 @@
-import { BufferGeometry, CatmullRomCurve3, CircleGeometry, DoubleSide, Material, Mesh, MeshStandardMaterial, PlaneGeometry, PointLight, Scene, Shape, ShapeGeometry, TubeGeometry, Vector3 } from "three";
+import { BufferGeometry, CatmullRomCurve3, CircleGeometry, DoubleSide, Material, Mesh, MeshStandardMaterial, PlaneGeometry, Scene, Shape, ShapeGeometry, SpotLight, TubeGeometry, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
@@ -37,11 +37,11 @@ export class ProcessExample {
 
     background.rotation.x = MathUtils.degToRad(-15)
 
-    const light = new PointLight(0xffffff, 20, 25)
-    light.position.set(1, 1, 3)
+    const light = new SpotLight(0xffffff, 20, 20, 5, 1)
+    light.position.set(0.5, 0.5, 4)
     light.castShadow = true
     light.shadow.bias = -0.001 // this prevents artifacts
-    light.shadow.mapSize.width = light.shadow.mapSize.height = 512 * 2
+    light.shadow.mapSize.width = light.shadow.mapSize.height = 512/2
     scene.add(light)
 
     const orbit = new OrbitControls(app.camera, app.domElement);
@@ -57,7 +57,7 @@ export class ProcessExample {
     const flow = new MyFlowDiagram()
     background.add(flow);
     flow.position.z = 0.3
-    
+
 
     const connectors = new FlowConnectors(flow)
 

@@ -1,4 +1,4 @@
-import { Camera, PerspectiveCamera, Scene, WebGLRenderer } from "three";
+import { Camera, PCFSoftShadowMap, PerspectiveCamera, Scene, WebGLRenderer } from "three";
 import { UIRouter } from "./ui-routes";
 
 export interface renderState { scene: Scene, camera: Camera, renderer: WebGLRenderer }
@@ -31,6 +31,7 @@ export class ThreeJSApp extends WebGLRenderer {
     document.body.appendChild(this.domElement);
 
     this.shadowMap.enabled = true;
+    this.shadowMap.type = PCFSoftShadowMap;
 
     window.addEventListener('resize', () => {
       var width = window.innerWidth;
