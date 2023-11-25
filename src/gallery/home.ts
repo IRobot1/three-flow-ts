@@ -101,11 +101,12 @@ export class GalleryExample {
       {
         text: "basic",
         assetimage: 'basic', route: 'basic',
-        y: 2,
+        y: 2.5,
         label: { text: "Basic" },
         connectors: [
           { id: "c1basic", anchor: 'left', color: 'white ' },
-          { id: "c2basic", anchor: 'right', color: 'white ' }
+          { id: "c2basic", anchor: 'right', color: 'white ' },
+          { id: "c3basic", anchor: 'bottom', color: 'white ' },
         ],
       },
       {
@@ -192,6 +193,15 @@ export class GalleryExample {
           { id: "c1frames", anchor: 'top', color: 'white ' },
         ],
       },
+      {
+        text: 'edgestyles',
+        label: { text: "Edge Styles" },
+        x: 0, y: 1,
+        assetimage: 'edgestyles', route: 'edgestyles',
+        connectors: [
+          { id: "c1edgestyles", anchor: 'top', color: 'white ' },
+        ],
+      },
     ];
 
 
@@ -250,6 +260,12 @@ export class GalleryExample {
         w: "frames",
         fromconnector: "c2visuals",
         toconnector: "c1frames"
+      },
+      {
+        v: "basic",
+        w: "edgestyles",
+        fromconnector: "c3basic",
+        toconnector: "c1edgestyles"
       },
     ];
 

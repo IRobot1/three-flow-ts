@@ -54,7 +54,7 @@ export interface FlowArrowParameters {
   scale?: number;
 }
 
-export type EdgeLineStyle = 'straight' | 'spline'
+export type EdgeLineStyle = 'straight' | 'offset' | 'split' | 'spline'
 
 export interface FlowEdgeParameters {
   // first four fields make parameters compatible with dagre for easier layout
@@ -65,6 +65,7 @@ export interface FlowEdgeParameters {
 
   color?: number | string;
   linestyle?: EdgeLineStyle;
+  lineoffset?: number; // offset from connector to start bending line (when linestyle is offset or spline)
   divisions?: number;
   thickness?: number;
   toarrow?: FlowArrowParameters;

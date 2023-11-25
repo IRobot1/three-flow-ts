@@ -11,6 +11,7 @@ import { MermaidExample } from '../examples/mermaid';
 import { ProcessExample } from '../examples/process';
 import { PopoutExample } from '../examples/popout';
 import { FramesExample } from '../examples/frames';
+import { EdgeStylesExample } from '../examples/edge-styles';
 
 
 @Component({
@@ -34,5 +35,6 @@ export class AppComponent {
     app.router.add('visuals', () => { return new ProcessExample(app) })
     app.router.add('popout', () => { return new PopoutExample(app) })
     app.router.add('frames', () => { return new FramesExample(app) })
+    app.router.add('edgestyles', () => { return new EdgeStylesExample(app) })
   }
 }

@@ -3,6 +3,7 @@ import { FlowArrowParameters, FlowEdgeParameters, EdgeLineStyle, FlowEventType }
 import { FlowDiagram } from "./diagram";
 import { FlowNode } from "./node";
 import { FlowArrow } from "./arrow";
+import { ConnectorMesh } from "./connector";
 
 export class FlowEdge extends Mesh {
   readonly from: string;
@@ -51,6 +52,7 @@ export class FlowEdge extends Mesh {
   public fromArrow: FlowArrow | undefined;
   public toArrow: FlowArrow | undefined;
 
+  lineoffset = 0.2
 
   private readonly fromNode: FlowNode | undefined
   private readonly toNode: FlowNode | undefined
@@ -113,6 +115,7 @@ export class FlowEdge extends Mesh {
 
     this._color = edge.color ? edge.color : 'white'
     this._linestyle = edge.linestyle ? edge.linestyle : 'spline'
+    this.lineoffset = edge.lineoffset != undefined ? edge.lineoffset : 0.2
     this._divisions = edge.divisions ? edge.divisions : 20
     this._thickness = edge.thickness ? edge.thickness : 0.01
 
@@ -196,39 +199,75 @@ export class FlowEdge extends Mesh {
   }
 
   updateVisuals() {
-    let curvepoints: Array<Vector3> = []
+    // also used for arrows
     const from = new Vector3()
     const to = new Vector3()
 
+    let curvepoints: Array<Vector3> = []
+
     // use layout when provided
-    if (this.linestyle == 'spline' && this.edge.points) {
+    if (this.edge.points) {
       this.edge.points.forEach(point => {
         curvepoints.push(new Vector3(point.x, -point.y, 0))
       })
+
       from.copy(curvepoints[0])
       to.copy(curvepoints[curvepoints.length - 1])
-
-
-      if (this.toArrow) {
-        this.toArrow.position.copy(to)
-        if (this.toConnector) {
-          const angle = this.arrowLookAt(this.toArrow.position, this.toConnector.position)
-          this.toArrow.rotate = angle + MathUtils.degToRad(90)
-        }
-      }
-      if (this.fromArrow) {
-        this.fromArrow.position.copy(from)
-        if (this.fromConnector) {
-          const angle = this.arrowLookAt(this.fromArrow.position, this.fromConnector.position)
-          this.fromArrow.rotate = angle + MathUtils.degToRad(90)
-        }
-      }
     }
     else if (this.fromConnector && this.toConnector) {
       from.copy(this.getConnectorPosition(this.fromConnector, this.diagram))
       to.copy(this.getConnectorPosition(this.toConnector, this.diagram))
 
-      curvepoints.push(from, to)
+      if (this.fromConnector.type == 'flowconnector' && this.toConnector.type == 'flowconnector') {
+        const frommesh = this.fromConnector as ConnectorMesh
+        const tomesh = this.toConnector as ConnectorMesh
+
+        const lookup: any = {
+          top: { x: 0, y: this.lineoffset },
+          bottom: { x: 0, y: -this.lineoffset },
+          left: { x: -this.lineoffset, y: 0 },
+          right: { x: this.lineoffset, y: 0 }
+        }
+        let delta = lookup[frommesh.anchor]
+        let x = from.x + delta.x
+        let y = from.y + delta.y
+        const A1 = new Vector3(x, y, from.z);
+
+        delta = lookup[tomesh.anchor]
+        x = to.x + delta.x
+        y = to.y + delta.y
+        const B1 = new Vector3(x, y, to.z);
+
+        switch (this.edge.linestyle) {
+          case 'offset':
+            curvepoints.push(from, A1, B1, to)
+            break;
+          case 'spline':
+            let curve = new CatmullRomCurve3([from, A1, B1, to]);
+            curvepoints = curve.getPoints(this.divisions)
+            break;
+          case 'split':
+            let midpoint: number
+            if (frommesh.anchor == 'left' || frommesh.anchor == 'right') {
+              midpoint = from.x - (from.x - to.x) / 2;
+              A1.x = B1.x = midpoint
+            }
+
+            if (frommesh.anchor == 'top' || frommesh.anchor == 'bottom') {
+              midpoint = from.y - (from.y - to.y) / 2;
+              A1.y = B1.y = midpoint
+            }
+
+            curvepoints.push(from, A1, B1, to)
+            break;
+          case 'straight':
+          default:
+            curvepoints.push(from, to)
+            break;
+        }
+      }
+      else
+        curvepoints.push(from, to)
     }
 
     if (curvepoints.length > 0) {
@@ -251,6 +290,23 @@ export class FlowEdge extends Mesh {
       }
 
     }
+
+    if (this.toArrow) {
+      this.toArrow.position.copy(to)
+      if (this.toConnector) {
+        const angle = this.arrowLookAt(this.toArrow.position, this.toConnector.position)
+        this.toArrow.rotate = angle + MathUtils.degToRad(90)
+      }
+    }
+    if (this.fromArrow) {
+      this.fromArrow.position.copy(from)
+      if (this.fromConnector) {
+        const angle = this.arrowLookAt(this.fromArrow.position, this.fromConnector.position)
+        this.fromArrow.rotate = angle + MathUtils.degToRad(90)
+      }
+    }
+
+
 
 
   }

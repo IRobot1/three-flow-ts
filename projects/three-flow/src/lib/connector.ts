@@ -206,7 +206,7 @@ export class NodeConnectors {
 
 }
 
-class ConnectorMesh extends Mesh {
+export class ConnectorMesh extends Mesh {
   index: number
   anchor: AnchorType
   color: number | string = 'black'
