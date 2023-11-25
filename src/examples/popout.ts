@@ -58,7 +58,7 @@ export class PopoutExample {
     light.position.set(3, 3, 4)
     light.castShadow = true
     light.shadow.bias = -0.001 // this prevents artifacts
-    light.shadow.mapSize.width = light.shadow.mapSize.height = 512 
+    light.shadow.mapSize.width = light.shadow.mapSize.height = 512
     scene.add(light)
 
     const orbit = new OrbitControls(app.camera, app.domElement);
@@ -153,11 +153,7 @@ export class PopoutExample {
         { id: prefix + 'lefttop', anchor: 'top', hidden: true },
       ]
     })
-    const leftroute1 = flow.addRoute({ x: x - 0.3, y: y - 0.5, color: 'black', hidden: true })
-    const leftroute2 = flow.addRoute({ x: x - 0.7, y: y - 0.5, color: 'black', hidden: true })
-    flow.addEdge({ v: node.name, w: leftroute1.name, fromconnector: 'c2' + prefix, color: 'black' })
-    flow.addEdge({ v: leftroute1.name, w: leftroute2.name, color: 'black' })
-    flow.addEdge({ v: leftroute2.name, w: A.name, toconnector: prefix + 'lefttop', color: 'black' })
+    flow.addEdge({ v: node.name, w: A.name, fromconnector: 'c2' + prefix, toconnector: prefix + 'lefttop', color: 'black', linestyle: 'split' })
 
     const B = flow.addNode(<PopoutShape>{
       x, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05,
@@ -176,14 +172,10 @@ export class PopoutExample {
       labeltransform: { translate: { z: 0.051 } },
       shape: 'circle', color: parameters.Ccolor, extrudecolor: parameters.Cextrudecolor,
       connectors: [
-        { id: prefix + 'rightttop', anchor: 'top', hidden: true },
+        { id: prefix + 'righttop', anchor: 'top', hidden: true },
       ]
     })
-    const rightroute1 = flow.addRoute({ x: x + 0.3, y: y - 0.5, color: 'black', hidden: true })
-    const rightroute2 = flow.addRoute({ x: x + 0.7, y: y - 0.5, color: 'black', hidden: true })
-    flow.addEdge({ v: node.name, w: rightroute1.name, fromconnector: 'c4' + prefix, color: 'black' })
-    flow.addEdge({ v: rightroute1.name, w: rightroute2.name, color: 'black' })
-    flow.addEdge({ v: rightroute2.name, w: C.name, toconnector: prefix + 'righttop', color: 'black' })
+    flow.addEdge({ v: node.name, w: C.name, fromconnector: 'c4' + prefix, toconnector: prefix + 'righttop', color: 'black', linestyle: 'split' })
 
     return node
   }
