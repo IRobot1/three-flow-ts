@@ -206,6 +206,15 @@ export class GalleryExample {
           { id: "c1edgestyles", anchor: 'top', color: 'white ' },
         ],
       },
+      {
+        text: 'documentation',
+        label: { text: "Flow Relationships" },
+        x: -3, y: 1,
+        assetimage: 'placeholder', route: 'documentation',
+        connectors: [
+          { id: "c1documentation", anchor: 'top', color: 'white ' },
+        ],
+      },
     ];
 
 
@@ -270,6 +279,12 @@ export class GalleryExample {
         w: "edgestyles",
         fromconnector: "c3basic",
         toconnector: "c1edgestyles"
+      },
+      {
+        v: "basic",
+        w: "documentation",
+        fromconnector: "c1basic",
+        toconnector: "c1documentation"
       },
     ];
 
