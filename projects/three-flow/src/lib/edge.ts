@@ -121,12 +121,14 @@ export class FlowEdge extends Mesh {
 
     this.material = diagram.getMaterial('line', 'edge', this.color)
 
-    this.updateVisuals()
+    requestAnimationFrame(() => {
+      this.updateVisuals()
 
-    if (this.line) {
-      this.line.material = this.material
-      this.line.position.z = -0.001
-    }
+      if (this.line) {
+        this.line.material = this.material
+        this.line.position.z = -0.001
+      }
+    })
   }
 
   private dragged() {
@@ -134,7 +136,7 @@ export class FlowEdge extends Mesh {
     this.updateVisuals()
   }
 
-  addConnector(fromconnector?: string, toconnector?: string, update =true) {
+  addConnector(fromconnector?: string, toconnector?: string, update = true) {
     if (this.fromNode) {
       this.fromConnector = this.fromNode.getConnector(fromconnector)
       if (this.fromConnector != this.fromNode) {

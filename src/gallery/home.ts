@@ -210,7 +210,7 @@ export class GalleryExample {
         id: 'documentation',
         label: { text: "Flow Relationships" },
         x: -3, y: 1,
-        assetimage: 'placeholder', route: 'documentation',
+        assetimage: 'documentation', route: 'documentation',
         connectors: [
           { id: "c1documentation", anchor: 'top', color: 'white ' },
         ],
