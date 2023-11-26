@@ -1,27 +1,62 @@
-# ThreeFlowTs
+# Three Flow
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.5.
+Three Flow is a native threejs graphing library for adding to a threejs scene.  Nodes and edges are rendered using threejs objects and materials. This allows visuals to have volume, shadows, reflections and dynamic material effects.
 
-## Development server
+![image](https://github.com/IRobot1/three-flow-ts/assets/25032599/777b313c-05f9-440b-98ef-ac15742e649a)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## The Very Basics
+Nodes and edges can be defined in JSON and loaded into a basic diagram
 
-## Code scaffolding
+```ts
+const diagram: FlowDiagramParameters = {
+  nodes: [
+    {
+      text: "1", color: 'green', y: 1,
+      label: { text: "Green Center", },
+      labelanchor: 'top', labeltransform: { translate: { y: -0.1 } },
+    },
+    {
+      text: "2", color: 'red', x: 1.5,
+      label: { text: "Red Right" },
+    },
+    {
+      text: "3", color: 'gold', x: -1.5,
+      label: { text: "Gold Left" },
+    }
+  ],
+  edges: [
+    { v: "1", w: "3", },
+    { v: "1", w: "3", },
+    { v: "2", w: "1", }
+  ]
+}
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+const flow = new FlowDiagram()
+scene.add(flow);
 
-## Build
+flow.load(diagram)
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+![image](https://github.com/IRobot1/three-flow-ts/assets/25032599/c31f1f4b-428c-4b07-b4ee-8c421a347f62)
 
-## Running unit tests
+Alternatively, nodes and edges can be programmatically created using addNode and addEdge
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```ts
+const node4 = flow.addNode({
+  text: '4', y: -0.5, color: 'blue',
+  label: { text: 'Blue Square', color: 'white' }
+})
+flow.addEdge({ v: node4.name, w: '1' })
+```
+![image](https://github.com/IRobot1/three-flow-ts/assets/25032599/6e9fe656-4c49-4dae-9dcd-52977c01aade)
 
-## Running end-to-end tests
+Yes, but how to I build a graph like the first iamge?
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
+## Installation
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+To add three-flow to your existing three project
+
+```
+npm install three-flow
+```
