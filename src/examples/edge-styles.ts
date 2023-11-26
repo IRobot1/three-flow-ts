@@ -14,11 +14,11 @@ class EdgeStylesFlowDiagram extends FlowDiagram {
     return new TroikaFlowLabel(this, label)
   }
 
-  override createEdge(edge: FlowEdgeParameters): FlowEdge {
-    if (edge.linestyle == 'split')
-      return super.createEdge(edge)
-    return new EdgeStyle(this, edge)
-  }
+  //override createEdge(edge: FlowEdgeParameters): FlowEdge {
+  //  if (edge.linestyle == 'split')
+  //    return super.createEdge(edge)
+  //  return new EdgeStyle(this, edge)
+  //}
 }
 
 class EdgeStyle extends FlowEdge {
@@ -71,11 +71,15 @@ export class EdgeStylesExample {
     const connectors = new FlowConnectors(flow)
 
     const timers: Array<any> = []
-    timers.push(this.addGroup(flow, 'straight', 'cornflowerblue', -9))
-    timers.push(this.addGroup(flow, 'offset', 'blue', -3))
-    timers.push(this.addGroup(flow, 'spline', 'green', 3))
-    timers.push(this.addGroup(flow, 'split', 'red', 9))
+    timers.push(this.addLineAcross(flow, 'straight', 'cornflowerblue', -9, 3))
+    timers.push(this.addLineAcross(flow, 'offset', 'blue', -3, 3))
+    timers.push(this.addLineAcross(flow, 'spline', 'green', 3, 3))
+    timers.push(this.addLineAcross(flow, 'split', 'red', 9, 3))
 
+    timers.push(this.addLineDiagonal(flow, 'straight', 'cornflowerblue', -9, -3))
+    timers.push(this.addLineDiagonal(flow, 'offset', 'cornflowerblue', -3, -3))
+    timers.push(this.addLineDiagonal(flow, 'spline', 'cornflowerblue', 3, -3))
+    timers.push(this.addLineDiagonal(flow, 'split', 'cornflowerblue', 9, -3))
 
     this.dispose = () => {
       timers.forEach(timer => clearInterval(timer))
@@ -84,7 +88,84 @@ export class EdgeStylesExample {
 
   }
 
-  private addGroup(flow: FlowDiagram, linestyle: EdgeLineStyle, color: string, x = 0, y = 0): any {
+  private addLineDiagonal(flow: FlowDiagram, linestyle: EdgeLineStyle, color: string, x = 0, y = 0): any {
+    const hidden = true
+
+    const centerconnector = linestyle + 'center1'
+    const center = flow.addNode({
+      text: centerconnector, x, y, color,
+      label: {
+        text: linestyle, color: 'white', size: 0.25
+      },
+      connectors: [
+        { id: 'c1' + centerconnector, anchor: 'left', hidden },
+        { id: 'c2' + centerconnector, anchor: 'top', hidden },
+        { id: 'c3' + centerconnector, anchor: 'right', hidden },
+        { id: 'c4' + centerconnector, anchor: 'bottom', hidden },
+      ]
+    })
+
+    const nwid = linestyle + 'nw'
+    const nw = flow.addNode({
+      text: linestyle + 'nw', x: x - 2, y: y + 2, color,
+      connectors: [
+        { id: 'c1' + nwid, anchor: 'right', hidden },
+        { id: 'c2' + nwid, anchor: 'bottom', hidden },
+      ]
+    })
+
+    const neid = linestyle + 'ne'
+    const ne = flow.addNode({
+      text: linestyle + 'ne', x: x+2, y: y +2, color,
+      connectors: [
+        { id: 'c1' + neid, anchor: 'left', hidden },
+        { id: 'c2' + neid, anchor: 'bottom', hidden },
+      ]
+    })
+
+    const swid =  linestyle + 'sw'
+    const sw = flow.addNode({
+      text: linestyle + 'sw', x: x - 2, y:y-2, color,
+      connectors: [
+        { id: 'c1' + swid, anchor: 'right', hidden },
+        { id: 'c2' + swid, anchor: 'top', hidden },
+      ]
+    })
+
+    const seid = linestyle + 'se'
+    const se = flow.addNode({
+      text: linestyle + 'se', x: x + 2, y:y-2, color,
+      connectors: [
+        { id: 'c1' + seid, anchor: 'left', hidden },
+        { id: 'c2' + seid, anchor: 'top', hidden },
+      ]
+    })
+
+    flow.addEdge({ v: nw.name, w: center.name, linestyle, fromconnector: 'c1'+nwid, toconnector: 'c2' + centerconnector })
+    flow.addEdge({ v: ne.name, w: center.name, linestyle, fromconnector: 'c1' + neid, toconnector: 'c2' + centerconnector })
+    flow.addEdge({ v: sw.name, w: center.name, linestyle, fromconnector: 'c1' + swid, toconnector: 'c4' + centerconnector })
+    flow.addEdge({ v: se.name, w: center.name, linestyle, fromconnector: 'c1' + seid, toconnector: 'c4' + centerconnector })
+
+    flow.addEdge({ v: nw.name, w: center.name, linestyle, fromconnector: 'c2' + nwid, toconnector: 'c1' + centerconnector })
+    flow.addEdge({ v: ne.name, w: center.name, linestyle, fromconnector: 'c2' + neid, toconnector: 'c3' + centerconnector })
+    flow.addEdge({ v: sw.name, w: center.name, linestyle, fromconnector: 'c2' + swid, toconnector: 'c1' + centerconnector })
+    flow.addEdge({ v: se.name, w: center.name, linestyle, fromconnector: 'c2' + seid, toconnector: 'c3' + centerconnector })
+
+    const position = center.position.clone()
+    let angle = 0
+    const timer = setInterval(() => {
+      let x = Math.sin(angle) * 0.25
+      let y = Math.cos(angle) * 0.25
+      angle += 0.03
+      center.position.set(position.x + x, position.y + y, position.z)
+
+      // force edges to redraw
+      center.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
+    }, 1000 / 30)
+    return timer
+  }
+
+  private addLineAcross(flow: FlowDiagram, linestyle: EdgeLineStyle, color: string, x = 0, y = 0): any {
     const hidden = true
 
     const centerconnector = linestyle + 'center'

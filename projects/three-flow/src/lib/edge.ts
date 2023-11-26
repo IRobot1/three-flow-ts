@@ -99,7 +99,7 @@ export class FlowEdge extends Mesh {
       })
     }
 
-    this.addConnector(edge.fromconnector, edge.toconnector)
+    this.addConnector(edge.fromconnector, edge.toconnector, false)
 
     if (edge.fromarrow) {
       edge.fromarrow.type = edge.fromarrow.type ? edge.fromarrow.type : 'from'
@@ -134,14 +134,12 @@ export class FlowEdge extends Mesh {
     this.updateVisuals()
   }
 
-  addConnector(fromconnector?: string, toconnector?: string) {
-    let update = false
+  addConnector(fromconnector?: string, toconnector?: string, update =true) {
     if (this.fromNode) {
       this.fromConnector = this.fromNode.getConnector(fromconnector)
       if (this.fromConnector != this.fromNode) {
         this.fromConnector.addEventListener(FlowEventType.DRAGGED, () => { this.dragged() })
         this.edge.fromconnector = fromconnector
-        update = true
       }
     }
     if (this.toNode) {
@@ -149,7 +147,6 @@ export class FlowEdge extends Mesh {
       if (this.toConnector != this.toNode) {
         this.toConnector.addEventListener(FlowEventType.DRAGGED, () => { this.dragged() })
         this.edge.toconnector = toconnector
-        update = true
       }
     }
     if (update) this.updateVisuals()
@@ -228,15 +225,19 @@ export class FlowEdge extends Mesh {
           left: { x: -this.lineoffset, y: 0 },
           right: { x: this.lineoffset, y: 0 }
         }
-        let delta = lookup[frommesh.anchor]
-        let x = from.x + delta.x
-        let y = from.y + delta.y
+        const delta1 = lookup[frommesh.anchor]
+        let x = from.x + delta1.x
+        let y = from.y + delta1.y
         const A1 = new Vector3(x, y, from.z);
 
-        delta = lookup[tomesh.anchor]
-        x = to.x + delta.x
-        y = to.y + delta.y
+        const delta2 = lookup[tomesh.anchor]
+        x = to.x + delta2.x
+        y = to.y + delta2.y
         const B1 = new Vector3(x, y, to.z);
+
+        x = delta1.x + delta2.x
+        y = delta1.y + delta2.y
+        const diagonal = (x != 0 || y != 0)
 
         switch (this.edge.linestyle) {
           case 'offset':
@@ -247,18 +248,31 @@ export class FlowEdge extends Mesh {
             curvepoints = curve.getPoints(this.divisions)
             break;
           case 'split':
-            let midpoint: number
-            if (frommesh.anchor == 'left' || frommesh.anchor == 'right') {
-              midpoint = from.x - (from.x - to.x) / 2;
-              A1.x = B1.x = midpoint
+            if (diagonal) {
+              const splitlookup: any = {
+                righttop: { x: to.x, y: from.y },
+                lefttop: { x: to.x, y: from.y },
+                rightbottom: { x: to.x, y: from.y },
+                leftbottom: { x: to.x, y: from.y },
+                topleft: { x: from.x, y: to.y },
+                topright: { x: from.x, y: to.y },
+                bottomright: { x: from.x, y: to.y },
+                bottomleft: { x: from.x, y: to.y },
+              }
+              const c = splitlookup[frommesh.anchor + tomesh.anchor]
+              curvepoints.push(from, new Vector3(c.x, c.y, from.z), to)
+            }
+            else {
+              if (frommesh.anchor == 'left' || frommesh.anchor == 'right') {
+                A1.x = B1.x = from.x - (from.x - to.x) / 2;
+              }
+
+              if (frommesh.anchor == 'top' || frommesh.anchor == 'bottom') {
+                A1.y = B1.y = from.y - (from.y - to.y) / 2;
+              }
+              curvepoints.push(from, A1, B1, to)
             }
 
-            if (frommesh.anchor == 'top' || frommesh.anchor == 'bottom') {
-              midpoint = from.y - (from.y - to.y) / 2;
-              A1.y = B1.y = midpoint
-            }
-
-            curvepoints.push(from, A1, B1, to)
             break;
           case 'straight':
           default:
