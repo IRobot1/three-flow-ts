@@ -1,6 +1,6 @@
 {
   "name": "three-flow-js",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "license": "MIT",
   "peerDependencies": {
     "three": "^0.158.0"
