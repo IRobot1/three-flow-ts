@@ -1,4 +1,4 @@
-import { BufferGeometry, CatmullRomCurve3, CircleGeometry, DoubleSide, Material, Mesh, MeshStandardMaterial, PlaneGeometry, Scene, Shape, ShapeGeometry, SpotLight, TubeGeometry, Vector3 } from "three";
+import { BufferGeometry, CatmullRomCurve3, CircleGeometry, Curve, CurvePath, DoubleSide, LineCurve3, Material, Mesh, MeshStandardMaterial, Path, PlaneGeometry, Scene, Shape, ShapeGeometry, SpotLight, TubeGeometry, Vector2, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
@@ -11,6 +11,7 @@ import {
   FlowLabel,
   FlowNode,
   FlowEdge,
+  FlowInteraction,
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 import { MathUtils } from "three/src/math/MathUtils";
@@ -41,7 +42,7 @@ export class ProcessExample {
     light.position.set(0.5, 0.5, 4)
     light.castShadow = true
     light.shadow.bias = -0.001 // this prevents artifacts
-    light.shadow.mapSize.width = light.shadow.mapSize.height = 512/2
+    light.shadow.mapSize.width = light.shadow.mapSize.height = 512 / 2
     scene.add(light)
 
     const orbit = new OrbitControls(app.camera, app.domElement);
@@ -58,6 +59,7 @@ export class ProcessExample {
     background.add(flow);
     flow.position.z = 0.3
 
+    new FlowInteraction(flow, app, app.camera)
 
     const connectors = new FlowConnectors(flow)
 
@@ -80,11 +82,6 @@ export class ProcessExample {
 
     flow.addEdge({ v: start.name, w: decision.name, fromconnector: 'c1start', toconnector: 'c1decision' })
 
-    const route1 = flow.addRoute({ x: -2, y: 1, hidden: true })
-    flow.addEdge({ v: decision.name, w: route1.name, fromconnector: 'c2decision' })
-
-    const route2 = flow.addRoute({ x: -2, y: -1, hidden: true })
-    flow.addEdge({ v: decision.name, w: route2.name, fromconnector: 'c4decision' })
 
     const process1 = flow.addNode(<ProcessShape>{
       y: 1, height: 0.5, label: { text: 'Process 1', size: 0.15, color: 'white' }, shape: 'rect',
@@ -93,6 +90,7 @@ export class ProcessExample {
         { id: 'c2process1', anchor: 'right', hidden: true },
       ]
     })
+    flow.addEdge({ v: decision.name, w: process1.name, fromconnector: 'c2decision', toconnector: 'c1process1', linestyle: 'split' })
 
     const process2 = flow.addNode(<ProcessShape>{
       height: 0.5, label: { text: 'Process 2', size: 0.15, color: 'white' }, shape: 'rect',
@@ -101,7 +99,6 @@ export class ProcessExample {
         { id: 'c2process2', anchor: 'right', hidden: true },
       ]
     })
-    flow.addEdge({ v: route1.name, w: process1.name, toconnector: 'c1process1' })
     flow.addEdge({ v: decision.name, w: process2.name, fromconnector: 'c3decision', toconnector: 'c1process2' })
 
     const process3 = flow.addNode(<ProcessShape>{
@@ -111,13 +108,7 @@ export class ProcessExample {
         { id: 'c2process3', anchor: 'right', hidden: true },
       ]
     })
-    flow.addEdge({ v: route2.name, w: process3.name, toconnector: 'c1process3' })
-
-    const route3 = flow.addRoute({ x: 2, y: 1, hidden: true })
-    flow.addEdge({ v: process1.name, w: route3.name, fromconnector: 'c2process1' })
-
-    const route4 = flow.addRoute({ x: 2, y: -1, hidden: true })
-    flow.addEdge({ v: process3.name, w: route4.name, fromconnector: 'c2process3' })
+    flow.addEdge({ v: decision.name, w: process3.name, fromconnector: 'c4decision', toconnector: 'c1process3', linestyle: 'split' })
 
     const action = flow.addNode(<ProcessShape>{
       x: 2, height: 0.5, label: { text: 'Action', size: 0.15, color: 'white' }, shape: 'parallel',
@@ -128,9 +119,9 @@ export class ProcessExample {
         { id: 'c4action', anchor: 'bottom', hidden: true },
       ]
     })
+    flow.addEdge({ v: process1.name, w: action.name, fromconnector: 'c2process1', toconnector: 'c2action', linestyle: 'split' })
     flow.addEdge({ v: process2.name, w: action.name, fromconnector: 'c2process2', toconnector: 'c1action' })
-    flow.addEdge({ v: route3.name, w: action.name, toconnector: 'c2action' })
-    flow.addEdge({ v: route4.name, w: action.name, toconnector: 'c4action' })
+    flow.addEdge({ v: process3.name, w: action.name, fromconnector: 'c2process3', toconnector: 'c4action', linestyle: 'split' })
 
     const end = flow.addNode(<ProcessShape>{
       x: 4, height: 0.5, label: { text: 'End', size: 0.15, color: 'white' }, shape: 'circle',
@@ -176,8 +167,11 @@ class ProcessEdge extends FlowEdge {
   }
 
   override createGeometry(curvepoints: Array<Vector3>, thickness: number): BufferGeometry | undefined {
-    const curve = new CatmullRomCurve3(curvepoints);
-    return new TubeGeometry(curve, curvepoints.length, thickness)
+    const curve = new CurvePath<Vector3>()
+    for (let i = 0; i < curvepoints.length - 1; i++) {
+      curve.add(new LineCurve3(curvepoints[i], curvepoints[i + 1]))
+    }
+    return new TubeGeometry(curve, 64, thickness)
   }
 }
 

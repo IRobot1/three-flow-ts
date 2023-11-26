@@ -1,4 +1,4 @@
-import { AmbientLight, BufferGeometry, CatmullRomCurve3, DoubleSide, Material, MathUtils, Mesh, MeshBasicMaterial, SRGBColorSpace, Scene, Shape, ShapeGeometry, Texture, TextureLoader, TorusKnotGeometry, TubeGeometry, Vector3 } from "three";
+import { AmbientLight, BufferGeometry, DoubleSide, LineCurve3, Material, MathUtils, Mesh, MeshBasicMaterial, SRGBColorSpace, Scene, Shape, ShapeGeometry, Texture, TextureLoader, TorusKnotGeometry, TubeGeometry, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
@@ -260,8 +260,7 @@ class FramesNode extends FlowNode {
 
 class FramesEdge extends FlowEdge {
   override createGeometry(curvepoints: Array<Vector3>, thickness: number): BufferGeometry | undefined {
-    const curve = new CatmullRomCurve3(curvepoints);
-    return new TubeGeometry(curve, curvepoints.length, thickness)
+    return new TubeGeometry(new LineCurve3(curvepoints[0], curvepoints[1]), 64, thickness)
   }
 }
 
