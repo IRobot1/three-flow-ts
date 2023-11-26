@@ -11,8 +11,11 @@ import {
   FlowLabel,
   FlowNode,
   FlowEdge,
+  FlowDiagramOptions,
+  FlowInteraction,
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
+import { MathUtils } from "three/src/math/MathUtils";
 
 type PopoutShapeType = 'circle' | 'stadium'
 interface PopoutShape extends FlowNodeParameters {
@@ -50,6 +53,7 @@ export class PopoutExample {
     background.receiveShadow = background.castShadow = true
     scene.add(background)
 
+    background.rotation.x = MathUtils.degToRad(-30)
     //const ambient = new AmbientLight()
     //ambient.intensity = 2
     //scene.add(ambient)
@@ -63,7 +67,7 @@ export class PopoutExample {
 
     const orbit = new OrbitControls(app.camera, app.domElement);
     orbit.target.set(0, app.camera.position.y, 0)
-    orbit.enableRotate = true;
+    orbit.enableRotate = false;
     orbit.update();
 
     window.addEventListener('keydown', (e: KeyboardEvent) => {
@@ -71,12 +75,14 @@ export class PopoutExample {
         orbit.enableRotate = !orbit.enableRotate
     })
 
-    const flow = new PopoutFlowDiagram()
+
+    const flow = new PopoutFlowDiagram({ linestyle: 'split', gridsize: 0.1 })
     background.add(flow);
     flow.position.z = 0.1
 
+    new FlowInteraction(flow, app, app.camera)
 
-    const connectors = new FlowConnectors(flow)
+    new FlowConnectors(flow)
 
     const top = flow.addNode(<PopoutShape>{
       y: 1, shape: 'circle', color: 'black', extrudecolor: '#545B5B', extruderadius: 0.35, extrudedepth: 0.05,
@@ -179,7 +185,7 @@ export class PopoutExample {
 
 class PopoutFlowDiagram extends FlowDiagram {
 
-  constructor() { super() }
+  constructor(options?: FlowDiagramOptions) { super(options) }
 
   override createMeshMaterial(purpose: string, color: number | string): Material {
     return new MeshStandardMaterial({ color, side: DoubleSide });

@@ -12,6 +12,7 @@ import {
   FlowNode,
   FlowEdge,
   FlowInteraction,
+  FlowDiagramOptions,
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 import { MathUtils } from "three/src/math/MathUtils";
@@ -47,7 +48,7 @@ export class ProcessExample {
 
     const orbit = new OrbitControls(app.camera, app.domElement);
     orbit.target.set(0, app.camera.position.y, 0)
-    orbit.enableRotate = true;
+    orbit.enableRotate = false;
     orbit.update();
 
     window.addEventListener('keydown', (e: KeyboardEvent) => {
@@ -55,7 +56,7 @@ export class ProcessExample {
         orbit.enableRotate = !orbit.enableRotate
     })
 
-    const flow = new MyFlowDiagram()
+    const flow = new ProcessFlowDiagram({ linestyle: 'split', gridsize: 0.1 })
     background.add(flow);
     flow.position.z = 0.3
 
@@ -139,9 +140,9 @@ export class ProcessExample {
   }
 }
 
-class MyFlowDiagram extends FlowDiagram {
+class ProcessFlowDiagram extends FlowDiagram {
 
-  constructor() { super() }
+  constructor(options?: FlowDiagramOptions) { super(options) }
 
   override createMeshMaterial(purpose: string, color: number | string): Material {
     return new MeshStandardMaterial({ color, side: DoubleSide });
@@ -161,7 +162,7 @@ class MyFlowDiagram extends FlowDiagram {
 }
 
 class ProcessEdge extends FlowEdge {
-  constructor(diagram: MyFlowDiagram, edge: FlowEdgeParameters) {
+  constructor(diagram: ProcessFlowDiagram, edge: FlowEdgeParameters) {
     edge.color = 'orange'
     super(diagram, edge)
   }
@@ -176,7 +177,7 @@ class ProcessEdge extends FlowEdge {
 }
 
 class ProcessNode extends FlowNode {
-  constructor(diagram: MyFlowDiagram, parameters: ProcessShape) {
+  constructor(diagram: ProcessFlowDiagram, parameters: ProcessShape) {
     parameters.color = '#018083'
     super(diagram, parameters)
 

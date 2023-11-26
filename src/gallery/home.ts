@@ -1,5 +1,5 @@
 import { AmbientLight, BufferGeometry, MathUtils, MeshBasicMaterial, PointLight, SRGBColorSpace, Scene, Shape, ShapeGeometry, TextureLoader, Vector2 } from "three";
-import { ThreeInteractive, InteractiveEventType, FlowDiagram, FlowLabelParameters, FlowLabel, FlowNodeParameters, FlowEdgeParameters, FlowConnectors, FlowDiagramParameters, FlowNode } from "three-flow";
+import { ThreeInteractive, InteractiveEventType, FlowDiagram, FlowLabelParameters, FlowLabel, FlowNodeParameters, FlowEdgeParameters, FlowConnectors, FlowDiagramParameters, FlowNode, FlowDiagramOptions } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "../examples/troika-label";
@@ -7,6 +7,10 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 class MyFlowDiagram extends FlowDiagram {
   loader = new TextureLoader()
+
+  constructor(options?: FlowDiagramOptions) {
+    super(options)
+  }
 
   override createLabel(label: FlowLabelParameters): FlowLabel {
     return new TroikaFlowLabel(this, label)
@@ -274,7 +278,7 @@ export class GalleryExample {
       nodes, edges
     }
 
-    const flow = new MyFlowDiagram()
+    const flow = new MyFlowDiagram({ linestyle:'split'})
     scene.add(flow);
 
     // make the flow interactive

@@ -16,6 +16,7 @@ export interface FlowDiagramOptions {
   linestyle?: EdgeLineStyle
   linedivisions?: number
   linethickness?: number
+  lineoffset?: number
   layout?: FlowLayout
 }
 
@@ -248,6 +249,7 @@ export class FlowDiagram extends Object3D {
     if (!item.linestyle && this.options) item.linestyle = this.options.linestyle
     if (!item.divisions && this.options) item.divisions = this.options.linedivisions
     if (!item.thickness && this.options) item.thickness = this.options.linethickness
+    if (!item.lineoffset && this.options) item.lineoffset = this.options.lineoffset
 
     const edge = this.createEdge(item)
     this.add(edge)
