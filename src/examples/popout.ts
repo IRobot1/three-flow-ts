@@ -99,9 +99,7 @@ export class PopoutExample {
       Bcolor: '#2161B2', Bextrudecolor: '#2F7AD2',
       Ccolor: '#00AAE3', Cextrudecolor: '#3BCEFE',
     })
-    const route1 = flow.addRoute({ x: -3, y: 1, color: 'black', hidden: true })
-    flow.addEdge({ v: top.name, w: route1.name, fromconnector: 'topleft', color: 'black' })
-    flow.addEdge({ v: route1.name, w: leftnode.name, toconnector: 'c1left', color: 'black' })
+    flow.addEdge({ v: top.name, w: leftnode.name, fromconnector: 'topleft', toconnector: 'c1left', color: 'black', linestyle:'split' })
 
     const middlenode = this.addGroup(flow, 'middle', 0, 0, {
       color: '#629B3A', extrudecolor: '#71B545',
@@ -117,9 +115,7 @@ export class PopoutExample {
       Bcolor: '#9B2643', Bextrudecolor: '#B92D51',
       Ccolor: '#E11F30', Cextrudecolor: '#FD4E59',
     })
-    const route2 = flow.addRoute({ x: 3, y: 1, color: 'black', hidden: true })
-    flow.addEdge({ v: top.name, w: route2.name, fromconnector: 'topright', color: 'black' })
-    flow.addEdge({ v: route2.name, w: rightnode.name, toconnector: 'c1right', color: 'black' })
+    flow.addEdge({ v: top.name, w: rightnode.name, fromconnector: 'topright', toconnector: 'c1right', color: 'black', linestyle:'split' })
 
 
     this.dispose = () => {
