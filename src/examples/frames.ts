@@ -63,7 +63,7 @@ export class FramesExample {
     const connectors = new FlowConnectors(flow)
 
     const start = flow.addNode(<FrameShape>{
-      text: 'start', x: -3.5, width: 1.2, height: 1.2,
+      id: 'start', x: -3.5, width: 1.2, height: 1.2,
       content: 'texture', texture: background.clone(), icon: 'image',
       connectors: [
         { id: 'c1start', anchor: 'right', hidden: true }
@@ -71,7 +71,7 @@ export class FramesExample {
     })
 
     const queue = flow.addNode(<FrameShape>{
-      text: 'queue', x: -1.5, width: 1.2, height: 1.2,
+      id: 'queue', x: -1.5, width: 1.2, height: 1.2,
       content: 'mesh',
       connectors: [
         { id: 'c1queue', anchor: 'left', hidden: true },
@@ -81,61 +81,61 @@ export class FramesExample {
       ]
     })
 
-    flow.addEdge({ v: start.name, w: queue.name, fromconnector: 'c1start', toconnector: 'c1queue' })
+    flow.addEdge({ from: start.name, to: queue.name, fromconnector: 'c1start', toconnector: 'c1queue' })
 
     const localtask1 = flow.addNode(<FrameShape>{
-      text: 'localtask1', x: -1.5, y: 2, width: 1.2, height: 1.2,
+      id: 'localtask1', x: -1.5, y: 2, width: 1.2, height: 1.2,
       content: 'icon', icon: 'task',
       connectors: [
         { id: 'c1task1', anchor: 'bottom', hidden: true },
         { id: 'c2task1', anchor: 'right', hidden: true },
       ]
     })
-    flow.addEdge({ v: queue.name, w: localtask1.name, fromconnector: 'c2queue', toconnector: 'c1task1' })
+    flow.addEdge({ from: queue.name, to: localtask1.name, fromconnector: 'c2queue', toconnector: 'c1task1' })
 
     const localtask2 = flow.addNode(<FrameShape>{
-      text: 'localtask2', x: -1.5, y: -2, width: 1.2, height: 1.2,
+      id: 'localtask2', x: -1.5, y: -2, width: 1.2, height: 1.2,
       content: 'icon', icon: 'task',
       connectors: [
         { id: 'c1task2', anchor: 'top', hidden: true },
         { id: 'c2task2', anchor: 'right', hidden: true },
       ]
     })
-    flow.addEdge({ v: queue.name, w: localtask2.name, fromconnector: 'c4queue', toconnector: 'c1task2' })
+    flow.addEdge({ from: queue.name, to: localtask2.name, fromconnector: 'c4queue', toconnector: 'c1task2' })
 
     const cloudtask = flow.addNode(<FrameShape>{
-      text: 'cloudtask', x: 0.5, width: 1.2, height: 1.2,
+      id: 'cloudtask', x: 0.5, width: 1.2, height: 1.2,
       content: 'icon', icon: 'cloud', iconcolor: 'steelblue',
       connectors: [
         { id: 'c1cloud', anchor: 'left', hidden: true },
         { id: 'c2cloud', anchor: 'right', hidden: true },
       ]
     })
-    flow.addEdge({ v: queue.name, w: cloudtask.name, fromconnector: 'c3queue', toconnector: 'c1cloud' })
+    flow.addEdge({ from: queue.name, to: cloudtask.name, fromconnector: 'c3queue', toconnector: 'c1cloud' })
 
     //
     const file1 = flow.addNode(<FrameShape>{
-      text: 'file1', x: 2.5, y: 2, width: 1.2, height: 1.2,
+      id: 'file1', x: 2.5, y: 2, width: 1.2, height: 1.2,
       content: 'icon', icon: 'description',
       connectors: [
         { id: 'c1file1', anchor: 'left', hidden: true },
         { id: 'c2file1', anchor: 'bottom', hidden: true },
       ]
     })
-    flow.addEdge({ v: localtask1.name, w: file1.name, fromconnector: 'c2task1', toconnector: 'c1file1' })
+    flow.addEdge({ from: localtask1.name, to: file1.name, fromconnector: 'c2task1', toconnector: 'c1file1' })
 
     const file2 = flow.addNode(<FrameShape>{
-      text: 'file2', x: 2.5, y: -2, width: 1.2, height: 1.2,
+      id: 'file2', x: 2.5, y: -2, width: 1.2, height: 1.2,
       content: 'icon', icon: 'description',
       connectors: [
         { id: 'c1file2', anchor: 'left', hidden: true },
         { id: 'c2file2', anchor: 'top', hidden: true },
       ]
     })
-    flow.addEdge({ v: localtask2.name, w: file2.name, fromconnector: 'c2task2', toconnector: 'c1file2' })
+    flow.addEdge({ from: localtask2.name, to: file2.name, fromconnector: 'c2task2', toconnector: 'c1file2' })
 
     const folder = flow.addNode(<FrameShape>{
-      text: 'folder', x: 2.5, width: 1.2, height: 1.2,
+      id: 'folder', x: 2.5, width: 1.2, height: 1.2,
       content: 'icon', icon: 'folder', iconcolor: 'gold',
       connectors: [
         { id: 'c1folder', anchor: 'left', hidden: true },
@@ -144,18 +144,18 @@ export class FramesExample {
         { id: 'c4folder', anchor: 'bottom', hidden: true },
       ]
     })
-    flow.addEdge({ v: cloudtask.name, w: folder.name, fromconnector: 'c2cloud', toconnector: 'c1folder' })
-    flow.addEdge({ v: file1.name, w: folder.name, fromconnector: 'c2file1', toconnector: 'c2folder' })
-    flow.addEdge({ v: file2.name, w: folder.name, fromconnector: 'c2file2', toconnector: 'c4folder' })
+    flow.addEdge({ from: cloudtask.name, to: folder.name, fromconnector: 'c2cloud', toconnector: 'c1folder' })
+    flow.addEdge({ from: file1.name, to: folder.name, fromconnector: 'c2file1', toconnector: 'c2folder' })
+    flow.addEdge({ from: file2.name, to: folder.name, fromconnector: 'c2file2', toconnector: 'c4folder' })
 
     const storage = flow.addNode(<FrameShape>{
-      text: 'storage', x: 5, width: 2, height: 2,
+      id: 'storage', x: 5, width: 2, height: 2,
       content: 'icon', icon: 'storage', iconsize: 1, iconcolor: 'black',
       connectors: [
         { id: 'c1storage', anchor: 'left', hidden: true },
       ]
     })
-    flow.addEdge({ v: folder.name, w: storage.name, fromconnector: 'c3folder', toconnector: 'c1storage' })
+    flow.addEdge({ from: folder.name, to: storage.name, fromconnector: 'c3folder', toconnector: 'c1storage' })
 
 
     this.dispose = () => {

@@ -69,11 +69,11 @@ export class FlowEdge extends Mesh {
     //@ts-ignore
     this.type = 'flowedge'
 
-    this.name = edge.name = edge.name ? edge.name : diagram.nextEdgeId()
+    this.name = edge.id = edge.id ? edge.id : diagram.nextEdgeId()
     if (this.data) this.userData = this.data
 
 
-    this.from = edge.v
+    this.from = edge.from
 
     this.fromNode = diagram.hasNode(this.from)
     if (this.fromNode) {
@@ -86,7 +86,7 @@ export class FlowEdge extends Mesh {
       })
     }
 
-    this.to = edge.w
+    this.to = edge.to
 
     this.toNode = diagram.hasNode(this.to)
     if (this.toNode) {

@@ -182,7 +182,7 @@ export class FlowDiagram extends Object3D {
     const mesh = this.setNode(node)
 
     // setNode can assign node.text, so must be done before adding to graph
-    this.graph.setNode(node.text!, node);
+    this.graph.setNode(node.id!, node);
 
     return mesh;
   }
@@ -200,7 +200,7 @@ export class FlowDiagram extends Object3D {
     const mesh = this.setRoute(route)
 
     // setRoute can assign node.text, so must be done before adding to graph
-    this.graph.setNode(route.text!, route);
+    this.graph.setNode(route.id!, route);
 
     return mesh;
   }
@@ -222,7 +222,7 @@ export class FlowDiagram extends Object3D {
 
   newNode(): FlowNode {
     const node: FlowNodeParameters = {
-      text: this.nextNodeId(),
+      id: this.nextNodeId(),
     }
 
     return this.addNode(node)
@@ -263,7 +263,7 @@ export class FlowDiagram extends Object3D {
     const mesh = this.setEdge(edge)
 
     // setEdge can assign edge.name, so must be before adding to graph
-    this.graph.setEdge(edge.v, edge.w, edge);
+    this.graph.setEdge(edge.from, edge.to, edge);
     return mesh;
   }
 

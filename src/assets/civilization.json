@@ -2,7 +2,7 @@
   "version": 1,
   "nodes": [
     {
-      "text": "Agriculture",
+      "id": "Agriculture",
       "label": {
         "text": "Agriculture",
         "size": 0.25
@@ -16,7 +16,7 @@
       "z": 0
     },
     {
-      "text": "Pottery",
+      "id": "Pottery",
       "label": {
         "text": "Pottery",
         "size": 0.25
@@ -30,7 +30,7 @@
       "z": 0
     },
     {
-      "text": "Animal husbandry",
+      "id": "Animal husbandry",
       "label": {
         "text": "Animal husbandry",
         "size": 0.25
@@ -44,7 +44,7 @@
       "z": 0
     },
     {
-      "text": "Archery",
+      "id": "Archery",
       "label": {
         "text": "Archery",
         "size": 0.25
@@ -58,7 +58,7 @@
       "z": 0
     },
     {
-      "text": "Mining",
+      "id": "Mining",
       "label": {
         "text": "Mining",
         "size": 0.25
@@ -72,7 +72,7 @@
       "z": 0
     },
     {
-      "text": "Archaeology",
+      "id": "Archaeology",
       "label": {
         "text": "Archaeology",
         "size": 0.25
@@ -86,7 +86,7 @@
       "z": 0
     },
     {
-      "text": "Biology",
+      "id": "Biology",
       "label": {
         "text": "Biology",
         "size": 0.25
@@ -100,7 +100,7 @@
       "z": 0
     },
     {
-      "text": "Dynamite",
+      "id": "Dynamite",
       "label": {
         "text": "Dynamite",
         "size": 0.25
@@ -114,7 +114,7 @@
       "z": 0
     },
     {
-      "text": "Railroad",
+      "id": "Railroad",
       "label": {
         "text": "Railroad",
         "size": 0.25
@@ -128,7 +128,7 @@
       "z": 0
     },
     {
-      "text": "Industrialization",
+      "id": "Industrialization",
       "label": {
         "text": "Industrialization",
         "size": 0.25
@@ -142,7 +142,7 @@
       "z": 0
     },
     {
-      "text": "Steam power",
+      "id": "Steam power",
       "label": {
         "text": "Steam power",
         "size": 0.25
@@ -156,7 +156,7 @@
       "z": 0
     },
     {
-      "text": "Metallurgy",
+      "id": "Metallurgy",
       "label": {
         "text": "Metallurgy",
         "size": 0.25
@@ -170,7 +170,7 @@
       "z": 0
     },
     {
-      "text": "Rifling",
+      "id": "Rifling",
       "label": {
         "text": "Rifling",
         "size": 0.25
@@ -184,7 +184,7 @@
       "z": 0
     },
     {
-      "text": "Military science",
+      "id": "Military science",
       "label": {
         "text": "Military science",
         "size": 0.25
@@ -198,7 +198,7 @@
       "z": 0
     },
     {
-      "text": "Navigation",
+      "id": "Navigation",
       "label": {
         "text": "Navigation",
         "size": 0.25
@@ -212,7 +212,7 @@
       "z": 0
     },
     {
-      "text": "Scientific theory",
+      "id": "Scientific theory",
       "label": {
         "text": "Scientific theory",
         "size": 0.25
@@ -226,7 +226,7 @@
       "z": 0
     },
     {
-      "text": "Economics",
+      "id": "Economics",
       "label": {
         "text": "Economics",
         "size": 0.25
@@ -240,7 +240,7 @@
       "z": 0
     },
     {
-      "text": "Refrigeration",
+      "id": "Refrigeration",
       "label": {
         "text": "Refrigeration",
         "size": 0.25
@@ -254,7 +254,7 @@
       "z": 0
     },
     {
-      "text": "Gunpowder",
+      "id": "Gunpowder",
       "label": {
         "text": "Gunpowder",
         "size": 0.25
@@ -268,7 +268,7 @@
       "z": 0
     },
     {
-      "text": "Chemistry",
+      "id": "Chemistry",
       "label": {
         "text": "Chemistry",
         "size": 0.25
@@ -282,7 +282,7 @@
       "z": 0
     },
     {
-      "text": "Telecommunications",
+      "id": "Telecommunications",
       "label": {
         "text": "Telecommunications",
         "size": 0.25
@@ -296,7 +296,7 @@
       "z": 0
     },
     {
-      "text": "Globalization",
+      "id": "Globalization",
       "label": {
         "text": "Globalization",
         "size": 0.25
@@ -310,7 +310,7 @@
       "z": 0
     },
     {
-      "text": "Particle physics",
+      "id": "Particle physics",
       "label": {
         "text": "Particle physics",
         "size": 0.25
@@ -324,7 +324,7 @@
       "z": 0
     },
     {
-      "text": "The Internet",
+      "id": "The Internet",
       "label": {
         "text": "The Internet",
         "size": 0.25
@@ -338,7 +338,7 @@
       "z": 0
     },
     {
-      "text": "Banking",
+      "id": "Banking",
       "label": {
         "text": "Banking",
         "size": 0.25
@@ -352,7 +352,7 @@
       "z": 0
     },
     {
-      "text": "Architecture",
+      "id": "Architecture",
       "label": {
         "text": "Architecture",
         "size": 0.25
@@ -366,7 +366,7 @@
       "z": 0
     },
     {
-      "text": "Electricity",
+      "id": "Electricity",
       "label": {
         "text": "Electricity",
         "size": 0.25
@@ -380,7 +380,7 @@
       "z": 0
     },
     {
-      "text": "Radio",
+      "id": "Radio",
       "label": {
         "text": "Radio",
         "size": 0.25
@@ -394,7 +394,7 @@
       "z": 0
     },
     {
-      "text": "Replaceable parts",
+      "id": "Replaceable parts",
       "label": {
         "text": "Replaceable parts",
         "size": 0.25
@@ -408,7 +408,7 @@
       "z": 0
     },
     {
-      "text": "Printing press",
+      "id": "Printing press",
       "label": {
         "text": "Printing press",
         "size": 0.25
@@ -422,7 +422,7 @@
       "z": 0
     },
     {
-      "text": "Fertilizer",
+      "id": "Fertilizer",
       "label": {
         "text": "Fertilizer",
         "size": 0.25
@@ -436,7 +436,7 @@
       "z": 0
     },
     {
-      "text": "Future tech",
+      "id": "Future tech",
       "label": {
         "text": "Future tech",
         "size": 0.25
@@ -450,7 +450,7 @@
       "z": 0
     },
     {
-      "text": "Stealth",
+      "id": "Stealth",
       "label": {
         "text": "Stealth",
         "size": 0.25
@@ -464,7 +464,7 @@
       "z": 0
     },
     {
-      "text": "Satellites",
+      "id": "Satellites",
       "label": {
         "text": "Satellites",
         "size": 0.25
@@ -478,7 +478,7 @@
       "z": 0
     },
     {
-      "text": "Nuclear fusion",
+      "id": "Nuclear fusion",
       "label": {
         "text": "Nuclear fusion",
         "size": 0.25
@@ -492,7 +492,7 @@
       "z": 0
     },
     {
-      "text": "Robotics",
+      "id": "Robotics",
       "label": {
         "text": "Robotics",
         "size": 0.25
@@ -506,7 +506,7 @@
       "z": 0
     },
     {
-      "text": "Nanotechnology",
+      "id": "Nanotechnology",
       "label": {
         "text": "Nanotechnology",
         "size": 0.25
@@ -520,7 +520,7 @@
       "z": 0
     },
     {
-      "text": "Lasers",
+      "id": "Lasers",
       "label": {
         "text": "Lasers",
         "size": 0.25
@@ -534,7 +534,7 @@
       "z": 0
     },
     {
-      "text": "Ecology",
+      "id": "Ecology",
       "label": {
         "text": "Ecology",
         "size": 0.25
@@ -548,7 +548,7 @@
       "z": 0
     },
     {
-      "text": "Mobile tactics",
+      "id": "Mobile tactics",
       "label": {
         "text": "Mobile tactics",
         "size": 0.25
@@ -562,7 +562,7 @@
       "z": 0
     },
     {
-      "text": "Penicillin",
+      "id": "Penicillin",
       "label": {
         "text": "Penicillin",
         "size": 0.25
@@ -576,7 +576,7 @@
       "z": 0
     },
     {
-      "text": "Rocketry",
+      "id": "Rocketry",
       "label": {
         "text": "Rocketry",
         "size": 0.25
@@ -590,7 +590,7 @@
       "z": 0
     },
     {
-      "text": "Advanced ballistics",
+      "id": "Advanced ballistics",
       "label": {
         "text": "Advanced ballistics",
         "size": 0.25
@@ -604,7 +604,7 @@
       "z": 0
     },
     {
-      "text": "Computers",
+      "id": "Computers",
       "label": {
         "text": "Computers",
         "size": 0.25
@@ -618,7 +618,7 @@
       "z": 0
     },
     {
-      "text": "Nuclear fission",
+      "id": "Nuclear fission",
       "label": {
         "text": "Nuclear fission",
         "size": 0.25
@@ -632,7 +632,7 @@
       "z": 0
     },
     {
-      "text": "Radar",
+      "id": "Radar",
       "label": {
         "text": "Radar",
         "size": 0.25
@@ -646,7 +646,7 @@
       "z": 0
     },
     {
-      "text": "Plastics",
+      "id": "Plastics",
       "label": {
         "text": "Plastics",
         "size": 0.25
@@ -660,7 +660,7 @@
       "z": 0
     },
     {
-      "text": "Electronics",
+      "id": "Electronics",
       "label": {
         "text": "Electronics",
         "size": 0.25
@@ -674,7 +674,7 @@
       "z": 0
     },
     {
-      "text": "Atomic theory",
+      "id": "Atomic theory",
       "label": {
         "text": "Atomic theory",
         "size": 0.25
@@ -688,7 +688,7 @@
       "z": 0
     },
     {
-      "text": "Combustion",
+      "id": "Combustion",
       "label": {
         "text": "Combustion",
         "size": 0.25
@@ -702,7 +702,7 @@
       "z": 0
     },
     {
-      "text": "Ballistics",
+      "id": "Ballistics",
       "label": {
         "text": "Ballistics",
         "size": 0.25
@@ -716,7 +716,7 @@
       "z": 0
     },
     {
-      "text": "Combined arms",
+      "id": "Combined arms",
       "label": {
         "text": "Combined arms",
         "size": 0.25
@@ -730,7 +730,7 @@
       "z": 0
     },
     {
-      "text": "Flight",
+      "id": "Flight",
       "label": {
         "text": "Flight",
         "size": 0.25
@@ -744,7 +744,7 @@
       "z": 0
     },
     {
-      "text": "Astronomy",
+      "id": "Astronomy",
       "label": {
         "text": "Astronomy",
         "size": 0.25
@@ -758,7 +758,7 @@
       "z": 0
     },
     {
-      "text": "Acoustics",
+      "id": "Acoustics",
       "label": {
         "text": "Acoustics",
         "size": 0.25
@@ -772,7 +772,7 @@
       "z": 0
     },
     {
-      "text": "Steel",
+      "id": "Steel",
       "label": {
         "text": "Steel",
         "size": 0.25
@@ -786,7 +786,7 @@
       "z": 0
     },
     {
-      "text": "Guilds",
+      "id": "Guilds",
       "label": {
         "text": "Guilds",
         "size": 0.25
@@ -800,7 +800,7 @@
       "z": 0
     },
     {
-      "text": "Machinery",
+      "id": "Machinery",
       "label": {
         "text": "Machinery",
         "size": 0.25
@@ -814,7 +814,7 @@
       "z": 0
     },
     {
-      "text": "Chivalry",
+      "id": "Chivalry",
       "label": {
         "text": "Chivalry",
         "size": 0.25
@@ -828,7 +828,7 @@
       "z": 0
     },
     {
-      "text": "Physics",
+      "id": "Physics",
       "label": {
         "text": "Physics",
         "size": 0.25
@@ -842,7 +842,7 @@
       "z": 0
     },
     {
-      "text": "Philosophy",
+      "id": "Philosophy",
       "label": {
         "text": "Philosophy",
         "size": 0.25
@@ -856,7 +856,7 @@
       "z": 0
     },
     {
-      "text": "Theology",
+      "id": "Theology",
       "label": {
         "text": "Theology",
         "size": 0.25
@@ -870,7 +870,7 @@
       "z": 0
     },
     {
-      "text": "Compass",
+      "id": "Compass",
       "label": {
         "text": "Compass",
         "size": 0.25
@@ -884,7 +884,7 @@
       "z": 0
     },
     {
-      "text": "Optics",
+      "id": "Optics",
       "label": {
         "text": "Optics",
         "size": 0.25
@@ -898,7 +898,7 @@
       "z": 0
     },
     {
-      "text": "Education",
+      "id": "Education",
       "label": {
         "text": "Education",
         "size": 0.25
@@ -912,7 +912,7 @@
       "z": 0
     },
     {
-      "text": "Mathematics",
+      "id": "Mathematics",
       "label": {
         "text": "Mathematics",
         "size": 0.25
@@ -926,7 +926,7 @@
       "z": 0
     },
     {
-      "text": "Currency",
+      "id": "Currency",
       "label": {
         "text": "Currency",
         "size": 0.25
@@ -940,7 +940,7 @@
       "z": 0
     },
     {
-      "text": "Engineering",
+      "id": "Engineering",
       "label": {
         "text": "Engineering",
         "size": 0.25
@@ -954,7 +954,7 @@
       "z": 0
     },
     {
-      "text": "Metal casting",
+      "id": "Metal casting",
       "label": {
         "text": "Metal casting",
         "size": 0.25
@@ -968,7 +968,7 @@
       "z": 0
     },
     {
-      "text": "Writing",
+      "id": "Writing",
       "label": {
         "text": "Writing",
         "size": 0.25
@@ -982,7 +982,7 @@
       "z": 0
     },
     {
-      "text": "Drama and poetry",
+      "id": "Drama and poetry",
       "label": {
         "text": "Drama and poetry",
         "size": 0.25
@@ -996,7 +996,7 @@
       "z": 0
     },
     {
-      "text": "Civil service",
+      "id": "Civil service",
       "label": {
         "text": "Civil service",
         "size": 0.25
@@ -1010,7 +1010,7 @@
       "z": 0
     },
     {
-      "text": "Trapping",
+      "id": "Trapping",
       "label": {
         "text": "Trapping",
         "size": 0.25
@@ -1024,7 +1024,7 @@
       "z": 0
     },
     {
-      "text": "Horseback riding",
+      "id": "Horseback riding",
       "label": {
         "text": "Horseback riding",
         "size": 0.25
@@ -1038,7 +1038,7 @@
       "z": 0
     },
     {
-      "text": "Construction",
+      "id": "Construction",
       "label": {
         "text": "Construction",
         "size": 0.25
@@ -1052,7 +1052,7 @@
       "z": 0
     },
     {
-      "text": "Sailing",
+      "id": "Sailing",
       "label": {
         "text": "Sailing",
         "size": 0.25
@@ -1066,7 +1066,7 @@
       "z": 0
     },
     {
-      "text": "Calendar",
+      "id": "Calendar",
       "label": {
         "text": "Calendar",
         "size": 0.25
@@ -1080,7 +1080,7 @@
       "z": 0
     },
     {
-      "text": "Masonry",
+      "id": "Masonry",
       "label": {
         "text": "Masonry",
         "size": 0.25
@@ -1094,7 +1094,7 @@
       "z": 0
     },
     {
-      "text": "Bronze working",
+      "id": "Bronze working",
       "label": {
         "text": "Bronze working",
         "size": 0.25
@@ -1108,7 +1108,7 @@
       "z": 0
     },
     {
-      "text": "Iron working",
+      "id": "Iron working",
       "label": {
         "text": "Iron working",
         "size": 0.25
@@ -1122,7 +1122,7 @@
       "z": 0
     },
     {
-      "text": "The wheel",
+      "id": "The wheel",
       "label": {
         "text": "The wheel",
         "size": 0.25
@@ -1138,14 +1138,14 @@
   ],
   "edges": [
     {
-      "v": "Agriculture",
-      "w": "Pottery",
+      "from": "Agriculture",
+      "to": "Pottery",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e0",
+      "id": "e0",
       "points": [
         {
           "x": -59.349137931034484,
@@ -1170,14 +1170,14 @@
       ]
     },
     {
-      "v": "Agriculture",
-      "w": "Animal husbandry",
+      "from": "Agriculture",
+      "to": "Animal husbandry",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e1",
+      "id": "e1",
       "points": [
         {
           "x": -59.266666666666666,
@@ -1194,14 +1194,14 @@
       ]
     },
     {
-      "v": "Agriculture",
-      "w": "Archery",
+      "from": "Agriculture",
+      "to": "Archery",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e2",
+      "id": "e2",
       "points": [
         {
           "x": -58.6025641025641,
@@ -1218,14 +1218,14 @@
       ]
     },
     {
-      "v": "Agriculture",
-      "w": "Mining",
+      "from": "Agriculture",
+      "to": "Mining",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e3",
+      "id": "e3",
       "points": [
         {
           "x": -59.01724137931034,
@@ -1242,14 +1242,14 @@
       ]
     },
     {
-      "v": "Archaeology",
-      "w": "Biology",
+      "from": "Archaeology",
+      "to": "Biology",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e4",
+      "id": "e4",
       "points": [
         {
           "x": 5,
@@ -1266,14 +1266,14 @@
       ]
     },
     {
-      "v": "Dynamite",
-      "w": "Railroad",
+      "from": "Dynamite",
+      "to": "Railroad",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e5",
+      "id": "e5",
       "points": [
         {
           "x": 12,
@@ -1290,14 +1290,14 @@
       ]
     },
     {
-      "v": "Industrialization",
-      "w": "Steam power",
+      "from": "Industrialization",
+      "to": "Steam power",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e6",
+      "id": "e6",
       "points": [
         {
           "x": 5,
@@ -1314,14 +1314,14 @@
       ]
     },
     {
-      "v": "Metallurgy",
-      "w": "Rifling",
+      "from": "Metallurgy",
+      "to": "Rifling",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e7",
+      "id": "e7",
       "points": [
         {
           "x": -2.2931034482758648,
@@ -1338,14 +1338,14 @@
       ]
     },
     {
-      "v": "Metallurgy",
-      "w": "Military science",
+      "from": "Metallurgy",
+      "to": "Military science",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e8",
+      "id": "e8",
       "points": [
         {
           "x": -2,
@@ -1362,14 +1362,14 @@
       ]
     },
     {
-      "v": "Navigation",
-      "w": "Archaeology",
+      "from": "Navigation",
+      "to": "Archaeology",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e9",
+      "id": "e9",
       "points": [
         {
           "x": -2,
@@ -1386,14 +1386,14 @@
       ]
     },
     {
-      "v": "Navigation",
-      "w": "Scientific theory",
+      "from": "Navigation",
+      "to": "Scientific theory",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e10",
+      "id": "e10",
       "points": [
         {
           "x": -2,
@@ -1410,14 +1410,14 @@
       ]
     },
     {
-      "v": "Rifling",
-      "w": "Dynamite",
+      "from": "Rifling",
+      "to": "Dynamite",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e11",
+      "id": "e11",
       "points": [
         {
           "x": 5,
@@ -1434,14 +1434,14 @@
       ]
     },
     {
-      "v": "Economics",
-      "w": "Scientific theory",
+      "from": "Economics",
+      "to": "Scientific theory",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e12",
+      "id": "e12",
       "points": [
         {
           "x": -2.676470588235297,
@@ -1458,14 +1458,14 @@
       ]
     },
     {
-      "v": "Economics",
-      "w": "Industrialization",
+      "from": "Economics",
+      "to": "Industrialization",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e13",
+      "id": "e13",
       "points": [
         {
           "x": -2,
@@ -1482,14 +1482,14 @@
       ]
     },
     {
-      "v": "Economics",
-      "w": "Rifling",
+      "from": "Economics",
+      "to": "Rifling",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e14",
+      "id": "e14",
       "points": [
         {
           "x": -2,
@@ -1506,14 +1506,14 @@
       ]
     },
     {
-      "v": "Biology",
-      "w": "Refrigeration",
+      "from": "Biology",
+      "to": "Refrigeration",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e15",
+      "id": "e15",
       "points": [
         {
           "x": 12,
@@ -1530,14 +1530,14 @@
       ]
     },
     {
-      "v": "Gunpowder",
-      "w": "Chemistry",
+      "from": "Gunpowder",
+      "to": "Chemistry",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e16",
+      "id": "e16",
       "points": [
         {
           "x": -9,
@@ -1554,14 +1554,14 @@
       ]
     },
     {
-      "v": "Gunpowder",
-      "w": "Metallurgy",
+      "from": "Gunpowder",
+      "to": "Metallurgy",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e17",
+      "id": "e17",
       "points": [
         {
           "x": -9,
@@ -1578,14 +1578,14 @@
       ]
     },
     {
-      "v": "Telecommunications",
-      "w": "Globalization",
+      "from": "Telecommunications",
+      "to": "Globalization",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e18",
+      "id": "e18",
       "points": [
         {
           "x": 47,
@@ -1602,14 +1602,14 @@
       ]
     },
     {
-      "v": "Telecommunications",
-      "w": "Particle physics",
+      "from": "Telecommunications",
+      "to": "Particle physics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e19",
+      "id": "e19",
       "points": [
         {
           "x": 47,
@@ -1626,14 +1626,14 @@
       ]
     },
     {
-      "v": "Telecommunications",
-      "w": "The Internet",
+      "from": "Telecommunications",
+      "to": "The Internet",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e20",
+      "id": "e20",
       "points": [
         {
           "x": 46.62903225806451,
@@ -1650,14 +1650,14 @@
       ]
     },
     {
-      "v": "Banking",
-      "w": "Economics",
+      "from": "Banking",
+      "to": "Economics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e21",
+      "id": "e21",
       "points": [
         {
           "x": -10.067901234567898,
@@ -1674,14 +1674,14 @@
       ]
     },
     {
-      "v": "Banking",
-      "w": "Architecture",
+      "from": "Banking",
+      "to": "Architecture",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e22",
+      "id": "e22",
       "points": [
         {
           "x": -9.35245901639344,
@@ -1698,14 +1698,14 @@
       ]
     },
     {
-      "v": "Electricity",
-      "w": "Refrigeration",
+      "from": "Electricity",
+      "to": "Refrigeration",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e23",
+      "id": "e23",
       "points": [
         {
           "x": 11.666666666666671,
@@ -1722,14 +1722,14 @@
       ]
     },
     {
-      "v": "Electricity",
-      "w": "Radio",
+      "from": "Electricity",
+      "to": "Radio",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e24",
+      "id": "e24",
       "points": [
         {
           "x": 12,
@@ -1746,14 +1746,14 @@
       ]
     },
     {
-      "v": "Electricity",
-      "w": "Replaceable parts",
+      "from": "Electricity",
+      "to": "Replaceable parts",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e25",
+      "id": "e25",
       "points": [
         {
           "x": 12,
@@ -1770,14 +1770,14 @@
       ]
     },
     {
-      "v": "Printing press",
-      "w": "Economics",
+      "from": "Printing press",
+      "to": "Economics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e26",
+      "id": "e26",
       "points": [
         {
           "x": -9.333333333333336,
@@ -1794,14 +1794,14 @@
       ]
     },
     {
-      "v": "Printing press",
-      "w": "Metallurgy",
+      "from": "Printing press",
+      "to": "Metallurgy",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e27",
+      "id": "e27",
       "points": [
         {
           "x": -9,
@@ -1818,14 +1818,14 @@
       ]
     },
     {
-      "v": "Chemistry",
-      "w": "Military science",
+      "from": "Chemistry",
+      "to": "Military science",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e28",
+      "id": "e28",
       "points": [
         {
           "x": -2,
@@ -1842,14 +1842,14 @@
       ]
     },
     {
-      "v": "Chemistry",
-      "w": "Fertilizer",
+      "from": "Chemistry",
+      "to": "Fertilizer",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e29",
+      "id": "e29",
       "points": [
         {
           "x": -2,
@@ -1866,14 +1866,14 @@
       ]
     },
     {
-      "v": "The Internet",
-      "w": "Future tech",
+      "from": "The Internet",
+      "to": "Future tech",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e30",
+      "id": "e30",
       "points": [
         {
           "x": 54,
@@ -1890,14 +1890,14 @@
       ]
     },
     {
-      "v": "Stealth",
-      "w": "Future tech",
+      "from": "Stealth",
+      "to": "Future tech",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e31",
+      "id": "e31",
       "points": [
         {
           "x": 54,
@@ -1914,14 +1914,14 @@
       ]
     },
     {
-      "v": "Fertilizer",
-      "w": "Dynamite",
+      "from": "Fertilizer",
+      "to": "Dynamite",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e32",
+      "id": "e32",
       "points": [
         {
           "x": 5,
@@ -1938,14 +1938,14 @@
       ]
     },
     {
-      "v": "Satellites",
-      "w": "Nuclear fusion",
+      "from": "Satellites",
+      "to": "Nuclear fusion",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e33",
+      "id": "e33",
       "points": [
         {
           "x": 47,
@@ -1962,14 +1962,14 @@
       ]
     },
     {
-      "v": "Robotics",
-      "w": "Nuclear fusion",
+      "from": "Robotics",
+      "to": "Nuclear fusion",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e34",
+      "id": "e34",
       "points": [
         {
           "x": 45.849999999999994,
@@ -1986,14 +1986,14 @@
       ]
     },
     {
-      "v": "Robotics",
-      "w": "Nanotechnology",
+      "from": "Robotics",
+      "to": "Nanotechnology",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e35",
+      "id": "e35",
       "points": [
         {
           "x": 47,
@@ -2010,14 +2010,14 @@
       ]
     },
     {
-      "v": "Robotics",
-      "w": "Stealth",
+      "from": "Robotics",
+      "to": "Stealth",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e36",
+      "id": "e36",
       "points": [
         {
           "x": 46.66666666666667,
@@ -2034,14 +2034,14 @@
       ]
     },
     {
-      "v": "Lasers",
-      "w": "Stealth",
+      "from": "Lasers",
+      "to": "Stealth",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e37",
+      "id": "e37",
       "points": [
         {
           "x": 47,
@@ -2058,14 +2058,14 @@
       ]
     },
     {
-      "v": "Globalization",
-      "w": "Future tech",
+      "from": "Globalization",
+      "to": "Future tech",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e38",
+      "id": "e38",
       "points": [
         {
           "x": 54,
@@ -2082,14 +2082,14 @@
       ]
     },
     {
-      "v": "Nanotechnology",
-      "w": "Future tech",
+      "from": "Nanotechnology",
+      "to": "Future tech",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e39",
+      "id": "e39",
       "points": [
         {
           "x": 54,
@@ -2106,14 +2106,14 @@
       ]
     },
     {
-      "v": "Ecology",
-      "w": "Telecommunications",
+      "from": "Ecology",
+      "to": "Telecommunications",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e40",
+      "id": "e40",
       "points": [
         {
           "x": 40,
@@ -2130,14 +2130,14 @@
       ]
     },
     {
-      "v": "Ecology",
-      "w": "Mobile tactics",
+      "from": "Ecology",
+      "to": "Mobile tactics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e41",
+      "id": "e41",
       "points": [
         {
           "x": 39.62903225806451,
@@ -2154,14 +2154,14 @@
       ]
     },
     {
-      "v": "Penicillin",
-      "w": "Ecology",
+      "from": "Penicillin",
+      "to": "Ecology",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e42",
+      "id": "e42",
       "points": [
         {
           "x": 33,
@@ -2178,14 +2178,14 @@
       ]
     },
     {
-      "v": "Rocketry",
-      "w": "Advanced ballistics",
+      "from": "Rocketry",
+      "to": "Advanced ballistics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e43",
+      "id": "e43",
       "points": [
         {
           "x": 39.66666666666667,
@@ -2202,14 +2202,14 @@
       ]
     },
     {
-      "v": "Rocketry",
-      "w": "Satellites",
+      "from": "Rocketry",
+      "to": "Satellites",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e44",
+      "id": "e44",
       "points": [
         {
           "x": 40,
@@ -2226,14 +2226,14 @@
       ]
     },
     {
-      "v": "Rocketry",
-      "w": "Robotics",
+      "from": "Rocketry",
+      "to": "Robotics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e45",
+      "id": "e45",
       "points": [
         {
           "x": 40,
@@ -2250,14 +2250,14 @@
       ]
     },
     {
-      "v": "Computers",
-      "w": "Robotics",
+      "from": "Computers",
+      "to": "Robotics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e46",
+      "id": "e46",
       "points": [
         {
           "x": 40,
@@ -2274,14 +2274,14 @@
       ]
     },
     {
-      "v": "Computers",
-      "w": "Lasers",
+      "from": "Computers",
+      "to": "Lasers",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e47",
+      "id": "e47",
       "points": [
         {
           "x": 38.92682926829268,
@@ -2298,14 +2298,14 @@
       ]
     },
     {
-      "v": "Mobile tactics",
-      "w": "Particle physics",
+      "from": "Mobile tactics",
+      "to": "Particle physics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e48",
+      "id": "e48",
       "points": [
         {
           "x": 47,
@@ -2322,14 +2322,14 @@
       ]
     },
     {
-      "v": "Advanced ballistics",
-      "w": "Nuclear fusion",
+      "from": "Advanced ballistics",
+      "to": "Nuclear fusion",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e49",
+      "id": "e49",
       "points": [
         {
           "x": 47,
@@ -2346,14 +2346,14 @@
       ]
     },
     {
-      "v": "Advanced ballistics",
-      "w": "Particle physics",
+      "from": "Advanced ballistics",
+      "to": "Particle physics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e50",
+      "id": "e50",
       "points": [
         {
           "x": 47,
@@ -2370,14 +2370,14 @@
       ]
     },
     {
-      "v": "Nuclear fission",
-      "w": "Advanced ballistics",
+      "from": "Nuclear fission",
+      "to": "Advanced ballistics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e51",
+      "id": "e51",
       "points": [
         {
           "x": 39.21428571428571,
@@ -2394,14 +2394,14 @@
       ]
     },
     {
-      "v": "Nuclear fission",
-      "w": "Mobile tactics",
+      "from": "Nuclear fission",
+      "to": "Mobile tactics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e52",
+      "id": "e52",
       "points": [
         {
           "x": 40,
@@ -2418,14 +2418,14 @@
       ]
     },
     {
-      "v": "Radar",
-      "w": "Rocketry",
+      "from": "Radar",
+      "to": "Rocketry",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e53",
+      "id": "e53",
       "points": [
         {
           "x": 32.75,
@@ -2442,14 +2442,14 @@
       ]
     },
     {
-      "v": "Radar",
-      "w": "Nuclear fission",
+      "from": "Radar",
+      "to": "Nuclear fission",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e54",
+      "id": "e54",
       "points": [
         {
           "x": 32.59375,
@@ -2466,14 +2466,14 @@
       ]
     },
     {
-      "v": "Radar",
-      "w": "Computers",
+      "from": "Radar",
+      "to": "Computers",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e55",
+      "id": "e55",
       "points": [
         {
           "x": 31.92682926829268,
@@ -2490,14 +2490,14 @@
       ]
     },
     {
-      "v": "Radio",
-      "w": "Plastics",
+      "from": "Radio",
+      "to": "Plastics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e56",
+      "id": "e56",
       "points": [
         {
           "x": 19,
@@ -2514,14 +2514,14 @@
       ]
     },
     {
-      "v": "Particle physics",
-      "w": "Future tech",
+      "from": "Particle physics",
+      "to": "Future tech",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e57",
+      "id": "e57",
       "points": [
         {
           "x": 54,
@@ -2538,14 +2538,14 @@
       ]
     },
     {
-      "v": "Nuclear fusion",
-      "w": "Future tech",
+      "from": "Nuclear fusion",
+      "to": "Future tech",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e58",
+      "id": "e58",
       "points": [
         {
           "x": 54,
@@ -2562,14 +2562,14 @@
       ]
     },
     {
-      "v": "Electronics",
-      "w": "Atomic theory",
+      "from": "Electronics",
+      "to": "Atomic theory",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e59",
+      "id": "e59",
       "points": [
         {
           "x": 26,
@@ -2586,14 +2586,14 @@
       ]
     },
     {
-      "v": "Electronics",
-      "w": "Radar",
+      "from": "Electronics",
+      "to": "Radar",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e60",
+      "id": "e60",
       "points": [
         {
           "x": 26,
@@ -2610,14 +2610,14 @@
       ]
     },
     {
-      "v": "Railroad",
-      "w": "Combustion",
+      "from": "Railroad",
+      "to": "Combustion",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e61",
+      "id": "e61",
       "points": [
         {
           "x": 19,
@@ -2634,14 +2634,14 @@
       ]
     },
     {
-      "v": "Railroad",
-      "w": "Ballistics",
+      "from": "Railroad",
+      "to": "Ballistics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e62",
+      "id": "e62",
       "points": [
         {
           "x": 19,
@@ -2658,14 +2658,14 @@
       ]
     },
     {
-      "v": "Refrigeration",
-      "w": "Penicillin",
+      "from": "Refrigeration",
+      "to": "Penicillin",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e63",
+      "id": "e63",
       "points": [
         {
           "x": 19,
@@ -2690,14 +2690,14 @@
       ]
     },
     {
-      "v": "Plastics",
-      "w": "Penicillin",
+      "from": "Plastics",
+      "to": "Penicillin",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e64",
+      "id": "e64",
       "points": [
         {
           "x": 25.35365853658537,
@@ -2714,14 +2714,14 @@
       ]
     },
     {
-      "v": "Plastics",
-      "w": "Atomic theory",
+      "from": "Plastics",
+      "to": "Atomic theory",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e65",
+      "id": "e65",
       "points": [
         {
           "x": 26,
@@ -2738,14 +2738,14 @@
       ]
     },
     {
-      "v": "Combined arms",
-      "w": "Computers",
+      "from": "Combined arms",
+      "to": "Computers",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e66",
+      "id": "e66",
       "points": [
         {
           "x": 33,
@@ -2762,14 +2762,14 @@
       ]
     },
     {
-      "v": "Flight",
-      "w": "Electronics",
+      "from": "Flight",
+      "to": "Electronics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e67",
+      "id": "e67",
       "points": [
         {
           "x": 19,
@@ -2786,14 +2786,14 @@
       ]
     },
     {
-      "v": "Flight",
-      "w": "Ballistics",
+      "from": "Flight",
+      "to": "Ballistics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e68",
+      "id": "e68",
       "points": [
         {
           "x": 19,
@@ -2810,14 +2810,14 @@
       ]
     },
     {
-      "v": "Military science",
-      "w": "Dynamite",
+      "from": "Military science",
+      "to": "Dynamite",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e69",
+      "id": "e69",
       "points": [
         {
           "x": 5,
@@ -2834,14 +2834,14 @@
       ]
     },
     {
-      "v": "Atomic theory",
-      "w": "Ecology",
+      "from": "Atomic theory",
+      "to": "Ecology",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e70",
+      "id": "e70",
       "points": [
         {
           "x": 32.093220338983045,
@@ -2858,14 +2858,14 @@
       ]
     },
     {
-      "v": "Atomic theory",
-      "w": "Nuclear fission",
+      "from": "Atomic theory",
+      "to": "Nuclear fission",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e71",
+      "id": "e71",
       "points": [
         {
           "x": 33,
@@ -2882,14 +2882,14 @@
       ]
     },
     {
-      "v": "Scientific theory",
-      "w": "Biology",
+      "from": "Scientific theory",
+      "to": "Biology",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e72",
+      "id": "e72",
       "points": [
         {
           "x": 3.8414634146341484,
@@ -2906,14 +2906,14 @@
       ]
     },
     {
-      "v": "Scientific theory",
-      "w": "Steam power",
+      "from": "Scientific theory",
+      "to": "Steam power",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e73",
+      "id": "e73",
       "points": [
         {
           "x": 4.666666666666671,
@@ -2930,14 +2930,14 @@
       ]
     },
     {
-      "v": "Scientific theory",
-      "w": "Electricity",
+      "from": "Scientific theory",
+      "to": "Electricity",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e74",
+      "id": "e74",
       "points": [
         {
           "x": 5,
@@ -2954,14 +2954,14 @@
       ]
     },
     {
-      "v": "Replaceable parts",
-      "w": "Plastics",
+      "from": "Replaceable parts",
+      "to": "Plastics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e75",
+      "id": "e75",
       "points": [
         {
           "x": 19,
@@ -2978,14 +2978,14 @@
       ]
     },
     {
-      "v": "Replaceable parts",
-      "w": "Electronics",
+      "from": "Replaceable parts",
+      "to": "Electronics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e76",
+      "id": "e76",
       "points": [
         {
           "x": 19,
@@ -3002,14 +3002,14 @@
       ]
     },
     {
-      "v": "Combustion",
-      "w": "Combined arms",
+      "from": "Combustion",
+      "to": "Combined arms",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e77",
+      "id": "e77",
       "points": [
         {
           "x": 26,
@@ -3026,14 +3026,14 @@
       ]
     },
     {
-      "v": "Astronomy",
-      "w": "Navigation",
+      "from": "Astronomy",
+      "to": "Navigation",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e78",
+      "id": "e78",
       "points": [
         {
           "x": -9,
@@ -3050,14 +3050,14 @@
       ]
     },
     {
-      "v": "Acoustics",
-      "w": "Architecture",
+      "from": "Acoustics",
+      "to": "Architecture",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e79",
+      "id": "e79",
       "points": [
         {
           "x": -9,
@@ -3074,14 +3074,14 @@
       ]
     },
     {
-      "v": "Steel",
-      "w": "Gunpowder",
+      "from": "Steel",
+      "to": "Gunpowder",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e80",
+      "id": "e80",
       "points": [
         {
           "x": -16,
@@ -3098,14 +3098,14 @@
       ]
     },
     {
-      "v": "Guilds",
-      "w": "Machinery",
+      "from": "Guilds",
+      "to": "Machinery",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e81",
+      "id": "e81",
       "points": [
         {
           "x": -23,
@@ -3122,14 +3122,14 @@
       ]
     },
     {
-      "v": "Guilds",
-      "w": "Chivalry",
+      "from": "Guilds",
+      "to": "Chivalry",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e82",
+      "id": "e82",
       "points": [
         {
           "x": -23,
@@ -3146,14 +3146,14 @@
       ]
     },
     {
-      "v": "Physics",
-      "w": "Printing press",
+      "from": "Physics",
+      "to": "Printing press",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e83",
+      "id": "e83",
       "points": [
         {
           "x": -16,
@@ -3170,14 +3170,14 @@
       ]
     },
     {
-      "v": "Physics",
-      "w": "Gunpowder",
+      "from": "Physics",
+      "to": "Gunpowder",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e84",
+      "id": "e84",
       "points": [
         {
           "x": -16,
@@ -3194,14 +3194,14 @@
       ]
     },
     {
-      "v": "Architecture",
-      "w": "Archaeology",
+      "from": "Architecture",
+      "to": "Archaeology",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e85",
+      "id": "e85",
       "points": [
         {
           "x": -3.18888888888889,
@@ -3218,14 +3218,14 @@
       ]
     },
     {
-      "v": "Architecture",
-      "w": "Scientific theory",
+      "from": "Architecture",
+      "to": "Scientific theory",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e86",
+      "id": "e86",
       "points": [
         {
           "x": -2,
@@ -3242,14 +3242,14 @@
       ]
     },
     {
-      "v": "Philosophy",
-      "w": "Theology",
+      "from": "Philosophy",
+      "to": "Theology",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e87",
+      "id": "e87",
       "points": [
         {
           "x": -30,
@@ -3266,14 +3266,14 @@
       ]
     },
     {
-      "v": "Machinery",
-      "w": "Printing press",
+      "from": "Machinery",
+      "to": "Printing press",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e88",
+      "id": "e88",
       "points": [
         {
           "x": -16,
@@ -3290,14 +3290,14 @@
       ]
     },
     {
-      "v": "Compass",
-      "w": "Astronomy",
+      "from": "Compass",
+      "to": "Astronomy",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e89",
+      "id": "e89",
       "points": [
         {
           "x": -16,
@@ -3314,14 +3314,14 @@
       ]
     },
     {
-      "v": "Chivalry",
-      "w": "Banking",
+      "from": "Chivalry",
+      "to": "Banking",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e90",
+      "id": "e90",
       "points": [
         {
           "x": -16,
@@ -3338,14 +3338,14 @@
       ]
     },
     {
-      "v": "Chivalry",
-      "w": "Printing press",
+      "from": "Chivalry",
+      "to": "Printing press",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e91",
+      "id": "e91",
       "points": [
         {
           "x": -16,
@@ -3362,14 +3362,14 @@
       ]
     },
     {
-      "v": "Optics",
-      "w": "Compass",
+      "from": "Optics",
+      "to": "Compass",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e92",
+      "id": "e92",
       "points": [
         {
           "x": -23,
@@ -3386,14 +3386,14 @@
       ]
     },
     {
-      "v": "Theology",
-      "w": "Education",
+      "from": "Theology",
+      "to": "Education",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e93",
+      "id": "e93",
       "points": [
         {
           "x": -23,
@@ -3410,14 +3410,14 @@
       ]
     },
     {
-      "v": "Theology",
-      "w": "Compass",
+      "from": "Theology",
+      "to": "Compass",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e94",
+      "id": "e94",
       "points": [
         {
           "x": -23.625,
@@ -3434,14 +3434,14 @@
       ]
     },
     {
-      "v": "Steam power",
-      "w": "Flight",
+      "from": "Steam power",
+      "to": "Flight",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e95",
+      "id": "e95",
       "points": [
         {
           "x": 11.179611650485441,
@@ -3458,14 +3458,14 @@
       ]
     },
     {
-      "v": "Steam power",
-      "w": "Replaceable parts",
+      "from": "Steam power",
+      "to": "Replaceable parts",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e96",
+      "id": "e96",
       "points": [
         {
           "x": 12,
@@ -3482,14 +3482,14 @@
       ]
     },
     {
-      "v": "Steam power",
-      "w": "Railroad",
+      "from": "Steam power",
+      "to": "Railroad",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e97",
+      "id": "e97",
       "points": [
         {
           "x": 12,
@@ -3506,14 +3506,14 @@
       ]
     },
     {
-      "v": "Mathematics",
-      "w": "Currency",
+      "from": "Mathematics",
+      "to": "Currency",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e98",
+      "id": "e98",
       "points": [
         {
           "x": -37,
@@ -3530,14 +3530,14 @@
       ]
     },
     {
-      "v": "Mathematics",
-      "w": "Engineering",
+      "from": "Mathematics",
+      "to": "Engineering",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e99",
+      "id": "e99",
       "points": [
         {
           "x": -37.333333333333336,
@@ -3554,14 +3554,14 @@
       ]
     },
     {
-      "v": "Metal casting",
-      "w": "Physics",
+      "from": "Metal casting",
+      "to": "Physics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e100",
+      "id": "e100",
       "points": [
         {
           "x": -23,
@@ -3578,14 +3578,14 @@
       ]
     },
     {
-      "v": "Metal casting",
-      "w": "Steel",
+      "from": "Metal casting",
+      "to": "Steel",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e101",
+      "id": "e101",
       "points": [
         {
           "x": -23,
@@ -3602,14 +3602,14 @@
       ]
     },
     {
-      "v": "Engineering",
-      "w": "Metal casting",
+      "from": "Engineering",
+      "to": "Metal casting",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e102",
+      "id": "e102",
       "points": [
         {
           "x": -30,
@@ -3626,14 +3626,14 @@
       ]
     },
     {
-      "v": "Engineering",
-      "w": "Machinery",
+      "from": "Engineering",
+      "to": "Machinery",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e103",
+      "id": "e103",
       "points": [
         {
           "x": -30.333333333333332,
@@ -3658,14 +3658,14 @@
       ]
     },
     {
-      "v": "Writing",
-      "w": "Philosophy",
+      "from": "Writing",
+      "to": "Philosophy",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e104",
+      "id": "e104",
       "points": [
         {
           "x": -37.35245901639344,
@@ -3682,14 +3682,14 @@
       ]
     },
     {
-      "v": "Writing",
-      "w": "Drama and poetry",
+      "from": "Writing",
+      "to": "Drama and poetry",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e105",
+      "id": "e105",
       "points": [
         {
           "x": -37,
@@ -3706,14 +3706,14 @@
       ]
     },
     {
-      "v": "Civil service",
-      "w": "Chivalry",
+      "from": "Civil service",
+      "to": "Chivalry",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e106",
+      "id": "e106",
       "points": [
         {
           "x": -23,
@@ -3730,14 +3730,14 @@
       ]
     },
     {
-      "v": "Civil service",
-      "w": "Education",
+      "from": "Civil service",
+      "to": "Education",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e107",
+      "id": "e107",
       "points": [
         {
           "x": -23,
@@ -3754,14 +3754,14 @@
       ]
     },
     {
-      "v": "Education",
-      "w": "Astronomy",
+      "from": "Education",
+      "to": "Astronomy",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e108",
+      "id": "e108",
       "points": [
         {
           "x": -16.40625,
@@ -3778,14 +3778,14 @@
       ]
     },
     {
-      "v": "Education",
-      "w": "Acoustics",
+      "from": "Education",
+      "to": "Acoustics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e109",
+      "id": "e109",
       "points": [
         {
           "x": -16,
@@ -3802,14 +3802,14 @@
       ]
     },
     {
-      "v": "Education",
-      "w": "Banking",
+      "from": "Education",
+      "to": "Banking",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e110",
+      "id": "e110",
       "points": [
         {
           "x": -16,
@@ -3826,14 +3826,14 @@
       ]
     },
     {
-      "v": "Trapping",
-      "w": "Horseback riding",
+      "from": "Trapping",
+      "to": "Horseback riding",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e111",
+      "id": "e111",
       "points": [
         {
           "x": -44,
@@ -3850,14 +3850,14 @@
       ]
     },
     {
-      "v": "Construction",
-      "w": "Engineering",
+      "from": "Construction",
+      "to": "Engineering",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e112",
+      "id": "e112",
       "points": [
         {
           "x": -37,
@@ -3874,14 +3874,14 @@
       ]
     },
     {
-      "v": "Sailing",
-      "w": "Optics",
+      "from": "Sailing",
+      "to": "Optics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e113",
+      "id": "e113",
       "points": [
         {
           "x": -30,
@@ -3898,14 +3898,14 @@
       ]
     },
     {
-      "v": "Pottery",
-      "w": "Sailing",
+      "from": "Pottery",
+      "to": "Sailing",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e114",
+      "id": "e114",
       "points": [
         {
           "x": -44.81372549019608,
@@ -3930,14 +3930,14 @@
       ]
     },
     {
-      "v": "Pottery",
-      "w": "Calendar",
+      "from": "Pottery",
+      "to": "Calendar",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e115",
+      "id": "e115",
       "points": [
         {
           "x": -44.313559322033896,
@@ -3954,14 +3954,14 @@
       ]
     },
     {
-      "v": "Pottery",
-      "w": "Writing",
+      "from": "Pottery",
+      "to": "Writing",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e116",
+      "id": "e116",
       "points": [
         {
           "x": -44.37096774193549,
@@ -3978,14 +3978,14 @@
       ]
     },
     {
-      "v": "Mining",
-      "w": "Masonry",
+      "from": "Mining",
+      "to": "Masonry",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e117",
+      "id": "e117",
       "points": [
         {
           "x": -51,
@@ -4002,14 +4002,14 @@
       ]
     },
     {
-      "v": "Mining",
-      "w": "Bronze working",
+      "from": "Mining",
+      "to": "Bronze working",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e118",
+      "id": "e118",
       "points": [
         {
           "x": -51,
@@ -4034,14 +4034,14 @@
       ]
     },
     {
-      "v": "Drama and poetry",
-      "w": "Theology",
+      "from": "Drama and poetry",
+      "to": "Theology",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e119",
+      "id": "e119",
       "points": [
         {
           "x": -30,
@@ -4058,14 +4058,14 @@
       ]
     },
     {
-      "v": "Drama and poetry",
-      "w": "Civil service",
+      "from": "Drama and poetry",
+      "to": "Civil service",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e120",
+      "id": "e120",
       "points": [
         {
           "x": -30,
@@ -4082,14 +4082,14 @@
       ]
     },
     {
-      "v": "Iron working",
-      "w": "Metal casting",
+      "from": "Iron working",
+      "to": "Metal casting",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e121",
+      "id": "e121",
       "points": [
         {
           "x": -30,
@@ -4106,14 +4106,14 @@
       ]
     },
     {
-      "v": "Horseback riding",
-      "w": "Civil service",
+      "from": "Horseback riding",
+      "to": "Civil service",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e122",
+      "id": "e122",
       "points": [
         {
           "x": -37,
@@ -4138,14 +4138,14 @@
       ]
     },
     {
-      "v": "The wheel",
-      "w": "Horseback riding",
+      "from": "The wheel",
+      "to": "Horseback riding",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e123",
+      "id": "e123",
       "points": [
         {
           "x": -44.91666666666667,
@@ -4162,14 +4162,14 @@
       ]
     },
     {
-      "v": "The wheel",
-      "w": "Mathematics",
+      "from": "The wheel",
+      "to": "Mathematics",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e124",
+      "id": "e124",
       "points": [
         {
           "x": -44,
@@ -4186,14 +4186,14 @@
       ]
     },
     {
-      "v": "The wheel",
-      "w": "Construction",
+      "from": "The wheel",
+      "to": "Construction",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e125",
+      "id": "e125",
       "points": [
         {
           "x": -44.91176470588235,
@@ -4210,14 +4210,14 @@
       ]
     },
     {
-      "v": "Masonry",
-      "w": "Construction",
+      "from": "Masonry",
+      "to": "Construction",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e126",
+      "id": "e126",
       "points": [
         {
           "x": -44,
@@ -4234,14 +4234,14 @@
       ]
     },
     {
-      "v": "Calendar",
-      "w": "Philosophy",
+      "from": "Calendar",
+      "to": "Philosophy",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e127",
+      "id": "e127",
       "points": [
         {
           "x": -37,
@@ -4258,14 +4258,14 @@
       ]
     },
     {
-      "v": "Currency",
-      "w": "Civil service",
+      "from": "Currency",
+      "to": "Civil service",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e128",
+      "id": "e128",
       "points": [
         {
           "x": -30.333333333333332,
@@ -4282,14 +4282,14 @@
       ]
     },
     {
-      "v": "Currency",
-      "w": "Guilds",
+      "from": "Currency",
+      "to": "Guilds",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e129",
+      "id": "e129",
       "points": [
         {
           "x": -30,
@@ -4306,14 +4306,14 @@
       ]
     },
     {
-      "v": "Bronze working",
-      "w": "Iron working",
+      "from": "Bronze working",
+      "to": "Iron working",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e130",
+      "id": "e130",
       "points": [
         {
           "x": -37,
@@ -4330,14 +4330,14 @@
       ]
     },
     {
-      "v": "Animal husbandry",
-      "w": "Trapping",
+      "from": "Animal husbandry",
+      "to": "Trapping",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e131",
+      "id": "e131",
       "points": [
         {
           "x": -51,
@@ -4354,14 +4354,14 @@
       ]
     },
     {
-      "v": "Animal husbandry",
-      "w": "The wheel",
+      "from": "Animal husbandry",
+      "to": "The wheel",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e132",
+      "id": "e132",
       "points": [
         {
           "x": -51,
@@ -4378,14 +4378,14 @@
       ]
     },
     {
-      "v": "Archery",
-      "w": "The wheel",
+      "from": "Archery",
+      "to": "The wheel",
       "toarrow": {
         "indent": 0,
         "type": "to"
       },
       "divisions": 5,
-      "name": "e133",
+      "id": "e133",
       "points": [
         {
           "x": -51,

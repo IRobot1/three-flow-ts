@@ -74,7 +74,7 @@ export class CustomGeometryExample {
 
     const nodes: MyFlowNodeData[] = [
       {
-        text: "1",
+        id: "1",
         y: 2,
         label: {
           text: "Movable / Enabled",
@@ -87,7 +87,7 @@ export class CustomGeometryExample {
         test:'1'
       },
       {
-        text: "2",
+        id: "2",
         x: 2, y: 0, z: 0,
         label: {
           text: "Pinned, Disabled",
@@ -107,7 +107,7 @@ export class CustomGeometryExample {
         test: '2'
       },
       {
-        text: "3",
+        id: "3",
         x: -2, y: 0, z: 0,
         label: {
           text: "Pinned / Enabled",
@@ -128,7 +128,7 @@ export class CustomGeometryExample {
         test: '3'
       },
       {
-        text: "4",
+        id: "4",
         y: -2,
         label: {
           text: "Movable / Disabled",
@@ -145,26 +145,26 @@ export class CustomGeometryExample {
 
     const edges: MyFlowEdgeData[] = [
       {
-        name: '1',
-        v: "1",
-        w: "3",
+        id: '1',
+        from: "1",
+        to: "3",
         color: 0xff0000,
         toarrow: { color: 0xff0000 },
         test:'1'
       },
       {
-        v: "1",
-        w: "2",
+        from: "1",
+        to: "2",
         test: '2'
       },
       {
-        v: "4",
-        w: "3",
+        from: "4",
+        to: "3",
         test: '3'
       },
       {
-        v: "4",
-        w: "2",
+        from: "4",
+        to: "2",
         test: '4'
       },
     ];

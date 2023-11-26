@@ -64,7 +64,7 @@ export class DocumentationExample {
         }
       ],
       edges: [
-        { v: "1", w: "3", fromconnector: "n1c1", toconnector: "n3c1", },
+        { from: "1", to: "3", fromconnector: "n1c1", toconnector: "n3c1", },
       ]
     }
 
@@ -107,7 +107,7 @@ export class DocumentationExample {
       //
       // how to override connector shape for a specific node or type of node
       //
-      const node4 = flow.addNode({ text: '4', x: -2, y: 1.5, color: 'blue', label: { text: 'Title4', font: 'helvetika', color: 'white' } })
+      const node4 = flow.addNode({ id: '4', x: -2, y: 1.5, color: 'blue', label: { text: 'Title4', font: 'helvetika', color: 'white' } })
 
       // for a specific node, override connector shape based on parameters
       const connectors1 = connectors.hasNode('4')!
@@ -127,7 +127,7 @@ export class DocumentationExample {
       connectors.addConnectors(node4, [{ id: 'n4c2', anchor: 'left' }])
 
       // add the edge between nodes and specific connectors
-      flow.addEdge({ v: '4', w: '1', fromconnector: 'n4c1', toconnector: 'n1c2' })
+      flow.addEdge({ from: '4', to: '1', fromconnector: 'n4c1', toconnector: 'n1c2' })
 
       //
       // how to add connectors dynamically

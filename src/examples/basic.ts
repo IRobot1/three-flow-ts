@@ -56,7 +56,7 @@ export class BasicExample {
 
     const nodes: FlowNodeParameters[] = [
       {
-        text: "1",
+        id: "1",
         x: 0, y: 0, z: 0,
         label: {
           text: "Title1",
@@ -82,7 +82,7 @@ export class BasicExample {
         ],
       },
       {
-        text: "2",
+        id: "2",
         x: 2, y: 0, z: 0,
         label: {
           text: "Title2",
@@ -109,7 +109,7 @@ export class BasicExample {
         ],
       },
       {
-        text: "3",
+        id: "3",
         x: -2, y: 0, z: 0,
         label: {
           text: "Title3",
@@ -141,20 +141,20 @@ export class BasicExample {
 
     const edges: FlowEdgeParameters[] = [
       {
-        v: "1",
-        w: "3",
+        from: "1",
+        to: "3",
         fromconnector: "n1c1",
         toconnector: "n3c1",
       },
       {
-        v: "1",
-        w: "3",
+        from: "1",
+        to: "3",
         fromconnector: "n1c2",
         toconnector: "n3c2",
       },
       {
-        v: "2",
-        w: "1",
+        from: "2",
+        to: "1",
         fromconnector: "n2c1",
         toconnector: "n1c3"
       }
@@ -205,7 +205,7 @@ export class BasicExample {
       //
       // how to override connector shape for a specific node or type of node
       //
-      const node4 = flow.addNode({ text: '4', x: -2, y: 1.5, color: 'blue', label: { text: 'Title4', font: 'helvetika', color: 'white' } })
+      const node4 = flow.addNode({ id: '4', x: -2, y: 1.5, color: 'blue', label: { text: 'Title4', font: 'helvetika', color: 'white' } })
 
       // for a specific node, override connector shape based on parameters
       const connectors1 = connectors.hasNode('4')!
@@ -225,7 +225,7 @@ export class BasicExample {
       connectors.addConnectors(node4, [{ id: 'n4c2', anchor: 'left' }])
 
       // add the edge between nodes and specific connectors
-      flow.addEdge({ v: '4', w: '1', fromconnector: 'n4c1', toconnector: 'n1c2' })
+      flow.addEdge({ from: '4', to: '1', fromconnector: 'n4c1', toconnector: 'n1c2' })
 
       //
       // how to add connectors dynamically

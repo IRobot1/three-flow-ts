@@ -100,7 +100,7 @@ export class EdgeStylesExample {
 
     const centerconnector = linestyle + 'center1'
     const center = flow.addNode({
-      text: centerconnector, x, y, color,
+      id: centerconnector, x, y, color,
       label: {
         text: linestyle, color: 'white', size: 0.25
       },
@@ -114,7 +114,7 @@ export class EdgeStylesExample {
 
     const nwid = linestyle + 'nw'
     const nw = flow.addNode({
-      text: nwid, x: x - 2, y: y + 2, color,
+      id: nwid, x: x - 2, y: y + 2, color,
       connectors: [
         { id: 'c1' + nwid, anchor: 'right', hidden },
         { id: 'c2' + nwid, anchor: 'bottom', hidden },
@@ -123,7 +123,7 @@ export class EdgeStylesExample {
 
     const neid = linestyle + 'ne'
     const ne = flow.addNode({
-      text: neid, x: x + 2, y: y + 2, color,
+      id: neid, x: x + 2, y: y + 2, color,
       connectors: [
         { id: 'c1' + neid, anchor: 'left', hidden },
         { id: 'c2' + neid, anchor: 'bottom', hidden },
@@ -132,7 +132,7 @@ export class EdgeStylesExample {
 
     const swid = linestyle + 'sw'
     const sw = flow.addNode({
-      text: swid, x: x - 2, y: y - 2, color,
+      id: swid, x: x - 2, y: y - 2, color,
       connectors: [
         { id: 'c1' + swid, anchor: 'right', hidden },
         { id: 'c2' + swid, anchor: 'top', hidden },
@@ -141,22 +141,22 @@ export class EdgeStylesExample {
 
     const seid = linestyle + 'se'
     const se = flow.addNode({
-      text: seid, x: x + 2, y: y - 2, color,
+      id: seid, x: x + 2, y: y - 2, color,
       connectors: [
         { id: 'c1' + seid, anchor: 'left', hidden },
         { id: 'c2' + seid, anchor: 'top', hidden },
       ]
     })
 
-    flow.addEdge({ v: nw.name, w: center.name, linestyle, fromconnector: 'c1' + nwid, toconnector: 'c2' + centerconnector })
-    flow.addEdge({ v: ne.name, w: center.name, linestyle, fromconnector: 'c1' + neid, toconnector: 'c2' + centerconnector })
-    flow.addEdge({ v: sw.name, w: center.name, linestyle, fromconnector: 'c1' + swid, toconnector: 'c4' + centerconnector })
-    flow.addEdge({ v: se.name, w: center.name, linestyle, fromconnector: 'c1' + seid, toconnector: 'c4' + centerconnector })
+    flow.addEdge({ from: nw.name, to: center.name, linestyle, fromconnector: 'c1' + nwid, toconnector: 'c2' + centerconnector })
+    flow.addEdge({ from: ne.name, to: center.name, linestyle, fromconnector: 'c1' + neid, toconnector: 'c2' + centerconnector })
+    flow.addEdge({ from: sw.name, to: center.name, linestyle, fromconnector: 'c1' + swid, toconnector: 'c4' + centerconnector })
+    flow.addEdge({ from: se.name, to: center.name, linestyle, fromconnector: 'c1' + seid, toconnector: 'c4' + centerconnector })
 
-    flow.addEdge({ v: nw.name, w: center.name, linestyle, fromconnector: 'c2' + nwid, toconnector: 'c1' + centerconnector })
-    flow.addEdge({ v: ne.name, w: center.name, linestyle, fromconnector: 'c2' + neid, toconnector: 'c3' + centerconnector })
-    flow.addEdge({ v: sw.name, w: center.name, linestyle, fromconnector: 'c2' + swid, toconnector: 'c1' + centerconnector })
-    flow.addEdge({ v: se.name, w: center.name, linestyle, fromconnector: 'c2' + seid, toconnector: 'c3' + centerconnector })
+    flow.addEdge({ from: nw.name, to: center.name, linestyle, fromconnector: 'c2' + nwid, toconnector: 'c1' + centerconnector })
+    flow.addEdge({ from: ne.name, to: center.name, linestyle, fromconnector: 'c2' + neid, toconnector: 'c3' + centerconnector })
+    flow.addEdge({ from: sw.name, to: center.name, linestyle, fromconnector: 'c2' + swid, toconnector: 'c1' + centerconnector })
+    flow.addEdge({ from: se.name, to: center.name, linestyle, fromconnector: 'c2' + seid, toconnector: 'c3' + centerconnector })
 
     const position = center.position.clone()
     let angle = 0
@@ -177,7 +177,7 @@ export class EdgeStylesExample {
 
     const centerconnector = linestyle + 'center'
     const center = flow.addNode({
-      text: centerconnector, x, y, color,
+      id: centerconnector, x, y, color,
       label: {
         text: linestyle, color: 'white', size: 0.25
       },
@@ -191,7 +191,7 @@ export class EdgeStylesExample {
 
     const topconnectorid = 'c1' + linestyle + 'top'
     const top = flow.addNode({
-      text: linestyle + 'top', x, y: y + 2, color,
+      id: linestyle + 'top', x, y: y + 2, color,
       connectors: [
         { id: topconnectorid, anchor: 'bottom', hidden },
       ]
@@ -199,7 +199,7 @@ export class EdgeStylesExample {
 
     const bottomconnectorid = 'c1' + linestyle + 'bottom'
     const bottom = flow.addNode({
-      text: linestyle + 'bottom', x, y: y - 2, color,
+      id: linestyle + 'bottom', x, y: y - 2, color,
       connectors: [
         { id: bottomconnectorid, anchor: 'top', hidden },
       ]
@@ -207,7 +207,7 @@ export class EdgeStylesExample {
 
     const leftconnectorid = 'c1' + linestyle + 'left'
     const left = flow.addNode({
-      text: linestyle + 'left', x: x - 2, y, color,
+      id: linestyle + 'left', x: x - 2, y, color,
       connectors: [
         { id: leftconnectorid, anchor: 'right', hidden },
       ]
@@ -215,16 +215,16 @@ export class EdgeStylesExample {
 
     const rightconnectorid = 'c1' + linestyle + 'right'
     const right = flow.addNode({
-      text: linestyle + 'right', x: x + 2, y, color,
+      id: linestyle + 'right', x: x + 2, y, color,
       connectors: [
         { id: rightconnectorid, anchor: 'left', hidden },
       ]
     })
 
-    flow.addEdge({ v: left.name, w: center.name, linestyle, fromconnector: leftconnectorid, toconnector: 'c1' + centerconnector })
-    flow.addEdge({ v: top.name, w: center.name, linestyle, fromconnector: topconnectorid, toconnector: 'c2' + centerconnector })
-    flow.addEdge({ v: right.name, w: center.name, linestyle, fromconnector: rightconnectorid, toconnector: 'c3' + centerconnector })
-    flow.addEdge({ v: bottom.name, w: center.name, linestyle, fromconnector: bottomconnectorid, toconnector: 'c4' + centerconnector })
+    flow.addEdge({ from: left.name, to: center.name, linestyle, fromconnector: leftconnectorid, toconnector: 'c1' + centerconnector })
+    flow.addEdge({ from: top.name, to: center.name, linestyle, fromconnector: topconnectorid, toconnector: 'c2' + centerconnector })
+    flow.addEdge({ from: right.name, to: center.name, linestyle, fromconnector: rightconnectorid, toconnector: 'c3' + centerconnector })
+    flow.addEdge({ from: bottom.name, to: center.name, linestyle, fromconnector: bottomconnectorid, toconnector: 'c4' + centerconnector })
 
     const position = center.position.clone()
     let angle = 0
@@ -245,7 +245,7 @@ export class EdgeStylesExample {
 
     const centerconnector = linestyle + 'center2'
     const center = flow.addNode({
-      text: centerconnector, x, y, color,
+      id: centerconnector, x, y, color,
       label: {
         text: linestyle, color: 'white', size: 0.25
       },
@@ -259,7 +259,7 @@ export class EdgeStylesExample {
 
     const nwid = linestyle + 'nw2'
     const nw = flow.addNode({
-      text: nwid, x: x - 2, y: y + 2, color,
+      id: nwid, x: x - 2, y: y + 2, color,
       connectors: [
         { id: 'c1' + nwid, anchor: 'right', hidden },
         { id: 'c2' + nwid, anchor: 'bottom', hidden },
@@ -268,7 +268,7 @@ export class EdgeStylesExample {
 
     const neid = linestyle + 'ne2'
     const ne = flow.addNode({
-      text: neid, x: x + 2, y: y + 2, color,
+      id: neid, x: x + 2, y: y + 2, color,
       connectors: [
         { id: 'c1' + neid, anchor: 'left', hidden },
         { id: 'c2' + neid, anchor: 'bottom', hidden },
@@ -277,7 +277,7 @@ export class EdgeStylesExample {
 
     const swid = linestyle + 'sw2'
     const sw = flow.addNode({
-      text: swid, x: x - 2, y: y - 2, color,
+      id: swid, x: x - 2, y: y - 2, color,
       connectors: [
         { id: 'c1' + swid, anchor: 'right', hidden },
         { id: 'c2' + swid, anchor: 'top', hidden },
@@ -286,22 +286,22 @@ export class EdgeStylesExample {
 
     const seid = linestyle + 'se2'
     const se = flow.addNode({
-      text: seid, x: x + 2, y: y - 2, color,
+      id: seid, x: x + 2, y: y - 2, color,
       connectors: [
         { id: 'c1' + seid, anchor: 'left', hidden },
         { id: 'c2' + seid, anchor: 'top', hidden },
       ]
     })
 
-    flow.addEdge({ v: nw.name, w: center.name, linestyle, fromconnector: 'c2' + nwid, toconnector: 'c2' + centerconnector })
-    flow.addEdge({ v: ne.name, w: center.name, linestyle, fromconnector: 'c2' + neid, toconnector: 'c2' + centerconnector })
-    flow.addEdge({ v: sw.name, w: center.name, linestyle, fromconnector: 'c2' + swid, toconnector: 'c4' + centerconnector })
-    flow.addEdge({ v: se.name, w: center.name, linestyle, fromconnector: 'c2' + seid, toconnector: 'c4' + centerconnector })
+    flow.addEdge({ from: nw.name, to: center.name, linestyle, fromconnector: 'c2' + nwid, toconnector: 'c2' + centerconnector })
+    flow.addEdge({ from: ne.name, to: center.name, linestyle, fromconnector: 'c2' + neid, toconnector: 'c2' + centerconnector })
+    flow.addEdge({ from: sw.name, to: center.name, linestyle, fromconnector: 'c2' + swid, toconnector: 'c4' + centerconnector })
+    flow.addEdge({ from: se.name, to: center.name, linestyle, fromconnector: 'c2' + seid, toconnector: 'c4' + centerconnector })
 
-    flow.addEdge({ v: nw.name, w: center.name, linestyle, fromconnector: 'c1' + nwid, toconnector: 'c1' + centerconnector })
-    flow.addEdge({ v: ne.name, w: center.name, linestyle, fromconnector: 'c1' + neid, toconnector: 'c3' + centerconnector })
-    flow.addEdge({ v: sw.name, w: center.name, linestyle, fromconnector: 'c1' + swid, toconnector: 'c1' + centerconnector })
-    flow.addEdge({ v: se.name, w: center.name, linestyle, fromconnector: 'c1' + seid, toconnector: 'c3' + centerconnector })
+    flow.addEdge({ from: nw.name, to: center.name, linestyle, fromconnector: 'c1' + nwid, toconnector: 'c1' + centerconnector })
+    flow.addEdge({ from: ne.name, to: center.name, linestyle, fromconnector: 'c1' + neid, toconnector: 'c3' + centerconnector })
+    flow.addEdge({ from: sw.name, to: center.name, linestyle, fromconnector: 'c1' + swid, toconnector: 'c1' + centerconnector })
+    flow.addEdge({ from: se.name, to: center.name, linestyle, fromconnector: 'c1' + seid, toconnector: 'c3' + centerconnector })
 
     const position = center.position.clone()
     let angle = 0

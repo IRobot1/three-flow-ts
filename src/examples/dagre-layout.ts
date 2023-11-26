@@ -47,7 +47,7 @@ export class DagreLayout implements FlowLayout {
     filteredgraph.edges().forEach(name => {
       const data = this.graph.edge(name.v, name.w) as FlowEdgeParameters
       const filtered = filteredgraph.edge(name)
-      result.edges.push({ id: data.name!, points: filtered.points })
+      result.edges.push({ id: data.id!, points: filtered.points })
     })
 
     return result;

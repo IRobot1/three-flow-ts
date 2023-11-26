@@ -167,18 +167,18 @@ export class MermaidExample {
           let node = flow.hasNode(from.id)
           if (!node) {
             if (!from.label) from.label = { type: 'rectangular', label: from.id }
-            flow.addNode(<ShapeNodeParameters>{ text: from.id, label: { text: from.label.label, size: 0.15 }, height: 0.5, shape: from.label.type })
+            flow.addNode(<ShapeNodeParameters>{ id: from.id, label: { text: from.label.label, size: 0.15 }, height: 0.5, shape: from.label.type })
           }
 
 
           const to = edge.to
           if (to) {
-            const edgeparams: FlowEdgeParameters = { v: from.id, w: to.id }
+            const edgeparams: FlowEdgeParameters = { from: from.id, to: to.id }
 
             node = flow.hasNode(to.id)
             if (!node) {
               if (!to.label) to.label = { type: 'rectangular', label: to.id }
-              flow.addNode(<ShapeNodeParameters>{ text: to.id, label: { text: to.label.label, size: 0.15 }, height: 0.5, shape: to.label.type })
+              flow.addNode(<ShapeNodeParameters>{ id: to.id, label: { text: to.label.label, size: 0.15 }, height: 0.5, shape: to.label.type })
             }
 
             switch (edge.arrow) {

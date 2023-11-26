@@ -76,7 +76,7 @@ export class CivilizationExample {
         let outlink = 'out' + from
         const fromnode = flow.hasNode(from)
         if (!fromnode) {
-          const node = flow.addNode({ text: from, label: { text: from, size: 0.25 }, width: 3 });
+          const node = flow.addNode({ id: from, label: { text: from, size: 0.25 }, width: 3 });
           //node.addOutputConnector({ text: outlink })
         }
         else {
@@ -91,7 +91,7 @@ export class CivilizationExample {
 
           const tonode = flow.hasNode(to)
           if (!tonode) {
-            const node = flow.addNode({ text: to, label: { text: to, size: 0.25 }, width: 3 });
+            const node = flow.addNode({ id: to, label: { text: to, size: 0.25 }, width: 3 });
             //node.addInputConnector({ text: inlink })
           }
           //else {
@@ -102,7 +102,7 @@ export class CivilizationExample {
 
 
           const edge: FlowEdgeParameters = {
-            v: from, w: to, toarrow: { indent: 0 }
+            from: from, to: to, toarrow: { indent: 0 }
           }
           flow.addEdge(edge);
 

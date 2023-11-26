@@ -103,7 +103,7 @@ export class GalleryExample {
 
     const nodes: Tile[] = [
       {
-        text: "basic",
+        id: "basic",
         assetimage: 'basic', route: 'basic',
         y: 2.5,
         label: { text: "Basic" },
@@ -114,7 +114,7 @@ export class GalleryExample {
         ],
       },
       {
-        text: 'custom',
+        id: 'custom',
         x: 1.5, y: 1,
         assetimage: 'geometry', route: 'geometry',
         label: { text: "Custom Geometry" },
@@ -124,7 +124,7 @@ export class GalleryExample {
         ],
       },
       {
-        text: 'builder',
+        id: 'builder',
         label: { text: "Builder" },
         x: -1.5, y: 1,
         assetimage: 'builder', route: 'builder',
@@ -134,7 +134,7 @@ export class GalleryExample {
         ],
       },
       {
-        text: 'loader',
+        id: 'loader',
         x: 0, y: -0.5,
         label: { text: "Loader from JSON" },
         assetimage: 'loader', route: 'loader',
@@ -143,7 +143,7 @@ export class GalleryExample {
         ],
       },
       {
-        text: 'languages',
+        id: 'languages',
         label: { text: "Languages" },
         x: -3, y: -0.5,
         assetimage: 'languages', route: 'languages',
@@ -152,7 +152,7 @@ export class GalleryExample {
         ],
       },
       {
-        text: 'civilization',
+        id: 'civilization',
         label: { text: "Civiilization Tech Tree" },
         x: -1.5, y: -0.5,
         assetimage: 'civilization', route: 'civilization',
@@ -161,7 +161,7 @@ export class GalleryExample {
         ],
       },
       {
-        text: 'mermaid',
+        id: 'mermaid',
         label: { text: "Mermaid Flowchart" },
         x: 1.5, y: -0.5,
         assetimage: 'mermaid', route: 'mermaid',
@@ -170,7 +170,7 @@ export class GalleryExample {
         ],
       },
       {
-        text: 'visuals',
+        id: 'visuals',
         label: { text: "Visuals" },
         x: 4.5, y: 1,
         assetimage: 'visuals', route: 'visuals',
@@ -180,7 +180,7 @@ export class GalleryExample {
         ],
       },
       {
-        text: 'popout',
+        id: 'popout',
         label: { text: "2D Popout" },
         x: 3, y: -0.5,
         assetimage: 'popout', route: 'popout',
@@ -189,7 +189,7 @@ export class GalleryExample {
         ],
       },
       {
-        text: 'frames',
+        id: 'frames',
         label: { text: "Tranparent Frames" },
         x: 4.5, y: -0.5,
         assetimage: 'frames', route: 'frames',
@@ -198,7 +198,7 @@ export class GalleryExample {
         ],
       },
       {
-        text: 'edgestyles',
+        id: 'edgestyles',
         label: { text: "Edge Styles" },
         x: 0, y: 1,
         assetimage: 'edgestyles', route: 'edgestyles',
@@ -207,7 +207,7 @@ export class GalleryExample {
         ],
       },
       {
-        text: 'documentation',
+        id: 'documentation',
         label: { text: "Flow Relationships" },
         x: -3, y: 1,
         assetimage: 'placeholder', route: 'documentation',
@@ -220,69 +220,69 @@ export class GalleryExample {
 
     const edges: FlowEdgeParameters[] = [
       {
-        v: "basic",
-        w: "custom",
+        from: "basic",
+        to: "custom",
         fromconnector: "c2basic",
         toconnector: "c1custom",
         color: 'white'
       },
       {
-        v: "custom",
-        w: "mermaid",
+        from: "custom",
+        to: "mermaid",
         fromconnector: "c2custom",
         toconnector: "c1mermaid",
       },
       {
-        v: "basic",
-        w: "builder",
+        from: "basic",
+        to: "builder",
         fromconnector: "c1basic",
         toconnector: "c1builder"
       },
       {
-        v: "builder",
-        w: "languages",
+        from: "builder",
+        to: "languages",
         fromconnector: "c2builder",
         toconnector: "c1languages"
       },
       {
-        v: "builder",
-        w: "civilization",
+        from: "builder",
+        to: "civilization",
         fromconnector: "c2builder",
         toconnector: "c1civilization"
       },
       {
-        v: "builder",
-        w: "loader",
+        from: "builder",
+        to: "loader",
         fromconnector: "c2builder",
         toconnector: "c1loader"
       },
       {
-        v: "basic",
-        w: "visuals",
+        from: "basic",
+        to: "visuals",
         fromconnector: "c2basic",
         toconnector: "c1visuals"
       },
       {
-        v: "visuals",
-        w: "popout",
+        from: "visuals",
+        to: "popout",
         fromconnector: "c2visuals",
         toconnector: "c1popout"
       },
       {
-        v: "visuals",
-        w: "frames",
+        from: "visuals",
+        to: "frames",
         fromconnector: "c2visuals",
         toconnector: "c1frames"
       },
       {
-        v: "basic",
-        w: "edgestyles",
+        from: "basic",
+        to: "edgestyles",
         fromconnector: "c3basic",
         toconnector: "c1edgestyles"
       },
       {
-        v: "basic",
-        w: "documentation",
+        from: "basic",
+        to: "documentation",
         fromconnector: "c1basic",
         toconnector: "c1documentation"
       },

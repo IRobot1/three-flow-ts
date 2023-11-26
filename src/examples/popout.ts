@@ -105,7 +105,7 @@ export class PopoutExample {
       Bcolor: '#2161B2', Bextrudecolor: '#2F7AD2',
       Ccolor: '#00AAE3', Cextrudecolor: '#3BCEFE',
     })
-    flow.addEdge({ v: top.name, w: leftnode.name, fromconnector: 'topleft', toconnector: 'c1left', color: 'black', linestyle:'split' })
+    flow.addEdge({ from: top.name, to: leftnode.name, fromconnector: 'topleft', toconnector: 'c1left', color: 'black', linestyle:'split' })
 
     const middlenode = this.addGroup(flow, 'middle', 0, 0, {
       color: '#629B3A', extrudecolor: '#71B545',
@@ -113,7 +113,7 @@ export class PopoutExample {
       Bcolor: '#04573F', Bextrudecolor: '#026B4C',
       Ccolor: '#468B3E', Cextrudecolor: '#509D4C',
     })
-    flow.addEdge({ v: top.name, w: middlenode.name, fromconnector: 'topmiddle', toconnector: 'c1middle', color: 'black' })
+    flow.addEdge({ from: top.name, to: middlenode.name, fromconnector: 'topmiddle', toconnector: 'c1middle', color: 'black' })
 
     const rightnode = this.addGroup(flow, 'right', 3, 0, {
       color: '#DC2B27', extrudecolor: '#FF5656',
@@ -121,7 +121,7 @@ export class PopoutExample {
       Bcolor: '#9B2643', Bextrudecolor: '#B92D51',
       Ccolor: '#E11F30', Cextrudecolor: '#FD4E59',
     })
-    flow.addEdge({ v: top.name, w: rightnode.name, fromconnector: 'topright', toconnector: 'c1right', color: 'black', linestyle:'split' })
+    flow.addEdge({ from: top.name, to: rightnode.name, fromconnector: 'topright', toconnector: 'c1right', color: 'black', linestyle:'split' })
 
 
     this.dispose = () => {
@@ -155,7 +155,7 @@ export class PopoutExample {
         { id: prefix + 'lefttop', anchor: 'top', hidden: true },
       ]
     })
-    flow.addEdge({ v: node.name, w: A.name, fromconnector: 'c2' + prefix, toconnector: prefix + 'lefttop', color: 'black', linestyle: 'split' })
+    flow.addEdge({ from: node.name, to: A.name, fromconnector: 'c2' + prefix, toconnector: prefix + 'lefttop', color: 'black', linestyle: 'split' })
 
     const B = flow.addNode(<PopoutShape>{
       x, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05,
@@ -166,7 +166,7 @@ export class PopoutExample {
         { id: prefix + 'middletop', anchor: 'top', hidden: true },
       ]
     })
-    flow.addEdge({ v: node.name, w: B.name, fromconnector: 'c3' + prefix, toconnector: prefix + 'middletop', color: 'black' })
+    flow.addEdge({ from: node.name, to: B.name, fromconnector: 'c3' + prefix, toconnector: prefix + 'middletop', color: 'black' })
 
     const C = flow.addNode(<PopoutShape>{
       x: x + 0.7, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05,
@@ -177,7 +177,7 @@ export class PopoutExample {
         { id: prefix + 'righttop', anchor: 'top', hidden: true },
       ]
     })
-    flow.addEdge({ v: node.name, w: C.name, fromconnector: 'c4' + prefix, toconnector: prefix + 'righttop', color: 'black', linestyle: 'split' })
+    flow.addEdge({ from: node.name, to: C.name, fromconnector: 'c4' + prefix, toconnector: prefix + 'righttop', color: 'black', linestyle: 'split' })
 
     return node
   }

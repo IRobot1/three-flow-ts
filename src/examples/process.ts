@@ -81,7 +81,7 @@ export class ProcessExample {
       ]
     })
 
-    flow.addEdge({ v: start.name, w: decision.name, fromconnector: 'c1start', toconnector: 'c1decision' })
+    flow.addEdge({ from: start.name, to: decision.name, fromconnector: 'c1start', toconnector: 'c1decision' })
 
 
     const process1 = flow.addNode(<ProcessShape>{
@@ -91,7 +91,7 @@ export class ProcessExample {
         { id: 'c2process1', anchor: 'right', hidden: true },
       ]
     })
-    flow.addEdge({ v: decision.name, w: process1.name, fromconnector: 'c2decision', toconnector: 'c1process1', linestyle: 'split' })
+    flow.addEdge({ from: decision.name, to: process1.name, fromconnector: 'c2decision', toconnector: 'c1process1', linestyle: 'split' })
 
     const process2 = flow.addNode(<ProcessShape>{
       height: 0.5, label: { text: 'Process 2', size: 0.15, color: 'white' }, shape: 'rect',
@@ -100,7 +100,7 @@ export class ProcessExample {
         { id: 'c2process2', anchor: 'right', hidden: true },
       ]
     })
-    flow.addEdge({ v: decision.name, w: process2.name, fromconnector: 'c3decision', toconnector: 'c1process2' })
+    flow.addEdge({ from: decision.name, to: process2.name, fromconnector: 'c3decision', toconnector: 'c1process2' })
 
     const process3 = flow.addNode(<ProcessShape>{
       y: -1, height: 0.5, label: { text: 'Process 3', size: 0.15, color: 'white' }, shape: 'rect',
@@ -109,7 +109,7 @@ export class ProcessExample {
         { id: 'c2process3', anchor: 'right', hidden: true },
       ]
     })
-    flow.addEdge({ v: decision.name, w: process3.name, fromconnector: 'c4decision', toconnector: 'c1process3', linestyle: 'split' })
+    flow.addEdge({ from: decision.name, to: process3.name, fromconnector: 'c4decision', toconnector: 'c1process3', linestyle: 'split' })
 
     const action = flow.addNode(<ProcessShape>{
       x: 2, height: 0.5, label: { text: 'Action', size: 0.15, color: 'white' }, shape: 'parallel',
@@ -120,9 +120,9 @@ export class ProcessExample {
         { id: 'c4action', anchor: 'bottom', hidden: true },
       ]
     })
-    flow.addEdge({ v: process1.name, w: action.name, fromconnector: 'c2process1', toconnector: 'c2action', linestyle: 'split' })
-    flow.addEdge({ v: process2.name, w: action.name, fromconnector: 'c2process2', toconnector: 'c1action' })
-    flow.addEdge({ v: process3.name, w: action.name, fromconnector: 'c2process3', toconnector: 'c4action', linestyle: 'split' })
+    flow.addEdge({ from: process1.name, to: action.name, fromconnector: 'c2process1', toconnector: 'c2action', linestyle: 'split' })
+    flow.addEdge({ from: process2.name, to: action.name, fromconnector: 'c2process2', toconnector: 'c1action' })
+    flow.addEdge({ from: process3.name, to: action.name, fromconnector: 'c2process3', toconnector: 'c4action', linestyle: 'split' })
 
     const end = flow.addNode(<ProcessShape>{
       x: 4, height: 0.5, label: { text: 'End', size: 0.15, color: 'white' }, shape: 'circle',
@@ -130,7 +130,7 @@ export class ProcessExample {
         { id: 'c1end', anchor: 'left', hidden: true },
       ]
     })
-    flow.addEdge({ v: action.name, w: end.name, fromconnector: 'c3action', toconnector: 'c1end' })
+    flow.addEdge({ from: action.name, to: end.name, fromconnector: 'c3action', toconnector: 'c1end' })
 
 
     this.dispose = () => {

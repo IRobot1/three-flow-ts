@@ -57,11 +57,11 @@ export interface FlowArrowParameters {
 export type EdgeLineStyle = 'straight' | 'offset' | 'split' | 'spline'
 
 export interface FlowEdgeParameters {
-  // first four fields make parameters compatible with dagre for easier layout
-  v: string; // from node id
-  w: string; // to node id
-  name?: string;
-  points?: Array<{ x: number, y: number }>  // layout positions of line segments
+  from: string; // from node id
+  to: string; // to node id
+  id?: string;
+
+  points?: Array<{ x: number, y: number }>  // dagre layout positions of line segments
 
   color?: number | string;
   linestyle?: EdgeLineStyle;
@@ -76,10 +76,10 @@ export interface FlowEdgeParameters {
   toconnector?: string;   // optional connector id on to node
 }
 
-export type AbstractNodeType = 'node' | 'route'
+export type FlowNodeType = 'node' | 'route'
 export interface FlowNodeParameters {
-  text?: string;
-  type?: AbstractNodeType
+  id?: string;
+  type?: FlowNodeType
   x?: number;
   y?: number;
   z?: number;
@@ -113,7 +113,7 @@ export interface FlowRouteParameters extends FlowNodeParameters {
 }
 
 export interface FlowDiagramParameters {
-  version: number;
+  version?: number;
   nodes: FlowNodeParameters[],
   edges: FlowEdgeParameters[]
 }
