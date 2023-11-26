@@ -16,6 +16,8 @@ Demo (this repo hosted) coming soon
 
 [Learn](https://github.com/IRobot1/three-flow-ts/wiki/Learn)
 
+[Roadmap](https://github.com/IRobot1/three-flow-ts/wiki/Roadmap)
+
 ## Installation
 
 To add three-flow to your existing three project
@@ -33,32 +35,4 @@ Download or clone repo.
 npm install
 ng serve -o
 ```
-# Roadmap
-The following are planned features in no particular order
 
-## General
-* lil-gui for all classes and properties
-* 
-
-## Node
-* suppoort for radius as alternative to width and height
-* 
-
-## Edge
-* label and styling
-* curved version of split 
-* bezier path instead of spline points
-* 
-
-## Interactive
-* global enable/disable resizable, draggable and scalable
-* interactive connectors - enable/disable, connected/disconnected, drag to create edge
-* select and drag multiple nodes
-* interactive edge - hover, active, select - only when geometry
-
-## Routes
-* Currently derives from node - simplified version that doesn't require disabling node features to work
-* 
-
-## Arrows
-* better support
