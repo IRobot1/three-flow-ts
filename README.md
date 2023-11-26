@@ -1,27 +1,38 @@
-# ThreeFlowTs
+# Three Flow
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.5.
+Three Flow is a native threejs graphing library for adding to a threejs scene.  Nodes and edges are rendered using threejs objects and materials. This allows visuals to have volume, shadows, reflections and dynamic material effects.
 
-## Development server
+![image](https://github.com/IRobot1/three-flow-ts/assets/25032599/777b313c-05f9-440b-98ef-ac15742e649a)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+This library is still under active development.  Updates and improvements may have breaking changes.
 
-## Code scaffolding
+Demo (this repo hosted) coming soon
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Documentation
 
-## Build
+[Getting Start](https://github.com/IRobot1/three-flow-ts/wiki/Getting-Started)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+[Features](https://github.com/IRobot1/three-flow-ts/wiki/Features)
 
-## Running unit tests
+[Learn](https://github.com/IRobot1/three-flow-ts/wiki/Learn)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+[Roadmap](https://github.com/IRobot1/three-flow-ts/wiki/Roadmap)
 
-## Running end-to-end tests
+## Installation
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+To add three-flow to your existing three project
 
-## Further help
+```
+npm install three-flow
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Local Development
+This repo uses Angular to host the examples and manage three-flow library. three-flow does not depend on Angular.
+
+Download or clone repo.  
+
+```
+npm install
+ng serve -o
+```
+
