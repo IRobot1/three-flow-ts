@@ -95,7 +95,10 @@ export class FlowDiagram extends Object3D {
   }
 
   layout(label: any = {}, filter?: (nodeId: string) => boolean) {
-    const result = this.graph.layout(label, filter)
+    const nodes = this.allNodes.map(node => node.node)
+    const edges = this.allEdges.map(edge => edge.edge)
+
+    const result = this.graph.layout(nodes, edges, label, filter)
 
     const centerx = result.width! / 2
     const centery = result.height! / 2
@@ -179,12 +182,7 @@ export class FlowDiagram extends Object3D {
   }
 
   public addNode(node: FlowNodeParameters): FlowNode {
-    const mesh = this.setNode(node)
-
-    // setNode can assign node.text, so must be done before adding to graph
-    this.graph.setNode(node.id!, node);
-
-    return mesh;
+    return this.setNode(node)
   }
 
   private setRoute(item: FlowRouteParameters): FlowNode {
@@ -199,15 +197,11 @@ export class FlowDiagram extends Object3D {
   public addRoute(route: FlowRouteParameters): FlowNode {
     const mesh = this.setRoute(route)
 
-    // setRoute can assign node.text, so must be done before adding to graph
-    this.graph.setNode(route.id!, route);
-
     return mesh;
   }
 
   public removeNode(node: FlowNode) {
 
-    this.graph.removeNode(node.name)
     this._nodeCount--
 
     this.dispatchEvent<any>({ type: FlowEventType.NODE_REMOVED, node })
@@ -260,16 +254,11 @@ export class FlowDiagram extends Object3D {
   }
 
   public addEdge(edge: FlowEdgeParameters): FlowEdge {
-    const mesh = this.setEdge(edge)
-
-    // setEdge can assign edge.name, so must be before adding to graph
-    this.graph.setEdge(edge.from, edge.to, edge);
-    return mesh;
+    return this.setEdge(edge)
   }
 
   public removeEdge(edge: FlowEdge): void {
 
-    this.graph.removeEdge(edge.edge, edge.from, edge.to)
     this._edgeCount--
 
     this.dispatchEvent<any>({ type: FlowEventType.EDGE_REMOVED, edge })

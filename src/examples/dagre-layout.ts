@@ -4,28 +4,18 @@ import { FlowEdgeParameters, FlowLayout, FlowNodeParameters, LayoutResult } from
 export class DagreLayout implements FlowLayout {
   private graph = new graphlib.Graph()
 
-  dispose() {
-    this.graph = new graphlib.Graph()
-  }
-  removeEdge(edge: FlowEdgeParameters, from: string, to: string): any {
-    return this.graph.removeEdge(from, to)
-  }
-  setEdge(from: string, to: string, edge: FlowEdgeParameters): any {
-    return this.graph.setEdge(from, to, edge)
-  }
-  removeNode(name: string): any {
-    return this.graph.removeNode(name)
-  }
-  setNode(name: string, node: FlowNodeParameters): unknown {
-    return this.graph.setNode(name, node)
-  }
-  layout(label: GraphLabel, filter?: ((nodeId: string) => boolean) | undefined): LayoutResult {
+  dispose() {  }
+
+  layout(nodes: Array<FlowNodeParameters>, edges: Array<FlowEdgeParameters>, label: GraphLabel, filter?: ((nodeId: string) => boolean) | undefined): LayoutResult {
     if (!label.rankdir) label.rankdir = 'LR'
     if (!label.nodesep) label.nodesep = 0.1
     if (!label.edgesep) label.edgesep = 1
     if (!label.ranksep) label.ranksep = 4
 
     this.graph.setGraph(label);
+
+    nodes.forEach(node => this.graph.setNode(node.id!, node))
+    edges.forEach(edge=> this.graph.setEdge(edge.from, edge.to, edge))
 
     let filteredgraph = this.graph
     if (filter) filteredgraph = this.graph.filterNodes(filter)

@@ -153,10 +153,6 @@ export interface LayoutResult {
 }
 
 export interface FlowLayout {
-  setEdge(from: string, to: string, edge: FlowEdgeParameters): any;
-  removeEdge(edge: FlowEdgeParameters, from: string, to: string): any;
-  setNode(name: string, node: FlowNodeParameters): any;
-  removeNode(name: string): any;
-  layout(options: any, filter?: (nodeId: string) => boolean): LayoutResult;
+  layout(nodes:Array<FlowNodeParameters>, edges:Array<FlowEdgeParameters>, options: any, filter?: (nodeId: string) => boolean): LayoutResult;
   dispose(): void;
 }
