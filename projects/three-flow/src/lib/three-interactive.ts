@@ -1,4 +1,4 @@
-import { Vector2, Raycaster, Renderer, Camera, Object3D, Plane, Vector3, Matrix4, Intersection, BaseEvent } from 'three';
+import { Vector2, Raycaster, Renderer, Camera, Object3D, Plane, Vector3, Matrix4, Intersection, BaseEvent, WebGLRenderer } from 'three';
 
 export const InteractiveEventType = {
   POINTERENTER: 'pointerenter',
@@ -40,7 +40,7 @@ export class ThreeInteractive {
 
   dispose = () => { }
 
-  constructor(renderer: Renderer, camera: Camera) {
+  constructor(renderer: WebGLRenderer, camera: Camera) {
 
     const _pointer = new Vector2();
     const _plane = new Plane();
@@ -58,6 +58,16 @@ export class ThreeInteractive {
     const raycaster = new Raycaster();
 
     // Pointer Events
+    const events: any = {
+      'pointermove': 'pointermove',
+      'pointerdown': 'pointerdown',
+      'pointerup': 'pointerup',
+      'click': 'click',
+      'move': 'pointermove',
+      'selectstart': 'pointerdown',
+      'selectend': 'pointerup',
+      'select': 'click',
+    };
 
     const element = document;
 
@@ -70,8 +80,13 @@ export class ThreeInteractive {
       _pointer.y = - (event.clientY - rect.top) / rect.height * 2 + 1;
 
       raycaster.setFromCamera(_pointer, camera);
+      handleEvent(event)
+    }
+
+    const handleEvent = (newevent: PointerEvent | MouseEvent) => {
       let _intersects = raycaster.intersectObjects(this.selectable.list, false);
 
+      _event.type = events[newevent.type];
       _event.data = _intersects
 
       if (_intersects.length > 0) {
@@ -97,8 +112,6 @@ export class ThreeInteractive {
           }
           else
             overlapping.delete(object)
-
-          _event.type = event.type;
 
           object.dispatchEvent<any>(_event);
 
@@ -129,7 +142,7 @@ export class ThreeInteractive {
         entered.length = 0
 
         // some popup selectables close when clicking outside of them, for example, dropdown menu and color picker
-        if (event.type == 'click') {
+        if (_event.type == 'click') {
           _event.type = InteractiveEventType.POINTERMISSED;
           this.selectable.list.forEach(item => {
             if (item.visible)
@@ -149,7 +162,7 @@ export class ThreeInteractive {
 
         const object = intersection.object;
 
-        if (event.type == 'pointerdown') {
+        if (_event.type == 'pointerdown') {
           _selected = object;
 
           _plane.setFromNormalAndCoplanarPoint(_selected.getWorldDirection(_plane.normal), _worldPosition.setFromMatrixPosition(_selected.matrixWorld));
@@ -162,7 +175,7 @@ export class ThreeInteractive {
 
         }
       }
-      if (event.type == 'pointermove') {
+      if (_event.type == 'pointermove') {
         if (_selected) {
 
           if (raycaster.ray.intersectPlane(_plane, _intersection)) {
@@ -174,7 +187,7 @@ export class ThreeInteractive {
 
         }
       }
-      else if (event.type == 'pointerup') {
+      else if (_event.type == 'pointerup') {
         if (_selected) {
 
           _selected.dispatchEvent({ type: InteractiveEventType.DRAGEND, position: _intersection });
@@ -190,7 +203,36 @@ export class ThreeInteractive {
     element.addEventListener('pointermove', onPointerEvent);
     element.addEventListener('click', onPointerEvent);
 
+
+
+    const tempMatrix = new Matrix4();
+
+    const onXRControllerEvent = (event: any) => {
+      if (event.target == null) return
+
+      const controller = event.target as Object3D;
+      tempMatrix.identity().extractRotation(controller.matrixWorld);
+
+      raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
+      raycaster.ray.direction.set(0, 0, - 1).applyMatrix4(tempMatrix);
+
+      handleEvent(event)
+    }
+
+    const controller1 = renderer.xr.getController(0);
+    controller1.addEventListener('move', onXRControllerEvent);
+    controller1.addEventListener('select', onXRControllerEvent);
+    controller1.addEventListener('selectstart', onXRControllerEvent);
+    controller1.addEventListener('selectend', onXRControllerEvent);
+
+    const controller2 = renderer.xr.getController(1);
+    controller2.addEventListener('move', onXRControllerEvent);
+    controller2.addEventListener('select', onXRControllerEvent);
+    controller2.addEventListener('selectstart', onXRControllerEvent);
+    controller2.addEventListener('selectend', onXRControllerEvent);
+
     this.dispose = () => {
+
       element.removeEventListener('pointerdown', onPointerEvent);
       element.removeEventListener('pointerup', onPointerEvent);
       element.removeEventListener('pointermove', onPointerEvent);

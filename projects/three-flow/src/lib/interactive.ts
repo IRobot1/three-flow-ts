@@ -1,4 +1,4 @@
-import { Camera, Material, Renderer } from "three";
+import { Camera, Material, Renderer, WebGLRenderer } from "three";
 import { DragNode } from "./drag-node";
 import { FlowDiagram } from "./diagram";
 import { ThreeInteractive } from "./three-interactive";
@@ -11,7 +11,7 @@ export class FlowInteraction {
   private nodes: Array<NodeInteractive> = []
   readonly interactive: ThreeInteractive
 
-  constructor(public flow: FlowDiagram,renderer: Renderer, camera: Camera) {
+  constructor(public flow: FlowDiagram, renderer: WebGLRenderer, camera: Camera) {
     this.interactive = this.createThreeInteractive(renderer, camera)
 
     flow.addEventListener(FlowEventType.NODE_REMOVED, (e: any) => {
@@ -37,7 +37,7 @@ export class FlowInteraction {
     flow.addEventListener(FlowEventType.DISPOSE, () => this.dispose())
   }
 
-  createThreeInteractive(renderer: Renderer, camera: Camera): ThreeInteractive {
+  createThreeInteractive(renderer: WebGLRenderer, camera: Camera): ThreeInteractive {
     return new ThreeInteractive(renderer, camera)
   }
 
