@@ -31,7 +31,7 @@ export class NodeBorder extends Mesh {
       active = true
       this.activeChanged(active)
     })
-    node.addEventListener('click', () => {
+    node.addEventListener(InteractiveEventType.CLICK, () => {
       if (!node.selectable || node.draggable) return
       diagram.active = node
       active = !active

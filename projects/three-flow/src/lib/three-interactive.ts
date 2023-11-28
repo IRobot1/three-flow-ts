@@ -1,9 +1,13 @@
 import { Vector2, Raycaster, Renderer, Camera, Object3D, Plane, Vector3, Matrix4, Intersection, BaseEvent, WebGLRenderer } from 'three';
 
 export const InteractiveEventType = {
+  POINTERMOVE: 'pointermove',
+  POINTERDOWN: 'pointerdown',
+  POINTERUP: 'pointerup',
   POINTERENTER: 'pointerenter',
   POINTERLEAVE: 'pointerleave',
   POINTERMISSED: 'pointermissed',
+  CLICK: 'click',
   DRAGSTART: 'dragstart',
   DRAG: 'drag',
   DRAGEND: 'dragend',
@@ -106,7 +110,6 @@ export class ThreeInteractive {
           if (!entered.includes(object)) {
             if (!_selected) {
               _event.type = InteractiveEventType.POINTERENTER;
-              object.dispatchEvent<any>(_event);
               entered.push(object);
             }
           }

@@ -328,7 +328,7 @@ export class GalleryExample {
     // add click to navigate to example
     flow.allNodes.forEach(node => {
       const tile = node.node as Tile
-      node.addEventListener('click', () => { app.navigateto(tile.route) })
+      node.addEventListener(InteractiveEventType.CLICK, () => { app.navigateto(tile.route) })
 
       interactive.selectable.add(node)
     })
