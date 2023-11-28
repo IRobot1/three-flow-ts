@@ -78,7 +78,7 @@ export class FlowConnectors {
 export class NodeConnectors {
   // options
   spacing = 0.1
-  total: any = { left: 0, right: 0, top: 0, bottom: 0 }
+  private total: any = { left: 0, right: 0, top: 0, bottom: 0 }
 
   constructor(public connectors: FlowConnectors, private node: FlowNode, public parameters: Array<FlowConnectorParameters>) {
 
@@ -118,7 +118,6 @@ export class NodeConnectors {
 
     this.moveConnectors()
 
-    this.updateVisuals()
     return connector
   }
 
@@ -136,7 +135,7 @@ export class NodeConnectors {
   }
 
 
-  getConnectors() {
+  private getConnectors() {
     return (this.node.children as Array<ConnectorMesh>)
       .filter(item => item.type == 'flowconnector')
   }
@@ -190,13 +189,11 @@ export class NodeConnectors {
 
   private moveConnectors() {
 
-    this.getConnectors().forEach(connector => {
+    this.getConnectors().sort((a,b) => a.index - b.index).forEach(connector => {
       this.positionConnector(connector)
       connector.dispatchEvent<any>({ type: 'dragged' })
     })
   }
-
-  updateVisuals() { }
 
 
   // overridables
@@ -265,7 +262,5 @@ export class ConnectorMesh extends Mesh {
     this.geometry = this.node.createGeometry(parameters)
     this.material = diagram.getMaterial('geometry', 'connector', this.color)
   }
-
-  updateVisuals() { }
 }
 
