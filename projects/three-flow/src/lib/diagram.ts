@@ -1,4 +1,4 @@
-import { Box3, ColorRepresentation, LineBasicMaterial, Material, MeshBasicMaterial, Object3D, Vector3 } from "three";
+import { Box3, ColorRepresentation, LineBasicMaterial, Material, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Vector3 } from "three";
 import { FlowEdgeParameters, FlowDiagramParameters, FlowNodeParameters, FlowRouteParameters, EdgeLineStyle, FlowEventType, FlowLayout, FlowLabelParameters } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
@@ -12,7 +12,7 @@ export type FlowMaterialType = 'line' | 'geometry'
 export interface FlowDiagramOptions {
   gridsize?: number
   fonts?: Map<string, Font>
-  linecolor?: number | string
+  linematerial?: MeshBasicMaterialParameters
   linestyle?: EdgeLineStyle
   linedivisions?: number
   linethickness?: number
@@ -239,10 +239,7 @@ export class FlowDiagram extends Object3D {
   }
 
   private setEdge(item: FlowEdgeParameters): FlowEdge {
-    if (!item.material && this.options) {
-      if (!item.material) item.material = {}
-      item.material.color = this.options.linecolor
-    }
+    if (!item.material && this.options) item.material = this.options.linematerial
     if (!item.linestyle && this.options) item.linestyle = this.options.linestyle
     if (!item.divisions && this.options) item.divisions = this.options.linedivisions
     if (!item.thickness && this.options) item.thickness = this.options.linethickness

@@ -189,7 +189,7 @@ export class CustomGeometryExample {
           ['helvetika', font],
         ]),
         linethickness: 0.015,
-        linecolor: 0x2ead25,
+        linematerial: { color: 0x2ead25 },
         linestyle: 'spline',
         layout: new DagreLayout()
       }
@@ -249,7 +249,7 @@ class MyFlowDiagram extends FlowDiagram {
     super(options)
   }
 
-  override createLineMaterial(purpose: string, color: number | string): Material {
+  override createLineMaterial(purpose: string, color: ColorRepresentation): Material {
     return new MeshBasicMaterial({ color });
   }
 

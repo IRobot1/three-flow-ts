@@ -55,7 +55,6 @@ export class ResizeNode {
     })
 
     mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
-      console.warn(this.node.resizable)
       if (!this.node.resizable || this.node.hidden) return
 
       const diff = e.position.sub(startposition) as Vector3

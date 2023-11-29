@@ -1,4 +1,4 @@
-import { BufferGeometry, Mesh, MeshBasicMaterial, PlaneGeometry } from "three";
+import { BufferGeometry, ColorRepresentation, Mesh, MeshBasicMaterial, PlaneGeometry } from "three";
 import { FlowNode } from "./node";
 import { FlowDiagram } from "./diagram";
 import { InteractiveEventType } from "./three-interactive";
@@ -59,7 +59,7 @@ export class NodeBorder extends Mesh {
 
   }
 
-  protected setColor(color: number | string) {
+  protected setColor(color: ColorRepresentation) {
     (this.material as MeshBasicMaterial).color.set(color)
   }
 
