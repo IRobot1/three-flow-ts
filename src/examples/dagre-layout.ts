@@ -14,8 +14,8 @@ export class DagreLayout implements FlowLayout {
 
     this.graph.setGraph(label);
 
-    nodes.forEach(node => this.graph.setNode(node.id!, node))
-    edges.forEach(edge=> this.graph.setEdge(edge.from, edge.to, edge))
+    nodes.forEach(node => this.graph.setNode(node.id!, node as any))
+    edges.forEach(edge=> this.graph.setEdge(edge.from, edge.to, edge as any))
 
     let filteredgraph = this.graph
     if (filter) filteredgraph = this.graph.filterNodes(filter)
