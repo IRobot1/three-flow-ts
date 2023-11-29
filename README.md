@@ -1,5 +1,7 @@
 # Three Flow
 
+[![NPM Package][npm]][npm-url]
+
 Three Flow is a native Three.js graphing library for adding to a scene.  Nodes and edges are rendered using Three.js objects and materials. This allows visuals to have volume, shadows, reflections and dynamic material effects.
 
 ![image](https://github.com/IRobot1/three-flow-ts/assets/25032599/777b313c-05f9-440b-98ef-ac15742e649a)
@@ -29,7 +31,7 @@ This library is still under active development.  Updates and improvements may ha
 To add three-flow to your existing three project
 
 ```
-npm install three-flow
+npm install three-flow-js
 ```
 
 ## Local Development
@@ -42,3 +44,5 @@ npm install
 ng serve -o
 ```
 
+[npm]: https://img.shields.io/npm/v/three-flow-js
+[npm-url]: https://www.npmjs.com/package/three-flow-js
