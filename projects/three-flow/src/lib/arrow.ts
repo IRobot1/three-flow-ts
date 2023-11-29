@@ -1,16 +1,16 @@
-import { BufferGeometry, Mesh, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, ColorRepresentation, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Shape, ShapeGeometry } from "three";
 import { FlowArrowParameters, ArrowStyle } from "./model";
 import { FlowEdge } from "./edge";
 
 
 export class FlowArrow extends Mesh {
 
-  private _color: number | string;
-  get color() { return this._color }
-  set color(newvalue: number | string) {
-    if (this._color != newvalue) {
-      this._color = newvalue;
-      (this.material as any).color.set(newvalue)
+  private _matparams!: MeshBasicMaterialParameters
+  get color() { return this._matparams.color! }
+  set color(newvalue: ColorRepresentation) {
+    if (this._matparams.color != newvalue) {
+      this._matparams.color = newvalue;
+      (this.material as MeshBasicMaterial).color.set(newvalue)
     }
   }
 
@@ -69,7 +69,7 @@ export class FlowArrow extends Mesh {
   constructor(edge: FlowEdge, public arrow: FlowArrowParameters) {
     super()
 
-    this._color = arrow.color ? arrow.color : 0x000000
+    this._matparams = arrow.material ? arrow.material : { color: 'black' }
     this._width = arrow.width ? arrow.width : 0.15
     this._height = arrow.height ? arrow.height : 0.3
     this._indent = arrow.indent ? arrow.indent : 0.05

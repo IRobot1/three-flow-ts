@@ -116,12 +116,12 @@ export class BuilderExample {
       //const node2 = node2.addInputConnector({})
       const edge3 = flow.addEdge({ from: node1.name, to: node2.name })
 
-      const node5 = flow.addNode({ label: {text: 'Node5'}, color: 'red', x: 2, y: -2 })
+      const node5 = flow.addNode({ label: { text: 'Node5' }, color: 'red', x: 2, y: -2 })
       //const node5 = node5.addInputConnector({})
 
       const route1 = flow.addRoute({ color: 'blue', y: -1 })
       const edge6 = flow.addEdge({ from: node1.name, to: route1.name, toarrow: {} })
-      const edge5 = flow.addEdge({ from: route1.name, to: node5.name, toarrow: { indent: 0, color: 'gold' } })
+      const edge5 = flow.addEdge({ from: route1.name, to: node5.name, toarrow: { indent: 0, material: { color: 'gold' } } })
 
       flow.layout({ rankdir: 'LR', ranksep: 1 })
 

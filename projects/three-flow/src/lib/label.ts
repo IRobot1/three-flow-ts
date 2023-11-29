@@ -25,7 +25,7 @@ export class FlowLabel extends Object3D {
     }
   }
 
-  private _matparams: MeshBasicMaterialParameters = { color: 'black' }
+  private _matparams!: MeshBasicMaterialParameters
   get color() { return this._matparams.color! }
   set color(newvalue: ColorRepresentation) {
     if (this._matparams.color != newvalue) {

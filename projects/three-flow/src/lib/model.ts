@@ -49,7 +49,7 @@ export interface FlowArrowParameters {
   height?: number;
   indent?: number;
 
-  color?: number | string;
+  material?: MeshBasicMaterialParameters
   arrowstyle?: ArrowStyle;
   scale?: number;
 }

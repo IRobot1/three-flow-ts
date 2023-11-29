@@ -149,7 +149,8 @@ export class CustomGeometryExample {
         from: "1",
         to: "3",
         color: 0xff0000,
-        toarrow: { color: 0xff0000 },
+        toarrow: {
+          material: { color: 0xff0000 } },
         test:'1'
       },
       {
