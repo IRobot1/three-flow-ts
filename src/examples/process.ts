@@ -179,7 +179,7 @@ class ProcessEdge extends FlowEdge {
 
 class ProcessNode extends FlowNode {
   constructor(diagram: ProcessFlowDiagram, parameters: ProcessShape) {
-    parameters.color = '#018083'
+    parameters.material = { color: '#018083' }
     super(diagram, parameters)
 
     const geometry = this.makeGeometry(parameters.shape, parameters.width! + 0.05, parameters.height! + 0.05)

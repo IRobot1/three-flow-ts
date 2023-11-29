@@ -23,21 +23,21 @@ const hidden = true
 
 const nodes: Array<DocumentShapeParameters> = [
   {
-    id: 'core', x: -1, y: -0.5, z: -0.01, color: 'lightsteelblue',
+    id: 'core', x: -1, y: -0.5, z: -0.01, material: { color: 'lightsteelblue' },
     width: 3.5, height: 4.5,
     label: { text: 'Core Library', material: { color: 'black' }, size: 0.15 },
     labeltransform: { translate: { y: -0.1 } },
     labelanchor: 'top', connectors: []
   },
   {
-    id: 'optional', x: 0.25, y: 1, z: -0.02, color: '#ccc',
+    id: 'optional', x: 0.25, y: 1, z: -0.02, material: { color: '#ccc' },
     width: 10, height: 4.5,
     label: { text: 'Optional Extensions', material: { color: 'black' }, size: 0.15 },
     labeltransform: { translate: { x: -1, y: -0.1 } },
     labelanchor: 'top', connectors: []
   },
   {
-    id: 'diagram', x: -2, y: 1, color: '#222',
+    id: 'diagram', x: -2, y: 1, material: { color: '#222' },
     label: { text: 'Flow Diagram', material: { color: 'white' }, },
     connectors: [
       { id: 'c1diagram', anchor: 'right', material: { color: 'white' }, hidden },
@@ -46,7 +46,7 @@ const nodes: Array<DocumentShapeParameters> = [
     ],
   },
   {
-    id: 'node', x: 0, y: 1, color: 'steelblue',
+    id: 'node', x: 0, y: 1, material: { color: 'steelblue' },
     label: { text: 'Flow Node\nFlow Route', },
     connectors: [
       { id: 'c1node', anchor: 'left', material: { color: 'white' }, hidden },
@@ -56,7 +56,7 @@ const nodes: Array<DocumentShapeParameters> = [
     ],
   },
   {
-    id: 'edge', x: 0, y: -0.5, color: 'lime',
+    id: 'edge', x: 0, y: -0.5, material: { color: 'lime' },
     label: { text: 'Flow Edge', },
     connectors: [
       { id: 'c1edge', anchor: 'left', material: { color: 'white' }, hidden },
@@ -66,28 +66,28 @@ const nodes: Array<DocumentShapeParameters> = [
     ],
   },
   {
-    id: 'label', x: 0, y: -2, color: '#fd5c63',
+    id: 'label', x: 0, y: -2, material: { color: '#fd5c63' },
     label: { text: 'Flow Label', material: { color: 'white' }, },
     connectors: [
       { id: 'c1label', anchor: 'left', material: { color: 'white' }, hidden },
     ],
   },
   {
-    id: 'material', x: -2, y: -0.5, color: '#555', shape: 'circle',
+    id: 'material', x: -2, y: -0.5, material: { color: '#555' }, shape: 'circle',
     label: { text: 'Three Material Theme', material: { color: 'white' }, wrapwidth: 0.7, textalign: 'center' },
     connectors: [
       { id: 'c1material', anchor: 'top', material: { color: 'white' }, hidden },
     ],
   },
   {
-    id: 'connectors', x: 1.5, y: 2.5, color: 'green',
+    id: 'connectors', x: 1.5, y: 2.5, material: { color: 'green' },
     label: { text: 'Connectors', material: { color: 'white' }, },
     connectors: [
       { id: 'c1connectors', anchor: 'bottom', material: { color: 'darkgreen' }, hidden },
     ],
   },
   {
-    id: 'interaction', x: 3, y: 2.5, color: 'blue',
+    id: 'interaction', x: 3, y: 2.5, material: { color: 'blue' },
     label: { text: 'Interactive', material: { color: 'white' }, },
     connectors: [
       { id: 'c1interaction', anchor: 'bottom', material: { color: 'darkblue' }, hidden },
@@ -95,28 +95,28 @@ const nodes: Array<DocumentShapeParameters> = [
     ],
   },
   {
-    id: 'dragnode', x: 4.5, y: 2.5, color: '#555', shape: 'circle',
+    id: 'dragnode', x: 4.5, y: 2.5, material: { color: '#555' }, shape: 'circle',
     label: { text: 'Drag Node', material: { color: 'white' }, },
     connectors: [
       { id: 'c1dragnode', anchor: 'left', material: { color: 'white' }, hidden },
     ],
   },
   {
-    id: 'resizenode', x: 4.5, y: 1.25, color: '#555', shape: 'circle',
+    id: 'resizenode', x: 4.5, y: 1.25, material: { color: '#555' }, shape: 'circle',
     label: { text: 'Resize Node', material: { color: 'white' }, },
     connectors: [
       { id: 'c1resizenode', anchor: 'left', material: { color: 'white' }, hidden },
     ],
   },
   {
-    id: 'scalenode', x: 4.5, y: 0, color: '#555', shape: 'circle',
+    id: 'scalenode', x: 4.5, y: 0, material: { color: '#555' }, shape: 'circle',
     label: { text: 'Scale Node', material: { color: 'white' }, },
     connectors: [
       { id: 'c1scalenode', anchor: 'left', material: { color: 'white' }, hidden },
     ],
   },
   {
-    id: 'layout', x: -4, y: 2.5, color: '#555',
+    id: 'layout', x: -4, y: 2.5, material: { color: '#555' },
     label: { text: 'Layout', material: { color: 'white' }, },
     connectors: [
       { id: 'c1layout', anchor: 'right', material: { color: 'black' }, hidden },

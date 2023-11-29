@@ -1,8 +1,6 @@
-import { Mesh, BufferGeometry, PlaneGeometry, MathUtils, Material, Box2, Vector2, Vector3, Object3D } from "three";
-import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
-import { Font } from "three/examples/jsm/loaders/FontLoader";
+import { Mesh, BufferGeometry, PlaneGeometry, MathUtils, Object3D, MeshBasicMaterialParameters, ColorRepresentation, MeshBasicMaterial } from "three";
 
-import { AnchorType, FlowEventType, FlowLabelParameters, FlowNodeParameters, FlowTransform } from "./model";
+import { AnchorType, FlowEventType, FlowNodeParameters, FlowTransform } from "./model";
 import { FlowDiagram } from "./diagram";
 import { FlowLabel } from "./label";
 import { FlowUtils } from "./utils";
@@ -73,16 +71,25 @@ export class FlowNode extends Mesh {
   minheight: number;
   maxheight: number;
 
-  private _color: number | string;
-  get color() { return this._color }
-  set color(newvalue: number | string) {
-    if (this._color != newvalue) {
-      this._color = newvalue;
-      (this.material as any).color.set(newvalue)
+  private _matparams!: MeshBasicMaterialParameters
+  get color() { return this._matparams.color! }
+  set color(newvalue: ColorRepresentation) {
+    if (this._matparams.color != newvalue) {
+      this._matparams.color = newvalue;
+      if (newvalue)
+        (this.material as MeshBasicMaterial).color.set(newvalue)
     }
   }
 
-  resizecolor: number | string;
+  private _resizematparams!: MeshBasicMaterialParameters
+  get resizecolor() { return this._resizematparams.color! }
+  set resizecolor(newvalue: ColorRepresentation) {
+    if (this._resizematparams.color != newvalue) {
+      this._resizematparams.color = newvalue;
+      //if (newvalue)
+      //  (this.material as MeshBasicMaterial).color.set(newvalue)
+    }
+  }
 
   private _resizable: boolean;
   get resizable() { return this._resizable }
@@ -102,7 +109,15 @@ export class FlowNode extends Mesh {
     }
   }
 
-  scalecolor: number | string;
+  private _scalermatparams!: MeshBasicMaterialParameters
+  get scalecolor() { return this._scalermatparams.color! }
+  set scalecolor(newvalue: ColorRepresentation) {
+    if (this._scalermatparams.color != newvalue) {
+      this._scalermatparams.color = newvalue;
+      //if (newvalue)
+      //  (this.material as MeshBasicMaterial).color.set(newvalue)
+    }
+  }
 
   private _scalable: boolean;
   get scalable() { return this._scalable }
@@ -167,7 +182,7 @@ export class FlowNode extends Mesh {
     this._height = node.height = node.height ? node.height : 1;
     this.minheight = node.minheight ? node.minheight : this.height;
     this.maxheight = node.maxheight ? node.maxheight : Number.POSITIVE_INFINITY
-    this._color = node.color ? node.color : 'white'
+    this._matparams = node.material ? node.material : { color: 'white' }
 
     if (!node.label) node.label = {}
     this.label = this.diagram.createLabel(node.label)
@@ -190,11 +205,11 @@ export class FlowNode extends Mesh {
     this.labeltransform = node.labeltransform
 
     this._resizable = node.resizable != undefined ? node.resizable : true
-    this.resizecolor = node.resizecolor ? node.resizecolor : 'black'
+    this._resizematparams = node.resizematerial ? node.resizematerial : { color: 'black' }
     this._draggable = node.draggable != undefined ? node.draggable : true
     this._scalable = node.scalable != undefined ? node.scalable : true
     this.selectable = node.selectable != undefined ? node.selectable : true
-    this.scalecolor = node.scalecolor ? node.scalecolor : 'black'
+    this._scalermatparams = node.scalematerial ? node.scalematerial : { color: 'black' }
 
     this._scalar = node.scale ? node.scale : 1
     this.minscale = node.minscale ? node.minscale : this.scalar;

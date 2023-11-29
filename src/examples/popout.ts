@@ -85,7 +85,7 @@ export class PopoutExample {
     new FlowConnectors(flow)
 
     const top = flow.addNode(<PopoutShape>{
-      y: 1, shape: 'circle', color: 'black', extrudecolor: '#545B5B', extruderadius: 0.35, extrudedepth: 0.05,
+      y: 1, shape: 'circle', material: { color: 'black' }, extrudecolor: '#545B5B', extruderadius: 0.35, extrudedepth: 0.05,
       icon: 'diversity_3',
       label: {
         text: 'Lorem ipsum dolor sit amet, consectetur', size: 0.05, wrapwidth: 0.5,
@@ -136,7 +136,7 @@ export class PopoutExample {
       label: { text: 'LORUM IPSUM', size: 0.1, material: { color: 'white' }, },
       labelanchor: 'top',
       labeltransform: { translate: { x: -0.2, y: -0.12 } },
-      color: parameters.color, extrudecolor: parameters.extrudecolor,
+      material: { color: parameters.color }, extrudecolor: parameters.extrudecolor,
       connectors: [
         { id: 'c1' + prefix, anchor: 'top', hidden: true },
         { id: 'c2' + prefix, anchor: 'bottom', index: 0, hidden: true },
@@ -150,7 +150,7 @@ export class PopoutExample {
       x: x - 0.7, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05,
       label: { text: 'A', size: 0.25, material: { color: 'white' }, },
       labeltransform: { translate: { z: 0.051 } },
-      shape: 'circle', color: parameters.Acolor, extrudecolor: parameters.Aextrudecolor,
+      shape: 'circle', material: { color: parameters.Acolor }, extrudecolor: parameters.Aextrudecolor,
       connectors: [
         { id: prefix + 'lefttop', anchor: 'top', hidden: true },
       ]
@@ -161,7 +161,7 @@ export class PopoutExample {
       x, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05,
       label: { text: 'B', size: 0.25, material: { color: 'white' }, },
       labeltransform: { translate: { z: 0.051 } },
-      shape: 'circle', color: parameters.Bcolor, extrudecolor: parameters.Bextrudecolor,
+      shape: 'circle', material: { color: parameters.Bcolor }, extrudecolor: parameters.Bextrudecolor,
       connectors: [
         { id: prefix + 'middletop', anchor: 'top', hidden: true },
       ]
@@ -172,7 +172,7 @@ export class PopoutExample {
       x: x + 0.7, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05,
       label: { text: 'C', size: 0.25, material: { color: 'white' }, },
       labeltransform: { translate: { z: 0.051 } },
-      shape: 'circle', color: parameters.Ccolor, extrudecolor: parameters.Cextrudecolor,
+      shape: 'circle', material: { color: parameters.Ccolor }, extrudecolor: parameters.Cextrudecolor,
       connectors: [
         { id: prefix + 'righttop', anchor: 'top', hidden: true },
       ]

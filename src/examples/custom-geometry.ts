@@ -26,7 +26,7 @@ import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 import { DagreLayout } from "./dagre-layout";
 
 interface MyFlowNodeData extends FlowNodeParameters {
-  test:string
+  test: string
 }
 
 interface MyFlowEdgeData extends FlowEdgeParameters {
@@ -83,8 +83,8 @@ export class CustomGeometryExample {
         selectable: true,
         width: 1.5,
         height: 2,
-        color: 'green',
-        test:'1'
+        material: { color: 'green' },
+        test: '1'
       },
       {
         id: "2",
@@ -92,8 +92,9 @@ export class CustomGeometryExample {
         label: {
           text: "Pinned, Disabled",
           size: 0.1,
-          material: { color: 'white' }, 
-          font: 'helvetika'},
+          material: { color: 'white' },
+          font: 'helvetika'
+        },
         draggable: false,
         resizable: false,
         scalable: true,
@@ -101,9 +102,9 @@ export class CustomGeometryExample {
         scale: 1,
         width: 1.5,
         height: 1,
-        color: 'red',
-        resizecolor: 'red',
-        scalecolor: 'yellow',
+        material: { color: 'red' },
+        resizematerial: { color: 'red' },
+        scalematerial: { color: 'yellow' },
         test: '2'
       },
       {
@@ -112,7 +113,7 @@ export class CustomGeometryExample {
         label: {
           text: "Pinned / Enabled",
           size: 0.1,
-          material: { color: 'white' }, 
+          material: { color: 'white' },
           font: 'helvetika'
         },
         draggable: false,
@@ -122,9 +123,9 @@ export class CustomGeometryExample {
         scale: 1,
         width: 1.5,
         height: 1,
-        color: 'gold',
-        resizecolor: 'red',
-        scalecolor: 'yellow',
+        material: { color: 'gold' },
+        resizematerial: { color: 'red' },
+        scalematerial: { color: 'yellow' },
         test: '3'
       },
       {
@@ -137,7 +138,7 @@ export class CustomGeometryExample {
         selectable: false,
         width: 1.5,
         height: 2,
-        color: 'green',
+        material: { color: 'green' },
         test: '4'
       },
 
@@ -150,8 +151,9 @@ export class CustomGeometryExample {
         to: "3",
         material: { color: 0xff0000 },
         toarrow: {
-          material: { color: 0xff0000 } },
-        test:'1'
+          material: { color: 0xff0000 }
+        },
+        test: '1'
       },
       {
         from: "1",
@@ -189,7 +191,7 @@ export class CustomGeometryExample {
         linethickness: 0.015,
         linecolor: 0x2ead25,
         linestyle: 'spline',
-        layout : new DagreLayout()
+        layout: new DagreLayout()
       }
       const flow = new MyFlowDiagram(options)
       scene.add(flow);
@@ -229,7 +231,7 @@ export class CustomGeometryExample {
       //arrowstyle ?: ArrowStyle;
 
       arrowgui.add<any, any>(arrow1, 'scalar', 0.5, 2).name('Scale')
- 
+
     });
 
 
@@ -263,7 +265,7 @@ class MyFlowDiagram extends FlowDiagram {
     return new MyFlowEdge(this, edge)
   }
 
-  override createLabel(label: FlowLabelParameters) : FlowLabel {
+  override createLabel(label: FlowLabelParameters): FlowLabel {
     return new MyFlowLabel(this, label)
   }
 

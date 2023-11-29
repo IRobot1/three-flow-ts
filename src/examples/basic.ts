@@ -72,9 +72,9 @@ export class BasicExample {
         scale: 1,
         width: 1,
         height: 2,
-        color: 0x297029,
-        resizecolor: 0xff0000,
-        scalecolor: 0xfff370,
+        material: { color: 0x297029 },
+        resizematerial: { color: 0xff0000 },
+        scalematerial: { color: 0xfff370 },
         connectors: [
           {
             id: "n1c1", anchor: 'left', index: 0, label: { text: 'input', font: 'helvetika', material: { color: 'white' }, alignX: 'left' } },
@@ -102,9 +102,9 @@ export class BasicExample {
         scale: 1,
         width: 1,
         height: 1,
-        color: 'red',
-        resizecolor: 0xff0000,
-        scalecolor: 0xfff370,
+        material: { color: 'red' },
+        resizematerial: { color: 0xff0000 },
+        scalematerial: { color: 0xfff370 },
         connectors: [
           { id: "n2c1", anchor: 'left', shape: 'cube', transform: { rotate: { z: 180 } } },
         ],
@@ -128,9 +128,9 @@ export class BasicExample {
         scale: 1,
         width: 1,
         height: 1,
-        color: 'gold',
-        resizecolor: 0xff0000,
-        scalecolor: 0xfff370,
+        material: { color: 'gold' },
+        resizematerial: { color: 0xff0000 },
+        scalematerial: { color: 0xfff370 },
         connectors: [
           { id: "n3c1", anchor: 'right', hidden: true },
           { id: "n3c2", anchor: 'right', index: 1, material: { color: 'green' } },
@@ -206,7 +206,7 @@ export class BasicExample {
       //
       // how to override connector shape for a specific node or type of node
       //
-      const node4 = flow.addNode({ id: '4', x: -2, y: 1.5, color: 'blue', label: { text: 'Title4', font: 'helvetika', material: { color: 'white' }, } })
+      const node4 = flow.addNode({ id: '4', x: -2, y: 1.5, material: { color: 'blue' }, label: { text: 'Title4', font: 'helvetika', material: { color: 'white' }, } })
 
       // for a specific node, override connector shape based on parameters
       const connectors1 = connectors.hasNode('4')!

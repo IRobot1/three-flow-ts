@@ -1,4 +1,4 @@
-import { Mesh, MaterialParameters, MeshBasicMaterialParameters } from "three";
+import { Mesh, MaterialParameters, MeshBasicMaterialParameters, ColorRepresentation } from "three";
 
 export interface FlowTransform {
   translate?: { x?: number, y?: number, z?: number }
@@ -89,17 +89,17 @@ export interface FlowNodeParameters {
   height?: number;
   minheight?: number;
   maxheight?: number;
-  color?: number | string;
+  material?: MeshBasicMaterialParameters;
   label?: FlowLabelParameters;
   labelanchor?: AnchorType;
   labeltransform?: FlowTransform;
   userData?: { [key: string]: any };
   resizable?: boolean;
-  resizecolor?: number | string;
+  resizematerial?: MeshBasicMaterialParameters
   draggable?: boolean;
   scalable?: boolean;
   selectable?: boolean;
-  scalecolor?: number | string;
+  scalematerial?: MeshBasicMaterialParameters
   scale?: number;
   minscale?: number;
   maxscale?: number;

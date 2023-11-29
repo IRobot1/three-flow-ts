@@ -96,14 +96,14 @@ export class BuilderExample {
 
 
       // build the diagram programmatically
-      const node3 = flow.addNode({ label: { text: 'Node3' }, color: 'gold', x: -2 })
+      const node3 = flow.addNode({ label: { text: 'Node3' }, material: { color: 'gold' }, x: -2 })
       //const node3 = node3.addOutputConnector({})
       //const node3 = node3.addOutputConnector({})
 
-      const node4 = flow.addNode({ label: { text: 'Node4' }, color: 'gold', x: -2, y: 1.2 })
+      const node4 = flow.addNode({ label: { text: 'Node4' }, material: { color: 'gold' }, x: -2, y: 1.2 })
       //const node4 = node4.addOutputConnector({})
 
-      const node1 = flow.addNode({ label: { text: 'Node1' }, color: 'green', y: 0.5 })
+      const node1 = flow.addNode({ label: { text: 'Node1' }, material: { color: 'green' }, y: 0.5 })
       //const node1 = node1.addInputConnector({})
       //const node1 = node1.addInputConnector({})
       //const node1 = node1.addOutputConnector({})
@@ -112,14 +112,14 @@ export class BuilderExample {
       //const edge2 = flow.addEdge({ v: node3.name, w: node1.name })
       const edge4 = flow.addEdge({ from: node4.name, to: node1.name })
 
-      const node2 = flow.addNode({ label: { text: 'Node2' }, color: 'red', x: 2, y: 1.2 })
+      const node2 = flow.addNode({ label: { text: 'Node2' }, material: { color: 'red' }, x: 2, y: 1.2 })
       //const node2 = node2.addInputConnector({})
       const edge3 = flow.addEdge({ from: node1.name, to: node2.name })
 
-      const node5 = flow.addNode({ label: { text: 'Node5' }, color: 'red', x: 2, y: -2 })
+      const node5 = flow.addNode({ label: { text: 'Node5' }, material: { color: 'red' }, x: 2, y: -2 })
       //const node5 = node5.addInputConnector({})
 
-      const route1 = flow.addRoute({ color: 'blue', y: -1 })
+      const route1 = flow.addRoute({ material: { color: 'blue' }, y: -1 })
       const edge6 = flow.addEdge({ from: node1.name, to: route1.name, toarrow: {} })
       const edge5 = flow.addEdge({ from: route1.name, to: node5.name, toarrow: { indent: 0, material: { color: 'gold' } } })
 

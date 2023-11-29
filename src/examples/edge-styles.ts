@@ -100,7 +100,7 @@ export class EdgeStylesExample {
 
     const centerconnector = linestyle + 'center1'
     const center = flow.addNode({
-      id: centerconnector, x, y, color,
+      id: centerconnector, x, y, material: {color},
       label: {
         text: linestyle, material: { color: 'white' }, size: 0.25
       },
@@ -114,7 +114,7 @@ export class EdgeStylesExample {
 
     const nwid = linestyle + 'nw'
     const nw = flow.addNode({
-      id: nwid, x: x - 2, y: y + 2, color,
+      id: nwid, x: x - 2, y: y + 2, material: {color},
       connectors: [
         { id: 'c1' + nwid, anchor: 'right', hidden },
         { id: 'c2' + nwid, anchor: 'bottom', hidden },
@@ -123,7 +123,7 @@ export class EdgeStylesExample {
 
     const neid = linestyle + 'ne'
     const ne = flow.addNode({
-      id: neid, x: x + 2, y: y + 2, color,
+      id: neid, x: x + 2, y: y + 2, material: { color },
       connectors: [
         { id: 'c1' + neid, anchor: 'left', hidden },
         { id: 'c2' + neid, anchor: 'bottom', hidden },
@@ -132,7 +132,7 @@ export class EdgeStylesExample {
 
     const swid = linestyle + 'sw'
     const sw = flow.addNode({
-      id: swid, x: x - 2, y: y - 2, color,
+      id: swid, x: x - 2, y: y - 2, material: { color },
       connectors: [
         { id: 'c1' + swid, anchor: 'right', hidden },
         { id: 'c2' + swid, anchor: 'top', hidden },
@@ -141,7 +141,7 @@ export class EdgeStylesExample {
 
     const seid = linestyle + 'se'
     const se = flow.addNode({
-      id: seid, x: x + 2, y: y - 2, color,
+      id: seid, x: x + 2, y: y - 2, material: { color },
       connectors: [
         { id: 'c1' + seid, anchor: 'left', hidden },
         { id: 'c2' + seid, anchor: 'top', hidden },
@@ -177,7 +177,7 @@ export class EdgeStylesExample {
 
     const centerconnector = linestyle + 'center'
     const center = flow.addNode({
-      id: centerconnector, x, y, color,
+      id: centerconnector, x, y, material: { color },
       label: {
         text: linestyle, material: { color: 'white' }, size: 0.25
       },
@@ -191,7 +191,7 @@ export class EdgeStylesExample {
 
     const topconnectorid = 'c1' + linestyle + 'top'
     const top = flow.addNode({
-      id: linestyle + 'top', x, y: y + 2, color,
+      id: linestyle + 'top', x, y: y + 2, material: { color },
       connectors: [
         { id: topconnectorid, anchor: 'bottom', hidden },
       ]
@@ -199,7 +199,7 @@ export class EdgeStylesExample {
 
     const bottomconnectorid = 'c1' + linestyle + 'bottom'
     const bottom = flow.addNode({
-      id: linestyle + 'bottom', x, y: y - 2, color,
+      id: linestyle + 'bottom', x, y: y - 2, material: { color },
       connectors: [
         { id: bottomconnectorid, anchor: 'top', hidden },
       ]
@@ -207,7 +207,7 @@ export class EdgeStylesExample {
 
     const leftconnectorid = 'c1' + linestyle + 'left'
     const left = flow.addNode({
-      id: linestyle + 'left', x: x - 2, y, color,
+      id: linestyle + 'left', x: x - 2, y, material: { color },
       connectors: [
         { id: leftconnectorid, anchor: 'right', hidden },
       ]
@@ -215,7 +215,7 @@ export class EdgeStylesExample {
 
     const rightconnectorid = 'c1' + linestyle + 'right'
     const right = flow.addNode({
-      id: linestyle + 'right', x: x + 2, y, color,
+      id: linestyle + 'right', x: x + 2, y, material: { color },
       connectors: [
         { id: rightconnectorid, anchor: 'left', hidden },
       ]
@@ -245,7 +245,7 @@ export class EdgeStylesExample {
 
     const centerconnector = linestyle + 'center2'
     const center = flow.addNode({
-      id: centerconnector, x, y, color,
+      id: centerconnector, x, y, material: { color },
       label: {
         text: linestyle, material: { color: 'white' }, size: 0.25
       },
@@ -259,7 +259,7 @@ export class EdgeStylesExample {
 
     const nwid = linestyle + 'nw2'
     const nw = flow.addNode({
-      id: nwid, x: x - 2, y: y + 2, color,
+      id: nwid, x: x - 2, y: y + 2, material: { color },
       connectors: [
         { id: 'c1' + nwid, anchor: 'right', hidden },
         { id: 'c2' + nwid, anchor: 'bottom', hidden },
@@ -268,7 +268,7 @@ export class EdgeStylesExample {
 
     const neid = linestyle + 'ne2'
     const ne = flow.addNode({
-      id: neid, x: x + 2, y: y + 2, color,
+      id: neid, x: x + 2, y: y + 2, material: { color },
       connectors: [
         { id: 'c1' + neid, anchor: 'left', hidden },
         { id: 'c2' + neid, anchor: 'bottom', hidden },
@@ -277,7 +277,7 @@ export class EdgeStylesExample {
 
     const swid = linestyle + 'sw2'
     const sw = flow.addNode({
-      id: swid, x: x - 2, y: y - 2, color,
+      id: swid, x: x - 2, y: y - 2, material: { color },
       connectors: [
         { id: 'c1' + swid, anchor: 'right', hidden },
         { id: 'c2' + swid, anchor: 'top', hidden },
@@ -286,7 +286,7 @@ export class EdgeStylesExample {
 
     const seid = linestyle + 'se2'
     const se = flow.addNode({
-      id: seid, x: x + 2, y: y - 2, color,
+      id: seid, x: x + 2, y: y - 2, material: { color },
       connectors: [
         { id: 'c1' + seid, anchor: 'left', hidden },
         { id: 'c2' + seid, anchor: 'top', hidden },
