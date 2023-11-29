@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, Color, DoubleSide, ExtrudeGeometry, FrontSide, Material, Mesh, MeshBasicMaterial, MeshStandardMaterial, PointLight, Scene, Shape, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, Color, ColorRepresentation, DoubleSide, ExtrudeGeometry, FrontSide, Material, Mesh, MeshBasicMaterial, MeshStandardMaterial, PointLight, Scene, Shape, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TubeGeometry } from "three";
@@ -92,7 +92,7 @@ export class CustomGeometryExample {
         label: {
           text: "Pinned, Disabled",
           size: 0.1,
-          color: 'white',
+          material: { color: 'white' }, 
           font: 'helvetika'},
         draggable: false,
         resizable: false,
@@ -112,7 +112,7 @@ export class CustomGeometryExample {
         label: {
           text: "Pinned / Enabled",
           size: 0.1,
-          color: 'white',
+          material: { color: 'white' }, 
           font: 'helvetika'
         },
         draggable: false,
@@ -250,7 +250,7 @@ class MyFlowDiagram extends FlowDiagram {
     return new MeshBasicMaterial({ color });
   }
 
-  override createMeshMaterial(purpose: string, color: number | string): Material {
+  override createMeshMaterial(purpose: string, color: ColorRepresentation): Material {
     return new MeshStandardMaterial({ color, side: purpose == 'arrow' ? DoubleSide : FrontSide });
   }
 

@@ -1,4 +1,4 @@
-import { EulerOrder, Mesh, Vector3 } from "three";
+import { Mesh, MaterialParameters, MeshBasicMaterialParameters } from "three";
 
 export interface FlowTransform {
   translate?: { x?: number, y?: number, z?: number }
@@ -13,7 +13,7 @@ export interface FlowLabelParameters {
   text?: string;
   isicon?: boolean // text is the name of an icon. see https://fonts.google.com/icons
   size?: number;
-  color?: number | string;
+  material?: MeshBasicMaterialParameters;
   font?: string;
   padding?: number;
   alignX?: LabelAlignX

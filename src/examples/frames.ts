@@ -1,4 +1,4 @@
-import { AmbientLight, BufferGeometry, DoubleSide, LineCurve3, Material, MathUtils, Mesh, MeshBasicMaterial, SRGBColorSpace, Scene, Shape, ShapeGeometry, Texture, TextureLoader, TorusKnotGeometry, TubeGeometry, Vector3 } from "three";
+import { AmbientLight, BufferGeometry, ColorRepresentation, DoubleSide, LineCurve3, Material, MathUtils, Mesh, MeshBasicMaterial, SRGBColorSpace, Scene, Shape, ShapeGeometry, Texture, TextureLoader, TorusKnotGeometry, TubeGeometry, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
@@ -169,7 +169,7 @@ class FramesFlowDiagram extends FlowDiagram {
 
   constructor() { super() }
 
-  override createMeshMaterial(purpose: string, color: number | string): Material {
+  override createMeshMaterial(purpose: string, color: ColorRepresentation): Material {
     return new MeshBasicMaterial({ color, side: DoubleSide });
   }
 
@@ -270,9 +270,9 @@ class IconFrameNode extends FramesNode {
     super(diagram, parameters)
 
     const size = parameters.iconsize ? parameters.iconsize : 0.5
-    const color = parameters.iconcolor ? parameters.iconcolor : 'white'
+    const material = parameters.iconcolor ? { color: parameters.iconcolor } : { color: 'white' }
 
-    const iconparams = <FlowLabelParameters>{ text: parameters.icon, isicon: true, size, color }
+    const iconparams = <FlowLabelParameters>{ text: parameters.icon, isicon: true, size, material }
     const icon = diagram.createLabel(iconparams)
     icon.position.z = 0.001
     icon.updateLabel()

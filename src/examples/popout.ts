@@ -1,4 +1,4 @@
-import { AmbientLight, BufferGeometry, CatmullRomCurve3, CircleGeometry, CylinderGeometry, DoubleSide, ExtrudeGeometry, ExtrudeGeometryOptions, Material, Mesh, MeshStandardMaterial, PlaneGeometry, Scene, Shape, ShapeGeometry, SpotLight, TubeGeometry, Vector3 } from "three";
+import { AmbientLight, BufferGeometry, CatmullRomCurve3, CircleGeometry, ColorRepresentation, CylinderGeometry, DoubleSide, ExtrudeGeometry, ExtrudeGeometryOptions, Material, Mesh, MeshStandardMaterial, PlaneGeometry, Scene, Shape, ShapeGeometry, SpotLight, TubeGeometry, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
@@ -89,7 +89,7 @@ export class PopoutExample {
       icon: 'diversity_3',
       label: {
         text: 'Lorem ipsum dolor sit amet, consectetur', size: 0.05, wrapwidth: 0.5,
-        color: 'white',
+        material: { color: 'white' },
       },
       labeltransform: { translate: { y: -0.1, z: 0.051 } },
       connectors: [
@@ -105,7 +105,7 @@ export class PopoutExample {
       Bcolor: '#2161B2', Bextrudecolor: '#2F7AD2',
       Ccolor: '#00AAE3', Cextrudecolor: '#3BCEFE',
     })
-    flow.addEdge({ from: top.name, to: leftnode.name, fromconnector: 'topleft', toconnector: 'c1left', color: 'black', linestyle:'split' })
+    flow.addEdge({ from: top.name, to: leftnode.name, fromconnector: 'topleft', toconnector: 'c1left', color: 'black', linestyle: 'split' })
 
     const middlenode = this.addGroup(flow, 'middle', 0, 0, {
       color: '#629B3A', extrudecolor: '#71B545',
@@ -121,7 +121,7 @@ export class PopoutExample {
       Bcolor: '#9B2643', Bextrudecolor: '#B92D51',
       Ccolor: '#E11F30', Cextrudecolor: '#FD4E59',
     })
-    flow.addEdge({ from: top.name, to: rightnode.name, fromconnector: 'topright', toconnector: 'c1right', color: 'black', linestyle:'split' })
+    flow.addEdge({ from: top.name, to: rightnode.name, fromconnector: 'topright', toconnector: 'c1right', color: 'black', linestyle: 'split' })
 
 
     this.dispose = () => {
@@ -133,7 +133,7 @@ export class PopoutExample {
   addGroup(flow: PopoutFlowDiagram, prefix: string, x: number, y: number, parameters: PopoutGroupParameters): FlowNode {
     const node = flow.addNode(<PopoutShape>{
       x, y, width: 2, height: 0.5, shape: 'stadium',
-      label: { text: 'LORUM IPSUM', size: 0.1, color: 'white' },
+      label: { text: 'LORUM IPSUM', size: 0.1, material: { color: 'white' }, },
       labelanchor: 'top',
       labeltransform: { translate: { x: -0.2, y: -0.12 } },
       color: parameters.color, extrudecolor: parameters.extrudecolor,
@@ -148,7 +148,7 @@ export class PopoutExample {
 
     const A = flow.addNode(<PopoutShape>{
       x: x - 0.7, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05,
-      label: { text: 'A', size: 0.25, color: 'white' },
+      label: { text: 'A', size: 0.25, material: { color: 'white' }, },
       labeltransform: { translate: { z: 0.051 } },
       shape: 'circle', color: parameters.Acolor, extrudecolor: parameters.Aextrudecolor,
       connectors: [
@@ -159,7 +159,7 @@ export class PopoutExample {
 
     const B = flow.addNode(<PopoutShape>{
       x, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05,
-      label: { text: 'B', size: 0.25, color: 'white' },
+      label: { text: 'B', size: 0.25, material: { color: 'white' }, },
       labeltransform: { translate: { z: 0.051 } },
       shape: 'circle', color: parameters.Bcolor, extrudecolor: parameters.Bextrudecolor,
       connectors: [
@@ -170,7 +170,7 @@ export class PopoutExample {
 
     const C = flow.addNode(<PopoutShape>{
       x: x + 0.7, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05,
-      label: { text: 'C', size: 0.25, color: 'white' },
+      label: { text: 'C', size: 0.25, material: { color: 'white' }, },
       labeltransform: { translate: { z: 0.051 } },
       shape: 'circle', color: parameters.Ccolor, extrudecolor: parameters.Cextrudecolor,
       connectors: [
@@ -187,7 +187,7 @@ class PopoutFlowDiagram extends FlowDiagram {
 
   constructor(options?: FlowDiagramOptions) { super(options) }
 
-  override createMeshMaterial(purpose: string, color: number | string): Material {
+  override createMeshMaterial(purpose: string, color: ColorRepresentation): Material {
     return new MeshStandardMaterial({ color, side: DoubleSide });
   }
 
@@ -214,7 +214,7 @@ class PopoutCircleNode extends FlowNode {
     this.add(mesh)
 
     if (parameters.icon) {
-      const iconparams = <FlowLabelParameters>{ text: parameters.icon, isicon: true, size: 0.3, color: 'white' }
+      const iconparams = <FlowLabelParameters>{ text: parameters.icon, isicon: true, size: 0.3, material: { color: 'white' }, }
       const icon = diagram.createLabel(iconparams)
       icon.position.set(0, 0.15, 0.051)
       icon.updateLabel()
@@ -251,7 +251,7 @@ class PopoutStadiumNode extends FlowNode {
     mesh.castShadow = true
     this.add(mesh)
 
-    const iconparams = <FlowLabelParameters>{ text: 'person', isicon: true, size: 0.3, color: 'white' }
+    const iconparams = <FlowLabelParameters>{ text: 'person', isicon: true, size: 0.3, material: { color: 'white' }, }
     const icon = diagram.createLabel(iconparams)
     icon.position.set(0, 0, 0.051)
     icon.updateLabel()
@@ -260,7 +260,7 @@ class PopoutStadiumNode extends FlowNode {
     const subtitle = diagram.createLabel({
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna',
       size: 0.05, wrapwidth: 1,
-      color: 'white', textalign: 'justify'
+      material: { color: 'white' }, textalign: 'justify'
     })
     subtitle.updateLabel()
     subtitle.position.set(-0.2, -0.05, subtitle.position.z)

@@ -1,4 +1,4 @@
-import { Box3, LineBasicMaterial, Material, MeshBasicMaterial, Object3D, Vector3 } from "three";
+import { Box3, ColorRepresentation, LineBasicMaterial, Material, MeshBasicMaterial, Object3D, Vector3 } from "three";
 import { FlowEdgeParameters, FlowDiagramParameters, FlowNodeParameters, FlowRouteParameters, EdgeLineStyle, FlowEventType, FlowLayout, FlowLabelParameters } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
@@ -274,7 +274,7 @@ export class FlowDiagram extends Object3D {
   // purpose is node, resize, scale, disabled, error, selected, active, etc
   // note that connector may have multipe purposes based on state
   //
-  getMaterial(type: FlowMaterialType, purpose: string, color: number | string): Material {
+  getMaterial(type: FlowMaterialType, purpose: string, color: ColorRepresentation): Material {
     const key = `${type}-${purpose}-${color}`;
     if (!this.materials.has(key)) {
       let material
@@ -288,11 +288,11 @@ export class FlowDiagram extends Object3D {
   }
 
   // allow overriding
-  createLineMaterial(purpose: string, color: number | string): Material {
+  createLineMaterial(purpose: string, color: ColorRepresentation): Material {
     return new LineBasicMaterial({ color });
   }
 
-  createMeshMaterial(purpose: string, color: number | string): Material {
+  createMeshMaterial(purpose: string, color: ColorRepresentation): Material {
     return new MeshBasicMaterial({ color, opacity: 0.99 });
   }
 

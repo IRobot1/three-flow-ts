@@ -61,7 +61,7 @@ export class BasicExample {
         label: {
           text: "Title1",
           size: 0.1,
-          color: 0xffffff,
+          material: { color: 0xffffff },
           font: 'helvetika'
         },
         labelanchor: 'top',
@@ -76,9 +76,10 @@ export class BasicExample {
         resizecolor: 0xff0000,
         scalecolor: 0xfff370,
         connectors: [
-          { id: "n1c1", anchor: 'left', index: 0, label: { text: 'input', font: 'helvetika', color: 'white', alignX: 'left' } },
+          {
+            id: "n1c1", anchor: 'left', index: 0, label: { text: 'input', font: 'helvetika', material: { color: 'white' }, alignX: 'left' } },
           { id: "n1c2", anchor: 'left', index: 1 },
-          { id: "n1c3", anchor: 'right', index: 0, label: { text: 'output', font: 'helvetika', color: 'white', alignX: 'right' } }
+          { id: "n1c3", anchor: 'right', index: 0, label: { text: 'output', font: 'helvetika', material: { color: 'white' }, alignX: 'right' } }
         ],
       },
       {
@@ -87,7 +88,7 @@ export class BasicExample {
         label: {
           text: "Title2",
           size: 0.1,
-          color: 0xffffff,
+          material: { color: 0xffffff },
           font: 'helvetika'
         },
         labelanchor: 'right',
@@ -114,7 +115,7 @@ export class BasicExample {
         label: {
           text: "Title3",
           size: 0.1,
-          color: 0xffffff,
+          material: { color: 0xffffff },
           font: 'helvetika'
         },
         labelanchor: 'bottom',
@@ -205,7 +206,7 @@ export class BasicExample {
       //
       // how to override connector shape for a specific node or type of node
       //
-      const node4 = flow.addNode({ id: '4', x: -2, y: 1.5, color: 'blue', label: { text: 'Title4', font: 'helvetika', color: 'white' } })
+      const node4 = flow.addNode({ id: '4', x: -2, y: 1.5, color: 'blue', label: { text: 'Title4', font: 'helvetika', material: { color: 'white' }, } })
 
       // for a specific node, override connector shape based on parameters
       const connectors1 = connectors.hasNode('4')!

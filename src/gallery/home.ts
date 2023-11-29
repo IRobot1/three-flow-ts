@@ -307,7 +307,7 @@ export class GalleryExample {
       if (node.x == undefined) node.x = 0
       node.x -= 1
       node.draggable = false
-      node.label!.color = 'white'
+      node.label!.material = { color: 'white' }
       node.label!.size = 0.15
       node.label!.hidden = true
       node.labelanchor = 'top'

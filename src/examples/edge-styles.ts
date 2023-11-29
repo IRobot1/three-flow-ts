@@ -102,7 +102,7 @@ export class EdgeStylesExample {
     const center = flow.addNode({
       id: centerconnector, x, y, color,
       label: {
-        text: linestyle, color: 'white', size: 0.25
+        text: linestyle, material: { color: 'white' }, size: 0.25
       },
       connectors: [
         { id: 'c1' + centerconnector, anchor: 'left', hidden },
@@ -179,7 +179,7 @@ export class EdgeStylesExample {
     const center = flow.addNode({
       id: centerconnector, x, y, color,
       label: {
-        text: linestyle, color: 'white', size: 0.25
+        text: linestyle, material: { color: 'white' }, size: 0.25
       },
       connectors: [
         { id: 'c1' + centerconnector, anchor: 'left', hidden },
@@ -247,7 +247,7 @@ export class EdgeStylesExample {
     const center = flow.addNode({
       id: centerconnector, x, y, color,
       label: {
-        text: linestyle, color: 'white', size: 0.25
+        text: linestyle, material: { color: 'white' }, size: 0.25
       },
       connectors: [
         { id: 'c1' + centerconnector, anchor: 'left', hidden },

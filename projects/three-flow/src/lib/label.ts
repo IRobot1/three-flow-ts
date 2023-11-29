@@ -1,4 +1,4 @@
-import { Euler, Material, Matrix4, Mesh, Object3D, Vector3 } from "three";
+import { Color, ColorRepresentation, Euler, Material, MaterialParameters, Matrix4, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Vector3 } from "three";
 import { FlowEventType, FlowLabelParameters, LabelAlignX, LabelAlignY, LabelTextAlign } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowDiagram } from "./diagram";
@@ -25,13 +25,13 @@ export class FlowLabel extends Object3D {
     }
   }
 
-  private _color: number | string = 'black'
-  get color() { return this._color }
-  set color(newvalue: number | string) {
-    if (this._color != newvalue) {
-      this._color = newvalue;
+  private _matparams: MeshBasicMaterialParameters = { color: 'black' }
+  get color() { return this._matparams.color! }
+  set color(newvalue: ColorRepresentation) {
+    if (this._matparams.color != newvalue) {
+      this._matparams.color = newvalue;
       if (this.labelMesh)
-        (this.labelMesh.material as any).color.set(newvalue)
+        (this.labelMesh.material as MeshBasicMaterial).color.set(newvalue)
     }
   }
 
@@ -82,7 +82,7 @@ export class FlowLabel extends Object3D {
 
     this._text = parameters.text ? parameters.text : ''
     this._size = parameters.size ? parameters.size : 0.1
-    this._color = parameters.color ? parameters.color : 'black'
+    this._matparams = parameters.material ? parameters.material : { color: 'black' }
     this._padding = parameters.padding ? parameters.padding : 0.1
     this.alignX = parameters.alignX ? parameters.alignX : 'center'
     this.alignY = parameters.alignY ? parameters.alignY : 'middle'

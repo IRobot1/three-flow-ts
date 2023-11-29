@@ -1,4 +1,4 @@
-import { BufferGeometry, CatmullRomCurve3, CircleGeometry, Curve, CurvePath, DoubleSide, LineCurve3, Material, Mesh, MeshStandardMaterial, Path, PlaneGeometry, Scene, Shape, ShapeGeometry, SpotLight, TubeGeometry, Vector2, Vector3 } from "three";
+import { BufferGeometry, CatmullRomCurve3, CircleGeometry, ColorRepresentation, Curve, CurvePath, DoubleSide, LineCurve3, Material, Mesh, MeshStandardMaterial, Path, PlaneGeometry, Scene, Shape, ShapeGeometry, SpotLight, TubeGeometry, Vector2, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
@@ -65,14 +65,14 @@ export class ProcessExample {
     const connectors = new FlowConnectors(flow)
 
     const start = flow.addNode(<ProcessShape>{
-      x: -4, label: { text: 'Start', size: 0.15, color: 'white' }, shape: 'circle',
+      x: -4, label: { text: 'Start', size: 0.15, material: { color: 'white' }, }, shape: 'circle',
       connectors: [
         { id: 'c1start', anchor: 'right', hidden: true }
       ]
     })
 
     const decision = flow.addNode(<ProcessShape>{
-      x: -2, label: { text: 'Decision', size: 0.15, color: 'white' }, shape: 'rhombus',
+      x: -2, label: { text: 'Decision', size: 0.15, material: { color: 'white' }, }, shape: 'rhombus',
       connectors: [
         { id: 'c1decision', anchor: 'left', hidden: true, transform: { translate: { x: -0.1 } } },
         { id: 'c2decision', anchor: 'top', hidden: true, transform: { translate: { y: 0.1 } } },
@@ -85,7 +85,7 @@ export class ProcessExample {
 
 
     const process1 = flow.addNode(<ProcessShape>{
-      y: 1, height: 0.5, label: { text: 'Process 1', size: 0.15, color: 'white' }, shape: 'rect',
+      y: 1, height: 0.5, label: { text: 'Process 1', size: 0.15, material: { color: 'white' }, }, shape: 'rect',
       connectors: [
         { id: 'c1process1', anchor: 'left', hidden: true },
         { id: 'c2process1', anchor: 'right', hidden: true },
@@ -94,7 +94,7 @@ export class ProcessExample {
     flow.addEdge({ from: decision.name, to: process1.name, fromconnector: 'c2decision', toconnector: 'c1process1', linestyle: 'split' })
 
     const process2 = flow.addNode(<ProcessShape>{
-      height: 0.5, label: { text: 'Process 2', size: 0.15, color: 'white' }, shape: 'rect',
+      height: 0.5, label: { text: 'Process 2', size: 0.15, material: { color: 'white' }, }, shape: 'rect',
       connectors: [
         { id: 'c1process2', anchor: 'left', hidden: true },
         { id: 'c2process2', anchor: 'right', hidden: true },
@@ -103,7 +103,7 @@ export class ProcessExample {
     flow.addEdge({ from: decision.name, to: process2.name, fromconnector: 'c3decision', toconnector: 'c1process2' })
 
     const process3 = flow.addNode(<ProcessShape>{
-      y: -1, height: 0.5, label: { text: 'Process 3', size: 0.15, color: 'white' }, shape: 'rect',
+      y: -1, height: 0.5, label: { text: 'Process 3', size: 0.15, material: { color: 'white' }, }, shape: 'rect',
       connectors: [
         { id: 'c1process3', anchor: 'left', hidden: true },
         { id: 'c2process3', anchor: 'right', hidden: true },
@@ -112,7 +112,7 @@ export class ProcessExample {
     flow.addEdge({ from: decision.name, to: process3.name, fromconnector: 'c4decision', toconnector: 'c1process3', linestyle: 'split' })
 
     const action = flow.addNode(<ProcessShape>{
-      x: 2, height: 0.5, label: { text: 'Action', size: 0.15, color: 'white' }, shape: 'parallel',
+      x: 2, height: 0.5, label: { text: 'Action', size: 0.15, material: { color: 'white' }, }, shape: 'parallel',
       connectors: [
         { id: 'c1action', anchor: 'left', hidden: true },
         { id: 'c2action', anchor: 'top', hidden: true },
@@ -125,7 +125,7 @@ export class ProcessExample {
     flow.addEdge({ from: process3.name, to: action.name, fromconnector: 'c2process3', toconnector: 'c4action', linestyle: 'split' })
 
     const end = flow.addNode(<ProcessShape>{
-      x: 4, height: 0.5, label: { text: 'End', size: 0.15, color: 'white' }, shape: 'circle',
+      x: 4, height: 0.5, label: { text: 'End', size: 0.15, material: { color: 'white' }, }, shape: 'circle',
       connectors: [
         { id: 'c1end', anchor: 'left', hidden: true },
       ]
@@ -144,7 +144,7 @@ class ProcessFlowDiagram extends FlowDiagram {
 
   constructor(options?: FlowDiagramOptions) { super(options) }
 
-  override createMeshMaterial(purpose: string, color: number | string): Material {
+  override createMeshMaterial(purpose: string, color: ColorRepresentation): Material {
     return new MeshStandardMaterial({ color, side: DoubleSide });
   }
 

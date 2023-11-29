@@ -25,20 +25,20 @@ const nodes: Array<DocumentShapeParameters> = [
   {
     id: 'core', x: -1, y: -0.5, z: -0.01, color: 'lightsteelblue',
     width: 3.5, height: 4.5,
-    label: { text: 'Core Library', color: 'black', size: 0.15 },
+    label: { text: 'Core Library', material: { color: 'black' }, size: 0.15 },
     labeltransform: { translate: { y: -0.1 } },
     labelanchor: 'top', connectors: []
   },
   {
     id: 'optional', x: 0.25, y: 1, z: -0.02, color: '#ccc',
     width: 10, height: 4.5,
-    label: { text: 'Optional', color: 'black', size: 0.15 },
+    label: { text: 'Optional', material: { color: 'black' }, size: 0.15 },
     labeltransform: { translate: { y: -0.1 } },
     labelanchor: 'top', connectors: []
   },
   {
     id: 'diagram', x: -2, y: 1, color: '#222',
-    label: { text: 'Flow Diagram', color: 'white' },
+    label: { text: 'Flow Diagram', material: { color: 'white' }, },
     connectors: [
       { id: 'c1diagram', anchor: 'right', color: 'white', hidden },
       { id: 'c3diagram', anchor: 'bottom', color: 'white', hidden },
@@ -67,28 +67,28 @@ const nodes: Array<DocumentShapeParameters> = [
   },
   {
     id: 'label', x: 0, y: -2, color: '#fd5c63',
-    label: { text: 'Flow Label', color: 'white' },
+    label: { text: 'Flow Label', material: { color: 'white' }, },
     connectors: [
       { id: 'c1label', anchor: 'left', color: 'white', hidden },
     ],
   },
   {
     id: 'material', x: -2, y: -0.5, color: '#555', shape: 'circle',
-    label: { text: 'Three Material Theme', color: 'white', wrapwidth: 0.7, textalign: 'center' },
+    label: { text: 'Three Material Theme', material: { color: 'white' }, wrapwidth: 0.7, textalign: 'center' },
     connectors: [
       { id: 'c1material', anchor: 'top', color: 'white', hidden },
     ],
   },
   {
     id: 'connectors', x: 1.5, y: 2.5, color: 'green',
-    label: { text: 'Connectors', color: 'white' },
+    label: { text: 'Connectors', material: { color: 'white' }, },
     connectors: [
       { id: 'c1connectors', anchor: 'bottom', color: 'darkgreen', hidden },
     ],
   },
   {
     id: 'interaction', x: 3, y: 2.5, color: 'blue',
-    label: { text: 'Interactive', color: 'white' },
+    label: { text: 'Interactive', material: { color: 'white' }, },
     connectors: [
       { id: 'c1interaction', anchor: 'bottom', color: 'darkblue', hidden },
       { id: 'c2interaction', anchor: 'right', color: 'white', hidden },
@@ -96,28 +96,28 @@ const nodes: Array<DocumentShapeParameters> = [
   },
   {
     id: 'dragnode', x: 4.5, y: 2.5, color: '#555', shape: 'circle',
-    label: { text: 'Drag Node', color: 'white' },
+    label: { text: 'Drag Node', material: { color: 'white' }, },
     connectors: [
       { id: 'c1dragnode', anchor: 'left', color: 'white', hidden },
     ],
   },
   {
     id: 'resizenode', x: 4.5, y: 1.25, color: '#555', shape: 'circle',
-    label: { text: 'Resize Node', color: 'white' },
+    label: { text: 'Resize Node', material: { color: 'white' }, },
     connectors: [
       { id: 'c1resizenode', anchor: 'left', color: 'white', hidden },
     ],
   },
   {
     id: 'scalenode', x: 4.5, y: 0, color: '#555', shape: 'circle',
-    label: { text: 'Scale Node', color: 'white' },
+    label: { text: 'Scale Node', material: { color: 'white' }, },
     connectors: [
       { id: 'c1scalenode', anchor: 'left', color: 'white', hidden },
     ],
   },
   {
     id: 'layout', x: -4, y: 2.5, color: '#555',
-    label: { text: 'Layout', color: 'white' },
+    label: { text: 'Layout', material: { color: 'white' }, },
     connectors: [
       { id: 'c1layout', anchor: 'right', color: 'black', hidden },
     ],
@@ -200,7 +200,6 @@ export class DocumentationExample {
       const edge = new FlowEdge(flow, parameters)
 
       edge.createGeometry = (curvepoints: Array<Vector3>, thickness: number): BufferGeometry | undefined => {
-        console.warn(thickness)
         const curve = new CurvePath<Vector3>()
         for (let i = 0; i < curvepoints.length - 1; i++) {
           curve.add(new LineCurve3(curvepoints[i], curvepoints[i + 1]))
