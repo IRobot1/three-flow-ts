@@ -22,6 +22,6 @@ steps:
   
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: 'dist/three-flow'
+    PathtoPublish: 'dist/three-flow-ts'
     ArtifactName: 'drop'
     publishLocation: 'Container'
