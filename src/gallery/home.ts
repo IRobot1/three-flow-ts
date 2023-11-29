@@ -224,7 +224,6 @@ export class GalleryExample {
         to: "custom",
         fromconnector: "c2basic",
         toconnector: "c1custom",
-        color: 'white'
       },
       {
         from: "custom",

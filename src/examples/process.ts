@@ -163,7 +163,8 @@ class ProcessFlowDiagram extends FlowDiagram {
 
 class ProcessEdge extends FlowEdge {
   constructor(diagram: ProcessFlowDiagram, edge: FlowEdgeParameters) {
-    edge.color = 'orange'
+    if (!edge.material) edge.material = {}
+    edge.material.color = 'orange'
     super(diagram, edge)
   }
 

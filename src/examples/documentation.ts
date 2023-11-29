@@ -129,14 +129,14 @@ const edges: Array<FlowEdgeParameters> = [
   { from: 'diagram', to: 'edge', fromconnector: 'c1diagram', toconnector: 'c1edge', },
   { from: 'diagram', to: 'label', fromconnector: 'c1diagram', toconnector: 'c1label', },
   { from: 'diagram', to: 'material', fromconnector: 'c3diagram', toconnector: 'c1material', },
-  { from: 'connectors', to: 'node', fromconnector: 'c1connectors', toconnector: 'c4node', color: 'darkgreen' },
-  { from: 'connectors', to: 'edge', fromconnector: 'c1connectors', toconnector: 'c4edge', color: 'darkgreen' },
-  { from: 'interaction', to: 'node', fromconnector: 'c1interaction', toconnector: 'c3node', color: 'darkblue' },
-  { from: 'interaction', to: 'edge', fromconnector: 'c1interaction', toconnector: 'c3edge', color: 'darkblue' },
+  { from: 'connectors', to: 'node', fromconnector: 'c1connectors', toconnector: 'c4node', material: { color: 'darkgreen' } },
+  { from: 'connectors', to: 'edge', fromconnector: 'c1connectors', toconnector: 'c4edge', material: { color: 'darkgreen' } },
+  { from: 'interaction', to: 'node', fromconnector: 'c1interaction', toconnector: 'c3node', material: { color: 'darkblue' } },
+  { from: 'interaction', to: 'edge', fromconnector: 'c1interaction', toconnector: 'c3edge', material: { color: 'darkblue' } },
   { from: 'interaction', to: 'dragnode', fromconnector: 'c2interaction', toconnector: 'c1dragnode', },
   { from: 'interaction', to: 'resizenode', fromconnector: 'c2interaction', toconnector: 'c1resizenode', },
   { from: 'interaction', to: 'scalenode', fromconnector: 'c2interaction', toconnector: 'c1scalenode', },
-  { from: 'layout', to: 'diagram', fromconnector: 'c1layout', toconnector: 'c4diagram', color: 'black' },
+  { from: 'layout', to: 'diagram', fromconnector: 'c1layout', toconnector: 'c4diagram', material: { color: 'black' } },
 ]
 
 

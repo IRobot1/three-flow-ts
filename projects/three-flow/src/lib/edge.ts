@@ -1,4 +1,4 @@
-import { BufferGeometry, CatmullRomCurve3, Line, MathUtils, Mesh, Object3D, Vector3 } from "three";
+import { BufferGeometry, CatmullRomCurve3, ColorRepresentation, Line, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Vector3 } from "three";
 import { FlowArrowParameters, FlowEdgeParameters, EdgeLineStyle, FlowEventType } from "./model";
 import { FlowDiagram } from "./diagram";
 import { FlowNode } from "./node";
@@ -9,12 +9,13 @@ export class FlowEdge extends Mesh {
   readonly from: string;
   readonly to: string;
 
-  private _color: number | string;
-  get color() { return this._color }
-  set color(newvalue: number | string) {
-    if (this._color != newvalue) {
-      this._color = newvalue;
-      (this.material as any).color.set(newvalue)
+  private _matparams!: MeshBasicMaterialParameters
+  get color() { return this._matparams.color! }
+  set color(newvalue: ColorRepresentation) {
+    if (this._matparams.color != newvalue) {
+      this._matparams.color = newvalue;
+      if (newvalue)
+        (this.material as MeshBasicMaterial).color.set(newvalue)
     }
   }
 
@@ -112,8 +113,13 @@ export class FlowEdge extends Mesh {
       this.add(this.toArrow)
     }
 
+    if (edge.material) {
+      this._matparams = edge.material
+      if (!edge.material.color) edge.material.color = 'white'
+    }
+    else
+      this._matparams = { color: 'white' }
 
-    this._color = edge.color ? edge.color : 'white'
     this._linestyle = edge.linestyle ? edge.linestyle : 'spline'
     this.lineoffset = edge.lineoffset != undefined ? edge.lineoffset : 0.2
     this._divisions = edge.divisions ? edge.divisions : 20

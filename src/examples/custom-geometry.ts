@@ -148,7 +148,7 @@ export class CustomGeometryExample {
         id: '1',
         from: "1",
         to: "3",
-        color: 0xff0000,
+        material: { color: 0xff0000 },
         toarrow: {
           material: { color: 0xff0000 } },
         test:'1'

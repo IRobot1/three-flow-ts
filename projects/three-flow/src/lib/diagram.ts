@@ -239,7 +239,10 @@ export class FlowDiagram extends Object3D {
   }
 
   private setEdge(item: FlowEdgeParameters): FlowEdge {
-    if (!item.color && this.options) item.color = this.options.linecolor
+    if (!item.material && this.options) {
+      if (!item.material) item.material = {}
+      item.material.color = this.options.linecolor
+    }
     if (!item.linestyle && this.options) item.linestyle = this.options.linestyle
     if (!item.divisions && this.options) item.divisions = this.options.linedivisions
     if (!item.thickness && this.options) item.thickness = this.options.linethickness
