@@ -12,13 +12,13 @@ Demo (this repo hosted) coming soon
 
 [Overview](https://github.com/IRobot1/three-flow-ts/wiki/Overview) - understand the big picture
 
+[Examples](https://github.com/IRobot1/three-flow-ts/wiki/Examples) - review examples and what features they're using
+
 [Getting Start](https://github.com/IRobot1/three-flow-ts/wiki/Getting-Started) - just the basics
 
 [How To](https://github.com/IRobot1/three-flow-ts/wiki/How-To) - learn to use specific parameters and methods 
 
 [Customizing](https://github.com/IRobot1/three-flow-ts/wiki/Customizing) - customize the appearance of three-flow classes to make your diagrams stand out
-
-[Examples](https://github.com/IRobot1/three-flow-ts/wiki/Examples) - review examples and what features they're using
 
 [Reference](https://github.com/IRobot1/three-flow-ts/wiki/Reference) - detailed documentation on parameters, classes and events
 
