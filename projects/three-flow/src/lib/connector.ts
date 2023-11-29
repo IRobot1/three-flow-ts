@@ -1,5 +1,5 @@
 import { AnchorType, FlowConnectorParameters, FlowEventType, FlowTransform } from "./model"
-import { BufferGeometry, CircleGeometry, Mesh, Object3D } from "three"
+import { BufferGeometry, CircleGeometry, ColorRepresentation, Mesh, MeshBasicMaterialParameters, Object3D } from "three"
 import { FlowDiagram } from "./diagram"
 import { FlowNode } from "./node"
 import { FlowLabel } from "./label"
@@ -206,7 +206,17 @@ export class NodeConnectors {
 export class ConnectorMesh extends Mesh {
   index: number
   anchor: AnchorType
-  color: number | string = 'black'
+
+  private _matparams!: MeshBasicMaterialParameters 
+  get color() { return this._matparams.color! }
+  set color(newvalue: ColorRepresentation) {
+    if (this._matparams.color != newvalue) {
+      this._matparams.color = newvalue;
+      if (newvalue)
+        this.material = this.node.connectors.diagram.getMaterial('geometry', 'connector', newvalue)
+    }
+  }
+
   label?: FlowLabel
   labeloffset: number
   transform?: FlowTransform; // adjust position and rotation
@@ -228,7 +238,7 @@ export class ConnectorMesh extends Mesh {
     this.labeloffset = parameters.labeloffset ? parameters.labeloffset : 1.5
     this.transform = parameters.transform
     this.shape = parameters.shape ? parameters.shape : 'circle'
-    this.color = parameters.color ? parameters.color : 'black'
+    this._matparams = parameters.material ? parameters.material : { color: 'black' }
     this.radius = parameters.radius = parameters.radius != undefined ? parameters.radius : 0.1
     this.width = parameters.width = parameters.width != undefined ? parameters.width : this.radius * 2
     this.height = parameters.height = parameters.height != undefined ? parameters.height : this.radius * 2

@@ -133,7 +133,7 @@ export class BasicExample {
         scalecolor: 0xfff370,
         connectors: [
           { id: "n3c1", anchor: 'right', hidden: true },
-          { id: "n3c2", anchor: 'right', index: 1, color: 'green' },
+          { id: "n3c2", anchor: 'right', index: 1, material: { color: 'green' } },
         ]
       }
 

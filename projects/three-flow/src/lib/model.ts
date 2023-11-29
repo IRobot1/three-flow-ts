@@ -34,7 +34,7 @@ export interface FlowConnectorParameters {
   transform?: FlowTransform; // adjust position and rotation
   shape?: string // allow each connector to have custom shape
   hidden?: boolean
-  color?: number | string
+  material?: MeshBasicMaterialParameters
   radius?: number // shape radius
   width?: number  // if shape has specific width, otherwise radius*2
   height?: number // if shape has specific height, otherwise radius*2

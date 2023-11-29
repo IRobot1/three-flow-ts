@@ -32,94 +32,94 @@ const nodes: Array<DocumentShapeParameters> = [
   {
     id: 'optional', x: 0.25, y: 1, z: -0.02, color: '#ccc',
     width: 10, height: 4.5,
-    label: { text: 'Optional', material: { color: 'black' }, size: 0.15 },
-    labeltransform: { translate: { y: -0.1 } },
+    label: { text: 'Optional Extensions', material: { color: 'black' }, size: 0.15 },
+    labeltransform: { translate: { x: -1, y: -0.1 } },
     labelanchor: 'top', connectors: []
   },
   {
     id: 'diagram', x: -2, y: 1, color: '#222',
     label: { text: 'Flow Diagram', material: { color: 'white' }, },
     connectors: [
-      { id: 'c1diagram', anchor: 'right', color: 'white', hidden },
-      { id: 'c3diagram', anchor: 'bottom', color: 'white', hidden },
-      { id: 'c4diagram', anchor: 'left', color: 'black', hidden },
+      { id: 'c1diagram', anchor: 'right', material: { color: 'white' }, hidden },
+      { id: 'c3diagram', anchor: 'bottom', material: { color: 'white' }, hidden },
+      { id: 'c4diagram', anchor: 'left', material: { color: 'black' }, hidden },
     ],
   },
   {
     id: 'node', x: 0, y: 1, color: 'steelblue',
     label: { text: 'Flow Node\nFlow Route', },
     connectors: [
-      { id: 'c1node', anchor: 'left', color: 'white', hidden },
-      { id: 'c2node', anchor: 'right', color: 'white', hidden },
+      { id: 'c1node', anchor: 'left', material: { color: 'white' }, hidden },
+      { id: 'c2node', anchor: 'right', material: { color: 'white' }, hidden },
       { id: 'c3node', anchor: 'right', index: 1, hidden },
-      { id: 'c4node', anchor: 'right', index: 2, hidden, color: 'darkgreen' },
+      { id: 'c4node', anchor: 'right', index: 2, hidden, material: { color: 'darkgreen' } },
     ],
   },
   {
     id: 'edge', x: 0, y: -0.5, color: 'lime',
     label: { text: 'Flow Edge', },
     connectors: [
-      { id: 'c1edge', anchor: 'left', color: 'white', hidden },
-      { id: 'c2edge', anchor: 'right', color: 'white', hidden },
-      { id: 'c3edge', anchor: 'right', index: 1, hidden, color: 'darkblue' },
-      { id: 'c4edge', anchor: 'right', index: 2, hidden, color: 'darkgreen' },
+      { id: 'c1edge', anchor: 'left', material: { color: 'white' }, hidden },
+      { id: 'c2edge', anchor: 'right', material: { color: 'white' }, hidden },
+      { id: 'c3edge', anchor: 'right', index: 1, hidden, material: { color: 'darkblue' } },
+      { id: 'c4edge', anchor: 'right', index: 2, hidden, material: { color: 'darkgreen' } },
     ],
   },
   {
     id: 'label', x: 0, y: -2, color: '#fd5c63',
     label: { text: 'Flow Label', material: { color: 'white' }, },
     connectors: [
-      { id: 'c1label', anchor: 'left', color: 'white', hidden },
+      { id: 'c1label', anchor: 'left', material: { color: 'white' }, hidden },
     ],
   },
   {
     id: 'material', x: -2, y: -0.5, color: '#555', shape: 'circle',
     label: { text: 'Three Material Theme', material: { color: 'white' }, wrapwidth: 0.7, textalign: 'center' },
     connectors: [
-      { id: 'c1material', anchor: 'top', color: 'white', hidden },
+      { id: 'c1material', anchor: 'top', material: { color: 'white' }, hidden },
     ],
   },
   {
     id: 'connectors', x: 1.5, y: 2.5, color: 'green',
     label: { text: 'Connectors', material: { color: 'white' }, },
     connectors: [
-      { id: 'c1connectors', anchor: 'bottom', color: 'darkgreen', hidden },
+      { id: 'c1connectors', anchor: 'bottom', material: { color: 'darkgreen' }, hidden },
     ],
   },
   {
     id: 'interaction', x: 3, y: 2.5, color: 'blue',
     label: { text: 'Interactive', material: { color: 'white' }, },
     connectors: [
-      { id: 'c1interaction', anchor: 'bottom', color: 'darkblue', hidden },
-      { id: 'c2interaction', anchor: 'right', color: 'white', hidden },
+      { id: 'c1interaction', anchor: 'bottom', material: { color: 'darkblue' }, hidden },
+      { id: 'c2interaction', anchor: 'right', material: { color: 'white' }, hidden },
     ],
   },
   {
     id: 'dragnode', x: 4.5, y: 2.5, color: '#555', shape: 'circle',
     label: { text: 'Drag Node', material: { color: 'white' }, },
     connectors: [
-      { id: 'c1dragnode', anchor: 'left', color: 'white', hidden },
+      { id: 'c1dragnode', anchor: 'left', material: { color: 'white' }, hidden },
     ],
   },
   {
     id: 'resizenode', x: 4.5, y: 1.25, color: '#555', shape: 'circle',
     label: { text: 'Resize Node', material: { color: 'white' }, },
     connectors: [
-      { id: 'c1resizenode', anchor: 'left', color: 'white', hidden },
+      { id: 'c1resizenode', anchor: 'left', material: { color: 'white' }, hidden },
     ],
   },
   {
     id: 'scalenode', x: 4.5, y: 0, color: '#555', shape: 'circle',
     label: { text: 'Scale Node', material: { color: 'white' }, },
     connectors: [
-      { id: 'c1scalenode', anchor: 'left', color: 'white', hidden },
+      { id: 'c1scalenode', anchor: 'left', material: { color: 'white' }, hidden },
     ],
   },
   {
     id: 'layout', x: -4, y: 2.5, color: '#555',
     label: { text: 'Layout', material: { color: 'white' }, },
     connectors: [
-      { id: 'c1layout', anchor: 'right', color: 'black', hidden },
+      { id: 'c1layout', anchor: 'right', material: { color: 'black' }, hidden },
     ],
   },
 ]
@@ -204,7 +204,7 @@ export class DocumentationExample {
         for (let i = 0; i < curvepoints.length - 1; i++) {
           curve.add(new LineCurve3(curvepoints[i], curvepoints[i + 1]))
         }
-        return new TubeGeometry(curve, 64, thickness*1.5 )
+        return new TubeGeometry(curve, 64, thickness * 1.5)
       }
 
       return edge

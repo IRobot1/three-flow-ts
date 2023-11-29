@@ -108,9 +108,9 @@ export class GalleryExample {
         y: 2.5,
         label: { text: "Basic" },
         connectors: [
-          { id: "c1basic", anchor: 'left', color: 'white ' },
-          { id: "c2basic", anchor: 'right', color: 'white ' },
-          { id: "c3basic", anchor: 'bottom', color: 'white ' },
+          { id: "c1basic", anchor: 'left', material: { color: 'white' }, },
+          { id: "c2basic", anchor: 'right', material: { color: 'white' }, },
+          { id: "c3basic", anchor: 'bottom', material: { color: 'white' }, },
         ],
       },
       {
@@ -119,8 +119,8 @@ export class GalleryExample {
         assetimage: 'geometry', route: 'geometry',
         label: { text: "Custom Geometry" },
         connectors: [
-          { id: "c1custom", anchor: 'top', color: 'white ' },
-          { id: "c2custom", anchor: 'bottom', color: 'white ' }
+          { id: "c1custom", anchor: 'top', material: { color: 'white' }, },
+          { id: "c2custom", anchor: 'bottom', material: { color: 'white' }, }
         ],
       },
       {
@@ -129,8 +129,8 @@ export class GalleryExample {
         x: -1.5, y: 1,
         assetimage: 'builder', route: 'builder',
         connectors: [
-          { id: "c1builder", anchor: 'top', color: 'white ' },
-          { id: "c2builder", anchor: 'bottom', color: 'white ' }
+          { id: "c1builder", anchor: 'top', material: { color: 'white' }, },
+          { id: "c2builder", anchor: 'bottom', material: { color: 'white' }, }
         ],
       },
       {
@@ -139,7 +139,7 @@ export class GalleryExample {
         label: { text: "Loader from JSON" },
         assetimage: 'loader', route: 'loader',
         connectors: [
-          { id: "c1loader", anchor: 'top', color: 'white ' },
+          { id: "c1loader", anchor: 'top', material: { color: 'white' }, },
         ],
       },
       {
@@ -148,7 +148,7 @@ export class GalleryExample {
         x: -3, y: -0.5,
         assetimage: 'languages', route: 'languages',
         connectors: [
-          { id: "c1languages", anchor: 'top', color: 'white ' },
+          { id: "c1languages", anchor: 'top', material: { color: 'white' }, },
         ],
       },
       {
@@ -157,7 +157,7 @@ export class GalleryExample {
         x: -1.5, y: -0.5,
         assetimage: 'civilization', route: 'civilization',
         connectors: [
-          { id: "c1civilization", anchor: 'top', color: 'white ' },
+          { id: "c1civilization", anchor: 'top', material: { color: 'white' }, },
         ],
       },
       {
@@ -166,7 +166,7 @@ export class GalleryExample {
         x: 1.5, y: -0.5,
         assetimage: 'mermaid', route: 'mermaid',
         connectors: [
-          { id: "c1mermaid", anchor: 'top', color: 'white ' },
+          { id: "c1mermaid", anchor: 'top', material: { color: 'white' }, },
         ],
       },
       {
@@ -175,8 +175,8 @@ export class GalleryExample {
         x: 4.5, y: 1,
         assetimage: 'visuals', route: 'visuals',
         connectors: [
-          { id: "c1visuals", anchor: 'top', color: 'white ' },
-          { id: "c2visuals", anchor: 'bottom', color: 'white ' },
+          { id: "c1visuals", anchor: 'top', material: { color: 'white' }, },
+          { id: "c2visuals", anchor: 'bottom', material: { color: 'white' }, },
         ],
       },
       {
@@ -185,7 +185,7 @@ export class GalleryExample {
         x: 3, y: -0.5,
         assetimage: 'popout', route: 'popout',
         connectors: [
-          { id: "c1popout", anchor: 'top', color: 'white ' },
+          { id: "c1popout", anchor: 'top', material: { color: 'white' }, },
         ],
       },
       {
@@ -194,7 +194,7 @@ export class GalleryExample {
         x: 4.5, y: -0.5,
         assetimage: 'frames', route: 'frames',
         connectors: [
-          { id: "c1frames", anchor: 'top', color: 'white ' },
+          { id: "c1frames", anchor: 'top', material: { color: 'white' }, },
         ],
       },
       {
@@ -203,7 +203,7 @@ export class GalleryExample {
         x: 0, y: 1,
         assetimage: 'edgestyles', route: 'edgestyles',
         connectors: [
-          { id: "c1edgestyles", anchor: 'top', color: 'white ' },
+          { id: "c1edgestyles", anchor: 'top', material: { color: 'white' }, },
         ],
       },
       {
@@ -212,7 +212,7 @@ export class GalleryExample {
         x: -3, y: 1,
         assetimage: 'documentation', route: 'documentation',
         connectors: [
-          { id: "c1documentation", anchor: 'top', color: 'white ' },
+          { id: "c1documentation", anchor: 'top', material: { color: 'white' }, },
         ],
       },
     ];
@@ -293,7 +293,7 @@ export class GalleryExample {
       nodes, edges
     }
 
-    const flow = new MyFlowDiagram({ linestyle:'split'})
+    const flow = new MyFlowDiagram({ linestyle: 'split' })
     scene.add(flow);
 
     // make the flow interactive
@@ -316,7 +316,7 @@ export class GalleryExample {
       }
       node.connectors?.forEach(c => {
         c.radius = 0.03
-        c.color = 'white'
+        c.material = { color: 'white' }
       })
     })
 
