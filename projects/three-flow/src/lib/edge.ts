@@ -303,6 +303,7 @@ export class FlowEdge extends Mesh {
           this.add(this.line)
         }
         this.line.geometry = this.createLine(curvepoints)
+        this.line.computeLineDistances()
       }
 
     }
