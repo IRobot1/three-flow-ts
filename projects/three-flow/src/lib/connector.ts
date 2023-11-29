@@ -213,7 +213,7 @@ export class ConnectorMesh extends Mesh {
     if (this._matparams.color != newvalue) {
       this._matparams.color = newvalue;
       if (newvalue)
-        this.material = this.node.connectors.diagram.getMaterial('geometry', 'connector', newvalue)
+        this.material = this.node.connectors.diagram.getMaterial('geometry', 'connector', this._matparams)
     }
   }
 
@@ -270,7 +270,7 @@ export class ConnectorMesh extends Mesh {
     if (parameters.userData) this.userData = parameters.userData
 
     this.geometry = this.node.createGeometry(parameters)
-    this.material = diagram.getMaterial('geometry', 'connector', this.color)
+    this.material = diagram.getMaterial('geometry', 'connector', this._matparams)
   }
 }
 

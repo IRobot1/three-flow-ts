@@ -93,7 +93,7 @@ export class FlowLabel extends Object3D {
     this.hidden = parameters.hidden != undefined ? parameters.hidden : false
     this.visible = !this.hidden
 
-    this.labelMaterial = diagram.getMaterial('geometry', 'label', this.color)!;
+    this.labelMaterial = diagram.getMaterial('geometry', 'label', this._matparams)!;
     this.font = diagram.getFont(parameters.font)
 
 

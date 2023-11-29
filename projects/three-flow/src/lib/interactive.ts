@@ -1,4 +1,4 @@
-import { Camera, Material, Renderer, WebGLRenderer } from "three";
+import { Camera, Material, MeshBasicMaterialParameters, Renderer, WebGLRenderer } from "three";
 import { DragNode } from "./drag-node";
 import { FlowDiagram } from "./diagram";
 import { ThreeInteractive } from "./three-interactive";
@@ -56,7 +56,7 @@ class NodeInteractive {
   constructor(public node: FlowNode, source: FlowInteraction) {
 
 
-    this.nodeResizer = this.createResizer(node, source.flow.getMaterial('geometry', 'resizing', node.resizecolor))
+    this.nodeResizer = this.createResizer(node, source.flow.getMaterial('geometry', 'resizing', <MeshBasicMaterialParameters>{ color: node.resizecolor }))
     const resizableChanged = () => {
       if (node.resizable) {
         source.interactive.selectable.add(...this.nodeResizer.selectable)
@@ -70,7 +70,7 @@ class NodeInteractive {
     node.addEventListener(FlowEventType.RESIZABLE_CHANGED, () => { resizableChanged() })
     resizableChanged()
 
-    this.nodeScaler = this.createScaler(node, source.flow.getMaterial('geometry', 'scaling', node.scalecolor))
+    this.nodeScaler = this.createScaler(node, source.flow.getMaterial('geometry', 'scaling', <MeshBasicMaterialParameters>{ color: node.scalecolor }))
     const scalebleChanged = () => {
       if (node.scalable) {
         source.interactive.selectable.add(...this.nodeScaler.selectable)
@@ -98,7 +98,7 @@ class NodeInteractive {
     // To intercept dragged event in derived class, add the following
     //
     // node.addEventListener(FlowEventType.DRAGGED, () => { })
-    
+
 
     this.dispose = () => {
       if (this.nodeResizer) {

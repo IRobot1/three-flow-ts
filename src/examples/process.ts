@@ -1,4 +1,4 @@
-import { BufferGeometry, CatmullRomCurve3, CircleGeometry, ColorRepresentation, Curve, CurvePath, DoubleSide, LineCurve3, Material, Mesh, MeshStandardMaterial, Path, PlaneGeometry, Scene, Shape, ShapeGeometry, SpotLight, TubeGeometry, Vector2, Vector3 } from "three";
+import { BufferGeometry, CatmullRomCurve3, CircleGeometry, ColorRepresentation, Curve, CurvePath, DoubleSide, LineCurve3, Material, MaterialParameters, Mesh, MeshBasicMaterialParameters, MeshStandardMaterial, Path, PlaneGeometry, Scene, Shape, ShapeGeometry, SpotLight, TubeGeometry, Vector2, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
@@ -144,8 +144,8 @@ class ProcessFlowDiagram extends FlowDiagram {
 
   constructor(options?: FlowDiagramOptions) { super(options) }
 
-  override createMeshMaterial(purpose: string, color: ColorRepresentation): Material {
-    return new MeshStandardMaterial({ color, side: DoubleSide });
+  override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
+    return new MeshStandardMaterial(parameters);
   }
 
   override createLabel(label: FlowLabelParameters): FlowLabel {
@@ -183,7 +183,7 @@ class ProcessNode extends FlowNode {
     super(diagram, parameters)
 
     const geometry = this.makeGeometry(parameters.shape, parameters.width! + 0.05, parameters.height! + 0.05)
-    const mesh = new Mesh(geometry, diagram.getMaterial('geometry', 'border', 'white'))
+    const mesh = new Mesh(geometry, diagram.getMaterial('geometry', 'border', <MeshBasicMaterialParameters>{ color: 'white' }))
     mesh.position.z = -0.001
     mesh.castShadow = true
     this.add(mesh)

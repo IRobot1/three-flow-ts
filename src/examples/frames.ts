@@ -1,4 +1,4 @@
-import { AmbientLight, BufferGeometry, ColorRepresentation, DoubleSide, LineCurve3, Material, MathUtils, Mesh, MeshBasicMaterial, SRGBColorSpace, Scene, Shape, ShapeGeometry, Texture, TextureLoader, TorusKnotGeometry, TubeGeometry, Vector3 } from "three";
+import { AmbientLight, BufferGeometry, ColorRepresentation, DoubleSide, LineCurve3, Material, MaterialParameters, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, SRGBColorSpace, Scene, Shape, ShapeGeometry, Texture, TextureLoader, TorusKnotGeometry, TubeGeometry, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
@@ -169,8 +169,8 @@ class FramesFlowDiagram extends FlowDiagram {
 
   constructor() { super() }
 
-  override createMeshMaterial(purpose: string, color: ColorRepresentation): Material {
-    return new MeshBasicMaterial({ color, side: DoubleSide });
+  override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
+    return new MeshBasicMaterial(parameters);
   }
 
   override createLabel(label: FlowLabelParameters): FlowLabel {
@@ -209,7 +209,7 @@ class FramesNode extends FlowNode {
     material.opacity = 0
 
     const geometry = new ShapeGeometry(this.rectangularShape(this.width - 0.2, this.height - 0.2, 0.1))
-    const back = diagram.getMaterial('geometry', 'background', 'white') as MeshBasicMaterial
+    const back = diagram.getMaterial('geometry', 'background', <MeshBasicMaterialParameters>{ color: 'white' }) as MeshBasicMaterial
     back.transparent = true
     back.opacity = 0.2
 
@@ -219,7 +219,7 @@ class FramesNode extends FlowNode {
     this.background = backmesh
 
     const border = this.addBorder()
-    const mesh = new Mesh(border, diagram.getMaterial('geometry', 'border', 'white'))
+    const mesh = new Mesh(border, diagram.getMaterial('geometry', 'border', <MeshBasicMaterialParameters>{ color: 'white' }))
     this.add(mesh)
 
   }
@@ -286,7 +286,7 @@ class TextureFrameNode extends IconFrameNode {
   constructor(diagram: FramesFlowDiagram, parameters: FrameShape) {
     super(diagram, parameters)
 
-    const material = diagram.getMaterial('geometry', 'texture', 'white')
+    const material = diagram.getMaterial('geometry', 'texture', <MeshBasicMaterialParameters>{ color: 'white' })
     const background = material as MeshBasicMaterial
     background.opacity = 1
     background.map = parameters.texture

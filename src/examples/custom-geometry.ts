@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, Color, ColorRepresentation, DoubleSide, ExtrudeGeometry, FrontSide, Material, Mesh, MeshBasicMaterial, MeshStandardMaterial, PointLight, Scene, Shape, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, Color, ColorRepresentation, DoubleSide, ExtrudeGeometry, FrontSide, LineBasicMaterialParameters, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, PointLight, Scene, Shape, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TubeGeometry } from "three";
@@ -249,12 +249,13 @@ class MyFlowDiagram extends FlowDiagram {
     super(options)
   }
 
-  override createLineMaterial(purpose: string, color: ColorRepresentation): Material {
-    return new MeshBasicMaterial({ color });
+  override createLineMaterial(purpose: string, parameters: LineBasicMaterialParameters): Material {
+    return new MeshBasicMaterial(parameters);
   }
 
-  override createMeshMaterial(purpose: string, color: ColorRepresentation): Material {
-    return new MeshStandardMaterial({ color, side: purpose == 'arrow' ? DoubleSide : FrontSide });
+  override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
+    parameters.side = purpose == 'arrow' ? DoubleSide : FrontSide
+    return new MeshStandardMaterial(parameters);
   }
 
   override createNode(node: MyFlowNodeData): FlowNode {

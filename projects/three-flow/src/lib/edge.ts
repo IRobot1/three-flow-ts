@@ -125,7 +125,7 @@ export class FlowEdge extends Mesh {
     this._divisions = edge.divisions ? edge.divisions : 20
     this._thickness = edge.thickness ? edge.thickness : 0.01
 
-    this.material = diagram.getMaterial('line', 'edge', this.color)
+    this.material = diagram.getMaterial('line', 'edge', this._matparams)
 
     requestAnimationFrame(() => {
       this.updateVisuals()

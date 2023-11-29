@@ -72,7 +72,7 @@ export class BasicExample {
         scale: 1,
         width: 1,
         height: 2,
-        material: { color: 0x297029 },
+        material: { color: 0x297029, transparent:true, opacity:0.5 },
         resizematerial: { color: 0xff0000 },
         scalematerial: { color: 0xfff370 },
         connectors: [
@@ -93,7 +93,7 @@ export class BasicExample {
         },
         labelanchor: 'right',
         labeltransform: {
-          translate: { y: 0.1 },
+          translate: { x: -0.1 },
           rotate: { z: 90 },
         },
         draggable: true,
@@ -286,10 +286,10 @@ export class BasicExample {
       //labelfont ?: string;
       //userData ?: { [key: string]: any };
       folder.add<any, any>(node1, 'resizable').name('Resizable')
-      folder.addColor(node1, 'resizecolor').name('Resize Color')
+      //folder.addColor(node1, 'resizecolor').name('Resize Color')
       folder.add<any, any>(node1, 'draggable').name('Draggable')
       folder.add<any, any>(node1, 'scalable').name('Scalable')
-      folder.addColor(node1, 'scalecolor').name('Scale Color')
+      //folder.addColor(node1, 'scalecolor').name('Scale Color')
       folder.add<any, any>(node1, 'scalar', 0.1, 5).name('Scale')
       folder.add<any, any>(node1, 'minscale', 0.1, 2).name('Min Scale')
       folder.add<any, any>(node1, 'maxscale', 0.1, 3).name('Max Scale')

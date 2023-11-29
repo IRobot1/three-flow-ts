@@ -217,7 +217,7 @@ export class FlowNode extends Mesh {
 
     if (node.userData) this.userData = node.userData;
 
-    this.material = diagram.getMaterial('geometry', 'node', this.color);
+    this.material = diagram.getMaterial('geometry', 'node', this._matparams);
 
     if (node.x != undefined) this.position.x = node.x
     if (node.y != undefined) this.position.y = node.y

@@ -1,4 +1,4 @@
-import { Box3, ColorRepresentation, LineBasicMaterial, Material, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Vector3 } from "three";
+import { Box3, ColorRepresentation, LineBasicMaterial, LineBasicMaterialParameters, Material, MaterialParameters, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Vector3 } from "three";
 import { FlowEdgeParameters, FlowDiagramParameters, FlowNodeParameters, FlowRouteParameters, EdgeLineStyle, FlowEventType, FlowLayout, FlowLabelParameters } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
@@ -274,26 +274,27 @@ export class FlowDiagram extends Object3D {
   // purpose is node, resize, scale, disabled, error, selected, active, etc
   // note that connector may have multipe purposes based on state
   //
-  getMaterial(type: FlowMaterialType, purpose: string, color: ColorRepresentation): Material {
+  getMaterial(type: FlowMaterialType, purpose: string, parameters: MaterialParameters): Material {
+    const color = (parameters as MeshBasicMaterialParameters).color
     const key = `${type}-${purpose}-${color}`;
     if (!this.materials.has(key)) {
       let material
       if (type == 'line')
-        material = this.createLineMaterial(purpose, color);
+        material = this.createLineMaterial(purpose, parameters);
       else
-        material = this.createMeshMaterial(purpose, color);
+        material = this.createMeshMaterial(purpose, parameters);
       this.materials.set(key, material);
     }
     return this.materials.get(key)!;
   }
 
   // allow overriding
-  createLineMaterial(purpose: string, color: ColorRepresentation): Material {
-    return new LineBasicMaterial({ color });
+  createLineMaterial(purpose: string, parameters: LineBasicMaterialParameters): Material {
+    return new LineBasicMaterial(parameters);
   }
 
-  createMeshMaterial(purpose: string, color: ColorRepresentation): Material {
-    return new MeshBasicMaterial({ color, opacity: 0.99 });
+  createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
+    return new MeshBasicMaterial(parameters);
   }
 
   createNode(node: FlowNodeParameters): FlowNode {

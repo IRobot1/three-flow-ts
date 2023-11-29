@@ -76,7 +76,7 @@ export class FlowArrow extends Mesh {
 
     this.arrowstyle = arrow.arrowstyle ? arrow.arrowstyle : 'default'
 
-    this.material = edge.diagram.getMaterial('geometry', 'arrow', this.color)
+    this.material = edge.diagram.getMaterial('geometry', 'arrow', this._matparams)
     this.updateVisuals()
 
     this._scalar = arrow.scale ? arrow.scale : 1

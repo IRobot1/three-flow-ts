@@ -1,4 +1,4 @@
-import { AmbientLight, BufferGeometry, CatmullRomCurve3, CircleGeometry, ColorRepresentation, CylinderGeometry, DoubleSide, ExtrudeGeometry, ExtrudeGeometryOptions, Material, Mesh, MeshStandardMaterial, PlaneGeometry, Scene, Shape, ShapeGeometry, SpotLight, TubeGeometry, Vector3 } from "three";
+import { AmbientLight, BufferGeometry, CatmullRomCurve3, CircleGeometry, ColorRepresentation, CylinderGeometry, DoubleSide, ExtrudeGeometry, ExtrudeGeometryOptions, Material, MaterialParameters, Mesh, MeshBasicMaterialParameters, MeshStandardMaterial, PlaneGeometry, Scene, Shape, ShapeGeometry, SpotLight, TubeGeometry, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
@@ -22,7 +22,7 @@ interface PopoutShape extends FlowNodeParameters {
   shape: PopoutShapeType
   extruderadius: number
   extrudedepth: number
-  extrudecolor: string
+  extrudecolor: ColorRepresentation
   icon: string
 }
 
@@ -187,8 +187,8 @@ class PopoutFlowDiagram extends FlowDiagram {
 
   constructor(options?: FlowDiagramOptions) { super(options) }
 
-  override createMeshMaterial(purpose: string, color: ColorRepresentation): Material {
-    return new MeshStandardMaterial({ color, side: DoubleSide });
+  override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
+    return new MeshStandardMaterial(parameters);
   }
 
   override createLabel(label: FlowLabelParameters): FlowLabel {
@@ -208,7 +208,7 @@ class PopoutCircleNode extends FlowNode {
   constructor(diagram: PopoutFlowDiagram, parameters: PopoutShape) {
     super(diagram, parameters)
 
-    const mesh = new Mesh(this.createCircle(parameters), diagram.getMaterial('geometry', 'border', parameters.extrudecolor))
+    const mesh = new Mesh(this.createCircle(parameters), diagram.getMaterial('geometry', 'border', <MeshBasicMaterialParameters>{ color: parameters.extrudecolor }))
     mesh.position.z = 0.001
     mesh.castShadow = true
     this.add(mesh)
@@ -246,7 +246,7 @@ class PopoutStadiumNode extends FlowNode {
   constructor(diagram: PopoutFlowDiagram, parameters: PopoutShape) {
     super(diagram, parameters)
 
-    const mesh = new Mesh(this.createCircle(parameters), diagram.getMaterial('geometry', 'border', parameters.extrudecolor))
+    const mesh = new Mesh(this.createCircle(parameters), diagram.getMaterial('geometry', 'border', <MeshBasicMaterialParameters>{ color: parameters.extrudecolor }))
     mesh.position.set(this.width / 2 - 0.3, 0, 0.001)
     mesh.castShadow = true
     this.add(mesh)
