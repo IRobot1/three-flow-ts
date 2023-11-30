@@ -117,6 +117,8 @@ export class NodeConnectors {
     this.total[item.anchor]++;
 
     this.moveConnectors()
+    if (connector.transform)
+      FlowUtils.transformObject(connector.transform, connector)
 
     return connector
   }
@@ -176,14 +178,10 @@ export class NodeConnectors {
     if (anchor == 'left' || anchor == 'right') {
       const position = y + this.calculateOffset(count, connector.index, connector.width)
       connector.position.set(x, position, 0.001)
-      if (connector.transform)
-        FlowUtils.transformObject(connector.transform, connector)
     }
     else {
       const position = x + this.calculateOffset(count, connector.index, connector.width)
       connector.position.set(position, y, 0.001)
-      if (connector.transform)
-        FlowUtils.transformObject(connector.transform, connector)
     }
   }
 

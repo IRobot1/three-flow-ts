@@ -97,7 +97,7 @@ export class BasicExample {
           rotate: { z: 90 },
         },
         draggable: true,
-        resizable: false,
+        resizable: true,
         scalable: true,
         scale: 1,
         width: 1,
