@@ -1,10 +1,10 @@
-import { BufferGeometry, Material, MathUtils, Mesh, PlaneGeometry, Vector3 } from "three"
+import { BufferGeometry, Material, Mesh, PlaneGeometry, Vector3 } from "three"
 import { FlowNode } from "./node"
 import { InteractiveEventType } from "./three-interactive"
 import { FlowEventType, FlowHandleParameters } from "./model"
 
 export class ScaleNode {
-  selectable: Array<Mesh> = []
+  readonly selectable: Array<Mesh> = []
 
   constructor(private node: FlowNode, material: Material) {
     const points = this.createScaleHandles()
@@ -30,11 +30,14 @@ export class ScaleNode {
       this.selectable.push(mesh)
       node.add(mesh)
     })
-
   }
 
-  private scaling = false
+  stopScaling() {
+    this.selectable.forEach(mesh => mesh.dispatchEvent<any>({ type: InteractiveEventType.DRAGEND }))
+  }
 
+
+  private dragging = false
   private scaleready(mesh: Mesh, direction: number) {
     let startposition: Vector3
     let startscale: number
@@ -44,17 +47,16 @@ export class ScaleNode {
 
       startposition = e.position.clone()
       startscale = this.node.scale.x
-      this.scaling = true
+      this.dragging = true
     })
 
     mesh.addEventListener(InteractiveEventType.DRAGEND, () => {
-      if (!this.node.scalable || this.node.hidden) return
-      this.scaling = false
+      this.dragging = false
       mesh.visible = false
     })
 
     mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
-      if (!this.node.scalable || this.node.hidden) return
+      if (!this.dragging || !this.node.scalable || this.node.hidden) return
 
       const diff = e.position.sub(startposition) as Vector3
 
@@ -64,7 +66,7 @@ export class ScaleNode {
       this.node.scalar = startscale - (diff.x * 2 * startscale)
     });
 
-    mesh.addEventListener(InteractiveEventType.POINTERENTER, () => { if (!this.scaling) mesh.visible = true; });
+    mesh.addEventListener(InteractiveEventType.POINTERENTER, () => { if (!this.dragging) mesh.visible = true; });
     mesh.addEventListener(InteractiveEventType.POINTERLEAVE, () => { mesh.visible = false; });
 
   }

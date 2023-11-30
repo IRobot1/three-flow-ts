@@ -1,4 +1,4 @@
-import { Camera, Material, MeshBasicMaterialParameters, Renderer, WebGLRenderer } from "three";
+import { Camera, Material, MeshBasicMaterialParameters, WebGLRenderer } from "three";
 import { DragNode } from "./drag-node";
 import { FlowDiagram } from "./diagram";
 import { ThreeInteractive } from "./three-interactive";
@@ -10,6 +10,42 @@ import { FlowEventType } from "./model";
 export class FlowInteraction {
   private nodes: Array<NodeInteractive> = []
   readonly interactive: ThreeInteractive
+
+  private _draggable = true
+  get draggable() { return this._draggable }
+  set draggable(newvalue: boolean) {
+    if (this._draggable != newvalue) {
+      this._draggable = newvalue;
+      this.nodes.forEach(item => item.node.draggable = newvalue)
+    }
+  }
+
+  private _selectable = true
+  get selectable() { return this._selectable }
+  set selectable(newvalue: boolean) {
+    if (this._selectable != newvalue) {
+      this._selectable = newvalue;
+      this.nodes.forEach(item => item.node.selectable = newvalue)
+    }
+  }
+
+  private _resizable = true
+  get resizable() { return this._resizable }
+  set resizable(newvalue: boolean) {
+    if (this._resizable != newvalue) {
+      this._resizable = newvalue;
+      this.nodes.forEach(item => item.node.resizable = newvalue)
+    }
+  }
+
+  private _scalable = true
+  get scalable() { return this._scalable }
+  set scalable(newvalue: boolean) {
+    if (this._scalable != newvalue) {
+      this._scalable = newvalue;
+      this.nodes.forEach(item => item.node.scalable = newvalue)
+    }
+  }
 
   constructor(public flow: FlowDiagram, renderer: WebGLRenderer, camera: Camera) {
     this.interactive = this.createThreeInteractive(renderer, camera)
@@ -30,12 +66,20 @@ export class FlowInteraction {
       const node = e.node as FlowNode
       this.nodes.push(new NodeInteractive(node, this))
 
+      const selectableChanged = () => {
+        if (node.selectable)
+          this.interactive.selectable.add(node)
+        else
+          this.interactive.selectable.remove(node)
+      }
       // enable mouse enter/leave/missed events
-      if (node.selectable) this.interactive.selectable.add(node)
+      node.addEventListener(FlowEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
+      selectableChanged()
     })
 
     flow.addEventListener(FlowEventType.DISPOSE, () => this.dispose())
   }
+
 
   createThreeInteractive(renderer: WebGLRenderer, camera: Camera): ThreeInteractive {
     return new ThreeInteractive(renderer, camera)
@@ -63,6 +107,7 @@ class NodeInteractive {
         source.interactive.draggable.add(...this.nodeResizer.selectable)
       }
       else {
+        this.nodeResizer.stopResizing()
         source.interactive.selectable.remove(...this.nodeResizer.selectable)
         source.interactive.draggable.remove(...this.nodeResizer.selectable)
       }
@@ -77,6 +122,7 @@ class NodeInteractive {
         source.interactive.draggable.add(...this.nodeScaler.selectable)
       }
       else {
+        this.nodeScaler.stopScaling()
         source.interactive.selectable.remove(...this.nodeScaler.selectable)
         source.interactive.draggable.remove(...this.nodeScaler.selectable)
       }
@@ -88,8 +134,10 @@ class NodeInteractive {
     const drag = () => {
       if (node.draggable)
         source.interactive.draggable.add(node)
-      else
+      else {
+        this.nodeDragger.stopDragging()
         source.interactive.draggable.remove(node)
+      }
     }
     node.addEventListener(FlowEventType.DRAGGABLE_CHANGED, () => { drag() })
     drag()

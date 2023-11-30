@@ -1,4 +1,4 @@
-import { Object3D, Vector3 } from "three";
+import { Vector3 } from "three";
 import { InteractiveEventType } from "./three-interactive";
 import { FlowNode } from "./node";
 import { FlowEventType } from "./model";
@@ -7,7 +7,7 @@ export class DragNode {
 
   private dragging = false
 
-  constructor(node: FlowNode, gridSize: number) {
+  constructor(private node: FlowNode, gridSize: number) {
     const snapToGrid = (position: THREE.Vector3): THREE.Vector3 => {
       const gridSize = node.diagram.gridsize
       if (gridSize > 0) {
@@ -31,14 +31,17 @@ export class DragNode {
     node.addEventListener(InteractiveEventType.DRAGEND, () => { this.dragging = false });
 
     node.addEventListener(InteractiveEventType.DRAG, (e: any) => {
-      if (!node.draggable || node.hidden) return
+      if (!this.dragging || !node.draggable || node.hidden) return
 
       let position = e.position.clone() as Vector3
-      if (this.dragging) {
-        node.position.copy(snapToGrid(e.position.sub(offset)))
-        node.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
-      }
+
+      node.position.copy(snapToGrid(e.position.sub(offset)))
+      node.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
+
     });
   }
 
+  stopDragging() {
+    this.node.dispatchEvent<any>({ type: InteractiveEventType.DRAGEND })
+  }
 }

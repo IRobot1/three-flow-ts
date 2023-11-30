@@ -1,4 +1,4 @@
-import { Mesh, MaterialParameters, MeshBasicMaterialParameters, ColorRepresentation } from "three"
+import { Mesh, MeshBasicMaterialParameters } from "three"
 
 export interface FlowTransform {
   translate?: { x?: number, y?: number, z?: number }
@@ -142,6 +142,7 @@ export const FlowEventType = {
   DRAGGABLE_CHANGED: 'draggable_changed',
   SCALABLE_CHANGED: 'scalable_changed',
   RESIZABLE_CHANGED: 'resizable_changed',
+  SELECTABLE_CHANGED: 'selectable_changed',
   HIDDEN_CHANGED: 'hidden_changed',
 }
 
@@ -153,6 +154,6 @@ export interface LayoutResult {
 }
 
 export interface FlowLayout {
-  layout(nodes:Array<FlowNodeParameters>, edges:Array<FlowEdgeParameters>, options: any, filter?: (nodeId: string) => boolean): LayoutResult
+  layout(nodes: Array<FlowNodeParameters>, edges: Array<FlowEdgeParameters>, options: any, filter?: (nodeId: string) => boolean): LayoutResult
   dispose(): void
 }

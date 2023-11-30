@@ -1,11 +1,10 @@
-import { BufferGeometry, Material, MathUtils, Mesh, PlaneGeometry, Vector3 } from "three";
+import { BufferGeometry, Material, Mesh, PlaneGeometry, Vector3 } from "three";
 import { InteractiveEventType } from "./three-interactive";
 import { FlowNode } from "./node";
 import { FlowEventType, FlowHandleParameters } from "./model";
 
 export class ResizeNode {
-  selectable: Array<Mesh> = []
-
+  readonly selectable: Array<Mesh> = []
   constructor(private node: FlowNode, material: Material) {
     const points = this.createResizeHandles()
     points.forEach(point => {
@@ -32,6 +31,10 @@ export class ResizeNode {
     })
   }
 
+  stopResizing() {
+    this.selectable.forEach(mesh => mesh.dispatchEvent<any>({ type: InteractiveEventType.DRAGEND }))
+  }
+
   private dragging = false
   private resizeready(mesh: Mesh, width_direction = 1, height_direction = 1) {
 
@@ -48,14 +51,12 @@ export class ResizeNode {
       this.dragging = true
     })
     mesh.addEventListener(InteractiveEventType.DRAGEND, () => {
-      if (!this.node.resizable || this.node.hidden) return
-
       this.dragging = false
       mesh.visible = false
     })
 
     mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
-      if (!this.node.resizable || this.node.hidden) return
+      if (!this.dragging || !this.node.resizable || this.node.hidden) return
 
       const diff = e.position.sub(startposition) as Vector3
 

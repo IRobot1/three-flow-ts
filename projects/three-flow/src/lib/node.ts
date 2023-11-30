@@ -128,7 +128,15 @@ export class FlowNode extends Mesh {
     }
   }
 
-  selectable: boolean;
+  private _selectable: boolean;
+  get selectable() { return this._selectable }
+  set selectable(newvalue: boolean) {
+    if (this._selectable != newvalue) {
+      this._selectable = newvalue;
+      this.dispatchEvent<any>({ type: FlowEventType.SELECTABLE_CHANGED })
+    }
+  }
+
 
   private _scalar: number
   get scalar() { return this._scalar }
@@ -208,7 +216,7 @@ export class FlowNode extends Mesh {
     this._resizematparams = node.resizematerial ? node.resizematerial : { color: 'black' }
     this._draggable = node.draggable != undefined ? node.draggable : true
     this._scalable = node.scalable != undefined ? node.scalable : true
-    this.selectable = node.selectable != undefined ? node.selectable : true
+    this._selectable = node.selectable != undefined ? node.selectable : true
     this._scalermatparams = node.scalematerial ? node.scalematerial : { color: 'black' }
 
     this._scalar = node.scale ? node.scale : 1
