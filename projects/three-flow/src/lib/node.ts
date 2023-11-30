@@ -73,6 +73,8 @@ export class FlowNode extends Mesh {
   minheight: number;
   maxheight: number;
 
+  lockaspectratio: boolean;
+
   private _matparams!: MeshBasicMaterialParameters
   get color() { return this._matparams.color! }
   set color(newvalue: ColorRepresentation) {
@@ -193,6 +195,8 @@ export class FlowNode extends Mesh {
     this.minheight = node.minheight ? node.minheight : this.height;
     this.maxheight = node.maxheight ? node.maxheight : Number.POSITIVE_INFINITY
     this._matparams = node.material ? node.material : { color: 'white' }
+
+    this.lockaspectratio = node.lockaspectratio ? node.lockaspectratio : false
 
     if (!node.label) node.label = {}
     this.label = this.diagram.createLabel(node.label)

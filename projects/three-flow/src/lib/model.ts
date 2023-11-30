@@ -89,6 +89,7 @@ export interface FlowNodeParameters {
   height?: number
   minheight?: number
   maxheight?: number
+  lockaspectratio?: boolean
   material?: MeshBasicMaterialParameters
   label?: FlowLabelParameters
   labelanchor?: AnchorType

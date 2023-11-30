@@ -67,18 +67,18 @@ export class ProcessExample {
     const hidden = true
 
     const start = flow.addNode(<ProcessShape>{
-      x: -4, label: { text: 'Start', size: 0.15, material: { color: 'white' }, }, shape: 'circle',
+      x: -4, label: { text: 'Start', size: 0.15, material: { color: 'white' }, }, shape: 'circle', lockaspectratio: true,
       connectors: [
         { id: 'c1start', anchor: 'right', hidden }
       ]
     })
 
     const decision = flow.addNode(<ProcessShape>{
-      x: -2, label: { text: 'Decision', size: 0.15, material: { color: 'white' }, }, shape: 'rhombus',
+      x: -2, label: { text: 'Decision', size: 0.15, material: { color: 'white' }, }, shape: 'rhombus', lockaspectratio: true,
       connectors: [
-        { id: 'c1decision', anchor: 'left', hidden},
-        { id: 'c2decision', anchor: 'top', hidden},
-        { id: 'c3decision', anchor: 'right', hidden},
+        { id: 'c1decision', anchor: 'left', hidden },
+        { id: 'c2decision', anchor: 'top', hidden },
+        { id: 'c3decision', anchor: 'right', hidden },
         { id: 'c4decision', anchor: 'bottom', hidden },
       ]
     })
@@ -127,7 +127,7 @@ export class ProcessExample {
     flow.addEdge({ from: process3.name, to: action.name, fromconnector: 'c2process3', toconnector: 'c4action', linestyle: 'split' })
 
     const end = flow.addNode(<ProcessShape>{
-      x: 4, height: 0.5, label: { text: 'End', size: 0.15, material: { color: 'white' }, }, shape: 'circle',
+      x: 4, width: 0.5, height: 0.5, label: { text: 'End', size: 0.15, material: { color: 'white' }, }, shape: 'circle', lockaspectratio: true,
       connectors: [
         { id: 'c1end', anchor: 'left', hidden },
       ]
@@ -237,7 +237,7 @@ class ProcessNode extends FlowNode {
   }
 
   private rhombusShape(width: number, height: number): Shape {
-    const halfwidth = width / 2 
+    const halfwidth = width / 2
     const halfheight = halfwidth
 
     const shape = new Shape()

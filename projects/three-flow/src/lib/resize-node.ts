@@ -71,6 +71,14 @@ export class ResizeNode {
 
         this.node.height = startheight - diff.y * 2
       }
+
+      if (this.node.lockaspectratio) {
+        if (width_direction)
+          this.node.height = startheight - diff.x * 2
+        if (height_direction)
+          this.node.width = startwidth - diff.y * 2
+      }
+
     });
 
 
@@ -99,7 +107,6 @@ export class ResizeNode {
         mesh.position.x = -this.node.width / 2
       },
       heightchange: (mesh: Mesh) => {
-        //mesh.position.y = this.node.height / 2 - this.node.labelsize * 1.2
       },
       width_direction: 1,
       height_direction: 0
@@ -110,7 +117,6 @@ export class ResizeNode {
         mesh.position.x = this.node.width / 2
       },
       heightchange: (mesh: Mesh) => {
-        //mesh.position.y = this.node.height / 2 - this.node.labelsize * 1.2
       },
       width_direction: -1,
       height_direction: 0
