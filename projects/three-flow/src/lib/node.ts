@@ -15,6 +15,7 @@ export class FlowNode extends Mesh {
         break;
       case 'top':
       case 'bottom':
+      case 'center':
         xdiff = 0
         break;
     }
@@ -29,6 +30,7 @@ export class FlowNode extends Mesh {
         break;
       case 'left':
       case 'right':
+      case 'center':
         ydiff = 0
         break;
     }
