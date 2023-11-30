@@ -1,4 +1,4 @@
-import { BufferGeometry, CatmullRomCurve3, CircleGeometry, ColorRepresentation, Curve, CurvePath, DoubleSide, LineCurve3, Material, MaterialParameters, Mesh, MeshBasicMaterialParameters, MeshStandardMaterial, Path, PlaneGeometry, Scene, Shape, ShapeGeometry, SpotLight, TubeGeometry, Vector2, Vector3 } from "three";
+import { MathUtils, BufferGeometry, CatmullRomCurve3, CircleGeometry, ColorRepresentation, Curve, CurvePath, DoubleSide, LineCurve3, Material, MaterialParameters, Mesh, MeshBasicMaterialParameters, MeshStandardMaterial, Path, PlaneGeometry, Scene, Shape, ShapeGeometry, SpotLight, TubeGeometry, Vector2, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
@@ -13,9 +13,9 @@ import {
   FlowEdge,
   FlowInteraction,
   FlowDiagramOptions,
+  FlowEventType,
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
-import { MathUtils } from "three/src/math/MathUtils";
 
 type ProcessShapeType = 'circle' | 'rhombus' | 'rect' | 'parallel'
 interface ProcessShape extends FlowNodeParameters {
@@ -64,20 +64,22 @@ export class ProcessExample {
 
     const connectors = new FlowConnectors(flow)
 
+    const hidden = true
+
     const start = flow.addNode(<ProcessShape>{
       x: -4, label: { text: 'Start', size: 0.15, material: { color: 'white' }, }, shape: 'circle',
       connectors: [
-        { id: 'c1start', anchor: 'right', hidden: true }
+        { id: 'c1start', anchor: 'right', hidden }
       ]
     })
 
     const decision = flow.addNode(<ProcessShape>{
       x: -2, label: { text: 'Decision', size: 0.15, material: { color: 'white' }, }, shape: 'rhombus',
       connectors: [
-        { id: 'c1decision', anchor: 'left', hidden: true, transform: { translate: { x: -0.1 } } },
-        { id: 'c2decision', anchor: 'top', hidden: true, transform: { translate: { y: 0.1 } } },
-        { id: 'c3decision', anchor: 'right', hidden: true, transform: { translate: { x: 0.1 } } },
-        { id: 'c4decision', anchor: 'bottom', hidden: true, transform: { translate: { y: -0.1 } } },
+        { id: 'c1decision', anchor: 'left', hidden},
+        { id: 'c2decision', anchor: 'top', hidden},
+        { id: 'c3decision', anchor: 'right', hidden},
+        { id: 'c4decision', anchor: 'bottom', hidden },
       ]
     })
 
@@ -87,8 +89,8 @@ export class ProcessExample {
     const process1 = flow.addNode(<ProcessShape>{
       y: 1, height: 0.5, label: { text: 'Process 1', size: 0.15, material: { color: 'white' }, }, shape: 'rect',
       connectors: [
-        { id: 'c1process1', anchor: 'left', hidden: true },
-        { id: 'c2process1', anchor: 'right', hidden: true },
+        { id: 'c1process1', anchor: 'left', hidden },
+        { id: 'c2process1', anchor: 'right', hidden },
       ]
     })
     flow.addEdge({ from: decision.name, to: process1.name, fromconnector: 'c2decision', toconnector: 'c1process1', linestyle: 'split' })
@@ -96,8 +98,8 @@ export class ProcessExample {
     const process2 = flow.addNode(<ProcessShape>{
       height: 0.5, label: { text: 'Process 2', size: 0.15, material: { color: 'white' }, }, shape: 'rect',
       connectors: [
-        { id: 'c1process2', anchor: 'left', hidden: true },
-        { id: 'c2process2', anchor: 'right', hidden: true },
+        { id: 'c1process2', anchor: 'left', hidden },
+        { id: 'c2process2', anchor: 'right', hidden },
       ]
     })
     flow.addEdge({ from: decision.name, to: process2.name, fromconnector: 'c3decision', toconnector: 'c1process2' })
@@ -105,8 +107,8 @@ export class ProcessExample {
     const process3 = flow.addNode(<ProcessShape>{
       y: -1, height: 0.5, label: { text: 'Process 3', size: 0.15, material: { color: 'white' }, }, shape: 'rect',
       connectors: [
-        { id: 'c1process3', anchor: 'left', hidden: true },
-        { id: 'c2process3', anchor: 'right', hidden: true },
+        { id: 'c1process3', anchor: 'left', hidden },
+        { id: 'c2process3', anchor: 'right', hidden },
       ]
     })
     flow.addEdge({ from: decision.name, to: process3.name, fromconnector: 'c4decision', toconnector: 'c1process3', linestyle: 'split' })
@@ -114,10 +116,10 @@ export class ProcessExample {
     const action = flow.addNode(<ProcessShape>{
       x: 2, height: 0.5, label: { text: 'Action', size: 0.15, material: { color: 'white' }, }, shape: 'parallel',
       connectors: [
-        { id: 'c1action', anchor: 'left', hidden: true },
-        { id: 'c2action', anchor: 'top', hidden: true },
-        { id: 'c3action', anchor: 'right', hidden: true },
-        { id: 'c4action', anchor: 'bottom', hidden: true },
+        { id: 'c1action', anchor: 'left', hidden },
+        { id: 'c2action', anchor: 'top', hidden },
+        { id: 'c3action', anchor: 'right', hidden },
+        { id: 'c4action', anchor: 'bottom', hidden },
       ]
     })
     flow.addEdge({ from: process1.name, to: action.name, fromconnector: 'c2process1', toconnector: 'c2action', linestyle: 'split' })
@@ -127,7 +129,7 @@ export class ProcessExample {
     const end = flow.addNode(<ProcessShape>{
       x: 4, height: 0.5, label: { text: 'End', size: 0.15, material: { color: 'white' }, }, shape: 'circle',
       connectors: [
-        { id: 'c1end', anchor: 'left', hidden: true },
+        { id: 'c1end', anchor: 'left', hidden },
       ]
     })
     flow.addEdge({ from: action.name, to: end.name, fromconnector: 'c3action', toconnector: 'c1end' })
@@ -182,15 +184,23 @@ class ProcessNode extends FlowNode {
     parameters.material = { color: '#018083' }
     super(diagram, parameters)
 
-    const geometry = this.makeGeometry(parameters.shape, parameters.width! + 0.05, parameters.height! + 0.05)
-    const mesh = new Mesh(geometry, diagram.getMaterial('geometry', 'border', <MeshBasicMaterialParameters>{ color: 'white' }))
+    const mesh = new Mesh()
+    mesh.material = diagram.getMaterial('geometry', 'border', <MeshBasicMaterialParameters>{ color: 'white' })
     mesh.position.z = -0.001
     mesh.castShadow = true
     this.add(mesh)
+
+    const updateGeometry = () => {
+      mesh.geometry = this.makeGeometry(parameters.shape, this.width + 0.05, this.height + 0.05)
+    }
+    updateGeometry()
+
+    this.addEventListener(FlowEventType.WIDTH_CHANGED, updateGeometry)
+    this.addEventListener(FlowEventType.HEIGHT_CHANGED, updateGeometry)
   }
 
   override createGeometry(parameters: ProcessShape): BufferGeometry {
-    return this.makeGeometry(parameters.shape, parameters.width!, parameters.height!)
+    return this.makeGeometry(parameters.shape, this.width, this.height)
   }
 
   private makeGeometry(shape: ProcessShapeType, width: number, height: number): BufferGeometry {
@@ -227,9 +237,8 @@ class ProcessNode extends FlowNode {
   }
 
   private rhombusShape(width: number, height: number): Shape {
-    const padding = 0.1
-    const halfwidth = width / 2 + padding
-    const halfheight = halfwidth //height / 2 + padding
+    const halfwidth = width / 2 
+    const halfheight = halfwidth
 
     const shape = new Shape()
       .moveTo(0, -halfheight)
