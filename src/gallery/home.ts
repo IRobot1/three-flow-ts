@@ -101,11 +101,15 @@ export class GalleryExample {
 
     const interactive = new ThreeInteractive(app, app.camera)
 
+    const row1 = 2.5
+    const row2 = 1
+    const row3 = -0.5
+
     const nodes: Tile[] = [
       {
         id: "basic",
         assetimage: 'basic', route: 'basic',
-        y: 2.5,
+        y: row1,
         label: { text: "Basic" },
         connectors: [
           { id: "c1basic", anchor: 'left', material: { color: 'white' }, },
@@ -115,7 +119,7 @@ export class GalleryExample {
       },
       {
         id: 'custom',
-        x: 1.5, y: 1,
+        x: 1.5, y: row2,
         assetimage: 'geometry', route: 'geometry',
         label: { text: "Custom Geometry" },
         connectors: [
@@ -126,7 +130,7 @@ export class GalleryExample {
       {
         id: 'builder',
         label: { text: "Builder" },
-        x: -1.5, y: 1,
+        x: -1.5, y: row2,
         assetimage: 'builder', route: 'builder',
         connectors: [
           { id: "c1builder", anchor: 'top', material: { color: 'white' }, },
@@ -135,7 +139,7 @@ export class GalleryExample {
       },
       {
         id: 'loader',
-        x: 0, y: -0.5,
+        x: 0, y: row3,
         label: { text: "Loader from JSON" },
         assetimage: 'loader', route: 'loader',
         connectors: [
@@ -145,7 +149,7 @@ export class GalleryExample {
       {
         id: 'languages',
         label: { text: "Languages" },
-        x: -3, y: -0.5,
+        x: -3, y: row3,
         assetimage: 'languages', route: 'languages',
         connectors: [
           { id: "c1languages", anchor: 'top', material: { color: 'white' }, },
@@ -154,7 +158,7 @@ export class GalleryExample {
       {
         id: 'civilization',
         label: { text: "Civiilization Tech Tree" },
-        x: -1.5, y: -0.5,
+        x: -1.5, y: row3,
         assetimage: 'civilization', route: 'civilization',
         connectors: [
           { id: "c1civilization", anchor: 'top', material: { color: 'white' }, },
@@ -163,7 +167,7 @@ export class GalleryExample {
       {
         id: 'mermaid',
         label: { text: "Mermaid Flowchart" },
-        x: 1.5, y: -0.5,
+        x: 1.5, y: row3,
         assetimage: 'mermaid', route: 'mermaid',
         connectors: [
           { id: "c1mermaid", anchor: 'top', material: { color: 'white' }, },
@@ -172,17 +176,17 @@ export class GalleryExample {
       {
         id: 'visuals',
         label: { text: "Visuals" },
-        x: 4.5, y: 1,
+        x: 4.5, y: row1,
         assetimage: 'visuals', route: 'visuals',
         connectors: [
-          { id: "c1visuals", anchor: 'top', material: { color: 'white' }, },
+          { id: "c1visuals", anchor: 'left', material: { color: 'white' }, },
           { id: "c2visuals", anchor: 'bottom', material: { color: 'white' }, },
         ],
       },
       {
         id: 'popout',
         label: { text: "2D Popout" },
-        x: 3, y: -0.5,
+        x: 3, y: row2,
         assetimage: 'popout', route: 'popout',
         connectors: [
           { id: "c1popout", anchor: 'top', material: { color: 'white' }, },
@@ -191,7 +195,7 @@ export class GalleryExample {
       {
         id: 'frames',
         label: { text: "Tranparent Frames" },
-        x: 4.5, y: -0.5,
+        x: 4.5, y: row2,
         assetimage: 'frames', route: 'frames',
         connectors: [
           { id: "c1frames", anchor: 'top', material: { color: 'white' }, },
@@ -200,7 +204,7 @@ export class GalleryExample {
       {
         id: 'edgestyles',
         label: { text: "Edge Styles" },
-        x: 0, y: 1,
+        x: 0, y: row2,
         assetimage: 'edgestyles', route: 'edgestyles',
         connectors: [
           { id: "c1edgestyles", anchor: 'top', material: { color: 'white' }, },
@@ -209,7 +213,7 @@ export class GalleryExample {
       {
         id: 'documentation',
         label: { text: "Flow Relationships" },
-        x: -3, y: 1,
+        x: -3, y: row2,
         assetimage: 'documentation', route: 'documentation',
         connectors: [
           { id: "c1documentation", anchor: 'top', material: { color: 'white' }, },
@@ -218,10 +222,20 @@ export class GalleryExample {
       {
         id: 'podium',
         label: { text: "Podium Timeline" },
-        x: 6, y: -0.5,
+        x: 6, y: row2,
         assetimage: 'podium', route: 'podium',
         connectors: [
           { id: "c1podium", anchor: 'top', material: { color: 'white' }, },
+          { id: "c2podium", anchor: 'bottom', material: { color: 'white' }, },
+        ],
+      },
+      {
+        id: 'banner',
+        label: { text: "Banners" },
+        x: 3, y: row3,
+        assetimage: 'banner', route: 'banner',
+        connectors: [
+          { id: "c1banner", anchor: 'top', material: { color: 'white' }, },
         ],
       },
     ];
@@ -299,6 +313,12 @@ export class GalleryExample {
         to: "documentation",
         fromconnector: "c1basic",
         toconnector: "c1documentation"
+      },
+      {
+        from: "popout",
+        to: "banner",
+        fromconnector: "c2popout",
+        toconnector: "c1banner"
       },
     ];
 

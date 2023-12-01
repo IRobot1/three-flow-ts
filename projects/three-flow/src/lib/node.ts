@@ -45,7 +45,7 @@ export class FlowNode extends Mesh {
     if (this._width != newvalue) {
       const diff = newvalue - this._width
       this._width = newvalue
-      this.resizeGeometry()
+      this._resizeGeometry()
 
       // move label by difference in width change
       this.moveLabelX(diff / 2)
@@ -63,7 +63,7 @@ export class FlowNode extends Mesh {
     if (this._height != newvalue) {
       const diff = newvalue - this._height
       this._height = newvalue
-      this.resizeGeometry()
+      this._resizeGeometry()
 
       // move label by difference in height change
       this.moveLabelY(diff / 2)
@@ -252,8 +252,7 @@ export class FlowNode extends Mesh {
     // allow derived classes access to "this" by delaying one frame or to override methods
     requestAnimationFrame(() => {
       this.updateLabel();
-      this.resizeGeometry()
-      this.updateVisuals();
+      this._resizeGeometry()
     })
   }
 
@@ -293,16 +292,14 @@ export class FlowNode extends Mesh {
       FlowUtils.transformObject(this.labeltransform, this.label.labelMesh)
   }
 
-  private resizeGeometry() {
+  private _resizeGeometry() {
     this.geometry.dispose()
     this.geometry = this.createGeometry(this.node)
+    this.resizeGeometry()
   }
 
-  updateVisuals() { }
-
-
-
   // overridable
+
   createGeometry(parameters: FlowNodeParameters): BufferGeometry {
     return new PlaneGeometry(this.width, this.height)
   }
@@ -311,6 +308,7 @@ export class FlowNode extends Mesh {
     return this
   }
 
-  save: () => void
+  resizeGeometry() { }
 
+  save: () => void
 }
