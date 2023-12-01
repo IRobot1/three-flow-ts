@@ -13,6 +13,7 @@ import {
   FlowEdge,
   FlowDiagramOptions,
   FlowInteraction,
+  FlowEventType,
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 import { MathUtils } from "three/src/math/MathUtils";
@@ -86,6 +87,8 @@ export class PopoutExample {
 
     const top = flow.addNode(<PopoutShape>{
       y: 1, shape: 'circle', material: { color: 'black' }, extrudecolor: '#545B5B', extruderadius: 0.35, extrudedepth: 0.05,
+      lockaspectratio: true,
+      resizematerial: { color: 'white' },
       icon: 'diversity_3',
       label: {
         text: 'Lorem ipsum dolor sit amet, consectetur', size: 0.05, wrapwidth: 0.5,
@@ -147,7 +150,7 @@ export class PopoutExample {
 
 
     const A = flow.addNode(<PopoutShape>{
-      x: x - 0.7, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05,
+      x: x - 0.7, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05, lockaspectratio: true,
       label: { text: 'A', size: 0.25, material: { color: 'white' }, },
       labeltransform: { translate: { z: 0.051 } },
       shape: 'circle', material: { color: parameters.Acolor }, extrudecolor: parameters.Aextrudecolor,
@@ -158,7 +161,7 @@ export class PopoutExample {
     flow.addEdge({ from: node.name, to: A.name, fromconnector: 'c2' + prefix, toconnector: prefix + 'lefttop', material: { color: 'black' }, linestyle: 'split' })
 
     const B = flow.addNode(<PopoutShape>{
-      x, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05,
+      x, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05, lockaspectratio: true,
       label: { text: 'B', size: 0.25, material: { color: 'white' }, },
       labeltransform: { translate: { z: 0.051 } },
       shape: 'circle', material: { color: parameters.Bcolor }, extrudecolor: parameters.Bextrudecolor,
@@ -169,7 +172,7 @@ export class PopoutExample {
     flow.addEdge({ from: node.name, to: B.name, fromconnector: 'c3' + prefix, toconnector: prefix + 'middletop', material: { color: 'black' }, })
 
     const C = flow.addNode(<PopoutShape>{
-      x: x + 0.7, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05,
+      x: x + 0.7, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05, lockaspectratio: true,
       label: { text: 'C', size: 0.25, material: { color: 'white' }, },
       labeltransform: { translate: { z: 0.051 } },
       shape: 'circle', material: { color: parameters.Ccolor }, extrudecolor: parameters.Cextrudecolor,
@@ -206,12 +209,22 @@ class PopoutFlowDiagram extends FlowDiagram {
 
 class PopoutCircleNode extends FlowNode {
   constructor(diagram: PopoutFlowDiagram, parameters: PopoutShape) {
+    parameters.scalable = false
     super(diagram, parameters)
 
-    const mesh = new Mesh(this.createCircle(parameters), diagram.getMaterial('geometry', 'border', <MeshBasicMaterialParameters>{ color: parameters.extrudecolor }))
+    const mesh = new Mesh()
+    mesh.material = diagram.getMaterial('geometry', 'border', <MeshBasicMaterialParameters>{ color: parameters.extrudecolor })
     mesh.position.z = 0.001
     mesh.castShadow = true
     this.add(mesh)
+
+    const diff = this.width / 2 - parameters.extruderadius
+    const updateGeometry = () => {
+      mesh.geometry = this.createCircle(parameters, diff)
+    }
+    updateGeometry()
+    this.addEventListener(FlowEventType.WIDTH_CHANGED, updateGeometry)
+    this.addEventListener(FlowEventType.HEIGHT_CHANGED, updateGeometry)
 
     if (parameters.icon) {
       const iconparams = <FlowLabelParameters>{ text: parameters.icon, isicon: true, size: 0.3, material: { color: 'white' }, }
@@ -227,9 +240,9 @@ class PopoutCircleNode extends FlowNode {
     return new CircleGeometry(this.width / 2, 64)
   }
 
-  createCircle(parameters: PopoutShape): BufferGeometry {
+  createCircle(parameters: PopoutShape, diff: number): BufferGeometry {
     const circleShape = new Shape();
-    const radius = parameters.extruderadius; // radius of the circle
+    const radius = this.width / 2 - diff; // radius of the circle
     circleShape.absarc(0, 0, radius, 0, Math.PI * 2, false);
 
     // Define extrusion settings
@@ -244,6 +257,7 @@ class PopoutCircleNode extends FlowNode {
 }
 class PopoutStadiumNode extends FlowNode {
   constructor(diagram: PopoutFlowDiagram, parameters: PopoutShape) {
+    parameters.maxheight = parameters.width! / 2
     super(diagram, parameters)
 
     const mesh = new Mesh(this.createCircle(parameters), diagram.getMaterial('geometry', 'border', <MeshBasicMaterialParameters>{ color: parameters.extrudecolor }))
