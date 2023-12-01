@@ -215,6 +215,15 @@ export class GalleryExample {
           { id: "c1documentation", anchor: 'top', material: { color: 'white' }, },
         ],
       },
+      {
+        id: 'podium',
+        label: { text: "Podium Timeline" },
+        x: 6, y: -0.5,
+        assetimage: 'podium', route: 'podium',
+        connectors: [
+          { id: "c1podium", anchor: 'top', material: { color: 'white' }, },
+        ],
+      },
     ];
 
 
@@ -272,6 +281,12 @@ export class GalleryExample {
         to: "frames",
         fromconnector: "c2visuals",
         toconnector: "c1frames"
+      },
+      {
+        from: "visuals",
+        to: "podium",
+        fromconnector: "c2visuals",
+        toconnector: "c1podium"
       },
       {
         from: "basic",
