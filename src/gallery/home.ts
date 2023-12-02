@@ -199,6 +199,7 @@ export class GalleryExample {
         assetimage: 'frames', route: 'frames',
         connectors: [
           { id: "c1frames", anchor: 'top', material: { color: 'white' }, },
+          { id: "c2frames", anchor: 'bottom', material: { color: 'white' }, },
         ],
       },
       {
@@ -236,6 +237,15 @@ export class GalleryExample {
         assetimage: 'banner', route: 'banner',
         connectors: [
           { id: "c1banner", anchor: 'top', material: { color: 'white' }, },
+        ],
+      },
+      {
+        id: 'livedata',
+        label: { text: "Live Data" },
+        x: 4.5, y: row3,
+        assetimage: 'livedata', route: 'livedata',
+        connectors: [
+          { id: "c1livedata", anchor: 'top', material: { color: 'white' }, },
         ],
       },
     ];
@@ -319,6 +329,12 @@ export class GalleryExample {
         to: "banner",
         fromconnector: "c2popout",
         toconnector: "c1banner"
+      },
+      {
+        from: "frames",
+        to: "livedata",
+        fromconnector: "c2frames",
+        toconnector: "c1livedata"
       },
     ];
 

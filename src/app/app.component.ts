@@ -15,6 +15,7 @@ import { EdgeStylesExample } from '../examples/edge-styles';
 import { DocumentationExample } from '../examples/documentation';
 import { PodiumExample } from '../examples/podium';
 import { BannerExample } from '../examples/banner';
+import { ComputerNetworkExample } from '../examples/live-data/computer-network';
 
 
 @Component({
@@ -42,5 +43,6 @@ export class AppComponent {
     app.router.add('documentation', () => { return new DocumentationExample(app) })
     app.router.add('podium', () => { return new PodiumExample(app) })
     app.router.add('banner', () => { return new BannerExample(app) })
+    app.router.add('livedata', () => { return new ComputerNetworkExample(app) })
   }
 }
