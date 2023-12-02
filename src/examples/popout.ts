@@ -219,12 +219,10 @@ class PopoutCircleNode extends FlowNode {
     this.add(mesh)
 
     const diff = this.width / 2 - parameters.extruderadius
-    const updateGeometry = () => {
+
+    this.resizeGeometry = () => {
       mesh.geometry = this.createCircle(parameters, diff)
     }
-    updateGeometry()
-    this.addEventListener(FlowEventType.WIDTH_CHANGED, updateGeometry)
-    this.addEventListener(FlowEventType.HEIGHT_CHANGED, updateGeometry)
 
     if (parameters.icon) {
       const iconparams = <FlowLabelParameters>{ text: parameters.icon, isicon: true, size: 0.3, material: { color: 'white' }, }

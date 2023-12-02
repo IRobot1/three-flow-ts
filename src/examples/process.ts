@@ -190,13 +190,9 @@ class ProcessNode extends FlowNode {
     mesh.castShadow = true
     this.add(mesh)
 
-    const updateGeometry = () => {
+    this.resizeGeometry = () => {
       mesh.geometry = this.makeGeometry(parameters.shape, this.width + 0.05, this.height + 0.05)
     }
-    updateGeometry()
-
-    this.addEventListener(FlowEventType.WIDTH_CHANGED, updateGeometry)
-    this.addEventListener(FlowEventType.HEIGHT_CHANGED, updateGeometry)
   }
 
   override createGeometry(parameters: ProcessShape): BufferGeometry {
