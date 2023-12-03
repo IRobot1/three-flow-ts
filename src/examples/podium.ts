@@ -73,7 +73,7 @@ export class PodiumExample {
     background.add(flow);
     flow.position.z = 0.01
 
-    new FlowInteraction(flow, app, app.camera)
+    const interaction = new FlowInteraction(flow, app, app.camera)
 
     const connectors = new FlowConnectors(flow)
 
@@ -131,6 +131,7 @@ export class PodiumExample {
 
 
     this.dispose = () => {
+      interaction.dispose()
       orbit.dispose()
     }
 

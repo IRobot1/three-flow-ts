@@ -170,6 +170,7 @@ export class BasicExample {
 
 
     const gui = new GUI();
+    let interaction: FlowInteraction
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
       const options: FlowDiagramOptions = {
@@ -184,7 +185,7 @@ export class BasicExample {
       scene.add(flow);
 
       // make the flow interactive
-      new FlowInteraction(flow, app, app.camera)
+      interaction = new FlowInteraction(flow, app, app.camera)
       const connectors = new FlowConnectors(flow)
 
       let triangle: BufferGeometry
@@ -310,6 +311,7 @@ export class BasicExample {
 
 
     this.dispose = () => {
+      interaction.dispose()
       gui.destroy()
       orbit.dispose()
     }

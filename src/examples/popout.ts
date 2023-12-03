@@ -17,6 +17,8 @@ import {
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 import { MathUtils } from "three/src/math/MathUtils";
+import GUI from "three/examples/jsm/libs/lil-gui.module.min";
+import { FlowProperties } from "./flow-properties";
 
 type PopoutShapeType = 'circle' | 'stadium'
 interface PopoutShape extends FlowNodeParameters {
@@ -81,9 +83,9 @@ export class PopoutExample {
     background.add(flow);
     flow.position.z = 0.1
 
-    new FlowInteraction(flow, app, app.camera)
-
+    const interaction = new FlowInteraction(flow, app, app.camera)
     new FlowConnectors(flow)
+    const properties = new FlowProperties(flow)
 
     const top = flow.addNode(<PopoutShape>{
       y: 1, shape: 'circle', material: { color: 'black' }, extrudecolor: '#545B5B', extruderadius: 0.35, extrudedepth: 0.05,
@@ -128,6 +130,8 @@ export class PopoutExample {
 
 
     this.dispose = () => {
+      interaction.dispose()
+      properties.dispose()
       orbit.dispose()
     }
 
@@ -224,14 +228,33 @@ class PopoutCircleNode extends FlowNode {
       mesh.geometry = this.createCircle(parameters, diff)
     }
 
+    let icon: FlowLabel | undefined
     if (parameters.icon) {
       const iconparams = <FlowLabelParameters>{ text: parameters.icon, isicon: true, size: 0.3, material: { color: 'white' }, }
-      const icon = diagram.createLabel(iconparams)
+      icon = diagram.createLabel(iconparams)
       icon.position.set(0, 0.15, 0.051)
       icon.updateLabel()
 
       this.add(icon)
     }
+
+    this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
+      const gui = e.gui as GUI
+
+      if (icon) gui.add<any, any>(icon, 'text').name('Icon').onChange(() => {
+        if (icon) icon.updateLabel()
+      })
+      gui.add<any, any>(this.label, 'text').name('Label')
+      gui.add<any, any>(this.label, 'size', 0.1, 1).name('Label Size')
+      gui.addColor(this, 'color').name('Base Color')
+      gui.addColor<any, any>(mesh.material, 'color').name('Button Color')
+      gui.add<any, any>(this, 'resizable').name('Resizable')
+      gui.add<any, any>(this, 'draggable').name('Draggable')
+      gui.add<any, any>(this, 'hidden').name('Hidden')
+
+    })
+
+
   }
 
   override createGeometry(parameters: PopoutShape): BufferGeometry {
@@ -278,6 +301,22 @@ class PopoutStadiumNode extends FlowNode {
     subtitle.position.set(-0.2, -0.05, subtitle.position.z)
     this.add(subtitle)
 
+    this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
+      const gui = e.gui as GUI
+
+      gui.add<any, any>(this.label, 'text').name('Title')
+      gui.add<any, any>(subtitle, 'text').name('Subtitle')
+      gui.add<any, any>(this.label, 'size', 0.1, 1).name('Label Size')
+      gui.addColor(this, 'color').name('Base Color')
+      gui.addColor<any, any>(mesh.material, 'color').name('Button Color')
+      if (icon) gui.add<any, any>(icon, 'text').name('Button Icon').onChange(() => {
+        if (icon) icon.updateLabel()
+      })
+      gui.add<any, any>(this, 'resizable').name('Resizable')
+      gui.add<any, any>(this, 'draggable').name('Draggable')
+      gui.add<any, any>(this, 'hidden').name('Hidden')
+
+    })
 
   }
 

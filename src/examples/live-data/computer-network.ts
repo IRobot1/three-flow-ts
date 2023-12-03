@@ -87,6 +87,7 @@ export class ComputerNetworkExample {
       });
     }, 5000);
     this.dispose = () => {
+      interaction.dispose()
       orbit.dispose()
     }
 

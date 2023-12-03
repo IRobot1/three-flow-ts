@@ -69,7 +69,7 @@ export class BannerExample {
     scene.add(flow);
     flow.position.z = 0.3
 
-    new FlowInteraction(flow, app, app.camera)
+    const interaction = new FlowInteraction(flow, app, app.camera)
 
     const connectors = new FlowConnectors(flow)
 
@@ -134,6 +134,7 @@ export class BannerExample {
     })
 
     this.dispose = () => {
+      interaction.dispose()
       orbit.dispose()
     }
 

@@ -180,7 +180,7 @@ export class CustomGeometryExample {
     }
 
     const gui = new GUI();
-
+    let interaction:FlowInteraction
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
       const options: FlowDiagramOptions = {
@@ -197,7 +197,7 @@ export class CustomGeometryExample {
       scene.add(flow);
 
       // make the flow interactive
-      new FlowInteraction(flow, app, app.camera)
+      interaction = new FlowInteraction(flow, app, app.camera)
 
       flow.load(diagram)
       console.log(flow)
@@ -237,6 +237,7 @@ export class CustomGeometryExample {
 
 
     this.dispose = () => {
+      interaction.dispose()
       gui.destroy()
       orbit.dispose()
     }

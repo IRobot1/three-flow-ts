@@ -124,6 +124,7 @@ export class MermaidExample {
       dropdown.appendChild(optionElement)
     })
 
+    let interaction: FlowInteraction
     const loader = new FontLoader()
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
 
@@ -144,7 +145,7 @@ export class MermaidExample {
       }
 
       // make the flow interactive
-      new FlowInteraction(flow, app, app.camera)
+      interaction = new FlowInteraction(flow, app, app.camera)
 
       let parsedOutput: MermaidFlowchart
       // Parse the flowchart
@@ -203,6 +204,7 @@ export class MermaidExample {
 
       this.dispose = () => {
         document.body.removeChild(dropdown)
+        interaction.dispose()
         flow.dispose()
         orbit.dispose()
       }

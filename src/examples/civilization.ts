@@ -52,7 +52,7 @@ export class CivilizationExample {
     //scene.add(new AxesHelper())
 
     const loader = new FontLoader();
-
+    let interaction:FlowInteraction
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
       const options: FlowDiagramOptions = {
@@ -68,7 +68,7 @@ export class CivilizationExample {
       flow.rotation.x = MathUtils.degToRad(-15) 
 
       // make the flow interactive
-      new FlowInteraction(flow, app, app.camera)
+      interaction = new FlowInteraction(flow, app, app.camera)
 
       civilizationdata.forEach(tech => {
         const from = tech.tech_name;
@@ -125,6 +125,7 @@ export class CivilizationExample {
     });
 
     this.dispose = () => {
+      interaction.dispose()
       orbit.dispose()
     }
 

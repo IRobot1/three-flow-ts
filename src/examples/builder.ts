@@ -53,6 +53,7 @@ export class BuilderExample {
     })
 
     const loader = new FontLoader();
+    let interaction: FlowInteraction
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
       const options: FlowDiagramOptions = {
@@ -92,7 +93,7 @@ export class BuilderExample {
         return result;
       };
       // make the flow interactive
-      new FlowInteraction(flow, app, app.camera)
+      interaction = new FlowInteraction(flow, app, app.camera)
 
 
       // build the diagram programmatically
@@ -157,6 +158,7 @@ export class BuilderExample {
 
 
     this.dispose = () => {
+      interaction.dispose()
       orbit.dispose()
     }
 

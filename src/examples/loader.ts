@@ -95,6 +95,8 @@ export class LoaderExample {
 
     // Event listener for the dropdown
     let flow: FlowDiagram;
+    let interaction: FlowInteraction
+
     dropdown.addEventListener('change', function () {
       console.log('You selected: ', this.value);
 
@@ -107,7 +109,7 @@ export class LoaderExample {
       scene.add(flow);
 
       // make the flow interactive
-      new FlowInteraction(flow, app, app.camera)
+      interaction = new FlowInteraction(flow, app, app.camera)
 
       // Create a file loader to load the JSON file
       const fileLoader = new FileLoader();
@@ -135,6 +137,7 @@ export class LoaderExample {
 
 
     this.dispose = () => {
+      interaction.dispose()
       dropdown.remove()
       orbit.dispose()
     }

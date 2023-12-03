@@ -16,6 +16,8 @@ import {
   FlowEventType,
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
+import { FlowProperties } from "./flow-properties";
+import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
 type ProcessShapeType = 'circle' | 'rhombus' | 'rect' | 'parallel'
 interface ProcessShape extends FlowNodeParameters {
@@ -60,9 +62,13 @@ export class ProcessExample {
     background.add(flow);
     flow.position.z = 0.3
 
-    new FlowInteraction(flow, app, app.camera)
+    const interaction = new FlowInteraction(flow, app, app.camera)
 
-    const connectors = new FlowConnectors(flow)
+    new FlowConnectors(flow)
+
+    // show properties when node is selected
+    const properties = new FlowProperties(flow)
+
 
     const hidden = true
 
@@ -136,6 +142,8 @@ export class ProcessExample {
 
 
     this.dispose = () => {
+      properties.dispose()
+      interaction.dispose()
       orbit.dispose()
     }
 
@@ -193,6 +201,17 @@ class ProcessNode extends FlowNode {
     this.resizeGeometry = () => {
       mesh.geometry = this.makeGeometry(parameters.shape, this.width + 0.05, this.height + 0.05)
     }
+
+    this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
+      const gui = e.gui as GUI
+
+      gui.add<any, any>(this.label, 'text').name('Label')
+      gui.add<any, any>(this, 'resizable').name('Resizable')
+      gui.add<any, any>(this, 'draggable').name('Draggable')
+      gui.add<any, any>(this, 'hidden').name('Hidden')
+
+    })
+
   }
 
   override createGeometry(parameters: ProcessShape): BufferGeometry {

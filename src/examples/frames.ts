@@ -58,7 +58,7 @@ export class FramesExample {
     flow.rotation.x = MathUtils.degToRad(-5)
 
     // make the flow interactive
-    new FlowInteraction(flow, app, app.camera)
+    const interaction = new FlowInteraction(flow, app, app.camera)
 
     const connectors = new FlowConnectors(flow)
 
@@ -159,6 +159,7 @@ export class FramesExample {
 
 
     this.dispose = () => {
+      interaction.dispose()
       orbit.dispose()
     }
 
