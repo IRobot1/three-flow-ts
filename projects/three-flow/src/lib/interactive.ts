@@ -1,7 +1,7 @@
 import { Camera, Material, MeshBasicMaterialParameters, WebGLRenderer } from "three";
 import { DragNode } from "./drag-node";
 import { FlowDiagram } from "./diagram";
-import { ThreeInteractive } from "./three-interactive";
+import { InteractiveEventType, ThreeInteractive } from "./three-interactive";
 import { FlowNode } from "./node";
 import { ResizeNode } from "./resize-node";
 import { ScaleNode } from "./scale-node";
@@ -47,10 +47,10 @@ export class FlowInteraction {
     }
   }
 
-  constructor(public flow: FlowDiagram, renderer: WebGLRenderer, camera: Camera) {
+  constructor(public diagram: FlowDiagram, renderer: WebGLRenderer, camera: Camera) {
     this.interactive = this.createThreeInteractive(renderer, camera)
 
-    flow.addEventListener(FlowEventType.NODE_REMOVED, (e: any) => {
+    diagram.addEventListener(FlowEventType.NODE_REMOVED, (e: any) => {
       const node = e.node as FlowNode
       const index = this.nodes.findIndex(x => x.node == node)
       if (index != -1) {
@@ -62,7 +62,7 @@ export class FlowInteraction {
     })
 
 
-    flow.addEventListener(FlowEventType.NODE_ADDED, (e: any) => {
+    diagram.addEventListener(FlowEventType.NODE_ADDED, (e: any) => {
       const node = e.node as FlowNode
       this.nodes.push(new NodeInteractive(node, this))
 
@@ -77,7 +77,9 @@ export class FlowInteraction {
       selectableChanged()
     })
 
-    flow.addEventListener(FlowEventType.DISPOSE, () => this.dispose())
+    diagram.addEventListener(FlowEventType.DISPOSE, () => {
+      this.nodes.forEach(node => node.dispose())
+    })
   }
 
 
@@ -87,6 +89,7 @@ export class FlowInteraction {
 
   dispose() {
     this.nodes.forEach(node => node.dispose())
+    this.interactive.dispose()
   }
 }
 
@@ -98,9 +101,24 @@ class NodeInteractive {
   dispose = () => { }
 
   constructor(public node: FlowNode, source: FlowInteraction) {
+    const diagram = source.diagram
 
+    node.addEventListener(InteractiveEventType.CLICK, () => {
+      if (!node.selectable) return
+      if (diagram.active != node) {
+        diagram.active = node
+        diagram.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, node })
+      }
+    })
 
-    this.nodeResizer = this.createResizer(node, source.flow.getMaterial('geometry', 'resizing', <MeshBasicMaterialParameters>{ color: node.resizecolor }))
+    node.addEventListener(InteractiveEventType.POINTERMISSED, () => {
+      if (diagram.active == node) {
+        diagram.active = undefined
+        diagram.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, node: undefined })
+      }
+    })
+
+    this.nodeResizer = this.createResizer(node, diagram.getMaterial('geometry', 'resizing', <MeshBasicMaterialParameters>{ color: node.resizecolor }))
     const resizableChanged = () => {
       if (node.resizable) {
         source.interactive.selectable.add(...this.nodeResizer.selectable)
@@ -115,7 +133,7 @@ class NodeInteractive {
     node.addEventListener(FlowEventType.RESIZABLE_CHANGED, () => { resizableChanged() })
     resizableChanged()
 
-    this.nodeScaler = this.createScaler(node, source.flow.getMaterial('geometry', 'scaling', <MeshBasicMaterialParameters>{ color: node.scalecolor }))
+    this.nodeScaler = this.createScaler(node, diagram.getMaterial('geometry', 'scaling', <MeshBasicMaterialParameters>{ color: node.scalecolor }))
     const scalebleChanged = () => {
       if (node.scalable) {
         source.interactive.selectable.add(...this.nodeScaler.selectable)
@@ -130,7 +148,7 @@ class NodeInteractive {
     node.addEventListener(FlowEventType.SCALABLE_CHANGED, () => { scalebleChanged() })
     scalebleChanged()
 
-    this.nodeDragger = this.createDragger(node, source.flow.gridsize)
+    this.nodeDragger = this.createDragger(node, diagram.gridsize)
     const drag = () => {
       if (node.draggable)
         source.interactive.draggable.add(node)

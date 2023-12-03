@@ -74,7 +74,7 @@ export class FlowLabel extends Object3D {
 
   labelMesh?: Mesh
 
-  private labelMaterial: Material;
+  material: Material;
 
 
   constructor(diagram: FlowDiagram, parameters: FlowLabelParameters) {
@@ -93,7 +93,7 @@ export class FlowLabel extends Object3D {
     this.hidden = parameters.hidden != undefined ? parameters.hidden : false
     this.visible = !this.hidden
 
-    this.labelMaterial = diagram.getMaterial('geometry', 'label', this._matparams)!;
+    this.material = diagram.getMaterial('geometry', 'label', this._matparams)!;
     this.font = diagram.getFont(parameters.font)
 
 
@@ -120,7 +120,7 @@ export class FlowLabel extends Object3D {
 
     this.labelMesh.name = 'label'
 
-    this.labelMesh.material = this.labelMaterial
+    this.labelMesh.material = this.material
     this.labelMesh.position.z = 0.001
 
     // restore position and rotation before removing

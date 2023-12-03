@@ -7,6 +7,7 @@ import {
   FlowDiagramOptions,
   FlowEdge,
   FlowEdgeParameters,
+  FlowEventType,
   FlowInteraction,
   FlowLabel,
   FlowLabelParameters,
@@ -17,6 +18,8 @@ import { ThreeJSApp } from "../../app/threejs-app";
 import { TroikaFlowLabel } from "../troika-label";
 import { DagreLayout } from "../dagre-layout";
 import { GraphLabel } from "@dagrejs/dagre";
+import GUI from "three/examples/jsm/libs/lil-gui.module.min";
+import { FlowProperties } from "../flow-properties";
 
 
 export class ComputerNetworkExample {
@@ -65,6 +68,8 @@ export class ComputerNetworkExample {
     const interaction = new FlowInteraction(flow, app, app.camera)
     interaction.resizable = interaction.scalable = false
 
+    const properties = new FlowProperties(flow)
+
     ComputerNetworkNodes.forEach(node => {
       node.label = { text: node.id }, node.labelanchor = 'top',
         node.labeltransform = { translate: { y: -0.1 } }
@@ -88,6 +93,7 @@ export class ComputerNetworkExample {
     }, 5000);
     this.dispose = () => {
       interaction.dispose()
+      properties.dispose()
       orbit.dispose()
     }
 
@@ -154,6 +160,7 @@ class ComputerNode extends FlowNode {
     const icon_label = diagram.createLabel({
       text: parameters.icon, isicon: true, size: 0.3,
     })
+    icon_label.material = diagram.getMaterial('geometry', 'icon', { color: 'black'} as MeshBasicMaterialParameters)
     icon_label.updateLabel()
     icon_label.position.set(-(this.width) / 2 + 0.3, 0, 0.003)
     this.add(icon_label)
@@ -195,6 +202,27 @@ class ComputerNode extends FlowNode {
         last_disk_usage = parameters.disk_usage
       }
     }, 5000)
+
+
+    // handle properties display
+    this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
+      const gui = e.gui as GUI
+
+      if (icon_label) {
+        gui.add<any, any>(icon_label, 'text').name('Icon').onChange(() => {
+          if (icon_label) icon_label.updateLabel()
+        })
+        gui.add<any, any>(icon_label, 'size', 0.25, 1).name('Icon Size')
+      }
+      gui.add<any, any>(this.label, 'text').name('Title')
+      gui.add<any, any>(this.label, 'size', 0.1, 1).name('Title Size')
+      const folder = gui.addFolder('Shared')
+      folder.addColor(icon_label.material as MeshBasicMaterialParameters, 'color').name('Icon Color')
+      folder.addColor(this.label.material as MeshBasicMaterialParameters, 'color').name('Label Color')
+      folder.addColor(this.material as MeshBasicMaterialParameters, 'color').name('Base Color')
+
+    })
+
   }
   timer: any
 

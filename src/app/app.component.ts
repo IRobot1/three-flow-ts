@@ -16,6 +16,7 @@ import { DocumentationExample } from '../examples/documentation';
 import { PodiumExample } from '../examples/podium';
 import { BannerExample } from '../examples/banner';
 import { ComputerNetworkExample } from '../examples/live-data/computer-network';
+import { PropertiesExample } from '../examples/properties';
 
 
 @Component({
@@ -44,5 +45,6 @@ export class AppComponent {
     app.router.add('podium', () => { return new PodiumExample(app) })
     app.router.add('banner', () => { return new BannerExample(app) })
     app.router.add('livedata', () => { return new ComputerNetworkExample(app) })
+    //app.router.add('properties', () => { return new PropertiesExample(app) })
   }
 }

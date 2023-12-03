@@ -13,12 +13,10 @@ export class FlowProperties {
     diagram.addEventListener(FlowEventType.NODE_SELECTED, (e: any) => {
       const node = e.node as FlowNode
       if (!node) return
-      console.warn('selected', node.name)
 
       // GUI has no way to remove controllers, so destroy and create is the only way to replace
       if (selected && node != selected) {
         gui.destroy()
-        console.warn('destory',gui)
         gui = new GUI(guioptions)
         this.gui = gui
       }
@@ -41,7 +39,6 @@ export class FlowProperties {
   }
 
   dispose() {
-    console.warn('disposed', this.gui)
     this.gui.destroy()
     this.gui.hide()
   }

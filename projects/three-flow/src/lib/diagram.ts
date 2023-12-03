@@ -35,7 +35,7 @@ export class FlowDiagram extends Object3D {
   set active(newvalue: FlowNode | undefined) {
     if (newvalue != this._active) {
       this._active = newvalue
-      this.dispatchEvent<any>({ type: FlowEventType.ACTIVE_CHANGED })
+        this.dispatchEvent<any>({ type: FlowEventType.ACTIVE_CHANGED, node: newvalue })
     }
   }
 
@@ -56,6 +56,7 @@ export class FlowDiagram extends Object3D {
       this.graph = new NoOpLayout()
 
     this.materials = new Map();
+
   }
 
   save(): FlowDiagramParameters {

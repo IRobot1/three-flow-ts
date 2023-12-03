@@ -105,7 +105,26 @@ export class GalleryExample {
     const row2 = 1
     const row3 = -0.5
 
+    const column1 = -3
+    const column2 = -1.5
+    const column3 = 0
+    const column4 = 1.5
+    const column5 = 3
+    const column6 = 4.5
+    const column7 = 6
+    const column8 = 7.5
+    
+
     const nodes: Tile[] = [
+      {
+        id: 'documentation',
+        label: { text: "Flow Relationships" },
+        x: column1, y: row1,
+        assetimage: 'documentation', route: 'documentation',
+        connectors: [
+          { id: "c1documentation", anchor: 'right', material: { color: 'white' }, },
+        ],
+      },
       {
         id: "basic",
         assetimage: 'basic', route: 'basic',
@@ -119,7 +138,7 @@ export class GalleryExample {
       },
       {
         id: 'custom',
-        x: 1.5, y: row2,
+        x: column4, y: row2,
         assetimage: 'geometry', route: 'geometry',
         label: { text: "Custom Geometry" },
         connectors: [
@@ -130,7 +149,7 @@ export class GalleryExample {
       {
         id: 'builder',
         label: { text: "Builder" },
-        x: -1.5, y: row2,
+        x: column2, y: row2,
         assetimage: 'builder', route: 'builder',
         connectors: [
           { id: "c1builder", anchor: 'top', material: { color: 'white' }, },
@@ -139,7 +158,7 @@ export class GalleryExample {
       },
       {
         id: 'loader',
-        x: 0, y: row3,
+        x: column3, y: row3,
         label: { text: "Loader from JSON" },
         assetimage: 'loader', route: 'loader',
         connectors: [
@@ -149,7 +168,7 @@ export class GalleryExample {
       {
         id: 'languages',
         label: { text: "Languages" },
-        x: -3, y: row3,
+        x: column1, y: row3,
         assetimage: 'languages', route: 'languages',
         connectors: [
           { id: "c1languages", anchor: 'top', material: { color: 'white' }, },
@@ -158,7 +177,7 @@ export class GalleryExample {
       {
         id: 'civilization',
         label: { text: "Civiilization Tech Tree" },
-        x: -1.5, y: row3,
+        x: column2, y: row3,
         assetimage: 'civilization', route: 'civilization',
         connectors: [
           { id: "c1civilization", anchor: 'top', material: { color: 'white' }, },
@@ -167,7 +186,7 @@ export class GalleryExample {
       {
         id: 'mermaid',
         label: { text: "Mermaid Flowchart" },
-        x: 1.5, y: row3,
+        x: column4, y: row3,
         assetimage: 'mermaid', route: 'mermaid',
         connectors: [
           { id: "c1mermaid", anchor: 'top', material: { color: 'white' }, },
@@ -176,7 +195,7 @@ export class GalleryExample {
       {
         id: 'visuals',
         label: { text: "Visuals" },
-        x: 4.5, y: row1,
+        x: column7, y: row1,
         assetimage: 'visuals', route: 'visuals',
         connectors: [
           { id: "c1visuals", anchor: 'left', material: { color: 'white' }, },
@@ -186,7 +205,7 @@ export class GalleryExample {
       {
         id: 'popout',
         label: { text: "2D Popout" },
-        x: 3, y: row2,
+        x: column6, y: row2,
         assetimage: 'popout', route: 'popout',
         connectors: [
           { id: "c1popout", anchor: 'top', material: { color: 'white' }, },
@@ -195,7 +214,7 @@ export class GalleryExample {
       {
         id: 'frames',
         label: { text: "Tranparent Frames" },
-        x: 4.5, y: row2,
+        x: column7, y: row2,
         assetimage: 'frames', route: 'frames',
         connectors: [
           { id: "c1frames", anchor: 'top', material: { color: 'white' }, },
@@ -205,25 +224,16 @@ export class GalleryExample {
       {
         id: 'edgestyles',
         label: { text: "Edge Styles" },
-        x: 0, y: row2,
+        x: column3, y: row2,
         assetimage: 'edgestyles', route: 'edgestyles',
         connectors: [
           { id: "c1edgestyles", anchor: 'top', material: { color: 'white' }, },
         ],
       },
       {
-        id: 'documentation',
-        label: { text: "Flow Relationships" },
-        x: -3, y: row2,
-        assetimage: 'documentation', route: 'documentation',
-        connectors: [
-          { id: "c1documentation", anchor: 'top', material: { color: 'white' }, },
-        ],
-      },
-      {
         id: 'podium',
         label: { text: "Podium Timeline" },
-        x: 6, y: row2,
+        x: column8, y: row2,
         assetimage: 'podium', route: 'podium',
         connectors: [
           { id: "c1podium", anchor: 'top', material: { color: 'white' }, },
@@ -233,7 +243,7 @@ export class GalleryExample {
       {
         id: 'banner',
         label: { text: "Banners" },
-        x: 3, y: row3,
+        x: column6, y: row3,
         assetimage: 'banner', route: 'banner',
         connectors: [
           { id: "c1banner", anchor: 'top', material: { color: 'white' }, },
@@ -242,12 +252,21 @@ export class GalleryExample {
       {
         id: 'livedata',
         label: { text: "Live Data" },
-        x: 4.5, y: row3,
+        x: column7, y: row3,
         assetimage: 'livedata', route: 'livedata',
         connectors: [
           { id: "c1livedata", anchor: 'top', material: { color: 'white' }, },
         ],
       },
+    //  {
+    //    id: 'properties',
+    //    label: { text: "Edit Properties" },
+    //    x: column5, y: row2,
+    //    assetimage: 'properties', route: 'properties',
+    //    connectors: [
+    //      { id: "c1properties", anchor: 'top', material: { color: 'white' }, },
+    //    ],
+    //  },
     ];
 
 
@@ -336,6 +355,12 @@ export class GalleryExample {
         fromconnector: "c2frames",
         toconnector: "c1livedata"
       },
+      //{
+      //  from: "basic",
+      //  to: "properties",
+      //  fromconnector: "c2basic",
+      //  toconnector: "c1properties"
+      //},
     ];
 
     const diagram: FlowDiagramParameters = {
@@ -345,9 +370,6 @@ export class GalleryExample {
 
     const flow = new MyFlowDiagram({ linestyle: 'split' })
     scene.add(flow);
-
-    // make the flow interactive
-    //new FlowInteraction(flow, app, app.camera)
 
     // support connectors
     new FlowConnectors(flow)

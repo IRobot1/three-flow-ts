@@ -1,4 +1,4 @@
-import { AmbientLight, BufferGeometry, CircleGeometry, Color, CurvePath, DoubleSide, LineCurve3, Mesh, MeshBasicMaterialParameters, MeshStandardMaterial, PlaneGeometry, Scene, Shape, ShapeGeometry, SpotLight, TubeGeometry, Vector3 } from "three";
+import { AmbientLight, BufferGeometry, CircleGeometry, Color, CurvePath, DoubleSide, LineCurve3, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, PlaneGeometry, Scene, Shape, ShapeGeometry, SpotLight, TubeGeometry, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import {
@@ -16,6 +16,8 @@ import {
 } from "three-flow";
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "./troika-label";
+import GUI from "three/examples/jsm/libs/lil-gui.module.min";
+import { FlowProperties } from "./flow-properties";
 
 interface BannerParameters extends FlowNodeParameters {
   titleborderheight?: number
@@ -70,7 +72,7 @@ export class BannerExample {
     flow.position.z = 0.3
 
     const interaction = new FlowInteraction(flow, app, app.camera)
-
+    const properties = new FlowProperties(flow)
     const connectors = new FlowConnectors(flow)
 
     const hidden = true
@@ -135,6 +137,7 @@ export class BannerExample {
 
     this.dispose = () => {
       interaction.dispose()
+      properties.dispose()
       orbit.dispose()
     }
 
@@ -162,7 +165,7 @@ class BannerFlowDiagram extends FlowDiagram {
 
 class BannerNode extends FlowNode {
   constructor(diagram: BannerFlowDiagram, parameters: BannerParameters) {
-    parameters.material = <MeshBasicMaterialParameters>{ color: 'white', side: DoubleSide }
+    parameters.material = <MeshBasicMaterialParameters>{ color: 0xffffff, side: DoubleSide }
     parameters.labelanchor = 'top'
     parameters.label!.size = 0.15
     parameters.label!.material = { color: 'black' }
@@ -183,6 +186,7 @@ class BannerNode extends FlowNode {
       material: { color: 'black' },
     }
     const icon = diagram.createLabel(iconparams)
+    icon.material = diagram.getMaterial('geometry', 'icon', iconparams.material!)
     icon.updateLabel()
     this.add(icon)
     icon.position.set(0, (this.height - iconsize) / 4 - bannerdentsize / 2, 0.001)
@@ -208,7 +212,7 @@ class BannerNode extends FlowNode {
     mesh2.add(subtitle)
     subtitle.position.set(0, bannerheight / 2 - bannerdentsize - 0.1, 0.001)
 
-    // TODO: handle changes to width and height
+    // handle changes to width and height
     this.resizeGeometry = () => {
       mesh1.geometry = new PlaneGeometry(this.width, titleborderheight)
       mesh1.position.set(0, (this.height - titleborderheight) / 2, 0.001)
@@ -222,6 +226,26 @@ class BannerNode extends FlowNode {
       }
 
     }
+
+    // handle properties display
+    this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
+      const gui = e.gui as GUI
+
+      if (icon) gui.add<any, any>(icon, 'text').name('Icon').onChange(() => {
+        if (icon) icon.updateLabel()
+      })
+      gui.add<any, any>(icon, 'size', 0.25, 1).name('Icon Size')
+      gui.add<any, any>(this.label, 'text').name('Title')
+      gui.add<any, any>(this.label, 'size', 0.1, 1).name('Label Size')
+      gui.add<any, any>(subtitle, 'text').name('Subtitle Text')
+      gui.add<any, any>(this, 'draggable').name('Draggable')
+      const folder = gui.addFolder('Shared')
+      folder.addColor(bannermaterial, 'color').name('Banner Color')
+      folder.addColor(icon.material as MeshBasicMaterialParameters, 'color').name('Icon Color')
+      folder.addColor(this.label.material as MeshBasicMaterialParameters, 'color').name('Label Color')
+      folder.addColor(this.material as MeshBasicMaterialParameters, 'color').name('Base Color')
+
+    })
 
 
     // need to wait for this node to finish, before adding sub node and edge

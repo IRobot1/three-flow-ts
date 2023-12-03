@@ -16,6 +16,8 @@ import {
   FlowEventType,
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
+import GUI from "three/examples/jsm/libs/lil-gui.module.min";
+import { FlowProperties } from "./flow-properties";
 
 interface PodiumParameters extends FlowNodeParameters {
   icon: string
@@ -74,13 +76,14 @@ export class PodiumExample {
     flow.position.z = 0.01
 
     const interaction = new FlowInteraction(flow, app, app.camera)
+    const properties = new FlowProperties(flow)
 
     const connectors = new FlowConnectors(flow)
 
     const hidden = true
 
     const Research = flow.addNode(<PodiumParameters>{
-      x: -3, label: { text: 'Research', size: 0.15, material: { color: 'black' }, },
+      x: -3, label: { text: 'Research', size: 0.15, material: { color: 'black', side:DoubleSide }, },
       icon: 'biotech',
       connectors: [
         { id: 'c1research', anchor: 'right', hidden }
@@ -88,7 +91,7 @@ export class PodiumExample {
     })
 
     const Idea = flow.addNode(<PodiumParameters>{
-      x: -1.5, label: { text: 'Idea', size: 0.15, material: { color: 'black' }, },
+      x: -1.5, label: { text: 'Idea', size: 0.15, material: { color: 'black', side: DoubleSide }, },
       icon: 'tips_and_updates',
       connectors: [
         { id: 'c1idea', anchor: 'left', hidden },
@@ -100,7 +103,7 @@ export class PodiumExample {
 
 
     const Planning = flow.addNode(<PodiumParameters>{
-      x: 0, label: { text: 'Planning', size: 0.15, material: { color: 'black' }, },
+      x: 0, label: { text: 'Planning', size: 0.15, material: { color: 'black', side: DoubleSide }, },
       icon: 'checklist',
       connectors: [
         { id: 'c1planning', anchor: 'left', hidden },
@@ -110,7 +113,7 @@ export class PodiumExample {
     flow.addEdge({ from: Idea.name, to: Planning.name, fromconnector: 'c2idea', toconnector: 'c1planning' })
 
     const Time = flow.addNode(<PodiumParameters>{
-      x: 1.5, label: { text: 'Time', size: 0.15, material: { color: 'black' }, },
+      x: 1.5, label: { text: 'Time', size: 0.15, material: { color: 'black', side: DoubleSide }, },
       icon: 'schedule',
       connectors: [
         { id: 'c1time', anchor: 'left', hidden },
@@ -121,7 +124,7 @@ export class PodiumExample {
 
 
     const Success = flow.addNode(<PodiumParameters>{
-      x: 3, label: { text: 'Success', size: 0.15, material: { color: 'black' } },
+      x: 3, label: { text: 'Success', size: 0.15, material: { color: 'black', side: DoubleSide } },
       icon: 'flag',
       connectors: [
         { id: 'c1success', anchor: 'left', hidden },
@@ -132,6 +135,7 @@ export class PodiumExample {
 
     this.dispose = () => {
       interaction.dispose()
+      properties.dispose()
       orbit.dispose()
     }
 
@@ -179,7 +183,7 @@ class PodiumEdge extends FlowEdge {
 
 class PodiumNode extends FlowNode {
   constructor(diagram: PodiumFlowDiagram, parameters: PodiumParameters) {
-    parameters.material = { color: 'white' }
+    parameters.material = { color: 0xffffff }
     parameters.scalable = parameters.resizable = false 
 
     // position the label above the podium and rotate to the front
@@ -192,7 +196,7 @@ class PodiumNode extends FlowNode {
 
     // partial transparent sphere
     const sphere = new Mesh()
-    sphere.material = diagram.getMaterial('geometry', 'label',
+    sphere.material = diagram.getMaterial('geometry', 'sphere',
       <MeshBasicMaterialParameters>{
         color: '#FFD301', transparent: true, opacity: 0.3, depthWrite: false
       })
@@ -204,9 +208,10 @@ class PodiumNode extends FlowNode {
 
     const iconparams = <FlowLabelParameters>{
       text: parameters.icon, isicon: true, size: 0.4,
-      material: { color: 'black' },
+      material: { color: 'black', side:DoubleSide },
     }
     const icon = diagram.createLabel(iconparams)
+    icon.material = diagram.getMaterial('geometry', 'icon', iconparams.material!)
     icon.position.set(0, 0, 0.2)
     icon.updateLabel()
     sphere.add(icon) // place inside the sphere
@@ -221,6 +226,26 @@ class PodiumNode extends FlowNode {
     subtitle.position.set(0, 0, -0.25)
     sphere.add(subtitle)
     subtitle.rotation.x = MathUtils.degToRad(90)
+
+    this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
+      const gui = e.gui as GUI
+
+      if (icon) gui.add<any, any>(icon, 'text').name('Icon').onChange(() => {
+        if (icon) icon.updateLabel()
+      })
+      gui.add<any, any>(icon, 'size', 0.25, 1).name('Icon Size')
+      gui.add<any, any>(this.label, 'text').name('Title')
+      gui.add<any, any>(this.label, 'size', 0.1, 1).name('Label Size')
+      gui.add<any, any>(subtitle, 'text').name('Subtitle Text')
+      gui.add<any, any>(this, 'draggable').name('Draggable')
+      const folder = gui.addFolder('Shared')
+      folder.addColor(icon, 'color').name('Icon Color')
+      folder.addColor(this.label, 'color').name('Label Color')
+      folder.addColor(sphere.material as MeshBasicMaterial, 'color').name('Sphere Color')
+      folder.add<any, any>(sphere.material, 'opacity', 0, 1).name('Sphere Opacity')
+      folder.addColor(this, 'color').name('Base Color')
+
+    })
 
   }
 
