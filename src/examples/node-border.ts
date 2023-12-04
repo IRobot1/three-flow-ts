@@ -1,8 +1,6 @@
 import { BufferGeometry, ColorRepresentation, Mesh, MeshBasicMaterial, PlaneGeometry } from "three";
-import { FlowNode } from "./node";
-import { FlowDiagram } from "./diagram";
-import { InteractiveEventType } from "./three-interactive";
-import { FlowEventType } from "./model";
+import { FlowDiagram, FlowEventType, FlowNode, InteractiveEventType } from "three-flow";
+
 
 
 export class NodeBorder extends Mesh {

@@ -13,7 +13,6 @@ import {
   FlowDiagramOptions,
   FlowDiagramParameters,
   FlowInteraction,
-  NodeBorder,
   FlowArrow,
   FlowArrowParameters,
   ArrowStyle,
@@ -24,6 +23,7 @@ import { ResizeNode, FlowDiagram } from "three-flow";
 import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 import { DagreLayout } from "./dagre-layout";
+import { NodeBorder } from "./node-border";
 
 interface MyFlowNodeData extends FlowNodeParameters {
   test: string

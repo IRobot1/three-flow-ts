@@ -10,8 +10,6 @@ export * from './lib/resize-node'
 export * from './lib/scale-node'
 export * from './lib/interactive'
 
-export * from './lib/node-border'
-
 export * from './lib/diagram';
 export * from './lib/connector';
 export * from './lib/node';
