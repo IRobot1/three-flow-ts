@@ -78,18 +78,22 @@ export class ComputerNetworkExample {
     flow.layout(<GraphLabel>{ rankdir: 'TD', ranksep: 0.5, nodesep: 0.5 })
 
     setInterval(() => {
-      ComputerNetworkNodes.forEach(node => {
+      flow.allNodes.forEach(node => {
+        const parameters = node.node as ComputerParameters
+
         // Randomly decide if each attribute should be updated
-        if (node.cpu_usage != undefined && Math.random() > 0.5) {
-          node.cpu_usage = MathUtils.clamp(node.cpu_usage! + Math.floor(-10 + Math.random() * 20), 0, 100)
+        if (parameters.cpu_usage != undefined && Math.random() > 0.5) {
+          parameters.cpu_usage = MathUtils.clamp(parameters.cpu_usage! + Math.floor(-10 + Math.random() * 20), 0, 100)
         }
-        if (node.memory_usage != undefined && Math.random() > 0.5) {
-          node.memory_usage = MathUtils.clamp(node.memory_usage! + Math.floor(-20 + Math.random() * 40), 1, 8192)
+        if (parameters.memory_usage != undefined && Math.random() > 0.5) {
+          parameters.memory_usage = MathUtils.clamp(parameters.memory_usage! + Math.floor(-20 + Math.random() * 40), 1, 8192)
         }
-        if (node.disk_usage != undefined && Math.random() > 0.5) {
-          node.disk_usage = MathUtils.clamp(node.disk_usage! + Math.floor(-0.1 + Math.random() * 0.2), 0, 128)
+        if (parameters.disk_usage != undefined && Math.random() > 0.5) {
+          parameters.disk_usage = MathUtils.clamp(parameters.disk_usage! + Math.floor(-0.1 + Math.random() * 0.2), 0, 128)
         }
-      });
+
+        node.dispatchEvent<any>({ type: 'update-data' })
+      })
     }, 5000);
     this.dispose = () => {
       interaction.dispose()
@@ -160,7 +164,7 @@ class ComputerNode extends FlowNode {
     const icon_label = diagram.createLabel({
       text: parameters.icon, isicon: true, size: 0.3,
     })
-    icon_label.material = diagram.getMaterial('geometry', 'icon', { color: 'black'} as MeshBasicMaterialParameters)
+    icon_label.material = diagram.getMaterial('geometry', 'icon', { color: 'black' } as MeshBasicMaterialParameters)
     icon_label.updateLabel()
     icon_label.position.set(-(this.width) / 2 + 0.3, 0, 0.003)
     this.add(icon_label)
@@ -184,11 +188,7 @@ class ComputerNode extends FlowNode {
     let last_memory_usage = parameters.memory_usage
     let last_disk_usage = parameters.disk_usage
 
-    this.timer = setInterval(() => {
-      //if (parameters.status != last_status) {
-      //  status_mesh.material = lookup[parameters.status]
-      //  last_status = parameters.status
-      //}
+    this.addEventListener('update-data', () => {
       if (cpu_label && parameters.cpu_usage != last_cpu_usage) {
         cpu_label.text = `CPU: ${parameters.cpu_usage}%`
         last_cpu_usage = parameters.cpu_usage
@@ -201,8 +201,7 @@ class ComputerNode extends FlowNode {
         disk_label.text = `Disk: ${parameters.disk_usage} GB`;
         last_disk_usage = parameters.disk_usage
       }
-    }, 5000)
-
+    })
 
     // handle properties display
     this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
