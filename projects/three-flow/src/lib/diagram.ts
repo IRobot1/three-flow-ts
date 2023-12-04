@@ -81,9 +81,9 @@ export class FlowDiagram extends Object3D {
     if (diagram.nodes) {
       diagram.nodes.forEach(node => {
         if (node.type == 'route')
-          this.setRoute(node)
+          this.addRoute(node)
         else
-          this.setNode(node)
+          this.addNode(node)
       })
     }
 
@@ -158,47 +158,36 @@ export class FlowDiagram extends Object3D {
     return undefined
   }
 
+  private nodesMap = new Map<string, FlowNode>([])
+
   get allNodes(): Array<FlowNode> {
-    return this.children.filter(child => child.type == 'flownode') as Array<FlowNode>
+    return Array.from(this.nodesMap.values())
   }
 
   public hasNode(id: string): FlowNode | undefined {
-
-    for (const child of this.children) {
-      if (child.type == 'flownode') {
-        const node = child as FlowNode
-        if (node.name == id) return node
-      }
-    }
-    return undefined
+    return this.nodesMap.get(id)
   }
 
-  private setNode(item: FlowNodeParameters): FlowNode {
+  public addNode(item: FlowNodeParameters): FlowNode {
     const node = this.createNode(item)
     this.add(node)
     this._nodeCount++
+
+    this.nodesMap.set(node.name, node)
 
     this.dispatchEvent<any>({ type: FlowEventType.NODE_ADDED, node })
     return node
   }
 
-  public addNode(node: FlowNodeParameters): FlowNode {
-    return this.setNode(node)
-  }
-
-  private setRoute(item: FlowRouteParameters): FlowNode {
+  addRoute(item: FlowRouteParameters): FlowNode {
     const route = this.createRoute(item)
     this.add(route)
     this._nodeCount++;
 
+    this.nodesMap.set(route.name, route)
+
     this.dispatchEvent<any>({ type: FlowEventType.NODE_ADDED, node: route })
     return route
-  }
-
-  public addRoute(route: FlowRouteParameters): FlowNode {
-    const mesh = this.setRoute(route)
-
-    return mesh;
   }
 
   public removeNode(node: FlowNode) {
@@ -207,8 +196,14 @@ export class FlowDiagram extends Object3D {
 
     this.dispatchEvent<any>({ type: FlowEventType.NODE_REMOVED, node })
 
+    this.nodesMap.delete(node.name)
+
     this.remove(node)
     node.dispose()
+  }
+
+  removeRoute(route: FlowRoute) {
+    this.removeNode(route)
   }
 
   nextNodeId(): string {

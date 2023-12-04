@@ -255,7 +255,7 @@ class BannerNode extends FlowNode {
       const pin = from + '-pin'
 
       const nodeparams = <FlowNodeParameters>{
-        id: pin, x: parameters.x, y: -this.height / 2 - 0.5,
+        id: pin, x: 0, y: -this.height / 2 - 0.5,
         width: 0.3, height: 0.3, lockaspectratio: true,
         connectors: [
           { id: pin + '-top', anchor: 'top', hidden: true },
@@ -266,6 +266,14 @@ class BannerNode extends FlowNode {
       const node = diagram.addNode(nodeparams)
       node.material = bannermaterial
       node.material.side = DoubleSide
+
+      // add as child of this node
+      this.add(node)
+
+      // forward any drag events to children so their edges are updated correctly
+      this.addEventListener(FlowEventType.DRAGGED, () => {
+        node.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
+      })
 
       const edgeparams = <FlowEdgeParameters>{
         from: parameters.id, to: pin,
