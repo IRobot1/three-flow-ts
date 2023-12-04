@@ -105,10 +105,8 @@ class NodeInteractive {
 
     node.addEventListener(InteractiveEventType.CLICK, () => {
       if (!node.selectable) return
-      if (diagram.active != node) {
-        diagram.active = node
-        diagram.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, node })
-      }
+      diagram.active = node
+      diagram.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, node })
     })
 
     node.addEventListener(InteractiveEventType.POINTERMISSED, () => {

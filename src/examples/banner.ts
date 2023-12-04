@@ -243,7 +243,7 @@ class BannerNode extends FlowNode {
       folder.addColor(bannermaterial, 'color').name('Banner Color')
       folder.addColor(icon.material as MeshBasicMaterialParameters, 'color').name('Icon Color')
       folder.addColor(this.label.material as MeshBasicMaterialParameters, 'color').name('Label Color')
-      folder.addColor(this.material as MeshBasicMaterialParameters, 'color').name('Base Color')
+      folder.addColor(this.material as MeshBasicMaterial, 'color').name('Base Color')
 
     })
 

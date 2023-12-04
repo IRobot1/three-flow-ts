@@ -44,7 +44,7 @@ export class ThreeInteractive {
 
   dispose = () => { }
 
-  constructor(renderer: WebGLRenderer, camera: Camera) {
+  constructor(public renderer: WebGLRenderer, public camera: Camera) {
 
     const _pointer = new Vector2();
     const _plane = new Plane();
@@ -98,8 +98,6 @@ export class ThreeInteractive {
         const overlapping = new Set<Object3D>(entered)
 
         _event.stop = false
-
-
         _intersects.forEach(intersection => {
           // stop bubbling event to anything behind last object
           if (_event.stop) return
