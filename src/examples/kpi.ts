@@ -1,4 +1,4 @@
-import { AmbientLight, CircleGeometry, Color, MaterialParameters, MathUtils, Mesh, MeshBasicMaterialParameters, PointLight, Scene, Vector2} from "three";
+import { AmbientLight, CircleGeometry, Color, MaterialParameters, MathUtils, Mesh, MeshBasicMaterialParameters, PointLight, Scene, Vector2 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
@@ -9,7 +9,7 @@ import {
   FlowLabelParameters,
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
-import { LineChart, LineChartParameters, RingChart, RingMarker } from "./charts";
+import { ChartGrid, ChartGridParameters, LineChart, LineChartParameters, RingChart, RingMarker } from "./charts";
 
 type KPIIndicatorType = 'higher is better' | 'lower is better'
 
@@ -114,6 +114,15 @@ export class KPIExample {
 class KPINode extends FlowNode {
   constructor(diagram: FlowDiagram, parameters: KPIParameters) {
     super(diagram, parameters)
+
+    const gridparams: ChartGridParameters = {
+      width: this.width - 0.1, height: this.height / 2 - 0.2,
+      rows: 5, columns: 10
+    }
+    const grid = new ChartGrid(gridparams)
+    grid.material = diagram.getMaterial('line', 'grid', <MeshBasicMaterialParameters>{ color: 'black' })
+    this.add(grid)
+    grid.position.set(-this.width / 2 + 0.05, -this.height / 2 + 0.05, 0.001)
 
     const values: Array<Vector2> = []
     const lineparams: LineChartParameters = {

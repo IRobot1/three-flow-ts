@@ -1,4 +1,4 @@
-import { Box2, Line, LineBasicMaterialParameters, Material, MaterialParameters, MathUtils, Mesh, Object3D, PlaneGeometry, Shape, ShapeGeometry, Vector2 } from "three"
+import { Box2, Float32BufferAttribute, Line, LineBasicMaterialParameters, LineSegments, Material, MaterialParameters, MathUtils, Mesh, Object3D, PlaneGeometry, Shape, ShapeGeometry, Vector2 } from "three"
 
 export interface ChartParameters {
   length: number
@@ -127,4 +127,39 @@ export class LineChart extends Line {
   adornMinPoint(point: Vector2) { }
   adornMaxPoint(point: Vector2) { }
 
+}
+
+export interface ChartGridParameters {
+  width: number
+  height: number
+  columns: number
+  rows: number
+}
+
+export class ChartGrid extends LineSegments {
+  constructor(public parameters: ChartGridParameters) {
+    super()
+
+    this.update = () => {
+      const vertices = [];
+
+      const wsize = parameters.width / parameters.columns
+      const hsize = parameters.height / parameters.rows
+
+      for (let i = 0, w = 0; i <= parameters.columns; i++, w += wsize) {
+        for (let j = 0, h = 0; j <= parameters.rows; j++, h += hsize) {
+
+          vertices.push(0, h, 0, parameters.width, h, 0);
+          vertices.push(w, 0, 0, w, parameters.height, 0);
+        }
+      }
+
+      this.geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
+    }
+
+    this.addEventListener('update', this.update)
+    this.update()
+  }
+
+  update: () => void
 }
