@@ -120,23 +120,23 @@ class RingChart extends Mesh {
   constructor(public parameters: RingChartParameters) {
     super()
 
-    const updateChart = (geometry: boolean) => {
-      if (geometry) {
-        const shape = new Shape();
+    this.update = () => {
+      const shape = new Shape();
 
-        shape.absarc(0, 0, parameters.outerRadius, 0, parameters.length);
-        shape.absarc(0, 0, parameters.innerRadius, parameters.length, 0, true);
+      shape.absarc(0, 0, parameters.outerRadius, 0, parameters.length);
+      shape.absarc(0, 0, parameters.innerRadius, parameters.length, 0, true);
 
-        this.geometry = new ShapeGeometry(shape);
+      this.geometry = new ShapeGeometry(shape);
 
-        // rotate so ring starts at 9 o'clock instead of 3 o'clock
-        this.geometry.rotateZ(Math.PI - parameters.length)
-      }
+      // rotate so ring starts at 9 o'clock instead of 3 o'clock
+      this.geometry.rotateZ(Math.PI - parameters.length)
     }
 
-    this.addEventListener('update', (e: any) => { updateChart(e.geometry) })
-    updateChart(true)
+    this.addEventListener('update', this.update)
+    this.update()
   }
+
+  update: () => void
 }
 
 class RingMarker extends Object3D {
@@ -160,40 +160,33 @@ class RingMarker extends Object3D {
     this.add(tick)
     this.tick = tick
 
-    const updateTick = () => {
+    this.update = () => {
       this.rotation.z = parameters.position
       tick.position.x = parameters.offset
     }
 
-    this.addEventListener('update', (e: any) => {
-      if (e.material)
-        tick.material = new MeshBasicMaterial(parameters.material)
-
-      if (e.geometry)
-        tick.geometry = new PlaneGeometry(parameters.width, parameters.height)
-
-      if (e.position)
-        updateTick()
-    })
-    updateTick()
+    this.addEventListener('update', this.update)
+    this.update()
   }
+
+  update: () => void
 }
 
 class KPINode extends FlowNode {
-  constructor(diagram: FlowDiagram, node: KPIParameters) {
-    super(diagram, node)
+  constructor(diagram: FlowDiagram, parameters: KPIParameters) {
+    super(diagram, parameters)
 
     //value: 15857, units: 'bbl', highthreshold: 30000,
     //  ranges: [
     //    { min: 0, max: 32000, material: <MeshBasicMaterialParameters>{ color: 'red' } }
     //  ]
 
-    const value = diagram.createLabel({ text: `${node.value} ${node.units}`, alignY: 'bottom' })
+    const value = diagram.createLabel({ text: `${parameters.value} ${parameters.units}`, alignY: 'bottom' })
     value.updateLabel()
     this.add(value)
     value.position.set(0, -0.1, 0.001)
 
-    const max = node.ranges[node.ranges.length - 1].max
+    const max = parameters.ranges[parameters.ranges.length - 1].max
 
     const baseRing = new RingChart({
       length: Math.PI, material: <MeshBasicMaterialParameters>{ color: '#eee' },
@@ -205,9 +198,9 @@ class KPINode extends FlowNode {
 
     baseRing.position.set(0, -0.1, 0.001)
 
-    let length = MathUtils.mapLinear(node.value, 0, max, 0, Math.PI)
+    let length = MathUtils.mapLinear(parameters.value, 0, max, 0, Math.PI)
 
-    let ringMaterial = this.getRangeMaterial(node.value, node.ranges)
+    let ringMaterial = this.getRangeMaterial(parameters.value, parameters.ranges)
 
     const valueRing = new RingChart({
       length, material: ringMaterial,
@@ -217,9 +210,9 @@ class KPINode extends FlowNode {
     valueRing.position.set(0, -0.1, 0.002)
     valueRing.material = new MeshBasicMaterial(valueRing.parameters.material)
 
-    if (node.lowthreshold) {
+    if (parameters.lowthreshold) {
       const offset = (valueRing.parameters.outerRadius + valueRing.parameters.innerRadius) / 2
-      let lowthreshold = MathUtils.mapLinear(node.lowthreshold, 0, max, Math.PI, 0)
+      let lowthreshold = MathUtils.mapLinear(parameters.lowthreshold, 0, max, Math.PI, 0)
       const tick = new RingMarker({
         material: <MeshBasicMaterialParameters>{ color: 'yellow' },
         offset, position: lowthreshold
@@ -228,9 +221,9 @@ class KPINode extends FlowNode {
       this.add(tick)
       tick.position.set(0, -0.1, 0.003)
     }
-    if (node.highthreshold) {
+    if (parameters.highthreshold) {
       const offset = (valueRing.parameters.outerRadius + valueRing.parameters.innerRadius) / 2
-      let highthreshold = MathUtils.mapLinear(node.highthreshold, 0, max, Math.PI, 0)
+      let highthreshold = MathUtils.mapLinear(parameters.highthreshold, 0, max, Math.PI, 0)
       const tick = new RingMarker({
         material: <MeshBasicMaterialParameters>{ color: 'red' },
         offset, position: highthreshold
@@ -246,28 +239,28 @@ class KPINode extends FlowNode {
 
     //    highthreshold = MathUtils.clamp(highthreshold + change, 0, Math.PI)
     //    tick.parameters.position = highthreshold
-    //    tick.dispatchEvent<any>({ type: 'update', position: true })
+    //    tick.update()//dispatchEvent<any>({ type: 'update' })
     //  }, 1000 / 30)
     }
 
-    //let change = 250
-    //let newvalue = node.value
-    //let lastcolor = ringMaterial.color
-    //setInterval(() => {
-    //  if (newvalue >= max || newvalue <= 0)
-    //    change = -change
+  //    let change = 250
+  //    let newvalue = parameters.value
+  //    let lastcolor = ringMaterial.color
+  //    setInterval(() => {
+  //      if (newvalue >= max || newvalue <= 0)
+  //        change = -change
 
-    //  newvalue = MathUtils.clamp(newvalue + change, 0, max)
+  //      newvalue = MathUtils.clamp(newvalue + change, 0, max)
 
-    //  ringMaterial = this.getRangeMaterial(newvalue, node.ranges)
-    //  if (ringMaterial.color != lastcolor) {
-    //    valueRing.material = new MeshBasicMaterial(ringMaterial)
-    //    lastcolor = ringMaterial.color
-    //  }
+  //      ringMaterial = this.getRangeMaterial(newvalue, parameters.ranges)
+  //      if (ringMaterial.color != lastcolor) {
+  //        valueRing.material = new MeshBasicMaterial(ringMaterial)
+  //        lastcolor = ringMaterial.color
+  //      }
 
-    //  valueRing.parameters.length = MathUtils.mapLinear(newvalue, 0, max, 0, Math.PI)
-    //  valueRing.dispatchEvent<any>({ type: 'update', geometry: true })
-    //}, 1000 / 30)
+  //      valueRing.parameters.length = MathUtils.mapLinear(newvalue, 0, max, 0, Math.PI)
+  //      valueRing.update()//dispatchEvent<any>({ type: 'update' })
+  //    }, 1000 / 30)
   }
 
   getRangeMaterial(value: number, ranges: Array<KPIRange>): MeshBasicMaterialParameters {
