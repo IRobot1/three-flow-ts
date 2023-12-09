@@ -24,6 +24,7 @@ interface KPIParameters extends FlowNodeParameters {
   ranges: Array<KPIRange> // ordered from lowest to highest - min of the first range is min value, max of the last range is max value
 
   indicator?: KPIIndicatorType // default is higher is better
+  currency?: string
   units?: string
   highthreshold?: number
   lowthreshold?: number // default is zero
@@ -80,8 +81,8 @@ export class KPIExample {
     let value = 15857
     let max = 30000
     const kpi1params = <KPIParameters>{
-      x: 0, y: 0, label: { text: 'Oil Wells' }, labelanchor: 'top', labeltransform: { translate: { y: -0.1 } },
-      value, units: 'bbl', lowthreshold: 5000, highthreshold: 26000,
+      x: 0, y: 0, label: { text: 'Operating Costs' }, labelanchor: 'top', labeltransform: { translate: { y: -0.1 } },
+      value, currency: '$', lowthreshold: 5000, highthreshold: 26000,
       ranges: [
         { min: 0, max: 10000, material: <MeshBasicMaterialParameters>{ color: 'yellow' } },
         { min: 10000, max: 25000, material: <MeshBasicMaterialParameters>{ color: 'green' } },
@@ -100,6 +101,19 @@ export class KPIExample {
     //  kpi1.update()//dispatchEvent<any>({ type: 'update' })
     //}, 1000 / 30)
 
+    let i = 0
+    const values: Array<Vector2> = []
+    while (i < 48)
+      values.push(new Vector2(i++, Math.random()))
+    kpi1.updateChart(values)
+
+    //setInterval(() => {
+    //  if (values.length > 48)
+    //    values.shift()
+    //  values.push(new Vector2(i, Math.random()))
+    //  kpi1.updateChart(values) //dispatchEvent<any>({ type: 'update_values', values })
+    //  i++
+    //}, 1000 / 10)
 
 
     this.dispose = () => {
@@ -112,6 +126,7 @@ export class KPIExample {
 
 
 class KPINode extends FlowNode {
+
   constructor(diagram: FlowDiagram, parameters: KPIParameters) {
     super(diagram, parameters)
 
@@ -124,10 +139,9 @@ class KPINode extends FlowNode {
     this.add(grid)
     grid.position.set(-this.width / 2 + 0.05, -this.height / 2 + 0.05, 0.001)
 
-    const values: Array<Vector2> = []
     const lineparams: LineChartParameters = {
       width: this.width, height: this.height / 2 - 0.1,
-      margin: 0.05, values, material: { color: 'black' }
+      margin: 0.05, values: [], material: { color: 'black' }
     }
 
     const markerGeometry = new CircleGeometry(0.01)
@@ -159,16 +173,20 @@ class KPINode extends FlowNode {
     this.add(lineChart)
     lineChart.position.set(-this.width / 2, -this.height / 2, 0.001)
 
-    let i = 0
-    setInterval(() => {
-      if (values.length > 48)
-        values.shift()
-      values.push(new Vector2(i, Math.random() * 10))
+    this.updateChart = (values: Array<Vector2>) => {
+      lineparams.values = values
       lineChart.update()
-      i++
-    }, 1000 / 10)
+    }
 
-    const value = diagram.createLabel({ text: `${parameters.value} ${parameters.units}`, alignY: 'bottom' })
+    const amount = (): string => {
+      if (parameters.currency)
+        return `${parameters.currency}${parameters.value}`
+      else if (parameters.units)
+        return `${parameters.value} ${parameters.units}`
+
+      return parameters.value.toString()
+    }
+    const value = diagram.createLabel({ text: amount(), alignY: 'bottom' })
     value.updateLabel()
     this.add(value)
     value.position.set(0, -0.1, 0.001)
@@ -237,7 +255,7 @@ class KPINode extends FlowNode {
         valueRing.parameters.length = radians
         valueRing.update()//dispatchEvent<any>({ type: 'update' })
 
-        value.text = `${parameters.value} ${parameters.units}`
+        value.text = amount()
         value.updateLabel()
 
         const newMaterial = this.getRangeMaterial(parameters.value, parameters.ranges)
@@ -251,9 +269,11 @@ class KPINode extends FlowNode {
     }
 
     this.addEventListener('update', this.update)
+    this.addEventListener('update_values', (e: any) => { this.updateChart(e.values) })
   }
 
   update: () => void
+  updateChart: (values: Array<Vector2>) => void
 
   private getRangeMaterial(value: number, ranges: Array<KPIRange>): MeshBasicMaterialParameters {
     for (let i = 0; i < ranges.length; i++) {
