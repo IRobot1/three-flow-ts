@@ -1,4 +1,4 @@
-import { AmbientLight, Color, Material, MaterialParameters, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, PlaneGeometry, PointLight, RingGeometry, Scene, Shape, ShapeGeometry } from "three";
+import { AmbientLight, Box2, Color, Line, LineBasicMaterialParameters, Material, MaterialParameters, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, PlaneGeometry, PointLight, RingGeometry, Scene, Shape, ShapeGeometry, Vector2, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
@@ -91,15 +91,16 @@ export class KPIExample {
     }
     const kpi1 = flow.addNode(kpi1params) as KPINode
 
-    let change = 250
-    setInterval(() => {
-      if (kpi1params.value >= max || kpi1params.value <= 0)
-        change = -change
+    //let change = 250
+    //setInterval(() => {
+    //  if (kpi1params.value >= max || kpi1params.value <= 0)
+    //    change = -change
 
-      kpi1params.value = MathUtils.clamp(kpi1params.value + change, 0, max)
+    //  kpi1params.value = MathUtils.clamp(kpi1params.value + change, 0, max)
 
-      kpi1.update()//dispatchEvent<any>({ type: 'update' })
-    }, 1000 / 30)
+    //  kpi1.update()//dispatchEvent<any>({ type: 'update' })
+    //}, 1000 / 30)
+
 
 
     this.dispose = () => {
@@ -185,9 +186,67 @@ class RingMarker extends Object3D {
   update: () => void
 }
 
+interface LineChartParameters {
+  width: number
+  height: number
+  margin: number
+  values: Array<Vector2>
+  material: LineBasicMaterialParameters
+}
+
+class LineChart extends Line {
+  constructor(public parameters: LineChartParameters) {
+    super()
+
+    const points: Array<Vector3> = [];
+    const box = new Box2()
+
+    this.update = () => {
+      points.length = 0;
+      box.makeEmpty();
+
+      parameters.values.forEach(value => box.expandByPoint(value));
+
+      parameters.values.forEach(value => {
+        const x = MathUtils.mapLinear(value.x, box.min.x, box.max.x, parameters.margin, parameters.width - parameters.margin);
+        const y = MathUtils.mapLinear(value.y, box.min.y, box.max.y, parameters.margin, parameters.height - parameters.margin);
+
+        points.push(new Vector3(x, y, 0));
+      })
+
+      this.geometry.setFromPoints(points);
+    }
+
+    this.addEventListener('update', this.update)
+    this.update()
+
+  }
+
+  update: () => void
+}
+
 class KPINode extends FlowNode {
   constructor(diagram: FlowDiagram, parameters: KPIParameters) {
     super(diagram, parameters)
+
+    const values: Array<Vector2> = []
+    const lineparams: LineChartParameters = {
+      width: this.width, height: this.height / 2 - 0.1,
+      margin: 0.05, values, material: { color: 'black' }
+    }
+    const lineChart = new LineChart(lineparams)
+    lineChart.material = diagram.getMaterial('line', 'linechart', lineparams.material)
+    this.add(lineChart)
+    lineChart.position.set(-this.width / 2, -this.height / 2, 0.001)
+
+    let i = 0
+    setInterval(() => {
+      if (values.length > 48)
+        values.shift()
+      values.push(new Vector2(i, Math.random() * 10))
+      lineChart.update()
+      i++
+    }, 1000 / 10)
 
     const value = diagram.createLabel({ text: `${parameters.value} ${parameters.units}`, alignY: 'bottom' })
     value.updateLabel()
