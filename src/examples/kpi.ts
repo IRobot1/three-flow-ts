@@ -202,7 +202,7 @@ class KPINode extends FlowNode {
     })
     this.add(baseRing)
 
-    baseRing.material = new MeshBasicMaterial(baseRing.parameters.material)
+    baseRing.material = diagram.getMaterial('geometry', 'kpi', baseRing.parameters.material)
 
     baseRing.position.set(0, -0.1, 0.001)
 
@@ -217,7 +217,7 @@ class KPINode extends FlowNode {
     })
     this.add(valueRing)
     valueRing.position.set(0, -0.1, 0.002)
-    valueRing.material = new MeshBasicMaterial(valueRing.parameters.material)
+    valueRing.material = diagram.getMaterial('geometry', 'kpi', valueRing.parameters.material)
 
     if (parameters.lowthreshold) {
       const offset = (valueRing.parameters.outerRadius + valueRing.parameters.innerRadius) / 2
@@ -226,7 +226,7 @@ class KPINode extends FlowNode {
         material: <MeshBasicMaterialParameters>{ color: 'yellow' },
         offset, position: lowthreshold
       })
-      tick.material = new MeshBasicMaterial(tick.parameters.material)
+      tick.material = diagram.getMaterial('geometry', 'kpi', tick.parameters.material)
       this.add(tick)
       tick.position.set(0, -0.1, 0.003)
     }
@@ -237,7 +237,7 @@ class KPINode extends FlowNode {
         material: <MeshBasicMaterialParameters>{ color: 'red' },
         offset, position: highthreshold
       })
-      tick.material = new MeshBasicMaterial(tick.parameters.material)
+      tick.material = diagram.getMaterial('geometry', 'kpi', tick.parameters.material)
       this.add(tick)
       tick.position.set(0, -0.1, 0.003)
 
@@ -263,7 +263,7 @@ class KPINode extends FlowNode {
 
         const newMaterial = this.getRangeMaterial(parameters.value, parameters.ranges)
         if (ringMaterial.color != newMaterial.color) {
-          valueRing.material = new MeshBasicMaterial(newMaterial)
+          valueRing.material = diagram.getMaterial('geometry', 'kpi', newMaterial)
           ringMaterial = newMaterial
         }
 
