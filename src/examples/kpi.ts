@@ -76,19 +76,21 @@ export class KPIExample {
     flow.createNode = (node: KPIParameters) => { return new KPINode(flow, node) }
 
     // make the flow interactive
-    const interaction = new FlowInteraction(flow, app, app.camera)
+    //const interaction = new FlowInteraction(flow, app, app.camera)
 
     const kpi1 = <KPIParameters>{
       x: 0, y: 0, label: { text: 'Oil Wells' }, labelanchor: 'top', labeltransform: { translate: { y: -0.1 } },
-      value: 15857, units: 'bbl', lowthreshold: 5000, highthreshold: 25000,
+      value: 15857, units: 'bbl', lowthreshold: 5000, highthreshold: 26000,
       ranges: [
-        { min: 0, max: 29000, material: <MeshBasicMaterialParameters>{ color: 'red' } }
+        { min: 0, max: 10000, material: <MeshBasicMaterialParameters>{ color: 'yellow' } },
+        { min: 10000, max: 25000, material: <MeshBasicMaterialParameters>{ color: 'green' } },
+        { min: 25000, max: 30000, material: <MeshBasicMaterialParameters>{ color: 'red' } },
       ]
     }
     flow.addNode(kpi1)
 
     this.dispose = () => {
-      interaction.dispose()
+      //interaction.dispose()
       orbit.dispose()
     }
 
@@ -189,8 +191,10 @@ class KPINode extends FlowNode {
 
     let length = MathUtils.mapLinear(node.value, 0, max, 0, Math.PI)
 
+    let ringMaterial = this.getRangeMaterial(node.value, node.ranges)
+
     const valueRing = new RingChart({
-      length, material: <MeshBasicMaterialParameters>{ color: 'red' },
+      length, material: ringMaterial,
       innerRadius: 0.35, outerRadius: 0.42
     })
     this.add(valueRing)
@@ -227,15 +231,37 @@ class KPINode extends FlowNode {
       //}, 1000 / 30)
     }
 
-    //  let change = 0.1
-    //  setInterval(() => {
-    //    if (length > Math.PI || length < 0)
-    //      change = -change
+  //  let change = 250
+  //  let newvalue = node.value
+  //  let lastcolor = ringMaterial.color
+  //  setInterval(() => {
+  //    if (newvalue > max || newvalue < 0)
+  //      change = -change
 
-    //    length += change
-    //    valueRing.parameters.length = length
-    //    valueRing.dispatchEvent<any>({ type: 'update', geometry: true })
-    //  }, 1000 / 30)
+  //    newvalue += change
+
+  //    let material = false
+  //    ringMaterial = this.getRangeMaterial(MathUtils.clamp(newvalue, 0, max), node.ranges)
+  //    if (ringMaterial.color != lastcolor) {
+  //      valueRing.parameters.material = ringMaterial
+  //      material = true
+  //      lastcolor = ringMaterial.color
+  //    }
+
+  //    valueRing.parameters.length = MathUtils.mapLinear(newvalue, 0, max, 0, Math.PI)
+  //    valueRing.dispatchEvent<any>({ type: 'update', geometry: true, material })
+  //  }, 1000 / 30)
+  }
+
+  getRangeMaterial(value: number, ranges: Array<KPIRange>): MeshBasicMaterialParameters {
+    for (let i = 0; i < ranges.length; i++) {
+      const range = ranges[i]
+      if (value > range.min && value <= range.max) {
+        return range.material
+      }
+    }
+    return { color: 'black' }
+
   }
 }
 
