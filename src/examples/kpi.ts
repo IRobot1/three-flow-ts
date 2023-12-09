@@ -78,16 +78,29 @@ export class KPIExample {
     // make the flow interactive
     //const interaction = new FlowInteraction(flow, app, app.camera)
 
-    const kpi1 = <KPIParameters>{
+    let value = 15857
+    let max = 30000
+    const kpi1params = <KPIParameters>{
       x: 0, y: 0, label: { text: 'Oil Wells' }, labelanchor: 'top', labeltransform: { translate: { y: -0.1 } },
-      value: 15857, units: 'bbl', lowthreshold: 5000, highthreshold: 26000,
+      value, units: 'bbl', lowthreshold: 5000, highthreshold: 26000,
       ranges: [
         { min: 0, max: 10000, material: <MeshBasicMaterialParameters>{ color: 'yellow' } },
         { min: 10000, max: 25000, material: <MeshBasicMaterialParameters>{ color: 'green' } },
-        { min: 25000, max: 30000, material: <MeshBasicMaterialParameters>{ color: 'red' } },
+        { min: 25000, max, material: <MeshBasicMaterialParameters>{ color: 'red' } },
       ]
     }
-    flow.addNode(kpi1)
+    const kpi1 = flow.addNode(kpi1params) as KPINode
+
+    let change = 250
+    setInterval(() => {
+      if (kpi1params.value >= max || kpi1params.value <= 0)
+        change = -change
+
+      kpi1params.value = MathUtils.clamp(kpi1params.value + change, 0, max)
+
+      kpi1.update()//dispatchEvent<any>({ type: 'update' })
+    }, 1000 / 30)
+
 
     this.dispose = () => {
       //interaction.dispose()
@@ -176,11 +189,6 @@ class KPINode extends FlowNode {
   constructor(diagram: FlowDiagram, parameters: KPIParameters) {
     super(diagram, parameters)
 
-    //value: 15857, units: 'bbl', highthreshold: 30000,
-    //  ranges: [
-    //    { min: 0, max: 32000, material: <MeshBasicMaterialParameters>{ color: 'red' } }
-    //  ]
-
     const value = diagram.createLabel({ text: `${parameters.value} ${parameters.units}`, alignY: 'bottom' })
     value.updateLabel()
     this.add(value)
@@ -198,12 +206,13 @@ class KPINode extends FlowNode {
 
     baseRing.position.set(0, -0.1, 0.001)
 
-    let length = MathUtils.mapLinear(parameters.value, 0, max, 0, Math.PI)
+    let lastvalue = MathUtils.clamp(parameters.value, 0, max)
+    let radians = MathUtils.mapLinear(lastvalue, 0, max, 0, Math.PI)
 
-    let ringMaterial = this.getRangeMaterial(parameters.value, parameters.ranges)
+    let ringMaterial = this.getRangeMaterial(lastvalue, parameters.ranges)
 
     const valueRing = new RingChart({
-      length, material: ringMaterial,
+      length: radians, material: ringMaterial,
       innerRadius: 0.35, outerRadius: 0.42
     })
     this.add(valueRing)
@@ -232,38 +241,42 @@ class KPINode extends FlowNode {
       this.add(tick)
       tick.position.set(0, -0.1, 0.003)
 
-    //  let change = 0.05
-    //  setInterval(() => {
-    //    if (highthreshold >= Math.PI || highthreshold <= 0)
-    //      change = -change
+      //  let change = 0.05
+      //  setInterval(() => {
+      //    if (highthreshold >= Math.PI || highthreshold <= 0)
+      //      change = -change
 
-    //    highthreshold = MathUtils.clamp(highthreshold + change, 0, Math.PI)
-    //    tick.parameters.position = highthreshold
-    //    tick.update()//dispatchEvent<any>({ type: 'update' })
-    //  }, 1000 / 30)
+      //    highthreshold = MathUtils.clamp(highthreshold + change, 0, Math.PI)
+      //    tick.parameters.position = highthreshold
+      //    tick.update()//dispatchEvent<any>({ type: 'update' })
+      //  }, 1000 / 30)
     }
 
-  //    let change = 250
-  //    let newvalue = parameters.value
-  //    let lastcolor = ringMaterial.color
-  //    setInterval(() => {
-  //      if (newvalue >= max || newvalue <= 0)
-  //        change = -change
+    this.update = () => {
+      if (parameters.value != lastvalue) {
+        radians = MathUtils.mapLinear(parameters.value, 0, max, 0, Math.PI)
+        valueRing.parameters.length = radians
+        valueRing.update()//dispatchEvent<any>({ type: 'update' })
 
-  //      newvalue = MathUtils.clamp(newvalue + change, 0, max)
+        value.text = `${parameters.value} ${parameters.units}`
+        value.updateLabel()
 
-  //      ringMaterial = this.getRangeMaterial(newvalue, parameters.ranges)
-  //      if (ringMaterial.color != lastcolor) {
-  //        valueRing.material = new MeshBasicMaterial(ringMaterial)
-  //        lastcolor = ringMaterial.color
-  //      }
+        const newMaterial = this.getRangeMaterial(parameters.value, parameters.ranges)
+        if (ringMaterial.color != newMaterial.color) {
+          valueRing.material = new MeshBasicMaterial(newMaterial)
+          ringMaterial = newMaterial
+        }
 
-  //      valueRing.parameters.length = MathUtils.mapLinear(newvalue, 0, max, 0, Math.PI)
-  //      valueRing.update()//dispatchEvent<any>({ type: 'update' })
-  //    }, 1000 / 30)
+        lastvalue = parameters.value
+      }
+    }
+
+    this.addEventListener('update', this.update)
   }
 
-  getRangeMaterial(value: number, ranges: Array<KPIRange>): MeshBasicMaterialParameters {
+  update: () => void
+
+  private getRangeMaterial(value: number, ranges: Array<KPIRange>): MeshBasicMaterialParameters {
     for (let i = 0; i < ranges.length; i++) {
       const range = ranges[i]
       if (value > range.min && value <= range.max) {
