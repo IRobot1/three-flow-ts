@@ -258,15 +258,15 @@ export class GalleryExample {
           { id: "c1livedata", anchor: 'top', material: { color: 'white' }, },
         ],
       },
-    //  {
-    //    id: 'properties',
-    //    label: { text: "Edit Properties" },
-    //    x: column5, y: row2,
-    //    assetimage: 'properties', route: 'properties',
-    //    connectors: [
-    //      { id: "c1properties", anchor: 'top', material: { color: 'white' }, },
-    //    ],
-    //  },
+      {
+        id: 'kpi',
+        label: { text: "KPI" },
+        x: column5, y: row2,
+        assetimage: 'placeholder', route: 'kpi',
+        connectors: [
+          { id: "c1kpi", anchor: 'top', material: { color: 'white' }, },
+        ],
+      },
     ];
 
 
@@ -355,12 +355,12 @@ export class GalleryExample {
         fromconnector: "c2frames",
         toconnector: "c1livedata"
       },
-      //{
-      //  from: "basic",
-      //  to: "properties",
-      //  fromconnector: "c2basic",
-      //  toconnector: "c1properties"
-      //},
+      {
+        from: "basic",
+        to: "kpi",
+        fromconnector: "c2basic",
+        toconnector: "c1kpi"
+      },
     ];
 
     const diagram: FlowDiagramParameters = {
