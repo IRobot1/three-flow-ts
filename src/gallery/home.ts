@@ -262,7 +262,7 @@ export class GalleryExample {
         id: 'kpi',
         label: { text: "KPI" },
         x: column5, y: row2,
-        assetimage: 'placeholder', route: 'kpi',
+        assetimage: 'kpi', route: 'kpi',
         connectors: [
           { id: "c1kpi", anchor: 'top', material: { color: 'white' }, },
         ],
