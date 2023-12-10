@@ -5,7 +5,7 @@ import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 
 import { ThreeJSApp } from "../app/threejs-app";
 import {
-  FlowEdgeParameters,
+  FlowEdgeParameters, FlowRoute,
   FlowNodeParameters,
   FlowConnectorParameters,
   FlowDiagram,
@@ -15,9 +15,8 @@ import {
   FlowConnectors,
   ConnectorMesh,
   InteractiveEventType,
-  FlowNode,
+  FlowNode, FlowEdge, FlowEventType, FlowRouteParameters
 } from "three-flow";
-import { FlowEventType } from "../../dist/three-flow";
 
 export class BasicExample {
 
@@ -188,6 +187,19 @@ export class BasicExample {
       scene.add(flow);
       //flow.position.y = 1
 
+      flow.createRoute = (parameters: FlowRouteParameters) => {
+        const route = new FlowRoute(flow, parameters)
+
+        if (parameters.dragging) {
+          route.createGeometry = () => {
+            return new CircleGeometry(route.radius, 6)
+          }
+        }
+
+        return route
+
+      }
+
       // make the flow interactive
       interaction = new FlowInteraction(flow, app, app.camera)
       const connectors = new FlowConnectors(flow)
@@ -246,6 +258,10 @@ export class BasicExample {
           document.body.style.cursor = 'default'
         })
 
+        // make a parameter
+        const distanceBeforeCreate = 0.2
+        const createOnDrop = true
+
         let newnode: FlowNode | undefined
         const createNode = (start: Vector3) => {
           newnode = flow.addNode({
@@ -258,8 +274,19 @@ export class BasicExample {
           })
 
           flow.addEdge({ from: node4.name, to: newnode.name, fromconnector: mesh.name, toconnector: newnode.node.connectors![0].id })
-
         }
+
+        let dragnode: FlowNode | undefined
+        let dragedge: FlowEdge | undefined
+        const createDragNode = (start: Vector3) => {
+          dragnode = flow.addRoute({
+            x: start.x, y: start.y, material: { color: 'blue' }, dragging: true
+            //label: { text: 'New Node', font: 'helvetika', material: { color: 'white' }, },
+          })
+
+          dragedge = flow.addEdge({ from: node4.name, to: dragnode.name, fromconnector: mesh.name, })
+        }
+
         let dragStart: Vector3 | undefined
         let flowStart: Vector3 | undefined
         mesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
@@ -267,19 +294,40 @@ export class BasicExample {
           flowStart = flow.getFlowPosition(mesh)
         })
 
+        let dragDistance = 0
         mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
           const position = e.position.clone()
           const diff = position.sub(dragStart) as Vector3
-          if (diff.length() > 0.2 && !newnode) {
-            createNode(flowStart!)
+          dragDistance = diff.length()
+          if (dragDistance > distanceBeforeCreate) {
+            if (!createOnDrop) {
+              if (!newnode) createNode(flowStart!)
+            }
+            else {
+              if (!dragnode) createDragNode(flowStart!)
+            }
           }
+
           if (newnode) {
             newnode.position.copy(position.add(flowStart) as Vector3)
             newnode.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
           }
+          if (dragnode) {
+            dragnode.position.copy(position.add(flowStart) as Vector3)
+            dragnode.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
+          }
         })
 
         mesh.addEventListener(InteractiveEventType.DRAGEND, (e: any) => {
+          if (dragDistance > distanceBeforeCreate) {
+            if (createOnDrop)
+              createNode(e.position.clone().add(flowStart) as Vector3)
+
+            if (dragnode) flow.removeNode(dragnode)
+            dragnode = undefined
+            if (dragedge) flow.removeEdge(dragedge)
+            dragedge = undefined
+          }
           newnode = undefined
         })
         return mesh

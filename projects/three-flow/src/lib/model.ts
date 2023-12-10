@@ -113,6 +113,7 @@ export interface FlowNodeParameters {
 
 export interface FlowRouteParameters extends FlowNodeParameters {
   radius?: number
+  dragging?: boolean  // in use for dragging
 }
 
 export interface FlowDiagramParameters {
