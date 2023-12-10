@@ -38,7 +38,9 @@ export interface FlowConnectorParameters {
   radius?: number // shape radius
   width?: number  // if shape has specific width, otherwise radius*2
   height?: number // if shape has specific height, otherwise radius*2
+  disabled?: boolean
   selectable?: boolean // default is false
+  selectcursor?: string // default is 'grab' see https://developer.mozilla.org/docs/Web/CSS/cursor
   draggable?: boolean // listen for drag events
 }
 

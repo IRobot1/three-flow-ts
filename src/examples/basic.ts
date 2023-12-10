@@ -249,8 +249,12 @@ export class BasicExample {
       //  return mesh
       //}
 
-      connectors.addConnectors(node4, [{ id: 'n4c1', anchor: 'right' }])
-      connectors.addConnectors(node4, [{ id: 'n4c2', anchor: 'left', selectable: true, draggable: true }])
+      connectors.addConnectors(node4, [{ id: 'n4c1', anchor: 'right', selectable: true, disabled: true }])
+      connectors.addConnectors(node4, [{
+        id: 'n4c2', anchor: 'left',
+        selectable: true, selectcursor: 'crosshair', 
+        draggable: true
+      }])
 
       // add the edge between nodes and specific connectors
       flow.addEdge({ from: '4', to: '1', fromconnector: 'n4c1', toconnector: 'n1c2' })

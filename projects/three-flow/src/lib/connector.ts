@@ -260,6 +260,8 @@ export class ConnectorMesh extends Mesh {
     }
   }
 
+  disabled: boolean
+  selectcursor: string
   isFlow = true
   constructor(private connectors: NodeConnectors, public parameters: FlowConnectorParameters) {
     super()
@@ -278,6 +280,8 @@ export class ConnectorMesh extends Mesh {
     this.height = parameters.height = parameters.height != undefined ? parameters.height : this.radius * 2
     this._selectable = parameters.selectable ? parameters.selectable : false
     this._draggable = parameters.draggable ? parameters.draggable : false
+    this.selectcursor = parameters.selectcursor ? parameters.selectcursor : 'grab'
+    this.disabled = parameters.disabled ? parameters.disabled: false
 
     this.hidden = parameters.hidden != undefined ? parameters.hidden : false
     this.visible = !this.hidden

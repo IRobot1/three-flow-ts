@@ -253,8 +253,13 @@ class ConnectorInteractive {
 
     mesh.addEventListener(InteractiveEventType.POINTERENTER, () => {
       if (!mesh.selectable) return
-      mesh.material = white
-      document.body.style.cursor = 'grab'
+      if (mesh.disabled) {
+        document.body.style.cursor = 'not-allowed'
+      }
+      else {
+        mesh.material = white
+        document.body.style.cursor = mesh.selectcursor
+      }
     })
     mesh.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
       if (!mesh.selectable) return
@@ -294,15 +299,16 @@ class ConnectorInteractive {
     let dragStart: Vector3 | undefined
     let flowStart: Vector3 | undefined
     mesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
-      if (!mesh.draggable) return
+      if (!mesh.draggable || mesh.disabled) return
 
       dragStart = e.position.clone()
       flowStart = diagram.getFlowPosition(mesh)
+      document.body.style.cursor = 'grabbing'
     })
 
     let dragDistance = 0
     mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
-      if (!mesh.draggable) return
+      if (!mesh.draggable || mesh.disabled) return
 
       const position = e.position.clone()
       const diff = position.sub(dragStart) as Vector3
@@ -327,7 +333,7 @@ class ConnectorInteractive {
     })
 
     mesh.addEventListener(InteractiveEventType.DRAGEND, (e: any) => {
-      if (!mesh.draggable) return
+      if (!mesh.draggable || mesh.disabled) return
 
       if (dragDistance > distanceBeforeCreate) {
         if (createOnDrop)

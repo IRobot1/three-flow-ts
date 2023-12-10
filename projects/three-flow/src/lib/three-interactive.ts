@@ -178,7 +178,6 @@ export class ThreeInteractive {
             _inverseMatrix.copy(_selected.parent.matrixWorld).invert();
 
             _selected.dispatchEvent({ type: InteractiveEventType.DRAGSTART, position: _intersection.applyMatrix4(_inverseMatrix), data: _intersects });
-            document.body.style.cursor = 'grabbing'
           }
 
         }
