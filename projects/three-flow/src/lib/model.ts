@@ -39,6 +39,7 @@ export interface FlowConnectorParameters {
   width?: number  // if shape has specific width, otherwise radius*2
   height?: number // if shape has specific height, otherwise radius*2
   selectable?: boolean // default is false
+  draggable?: boolean // listen for drag events
 }
 
 export type ArrowType = 'from' | 'to'

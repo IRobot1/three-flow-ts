@@ -1,4 +1,4 @@
-import { AmbientLight, BufferGeometry, CircleGeometry, Color, PointLight, Scene } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, MeshBasicMaterial, PointLight, Scene, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
@@ -13,7 +13,11 @@ import {
   FlowDiagramParameters,
   FlowInteraction,
   FlowConnectors,
+  ConnectorMesh,
+  InteractiveEventType,
+  FlowNode,
 } from "three-flow";
+import { FlowEventType } from "../../dist/three-flow";
 
 export class BasicExample {
 
@@ -51,7 +55,7 @@ export class BasicExample {
     })
 
 
-    //scene.add(new AxesHelper(3))
+    scene.add(new AxesHelper(3))
 
 
     const nodes: FlowNodeParameters[] = [
@@ -72,12 +76,11 @@ export class BasicExample {
         scale: 1,
         width: 1,
         height: 2,
-        material: { color: 0x297029, transparent:true, opacity:0.5 },
+        material: { color: 0x297029, transparent: true, opacity: 0.5 },
         resizematerial: { color: 0xff0000 },
         scalematerial: { color: 0xfff370 },
         connectors: [
-          {
-            id: "n1c1", anchor: 'left', index: 0, label: { text: 'input', font: 'helvetika', material: { color: 'white' }, alignX: 'left' } },
+          { id: "n1c1", anchor: 'left', index: 0, label: { text: 'input', font: 'helvetika', material: { color: 'white' }, alignX: 'left' } },
           { id: "n1c2", anchor: 'left', index: 1 },
           { id: "n1c3", anchor: 'right', index: 0, label: { text: 'output', font: 'helvetika', material: { color: 'white' }, alignX: 'right' } }
         ],
@@ -183,6 +186,7 @@ export class BasicExample {
       // read-only flow
       const flow = new FlowDiagram(options)
       scene.add(flow);
+      //flow.position.y = 1
 
       // make the flow interactive
       interaction = new FlowInteraction(flow, app, app.camera)
@@ -207,7 +211,11 @@ export class BasicExample {
       //
       // how to override connector shape for a specific node or type of node
       //
-      const node4 = flow.addNode({ id: '4', x: -2, y: 1.5, material: { color: 'blue' }, label: { text: 'Title4', font: 'helvetika', material: { color: 'white' }, } })
+      const node4 = flow.addNode({
+        id: '4', x: -2, y: 1.5, material: { color: 'blue' },
+        label: { text: 'Title4', font: 'helvetika', material: { color: 'white' }, },
+        resizable: false, draggable: false
+      })
 
       // for a specific node, override connector shape based on parameters
       const connectors1 = connectors.hasNode('4')!
@@ -223,8 +231,61 @@ export class BasicExample {
         else
           return octagon
       }
+      connectors1.createConnector = (parameters: FlowConnectorParameters): ConnectorMesh => {
+        const mesh = new ConnectorMesh(connectors1, parameters)
+
+        const original = (mesh.material as MeshBasicMaterial).clone()
+        const white = new MeshBasicMaterial({ color: 'white' })
+
+        mesh.addEventListener(InteractiveEventType.POINTERENTER, () => {
+          mesh.material = white
+          document.body.style.cursor = 'grab'
+        })
+        mesh.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
+          mesh.material = original
+          document.body.style.cursor = 'default'
+        })
+
+        let start: Vector3 | undefined
+        let newnode: FlowNode
+        mesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
+          // get node4s position relative to diagram
+          // TODO: this needs to be shared function on connectors?
+          let worldPosition = new Vector3();
+          node4.localToWorld(worldPosition);
+
+          start = flow.worldToLocal(worldPosition);
+
+          newnode = flow.addNode({
+            x: start.x, y: start.y, material: { color: 'blue' },
+            label: { text: 'New Node', font: 'helvetika', material: { color: 'white' }, },
+            resizable: false,
+            connectors: [
+              { id: '', anchor: 'left', index: 0, label: { text: 'input', font: 'helvetika', material: { color: 'white' }, alignX: 'left' } },
+
+            ]
+          })
+
+          flow.addEdge({ from: node4.name, to: newnode.name, fromconnector: mesh.name, toconnector: '' })
+
+        })
+
+        mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
+          const position = e.position.clone()
+          const diff = e.position.add(start) as Vector3
+          newnode.position.copy(diff)
+          newnode.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
+        })
+
+        mesh.addEventListener(InteractiveEventType.DRAGEND, (e: any) => {
+          const position = e.position.clone()
+          newnode.position.copy(position)
+        })
+        return mesh
+      }
+
       connectors.addConnectors(node4, [{ id: 'n4c1', anchor: 'right' }])
-      connectors.addConnectors(node4, [{ id: 'n4c2', anchor: 'left' }])
+      connectors.addConnectors(node4, [{ id: 'n4c2', anchor: 'left', selectable: true, draggable: true }])
 
       // add the edge between nodes and specific connectors
       flow.addEdge({ from: '4', to: '1', fromconnector: 'n4c1', toconnector: 'n1c2' })

@@ -6,9 +6,12 @@ import { FlowNode } from "./node";
 import { ResizeNode } from "./resize-node";
 import { ScaleNode } from "./scale-node";
 import { FlowEventType } from "./model";
+import { ConnectorMesh } from "./connector";
 
 export class FlowInteraction {
   private nodes: Array<NodeInteractive> = []
+  private connectors: Array<ConnectorMesh> = []
+
   readonly interactive: ThreeInteractive
 
   private _draggable = true
@@ -75,6 +78,46 @@ export class FlowInteraction {
       // enable mouse enter/leave/missed events
       node.addEventListener(FlowEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
       selectableChanged()
+    })
+
+    diagram.addEventListener(FlowEventType.CONNECTOR_ADDED, (e: any) => {
+      const connector = e.connector as ConnectorMesh
+      if (connector.selectable) {
+        this.connectors.push(connector)
+
+        const selectableChanged = () => {
+          if (connector.selectable)
+            this.interactive.selectable.add(connector)
+          else
+            this.interactive.selectable.remove(connector)
+        }
+        // enable mouse enter/leave/missed events
+        connector.addEventListener(FlowEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
+        selectableChanged()
+      }
+
+      if (connector.draggable) {
+        const draggableChanged = () => {
+          if (connector.draggable)
+            this.interactive.draggable.add(connector)
+          else
+            this.interactive.draggable.remove(connector)
+        }
+        // enable mouse enter/leave/missed events
+        connector.addEventListener(FlowEventType.DRAGGABLE_CHANGED, () => { draggableChanged() })
+        draggableChanged()
+      }
+    })
+
+    diagram.addEventListener(FlowEventType.CONNECTOR_REMOVED, (e: any) => {
+      const connector = e.connector as ConnectorMesh
+      const index = this.connectors.findIndex(x => x == connector)
+      if (index != -1) {
+        //this.connectors[index].dispose()
+        this.connectors.splice(index, 1)
+
+        if (connector.selectable) this.interactive.selectable.remove(connector)
+      }
     })
 
     diagram.addEventListener(FlowEventType.DISPOSE, () => {
@@ -192,6 +235,4 @@ class NodeInteractive {
   createScaler(node: FlowNode, material: Material): ScaleNode {
     return new ScaleNode(node, material)
   }
-
-
 }

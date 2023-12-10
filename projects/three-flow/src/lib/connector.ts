@@ -73,6 +73,8 @@ export class FlowConnectors {
   createGeometry(parameters: FlowConnectorParameters): BufferGeometry {
     return new CircleGeometry(parameters.radius)
   }
+
+
 }
 
 export class NodeConnectors {
@@ -110,11 +112,11 @@ export class NodeConnectors {
     return undefined
   }
 
-  addConnector(item: FlowConnectorParameters): ConnectorMesh {
-    if (!item.anchor) item.anchor = 'left'
-    const connector = new ConnectorMesh(this, item)
+  addConnector(parameters: FlowConnectorParameters): ConnectorMesh {
+    if (!parameters.anchor) parameters.anchor = 'left'
+    const connector = this.createConnector(parameters)
     this.node.add(connector)
-    this.total[item.anchor]++;
+    this.total[parameters.anchor]++;
 
     this.moveConnectors()
     if (connector.transform)
@@ -198,6 +200,9 @@ export class NodeConnectors {
     return this.connectors.createGeometry(parameters)
   }
 
+  createConnector(parameters:FlowConnectorParameters): ConnectorMesh {
+    return new ConnectorMesh(this, parameters)
+  }
 }
 
 export class ConnectorMesh extends Mesh {
@@ -222,7 +227,24 @@ export class ConnectorMesh extends Mesh {
   width: number
   height: number
   radius: number
-  selectable: boolean
+
+  private _selectable: boolean;
+  get selectable() { return this._selectable }
+  set selectable(newvalue: boolean) {
+    if (this._selectable != newvalue) {
+      this._selectable = newvalue;
+      this.dispatchEvent<any>({ type: FlowEventType.SELECTABLE_CHANGED })
+    }
+  }
+
+  private _draggable: boolean;
+  get draggable() { return this._draggable }
+  set draggable(newvalue: boolean) {
+    if (this._draggable != newvalue) {
+      this._draggable = newvalue;
+      this.dispatchEvent<any>({ type: FlowEventType.SELECTABLE_CHANGED })
+    }
+  }
 
   isFlow = true
   constructor(private node: NodeConnectors, public parameters: FlowConnectorParameters) {
@@ -240,7 +262,8 @@ export class ConnectorMesh extends Mesh {
     this.radius = parameters.radius = parameters.radius != undefined ? parameters.radius : 0.1
     this.width = parameters.width = parameters.width != undefined ? parameters.width : this.radius * 2
     this.height = parameters.height = parameters.height != undefined ? parameters.height : this.radius * 2
-    this.selectable = parameters.selectable ? parameters.selectable : false
+    this._selectable = parameters.selectable ? parameters.selectable : false
+    this._draggable = parameters.draggable ? parameters.draggable : false
 
     this.hidden = parameters.hidden != undefined ? parameters.hidden : false
     this.visible = !this.hidden
