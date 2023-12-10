@@ -85,8 +85,9 @@ export class NodeConnectors {
   constructor(public connectors: FlowConnectors, private node: FlowNode, public parameters: Array<FlowConnectorParameters>) {
 
     if (node.node.connectors) {
-      node.node.connectors.forEach(connector => {
-        this.addConnector(connector)
+      node.node.connectors.forEach((parameters, index) => {
+        parameters.index = index
+        this.addConnector(parameters)
       });
     }
 
@@ -114,6 +115,9 @@ export class NodeConnectors {
 
   addConnector(parameters: FlowConnectorParameters): ConnectorMesh {
     if (!parameters.anchor) parameters.anchor = 'left'
+    if (!parameters.index) parameters.index = 0
+    if (!parameters.id) parameters.id = `c${parameters.index! + 1}${this.node.name}`
+
     const connector = this.createConnector(parameters)
     this.node.add(connector)
     this.total[parameters.anchor]++;
@@ -200,7 +204,7 @@ export class NodeConnectors {
     return this.connectors.createGeometry(parameters)
   }
 
-  createConnector(parameters:FlowConnectorParameters): ConnectorMesh {
+  createConnector(parameters: FlowConnectorParameters): ConnectorMesh {
     return new ConnectorMesh(this, parameters)
   }
 }
@@ -208,6 +212,16 @@ export class NodeConnectors {
 export class ConnectorMesh extends Mesh {
   index: number
   anchor: AnchorType
+  get oppositeAnchor(): AnchorType {
+    const lookup = {
+      left: 'right',
+      right: 'left',
+      top: 'bottom',
+      bottom: 'top',
+      center: 'center'
+    }
+    return lookup[this.anchor] as AnchorType
+  }
 
   private _matparams!: MeshBasicMaterialParameters
   get color() { return this._matparams.color! }

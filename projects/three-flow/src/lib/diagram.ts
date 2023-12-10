@@ -35,7 +35,7 @@ export class FlowDiagram extends Object3D {
   set active(newvalue: FlowNode | undefined) {
     if (newvalue != this._active) {
       this._active = newvalue
-        this.dispatchEvent<any>({ type: FlowEventType.ACTIVE_CHANGED, node: newvalue })
+      this.dispatchEvent<any>({ type: FlowEventType.ACTIVE_CHANGED, node: newvalue })
     }
   }
 
@@ -282,6 +282,13 @@ export class FlowDiagram extends Object3D {
       this.materials.set(key, material);
     }
     return this.materials.get(key)!;
+  }
+
+  // return local position of object within the diagram
+  getFlowPosition(object: Object3D): Vector3 {
+    let worldPosition = new Vector3();
+    object.localToWorld(worldPosition);
+    return this.worldToLocal(worldPosition);
   }
 
   // allow overriding

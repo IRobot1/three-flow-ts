@@ -250,23 +250,20 @@ export class BasicExample {
         let newnode: FlowNode
         mesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
           // get node4s position relative to diagram
-          // TODO: this needs to be shared function on connectors?
-          let worldPosition = new Vector3();
-          node4.localToWorld(worldPosition);
+          start = flow.getFlowPosition(node4)
 
-          start = flow.worldToLocal(worldPosition);
 
           newnode = flow.addNode({
             x: start.x, y: start.y, material: { color: 'blue' },
             label: { text: 'New Node', font: 'helvetika', material: { color: 'white' }, },
             resizable: false,
             connectors: [
-              { id: '', anchor: 'left', index: 0, label: { text: 'input', font: 'helvetika', material: { color: 'white' }, alignX: 'left' } },
+              { id: '', anchor: mesh.oppositeAnchor, index: 0 },
 
             ]
           })
 
-          flow.addEdge({ from: node4.name, to: newnode.name, fromconnector: mesh.name, toconnector: '' })
+          flow.addEdge({ from: node4.name, to: newnode.name, fromconnector: mesh.name, toconnector: newnode.node.connectors![0].id })
 
         })
 
