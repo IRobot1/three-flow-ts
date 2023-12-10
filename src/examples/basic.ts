@@ -29,7 +29,7 @@ export class BasicExample {
     app.scene = scene
 
     app.camera.position.y = 0.5
-    app.camera.position.z = 2
+    app.camera.position.z = 3
 
     scene.background = new Color(0x444444)
 
@@ -55,7 +55,7 @@ export class BasicExample {
     })
 
 
-    scene.add(new AxesHelper(3))
+    //scene.add(new AxesHelper(3))
 
 
     const nodes: FlowNodeParameters[] = [
@@ -246,37 +246,41 @@ export class BasicExample {
           document.body.style.cursor = 'default'
         })
 
-        let start: Vector3 | undefined
-        let newnode: FlowNode
-        mesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
-          // get node4s position relative to diagram
-          start = flow.getFlowPosition(node4)
-
-
+        let newnode: FlowNode | undefined
+        const createNode = (start: Vector3) => {
           newnode = flow.addNode({
             x: start.x, y: start.y, material: { color: 'blue' },
             label: { text: 'New Node', font: 'helvetika', material: { color: 'white' }, },
             resizable: false,
             connectors: [
               { id: '', anchor: mesh.oppositeAnchor, index: 0 },
-
             ]
           })
 
           flow.addEdge({ from: node4.name, to: newnode.name, fromconnector: mesh.name, toconnector: newnode.node.connectors![0].id })
 
+        }
+        let dragStart: Vector3 | undefined
+        let flowStart: Vector3 | undefined
+        mesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
+          dragStart = e.position.clone()
+          flowStart = flow.getFlowPosition(mesh)
         })
 
         mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
           const position = e.position.clone()
-          const diff = e.position.add(start) as Vector3
-          newnode.position.copy(diff)
-          newnode.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
+          const diff = position.sub(dragStart) as Vector3
+          if (diff.length() > 0.2 && !newnode) {
+            createNode(flowStart!)
+          }
+          if (newnode) {
+            newnode.position.copy(position.add(flowStart) as Vector3)
+            newnode.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
+          }
         })
 
         mesh.addEventListener(InteractiveEventType.DRAGEND, (e: any) => {
-          const position = e.position.clone()
-          newnode.position.copy(position)
+          newnode = undefined
         })
         return mesh
       }
