@@ -178,6 +178,7 @@ export class ThreeInteractive {
             _inverseMatrix.copy(_selected.parent.matrixWorld).invert();
 
             _selected.dispatchEvent({ type: InteractiveEventType.DRAGSTART, position: _intersection.applyMatrix4(_inverseMatrix), data: _intersects });
+            document.body.style.cursor = 'grabbing'
           }
 
         }
@@ -196,6 +197,7 @@ export class ThreeInteractive {
       }
       else if (_event.type == 'pointerup') {
         if (_selected) {
+          document.body.style.cursor = 'default'
 
           _selected.dispatchEvent({ type: InteractiveEventType.DRAGEND, position: _intersection });
 
