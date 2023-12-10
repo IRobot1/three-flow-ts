@@ -42,6 +42,8 @@ export interface FlowConnectorParameters {
   selectable?: boolean // default is false
   selectcursor?: string // default is 'grab' see https://developer.mozilla.org/docs/Web/CSS/cursor
   draggable?: boolean // listen for drag events
+  startDragDistance?: number  // distance moved before dragging starts
+  createOnDrop? : boolean // call dropCompleted when dragging starts or ends. Default is when it ends
 }
 
 export type ArrowType = 'from' | 'to'

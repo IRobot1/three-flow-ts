@@ -8,6 +8,7 @@ import { ScaleNode } from "./scale-node";
 import { FlowEventType } from "./model";
 import { ConnectorMesh } from "./connector";
 import { FlowEdge } from "./edge";
+import { FlowRoute } from "./route";
 
 export class FlowInteraction {
   private nodes: Array<NodeInteractive> = []
@@ -246,10 +247,7 @@ class ConnectorInteractive {
 
   constructor(public mesh: ConnectorMesh, source: FlowInteraction) {
     const diagram = source.diagram
-    const node4 = mesh.parent as FlowNode
-
-    const original = (mesh.material as MeshBasicMaterial).clone()
-    const white = new MeshBasicMaterial({ color: 'white' })
+    const meshParent = mesh.parent as FlowNode
 
     mesh.addEventListener(InteractiveEventType.POINTERENTER, () => {
       if (!mesh.selectable) return
@@ -257,43 +255,29 @@ class ConnectorInteractive {
         document.body.style.cursor = 'not-allowed'
       }
       else {
-        mesh.material = white
-        document.body.style.cursor = mesh.selectcursor
+        let cursor = mesh.pointerEnter() ?? mesh.selectcursor
+        if (cursor)
+          document.body.style.cursor = cursor
       }
     })
     mesh.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
       if (!mesh.selectable) return
-      mesh.material = original
+      mesh.pointerLeave()
       document.body.style.cursor = 'default'
     })
 
-    // make a parameter
-    const distanceBeforeCreate = 0.2
-    const createOnDrop = true
-
-    let newnode: FlowNode | undefined
-    const createNode = (start: Vector3) => {
-      newnode = diagram.addNode({
-        x: start.x, y: start.y, material: { color: 'blue' },
-        label: { text: 'New Node', font: 'helvetika', material: { color: 'white' }, },
-        resizable: false,
-        connectors: [
-          { id: '', anchor: mesh.oppositeAnchor, index: 0 },
-        ]
-      })
-
-      diagram.addEdge({ from: node4.name, to: newnode.name, fromconnector: mesh.name, toconnector: newnode.node.connectors![0].id })
+    const createNode = (start: Vector3): FlowNode | undefined => {
+      const node = mesh.dropCompleted(diagram, start)
+      if (node)
+        diagram.addEdge({ from: meshParent.name, to: node.name, fromconnector: mesh.name, toconnector: node.node.connectors![0].id })
+      return node
     }
 
-    let dragnode: FlowNode | undefined
-    let dragedge: FlowEdge | undefined
-    const createDragNode = (start: Vector3) => {
-      dragnode = diagram.addRoute({
-        x: start.x, y: start.y, material: { color: 'blue' }, dragging: true
-        //label: { text: 'New Node', font: 'helvetika', material: { color: 'white' }, },
-      })
-
-      dragedge = diagram.addEdge({ from: node4.name, to: dragnode.name, fromconnector: mesh.name, })
+    const createDragRoute = (start: Vector3): FlowRoute | undefined => {
+      const route = mesh.dragStarting(diagram, start)
+      if (route)
+        dragedge = diagram.addEdge({ from: meshParent.name, to: route.name, fromconnector: mesh.name, })
+      return route
     }
 
     let dragStart: Vector3 | undefined
@@ -306,6 +290,9 @@ class ConnectorInteractive {
       document.body.style.cursor = 'grabbing'
     })
 
+    let newnode: FlowNode | undefined
+    let dragroute: FlowNode | undefined
+    let dragedge: FlowEdge | undefined
     let dragDistance = 0
     mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
       if (!mesh.draggable || mesh.disabled) return
@@ -313,12 +300,12 @@ class ConnectorInteractive {
       const position = e.position.clone()
       const diff = position.sub(dragStart) as Vector3
       dragDistance = diff.length()
-      if (dragDistance > distanceBeforeCreate) {
-        if (!createOnDrop) {
-          if (!newnode) createNode(flowStart!)
+      if (dragDistance > mesh.startDragDistance) {
+        if (!mesh.createOnDrop) {
+          if (!newnode) newnode = createNode(flowStart!)
         }
         else {
-          if (!dragnode) createDragNode(flowStart!)
+          if (!dragroute) dragroute = createDragRoute(flowStart!)
         }
       }
 
@@ -326,21 +313,21 @@ class ConnectorInteractive {
         newnode.position.copy(position.add(flowStart) as Vector3)
         newnode.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
       }
-      if (dragnode) {
-        dragnode.position.copy(position.add(flowStart) as Vector3)
-        dragnode.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
+      if (dragroute) {
+        dragroute.position.copy(position.add(flowStart) as Vector3)
+        dragroute.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
       }
     })
 
     mesh.addEventListener(InteractiveEventType.DRAGEND, (e: any) => {
       if (!mesh.draggable || mesh.disabled) return
 
-      if (dragDistance > distanceBeforeCreate) {
-        if (createOnDrop)
+      if (dragDistance > mesh.startDragDistance) {
+        if (mesh.createOnDrop)
           createNode(e.position.clone().add(flowStart) as Vector3)
 
-        if (dragnode) diagram.removeNode(dragnode)
-        dragnode = undefined
+        if (dragroute) diagram.removeNode(dragroute)
+        dragroute = undefined
         if (dragedge) diagram.removeEdge(dragedge)
         dragedge = undefined
       }

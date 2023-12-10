@@ -179,7 +179,7 @@ export class FlowDiagram extends Object3D {
     return node
   }
 
-  addRoute(item: FlowRouteParameters): FlowNode {
+  addRoute(item: FlowRouteParameters): FlowRoute {
     const route = this.createRoute(item)
     this.add(route)
     this._nodeCount++;
@@ -304,7 +304,7 @@ export class FlowDiagram extends Object3D {
     return new FlowNode(this, node)
   }
 
-  createRoute(route: FlowRouteParameters): FlowNode {
+  createRoute(route: FlowRouteParameters): FlowRoute {
     return new FlowRoute(this, route)
   }
 

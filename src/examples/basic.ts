@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, MeshBasicMaterial, PointLight, Scene, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, MeshBasicMaterial, MeshBasicMaterialParameters, PointLight, Scene, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
@@ -243,17 +243,42 @@ export class BasicExample {
         else
           return octagon
       }
-      //connectors1.createConnector = (parameters: FlowConnectorParameters): ConnectorMesh => {
-      //  const mesh = new ConnectorMesh(connectors1, parameters)
+      connectors1.createConnector = (parameters: FlowConnectorParameters): ConnectorMesh => {
+        const mesh = new ConnectorMesh(connectors1, parameters)
 
-      //  return mesh
-      //}
+        const original = (mesh.material as MeshBasicMaterial).clone()
+        const white = flow.getMaterial('geometry', 'drag-enter', <MeshBasicMaterialParameters>{ color: 'white' })
+        mesh.pointerEnter = (): string | undefined => {
+          mesh.material = white
+          return undefined
+        }
+        mesh.pointerLeave = () => {
+          mesh.material = original
+        }
+        //mesh.dragStarting = (diagram: FlowDiagram, start: Vector3): FlowRoute => {
+        //  return diagram.addRoute({
+        //    x: start.x, y: start.y, material: { color: 'blue' }, dragging: true
+        //  })
+        //}
+        mesh.dropCompleted = (diagram: FlowDiagram, start: Vector3): FlowNode | undefined => {
+          return diagram.addNode({
+            x: start.x, y: start.y, material: { color: 'blue' },
+            label: { text: 'New Node', font: 'helvetika', material: { color: 'white' }, },
+            resizable: false,
+            connectors: [
+              { id: '', anchor: mesh.oppositeAnchor, index: 0 },
+            ]
+          })
+        }
+
+        return mesh
+      }
 
       connectors.addConnectors(node4, [{ id: 'n4c1', anchor: 'right', selectable: true, disabled: true }])
       connectors.addConnectors(node4, [{
         id: 'n4c2', anchor: 'left',
-        selectable: true, selectcursor: 'crosshair', 
-        draggable: true
+        selectable: true, selectcursor: 'crosshair',
+        draggable: true, createOnDrop: true
       }])
 
       // add the edge between nodes and specific connectors

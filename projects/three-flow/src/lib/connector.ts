@@ -1,9 +1,10 @@
 import { AnchorType, FlowConnectorParameters, FlowEventType, FlowTransform } from "./model"
-import { BufferGeometry, CircleGeometry, ColorRepresentation, Mesh, MeshBasicMaterialParameters, Object3D } from "three"
+import { BufferGeometry, CircleGeometry, ColorRepresentation, Mesh, MeshBasicMaterialParameters, Object3D, Vector3 } from "three"
 import { FlowDiagram } from "./diagram"
 import { FlowNode } from "./node"
 import { FlowLabel } from "./label"
 import { FlowUtils } from "./utils"
+import { FlowRoute } from "./route"
 
 export class FlowConnectors {
   private connectorsMap = new Map<string, NodeConnectors>()
@@ -262,6 +263,9 @@ export class ConnectorMesh extends Mesh {
 
   disabled: boolean
   selectcursor: string
+  startDragDistance: number
+  createOnDrop: boolean
+
   isFlow = true
   constructor(private connectors: NodeConnectors, public parameters: FlowConnectorParameters) {
     super()
@@ -281,7 +285,9 @@ export class ConnectorMesh extends Mesh {
     this._selectable = parameters.selectable ? parameters.selectable : false
     this._draggable = parameters.draggable ? parameters.draggable : false
     this.selectcursor = parameters.selectcursor ? parameters.selectcursor : 'grab'
-    this.disabled = parameters.disabled ? parameters.disabled: false
+    this.disabled = parameters.disabled ? parameters.disabled : false
+    this.startDragDistance = parameters.startDragDistance != undefined ? parameters.startDragDistance : 0.2
+    this.createOnDrop = parameters.createOnDrop != undefined ? parameters.createOnDrop : true
 
     this.hidden = parameters.hidden != undefined ? parameters.hidden : false
     this.visible = !this.hidden
@@ -312,5 +318,22 @@ export class ConnectorMesh extends Mesh {
     this.geometry = this.connectors.createGeometry(parameters)
     this.material = diagram.getMaterial('geometry', 'connector', this._matparams)
   }
+
+  // overridables
+  pointerEnter(): string | undefined {
+    return 'grab'
+  }
+
+  pointerLeave(): void { }
+
+  dragStarting(diagram: FlowDiagram, start: Vector3): FlowRoute | undefined {
+    return diagram.addRoute({ x: start.x, y: start.y, dragging: true })
+  }
+
+  dropCompleted(diagram: FlowDiagram, position: Vector3): FlowNode | undefined {
+    console.warn('drop complete not handled')
+    return undefined
+  }
+
 }
 
