@@ -120,22 +120,21 @@ export class NodeConnectors {
     if (connector.transform)
       FlowUtils.transformObject(connector.transform, connector)
 
+    this.node.diagram.dispatchEvent<any>({ type: FlowEventType.CONNECTOR_ADDED, connector })
     return connector
   }
 
-  removeConnector(connector: FlowConnectorParameters): void {
-    const item = this.hasConnector(connector.id)
-    if (item) this.removeConnectorMesh(item)
+  removeConnector(parameters: FlowConnectorParameters): void {
+    const connector = this.hasConnector(parameters.id)
+    if (connector) {
+      this.node.remove(connector)
+      this.total[connector.anchor]--;
+
+      this.moveConnectors()
+
+      this.node.diagram.dispatchEvent<any>({ type: FlowEventType.CONNECTOR_REMOVED, connector })
+    }
   }
-
-
-  private removeConnectorMesh(item: ConnectorMesh): void {
-    this.node.remove(item)
-    this.total[item.anchor]--;
-
-    this.moveConnectors()
-  }
-
 
   private getConnectors() {
     return (this.node.children as Array<ConnectorMesh>)
@@ -187,7 +186,7 @@ export class NodeConnectors {
 
   private moveConnectors() {
 
-    this.getConnectors().sort((a,b) => a.index - b.index).forEach(connector => {
+    this.getConnectors().sort((a, b) => a.index - b.index).forEach(connector => {
       this.positionConnector(connector)
       connector.dispatchEvent<any>({ type: 'dragged' })
     })
@@ -205,7 +204,7 @@ export class ConnectorMesh extends Mesh {
   index: number
   anchor: AnchorType
 
-  private _matparams!: MeshBasicMaterialParameters 
+  private _matparams!: MeshBasicMaterialParameters
   get color() { return this._matparams.color! }
   set color(newvalue: ColorRepresentation) {
     if (this._matparams.color != newvalue) {
@@ -223,6 +222,7 @@ export class ConnectorMesh extends Mesh {
   width: number
   height: number
   radius: number
+  selectable: boolean
 
   isFlow = true
   constructor(private node: NodeConnectors, public parameters: FlowConnectorParameters) {
@@ -240,6 +240,7 @@ export class ConnectorMesh extends Mesh {
     this.radius = parameters.radius = parameters.radius != undefined ? parameters.radius : 0.1
     this.width = parameters.width = parameters.width != undefined ? parameters.width : this.radius * 2
     this.height = parameters.height = parameters.height != undefined ? parameters.height : this.radius * 2
+    this.selectable = parameters.selectable ? parameters.selectable : false
 
     this.hidden = parameters.hidden != undefined ? parameters.hidden : false
     this.visible = !this.hidden

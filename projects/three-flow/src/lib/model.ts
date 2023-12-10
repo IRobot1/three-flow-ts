@@ -38,6 +38,7 @@ export interface FlowConnectorParameters {
   radius?: number // shape radius
   width?: number  // if shape has specific width, otherwise radius*2
   height?: number // if shape has specific height, otherwise radius*2
+  selectable?: boolean // default is false
 }
 
 export type ArrowType = 'from' | 'to'
@@ -139,6 +140,8 @@ export const FlowEventType = {
   EDGE_ADDED: 'edge_added',
   EDGE_REMOVED: 'edge_removed',
   //EDGE_SELECTED: 'edge_selected',
+  CONNECTOR_ADDED: 'connector_added',
+  CONNECTOR_REMOVED: 'connector_removed',
   ACTIVE_CHANGED: 'active_changed',
   WIDTH_CHANGED: 'width_changed',
   HEIGHT_CHANGED: 'height_changed',
