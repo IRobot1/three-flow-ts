@@ -229,7 +229,7 @@ export class ConnectorMesh extends Mesh {
     if (this._matparams.color != newvalue) {
       this._matparams.color = newvalue;
       if (newvalue)
-        this.material = this.node.connectors.diagram.getMaterial('geometry', 'connector', this._matparams)
+        this.material = this.connectors.connectors.diagram.getMaterial('geometry', 'connector', this._matparams)
     }
   }
 
@@ -261,7 +261,7 @@ export class ConnectorMesh extends Mesh {
   }
 
   isFlow = true
-  constructor(private node: NodeConnectors, public parameters: FlowConnectorParameters) {
+  constructor(private connectors: NodeConnectors, public parameters: FlowConnectorParameters) {
     super()
 
     //@ts-ignore
@@ -282,7 +282,7 @@ export class ConnectorMesh extends Mesh {
     this.hidden = parameters.hidden != undefined ? parameters.hidden : false
     this.visible = !this.hidden
 
-    const diagram = node.connectors.diagram
+    const diagram = connectors.connectors.diagram
 
     if (parameters.label) {
       this.label = diagram.createLabel(parameters.label)
@@ -305,7 +305,7 @@ export class ConnectorMesh extends Mesh {
     }
     if (parameters.userData) this.userData = parameters.userData
 
-    this.geometry = this.node.createGeometry(parameters)
+    this.geometry = this.connectors.createGeometry(parameters)
     this.material = diagram.getMaterial('geometry', 'connector', this._matparams)
   }
 }
