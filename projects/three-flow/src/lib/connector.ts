@@ -86,8 +86,7 @@ export class NodeConnectors {
   constructor(public connectors: FlowConnectors, private node: FlowNode, public parameters: Array<FlowConnectorParameters>) {
 
     if (node.node.connectors) {
-      node.node.connectors.forEach((parameters, index) => {
-        parameters.index = index
+      node.node.connectors.forEach(parameters => {
         this.addConnector(parameters)
       });
     }
@@ -116,9 +115,11 @@ export class NodeConnectors {
 
   addConnector(parameters: FlowConnectorParameters): ConnectorMesh {
     if (!parameters.anchor) parameters.anchor = 'left'
-    if (!parameters.index) parameters.index = 0
-    if (!parameters.id) parameters.id = `c${parameters.index! + 1}${this.node.name}`
 
+    let index = 0
+    if (parameters.index != undefined) index = parameters.index
+    if (!parameters.id) parameters.id = `c${index + 1}${this.node.name}`
+    
     const connector = this.createConnector(parameters)
     this.node.add(connector)
     this.total[parameters.anchor]++;
