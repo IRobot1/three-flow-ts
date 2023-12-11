@@ -105,9 +105,10 @@ export class GalleryExample {
     const row2 = 1
     const row3 = -0.5
 
-    const column1 = -3
-    const column2 = -1.5
-    const column3 = 0
+    const column1 = -4.5
+    const column2 = -3
+    const column3 = -1.5
+    const column3a = 0
     const column4 = 1.5
     const column5 = 3
     const column6 = 4.5
@@ -128,7 +129,7 @@ export class GalleryExample {
       {
         id: "basic",
         assetimage: 'basic', route: 'basic',
-        y: row1,
+        x: column3, y: row1,
         label: { text: "Basic" },
         connectors: [
           { id: "c1basic", anchor: 'left', material: { color: 'white' }, },
@@ -267,6 +268,15 @@ export class GalleryExample {
           { id: "c1kpi", anchor: 'top', material: { color: 'white' }, },
         ],
       },
+      {
+        id: 'mindmap',
+        label: { text: "Mind Map" },
+        x: column3a, y: row2,
+        assetimage: 'placeholder', route: 'mindmap',
+        connectors: [
+          { id: "c1mindmap", anchor: 'top', material: { color: 'white' }, },
+        ],
+      },
     ];
 
 
@@ -360,6 +370,12 @@ export class GalleryExample {
         to: "kpi",
         fromconnector: "c2basic",
         toconnector: "c1kpi"
+      },
+      {
+        from: "basic",
+        to: "mindmap",
+        fromconnector: "c2basic",
+        toconnector: "c1mindmap"
       },
     ];
 
