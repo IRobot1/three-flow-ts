@@ -81,7 +81,7 @@ export class FlowConnectors {
 export class NodeConnectors {
   // options
   spacing = 0.1
-  private total: any = { left: 0, right: 0, top: 0, bottom: 0 }
+  private total: any = { left: 0, right: 0, top: 0, bottom: 0, count:0 }
 
   constructor(public connectors: FlowConnectors, private node: FlowNode, public parameters: Array<FlowConnectorParameters>) {
 
@@ -116,13 +116,18 @@ export class NodeConnectors {
   addConnector(parameters: FlowConnectorParameters): ConnectorMesh {
     if (!parameters.anchor) parameters.anchor = 'left'
 
+    let count = this.total.count
     let index = 0
     if (parameters.index != undefined) index = parameters.index
-    if (!parameters.id) parameters.id = `c${index + 1}${this.node.name}`
-    
+    if (!parameters.id || parameters.id == '') {
+      parameters.id = `c${count + 1}${this.node.name}`
+      if (index > 0) parameters.id += `-${index}`
+    }
+
     const connector = this.createConnector(parameters)
     this.node.add(connector)
     this.total[parameters.anchor]++;
+    this.total.count++
 
     this.moveConnectors()
     if (connector.transform)
@@ -137,6 +142,7 @@ export class NodeConnectors {
     if (connector) {
       this.node.remove(connector)
       this.total[connector.anchor]--;
+      this.total.count--
 
       this.moveConnectors()
 
