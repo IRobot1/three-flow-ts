@@ -19,12 +19,22 @@ export class DragNode {
       return position;
     }
 
+    node.addEventListener(InteractiveEventType.POINTERENTER, () => {
+      if (!node.draggable || node.hidden) return
+      document.body.style.cursor = 'grab'
+    })
+
+    node.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
+      document.body.style.cursor = 'default'
+    })
+
     let offset: Vector3
     node.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
       if (!node.draggable || node.hidden) return
 
       // remember where in the mesh the mouse was clicked to avoid jump on first drag
       offset = e.position.sub(node.position).clone()
+      document.body.style.cursor = 'grabbing'
 
       this.dragging = true
     });

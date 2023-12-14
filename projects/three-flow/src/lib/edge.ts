@@ -231,7 +231,8 @@ export class FlowEdge extends Mesh {
           top: { x: 0, y: this.lineoffset },
           bottom: { x: 0, y: -this.lineoffset },
           left: { x: -this.lineoffset, y: 0 },
-          right: { x: this.lineoffset, y: 0 }
+          right: { x: this.lineoffset, y: 0 },
+          center: { x: 0, y: 0 },
         }
         const delta1 = lookup[frommesh.anchor]
         let x = from.x + delta1.x
