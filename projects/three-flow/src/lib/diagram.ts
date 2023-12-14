@@ -24,8 +24,8 @@ export class FlowDiagram extends Object3D {
   private materials: Map<string, Material>
   private graph!: FlowLayout
 
-  private _nodeCount = 0
-  get nodeCount() { return this._nodeCount }
+  private _nextId = 0
+  get nextId() { return this._nextId }
 
   private _edgeCount = 0
   get edgeCount() { return this._edgeCount }
@@ -171,7 +171,7 @@ export class FlowDiagram extends Object3D {
   public addNode(item: FlowNodeParameters): FlowNode {
     const node = this.createNode(item)
     this.add(node)
-    this._nodeCount++
+    this._nextId++
 
     this.nodesMap.set(node.name, node)
 
@@ -182,7 +182,7 @@ export class FlowDiagram extends Object3D {
   addRoute(item: FlowRouteParameters): FlowRoute {
     const route = this.createRoute(item)
     this.add(route)
-    this._nodeCount++;
+    this._nextId++;
 
     this.nodesMap.set(route.name, route)
 
@@ -191,8 +191,6 @@ export class FlowDiagram extends Object3D {
   }
 
   public removeNode(node: FlowNode) {
-
-    this._nodeCount--
 
     this.dispatchEvent<any>({ type: FlowEventType.NODE_REMOVED, node })
 
@@ -207,7 +205,7 @@ export class FlowDiagram extends Object3D {
   }
 
   nextNodeId(): string {
-    return `n${this.nodeCount}`
+    return `n${this.nextId}`
   }
 
   newNode(): FlowNode {

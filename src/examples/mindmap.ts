@@ -99,16 +99,15 @@ export class MindmapExample {
       //  })
       //}
       mesh.dropCompleted = (diagram: FlowDiagram, start: Vector3): FlowNode | undefined => {
-        const connectors: Array<FlowConnectorParameters> = [
-          { id: '', anchor: 'left', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
-          { id: '', anchor: 'top', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
-          { id: '', anchor: 'right', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
-          { id: '', anchor: 'bottom', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
-        ]
         return diagram.addNode({
           x: start.x, y: start.y, material: { color: 'blue' },
           label: { text: 'New Node', font: 'helvetika', material: { color: 'white' }, },
-          resizable: false, connectors
+          resizable: false, connectors: [
+            { id: '', anchor: 'left', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+            { id: '', anchor: 'top', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+            { id: '', anchor: 'right', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+            { id: '', anchor: 'bottom', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+          ]
         })
       }
 
@@ -121,27 +120,13 @@ export class MindmapExample {
     const first = flow.addNode({
       id: 'first', material: { color: 'blue' },
       label: { text: 'Main Idea', material: { color: 'white' }, },
-      scalable: false, resizable: false, draggable: true
+      scalable: false, resizable: false, draggable: true, connectors: [
+        { id: '', anchor: 'left', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+        { id: '', anchor: 'top', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+        { id: '', anchor: 'right', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+        { id: '', anchor: 'bottom', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+      ]
     })
-    connectors.addConnectors(first, [{
-      id: '', anchor: 'left', selectable: true,
-      selectcursor: 'crosshair', draggable: true, hidden
-    }])
-    connectors.addConnectors(first, [{
-      id: '', anchor: 'top', selectable: true,
-      selectcursor: 'crosshair', draggable: true, hidden
-    }])
-    connectors.addConnectors(first, [{
-      id: '', anchor: 'right', selectable: true,
-      selectcursor: 'crosshair', draggable: true, hidden
-    }])
-    connectors.addConnectors(first, [{
-      id: '', anchor: 'bottom', selectable: true,
-      selectcursor: 'crosshair', draggable: true, hidden
-    }])
-
-
-
 
     const node1 = flow.hasNode('first')!
 

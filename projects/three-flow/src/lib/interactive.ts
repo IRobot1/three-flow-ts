@@ -247,7 +247,7 @@ class ConnectorInteractive {
 
   constructor(public mesh: ConnectorMesh, source: FlowInteraction) {
     const diagram = source.diagram
-    const meshParent = mesh.parent as FlowNode
+    const parentNode = mesh.parent as FlowNode
 
     mesh.addEventListener(InteractiveEventType.POINTERENTER, () => {
       if (!mesh.selectable) return
@@ -267,27 +267,28 @@ class ConnectorInteractive {
     })
 
     const createNode = (start: Vector3): FlowNode | undefined => {
-      const node = mesh.dropCompleted(diagram, start)
-      if (node) {
-        const params: FlowEdgeParameters = { from: meshParent.name, to: node.name, }
+      const newnode = mesh.dropCompleted(diagram, start)
+      if (newnode) {
+        const params: FlowEdgeParameters = { from: parentNode.name, to: newnode.name, }
 
         const anchor = mesh.oppositeAnchor
-        const connector = node.node.connectors?.find(c => c.anchor == anchor)
+        const connector = newnode.node.connectors?.find(c => c.anchor == anchor)
 
         if (connector) {
           params.fromconnector = mesh.name
           params.toconnector = connector.id
         }
-
         diagram.addEdge(params)
       }
-      return node
+      return newnode
     }
 
     const createDragRoute = (start: Vector3): FlowRoute | undefined => {
       const route = mesh.dragStarting(diagram, start)
-      if (route)
-        dragedge = diagram.addEdge({ from: meshParent.name, to: route.name, fromconnector: mesh.name, })
+      if (route) {
+        const params: FlowEdgeParameters = { from: parentNode.name, to: route.name, fromconnector: mesh.name, }
+        dragedge = diagram.addEdge(params)
+      }
       return route
     }
 
