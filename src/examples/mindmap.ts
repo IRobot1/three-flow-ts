@@ -18,6 +18,7 @@ import {
   FlowNode, FlowEdge, FlowEventType, FlowRouteParameters, FlowLabelParameters, FlowLabel, NodeConnectors, ThreeInteractive
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
+import { FlowProperties } from "./flow-properties";
 
 export class MindmapExample {
 
@@ -74,6 +75,7 @@ export class MindmapExample {
     // make the flow interactive
     interaction = new FlowInteraction(flow, app, app.camera)
     const connectors = new FlowConnectors(flow)
+    const properties = new FlowProperties(flow)
 
     flow.createLabel = (parameters: FlowLabelParameters): FlowLabel => { return new TroikaFlowLabel(flow, parameters) }
 
@@ -89,6 +91,7 @@ export class MindmapExample {
         mesh.position.x = e.width / 2 + 0.1
         // notify the edge that the connector has moved
         connectors1.node.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
+        flow.dispatchEvent<any>({ type: FlowEventType.CONNECTOR_SELECTED, connector:mesh })
       })
 
       mesh.dropCompleted = (diagram: FlowDiagram, start: Vector3): FlowNode | undefined => {
@@ -119,6 +122,14 @@ export class MindmapExample {
 
         return newnode
       }
+
+      mesh.addEventListener(FlowEventType.CONNECTOR_PROPERTIES, (e: any) => {
+        const gui = e.gui as GUI
+        gui.title(`${mesh.label!.text} Properties`)
+
+        gui.add<any, any>(mesh.label, 'text').name('Title')
+
+      })
 
       return mesh
     }
@@ -209,7 +220,7 @@ export class MindmapExample {
 
     this.dispose = () => {
       interaction.dispose()
-      //      gui.destroy()
+      properties.dispose()
       orbit.dispose()
     }
 

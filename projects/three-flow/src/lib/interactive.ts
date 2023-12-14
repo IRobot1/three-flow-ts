@@ -249,6 +249,15 @@ class ConnectorInteractive {
     const diagram = source.diagram
     const parentNode = mesh.parent as FlowNode
 
+    mesh.addEventListener(InteractiveEventType.CLICK, () => {
+      if (!mesh.selectable) return
+      diagram.dispatchEvent<any>({ type: FlowEventType.CONNECTOR_SELECTED, connector: mesh })
+    })
+
+    mesh.addEventListener(InteractiveEventType.POINTERMISSED, () => {
+      diagram.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, connector: undefined })
+    })
+
     mesh.addEventListener(InteractiveEventType.POINTERENTER, () => {
       if (!mesh.selectable) return
       if (mesh.disabled) {
