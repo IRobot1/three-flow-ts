@@ -83,7 +83,7 @@ export class FlowConnectors {
 export class NodeConnectors {
   // options
   spacing = 0.1
-  private total: any = { left: 0, right: 0, top: 0, bottom: 0, count: 0 }
+  private total: any = { left: 0, right: 0, top: 0, bottom: 0, center: 0, count: 0 }
 
   constructor(public connectors: FlowConnectors, private node: FlowNode, public parameters: Array<FlowConnectorParameters>) {
 
