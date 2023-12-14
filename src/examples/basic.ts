@@ -15,7 +15,7 @@ import {
   FlowConnectors,
   ConnectorMesh,
   InteractiveEventType,
-  FlowNode, FlowEdge, FlowEventType, FlowRouteParameters
+  FlowNode, FlowEdge, FlowEventType, FlowRouteParameters, NodeConnectors
 } from "three-flow";
 
 export class BasicExample {
@@ -243,8 +243,8 @@ export class BasicExample {
         else
           return octagon
       }
-      connectors1.createConnector = (parameters: FlowConnectorParameters): ConnectorMesh => {
-        const mesh = new ConnectorMesh(connectors1, parameters)
+      connectors.createConnector = (connectors: NodeConnectors, parameters: FlowConnectorParameters): ConnectorMesh => {
+        const mesh = new ConnectorMesh(connectors, parameters)
 
         const original = (mesh.material as MeshBasicMaterial).clone()
         const white = flow.getMaterial('geometry', 'drag-enter', <MeshBasicMaterialParameters>{ color: 'white' })

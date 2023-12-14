@@ -75,13 +75,15 @@ export class FlowConnectors {
     return new CircleGeometry(parameters.radius)
   }
 
-
+  createConnector(nodeconnectors: NodeConnectors, parameters: FlowConnectorParameters): ConnectorMesh {
+    return new ConnectorMesh(nodeconnectors, parameters)
+  }
 }
 
 export class NodeConnectors {
   // options
   spacing = 0.1
-  private total: any = { left: 0, right: 0, top: 0, bottom: 0, count:0 }
+  private total: any = { left: 0, right: 0, top: 0, bottom: 0, count: 0 }
 
   constructor(public connectors: FlowConnectors, private node: FlowNode, public parameters: Array<FlowConnectorParameters>) {
 
@@ -124,7 +126,7 @@ export class NodeConnectors {
       if (index > 0) parameters.id += `-${index}`
     }
 
-    const connector = this.createConnector(parameters)
+    const connector = this.connectors.createConnector(this, parameters)!
     this.node.add(connector)
     this.total[parameters.anchor]++;
     this.total.count++
@@ -212,9 +214,6 @@ export class NodeConnectors {
     return this.connectors.createGeometry(parameters)
   }
 
-  createConnector(parameters: FlowConnectorParameters): ConnectorMesh {
-    return new ConnectorMesh(this, parameters)
-  }
 }
 
 export class ConnectorMesh extends Mesh {

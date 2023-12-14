@@ -15,7 +15,7 @@ import {
   FlowConnectors,
   ConnectorMesh,
   InteractiveEventType,
-  FlowNode, FlowEdge, FlowEventType, FlowRouteParameters, FlowLabelParameters, FlowLabel
+  FlowNode, FlowEdge, FlowEventType, FlowRouteParameters, FlowLabelParameters, FlowLabel, NodeConnectors
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 
@@ -64,6 +64,8 @@ export class MindmapExample {
       gridsize: 0.3,
     }
 
+    const hidden = false
+
     // read-only flow
     const flow = new FlowDiagram(options)
     scene.add(flow);
@@ -75,19 +77,11 @@ export class MindmapExample {
 
     flow.createLabel = (parameters: FlowLabelParameters): FlowLabel => { return new TroikaFlowLabel(flow, parameters) }
 
-    //
-    // how to override connector shape for a specific node or type of node
-    //
-    const first = flow.addNode({
-      id: 'first', material: { color: 'blue' },
-      label: { text: 'Main Idea', material: { color: 'white' }, },
-      scalable: false, resizable: false, draggable: true
-    })
+
 
     // for a specific node, override connector shape based on parameters
-    const connectors1 = connectors.hasNode('first')!
 
-    connectors1.createConnector = (parameters: FlowConnectorParameters): ConnectorMesh => {
+    connectors.createConnector = (connectors1: NodeConnectors, parameters: FlowConnectorParameters): ConnectorMesh => {
       const mesh = new ConnectorMesh(connectors1, parameters)
 
       const original = (mesh.material as MeshBasicMaterial).clone()
@@ -105,38 +99,45 @@ export class MindmapExample {
       //  })
       //}
       mesh.dropCompleted = (diagram: FlowDiagram, start: Vector3): FlowNode | undefined => {
-        const anchor = mesh.oppositeAnchor
         const connectors: Array<FlowConnectorParameters> = [
-          { id: '', anchor: 'left', selectable: true, selectcursor: 'crosshair', draggable: true },
-          { id: '', anchor: 'top', selectable: true, selectcursor: 'crosshair', draggable: true },
-          { id: '', anchor: 'right', selectable: true, selectcursor: 'crosshair', draggable: true },
-          { id: '', anchor: 'bottom', selectable: true, selectcursor: 'crosshair', draggable: true },
+          { id: '', anchor: 'left', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+          { id: '', anchor: 'top', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+          { id: '', anchor: 'right', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+          { id: '', anchor: 'bottom', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
         ]
         return diagram.addNode({
           x: start.x, y: start.y, material: { color: 'blue' },
           label: { text: 'New Node', font: 'helvetika', material: { color: 'white' }, },
-          resizable: false, connectors//: connectors.filter(c => c.anchor != anchor)
+          resizable: false, connectors
         })
       }
 
       return mesh
     }
 
+    //
+    // how to override connector shape for a specific node or type of node
+    //
+    const first = flow.addNode({
+      id: 'first', material: { color: 'blue' },
+      label: { text: 'Main Idea', material: { color: 'white' }, },
+      scalable: false, resizable: false, draggable: true
+    })
     connectors.addConnectors(first, [{
       id: '', anchor: 'left', selectable: true,
-      selectcursor: 'crosshair', draggable: true
+      selectcursor: 'crosshair', draggable: true, hidden
     }])
     connectors.addConnectors(first, [{
       id: '', anchor: 'top', selectable: true,
-      selectcursor: 'crosshair', draggable: true
+      selectcursor: 'crosshair', draggable: true, hidden
     }])
     connectors.addConnectors(first, [{
       id: '', anchor: 'right', selectable: true,
-      selectcursor: 'crosshair', draggable: true
+      selectcursor: 'crosshair', draggable: true, hidden
     }])
     connectors.addConnectors(first, [{
       id: '', anchor: 'bottom', selectable: true,
-      selectcursor: 'crosshair', draggable: true
+      selectcursor: 'crosshair', draggable: true, hidden
     }])
 
 

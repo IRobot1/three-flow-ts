@@ -5,7 +5,7 @@ import { InteractiveEventType, ThreeInteractive } from "./three-interactive";
 import { FlowNode } from "./node";
 import { ResizeNode } from "./resize-node";
 import { ScaleNode } from "./scale-node";
-import { FlowEventType } from "./model";
+import { FlowEdgeParameters, FlowEventType } from "./model";
 import { ConnectorMesh } from "./connector";
 import { FlowEdge } from "./edge";
 import { FlowRoute } from "./route";
@@ -268,8 +268,19 @@ class ConnectorInteractive {
 
     const createNode = (start: Vector3): FlowNode | undefined => {
       const node = mesh.dropCompleted(diagram, start)
-      if (node)
-        diagram.addEdge({ from: meshParent.name, to: node.name, fromconnector: mesh.name, toconnector: node.node.connectors![0].id })
+      if (node) {
+        const params: FlowEdgeParameters = { from: meshParent.name, to: node.name, }
+
+        const anchor = mesh.oppositeAnchor
+        const connector = node.node.connectors?.find(c => c.anchor == anchor)
+
+        if (connector) {
+          params.fromconnector = mesh.name
+          params.toconnector = connector.id
+        }
+
+        diagram.addEdge(params)
+      }
       return node
     }
 
