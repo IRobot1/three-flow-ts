@@ -240,6 +240,7 @@ class PopoutCircleNode extends FlowNode {
 
     this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
       const gui = e.gui as GUI
+      gui.title(`${this.label.text} Properties`)
 
       if (icon) gui.add<any, any>(icon, 'text').name('Icon').onChange(() => {
         if (icon) icon.updateLabel()
@@ -303,6 +304,7 @@ class PopoutStadiumNode extends FlowNode {
 
     this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
       const gui = e.gui as GUI
+      gui.title(`${this.label.text} Properties`)
 
       gui.add<any, any>(this.label, 'text').name('Title')
       gui.add<any, any>(subtitle, 'text').name('Subtitle')

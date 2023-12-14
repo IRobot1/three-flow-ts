@@ -206,6 +206,7 @@ class ComputerNode extends FlowNode {
     // handle properties display
     this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
       const gui = e.gui as GUI
+      gui.title(`${this.label.text} Properties`)
 
       if (icon_label) {
         gui.add<any, any>(icon_label, 'text').name('Icon').onChange(() => {

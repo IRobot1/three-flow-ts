@@ -1,14 +1,15 @@
 import { HTMLMesh } from 'three/examples/jsm/interactive/HTMLMesh.js';
 import GUI from "three/examples/jsm/libs/lil-gui.module.min"
 import { FlowDiagram, FlowEventType, FlowInteraction, FlowNode } from "three-flow"
+import { Mesh, Vector3 } from 'three';
 
 export class FlowProperties {
   private gui?: GUI
   constructor(public diagram: FlowDiagram, interaction?: FlowInteraction, guioptions?: any) {
-    let selected: FlowNode | undefined
+    let selected: Mesh | undefined
 
     // only show one GUI at a time
-    const htmlmethod = (node: FlowNode) => {
+    const htmlmethod = (node: Mesh) => {
       // GUI has no way to remove controllers, so destroy and create is the only way to replace
       if (selected && node != selected) {
         if (this.gui) this.gui.destroy()
@@ -24,13 +25,12 @@ export class FlowProperties {
 
       // update title and show in case it was just hidden
       if (this.gui) {
-        this.gui.title(`${node.label.text} Properties`)
         this.gui.show()
       }
     }
 
     // each node can show its own HTML mesh added to the node and removed from the node and destroyed when closed
-    const vrmethod = (node: FlowNode) => {
+    const vrmethod = (node: Mesh) => {
       const postfix = '-vr'
       // skip if already added to diagram.  HTML mesh as node.name+'-vr'
       if (diagram.children.find(child => child.name == node.name + postfix)) return
@@ -45,7 +45,6 @@ export class FlowProperties {
 
       // create and make sure not visible in HTML
       const gui = new GUI(guioptions)
-      gui.title(`${node.label.text} Properties`)
       gui.domElement.style.visibility = 'hidden';
 
       gui.add<any, any>(params, 'close').name('Close')
@@ -60,7 +59,9 @@ export class FlowProperties {
 
       const meshwidth = 1.2
       const updatePosition = () => {
-        mesh.position.set(node.position.x + (node.width + meshwidth) / 2 , node.position.y, node.position.z + 0.02)
+        const box = mesh.geometry.boundingBox
+        const size = box!.getSize(new Vector3())
+        mesh.position.set(node.position.x + (size.x + meshwidth) / 2 , node.position.y, node.position.z + 0.02)
       }
       updatePosition()
 

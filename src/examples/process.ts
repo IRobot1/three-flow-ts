@@ -204,6 +204,7 @@ class ProcessNode extends FlowNode {
 
     this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
       const gui = e.gui as GUI
+      gui.title(`${this.label.text} Properties`)
 
       gui.add<any, any>(this.label, 'text').name('Label')
       gui.add<any, any>(this, 'resizable').name('Resizable')
