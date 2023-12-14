@@ -15,7 +15,7 @@ import {
   FlowConnectors,
   ConnectorMesh,
   InteractiveEventType,
-  FlowNode, FlowEdge, FlowEventType, FlowRouteParameters, FlowLabelParameters, FlowLabel, NodeConnectors
+  FlowNode, FlowEdge, FlowEventType, FlowRouteParameters, FlowLabelParameters, FlowLabel, NodeConnectors, ThreeInteractive
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 
@@ -64,7 +64,7 @@ export class MindmapExample {
       gridsize: 0.3,
     }
 
-    const hidden = true
+    const hidden = false
 
     // read-only flow
     const flow = new FlowDiagram(options)
@@ -73,11 +73,55 @@ export class MindmapExample {
 
     // make the flow interactive
     interaction = new FlowInteraction(flow, app, app.camera)
-    //const connectors = new FlowConnectors(flow)
+    const connectors = new FlowConnectors(flow)
 
     flow.createLabel = (parameters: FlowLabelParameters): FlowLabel => { return new TroikaFlowLabel(flow, parameters) }
-    flow.createNode = (parameters: FlowNodeParameters): FlowNode => { return new MindMapNode(flow, parameters) }
 
+    connectors.createGeometry = (parameters: FlowConnectorParameters): BufferGeometry => {
+      return new PlaneGeometry(parameters.width, parameters.height)
+    }
+    connectors.createConnector = (connectors1: NodeConnectors, parameters: FlowConnectorParameters): ConnectorMesh => {
+      const mesh = new ConnectorMesh(connectors1, parameters)
+
+      // when the label's width is known, update connector geometry and position
+      mesh.label!.addEventListener(FlowEventType.WIDTH_CHANGED, (e: any) => {
+        mesh.geometry = new PlaneGeometry(e.width, parameters.height)
+        mesh.position.x = e.width / 2 + 0.1
+        // notify the edge that the connector has moved
+        connectors1.node.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
+      })
+
+      mesh.dropCompleted = (diagram: FlowDiagram, start: Vector3): FlowNode | undefined => {
+        const newnode = diagram.addNode({
+          x: start.x, y: start.y, material: { color: 'blue' },
+          width: 0, height: 0,
+          label: { text: 'drag_indicator', isicon: true, padding: 0.05, material: { color: 'white' }, },
+          scalable: false, resizable: false, draggable: true, connectors: [
+            {
+              id: '', anchor: 'center', selectable: true, selectcursor: 'crosshair', draggable: true, hidden,
+              material: { color: 'red' },
+              label: { text: 'New Idea', padding: 0.05, material: { color: 'white' }, },
+            },
+          ]
+        })
+
+        const addAsChild = true
+        if (addAsChild) {
+          // By default a new nodes position is relative to diagram.
+          const position = diagram.getFlowPosition(connectors1.node)
+          // Subtract parent position in flow to make relative to parent node
+          newnode.position.sub(position)
+          connectors1.node.add(newnode)
+
+          // When the parent node is dragged, forward event to child node
+          connectors1.node.addEventListener(FlowEventType.DRAGGED, () => { newnode.dispatchEvent<any>({ type: FlowEventType.DRAGGED }) })
+        }
+
+        return newnode
+      }
+
+      return mesh
+    }
 
     // using connectors between nodes
 
@@ -101,7 +145,7 @@ export class MindmapExample {
     //  mesh.dropCompleted = (diagram: FlowDiagram, start: Vector3): FlowNode | undefined => {
     //    return diagram.addNode({
     //      x: start.x, y: start.y, material: { color: 'blue' },
-    //      label: { text: 'New Node', font: 'helvetika', material: { color: 'white' }, },
+    //      label: { text: 'New Node', material: { color: 'white' }, },
     //      resizable: false, connectors: [
     //        { id: '', anchor: 'left', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
     //        { id: '', anchor: 'top', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
@@ -115,17 +159,22 @@ export class MindmapExample {
     //}
 
     const first = flow.addNode({
-      id: 'first', material: { color: 'blue' },
-      label: { text: 'Main Idea', material: { color: 'white' }, },
+      id: 'first', material: { color: 'blue' }, width: 0, height: 0,
+      label: { text: 'drag_indicator', isicon: true, padding: 0.05, material: { color: 'white' }, },
       scalable: false, resizable: false, draggable: true, connectors: [
-        { id: '', anchor: 'left', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
-        { id: '', anchor: 'top', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
-        { id: '', anchor: 'right', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
-        { id: '', anchor: 'bottom', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+        {
+          id: '', anchor: 'center', selectable: true, selectcursor: 'crosshair', draggable: true, hidden,
+          material: { color: 'red' },
+          label: { text: 'Main Idea', padding: 0.05, material: { color: 'white' }, },
+        },
+        //  { id: '', anchor: 'left', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+        //  { id: '', anchor: 'top', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+        //  { id: '', anchor: 'right', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+        //  { id: '', anchor: 'bottom', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
       ]
     })
 
-    const node1 = flow.hasNode('first')!
+    //const node1 = flow.hasNode('first')!
 
 
     console.warn(flow.save())
@@ -165,44 +214,4 @@ export class MindmapExample {
     }
 
   }
-}
-
-class MindMapNode extends FlowNode {
-  constructor(diagram: FlowDiagram, parameters: FlowNodeParameters) {
-    parameters.width = 0  // calculate based on label width
-    parameters.height = 0.15
-    parameters.label = {
-      text: 'Main Idea', alignX: 'left', padding: 0, material: { color: 'white' }
-    }
-    parameters.selectable = true
-    super(diagram, parameters)
-
-    const mesh = new Mesh()
-    mesh.material = this.material
-    this.add(mesh)
-
-    this.label.position.x += 0.05
-
-    const label = diagram.createLabel({ isicon: true, text: 'drag_indicator', material: { color: 'white' } })
-    label.updateLabel()
-    this.add(label)
-    label.position.z = 0.001
-
-    this.label.addEventListener(FlowEventType.WIDTH_CHANGED, (e: any) => {
-      mesh.geometry = new PlaneGeometry(this.width + 0.15, 0.15)
-      mesh.position.x = this.width / 2 + 0.025
-    })
-    this.addEventListener(InteractiveEventType.POINTERENTER, () => {
-      document.body.style.cursor = 'grab'
-    })
-    this.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
-      document.body.style.cursor = 'default'
-    })
-
-  }
-
-  override createGeometry(parameters: FlowNodeParameters): BufferGeometry {
-    return new PlaneGeometry(0.1, 0.1)
-  }
-
 }

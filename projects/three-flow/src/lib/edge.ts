@@ -195,14 +195,6 @@ export class FlowEdge extends Mesh {
     return Math.atan2(target.y - source.y, target.x - source.x)
   }
 
-  // Get position of connector relative to diagram
-  private getConnectorPosition(connector: Object3D, diagram: Object3D): Vector3 {
-    let connectorWorldPosition = new Vector3();
-    connector.localToWorld(connectorWorldPosition);
-
-    return diagram.worldToLocal(connectorWorldPosition);
-  }
-
   updateVisuals() {
     // also used for arrows
     const from = new Vector3()
@@ -220,8 +212,9 @@ export class FlowEdge extends Mesh {
       to.copy(curvepoints[curvepoints.length - 1])
     }
     else if (this.fromConnector && this.toConnector) {
-      from.copy(this.getConnectorPosition(this.fromConnector, this.diagram))
-      to.copy(this.getConnectorPosition(this.toConnector, this.diagram))
+      
+      from.copy(this.diagram.getFlowPosition(this.fromConnector))
+      to.copy(this.diagram.getFlowPosition(this.toConnector))
 
       if (this.fromConnector.type == 'flowconnector' && this.toConnector.type == 'flowconnector') {
         const frommesh = this.fromConnector as ConnectorMesh

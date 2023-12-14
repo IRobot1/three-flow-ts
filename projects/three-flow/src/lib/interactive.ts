@@ -335,8 +335,10 @@ class ConnectorInteractive {
       if (!mesh.draggable || mesh.disabled) return
 
       if (dragDistance > mesh.startDragDistance) {
-        if (mesh.createOnDrop)
-          createNode(e.position.clone().add(flowStart) as Vector3)
+        if (mesh.createOnDrop) {
+          if (dragroute)
+            createNode(diagram.getFlowPosition(dragroute))
+        }
 
         if (dragroute) diagram.removeNode(dragroute)
         dragroute = undefined

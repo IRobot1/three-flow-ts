@@ -85,7 +85,7 @@ export class NodeConnectors {
   spacing = 0.1
   private total: any = { left: 0, right: 0, top: 0, bottom: 0, center: 0, count: 0 }
 
-  constructor(public connectors: FlowConnectors, private node: FlowNode, public parameters: Array<FlowConnectorParameters>) {
+  constructor(public connectors: FlowConnectors, public node: FlowNode, public parameters: Array<FlowConnectorParameters>) {
 
     if (node.node.connectors) {
       node.node.connectors.forEach(parameters => {
@@ -204,7 +204,7 @@ export class NodeConnectors {
 
     this.getConnectors().sort((a, b) => a.index - b.index).forEach(connector => {
       this.positionConnector(connector)
-      connector.dispatchEvent<any>({ type: 'dragged' })
+      connector.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
     })
   }
 
@@ -294,7 +294,6 @@ export class ConnectorMesh extends Mesh {
     this.disabled = parameters.disabled ? parameters.disabled : false
     this.startDragDistance = parameters.startDragDistance != undefined ? parameters.startDragDistance : 0.2
     this.createOnDrop = parameters.createOnDrop != undefined ? parameters.createOnDrop : true
-
     this.hidden = parameters.hidden != undefined ? parameters.hidden : false
     this.visible = !this.hidden
 
@@ -303,7 +302,6 @@ export class ConnectorMesh extends Mesh {
     if (parameters.label) {
       this.label = diagram.createLabel(parameters.label)
       this.add(this.label)
-      this.label.updateLabel()
       switch (this.anchor) {
         case 'left':
           this.label.position.x = this.width / 2 * this.labeloffset
@@ -323,6 +321,10 @@ export class ConnectorMesh extends Mesh {
 
     this.geometry = this.connectors.createGeometry(parameters)
     this.material = diagram.getMaterial('geometry', 'connector', this._matparams)
+
+    requestAnimationFrame(() => {
+      if (this.label) this.label.updateLabel()
+    })
   }
 
   // overridables
