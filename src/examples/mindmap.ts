@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, MeshBasicMaterial, MeshBasicMaterialParameters, PointLight, Scene, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, PlaneGeometry, PointLight, Scene, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
@@ -64,7 +64,7 @@ export class MindmapExample {
       gridsize: 0.3,
     }
 
-    const hidden = false
+    const hidden = true
 
     // read-only flow
     const flow = new FlowDiagram(options)
@@ -73,50 +73,47 @@ export class MindmapExample {
 
     // make the flow interactive
     interaction = new FlowInteraction(flow, app, app.camera)
-    const connectors = new FlowConnectors(flow)
+    //const connectors = new FlowConnectors(flow)
 
     flow.createLabel = (parameters: FlowLabelParameters): FlowLabel => { return new TroikaFlowLabel(flow, parameters) }
+    flow.createNode = (parameters: FlowNodeParameters): FlowNode => { return new MindMapNode(flow, parameters) }
 
 
+    // using connectors between nodes
 
-    // for a specific node, override connector shape based on parameters
+    //connectors.createConnector = (connectors1: NodeConnectors, parameters: FlowConnectorParameters): ConnectorMesh => {
+    //  const mesh = new ConnectorMesh(connectors1, parameters)
 
-    connectors.createConnector = (connectors1: NodeConnectors, parameters: FlowConnectorParameters): ConnectorMesh => {
-      const mesh = new ConnectorMesh(connectors1, parameters)
+    //  const original = (mesh.material as MeshBasicMaterial).clone()
+    //  const white = flow.getMaterial('geometry', 'drag-enter', <MeshBasicMaterialParameters>{ color: 'white' })
+    //  mesh.pointerEnter = (): string | undefined => {
+    //    mesh.material = white
+    //    return undefined
+    //  }
+    //  mesh.pointerLeave = () => {
+    //    mesh.material = original
+    //  }
+    //  //mesh.dragStarting = (diagram: FlowDiagram, start: Vector3): FlowRoute => {
+    //  //  return diagram.addRoute({
+    //  //    x: start.x, y: start.y, material: { color: 'blue' }, dragging: true
+    //  //  })
+    //  //}
+    //  mesh.dropCompleted = (diagram: FlowDiagram, start: Vector3): FlowNode | undefined => {
+    //    return diagram.addNode({
+    //      x: start.x, y: start.y, material: { color: 'blue' },
+    //      label: { text: 'New Node', font: 'helvetika', material: { color: 'white' }, },
+    //      resizable: false, connectors: [
+    //        { id: '', anchor: 'left', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+    //        { id: '', anchor: 'top', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+    //        { id: '', anchor: 'right', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+    //        { id: '', anchor: 'bottom', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
+    //      ]
+    //    })
+    //  }
 
-      const original = (mesh.material as MeshBasicMaterial).clone()
-      const white = flow.getMaterial('geometry', 'drag-enter', <MeshBasicMaterialParameters>{ color: 'white' })
-      mesh.pointerEnter = (): string | undefined => {
-        mesh.material = white
-        return undefined
-      }
-      mesh.pointerLeave = () => {
-        mesh.material = original
-      }
-      //mesh.dragStarting = (diagram: FlowDiagram, start: Vector3): FlowRoute => {
-      //  return diagram.addRoute({
-      //    x: start.x, y: start.y, material: { color: 'blue' }, dragging: true
-      //  })
-      //}
-      mesh.dropCompleted = (diagram: FlowDiagram, start: Vector3): FlowNode | undefined => {
-        return diagram.addNode({
-          x: start.x, y: start.y, material: { color: 'blue' },
-          label: { text: 'New Node', font: 'helvetika', material: { color: 'white' }, },
-          resizable: false, connectors: [
-            { id: '', anchor: 'left', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
-            { id: '', anchor: 'top', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
-            { id: '', anchor: 'right', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
-            { id: '', anchor: 'bottom', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
-          ]
-        })
-      }
+    //  return mesh
+    //}
 
-      return mesh
-    }
-
-    //
-    // how to override connector shape for a specific node or type of node
-    //
     const first = flow.addNode({
       id: 'first', material: { color: 'blue' },
       label: { text: 'Main Idea', material: { color: 'white' }, },
@@ -168,4 +165,44 @@ export class MindmapExample {
     }
 
   }
+}
+
+class MindMapNode extends FlowNode {
+  constructor(diagram: FlowDiagram, parameters: FlowNodeParameters) {
+    parameters.width = 0  // calculate based on label width
+    parameters.height = 0.15
+    parameters.label = {
+      text: 'Main Idea', alignX: 'left', padding: 0, material: { color: 'white' }
+    }
+    parameters.selectable = true
+    super(diagram, parameters)
+
+    const mesh = new Mesh()
+    mesh.material = this.material
+    this.add(mesh)
+
+    this.label.position.x += 0.05
+
+    const label = diagram.createLabel({ isicon: true, text: 'drag_indicator', material: { color: 'white' } })
+    label.updateLabel()
+    this.add(label)
+    label.position.z = 0.001
+
+    this.label.addEventListener(FlowEventType.WIDTH_CHANGED, (e: any) => {
+      mesh.geometry = new PlaneGeometry(this.width + 0.15, 0.15)
+      mesh.position.x = this.width / 2 + 0.025
+    })
+    this.addEventListener(InteractiveEventType.POINTERENTER, () => {
+      document.body.style.cursor = 'grab'
+    })
+    this.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
+      document.body.style.cursor = 'default'
+    })
+
+  }
+
+  override createGeometry(parameters: FlowNodeParameters): BufferGeometry {
+    return new PlaneGeometry(0.1, 0.1)
+  }
+
 }

@@ -187,13 +187,13 @@ export class FlowNode extends Mesh {
     this.name = node.id = node.id ? node.id : diagram.nextNodeId()
     node.type = node.type ? node.type : 'node'
 
-    this._width = node.width = node.width ? node.width : 1;
-    this.minwidth = node.minwidth ? node.minwidth : this.width
-    this.maxwidth = node.maxwidth ? node.maxwidth : Number.POSITIVE_INFINITY
+    this._width = node.width = node.width != undefined ? node.width : 1;
+    this.minwidth = node.minwidth != undefined ? node.minwidth : this.width
+    this.maxwidth = node.maxwidth != undefined ? node.maxwidth : Number.POSITIVE_INFINITY
 
-    this._height = node.height = node.height ? node.height : 1;
-    this.minheight = node.minheight ? node.minheight : this.height;
-    this.maxheight = node.maxheight ? node.maxheight : Number.POSITIVE_INFINITY
+    this._height = node.height = node.height != undefined ? node.height : 1;
+    this.minheight = node.minheight != undefined ? node.minheight : this.height;
+    this.maxheight = node.maxheight != undefined ? node.maxheight : Number.POSITIVE_INFINITY
     this._matparams = node.material ? node.material : { color: 'white' }
 
     this.lockaspectratio = node.lockaspectratio ? node.lockaspectratio : false
