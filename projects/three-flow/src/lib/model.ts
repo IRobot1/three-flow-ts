@@ -160,6 +160,8 @@ export const FlowEventType = {
   SELECTABLE_CHANGED: 'selectable_changed',
   HIDDEN_CHANGED: 'hidden_changed',
   LABEL_READY: 'synccomplete',
+  KEY_DOWN: 'keydown',
+  KEY_UP: 'keyup',
 }
 
 export interface LayoutResult {

@@ -127,6 +127,22 @@ export class FlowInteraction {
     diagram.addEventListener(FlowEventType.DISPOSE, () => {
       this.nodes.forEach(node => node.dispose())
     })
+
+    const handleKeyDown = (keyboard: KeyboardEvent) => {
+      diagram.dispatchEvent<any>({ type: FlowEventType.KEY_DOWN, keyboard })
+    }
+    const handleKeyUp = (keyboard: KeyboardEvent) => {
+      diagram.dispatchEvent<any>({ type: FlowEventType.KEY_UP, keyboard })
+    }
+    const element = document
+    element.addEventListener('keydown', handleKeyDown);
+    element.addEventListener('keyup', handleKeyUp);
+
+    this._dispose = () => {
+      element.removeEventListener('keydown', handleKeyDown)
+      element.removeEventListener('keyup', handleKeyUp)
+    }
+
   }
 
 
@@ -134,9 +150,12 @@ export class FlowInteraction {
     return new ThreeInteractive(renderer, camera)
   }
 
+  private _dispose: () => void
+
   dispose() {
     this.nodes.forEach(node => node.dispose())
     this.interactive.dispose()
+    this._dispose()
   }
 }
 
@@ -249,6 +268,7 @@ class ConnectorInteractive {
     const diagram = source.diagram
     const parentNode = mesh.parent as FlowNode
 
+
     mesh.addEventListener(InteractiveEventType.CLICK, () => {
       if (!mesh.selectable) return
       diagram.dispatchEvent<any>({ type: FlowEventType.CONNECTOR_SELECTED, connector: mesh })
@@ -303,12 +323,14 @@ class ConnectorInteractive {
 
     let dragStart: Vector3 | undefined
     let flowStart: Vector3 | undefined
+    let dragging = false
     mesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
       if (!mesh.draggable || mesh.disabled) return
 
       dragStart = e.position.clone()
       flowStart = diagram.getFlowPosition(mesh)
       document.body.style.cursor = 'grabbing'
+      dragging = true
     })
 
     let newnode: FlowNode | undefined
@@ -316,7 +338,7 @@ class ConnectorInteractive {
     let dragedge: FlowEdge | undefined
     let dragDistance = 0
     mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
-      if (!mesh.draggable || mesh.disabled) return
+      if (!mesh.draggable || mesh.disabled || !dragging) return
 
       const position = e.position.clone()
       const diff = position.sub(dragStart) as Vector3
@@ -340,22 +362,30 @@ class ConnectorInteractive {
       }
     })
 
+    const cancelDrag = () => {
+      if (dragroute) diagram.removeNode(dragroute)
+      dragroute = undefined
+      if (dragedge) diagram.removeEdge(dragedge)
+      dragedge = undefined
+      dragging = false
+    }
+
     mesh.addEventListener(InteractiveEventType.DRAGEND, (e: any) => {
       if (!mesh.draggable || mesh.disabled) return
 
-      if (dragDistance > mesh.startDragDistance) {
+      if (dragging && dragDistance > mesh.startDragDistance) {
         if (mesh.createOnDrop) {
           if (dragroute)
             createNode(diagram.getFlowPosition(dragroute))
         }
-
-        if (dragroute) diagram.removeNode(dragroute)
-        dragroute = undefined
-        if (dragedge) diagram.removeEdge(dragedge)
-        dragedge = undefined
+        cancelDrag()
       }
       newnode = undefined
     })
 
+    diagram.addEventListener<any>(FlowEventType.KEY_DOWN, (e:any) => {
+      const keyboard = e.keyboard as KeyboardEvent
+      if (keyboard.code == 'Escape') cancelDrag()
+    })
   }
 }
