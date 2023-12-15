@@ -69,6 +69,7 @@ export interface FlowEdgeParameters {
 
   points?: Array<{ x: number, y: number }>  // dagre layout positions of line segments
 
+  z?: number // default is -0.005
   material?: MeshBasicMaterialParameters
   linestyle?: EdgeLineStyle
   lineoffset?: number // offset from connector to start bending line (when linestyle is offset or spline)

@@ -54,6 +54,7 @@ export class FlowEdge extends Mesh {
   public toArrow: FlowArrow | undefined;
 
   lineoffset = 0.2
+  z: number
 
   private readonly fromNode: FlowNode | undefined
   private readonly toNode: FlowNode | undefined
@@ -73,6 +74,7 @@ export class FlowEdge extends Mesh {
     this.name = edge.id = edge.id ? edge.id : diagram.nextEdgeId()
     if (this.data) this.userData = this.data
 
+    this.z = edge.z != undefined ? edge.z : -0.005
 
     this.from = edge.from
 
@@ -132,7 +134,7 @@ export class FlowEdge extends Mesh {
 
       if (this.line) {
         this.line.material = this.material
-        this.line.position.z = -0.001
+        this.line.position.z = this.z
       }
     })
   }
@@ -212,7 +214,7 @@ export class FlowEdge extends Mesh {
       to.copy(curvepoints[curvepoints.length - 1])
     }
     else if (this.fromConnector && this.toConnector) {
-      
+
       from.copy(this.diagram.getFlowPosition(this.fromConnector))
       to.copy(this.diagram.getFlowPosition(this.toConnector))
 
@@ -230,12 +232,12 @@ export class FlowEdge extends Mesh {
         const delta1 = lookup[frommesh.anchor]
         let x = from.x + delta1.x
         let y = from.y + delta1.y
-        const A1 = new Vector3(x, y, from.z);
+        const A1 = new Vector3(x, y, this.z);
 
         const delta2 = lookup[tomesh.anchor]
         x = to.x + delta2.x
         y = to.y + delta2.y
-        const B1 = new Vector3(x, y, to.z);
+        const B1 = new Vector3(x, y, this.z);
 
         x = delta1.x + delta2.x
         y = delta1.y + delta2.y
@@ -262,7 +264,7 @@ export class FlowEdge extends Mesh {
                 bottomleft: { x: from.x, y: to.y },
               }
               const c = splitlookup[frommesh.anchor + tomesh.anchor]
-              curvepoints.push(from, new Vector3(c.x, c.y, from.z), to)
+              curvepoints.push(from, new Vector3(c.x, c.y, this.z), to)
             }
             else {
               if (frommesh.anchor == 'left' || frommesh.anchor == 'right') {
