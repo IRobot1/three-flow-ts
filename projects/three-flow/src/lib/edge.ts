@@ -56,8 +56,8 @@ export class FlowEdge extends Mesh {
   lineoffset = 0.2
   z: number
 
-  private readonly fromNode: FlowNode | undefined
-  private readonly toNode: FlowNode | undefined
+  readonly fromNode: FlowNode | undefined
+  readonly toNode: FlowNode | undefined
 
   private fromConnector: Object3D | undefined
   private toConnector: Object3D | undefined
@@ -100,6 +100,8 @@ export class FlowEdge extends Mesh {
         if (this.toNode)
           this.visible = this.toNode.visible
       })
+
+
     }
 
     this.addConnector(edge.fromconnector, edge.toconnector, false)
@@ -128,6 +130,13 @@ export class FlowEdge extends Mesh {
     this._thickness = edge.thickness ? edge.thickness : 0.01
 
     this.material = diagram.getMaterial('line', 'edge', this._matparams)
+
+    diagram.addEventListener(FlowEventType.NODE_REMOVED, (e: any) => {
+      const node = e.node as FlowNode
+
+      if (node == this.fromNode || node == this.toNode)
+        diagram.removeEdge(this)
+    })
 
     requestAnimationFrame(() => {
       this.updateVisuals()

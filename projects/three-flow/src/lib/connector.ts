@@ -273,7 +273,7 @@ export class ConnectorMesh extends Mesh {
   createOnDrop: boolean
 
   isFlow = true
-  constructor(private connectors: NodeConnectors, public parameters: FlowConnectorParameters) {
+  constructor(public connectors: NodeConnectors, public parameters: FlowConnectorParameters) {
     super()
 
     //@ts-ignore

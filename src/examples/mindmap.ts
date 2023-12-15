@@ -83,56 +83,35 @@ export class MindmapExample {
       return new PlaneGeometry(parameters.width, parameters.height)
     }
     connectors.createConnector = (connectors1: NodeConnectors, parameters: FlowConnectorParameters): ConnectorMesh => {
-      const mesh = new ConnectorMesh(connectors1, parameters)
-
-      // when the label's width is known, update connector geometry and position
-      mesh.label!.addEventListener(FlowEventType.WIDTH_CHANGED, (e: any) => {
-        mesh.geometry = new PlaneGeometry(e.width, parameters.height)
-        mesh.position.x = e.width / 2 + 0.1
-        // notify the edge that the connector has moved
-        connectors1.node.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
-        flow.dispatchEvent<any>({ type: FlowEventType.CONNECTOR_SELECTED, connector:mesh })
-      })
-
-      mesh.dropCompleted = (diagram: FlowDiagram, start: Vector3): FlowNode | undefined => {
-        const newnode = diagram.addNode({
-          x: start.x, y: start.y, material: { color: 'blue' },
-          width: 0, height: 0,
-          label: { text: 'drag_indicator', isicon: true, padding: 0.05, material: { color: 'white' }, },
-          scalable: false, resizable: false, draggable: true, connectors: [
-            {
-              id: '', anchor: 'center', selectable: true, selectcursor: 'crosshair', draggable: true, hidden,
-              material: { color: 'red' },
-              label: { text: 'New Idea', padding: 0.05, material: { color: 'white' }, },
-            },
-          ]
-        })
-
-        const addAsChild = true
-        if (addAsChild) {
-          // By default a new nodes position is relative to diagram.
-          const position = diagram.getFlowPosition(connectors1.node)
-          // Subtract parent position in flow to make relative to parent node
-          newnode.position.sub(position)
-          connectors1.node.add(newnode)
-
-          // When the parent node is dragged, forward event to child node
-          connectors1.node.addEventListener(FlowEventType.DRAGGED, () => { newnode.dispatchEvent<any>({ type: FlowEventType.DRAGGED }) })
-        }
-
-        return newnode
-      }
-
-      mesh.addEventListener(FlowEventType.CONNECTOR_PROPERTIES, (e: any) => {
-        const gui = e.gui as GUI
-        gui.title(`${mesh.label!.text} Properties`)
-
-        gui.add<any, any>(mesh.label, 'text').name('Title')
-
-      })
-
-      return mesh
+      return new MindMapConnector(flow, connectors1, parameters)
     }
+
+    flow.addEventListener(FlowEventType.KEY_DOWN, (e: any) => {
+      const keyboard = e.keyboard as KeyboardEvent
+      switch (keyboard.code) {
+        case 'Delete':
+          // only handle most simple case
+          if (properties.selectedConnector && flow.allNodes.length > 1) {
+            const node = properties.selectedConnector.connectors.node
+
+            // prevent delete if node has any child nodes
+            if (node.children.find(x => x.type == 'flownode')) return
+
+            // since we're nesting them, we're responsible for removing from parent
+            if (node.parent) node.parent.remove(node)
+
+            // finally, remove from diagram
+            flow.removeNode(node)
+          }
+          break;
+        case 'Tab':
+          console.warn('implement tab')
+          break;
+        case 'Enter':
+          console.warn('implement enter')
+          break;
+      }
+    })
 
     // using connectors between nodes
 
@@ -174,7 +153,7 @@ export class MindmapExample {
       label: { text: 'drag_indicator', isicon: true, padding: 0.05, material: { color: 'white' }, },
       scalable: false, resizable: false, draggable: true, connectors: [
         {
-          id: '', anchor: 'center', selectable: true, selectcursor: 'crosshair', draggable: true, hidden,
+          id: '', anchor: 'center', selectable: true, draggable: true, hidden,
           material: { color: 'red' },
           label: { text: 'Main Idea', padding: 0.05, material: { color: 'white' }, },
         },
@@ -225,4 +204,63 @@ export class MindmapExample {
     }
 
   }
+}
+
+class MindMapConnector extends ConnectorMesh {
+  constructor(diagram: FlowDiagram, connectors: NodeConnectors, parameters: FlowConnectorParameters) {
+    super(connectors, parameters)
+
+    // when the label's width is known, update connector geometry and position
+    this.label!.addEventListener(FlowEventType.WIDTH_CHANGED, (e: any) => {
+      this.geometry = new PlaneGeometry(e.width, parameters.height)
+      this.position.x = e.width / 2 + 0.1
+      // notify the edge that the connector has moved
+      connectors.node.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
+      diagram.dispatchEvent<any>({ type: FlowEventType.CONNECTOR_SELECTED, connector: this })
+    })
+
+    // listen for request to show connector properties
+    this.addEventListener(FlowEventType.CONNECTOR_PROPERTIES, (e: any) => {
+      const gui = e.gui as GUI
+      gui.title(`${this.label!.text} Properties`)
+
+      gui.add<any, any>(this.label, 'text').name('Title')
+
+    })
+
+  }
+
+  override pointerEnter(): string {
+    return 'crosshair'
+  }
+
+  override dropCompleted(diagram: FlowDiagram, start: Vector3): FlowNode | undefined {
+    const newnode = diagram.addNode({
+      x: start.x, y: start.y, material: { color: 'blue' },
+      width: 0, height: 0,
+      label: { text: 'drag_indicator', isicon: true, padding: 0.05, material: { color: 'white' }, },
+      scalable: false, resizable: false, draggable: true, connectors: [
+        {
+          id: '', anchor: 'center', selectable: true, draggable: true,
+          material: { color: 'red' },
+          label: { text: 'New Idea', padding: 0.05, material: { color: 'white' }, },
+        },
+      ]
+    })
+
+    const addAsChild = true
+    if (addAsChild) {
+      // By default a new nodes position is relative to diagram.
+      const position = diagram.getFlowPosition(this.connectors.node)
+      // Subtract parent position in flow to make relative to parent node
+      newnode.position.sub(position)
+      this.connectors.node.add(newnode)
+
+      // When the parent node is dragged, forward event to child node
+      this.connectors.node.addEventListener(FlowEventType.DRAGGED, () => { newnode.dispatchEvent<any>({ type: FlowEventType.DRAGGED }) })
+    }
+
+    return newnode
+  }
+
 }

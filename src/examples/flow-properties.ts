@@ -5,17 +5,21 @@ import { Mesh, Vector3 } from 'three';
 
 export class FlowProperties {
   private gui?: GUI
+  private selected: Mesh | undefined
+
+  public selectedNode: FlowNode | undefined
+  public selectedConnector: ConnectorMesh | undefined
+
   constructor(public diagram: FlowDiagram, interaction?: FlowInteraction, guioptions?: any) {
-    let selected: Mesh | undefined
 
     // only show one GUI at a time
     const htmlmethod = (mesh: Mesh, type: string) => {
       // GUI has no way to remove controllers, so destroy and create is the only way to replace
-      if (selected && mesh != selected) {
+      if (this.selected && mesh != this.selected) {
         if (this.gui) this.gui.destroy()
       }
 
-      if (mesh != selected) {
+      if (mesh != this.selected) {
         this.gui = new GUI(guioptions)
         const params = { close: () => { if (this.gui) this.gui.hide() } }
         this.gui.add<any, any>(params, 'close').name('Close')
@@ -77,6 +81,7 @@ export class FlowProperties {
 
     diagram.addEventListener(FlowEventType.NODE_SELECTED, (e: any) => {
       const node = e.node as FlowNode
+      this.selectedNode = node
       if (!node) return
 
       if (interaction && interaction.interactive.renderer.xr.isPresenting) {
@@ -86,7 +91,7 @@ export class FlowProperties {
         htmlmethod(node, FlowEventType.NODE_PROPERTIES)
       }
 
-      selected = node
+      this.selected = node
     })
 
     diagram.addEventListener(FlowEventType.DISPOSE, () => this.dispose())
@@ -94,6 +99,7 @@ export class FlowProperties {
 
     diagram.addEventListener(FlowEventType.CONNECTOR_SELECTED, (e: any) => {
       const connector = e.connector as ConnectorMesh
+      this.selectedConnector = connector
       if (!connector) return
 
       if (interaction && interaction.interactive.renderer.xr.isPresenting) {
@@ -103,7 +109,7 @@ export class FlowProperties {
         htmlmethod(connector, FlowEventType.CONNECTOR_PROPERTIES)
       }
 
-      selected = connector
+      this.selected = connector
     })
 
     diagram.addEventListener(FlowEventType.DISPOSE, () => this.dispose())
