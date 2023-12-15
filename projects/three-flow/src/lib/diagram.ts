@@ -67,11 +67,11 @@ export class FlowDiagram extends Object3D {
     }
     this.allNodes.forEach(node => {
       node.save()
-      diagram.nodes.push(node.node)
+      diagram.nodes.push(node.parameters)
     })
     this.allEdges.forEach(edge => {
       //edge.save()
-      diagram.edges.push(edge.edge)
+      diagram.edges.push(edge.parameters)
     })
     return diagram
   }
@@ -90,15 +90,15 @@ export class FlowDiagram extends Object3D {
 
     if (diagram.edges) {
       diagram.edges.forEach(edge => {
-        const line = this.setEdge(edge)
+        const line = this.addEdge(edge)
         this.add(line)
       })
     }
   }
 
   layout(label: any = {}, filter?: (nodeId: string) => boolean) {
-    const nodes = this.allNodes.map(node => node.node)
-    const edges = this.allEdges.map(edge => edge.edge)
+    const nodes = this.allNodes.map(node => node.parameters)
+    const edges = this.allEdges.map(edge => edge.parameters)
 
     const result = this.graph.layout(nodes, edges, label, filter)
 
@@ -116,10 +116,10 @@ export class FlowDiagram extends Object3D {
     result.edges.forEach(edge => {
       const item = this.hasEdge(edge.id)
       if (item) {
-        item.edge.points = []
+        item.parameters.points = []
         edge.points.forEach(point => {
-          if (item.edge.points) {
-            item.edge.points.push({
+          if (item.parameters.points) {
+            item.parameters.points.push({
               x: point.x - centerx,
               y: point.y - centery
             })
@@ -169,8 +169,8 @@ export class FlowDiagram extends Object3D {
     return this.nodesMap.get(id)
   }
 
-  public addNode(item: FlowNodeParameters): FlowNode {
-    const node = this.createNode(item)
+  public addNode(parameters: FlowNodeParameters): FlowNode {
+    const node = this.createNode(parameters)
     this.add(node)
     this._nextId++
 
@@ -180,8 +180,8 @@ export class FlowDiagram extends Object3D {
     return node
   }
 
-  addRoute(item: FlowRouteParameters): FlowRoute {
-    const route = this.createRoute(item)
+  addRoute(parameters: FlowRouteParameters): FlowRoute {
+    const route = this.createRoute(parameters)
     this.add(route)
     this._nextId++;
 
@@ -210,11 +210,11 @@ export class FlowDiagram extends Object3D {
   }
 
   newNode(): FlowNode {
-    const node: FlowNodeParameters = {
+    const parameters: FlowNodeParameters = {
       id: this.nextNodeId(),
     }
 
-    return this.addNode(node)
+    return this.addNode(parameters)
   }
 
 
@@ -233,24 +233,20 @@ export class FlowDiagram extends Object3D {
     return undefined
   }
 
-  private setEdge(item: FlowEdgeParameters): FlowEdge {
-    if (!item.material && this.options) item.material = this.options.linematerial
-    if (!item.linestyle && this.options) item.linestyle = this.options.linestyle
-    if (!item.divisions && this.options) item.divisions = this.options.linedivisions
-    if (!item.thickness && this.options) item.thickness = this.options.linethickness
-    if (!item.lineoffset && this.options) item.lineoffset = this.options.lineoffset
-    if (!item.z && this.options) item.z = this.options.edgez
+  public addEdge(parameters: FlowEdgeParameters): FlowEdge {
+    if (!parameters.material && this.options) parameters.material = this.options.linematerial
+    if (!parameters.linestyle && this.options) parameters.linestyle = this.options.linestyle
+    if (!parameters.divisions && this.options) parameters.divisions = this.options.linedivisions
+    if (!parameters.thickness && this.options) parameters.thickness = this.options.linethickness
+    if (!parameters.lineoffset && this.options) parameters.lineoffset = this.options.lineoffset
+    if (!parameters.z && this.options) parameters.z = this.options.edgez
 
-    const edge = this.createEdge(item)
+    const edge = this.createEdge(parameters)
     this.add(edge)
     this._edgeCount++;
 
     this.dispatchEvent<any>({ type: FlowEventType.EDGE_ADDED, edge })
     return edge
-  }
-
-  public addEdge(edge: FlowEdgeParameters): FlowEdge {
-    return this.setEdge(edge)
   }
 
   public removeEdge(edge: FlowEdge): void {
@@ -300,20 +296,20 @@ export class FlowDiagram extends Object3D {
     return new MeshBasicMaterial(parameters);
   }
 
-  createNode(node: FlowNodeParameters): FlowNode {
-    return new FlowNode(this, node)
+  createNode(parameters: FlowNodeParameters): FlowNode {
+    return new FlowNode(this, parameters)
   }
 
-  createRoute(route: FlowRouteParameters): FlowRoute {
-    return new FlowRoute(this, route)
+  createRoute(parameters: FlowRouteParameters): FlowRoute {
+    return new FlowRoute(this, parameters)
   }
 
-  createEdge(edge: FlowEdgeParameters): FlowEdge {
-    return new FlowEdge(this, edge)
+  createEdge(parameters: FlowEdgeParameters): FlowEdge {
+    return new FlowEdge(this, parameters)
   }
 
-  createLabel(label: FlowLabelParameters): FlowLabel {
-    return new FlowLabel(this, label)
+  createLabel(parameters: FlowLabelParameters): FlowLabel {
+    return new FlowLabel(this, parameters)
   }
 
 }

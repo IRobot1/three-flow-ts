@@ -61,7 +61,7 @@ class MyFlowNode extends FlowNode {
   }
 
   override createGeometry(): BufferGeometry {
-    return new ShapeGeometry(this.rectangularShape(this.node.width!, this.node.height!, 0.1))
+    return new ShapeGeometry(this.rectangularShape(this.parameters.width!, this.parameters.height!, 0.1))
   }
 
 }
@@ -415,7 +415,7 @@ export class GalleryExample {
 
     // add click to navigate to example
     flow.allNodes.forEach(node => {
-      const tile = node.node as Tile
+      const tile = node.parameters as Tile
       node.addEventListener(InteractiveEventType.CLICK, () => { app.navigateto(tile.route) })
 
       interactive.selectable.add(node)

@@ -79,7 +79,7 @@ export class ComputerNetworkExample {
 
     setInterval(() => {
       flow.allNodes.forEach(node => {
-        const parameters = node.node as ComputerParameters
+        const parameters = node.parameters as ComputerParameters
 
         // Randomly decide if each attribute should be updated
         if (parameters.cpu_usage != undefined && Math.random() > 0.5) {
@@ -260,8 +260,8 @@ class ComputerEdge extends FlowEdge {
     const from = diagram.hasNode(parameters.from)!
     const to = diagram.hasNode(parameters.to)!
 
-    const fromparams = from.node as ComputerParameters
-    const toparams = to.node as ComputerParameters
+    const fromparams = from.parameters as ComputerParameters
+    const toparams = to.parameters as ComputerParameters
 
     const status = fromparams.status + '-' + toparams.status
     //export type ComputerStatus = 'online' | 'offline' | 'failure' | 'maintenance' | 'starting' | 'standby'

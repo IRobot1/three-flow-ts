@@ -12,8 +12,8 @@ export class FlowConnectors {
   constructor(public diagram: FlowDiagram) {
     diagram.addEventListener(FlowEventType.NODE_ADDED, (e: any) => {
       const node = e.node as FlowNode
-      if (!node.node.connectors) node.node.connectors = []
-      this.createConnectors(node, node.node.connectors)
+      if (!node.parameters.connectors) node.parameters.connectors = []
+      this.createConnectors(node, node.parameters.connectors)
     })
   }
 
@@ -43,13 +43,13 @@ export class FlowConnectors {
       connectors.forEach(connector => {
         if (nodeconnectors) nodeconnectors.addConnector(connector)
 
-        if (!node.node.connectors) node.node.connectors = []
-        node.node.connectors.push(connector)
+        if (!node.parameters.connectors) node.parameters.connectors = []
+        node.parameters.connectors.push(connector)
       })
     }
     else {
       this.createConnectors(node, connectors)
-      node.node.connectors = connectors
+      node.parameters.connectors = connectors
     }
   }
 
@@ -62,9 +62,9 @@ export class FlowConnectors {
 
       // use copy for safe removal
       [...connectors].forEach(connector => {
-        if (node.node.connectors) {
-          const index = node.node.connectors.findIndex(x => x.id == connector.id)
-          if (index != -1) node.node.connectors.splice(index, 1)
+        if (node.parameters.connectors) {
+          const index = node.parameters.connectors.findIndex(x => x.id == connector.id)
+          if (index != -1) node.parameters.connectors.splice(index, 1)
         }
       })
     }
@@ -87,8 +87,8 @@ export class NodeConnectors {
 
   constructor(public connectors: FlowConnectors, public node: FlowNode, public parameters: Array<FlowConnectorParameters>) {
 
-    if (node.node.connectors) {
-      node.node.connectors.forEach(parameters => {
+    if (node.parameters.connectors) {
+      node.parameters.connectors.forEach(parameters => {
         this.addConnector(parameters)
       });
     }

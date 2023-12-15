@@ -65,18 +65,18 @@ export class FlowEdge extends Mesh {
   private line?: Line
 
   isFlow = true
-  constructor(public diagram: FlowDiagram, public edge: FlowEdgeParameters) {
+  constructor(public diagram: FlowDiagram, public parameters: FlowEdgeParameters) {
     super()
 
     //@ts-ignore
     this.type = 'flowedge'
 
-    this.name = edge.id = edge.id ? edge.id : diagram.nextEdgeId()
+    this.name = parameters.id = parameters.id ? parameters.id : diagram.nextEdgeId()
     if (this.data) this.userData = this.data
 
-    this.z = edge.z != undefined ? edge.z : -0.005
+    this.z = parameters.z != undefined ? parameters.z : -0.005
 
-    this.from = edge.from
+    this.from = parameters.from
 
     this.fromNode = diagram.hasNode(this.from)
     if (this.fromNode) {
@@ -89,7 +89,7 @@ export class FlowEdge extends Mesh {
       })
     }
 
-    this.to = edge.to
+    this.to = parameters.to
 
     this.toNode = diagram.hasNode(this.to)
     if (this.toNode) {
@@ -104,30 +104,30 @@ export class FlowEdge extends Mesh {
 
     }
 
-    this.addConnector(edge.fromconnector, edge.toconnector, false)
+    this.addConnector(parameters.fromconnector, parameters.toconnector, false)
 
-    if (edge.fromarrow) {
-      edge.fromarrow.type = edge.fromarrow.type ? edge.fromarrow.type : 'from'
-      this.fromArrow = this.createArrow(edge.fromarrow)
+    if (parameters.fromarrow) {
+      parameters.fromarrow.type = parameters.fromarrow.type ? parameters.fromarrow.type : 'from'
+      this.fromArrow = this.createArrow(parameters.fromarrow)
       this.add(this.fromArrow)
     }
-    if (edge.toarrow) {
-      edge.toarrow.type = edge.toarrow.type ? edge.toarrow.type : 'to'
-      this.toArrow = this.createArrow(edge.toarrow)
+    if (parameters.toarrow) {
+      parameters.toarrow.type = parameters.toarrow.type ? parameters.toarrow.type : 'to'
+      this.toArrow = this.createArrow(parameters.toarrow)
       this.add(this.toArrow)
     }
 
-    if (edge.material) {
-      this._matparams = edge.material
-      if (!edge.material.color) edge.material.color = 'white'
+    if (parameters.material) {
+      this._matparams = parameters.material
+      if (!parameters.material.color) parameters.material.color = 'white'
     }
     else
       this._matparams = { color: 'white' }
 
-    this._linestyle = edge.linestyle ? edge.linestyle : 'spline'
-    this.lineoffset = edge.lineoffset != undefined ? edge.lineoffset : 0.2
-    this._divisions = edge.divisions ? edge.divisions : 20
-    this._thickness = edge.thickness ? edge.thickness : 0.01
+    this._linestyle = parameters.linestyle ? parameters.linestyle : 'spline'
+    this.lineoffset = parameters.lineoffset != undefined ? parameters.lineoffset : 0.2
+    this._divisions = parameters.divisions ? parameters.divisions : 20
+    this._thickness = parameters.thickness ? parameters.thickness : 0.01
 
     this.material = diagram.getMaterial('line', 'edge', this._matparams)
 
@@ -158,14 +158,14 @@ export class FlowEdge extends Mesh {
       this.fromConnector = this.fromNode.getConnector(fromconnector)
       if (this.fromConnector != this.fromNode) {
         this.fromConnector.addEventListener(FlowEventType.DRAGGED, () => { this.dragged() })
-        this.edge.fromconnector = fromconnector
+        this.parameters.fromconnector = fromconnector
       }
     }
     if (this.toNode) {
       this.toConnector = this.toNode.getConnector(toconnector)
       if (this.toConnector != this.toNode) {
         this.toConnector.addEventListener(FlowEventType.DRAGGED, () => { this.dragged() })
-        this.edge.toconnector = toconnector
+        this.parameters.toconnector = toconnector
       }
     }
     if (update) this.updateVisuals()
@@ -175,19 +175,19 @@ export class FlowEdge extends Mesh {
     if (this.fromNode) {
       if (this.fromConnector) this.fromConnector.removeEventListener(FlowEventType.DRAGGED, this.dragged)
       this.fromConnector = this.fromNode.getConnector(undefined)
-      this.edge.fromconnector = undefined
+      this.parameters.fromconnector = undefined
     }
     if (this.toNode) {
       if (this.toConnector) this.toConnector.removeEventListener(FlowEventType.DRAGGED, this.dragged)
       this.toConnector = this.toNode.getConnector(undefined)
-      this.edge.toconnector = undefined
+      this.parameters.toconnector = undefined
     }
     this.updateVisuals()
   }
 
   private removeArrows() {
     // invalidate layout points
-    if (this.edge.points) this.edge.points = undefined
+    if (this.parameters.points) this.parameters.points = undefined
 
     // and arrows
     if (this.toArrow) {
@@ -214,8 +214,8 @@ export class FlowEdge extends Mesh {
     let curvepoints: Array<Vector3> = []
 
     // use layout when provided
-    if (this.edge.points) {
-      this.edge.points.forEach(point => {
+    if (this.parameters.points) {
+      this.parameters.points.forEach(point => {
         curvepoints.push(new Vector3(point.x, -point.y, 0))
       })
 
@@ -252,7 +252,7 @@ export class FlowEdge extends Mesh {
         y = delta1.y + delta2.y
         const diagonal = (x != 0 || y != 0)
 
-        switch (this.edge.linestyle) {
+        switch (this.parameters.linestyle) {
           case 'offset':
             curvepoints.push(from, A1, B1, to)
             break;

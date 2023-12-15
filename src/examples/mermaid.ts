@@ -381,7 +381,7 @@ class MermaidShapeNode extends FlowNode {
   }
 
   override  createGeometry(): BufferGeometry {
-    const shapenode = this.node as ShapeNodeParameters
+    const shapenode = this.parameters as ShapeNodeParameters
     let result: BufferGeometry
 
     switch (shapenode.shape) {

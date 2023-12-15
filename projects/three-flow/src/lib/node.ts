@@ -179,27 +179,27 @@ export class FlowNode extends Mesh {
   }
 
 
-  constructor(public diagram: FlowDiagram, public node: FlowNodeParameters) {
+  constructor(public diagram: FlowDiagram, public parameters: FlowNodeParameters) {
     super();
 
     //@ts-ignore
     this.type = 'flownode'
-    this.name = node.id = node.id ? node.id : diagram.nextNodeId()
-    node.type = node.type ? node.type : 'node'
+    this.name = parameters.id = parameters.id ? parameters.id : diagram.nextNodeId()
+    parameters.type = parameters.type ? parameters.type : 'node'
 
-    this._width = node.width = node.width != undefined ? node.width : 1;
-    this.minwidth = node.minwidth != undefined ? node.minwidth : this.width
-    this.maxwidth = node.maxwidth != undefined ? node.maxwidth : Number.POSITIVE_INFINITY
+    this._width = parameters.width = parameters.width != undefined ? parameters.width : 1;
+    this.minwidth = parameters.minwidth != undefined ? parameters.minwidth : this.width
+    this.maxwidth = parameters.maxwidth != undefined ? parameters.maxwidth : Number.POSITIVE_INFINITY
 
-    this._height = node.height = node.height != undefined ? node.height : 1;
-    this.minheight = node.minheight != undefined ? node.minheight : this.height;
-    this.maxheight = node.maxheight != undefined ? node.maxheight : Number.POSITIVE_INFINITY
-    this._matparams = node.material ? node.material : { color: 'white' }
+    this._height = parameters.height = parameters.height != undefined ? parameters.height : 1;
+    this.minheight = parameters.minheight != undefined ? parameters.minheight : this.height;
+    this.maxheight = parameters.maxheight != undefined ? parameters.maxheight : Number.POSITIVE_INFINITY
+    this._matparams = parameters.material ? parameters.material : { color: 'white' }
 
-    this.lockaspectratio = node.lockaspectratio ? node.lockaspectratio : false
+    this.lockaspectratio = parameters.lockaspectratio ? parameters.lockaspectratio : false
 
-    if (!node.label) node.label = {}
-    this.label = this.diagram.createLabel(node.label)
+    if (!parameters.label) parameters.label = {}
+    this.label = this.diagram.createLabel(parameters.label)
     this.add(this.label)
 
     if (this.autoGrow) {
@@ -215,36 +215,36 @@ export class FlowNode extends Mesh {
       })
     }
 
-    this.labelanchor = node.labelanchor ? node.labelanchor : 'center'
-    this.labeltransform = node.labeltransform
+    this.labelanchor = parameters.labelanchor ? parameters.labelanchor : 'center'
+    this.labeltransform = parameters.labeltransform
 
-    this._resizable = node.resizable != undefined ? node.resizable : true
-    this._resizematparams = node.resizematerial ? node.resizematerial : { color: 'black' }
-    this._draggable = node.draggable != undefined ? node.draggable : true
-    this._scalable = node.scalable != undefined ? node.scalable : true
-    this._selectable = node.selectable != undefined ? node.selectable : true
-    this._scalermatparams = node.scalematerial ? node.scalematerial : { color: 'black' }
+    this._resizable = parameters.resizable != undefined ? parameters.resizable : true
+    this._resizematparams = parameters.resizematerial ? parameters.resizematerial : { color: 'black' }
+    this._draggable = parameters.draggable != undefined ? parameters.draggable : true
+    this._scalable = parameters.scalable != undefined ? parameters.scalable : true
+    this._selectable = parameters.selectable != undefined ? parameters.selectable : true
+    this._scalermatparams = parameters.scalematerial ? parameters.scalematerial : { color: 'black' }
 
-    this._scalar = node.scale ? node.scale : 1
-    this.minscale = node.minscale ? node.minscale : this.scalar;
-    this.maxscale = node.maxscale ? node.maxscale : Number.POSITIVE_INFINITY;
+    this._scalar = parameters.scale ? parameters.scale : 1
+    this.minscale = parameters.minscale ? parameters.minscale : this.scalar;
+    this.maxscale = parameters.maxscale ? parameters.maxscale : Number.POSITIVE_INFINITY;
 
-    if (node.userData) this.userData = node.userData;
+    if (parameters.userData) this.userData = parameters.userData;
 
     this.material = diagram.getMaterial('geometry', 'node', this._matparams);
 
-    if (node.x != undefined) this.position.x = node.x
-    if (node.y != undefined) this.position.y = node.y
-    if (node.z != undefined) this.position.z = node.z
+    if (parameters.x != undefined) this.position.x = parameters.x
+    if (parameters.y != undefined) this.position.y = parameters.y
+    if (parameters.z != undefined) this.position.z = parameters.z
 
-    this._hidden = node.hidden != undefined ? node.hidden : false
+    this._hidden = parameters.hidden != undefined ? parameters.hidden : false
     this.visible = !this.hidden
 
     this.save = () => {
-      node.x = this.position.x
-      node.y = this.position.y
-      node.z = this.position.z
-      if (!this.visible) node.hidden = true
+      parameters.x = this.position.x
+      parameters.y = this.position.y
+      parameters.z = this.position.z
+      if (!this.visible) parameters.hidden = true
     }
 
 
@@ -294,7 +294,7 @@ export class FlowNode extends Mesh {
 
   private _resizeGeometry() {
     this.geometry.dispose()
-    this.geometry = this.createGeometry(this.node)
+    this.geometry = this.createGeometry(this.parameters)
     this.resizeGeometry()
   }
 

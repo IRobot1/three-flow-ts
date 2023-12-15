@@ -304,7 +304,7 @@ export class ConnectorInteractive {
         const params: FlowEdgeParameters = { from: parentNode.name, to: newnode.name, }
 
         const anchor = mesh.oppositeAnchor
-        const connector = newnode.node.connectors?.find(c => c.anchor == anchor)
+        const connector = newnode.parameters.connectors?.find(c => c.anchor == anchor)
 
         if (connector) {
           params.fromconnector = mesh.name
