@@ -152,7 +152,7 @@ export class NodeConnectors {
     }
   }
 
-  private getConnectors() {
+  public getConnectors() {
     return (this.node.children as Array<ConnectorMesh>)
       .filter(item => item.type == 'flowconnector')
   }

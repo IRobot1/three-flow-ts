@@ -82,17 +82,20 @@ export class MindmapExample {
     connectors.createGeometry = (parameters: FlowConnectorParameters): BufferGeometry => {
       return new PlaneGeometry(parameters.width, parameters.height)
     }
-    connectors.createConnector = (connectors1: NodeConnectors, parameters: FlowConnectorParameters): ConnectorMesh => {
-      return new MindMapConnector(flow, connectors1, parameters)
+    connectors.createConnector = (connectors: NodeConnectors, parameters: FlowConnectorParameters): ConnectorMesh => {
+      return new MindMapConnector(flow, connectors, parameters)
     }
 
     flow.addEventListener(FlowEventType.KEY_DOWN, (e: any) => {
       const keyboard = e.keyboard as KeyboardEvent
+      if (!properties.selectedConnector) return
+      const connector = properties.selectedConnector
+      const node = connector.connectors.node
+
       switch (keyboard.code) {
         case 'Delete':
           // only handle most simple case
-          if (properties.selectedConnector && flow.allNodes.length > 1) {
-            const node = properties.selectedConnector.connectors.node
+          if (flow.allNodes.length > 1) {
 
             // prevent delete if node has any child nodes
             if (node.children.find(x => x.type == 'flownode')) return
@@ -104,11 +107,39 @@ export class MindmapExample {
             flow.removeNode(node)
           }
           break;
-        case 'Tab':
-          console.warn('implement tab')
+        case 'Tab': {
+          const position = flow.getFlowPosition(node)
+          if (keyboard.shiftKey)
+            position.x -= 1
+          else
+            position.x += 1
+
+          // re-use method in connector interaction when dragging
+          const interact = interaction.connector(connector)
+          if (interact) interact.createNode(position)
+        }
           break;
-        case 'Enter':
-          console.warn('implement enter')
+        case 'Enter': {
+          const position = flow.getFlowPosition(node)
+          if (keyboard.shiftKey)
+            position.y += 0.3
+          else
+            position.y -= 0.3
+
+          // get parent of this connector's node
+          const parent = node.parent
+          if (parent && parent.type == 'flownode') {
+            // get its connectors
+            const parentconnectors = connectors.hasNode(parent.name)
+            if (parentconnectors) {
+              // get the first connector - mind map only has one
+              const first = parentconnectors.getConnectors()[0]
+              // get its interaction to create as child node
+              const interact = interaction.connector(first)
+              if (interact) interact.createNode(position)
+            }
+          }
+        }
           break;
       }
     })

@@ -145,7 +145,10 @@ export class FlowInteraction {
 
   }
 
-
+  connector(mesh: ConnectorMesh): ConnectorInteractive | undefined {
+    return this.connectors.find(x => x.mesh == mesh)
+  }
+ 
   createThreeInteractive(renderer: WebGLRenderer, camera: Camera): ThreeInteractive {
     return new ThreeInteractive(renderer, camera)
   }
@@ -260,7 +263,7 @@ class NodeInteractive {
   }
 }
 
-class ConnectorInteractive {
+export class ConnectorInteractive {
 
   dispose = () => { }
 
@@ -311,6 +314,7 @@ class ConnectorInteractive {
       }
       return newnode
     }
+    this.createNode = createNode
 
     const createDragRoute = (start: Vector3): FlowRoute | undefined => {
       const route = mesh.dragStarting(diagram, start)
@@ -320,6 +324,7 @@ class ConnectorInteractive {
       }
       return route
     }
+    this.createDragRoute = createDragRoute
 
     let dragStart: Vector3 | undefined
     let flowStart: Vector3 | undefined
@@ -383,9 +388,12 @@ class ConnectorInteractive {
       newnode = undefined
     })
 
-    diagram.addEventListener<any>(FlowEventType.KEY_DOWN, (e:any) => {
+    diagram.addEventListener<any>(FlowEventType.KEY_DOWN, (e: any) => {
       const keyboard = e.keyboard as KeyboardEvent
       if (keyboard.code == 'Escape') cancelDrag()
     })
   }
+
+  createNode: (start: Vector3) => FlowNode | undefined
+  createDragRoute: (start: Vector3) => FlowRoute | undefined
 }
