@@ -138,12 +138,14 @@ export class FlowDiagram extends Object3D {
     return box.getCenter(this._center)
   }
 
-  dispose() {
+  override clear():this {
     this.allNodes.forEach(node => node.dispose())
     if (this.options && this.options.layout) this.options.layout.dispose()
     this.dispatchEvent<any>({ type: FlowEventType.DISPOSE })
-    this.children.length = 0
+    return super.clear()
   }
+
+  dispose() { this.clear() }
 
   private _gridsize = 0
   get gridsize(): number { return this._gridsize }

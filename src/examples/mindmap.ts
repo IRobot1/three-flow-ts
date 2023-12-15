@@ -1,24 +1,24 @@
-import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, PlaneGeometry, PointLight, Scene, Vector3 } from "three";
+import { AmbientLight, BufferGeometry, Camera, Color, PlaneGeometry, PointLight, Scene, Vector3, WebGLRenderer } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 
-import { ThreeJSApp } from "../app/threejs-app";
 import {
-  FlowEdgeParameters, FlowRoute,
-  FlowNodeParameters,
+  ConnectorMesh,
   FlowConnectorParameters,
+  FlowConnectors,
   FlowDiagram,
   FlowDiagramOptions,
   FlowDiagramParameters,
+  FlowEventType,
   FlowInteraction,
-  FlowConnectors,
-  ConnectorMesh,
-  InteractiveEventType,
-  FlowNode, FlowEdge, FlowEventType, FlowRouteParameters, FlowLabelParameters, FlowLabel, NodeConnectors, ThreeInteractive
+  FlowLabel,
+  FlowLabelParameters,
+  FlowNode,
+  NodeConnectors,
 } from "three-flow";
-import { TroikaFlowLabel } from "./troika-label";
+import { ThreeJSApp } from "../app/threejs-app";
 import { FlowProperties } from "./flow-properties";
+import { TroikaFlowLabel } from "./troika-label";
 
 export class MindmapExample {
 
@@ -55,94 +55,17 @@ export class MindmapExample {
         orbit.enableRotate = !orbit.enableRotate
     })
 
-
     //scene.add(new AxesHelper(3))
-
-
-    let interaction: FlowInteraction
 
     const options: FlowDiagramOptions = {
       gridsize: 0.3,
     }
 
-    const hidden = false
-
     // read-only flow
-    const flow = new FlowDiagram(options)
+    const flow = new MindMapDiagram(app, app.camera, options)
     scene.add(flow);
     //flow.position.y = 1
 
-    // make the flow interactive
-    interaction = new FlowInteraction(flow, app, app.camera)
-    const connectors = new FlowConnectors(flow)
-    const properties = new FlowProperties(flow)
-
-    flow.createLabel = (parameters: FlowLabelParameters): FlowLabel => { return new TroikaFlowLabel(flow, parameters) }
-
-    connectors.createGeometry = (parameters: FlowConnectorParameters): BufferGeometry => {
-      return new PlaneGeometry(parameters.width, parameters.height)
-    }
-    connectors.createConnector = (connectors: NodeConnectors, parameters: FlowConnectorParameters): ConnectorMesh => {
-      return new MindMapConnector(flow, connectors, parameters)
-    }
-
-    flow.addEventListener(FlowEventType.KEY_DOWN, (e: any) => {
-      const keyboard = e.keyboard as KeyboardEvent
-      if (!properties.selectedConnector) return
-      const connector = properties.selectedConnector
-      const node = connector.connectors.node
-
-      switch (keyboard.code) {
-        case 'Delete':
-          // only handle most simple case
-          if (flow.allNodes.length > 1) {
-
-            // prevent delete if node has any child nodes
-            if (node.children.find(x => x.type == 'flownode')) return
-
-            // since we're nesting them, we're responsible for removing from parent
-            if (node.parent) node.parent.remove(node)
-
-            // finally, remove from diagram
-            flow.removeNode(node)
-          }
-          break;
-        case 'Tab': {
-          const position = flow.getFlowPosition(node)
-          if (keyboard.shiftKey)
-            position.x -= 1
-          else
-            position.x += 1
-
-          // re-use method in connector interaction when dragging
-          const interact = interaction.connector(connector)
-          if (interact) interact.createNode(position)
-        }
-          break;
-        case 'Enter': {
-          const position = flow.getFlowPosition(node)
-          if (keyboard.shiftKey)
-            position.y += 0.3
-          else
-            position.y -= 0.3
-
-          // get parent of this connector's node
-          const parent = node.parent
-          if (parent && parent.type == 'flownode') {
-            // get its connectors
-            const parentconnectors = connectors.hasNode(parent.name)
-            if (parentconnectors) {
-              // get the first connector - mind map only has one
-              const first = parentconnectors.getConnectors()[0]
-              // get its interaction to create as child node
-              const interact = interaction.connector(first)
-              if (interact) interact.createNode(position)
-            }
-          }
-        }
-          break;
-      }
-    })
 
     // using connectors between nodes
 
@@ -184,7 +107,7 @@ export class MindmapExample {
       label: { text: 'drag_indicator', isicon: true, padding: 0.05, material: { color: 'white' }, },
       scalable: false, resizable: false, draggable: true, connectors: [
         {
-          id: '', anchor: 'center', selectable: true, draggable: true, hidden,
+          id: '', anchor: 'center', selectable: true, draggable: true,
           material: { color: 'red' },
           label: { text: 'Main Idea', padding: 0.05, material: { color: 'white' }, },
         },
@@ -195,46 +118,107 @@ export class MindmapExample {
       ]
     })
 
-    //const node1 = flow.hasNode('first')!
-
-
-    console.warn(flow.save())
-
-    //const gui = new GUI();
-    //gui.add(flow, 'gridsize', 0, 1).name('Snap-to-Grid Size')
-
-    //const folder = gui.addFolder('Node Properties')
-    //folder.add<any, any>(node1, 'width', 0.3, 3).name('Width')
-    //folder.add<any, any>(node1, 'minwidth', 0.3, 3).name('Min Width')
-    //folder.add<any, any>(node1, 'maxwidth', 0.3, 3).name('Max Width')
-    //folder.add<any, any>(node1, 'height', 0.3, 3).name('Height')
-    //folder.add<any, any>(node1, 'minheight', 0.3, 3).name('Min Height')
-    //folder.add<any, any>(node1, 'maxheight', 0.3, 3).name('Max Height')
-    //folder.addColor(node1, 'color').name('Color')
-    //folder.add<any, any>(node1.label, 'text').name('Label')
-    //folder.add<any, any>(node1.label, 'size', 0.05, 0.3).name('Label Size')
-    //folder.addColor(node1.label, 'color').name('Label Color')
-    ////labelfont ?: string;
-    ////userData ?: { [key: string]: any };
-    //folder.add<any, any>(node1, 'resizable').name('Resizable')
-    ////folder.addColor(node1, 'resizecolor').name('Resize Color')
-    //folder.add<any, any>(node1, 'draggable').name('Draggable')
-    //folder.add<any, any>(node1, 'scalable').name('Scalable')
-    ////folder.addColor(node1, 'scalecolor').name('Scale Color')
-    //folder.add<any, any>(node1, 'scalar', 0.1, 5).name('Scale')
-    //folder.add<any, any>(node1, 'minscale', 0.1, 2).name('Min Scale')
-    //folder.add<any, any>(node1, 'maxscale', 0.1, 3).name('Max Scale')
-    //folder.add<any, any>(node1, 'hidden').name('Hidden')
-
-
-
     this.dispose = () => {
-      interaction.dispose()
-      properties.dispose()
       orbit.dispose()
     }
 
   }
+}
+
+class MindMapDiagram extends FlowDiagram {
+  override dispose: () => void
+
+  constructor(renderer: WebGLRenderer, camera: Camera, options?: FlowDiagramOptions) {
+    super(options)
+
+    // make the flow interactive
+    const interaction = new FlowInteraction(this, renderer, camera)
+    const connectors = new MindMapConnectors(this)
+    const properties = new FlowProperties(this)
+
+    this.dispose = () => {
+      interaction.dispose()
+      properties.dispose()
+      super.dispose()
+    }
+
+
+    this.addEventListener(FlowEventType.KEY_DOWN, (e: any) => {
+      const keyboard = e.keyboard as KeyboardEvent
+      if (!properties.selectedConnector) return
+      const connector = properties.selectedConnector
+      const node = connector.connectors.node
+
+      switch (keyboard.code) {
+        case 'Delete':
+          // only handle most simple case
+          if (this.allNodes.length > 1) {
+
+            // prevent delete if node has any child nodes
+            if (node.children.find(x => x.type == 'flownode')) return
+
+            // since we're nesting them, we're responsible for removing from parent
+            if (node.parent) node.parent.remove(node)
+
+            // finally, remove from diagram
+            this.removeNode(node)
+          }
+          break;
+        case 'Tab': {
+          const position = this.getFlowPosition(node)
+          if (keyboard.shiftKey)
+            position.x -= 1
+          else
+            position.x += 1
+
+          // re-use method in connector interaction when dragging
+          const interact = interaction.connector(connector)
+          if (interact) interact.createNode(position)
+        }
+          break;
+        case 'Enter': {
+          const position = this.getFlowPosition(node)
+          if (keyboard.shiftKey)
+            position.y += 0.3
+          else
+            position.y -= 0.3
+
+          // get parent of this connector's node
+          const parent = node.parent
+          if (parent && parent.type == 'flownode') {
+            // get its connectors
+            const parentconnectors = connectors.hasNode(parent.name)
+            if (parentconnectors) {
+              // get the first connector - mind map only has one
+              const first = parentconnectors.getConnectors()[0]
+              // get its interaction to create as child node
+              const interact = interaction.connector(first)
+              if (interact) interact.createNode(position)
+            }
+          }
+        }
+          break;
+      }
+    })
+  }
+
+  override createLabel(parameters: FlowLabelParameters): FlowLabel {
+    return new TroikaFlowLabel(this, parameters)
+  }
+}
+
+class MindMapConnectors extends FlowConnectors {
+  constructor(diagram: MindMapDiagram) {
+    super(diagram)
+  }
+
+  override createGeometry(parameters: FlowConnectorParameters): BufferGeometry {
+    return new PlaneGeometry(parameters.width, parameters.height)
+  }
+  override createConnector(connectors: NodeConnectors, parameters: FlowConnectorParameters): ConnectorMesh {
+    return new MindMapConnector(this.diagram, connectors, parameters)
+  }
+
 }
 
 class MindMapConnector extends ConnectorMesh {
