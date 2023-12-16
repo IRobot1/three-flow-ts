@@ -4,7 +4,7 @@
 
 Three Flow is a native Three.js graphing library for adding to a scene.  Nodes and edges are rendered using Three.js objects and materials. This allows visuals to have volume, shadows, reflections and dynamic material effects.
 
-![image](https://github.com/IRobot1/three-flow-ts/assets/25032599/777b313c-05f9-440b-98ef-ac15742e649a)
+![image](https://github.com/IRobot1/three-flow-ts/assets/25032599/de175940-ef53-4895-98bf-a53fb8eed286)
 
 This library is still under active development.  Updates and improvements may have breaking changes.
 
