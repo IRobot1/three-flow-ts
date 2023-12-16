@@ -1,9 +1,10 @@
-import { AmbientLight, BufferGeometry, MathUtils, MeshBasicMaterial, PointLight, SRGBColorSpace, Scene, Shape, ShapeGeometry, TextureLoader, Vector2 } from "three";
+import { AmbientLight, BoxGeometry, BufferGeometry, DoubleSide, ExtrudeGeometry, LineBasicMaterial, LineSegments, MaterialParameters, MathUtils, Mesh, MeshBasicMaterial, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, SRGBColorSpace, Scene, Shape, ShapeGeometry, TextureLoader, Vector2 } from "three";
 import { ThreeInteractive, InteractiveEventType, FlowDiagram, FlowLabelParameters, FlowLabel, FlowNodeParameters, FlowEdgeParameters, FlowConnectors, FlowDiagramParameters, FlowNode, FlowDiagramOptions } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "../examples/troika-label";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { BoxLineGeometry } from "three/examples/jsm/geometries/BoxLineGeometry";
 
 class MyFlowDiagram extends FlowDiagram {
   loader = new TextureLoader()
@@ -12,6 +13,11 @@ class MyFlowDiagram extends FlowDiagram {
     super(options)
   }
 
+  override createMeshMaterial(purpose: string, parameters: MaterialParameters) {
+    //parameters.side = DoubleSide
+    return new MeshStandardMaterial(parameters)
+  }
+   
   override createLabel(label: FlowLabelParameters): FlowLabel {
     return new TroikaFlowLabel(this, label)
   }
@@ -25,10 +31,12 @@ class MyFlowNode extends FlowNode {
   constructor(diagram: MyFlowDiagram, tile: Tile) {
     super(diagram, tile)
 
+    this.castShadow = true
+
     const texture = diagram.loader.load('/assets/examples/' + tile.assetimage + '.png')
     texture.colorSpace = SRGBColorSpace
     texture.offset.set(0.5, 0.5)
-    this.material = new MeshBasicMaterial({ color: 'white', map: texture })
+    this.material = diagram.getMaterial('geometry', tile.assetimage, <MeshStandardMaterialParameters>{ color: 'white', map: texture })
 
     const node = this
     node.addEventListener(InteractiveEventType.POINTERENTER, () => {
@@ -61,7 +69,10 @@ class MyFlowNode extends FlowNode {
   }
 
   override createGeometry(): BufferGeometry {
-    return new ShapeGeometry(this.rectangularShape(this.parameters.width!, this.parameters.height!, 0.1))
+    return new ExtrudeGeometry(
+      this.rectangularShape(this.parameters.width!, this.parameters.height!, 0.1),
+      { bevelEnabled: false, depth: 0.03 }
+    )
   }
 
 }
@@ -75,29 +86,48 @@ export class GalleryExample {
   dispose = () => { }
 
   constructor(app: ThreeJSApp) {
-    app.camera.position.z = 4
 
     const scene = new Scene()
     app.scene = scene;
 
     const ambient = new AmbientLight()
-    ambient.intensity = 0.1
+    ambient.intensity = 1
     scene.add(ambient)
 
-    const light = new PointLight(0xffffff, 1, 100)
-    light.position.set(-1, 1, 2)
+    const light = new PointLight(0xffffff, 1.5, 100)
+    light.position.set(0, 1.6, 0)
     light.castShadow = true
-    light.shadow.bias = -0.001 // this prevents artifacts
-    light.shadow.mapSize.width = light.shadow.mapSize.height = 512 * 2
+    //light.shadow.bias = -0.001 // this prevents artifacts
+    light.shadow.mapSize.width = light.shadow.mapSize.height = 512 * 4
     scene.add(light)
 
+    app.camera.position.y = 1.45
+    app.camera.position.z = 0.15
+
     const orbit = new OrbitControls(app.camera, app.domElement);
-    orbit.target.set(0, app.camera.position.y, 0)
+    orbit.target.set(0, 0.5, -0.1)
     //orbit.enableRotate = false;
     orbit.update();
 
-    const ROTATION = 15
-    scene.rotation.x = MathUtils.degToRad(-ROTATION)
+    const room = new LineSegments(
+      new BoxLineGeometry(6, 6, 6, 10, 10, 10),
+      new LineBasicMaterial({ color: 0x808080 })
+    );
+
+    room.geometry.translate(0, 3, 0);
+    scene.add(room)
+
+    const floor = new Mesh(new PlaneGeometry(5.5, 5.5), new MeshStandardMaterial({ color: '#666' }))
+    scene.add(floor)
+    floor.rotation.x = MathUtils.degToRad(-90)
+    floor.position.y = 0.1
+    floor.receiveShadow = true
+
+
+    const table = new Mesh(new BoxGeometry(2, 0.1, 1), new MeshStandardMaterial({ color: '#333' }))
+    scene.add(table)
+    table.position.y = 0.93
+    table.receiveShadow = table.castShadow = true
 
     const interactive = new ThreeInteractive(app, app.camera)
 
@@ -114,7 +144,7 @@ export class GalleryExample {
     const column6 = 4.5
     const column7 = 6
     const column8 = 7.5
-    
+
 
     const nodes: Tile[] = [
       {
@@ -386,6 +416,11 @@ export class GalleryExample {
 
     const flow = new MyFlowDiagram({ linestyle: 'split' })
     scene.add(flow);
+
+    flow.rotation.x = MathUtils.degToRad(-90)
+    flow.scale.setScalar(0.1)
+    flow.position.y = 1
+    flow.position.z = 0.1
 
     // support connectors
     new FlowConnectors(flow)
