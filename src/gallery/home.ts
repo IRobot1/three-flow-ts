@@ -272,7 +272,7 @@ export class GalleryExample {
         id: 'mindmap',
         label: { text: "Mind Map" },
         x: column3a, y: row2,
-        assetimage: 'placeholder', route: 'mindmap',
+        assetimage: 'mindmap', route: 'mindmap',
         connectors: [
           { id: "c1mindmap", anchor: 'top', material: { color: 'white' }, },
         ],

@@ -1,8 +1,9 @@
-import { AmbientLight, BufferGeometry, Camera, Color, PlaneGeometry, PointLight, Scene, Vector3, WebGLRenderer } from "three";
+import { AmbientLight, BufferGeometry, Camera, Color, FileLoader, Object3D, PlaneGeometry, PointLight, Scene, Vector2, Vector3, WebGLRenderer } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 
 import {
+  ConnectorInteractive,
   ConnectorMesh,
   FlowConnectorParameters,
   FlowConnectors,
@@ -19,6 +20,8 @@ import {
 import { ThreeJSApp } from "../app/threejs-app";
 import { FlowProperties } from "./flow-properties";
 import { TroikaFlowLabel } from "./troika-label";
+import { Exporter } from "./export";
+import { connect } from "rxjs";
 
 export class MindmapExample {
 
@@ -102,38 +105,66 @@ export class MindmapExample {
     //  return mesh
     //}
 
-    const first = flow.addNode({
-      id: 'first', material: { color: 'blue' }, width: 0, height: 0,
-      label: { text: 'drag_indicator', isicon: true, padding: 0.05, material: { color: 'white' }, },
-      scalable: false, resizable: false, draggable: true, connectors: [
-        {
-          id: '', anchor: 'center', selectable: true, draggable: true,
-          material: { color: 'red' },
-          label: { text: 'Main Idea', padding: 0.05, material: { color: 'white' }, },
-        },
-        //  { id: '', anchor: 'left', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
-        //  { id: '', anchor: 'top', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
-        //  { id: '', anchor: 'right', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
-        //  { id: '', anchor: 'bottom', selectable: true, selectcursor: 'crosshair', draggable: true, hidden },
-      ]
-    })
+    flow.addIdea('Main Idea', 0, 0)
+
+    const gui = new GUI();
+    gui.domElement.style.position = 'fixed';
+    gui.domElement.style.top = '0';
+    gui.domElement.style.left = '15px';
+
+    const fileSaver = new Exporter()
+    const fileLoader = new FileLoader();
+
+    const params = {
+      filename: 'flow-mindmap.json',
+      save: () => {
+        const text = flow.saveTo()
+        fileSaver.saveJSON(text, params.filename)
+      },
+      load: () => {
+        fileLoader.load(`assets/mindmap.json`, (data) => {
+          flow.clear()
+
+          const diagram = <Array<MindMapText>>JSON.parse(<string>data)
+          console.warn(diagram)
+          // optionally, iterate over nodes and edges to override parameters before loading
+
+          flow.loadFrom(diagram)
+        });
+
+      }
+    }
+    gui.add<any, any>(params, 'filename').name('File name')
+    gui.add<any, any>(params, 'save').name('Save')
+    gui.add<any, any>(params, 'load').name('Load')
 
     this.dispose = () => {
+      flow.dispose()
+      gui.destroy()
       orbit.dispose()
     }
 
   }
 }
 
+interface MindMapText {
+  text: string
+  position: { x: number, y: number }
+  children?: Array<MindMapText>
+}
+
 class MindMapDiagram extends FlowDiagram {
   override dispose: () => void
+
+  private connectors: MindMapConnectors
+  private interaction: FlowInteraction
 
   constructor(renderer: WebGLRenderer, camera: Camera, options?: FlowDiagramOptions) {
     super(options)
 
     // make the flow interactive
-    const interaction = new FlowInteraction(this, renderer, camera)
-    const connectors = new MindMapConnectors(this)
+    const interaction = this.interaction = new FlowInteraction(this, renderer, camera)
+    const connectors = this.connectors = new MindMapConnectors(this)
     const properties = new FlowProperties(this)
 
     this.dispose = () => {
@@ -172,7 +203,7 @@ class MindMapDiagram extends FlowDiagram {
             position.x += 1
 
           // re-use method in connector interaction when dragging
-          const interact = interaction.connector(connector)
+          const interact = interaction.getConnectorInteractive(connector)
           if (interact) interact.createNode(position)
         }
           break;
@@ -192,7 +223,7 @@ class MindMapDiagram extends FlowDiagram {
               // get the first connector - mind map only has one
               const first = parentconnectors.getConnectors()[0]
               // get its interaction to create as child node
-              const interact = interaction.connector(first)
+              const interact = interaction.getConnectorInteractive(first)
               if (interact) interact.createNode(position)
             }
           }
@@ -202,8 +233,86 @@ class MindMapDiagram extends FlowDiagram {
     })
   }
 
+  addIdea(text: string, x: number, y: number): FlowNode {
+    return this.addNode({
+      id: '', material: { color: 'blue' }, width: 0, height: 0, x, y,
+      label: { text: 'drag_indicator', isicon: true, padding: 0.05, material: { color: 'white' }, },
+      scalable: false, resizable: false, draggable: true, connectors: [
+        {
+          id: '', anchor: 'center', selectable: true, draggable: true,
+          material: { color: 'red' },
+          label: { text, padding: 0.05, material: { color: 'white' }, },
+        },
+      ]
+    })
+  }
+
   override createLabel(parameters: FlowLabelParameters): FlowLabel {
     return new TroikaFlowLabel(this, parameters)
+  }
+
+  private nodeSaveAsText(node: FlowNode, indent: number, save: Array<MindMapText>) {
+    const result: MindMapText = {
+      text: node.parameters.connectors![0].label?.text!,
+      position: { x: +node.position.x.toFixed(2), y: +node.position.y.toFixed(2) },
+    }
+    save.push(result)
+
+    node.children.forEach(child => {
+      if (child.type == 'flownode') {
+        if (!result.children) result.children = []
+        this.nodeSaveAsText(child as FlowNode, indent + 1, result.children)
+      }
+    })
+
+  }
+
+  saveTo(): Array<MindMapText> {
+    const result: Array<MindMapText> = []
+    this.allNodes.forEach(node => {
+      if (node.parent == this)
+        this.nodeSaveAsText(node, 0, result)
+    })
+    return result
+  }
+
+
+  private getConnectorInteractive(parent: FlowNode): ConnectorInteractive {
+    const parentconnectors = this.connectors.hasNode(parent.name)
+    // get the first connector - mind map only has one
+    const first = parentconnectors!.getConnectors()[0]
+    // get its interaction to create as child node
+    return this.interaction.getConnectorInteractive(first)!
+  }
+
+  private loadFromNode(parent: FlowNode, children: Array<MindMapText>) {
+    const parentinteract = this.getConnectorInteractive(parent)
+    if (parentinteract) {
+      // now add children to this node
+      children.forEach(item => {
+        const node = parentinteract.createNode(new Vector3(parent.position.x + item.position.x, parent.position.y + item.position.y))
+        if (node) {
+          // set the connectors text
+          const childinteract = this.getConnectorInteractive(node)
+
+          // wait one frame, so connect moves correctly when label width changes
+          requestAnimationFrame(() => {
+            childinteract.mesh.label!.text = item.text
+          })
+
+          // add an children to this node
+          if (item.children) this.loadFromNode(node, item.children)
+        }
+      })
+    }
+  }
+
+  loadFrom(array: Array<MindMapText>) {
+    array.forEach(item => {
+      const node = this.addIdea(item.text, item.position.x, item.position.y)
+      this.add(node)
+      if (item.children) this.loadFromNode(node, item.children)
+    })
   }
 }
 
@@ -229,9 +338,13 @@ class MindMapConnector extends ConnectorMesh {
     this.label!.addEventListener(FlowEventType.WIDTH_CHANGED, (e: any) => {
       this.geometry = new PlaneGeometry(e.width, parameters.height)
       this.position.x = e.width / 2 + 0.1
+
       // notify the edge that the connector has moved
       connectors.node.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
       diagram.dispatchEvent<any>({ type: FlowEventType.CONNECTOR_SELECTED, connector: this })
+
+      // make sure its saved with this label
+      parameters.label!.text = this.label!.text
     })
 
     // listen for request to show connector properties
@@ -249,19 +362,8 @@ class MindMapConnector extends ConnectorMesh {
     return 'crosshair'
   }
 
-  override dropCompleted(diagram: FlowDiagram, start: Vector3): FlowNode | undefined {
-    const newnode = diagram.addNode({
-      x: start.x, y: start.y, material: { color: 'blue' },
-      width: 0, height: 0,
-      label: { text: 'drag_indicator', isicon: true, padding: 0.05, material: { color: 'white' }, },
-      scalable: false, resizable: false, draggable: true, connectors: [
-        {
-          id: '', anchor: 'center', selectable: true, draggable: true,
-          material: { color: 'red' },
-          label: { text: 'New Idea', padding: 0.05, material: { color: 'white' }, },
-        },
-      ]
-    })
+  override dropCompleted(diagram: MindMapDiagram, start: Vector3): FlowNode | undefined {
+    const newnode = diagram.addIdea('New Idea', start.x, start.y)
 
     const addAsChild = true
     if (addAsChild) {

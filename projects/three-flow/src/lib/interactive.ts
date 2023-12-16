@@ -145,10 +145,10 @@ export class FlowInteraction {
 
   }
 
-  connector(mesh: ConnectorMesh): ConnectorInteractive | undefined {
+  getConnectorInteractive(mesh: ConnectorMesh): ConnectorInteractive | undefined {
     return this.connectors.find(x => x.mesh == mesh)
   }
- 
+
   createThreeInteractive(renderer: WebGLRenderer, camera: Camera): ThreeInteractive {
     return new ThreeInteractive(renderer, camera)
   }
