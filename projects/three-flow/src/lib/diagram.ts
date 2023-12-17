@@ -116,15 +116,9 @@ export class FlowDiagram extends Object3D {
     result.edges.forEach(edge => {
       const item = this.hasEdge(edge.id)
       if (item) {
-        item.parameters.points = []
-        edge.points.forEach(point => {
-          if (item.parameters.points) {
-            item.parameters.points.push({
-              x: point.x - centerx,
-              y: point.y - centery
-            })
-          }
-        })
+        const center = new Vector2(centerx, centery)
+        edge.points.forEach(point => point.sub(center))
+        item.parameters.points = edge.points
 
         item.updateVisuals()
       }
@@ -138,7 +132,7 @@ export class FlowDiagram extends Object3D {
     return box.getCenter(this._center)
   }
 
-  override clear():this {
+  override clear(): this {
     this.allNodes.forEach(node => node.dispose())
     if (this.options && this.options.layout) this.options.layout.dispose()
     this.dispatchEvent<any>({ type: FlowEventType.DISPOSE })

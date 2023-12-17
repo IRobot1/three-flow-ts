@@ -1,4 +1,4 @@
-import { Mesh, MeshBasicMaterialParameters } from "three"
+import { Mesh, MeshBasicMaterialParameters, Vector2 } from "three"
 
 export interface FlowTransform {
   translate?: { x?: number, y?: number, z?: number }
@@ -67,7 +67,7 @@ export interface FlowEdgeParameters {
   to: string // to node id
   id?: string
 
-  points?: Array<{ x: number, y: number }>  // dagre layout positions of line segments
+  points?: Array<Vector2>  // dagre layout positions of line segments
 
   z?: number // default is -0.005
   material?: MeshBasicMaterialParameters
@@ -169,7 +169,7 @@ export interface LayoutResult {
   width: number
   height: number
   nodes: Array<{ id: string, x: number, y: number }>
-  edges: Array<{ id: string, points: Array<{ x: number, y: number }> }>
+  edges: Array<{ id: string, points: Array<Vector2> }>
 }
 
 export interface FlowLayout {

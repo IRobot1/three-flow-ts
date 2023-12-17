@@ -1,4 +1,5 @@
 import { GraphLabel, graphlib, layout } from "@dagrejs/dagre";
+import { Vector2 } from "three";
 import { FlowEdgeParameters, FlowLayout, FlowNodeParameters, LayoutResult } from "three-flow";
 
 export class DagreLayout implements FlowLayout {
@@ -37,7 +38,7 @@ export class DagreLayout implements FlowLayout {
     filteredgraph.edges().forEach(name => {
       const data = this.graph.edge(name.v, name.w) as FlowEdgeParameters
       const filtered = filteredgraph.edge(name)
-      result.edges.push({ id: data.id!, points: filtered.points })
+      result.edges.push({ id: data.id!, points: filtered.points.map(p => new Vector2(p.x, p.y)) })
     })
 
     return result;
