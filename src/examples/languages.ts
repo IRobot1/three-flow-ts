@@ -63,7 +63,7 @@ export class LanguagesExample {
         fonts: new Map<string, Font>([
           ['default', font],
         ]),
-        linestyle: 'spline',
+        linestyle: 'bezier',
         layout: new DagreLayout()
       }
       const flow = new MyFlowDiagram(options)

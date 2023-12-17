@@ -60,7 +60,7 @@ export interface FlowArrowParameters {
   scale?: number
 }
 
-export type EdgeLineStyle = 'straight' | 'step' | 'spline'
+export type EdgeLineStyle = 'straight' | 'step' | 'bezier'
 
 export interface FlowEdgeParameters {
   from: string // from node id
@@ -72,7 +72,7 @@ export interface FlowEdgeParameters {
   z?: number // default is -0.005
   material?: MeshBasicMaterialParameters
   linestyle?: EdgeLineStyle
-  lineoffset?: number // offset from connector to start bending line (when linestyle is offset or spline)
+  lineoffset?: number // offset from connector to start drawing edge
   divisions?: number
   thickness?: number
   toarrow?: FlowArrowParameters

@@ -24,7 +24,7 @@ export class FlowEdge extends Mesh {
   get linestyle() { return this._linestyle }
   set linestyle(newvalue: EdgeLineStyle) {
     if (this._linestyle != newvalue) {
-      if (this._linestyle == 'spline') this.removeArrows()
+      if (this._linestyle == 'bezier') this.removeArrows()
       this._linestyle = newvalue
       this.updateVisuals()
     }
@@ -125,7 +125,7 @@ export class FlowEdge extends Mesh {
     else
       this._matparams = { color: 'white' }
 
-    this._linestyle = parameters.linestyle ? parameters.linestyle : 'spline'
+    this._linestyle = parameters.linestyle ? parameters.linestyle : 'bezier'
     this.lineoffset = parameters.lineoffset != undefined ? parameters.lineoffset : 0.2
     this._divisions = parameters.divisions ? parameters.divisions : 20
     this._thickness = parameters.thickness ? parameters.thickness : 0.01
@@ -215,13 +215,11 @@ export class FlowEdge extends Mesh {
 
     // use layout when provided
     if (this.parameters.points) {
-
       const curvepoints: Array<Vector2> = []
       this.parameters.points.forEach(point => {
         curvepoints.push(new Vector2(point.x, -point.y))
       })
-      const curve = new SplineCurve(curvepoints);
-      path = new Path(curve.getPoints(this.divisions))
+      path = new Path(curvepoints)
 
       from.copy(curvepoints[0])
       to.copy(curvepoints[curvepoints.length - 1])
@@ -257,7 +255,7 @@ export class FlowEdge extends Mesh {
           const result = edge.getSmoothStepPath({ sourceX: from.x, sourceY: from.y, sourcePosition: fromanchor, targetX: to.x, targetY: to.y, targetPosition: toanchor })
           path = result.path
           break
-        case 'spline': {
+        case 'bezier': {
           const result = edge.getBezierPath({ sourceX: from.x, sourceY: from.y, sourcePosition: fromanchor, targetX: to.x, targetY: to.y, targetPosition: toanchor })
           path = result.path
         }

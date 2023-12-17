@@ -190,7 +190,7 @@ export class CustomGeometryExample {
         ]),
         linethickness: 0.015,
         linematerial: { color: 0x2ead25 },
-        linestyle: 'spline',
+        linestyle: 'bezier',
         layout: new DagreLayout()
       }
       const flow = new MyFlowDiagram(options)
@@ -216,10 +216,10 @@ export class CustomGeometryExample {
 
       const edgegui = gui.addFolder('Edge Properties')
 
-      edgegui.add<any, any>(edge1, 'linestyle', ['straight', 'spline']).name('Line Style').onChange(() => {
+      edgegui.add<any, any>(edge1, 'linestyle', ['straight', 'bezier']).name('Line Style').onChange(() => {
         flow.layout()
       })
-      edgegui.add<any, any>(edge1, 'divisions', 3, 15).name('Spline Division').step(1)
+      edgegui.add<any, any>(edge1, 'divisions', 3, 15).name('Curve Divisions').step(1)
       edgegui.addColor(edge1, 'color').name('Line Color')
       edgegui.add<any, any>(edge1, 'thickness', 0.01, 0.05).name('Line Width')
 
