@@ -1,4 +1,4 @@
-import { Box3, ColorRepresentation, LineBasicMaterial, LineBasicMaterialParameters, Material, MaterialParameters, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Vector3 } from "three";
+import { Box3, ColorRepresentation, LineBasicMaterial, LineBasicMaterialParameters, Material, MaterialParameters, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Vector2, Vector3 } from "three";
 import { FlowEdgeParameters, FlowDiagramParameters, FlowNodeParameters, FlowRouteParameters, EdgeLineStyle, FlowEventType, FlowLayout, FlowLabelParameters } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
@@ -287,6 +287,13 @@ export class FlowDiagram extends Object3D {
     let worldPosition = new Vector3();
     object.localToWorld(worldPosition);
     return this.worldToLocal(worldPosition);
+  }
+
+  getFlowPosition2D(object: Object3D): Vector2 {
+    let worldPosition = new Vector3();
+    object.localToWorld(worldPosition);
+    const v = this.worldToLocal(worldPosition);
+    return new Vector2(v.x, v.y)
   }
 
   // allow overriding

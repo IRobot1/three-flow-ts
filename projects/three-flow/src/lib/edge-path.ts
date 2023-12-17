@@ -1,6 +1,11 @@
 import { Path, Vector3 } from "three";
 import { AnchorType } from "./model";
 
+// The following code is adapted from https://github.com/xyflow/xyflow/tree/main/packages/system/src/utils/edges
+// * returns three.js Path instead of SVG path string
+// * reverse Y direction - its down for SVG and up for three.js
+// * smaller radius values in cm instead of pixels
+
 export type GetStraightPathParams = {
   sourceX: number;
   sourceY: number;
@@ -11,10 +16,10 @@ export type GetStraightPathParams = {
 export interface GetSmoothStepPathParams {
   sourceX: number;
   sourceY: number;
-  sourcePosition?: AnchorType;
+  sourcePosition: AnchorType;
   targetX: number;
   targetY: number;
-  targetPosition?: AnchorType;
+  targetPosition: AnchorType;
   borderRadius?: number;
   centerX?: number;
   centerY?: number;
@@ -25,10 +30,10 @@ export interface GetSmoothStepPathParams {
 export type GetBezierPathParams = {
   sourceX: number;
   sourceY: number;
-  sourcePosition?: AnchorType;
+  sourcePosition: AnchorType;
   targetX: number;
   targetY: number;
-  targetPosition?: AnchorType;
+  targetPosition: AnchorType;
   curvature?: number;
 };
 
@@ -101,8 +106,8 @@ export class FlowEdgePath {
     const handleDirections = {
       'left': { x: -1, y: 0 },
       'right': { x: 1, y: 0 },
-      'top': { x: 0, y: -1 },
-      'bottom': { x: 0, y: 1 },
+      'top': { x: 0, y: 1 },
+      'bottom': { x: 0, y: -1 },
       'center': { x: 0, y: 0 },
     };
 
@@ -237,27 +242,29 @@ export class FlowEdgePath {
     return [pathPoints, centerX, centerY, defaultOffsetX, defaultOffsetY];
   }
 
-  private calcBend(a: Vector3, b: Vector3, c: Vector3, size: number): string {
-    const distance = (a: Vector3, b: Vector3) => Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2));
-
-    const bendSize = Math.min(distance(a, b) / 2, distance(b, c) / 2, size);
+  private calcBend(a: Vector3, b: Vector3, c: Vector3, size: number, path: Path) {
+    const bendSize = Math.min(a.distanceTo(b) / 2, b.distanceTo(c) / 2, size);
     const { x, y } = b;
 
     // no bend
     if ((a.x === x && x === c.x) || (a.y === y && y === c.y)) {
-      return `L${x} ${y}`;
+      path.lineTo(x, y)
     }
-
-    // first segment is horizontal
-    if (a.y === y) {
-      const xDir = a.x < c.x ? -1 : 1;
-      const yDir = a.y < c.y ? 1 : -1;
-      return `L ${x + bendSize * xDir},${y}Q ${x},${y} ${x},${y + bendSize * yDir}`;
+    else {
+      // first segment is horizontal
+      if (a.y === y) {
+        const xDir = a.x < c.x ? -1 : 1;
+        const yDir = a.y < c.y ? 1 : -1;
+        path.lineTo(x + bendSize * xDir, y)
+        path.quadraticCurveTo(x, y, x, y + bendSize * yDir)
+      }
+      else {
+        const xDir = a.x < c.x ? 1 : -1;
+        const yDir = a.y < c.y ? -1 : 1;
+        path.lineTo(x, y + bendSize * yDir)
+        path.quadraticCurveTo(x, y, x + bendSize * xDir, y)
+      }
     }
-
-    const xDir = a.x < c.x ? 1 : -1;
-    const yDir = a.y < c.y ? -1 : 1;
-    return `L ${x},${y + bendSize * yDir}Q ${x},${y} ${x + bendSize * xDir},${y}`;
   }
 
 
@@ -269,11 +276,11 @@ export class FlowEdgePath {
     targetX,
     targetY,
     targetPosition = 'top',
-    borderRadius = 5,
+    borderRadius = 0.1,
     centerX,
     centerY,
-    offset = 20,
-  }: GetSmoothStepPathParams): [path: string, labelX: number, labelY: number, offsetX: number, offsetY: number] {
+    offset = 0.1,
+  }: GetSmoothStepPathParams): { path: Path, labelX: number, labelY: number, offsetX: number, offsetY: number } {
     const [points, labelX, labelY, offsetX, offsetY] = this.calcPoints({
       source: new Vector3(sourceX, sourceY),
       sourcePosition,
@@ -283,21 +290,20 @@ export class FlowEdgePath {
       offset,
     });
 
-    const path = points.reduce<string>((res, p, i) => {
-      let segment = '';
+    const path = new Path()
+    points.forEach((p, i) => {
 
       if (i > 0 && i < points.length - 1) {
-        segment = this.calcBend(points[i - 1], p, points[i + 1], borderRadius);
+        this.calcBend(points[i - 1], p, points[i + 1], borderRadius, path);
       } else {
-        segment = `${i === 0 ? 'M' : 'L'}${p.x} ${p.y}`;
+        if (i == 0)
+          path.moveTo(p.x, p.y)
+        else
+          path.lineTo(p.x, p.y)
       }
+    });
 
-      res += segment;
-
-      return res;
-    }, '');
-
-    return [path, labelX, labelY, offsetX, offsetY];
+    return { path, labelX, labelY, offsetX, offsetY };
   }
 
   private getBezierEdgeCenter({
@@ -334,7 +340,7 @@ export class FlowEdgePath {
       return 0.5 * distance;
     }
 
-    return curvature * 25 * Math.sqrt(-distance);
+    return curvature * 2.5 * Math.sqrt(-distance);
   }
 
   private getControlWithCurvature({ pos, x1, y1, x2, y2, c }: GetControlWithCurvatureParams): [number, number] {
@@ -344,9 +350,9 @@ export class FlowEdgePath {
       case 'right':
         return [x1 + this.calculateControlOffset(x2 - x1, c), y1];
       case 'top':
-        return [x1, y1 - this.calculateControlOffset(y1 - y2, c)];
+        return [x1, y1 + this.calculateControlOffset(y1 - y2, c)];
       case 'bottom':
-        return [x1, y1 + this.calculateControlOffset(y2 - y1, c)];
+        return [x1, y1 - this.calculateControlOffset(y2 - y1, c)];
       case 'center':
       default:
         return [x1, y1]
@@ -361,7 +367,7 @@ export class FlowEdgePath {
     targetY,
     targetPosition = 'top',
     curvature = 0.25,
-  }: GetBezierPathParams): [path: string, labelX: number, labelY: number, offsetX: number, offsetY: number] {
+  }: GetBezierPathParams): { path: Path, labelX: number, labelY: number, offsetX: number, offsetY: number } {
     const [sourceControlX, sourceControlY] = this.getControlWithCurvature({
       pos: sourcePosition,
       x1: sourceX,
@@ -389,12 +395,16 @@ export class FlowEdgePath {
       targetControlY,
     });
 
-    return [
-      `M${sourceX},${sourceY} C${sourceControlX},${sourceControlY} ${targetControlX},${targetControlY} ${targetX},${targetY}`,
+    const path = new Path()
+    path.moveTo(sourceX, sourceY)
+    path.bezierCurveTo(sourceControlX, sourceControlY, targetControlX, targetControlY, targetX, targetY)
+
+    return {
+      path,
       labelX,
       labelY,
       offsetX,
       offsetY,
-    ];
+    }
   }
 }
