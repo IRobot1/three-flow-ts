@@ -304,11 +304,13 @@ export class ConnectorInteractive {
         const params: FlowEdgeParameters = { from: parentNode.name, to: newnode.name, }
 
         const anchor = mesh.oppositeAnchor
-        const connector = newnode.parameters.connectors?.find(c => c.anchor == anchor)
+        if (newnode.parameters.connectors) {
+          const connector = newnode.parameters.connectors.find(c => c.anchor == anchor)
 
-        if (connector) {
-          params.fromconnector = mesh.name
-          params.toconnector = connector.id
+          if (connector) {
+            params.fromconnector = mesh.name
+            params.toconnector = connector.id
+          }
         }
         diagram.addEdge(params)
       }

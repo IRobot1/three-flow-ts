@@ -130,13 +130,15 @@ export class FlowLabel extends Object3D {
     }
 
     this.labelMesh.addEventListener(FlowEventType.LABEL_READY, () => {
-      this.labelMesh!.geometry.computeBoundingBox()
-      const box = this.labelMesh!.geometry.boundingBox!
-      const size = box.getSize(this.textsize)
-      const center = box.getCenter(this.textcenter)
+      if (this.labelMesh) {
+        this.labelMesh.geometry.computeBoundingBox()
+        const box = this.labelMesh.geometry.boundingBox!
+        const size = box.getSize(this.textsize)
+        const center = box.getCenter(this.textcenter)
 
-      this.width = size.x + this.padding * 2
-      this.height = size.y + this.padding * 2
+        this.width = size.x + this.padding * 2
+        this.height = size.y + this.padding * 2
+      }
     })
   }
 
@@ -152,33 +154,36 @@ export class FlowLabel extends Object3D {
       mesh.geometry = new TextGeometry(label, params)
 
       mesh.geometry.computeBoundingBox()
-      const size = mesh.geometry.boundingBox!.getSize(this.textsize)
-      const center = mesh.geometry.boundingBox!.getCenter(this.textcenter)
+      if (mesh.geometry.boundingBox) {
+        const box = mesh.geometry.boundingBox
+        const size = box.getSize(this.textsize)
+        const center = box.getCenter(this.textcenter)
 
-      let x = 0, y = 0
-      switch (<LabelAlignX>options.alignX) {
-        case 'center':
-          x = -center.x
-          break
-        case 'right':
-          x = -size.x
-          break
-        case 'left':
-        default:
-          break
+        let x = 0, y = 0
+        switch (<LabelAlignX>options.alignX) {
+          case 'center':
+            x = -center.x
+            break
+          case 'right':
+            x = -size.x
+            break
+          case 'left':
+          default:
+            break
+        }
+        switch (<LabelAlignY>options.alignY) {
+          case 'middle':
+            y = -center.y
+            break
+          case 'top':
+            y = -size.y
+            break
+          case 'bottom':
+          default:
+            break
+        }
+        mesh.geometry.translate(x, y, 0)
       }
-      switch (<LabelAlignY>options.alignY) {
-        case 'middle':
-          y = -center.y
-          break
-        case 'top':
-          y = -size.y
-          break
-        case 'bottom':
-        default:
-          break
-      }
-      mesh.geometry.translate(x, y, 0)
     }
 
     requestAnimationFrame(() => {
