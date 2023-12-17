@@ -74,18 +74,18 @@ export class EdgeStylesExample {
     const timers: Array<any> = []
     const row1 = 6
     timers.push(this.addLineAcross(flow, 'straight', 'cornflowerblue', -9, row1))
-    timers.push(this.addLineAcross(flow, 'offset', 'blue', -3, row1))
+    timers.push(this.addLineAcross(flow, 'step', 'blue', -3, row1))
     timers.push(this.addLineAcross(flow, 'spline', 'green', 3, row1))
-    timers.push(this.addLineAcross(flow, 'split', 'red', 9, row1))
+    //timers.push(this.addLineAcross(flow, 'split', 'red', 9, row1))
 
     const row2 = 0
     timers.push(this.addLineDiagonal1(flow, 'straight', 'cornflowerblue', -9, row2))
-    timers.push(this.addLineDiagonal1(flow, 'offset', 'blue', -3, row2))
+    timers.push(this.addLineDiagonal1(flow, 'step', 'blue', -3, row2))
     timers.push(this.addLineDiagonal1(flow, 'spline', 'green', 3, row2))
-    timers.push(this.addLineDiagonal1(flow, 'split', 'red', 9, row2))
+    //timers.push(this.addLineDiagonal1(flow, 'split', 'red', 9, row2))
 
     const row3 = -6
-    timers.push(this.addLineDiagonal2(flow, 'offset', 'blue', -3, row3))
+    timers.push(this.addLineDiagonal2(flow, 'step', 'blue', -3, row3))
     timers.push(this.addLineDiagonal2(flow, 'spline', 'green', 3, row3))
 
     this.dispose = () => {

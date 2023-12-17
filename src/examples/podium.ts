@@ -166,7 +166,7 @@ class PodiumFlowDiagram extends FlowDiagram {
 class PodiumEdge extends FlowEdge {
   constructor(diagram: PodiumFlowDiagram, parameters: FlowEdgeParameters) {
     parameters.material = { color: 'orange' }
-    parameters.linestyle = 'split'
+    parameters.linestyle = 'step'
 
     super(diagram, parameters)
     this.position.z = 0.5

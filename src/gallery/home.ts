@@ -414,7 +414,7 @@ export class GalleryExample {
       nodes, edges
     }
 
-    const flow = new MyFlowDiagram({ linestyle: 'split' })
+    const flow = new MyFlowDiagram({ linestyle: 'step' })
     scene.add(flow);
 
     flow.rotation.x = MathUtils.degToRad(-90)

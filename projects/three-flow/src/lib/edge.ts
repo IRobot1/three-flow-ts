@@ -1,4 +1,4 @@
-import { BufferGeometry, ColorRepresentation, Line, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Path, Vector2, Vector3 } from "three";
+import { BufferGeometry, ColorRepresentation, Line, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Path, SplineCurve, Vector2, Vector3 } from "three";
 import { FlowArrowParameters, FlowEdgeParameters, EdgeLineStyle, FlowEventType, AnchorType } from "./model";
 import { FlowDiagram } from "./diagram";
 import { FlowNode } from "./node";
@@ -215,11 +215,13 @@ export class FlowEdge extends Mesh {
 
     // use layout when provided
     if (this.parameters.points) {
+
       const curvepoints: Array<Vector2> = []
       this.parameters.points.forEach(point => {
         curvepoints.push(new Vector2(point.x, -point.y))
       })
-      path = new Path(curvepoints)
+      const curve = new SplineCurve(curvepoints);
+      path = new Path(curve.getPoints(this.divisions))
 
       from.copy(curvepoints[0])
       to.copy(curvepoints[curvepoints.length - 1])
@@ -229,7 +231,7 @@ export class FlowEdge extends Mesh {
       from.copy(this.diagram.getFlowPosition2D(this.fromConnector))
       to.copy(this.diagram.getFlowPosition2D(this.toConnector))
 
-      let fromanchor:AnchorType = 'center'
+      let fromanchor: AnchorType = 'center'
       let toanchor: AnchorType = 'center'
 
       if (this.fromConnector.type == 'flowconnector') {
@@ -251,8 +253,7 @@ export class FlowEdge extends Mesh {
           path = result.path
         }
           break
-        case 'offset':
-        case 'split':
+        case 'step':
           const result = edge.getSmoothStepPath({ sourceX: from.x, sourceY: from.y, sourcePosition: fromanchor, targetX: to.x, targetY: to.y, targetPosition: toanchor })
           path = result.path
           break
@@ -267,21 +268,19 @@ export class FlowEdge extends Mesh {
     else
       path = new Path([from, to])
 
-    if (path) {
-      const curvepoints = path.getPoints(this.divisions).map(p => new Vector3(p.x, p.y))
-      const geometry = this.createGeometry(curvepoints, this.thickness)
-      if (geometry)
-        this.geometry = geometry
-      else {
-        if (!this.line) {
-          this.line = new Line()
-          this.add(this.line)
-        }
-        this.line.geometry = this.createLine(curvepoints)
-        this.line.computeLineDistances()
+    const curvepoints = path.getPoints(this.divisions).map(p => new Vector3(p.x, p.y))
+    const geometry = this.createGeometry(curvepoints, this.thickness)
+    if (geometry)
+      this.geometry = geometry
+    else {
+      if (!this.line) {
+        this.line = new Line()
+        this.add(this.line)
       }
-
+      this.line.geometry = this.createLine(curvepoints)
+      this.line.computeLineDistances()
     }
+
 
     if (this.toArrow) {
       this.toArrow.position.set(to.x, to.y, 0)

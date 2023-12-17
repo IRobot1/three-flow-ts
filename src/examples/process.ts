@@ -58,7 +58,7 @@ export class ProcessExample {
         orbit.enableRotate = !orbit.enableRotate
     })
 
-    const flow = new ProcessFlowDiagram({ linestyle: 'split', gridsize: 0.1 })
+    const flow = new ProcessFlowDiagram({ linestyle: 'step', gridsize: 0.1 })
     background.add(flow);
     flow.position.z = 0.3
 
@@ -99,7 +99,7 @@ export class ProcessExample {
         { id: 'c2process1', anchor: 'right', hidden },
       ]
     })
-    flow.addEdge({ from: decision.name, to: process1.name, fromconnector: 'c2decision', toconnector: 'c1process1', linestyle: 'split' })
+    flow.addEdge({ from: decision.name, to: process1.name, fromconnector: 'c2decision', toconnector: 'c1process1' })
 
     const process2 = flow.addNode(<ProcessShape>{
       height: 0.5, label: { text: 'Process 2', size: 0.15, material: { color: 'white' }, }, shape: 'rect',
@@ -117,7 +117,7 @@ export class ProcessExample {
         { id: 'c2process3', anchor: 'right', hidden },
       ]
     })
-    flow.addEdge({ from: decision.name, to: process3.name, fromconnector: 'c4decision', toconnector: 'c1process3', linestyle: 'split' })
+    flow.addEdge({ from: decision.name, to: process3.name, fromconnector: 'c4decision', toconnector: 'c1process3' })
 
     const action = flow.addNode(<ProcessShape>{
       x: 2, height: 0.5, label: { text: 'Action', size: 0.15, material: { color: 'white' }, }, shape: 'parallel',
@@ -128,9 +128,9 @@ export class ProcessExample {
         { id: 'c4action', anchor: 'bottom', hidden },
       ]
     })
-    flow.addEdge({ from: process1.name, to: action.name, fromconnector: 'c2process1', toconnector: 'c2action', linestyle: 'split' })
+    flow.addEdge({ from: process1.name, to: action.name, fromconnector: 'c2process1', toconnector: 'c2action' })
     flow.addEdge({ from: process2.name, to: action.name, fromconnector: 'c2process2', toconnector: 'c1action' })
-    flow.addEdge({ from: process3.name, to: action.name, fromconnector: 'c2process3', toconnector: 'c4action', linestyle: 'split' })
+    flow.addEdge({ from: process3.name, to: action.name, fromconnector: 'c2process3', toconnector: 'c4action' })
 
     const end = flow.addNode(<ProcessShape>{
       x: 4, width: 0.5, height: 0.5, label: { text: 'End', size: 0.15, material: { color: 'white' }, }, shape: 'circle', lockaspectratio: true,

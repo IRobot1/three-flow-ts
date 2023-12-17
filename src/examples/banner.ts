@@ -315,7 +315,7 @@ class PinNode extends FlowNode {
 class BannerEdge extends FlowEdge {
   constructor(diagram: BannerFlowDiagram, parameters: FlowEdgeParameters) {
     parameters.material = { color: '#484848' }
-    parameters.linestyle = 'split'
+    parameters.linestyle = 'step'
 
     super(diagram, parameters)
   }

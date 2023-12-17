@@ -255,7 +255,7 @@ class ComputerNode extends FlowNode {
 
 class ComputerEdge extends FlowEdge {
   constructor(diagram: ComputerFlowDiagram, parameters: FlowEdgeParameters) {
-    parameters.linestyle = 'split'
+    parameters.linestyle = 'step'
 
     const from = diagram.hasNode(parameters.from)!
     const to = diagram.hasNode(parameters.to)!

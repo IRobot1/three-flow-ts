@@ -60,7 +60,7 @@ export interface FlowArrowParameters {
   scale?: number
 }
 
-export type EdgeLineStyle = 'straight' | 'offset' | 'split' | 'spline'
+export type EdgeLineStyle = 'straight' | 'step' | 'spline'
 
 export interface FlowEdgeParameters {
   from: string // from node id

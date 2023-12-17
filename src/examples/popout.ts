@@ -79,7 +79,7 @@ export class PopoutExample {
     })
 
 
-    const flow = new PopoutFlowDiagram({ linestyle: 'split', gridsize: 0.1 })
+    const flow = new PopoutFlowDiagram({ linestyle: 'step', gridsize: 0.1 })
     background.add(flow);
     flow.position.z = 0.1
 
@@ -110,7 +110,7 @@ export class PopoutExample {
       Bcolor: '#2161B2', Bextrudecolor: '#2F7AD2',
       Ccolor: '#00AAE3', Cextrudecolor: '#3BCEFE',
     })
-    flow.addEdge({ from: top.name, to: leftnode.name, fromconnector: 'topleft', toconnector: 'c1left', material: { color: 'black' }, linestyle: 'split' })
+    flow.addEdge({ from: top.name, to: leftnode.name, fromconnector: 'topleft', toconnector: 'c1left', material: { color: 'black' } })
 
     const middlenode = this.addGroup(flow, 'middle', 0, 0, {
       color: '#629B3A', extrudecolor: '#71B545',
@@ -126,7 +126,7 @@ export class PopoutExample {
       Bcolor: '#9B2643', Bextrudecolor: '#B92D51',
       Ccolor: '#E11F30', Cextrudecolor: '#FD4E59',
     })
-    flow.addEdge({ from: top.name, to: rightnode.name, fromconnector: 'topright', toconnector: 'c1right', material: { color: 'black' }, linestyle: 'split' })
+    flow.addEdge({ from: top.name, to: rightnode.name, fromconnector: 'topright', toconnector: 'c1right', material: { color: 'black' } })
 
 
     this.dispose = () => {
@@ -162,7 +162,7 @@ export class PopoutExample {
         { id: prefix + 'lefttop', anchor: 'top', hidden: true },
       ]
     })
-    flow.addEdge({ from: node.name, to: A.name, fromconnector: 'c2' + prefix, toconnector: prefix + 'lefttop', material: { color: 'black' }, linestyle: 'split' })
+    flow.addEdge({ from: node.name, to: A.name, fromconnector: 'c2' + prefix, toconnector: prefix + 'lefttop', material: { color: 'black' } })
 
     const B = flow.addNode(<PopoutShape>{
       x, y: y - 1, width: 0.5, height: 0.5, extruderadius: 0.2, extrudedepth: 0.05, lockaspectratio: true,
@@ -184,7 +184,7 @@ export class PopoutExample {
         { id: prefix + 'righttop', anchor: 'top', hidden: true },
       ]
     })
-    flow.addEdge({ from: node.name, to: C.name, fromconnector: 'c4' + prefix, toconnector: prefix + 'righttop', material: { color: 'black' }, linestyle: 'split' })
+    flow.addEdge({ from: node.name, to: C.name, fromconnector: 'c4' + prefix, toconnector: prefix + 'righttop', material: { color: 'black' } })
 
     return node
   }

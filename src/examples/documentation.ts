@@ -180,7 +180,7 @@ export class DocumentationExample {
     //scene.add(new AxesHelper(3))
 
 
-    const flow = new FlowDiagram({ linestyle: 'split' })
+    const flow = new FlowDiagram({ linestyle: 'step' })
     scene.add(flow);
 
     const circle = new CircleGeometry(0.5)
