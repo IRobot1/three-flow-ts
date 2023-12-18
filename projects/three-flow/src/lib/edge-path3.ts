@@ -296,7 +296,7 @@ export class FlowEdgePath3 {
 
     // Determine the primary direction of the bend (X, Y, or Z)
     const primaryDir = this.determinePrimaryDirection(a, b, c);
-    if (primaryDir === 'x') {
+    //if (primaryDir === 'x') {
       // no bend
       if ((a.x === x && x === c.x) || (a.y === y && y === c.y)) {
         path.lineTo(x, y, z)
@@ -316,49 +316,49 @@ export class FlowEdgePath3 {
           path.quadraticCurveTo(x, y, z, x + bendSize * xDir, y, z)
         }
       }
-    }
-    else if (primaryDir === 'y') {
-      // no bend
-      if ((a.x === x && x === c.x) || (a.z === z && z === c.z)) {
-        path.lineTo(x, y, z)
-      }
-      else {
-        // first segment is horizontal
-        if (a.z === z) {
-          const xDir = a.x < c.x ? -1 : 1;
-          const zDir = a.z < c.z ? 1 : -1;
-          path.lineTo(x + bendSize * xDir, y, z)
-          path.quadraticCurveTo(x, y, z, x, y, z + bendSize * zDir)
-        }
-        else {
-          const xDir = a.x < c.x ? 1 : -1;
-          const zDir = a.z < c.z ? -1 : 1;
-          path.lineTo(x, y, z + bendSize * zDir)
-          path.quadraticCurveTo(x, y, z, x + bendSize * xDir, y, z)
-        }
-      }
+    //}
+    //else if (primaryDir === 'y') {
+    //  // no bend
+    //  if ((a.x === x && x === c.x) || (a.z === z && z === c.z)) {
+    //    path.lineTo(x, y, z)
+    //  }
+    //  else {
+    //    // first segment is horizontal
+    //    if (a.z === z) {
+    //      const xDir = a.x < c.x ? -1 : 1;
+    //      const zDir = a.z < c.z ? 1 : -1;
+    //      path.lineTo(x + bendSize * xDir, y, z)
+    //      path.quadraticCurveTo(x, y, z, x, y, z + bendSize * zDir)
+    //    }
+    //    else {
+    //      const xDir = a.x < c.x ? 1 : -1;
+    //      const zDir = a.z < c.z ? -1 : 1;
+    //      path.lineTo(x, y, z + bendSize * zDir)
+    //      path.quadraticCurveTo(x, y, z, x + bendSize * xDir, y, z)
+    //    }
+    //  }
 
-    }
-    else {
-      if ((a.z === z && z === c.z) || (a.y === y && y === c.y)) {
-        path.lineTo(x, y, z)
-      }
-      else {
-        // first segment is horizontal
-        if (a.y === y) {
-          const zDir = a.z < c.z ? -1 : 1;
-          const yDir = a.y < c.y ? 1 : -1;
-          path.lineTo(x, y, z + bendSize * zDir)
-          path.quadraticCurveTo(x, y, z, x, y + bendSize * yDir, z)
-        }
-        else {
-          const zDir = a.z < c.z ? 1 : -1;
-          const yDir = a.y < c.y ? -1 : 1;
-          path.lineTo(x, y + bendSize * yDir, z)
-          path.quadraticCurveTo(x, y, z, x, y, z + bendSize * zDir)
-        }
-      }
-    }
+    //}
+    //else {
+    //  if ((a.z === z && z === c.z) || (a.y === y && y === c.y)) {
+    //    path.lineTo(x, y, z)
+    //  }
+    //  else {
+    //    // first segment is horizontal
+    //    if (a.y === y) {
+    //      const zDir = a.z < c.z ? -1 : 1;
+    //      const yDir = a.y < c.y ? 1 : -1;
+    //      path.lineTo(x, y, z + bendSize * zDir)
+    //      path.quadraticCurveTo(x, y, z, x, y + bendSize * yDir, z)
+    //    }
+    //    else {
+    //      const zDir = a.z < c.z ? 1 : -1;
+    //      const yDir = a.y < c.y ? -1 : 1;
+    //      path.lineTo(x, y + bendSize * yDir, z)
+    //      path.quadraticCurveTo(x, y, z, x, y, z + bendSize * zDir)
+    //    }
+    //  }
+    //}
 
   }
 
