@@ -270,13 +270,16 @@ export class FlowEdge extends Mesh {
 
     const curvepoints = path.getPoints(this.divisions)//.map(p => new Vector3(p.x, p.y, p.z))
     const geometry = this.createGeometry(curvepoints, this.thickness)
-    if (geometry)
+    if (geometry) {
+      this.geometry.dispose()
       this.geometry = geometry
+    }
     else {
       if (!this.line) {
         this.line = new Line()
         this.add(this.line)
       }
+      this.line.geometry.dispose()
       this.line.geometry = this.createLine(curvepoints)
       this.line.computeLineDistances()
     }
