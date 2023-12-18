@@ -4,7 +4,6 @@ import { FlowDiagram } from "./diagram";
 import { FlowNode } from "./node";
 import { FlowArrow } from "./arrow";
 import { ConnectorMesh } from "./connector";
-import { FlowEdgePath } from "./edge-path";
 import { Path3 } from "./path3";
 import { FlowEdgePath3 } from "./edge-path3";
 
