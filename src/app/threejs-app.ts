@@ -1,4 +1,4 @@
-import { BufferGeometry, Camera, Line, PCFSoftShadowMap, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from "three";
+import { ACESFilmicToneMapping, BufferGeometry, Camera, Line, PCFSoftShadowMap, PerspectiveCamera, SRGBColorSpace, Scene, Vector3, WebGLRenderer, sRGBEncoding } from "three";
 import { UIRouter } from "./ui-routes";
 import { VRButton } from "three/examples/jsm/webxr/VRButton";
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
@@ -43,7 +43,7 @@ export class ThreeJSApp extends WebGLRenderer {
   }
 
   constructor(camera?: Camera) {
-    super()
+    super({ alpha: true, antialias: true })
 
     this.router.addEventListener('load', () => {
       this.camera.position.set(0, 0, 0)
@@ -60,6 +60,10 @@ export class ThreeJSApp extends WebGLRenderer {
     }
     else
       this.camera = camera
+
+    this.setPixelRatio(window.devicePixelRatio)
+    this.toneMapping = ACESFilmicToneMapping
+    this.outputColorSpace = SRGBColorSpace
 
     this.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(this.domElement);
