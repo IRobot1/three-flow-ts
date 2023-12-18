@@ -83,7 +83,7 @@ export class FlowConnectors {
 export class NodeConnectors {
   // options
   spacing = 0.1
-  private total: any = { left: 0, right: 0, top: 0, bottom: 0, center: 0, count: 0 }
+  private total: any = { left: 0, right: 0, top: 0, bottom: 0, front:0, back: 0, center: 0, count: 0 }
 
   constructor(public connectors: FlowConnectors, public node: FlowNode, public parameters: Array<FlowConnectorParameters>) {
 
@@ -167,7 +167,7 @@ export class NodeConnectors {
 
   private positionConnector(connector: ConnectorMesh) {
     const anchor = connector.anchor
-    let x = 0, y = 0
+    let x = 0, y = 0, z =0.001
     switch (anchor) {
       case 'left':
         x = -this.node.width / 2
@@ -181,6 +181,12 @@ export class NodeConnectors {
       case 'bottom':
         y = -this.node.height / 2
         break;
+      case 'front':
+        //z = 0.001
+        break;
+      case 'back':
+        z = -0.001
+        break;
       case 'center':
         break;
       default:
@@ -192,11 +198,14 @@ export class NodeConnectors {
     // left and right
     if (anchor == 'left' || anchor == 'right') {
       const position = y + this.calculateOffset(count, connector.index, connector.width)
-      connector.position.set(x, position, 0.001)
+      connector.position.set(x, position, z)
+    }
+    else if (anchor == 'top' || anchor == 'bottom') {
+      const position = x + this.calculateOffset(count, connector.index, connector.width)
+      connector.position.set(position, y, z)
     }
     else {
-      const position = x + this.calculateOffset(count, connector.index, connector.width)
-      connector.position.set(position, y, 0.001)
+      connector.position.z =  z
     }
   }
 

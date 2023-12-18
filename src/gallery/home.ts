@@ -305,6 +305,16 @@ export class GalleryExample {
         assetimage: 'mindmap', route: 'mindmap',
         connectors: [
           { id: "c1mindmap", anchor: 'top', material: { color: 'white' }, },
+          { id: "c2mindmap", anchor: 'bottom', material: { color: 'white' }, },
+        ],
+      },
+      {
+        id: 'hyperflow',
+        label: { text: "Hyper Flow" },
+        x: column3a, y: row3,
+        assetimage: 'hyperflow', route: 'hyperflow',
+        connectors: [
+          { id: "c1hyperflow", anchor: 'top', material: { color: 'white' }, },
         ],
       },
     ];
@@ -406,6 +416,12 @@ export class GalleryExample {
         to: "mindmap",
         fromconnector: "c2basic",
         toconnector: "c1mindmap"
+      },
+      {
+        from: "mindmap",
+        to: "hyperflow",
+        fromconnector: "c2mindmap",
+        toconnector: "c1hyperflow"
       },
     ];
 

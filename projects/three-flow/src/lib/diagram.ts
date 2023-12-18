@@ -283,7 +283,7 @@ export class FlowDiagram extends Object3D {
     return this.worldToLocal(worldPosition);
   }
 
-  getFlowPosition2D(object: Object3D): Vector2 {
+  private getFlowPosition2D(object: Object3D): Vector2 {
     let worldPosition = new Vector3();
     object.localToWorld(worldPosition);
     const v = this.worldToLocal(worldPosition);

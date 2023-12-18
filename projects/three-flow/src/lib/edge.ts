@@ -5,6 +5,8 @@ import { FlowNode } from "./node";
 import { FlowArrow } from "./arrow";
 import { ConnectorMesh } from "./connector";
 import { FlowEdgePath } from "./edge-path";
+import { Path3 } from "./path3";
+import { FlowEdgePath3 } from "./edge-path3";
 
 export class FlowEdge extends Mesh {
   readonly from: string;
@@ -209,54 +211,54 @@ export class FlowEdge extends Mesh {
 
   updateVisuals() {
     // also used for arrows
-    const from = new Vector2()
-    const to = new Vector2()
-    let path: Path
+    const from = new Vector3()
+    const to = new Vector3()
+    let path: Path3
 
     // use layout when provided
     if (this.parameters.points) {
-      const curvepoints: Array<Vector2> = []
+      const curvepoints: Array<Vector3> = []
       this.parameters.points.forEach(point => {
-        curvepoints.push(new Vector2(point.x, -point.y))
+        curvepoints.push(new Vector3(point.x, -point.y))
       })
-      path = new Path(curvepoints)
+      path = new Path3(curvepoints)
 
       from.copy(curvepoints[0])
       to.copy(curvepoints[curvepoints.length - 1])
     }
     else if (this.fromConnector && this.toConnector) {
 
-      from.copy(this.diagram.getFlowPosition2D(this.fromConnector))
-      to.copy(this.diagram.getFlowPosition2D(this.toConnector))
+      from.copy(this.diagram.getFlowPosition(this.fromConnector))
+      to.copy(this.diagram.getFlowPosition(this.toConnector))
 
       let fromanchor: AnchorType = 'center'
       let toanchor: AnchorType = 'center'
 
       if (this.fromConnector.type == 'flowconnector') {
         const frommesh = this.fromConnector as ConnectorMesh
-        from.copy(this.diagram.getFlowPosition2D(frommesh))
+        from.copy(this.diagram.getFlowPosition(frommesh))
         fromanchor = frommesh.anchor
       }
 
       if (this.toConnector.type == 'flowconnector') {
         const tomesh = this.toConnector as ConnectorMesh
-        to.copy(this.diagram.getFlowPosition2D(tomesh))
+        to.copy(this.diagram.getFlowPosition(tomesh))
         toanchor = tomesh.anchor
       }
 
-      const edge = new FlowEdgePath()
+      const edge = new FlowEdgePath3()
       switch (this.linestyle) {
         case 'straight': {
-          const result = edge.getStraightPath({ sourceX: from.x, sourceY: from.y, targetX: to.x, targetY: to.y })
+          const result = edge.getStraightPath({ sourceX: from.x, sourceY: from.y, sourceZ: from.z, targetX: to.x, targetY: to.y, targetZ: to.z })
           path = result.path
         }
           break
         case 'step':
-          const result = edge.getSmoothStepPath({ sourceX: from.x, sourceY: from.y, sourcePosition: fromanchor, targetX: to.x, targetY: to.y, targetPosition: toanchor })
+          const result = edge.getSmoothStepPath({ sourceX: from.x, sourceY: from.y, sourceZ: from.z, sourcePosition: fromanchor, targetX: to.x, targetY: to.y,  targetZ: to.z, targetPosition: toanchor })
           path = result.path
           break
         case 'bezier': {
-          const result = edge.getBezierPath({ sourceX: from.x, sourceY: from.y, sourcePosition: fromanchor, targetX: to.x, targetY: to.y, targetPosition: toanchor })
+          const result = edge.getBezierPath({ sourceX: from.x, sourceY: from.y, sourceZ: from.z, sourcePosition: fromanchor, targetX: to.x, targetY: to.y, targetZ: to.z, targetPosition: toanchor })
           path = result.path
         }
           break
@@ -264,9 +266,9 @@ export class FlowEdge extends Mesh {
       }
     }
     else
-      path = new Path([from, to])
+      path = new Path3 ([from, to])
 
-    const curvepoints = path.getPoints(this.divisions).map(p => new Vector3(p.x, p.y))
+    const curvepoints = path.getPoints(this.divisions)//.map(p => new Vector3(p.x, p.y, p.z))
     const geometry = this.createGeometry(curvepoints, this.thickness)
     if (geometry)
       this.geometry = geometry

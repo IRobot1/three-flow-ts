@@ -481,7 +481,7 @@ export class FlowEdgePath3 {
     targetZ,
     targetPosition = 'top',
     curvature = 0.25,
-  }: GetBezierPath3Params): { path: Path, labelX: number, labelY: number, , labelZ: number, offsetX: number, offsetY: number, offsetZ: number } {
+  }: GetBezierPath3Params): { path: Path3, labelX: number, labelY: number, labelZ: number, offsetX: number, offsetY: number, offsetZ: number } {
     const [sourceControlX, sourceControlY, sourceControlZ] = this.getControlWithCurvature({
       pos: sourcePosition,
       x1: sourceX,
@@ -517,9 +517,9 @@ export class FlowEdgePath3 {
       targetControlZ,
     });
 
-    const path = new Path()
-    path.moveTo(sourceX, sourceY)
-    path.bezierCurveTo(sourceControlX, sourceControlY, targetControlX, targetControlY, targetX, targetY)
+    const path = new Path3()
+    path.moveTo(sourceX, sourceY, sourceZ)
+    path.bezierCurveTo(sourceControlX, sourceControlY, sourceControlZ, targetControlX, targetControlY, targetControlZ, targetX, targetY, targetZ)
 
     return {
       path,
