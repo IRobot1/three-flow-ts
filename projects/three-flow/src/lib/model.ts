@@ -23,7 +23,7 @@ export interface FlowLabelParameters {
   textalign?: LabelTextAlign
 }
 
-export type AnchorType = 'left' | 'right' | 'top' | 'bottom' | 'center'
+export type AnchorType = 'left' | 'right' | 'top' | 'bottom' | 'center' | 'front' | 'back'
 export interface FlowConnectorParameters {
   id: string
   anchor?: AnchorType // default is left

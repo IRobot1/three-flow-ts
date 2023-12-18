@@ -109,6 +109,8 @@ export class FlowEdgePath {
       'top': { x: 0, y: 1 },
       'bottom': { x: 0, y: -1 },
       'center': { x: 0, y: 0 },
+      'front': { x: 0, y: 0 },
+      'back': { x: 0, y: 0 },
     };
 
     const sourceDir = handleDirections[sourcePosition];

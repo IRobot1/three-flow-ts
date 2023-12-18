@@ -225,7 +225,9 @@ export class ConnectorMesh extends Mesh {
       right: 'left',
       top: 'bottom',
       bottom: 'top',
-      center: 'center'
+      center: 'center',
+      front: 'front',
+      back: 'back',
     }
     return lookup[this.anchor] as AnchorType
   }
