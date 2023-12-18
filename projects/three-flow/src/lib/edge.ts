@@ -249,16 +249,16 @@ export class FlowEdge extends Mesh {
       const edge = new FlowEdgePath3()
       switch (this.linestyle) {
         case 'straight': {
-          const result = edge.getStraightPath({ sourceX: from.x, sourceY: from.y, sourceZ: from.z, targetX: to.x, targetY: to.y, targetZ: to.z })
+          const result = edge.getStraightPath({ source: from, target: to })
           path = result.path
         }
           break
         case 'step':
-          const result = edge.getSmoothStepPath({ sourceX: from.x, sourceY: from.y, sourceZ: from.z, sourcePosition: fromanchor, targetX: to.x, targetY: to.y,  targetZ: to.z, targetPosition: toanchor })
+          const result = edge.getSmoothStepPath({ source: from, sourcePosition: fromanchor, target: to, targetPosition: toanchor })
           path = result.path
           break
         case 'bezier': {
-          const result = edge.getBezierPath({ sourceX: from.x, sourceY: from.y, sourceZ: from.z, sourcePosition: fromanchor, targetX: to.x, targetY: to.y, targetZ: to.z, targetPosition: toanchor })
+          const result = edge.getBezierPath({ source: from, sourcePosition: fromanchor, target: to, targetPosition: toanchor })
           path = result.path
         }
           break
@@ -266,7 +266,7 @@ export class FlowEdge extends Mesh {
       }
     }
     else
-      path = new Path3 ([from, to])
+      path = new Path3([from, to])
 
     const curvepoints = path.getPoints(this.divisions)//.map(p => new Vector3(p.x, p.y, p.z))
     const geometry = this.createGeometry(curvepoints, this.thickness)

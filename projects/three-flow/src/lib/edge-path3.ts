@@ -1,4 +1,4 @@
-import { Path, Vector3 } from "three";
+import { Vector3 } from "three";
 import { AnchorType } from "./model";
 import { Path3 } from "./path3";
 
@@ -8,106 +8,74 @@ import { Path3 } from "./path3";
 // * smaller radius values in cm instead of pixels
 
 export type GetStraightPath3Params = {
-  sourceX: number;
-  sourceY: number;
-  sourceZ: number;
-  targetX: number;
-  targetY: number;
-  targetZ: number;
+  source: Vector3
+  target: Vector3
 };
 
 
 export interface GetSmoothStepPath3Params {
-  sourceX: number;
-  sourceY: number;
-  sourceZ: number;
+  source: Vector3
   sourcePosition: AnchorType;
-  targetX: number;
-  targetY: number;
-  targetZ: number;
+  target: Vector3
   targetPosition: AnchorType;
   borderRadius?: number;
-  centerX?: number;
-  centerY?: number;
-  centerZ?: number;
-  offset?: number;
+  center?: Vector3
+  lineoffset?: number;
 }
 
 
 export type GetBezierPath3Params = {
-  sourceX: number;
-  sourceY: number;
-  sourceZ: number;
+  source: Vector3
   sourcePosition: AnchorType;
-  targetX: number;
-  targetY: number;
-  targetZ: number;
+  target: Vector3
   targetPosition: AnchorType;
   curvature?: number;
 };
 
 type GetControlWithCurvatureParams = {
   pos: AnchorType;
-  x1: number;
-  y1: number;
-  z1: number;
-  x2: number;
-  y2: number;
-  z2: number;
+  v1: Vector3
+  v2: Vector3
   c: number;
 };
 
 export class FlowEdgePath3 {
 
   getStraightPath({
-    sourceX,
-    sourceY,
-    sourceZ,
-    targetX,
-    targetY,
-    targetZ,
-  }: GetStraightPath3Params): { path: Path3, labelX: number, labelY: number, labelZ: number, offsetX: number, offsetY: number, offsetZ: number } {
-    const [labelX, labelY, labelZ, offsetX, offsetY, offsetZ] = this.getEdgeCenter({
-      sourceX,
-      sourceY,
-      sourceZ,
-      targetX,
-      targetY,
-      targetZ,
+    source,
+    target,
+  }: GetStraightPath3Params): { path: Path3, label: Vector3, offset: Vector3 } {
+    const [label, offset] = this.getEdgeCenter({
+      source,
+      target,
     });
 
     const path = new Path3()
-    path.moveTo(sourceX, sourceY, sourceZ)
-    path.lineTo(targetX, targetY, targetZ)
-    return { path, labelX, labelY, labelZ, offsetX, offsetY, offsetZ };
+    path.moveTo(source.x, source.y, source.z)
+    path.lineTo(target.x, target.y, target.z)
+    return { path, label, offset };
   }
 
 
   private getEdgeCenter({
-    sourceX,
-    sourceY,
-    sourceZ,
-    targetX,
-    targetY,
-    targetZ,
+    source,
+    target,
   }: {
-    sourceX: number;
-    sourceY: number;
-    sourceZ: number;
-    targetX: number;
-    targetY: number;
-    targetZ: number;
-  }): [number, number, number, number, number, number] {
-    const xOffset = Math.abs(targetX - sourceX) / 2;
-    const centerX = targetX < sourceX ? targetX + xOffset : targetX - xOffset;
+    source: Vector3
+    target: Vector3
+  }): [Vector3, Vector3] {
+    const offset = new Vector3()
+    const center = new Vector3()
+    offset.x = Math.abs(target.x - source.x) / 2;
+    center.x = target.x < source.x ? target.x + offset.x : target.x - offset.x;
 
-    const yOffset = Math.abs(targetY - sourceY) / 2;
-    const centerY = targetY < sourceY ? targetY + yOffset : targetY - yOffset;
+    offset.y = Math.abs(target.y - source.y) / 2;
+    center.y = target.y < source.y ? target.y + offset.y : target.y - offset.y;
 
-    const zOffset = Math.abs(targetZ - sourceZ) / 2;
-    const centerZ = targetZ < sourceZ ? targetZ + zOffset : targetZ - zOffset;
+    offset.z = Math.abs(target.z - source.z) / 2;
+    center.z = target.z < source.z ? target.z + offset.z : target.z - offset.z;
 
-    return [centerX, centerY, centerZ, xOffset, yOffset, zOffset];
+    return [center, offset];
   }
 
   private calcPoints({
@@ -122,9 +90,9 @@ export class FlowEdgePath3 {
     sourcePosition: AnchorType;
     target: Vector3;
     targetPosition: AnchorType;
-    center: Partial<Vector3>;
+    center: Vector3;
     offset: number;
-  }): [Vector3[], number, number, number, number, number, number] {
+  }): [Vector3[], Vector3, Vector3] {
     const handleDirections = {
       'left': { x: -1, y: 0, z: 0 },
       'right': { x: 1, y: 0, z: 0 },
@@ -172,21 +140,16 @@ export class FlowEdgePath3 {
     const sourceGapOffset = { x: 0, y: 0, z: 0 };
     const targetGapOffset = { x: 0, y: 0, z: 0 };
 
-    const [defaultCenterX, defaultCenterY, defaultCenterZ, defaultOffsetX, defaultOffsetY, defaultOffsetZ] = this.getEdgeCenter({
-      sourceX: source.x,
-      sourceY: source.y,
-      sourceZ: source.z,
-      targetX: target.x,
-      targetY: target.y,
-      targetZ: target.z,
+    const [defaultCenter, defaultOffset] = this.getEdgeCenter({
+      source, target,
     });
 
-    centerZ = center.z || defaultCenterZ;
+    centerZ = center.z || defaultCenter.z;
 
     // opposite handle positions, default case
     if (sourceDir[dirXY] * targetDir[dirXY] === -1) {
-      centerX = center.x || defaultCenterX;
-      centerY = center.y || defaultCenterY;
+      centerX = center.x || defaultCenter.x;
+      centerY = center.y || defaultCenter.y;
       //    --->
       //    |
       // >---
@@ -276,7 +239,7 @@ export class FlowEdgePath3 {
       target,
     ];
 
-    return [pathPoints, centerX, centerY, centerZ, defaultOffsetX, defaultOffsetY, defaultOffsetZ];
+    return [pathPoints, center, defaultOffset];
   }
 
   // Helper function to determine the primary direction of the bend
@@ -297,25 +260,25 @@ export class FlowEdgePath3 {
     // Determine the primary direction of the bend (X, Y, or Z)
     const primaryDir = this.determinePrimaryDirection(a, b, c);
     //if (primaryDir === 'x') {
-      // no bend
-      if ((a.x === x && x === c.x) || (a.y === y && y === c.y)) {
-        path.lineTo(x, y, z)
+    // no bend
+    if ((a.x === x && x === c.x) || (a.y === y && y === c.y)) {
+      path.lineTo(x, y, z)
+    }
+    else {
+      // first segment is horizontal
+      if (a.y === y) {
+        const xDir = a.x < c.x ? -1 : 1;
+        const yDir = a.y < c.y ? 1 : -1;
+        path.lineTo(x + bendSize * xDir, y, z)
+        path.quadraticCurveTo(x, y, z, x, y + bendSize * yDir, z)
       }
       else {
-        // first segment is horizontal
-        if (a.y === y) {
-          const xDir = a.x < c.x ? -1 : 1;
-          const yDir = a.y < c.y ? 1 : -1;
-          path.lineTo(x + bendSize * xDir, y, z)
-          path.quadraticCurveTo(x, y, z, x, y + bendSize * yDir, z)
-        }
-        else {
-          const xDir = a.x < c.x ? 1 : -1;
-          const yDir = a.y < c.y ? -1 : 1;
-          path.lineTo(x, y + bendSize * yDir, z)
-          path.quadraticCurveTo(x, y, z, x + bendSize * xDir, y, z)
-        }
+        const xDir = a.x < c.x ? 1 : -1;
+        const yDir = a.y < c.y ? -1 : 1;
+        path.lineTo(x, y + bendSize * yDir, z)
+        path.quadraticCurveTo(x, y, z, x + bendSize * xDir, y, z)
       }
+    }
     //}
     //else if (primaryDir === 'y') {
     //  // no bend
@@ -365,27 +328,21 @@ export class FlowEdgePath3 {
 
 
   getSmoothStepPath({
-    sourceX,
-    sourceY,
-    sourceZ,
+    source,
     sourcePosition = 'bottom',
-    targetX,
-    targetY,
-    targetZ,
+    target,
     targetPosition = 'top',
     borderRadius = 0.1,
-    centerX,
-    centerY,
-    centerZ,
-    offset = 0.1,
-  }: GetSmoothStepPath3Params): { path: Path3, labelX: number, labelY: number,  labelZ: number, offsetX: number, offsetY: number, offsetZ: number } {
-    const [points, labelX, labelY, labelZ, offsetX, offsetY, offsetZ] = this.calcPoints({
-      source: new Vector3(sourceX, sourceY, sourceZ),
+    center = new Vector3(),
+    lineoffset = 0.1,
+  }: GetSmoothStepPath3Params): { path: Path3, label: Vector3, offset: Vector3 } {
+    const [points, label, offset] = this.calcPoints({
+      source,
       sourcePosition,
-      target: new Vector3(targetX, targetY),
+      target,
       targetPosition,
-      center: { x: centerX, y: centerY },
-      offset,
+      center,
+      offset: lineoffset,
     });
 
     const path = new Path3()
@@ -395,52 +352,39 @@ export class FlowEdgePath3 {
         this.calcBend(points[i - 1], p, points[i + 1], borderRadius, path);
       } else {
         if (i == 0)
-          path.moveTo(p.x, p.y,p.z)
+          path.moveTo(p.x, p.y, p.z)
         else
-          path.lineTo(p.x, p.y,p.z)
+          path.lineTo(p.x, p.y, p.z)
       }
     });
 
-    return { path, labelX, labelY, labelZ, offsetX, offsetY, offsetZ };
+    return { path, label, offset };
   }
 
   private getBezierEdgeCenter({
-    sourceX,
-    sourceY,
-    sourceZ,
-    targetX,
-    targetY,
-    targetZ,
-    sourceControlX,
-    sourceControlY,
-    sourceControlZ,
-    targetControlX,
-    targetControlY,
-    targetControlZ,
+    source,
+    target,
+    sourceControl,
+    targetControl,
   }: {
-    sourceX: number;
-    sourceY: number;
-    sourceZ: number;
-    targetX: number;
-    targetY: number;
-    targetZ: number;
-    sourceControlX: number;
-    sourceControlY: number;
-    sourceControlZ: number;
-    targetControlX: number;
-    targetControlY: number;
-    targetControlZ: number;
-  }): [number, number, number, number, number, number] {
+    source: Vector3
+    target: Vector3
+    sourceControl: Vector3
+    targetControl: Vector3
+  }): [Vector3, Vector3] {
     // cubic bezier t=0.5 mid point, not the actual mid point, but easy to calculate
     // https://stackoverflow.com/questions/67516101/how-to-find-distance-mid-point-of-bezier-curve
-    const centerX = sourceX * 0.125 + sourceControlX * 0.375 + targetControlX * 0.375 + targetX * 0.125;
-    const centerY = sourceY * 0.125 + sourceControlY * 0.375 + targetControlY * 0.375 + targetY * 0.125;
-    const centerZ = sourceZ * 0.125 + sourceControlZ * 0.375 + targetControlZ * 0.375 + targetZ * 0.125;
-    const offsetX = Math.abs(centerX - sourceX);
-    const offsetY = Math.abs(centerY - sourceY);
-    const offsetZ = Math.abs(centerZ - sourceZ);
+    const center = new Vector3()
+    center.x = source.x * 0.125 + sourceControl.x * 0.375 + targetControl.x * 0.375 + target.x * 0.125;
+    center.y = source.y * 0.125 + sourceControl.y * 0.375 + targetControl.y * 0.375 + target.y * 0.125;
+    center.z = source.z * 0.125 + sourceControl.z * 0.375 + targetControl.z * 0.375 + target.z * 0.125;
 
-    return [centerX, centerY, centerZ, offsetX, offsetY, offsetZ];
+    const offset = new Vector3()
+    offset.x = Math.abs(center.x - source.x);
+    offset.y = Math.abs(center.y - source.y);
+    offset.z = Math.abs(center.z - source.z);
+
+    return [center, offset];
   }
 
   private calculateControlOffset(distance: number, curvature: number): number {
@@ -451,84 +395,65 @@ export class FlowEdgePath3 {
     return curvature * 2.5 * Math.sqrt(-distance);
   }
 
-  private getControlWithCurvature({ pos, x1, y1, z1, x2, y2, z2, c }: GetControlWithCurvatureParams): [number, number, number] {
+  private getControlWithCurvature({ pos, v1, v2, c }: GetControlWithCurvatureParams): Vector3 {
+    const v = new Vector3()
     switch (pos) {
       case 'left':
-        return [x1 - this.calculateControlOffset(x1 - x2, c), y1, z1];
+        v.set(v1.x - this.calculateControlOffset(v1.x - v2.x, c), v1.y, v1.z)
+        break
       case 'right':
-        return [x1 + this.calculateControlOffset(x2 - x1, c), y1, z1];
+        v.set(v1.x + this.calculateControlOffset(v2.x - v1.x, c), v1.y, v1.z)
+        break
       case 'top':
-        return [x1, y1 + this.calculateControlOffset(y1 - y2, c), z1];
+        v.set(v1.x, v1.y + this.calculateControlOffset(v1.y - v2.y, c), v1.z)
+        break
       case 'bottom':
-        return [x1, y1 - this.calculateControlOffset(y2 - y1, c), z1];
+        v.set(v1.x, v1.y - this.calculateControlOffset(v2.y - v1.y, c), v1.z)
+        break
       case 'front':
-        return [x1, y1, z1 - this.calculateControlOffset(z1 - z2, c)];
+        v.set(v1.x, v1.y, v1.z - this.calculateControlOffset(v1.z - v2.z, c))
+        break
       case 'back':
-        return [x1, y1, z1 + this.calculateControlOffset(z1 - z2, c)];
+        v.set(v1.x, v1.y, v1.z + this.calculateControlOffset(v1.z - v2.z, c))
+        break
       case 'center':
       default:
-        return [x1, y1, z1]
+        v.set(v1.x, v1.y, v1.z)
+        break
     }
+    return v
   }
 
   getBezierPath({
-    sourceX,
-    sourceY,
-    sourceZ,
+    source,
     sourcePosition = 'bottom',
-    targetX,
-    targetY,
-    targetZ,
+    target,
     targetPosition = 'top',
     curvature = 0.25,
-  }: GetBezierPath3Params): { path: Path3, labelX: number, labelY: number, labelZ: number, offsetX: number, offsetY: number, offsetZ: number } {
-    const [sourceControlX, sourceControlY, sourceControlZ] = this.getControlWithCurvature({
+  }: GetBezierPath3Params): { path: Path3, label: Vector3, offset: Vector3 } {
+    const sourceControl = this.getControlWithCurvature({
       pos: sourcePosition,
-      x1: sourceX,
-      y1: sourceY,
-      z1: sourceZ,
-      x2: targetX,
-      y2: targetY,
-      z2: targetZ,
+      v1: source,
+      v2: target,
       c: curvature,
     });
-    const [targetControlX, targetControlY, targetControlZ] = this.getControlWithCurvature({
+    const targetControl = this.getControlWithCurvature({
       pos: targetPosition,
-      x1: targetX,
-      y1: targetY,
-      z1: sourceZ,
-      x2: sourceX,
-      y2: sourceY,
-      z2: targetZ,
+      v1: new Vector3(target.x, target.y, source.z),
+      v2: new Vector3(source.x, source.y, target.z),
       c: curvature,
     });
-    const [labelX, labelY, labelZ, offsetX, offsetY, offsetZ] = this.getBezierEdgeCenter({
-      sourceX,
-      sourceY,
-      sourceZ,
-      targetX,
-      targetY,
-      targetZ,
-      sourceControlX,
-      sourceControlY,
-      sourceControlZ,
-      targetControlX,
-      targetControlY,
-      targetControlZ,
+    const [label, offset] = this.getBezierEdgeCenter({
+      source,
+      target,
+      sourceControl,
+      targetControl,
     });
 
     const path = new Path3()
-    path.moveTo(sourceX, sourceY, sourceZ)
-    path.bezierCurveTo(sourceControlX, sourceControlY, sourceControlZ, targetControlX, targetControlY, targetControlZ, targetX, targetY, targetZ)
+    path.moveTo(source.x, source.y, source.z)
+    path.bezierCurveTo(sourceControl.x, sourceControl.y, sourceControl.z, targetControl.x, targetControl.y, targetControl.z, target.x, target.y, target.z)
 
-    return {
-      path,
-      labelX,
-      labelY,
-      labelZ,
-      offsetX,
-      offsetY,
-      offsetZ,
-    }
+    return { path, label, offset, }
   }
 }
