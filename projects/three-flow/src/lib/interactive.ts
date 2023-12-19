@@ -287,7 +287,8 @@ export class ConnectorInteractive {
         document.body.style.cursor = 'not-allowed'
       }
       else {
-        let cursor = mesh.pointerEnter() ?? mesh.selectcursor
+        let cursor = mesh.pointerEnter()
+        if (!cursor) cursor = mesh.selectcursor
         if (cursor)
           document.body.style.cursor = cursor
       }
