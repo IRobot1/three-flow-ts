@@ -19,6 +19,7 @@ import { ComputerNetworkExample } from '../examples/live-data/computer-network';
 import { KPIExample } from '../examples/kpi';
 import { MindmapExample } from '../examples/mindmap';
 import { HyperFlowExample } from '../examples/hyper-flow';
+import { DesignerExample } from '../examples/designer';
 
 
 @Component({
@@ -50,5 +51,6 @@ export class AppComponent {
     app.router.add('kpi', () => { return new KPIExample(app) })
     app.router.add('mindmap', () => { return new MindmapExample(app) })
     app.router.add('hyperflow', () => { return new HyperFlowExample(app) })
+    app.router.add('designer', () => { return new DesignerExample(app) })
   }
 }
