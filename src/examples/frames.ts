@@ -1,4 +1,4 @@
-import { AmbientLight, BufferGeometry, ColorRepresentation, DoubleSide, LineCurve3, Material, MaterialParameters, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, SRGBColorSpace, Scene, Shape, ShapeGeometry, Texture, TextureLoader, TorusKnotGeometry, TubeGeometry, Vector3 } from "three";
+import { AmbientLight, BufferGeometry, ColorRepresentation, CurvePath, DoubleSide, LineCurve3, Material, MaterialParameters, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, SRGBColorSpace, Scene, Shape, ShapeGeometry, Texture, TextureLoader, TorusKnotGeometry, TubeGeometry, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
@@ -12,6 +12,7 @@ import {
   FlowNode,
   FlowEdge,
   FlowInteraction,
+  FlowDiagramOptions,
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 
@@ -52,7 +53,7 @@ export class FramesExample {
     orbit.enableRotate = false;
     orbit.update();
 
-    const flow = new FramesFlowDiagram()
+    const flow = new FramesFlowDiagram({ linestyle: 'straight' })
     scene.add(flow);
 
     flow.rotation.x = MathUtils.degToRad(-5)
@@ -168,7 +169,7 @@ export class FramesExample {
 
 class FramesFlowDiagram extends FlowDiagram {
 
-  constructor() { super() }
+  constructor(options?: FlowDiagramOptions) { super(options) }
 
   override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
     return new MeshBasicMaterial(parameters);
@@ -261,7 +262,11 @@ class FramesNode extends FlowNode {
 
 class FramesEdge extends FlowEdge {
   override createGeometry(curvepoints: Array<Vector3>, thickness: number): BufferGeometry | undefined {
-    return new TubeGeometry(new LineCurve3(curvepoints[0], curvepoints[1]), 64, thickness)
+    const curve = new CurvePath<Vector3>()
+    for (let i = 0; i < curvepoints.length - 1; i++) {
+      curve.add(new LineCurve3(curvepoints[i], curvepoints[i + 1]))
+    }
+    return new TubeGeometry(curve, 64, thickness, 4)
   }
 }
 
