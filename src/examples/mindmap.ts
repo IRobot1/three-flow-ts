@@ -10,6 +10,7 @@ import {
   FlowDiagram,
   FlowDiagramOptions,
   FlowDiagramParameters,
+  FlowEdgeParameters,
   FlowEventType,
   FlowInteraction,
   FlowLabel,
@@ -204,7 +205,7 @@ class MindMapDiagram extends FlowDiagram {
 
           // re-use method in connector interaction when dragging
           const interact = interaction.getConnectorInteractive(connector)
-          if (interact) interact.createNode(position)
+          if (interact) this.connectIdea(interact, position)
         }
           break;
         case 'Enter': {
@@ -224,13 +225,18 @@ class MindMapDiagram extends FlowDiagram {
               const first = parentconnectors.getConnectors()[0]
               // get its interaction to create as child node
               const interact = interaction.getConnectorInteractive(first)
-              if (interact) interact.createNode(position)
+              if (interact) this.connectIdea(interact, position)
             }
           }
         }
           break;
       }
     })
+  }
+
+  private connectIdea(interact: ConnectorInteractive, position: Vector3): FlowNode | undefined {
+    const mesh = interact.mesh as MindMapConnector
+    return mesh.connectIdea(this, position)
   }
 
   addIdea(text: string, x: number, y: number): FlowNode {
@@ -290,7 +296,7 @@ class MindMapDiagram extends FlowDiagram {
     if (parentinteract) {
       // now add children to this node
       children.forEach(item => {
-        const node = parentinteract.createNode(new Vector3(parent.position.x + item.position.x, parent.position.y + item.position.y))
+        const node = this.connectIdea(parentinteract, new Vector3(parent.position.x + item.position.x, parent.position.y + item.position.y))
         if (node) {
           // set the connectors text
           const childinteract = this.getConnectorInteractive(node)
@@ -358,12 +364,24 @@ class MindMapConnector extends ConnectorMesh {
 
   }
 
-  override pointerEnter(): string {
-    return 'crosshair'
-  }
-
-  override dropCompleted(diagram: MindMapDiagram, start: Vector3): FlowNode | undefined {
+  connectIdea(diagram: MindMapDiagram, start: Vector3): FlowNode | undefined {
     const newnode = diagram.addIdea('New Idea', start.x, start.y)
+    if (newnode) {
+      const parentNode = this.parent as FlowNode
+
+      const params: FlowEdgeParameters = { from: parentNode.name, to: newnode.name, }
+
+      const anchor = this.oppositeAnchor
+      if (newnode.parameters.connectors) {
+        const connector = newnode.parameters.connectors.find(c => c.anchor == anchor)
+
+        if (connector) {
+          params.fromconnector = this.name
+          params.toconnector = connector.id
+        }
+      }
+      diagram.addEdge(params)
+    }
 
     const addAsChild = true
     if (addAsChild) {
@@ -380,4 +398,10 @@ class MindMapConnector extends ConnectorMesh {
     return newnode
   }
 
+  override pointerEnter(): string {
+    return 'crosshair'
+  }
+  override dropCompleted(diagram: MindMapDiagram, start: Vector3): FlowNode | undefined {
+    return this.connectIdea(diagram, start)
+  }
 }

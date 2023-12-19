@@ -299,26 +299,6 @@ export class ConnectorInteractive {
       document.body.style.cursor = 'default'
     })
 
-    const createNode = (start: Vector3): FlowNode | undefined => {
-      const newnode = mesh.dropCompleted(diagram, start)
-      if (newnode) {
-        const params: FlowEdgeParameters = { from: parentNode.name, to: newnode.name, }
-
-        const anchor = mesh.oppositeAnchor
-        if (newnode.parameters.connectors) {
-          const connector = newnode.parameters.connectors.find(c => c.anchor == anchor)
-
-          if (connector) {
-            params.fromconnector = mesh.name
-            params.toconnector = connector.id
-          }
-        }
-        diagram.addEdge(params)
-      }
-      return newnode
-    }
-    this.createNode = createNode
-
     const createDragRoute = (start: Vector3): FlowRoute | undefined => {
       const route = mesh.dragStarting(diagram, start)
       if (route) {
@@ -353,7 +333,7 @@ export class ConnectorInteractive {
       dragDistance = diff.length()
       if (dragDistance > mesh.startDragDistance) {
         if (!mesh.createOnDrop) {
-          if (!newnode) newnode = createNode(flowStart!)
+          if (!newnode) newnode = mesh.dropCompleted(diagram, flowStart!)
         }
         else {
           if (!dragroute) dragroute = createDragRoute(flowStart!)
@@ -384,7 +364,7 @@ export class ConnectorInteractive {
       if (dragging && dragDistance > mesh.startDragDistance) {
         if (mesh.createOnDrop) {
           if (dragroute)
-            createNode(diagram.getFlowPosition(dragroute))
+            mesh.dropCompleted(diagram, diagram.getFlowPosition(dragroute))
         }
         cancelDrag()
       }
@@ -397,6 +377,5 @@ export class ConnectorInteractive {
     })
   }
 
-  createNode: (start: Vector3) => FlowNode | undefined
   createDragRoute: (start: Vector3) => FlowRoute | undefined
 }
