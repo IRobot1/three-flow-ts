@@ -101,6 +101,7 @@ export interface FlowNodeParameters {
   label?: FlowLabelParameters
   labelanchor?: AnchorType
   labeltransform?: FlowTransform
+  autogrow?: boolean // increase width to contain longer label
   userData?: { [key: string]: any }
   resizable?: boolean
   resizematerial?: MeshBasicMaterialParameters
