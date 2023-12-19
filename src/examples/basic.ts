@@ -1,11 +1,12 @@
-import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, MeshBasicMaterial, MeshBasicMaterialParameters, PointLight, Scene, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, MeshBasicMaterial, MeshBasicMaterialParameters, Scene, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 
 import { ThreeJSApp } from "../app/threejs-app";
 import {
-  FlowEdgeParameters, FlowRoute,
+  FlowEdgeParameters,
+  FlowRoute,
   FlowNodeParameters,
   FlowConnectorParameters,
   FlowDiagram,
@@ -14,8 +15,11 @@ import {
   FlowInteraction,
   FlowConnectors,
   ConnectorMesh,
-  InteractiveEventType,
-  FlowNode, FlowEdge, FlowEventType, FlowRouteParameters, NodeConnectors
+  FlowNode,
+  FlowRouteParameters,
+  NodeConnectors,
+  FlowBackground,
+  FlowBackgroundParameters
 } from "three-flow";
 
 export class BasicExample {
@@ -30,18 +34,12 @@ export class BasicExample {
     app.camera.position.y = 0.5
     app.camera.position.z = 3
 
-    scene.background = new Color(0x444444)
+    const backgroundColor = '#444'
+    scene.background = new Color(backgroundColor)
 
     const ambient = new AmbientLight()
     ambient.intensity = 1
     scene.add(ambient)
-
-    const light = new PointLight(0xffffff, 1, 100)
-    light.position.set(-1, 1, 2)
-    light.castShadow = true
-    light.shadow.bias = -0.001 // this prevents artifacts
-    light.shadow.mapSize.width = light.shadow.mapSize.height = 512 * 2
-    scene.add(light)
 
     const orbit = new OrbitControls(app.camera, app.domElement);
     orbit.target.set(0, app.camera.position.y, 0)
@@ -179,13 +177,22 @@ export class BasicExample {
         gridsize: 0.3,
         fonts: new Map<string, Font>([
           ['helvetika', font],
-        ])
+        ]),
+        linematerial: { color: 'black' }
       }
 
       // read-only flow
       const flow = new FlowDiagram(options)
       scene.add(flow);
       //flow.position.y = 1
+
+      const parameters: FlowBackgroundParameters = {
+        width: 10, height: 10,
+        fillcolor: 'white', linecolor: 'black'
+      }
+      const background = new FlowBackground(parameters)
+      scene.add(background)
+      background.position.z = -0.01
 
       flow.createRoute = (parameters: FlowRouteParameters) => {
         const route = new FlowRoute(flow, parameters)
