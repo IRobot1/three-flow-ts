@@ -43,7 +43,7 @@ export class HyperFlowExample {
 
     //scene.add(new AxesHelper(3))
 
-    const flow = new HyperFlowDiagram({ linestyle: 'step' })
+    const flow = new HyperFlowDiagram({ linestyle: 'bezier' })
     scene.add(flow);
     flow.rotation.x = MathUtils.degToRad(-80)
 
@@ -53,11 +53,20 @@ export class HyperFlowExample {
     // bottom
     const bottom1 = flow.addNode({
       x: -1, y: -1, z, connectors: [
-        { id: 'b1c1', anchor: 'front' }
+        { id: 'b1c1', anchor: 'front' },
+        { id: 'b1c2', anchor: 'right' },
       ]
     })
-    const bottom2 = flow.addNode({ x: 1, y: -1, z })
-    const bottom3 = flow.addNode({ x: 1, y: 1, z })
+    const bottom2 = flow.addNode({
+      x: 1, y: -1, z, connectors: [
+        { id: 'b2c1', anchor: 'center' },
+      ]
+    })
+    const bottom3 = flow.addNode({
+      x: 1, y: 1, z, connectors: [
+        { id: 'b3c1', anchor: 'bottom' },
+      ]
+    })
     const bottom4 = flow.addNode({ x: -1, y: 1, z })
 
     // middle
@@ -67,19 +76,50 @@ export class HyperFlowExample {
         { id: 'm1c1', anchor: 'back', transform: { rotate: { y: 180 } } },
       ]
     })
-    const middle2 = flow.addNode({ x: 0.6, y: -0.6, z })
-    const middle3 = flow.addNode({ x: 0.6, y: 0.6, z })
-    const middle4 = flow.addNode({ x: -0.6, y: 0.6, z })
+    const middle2 = flow.addNode({
+      x: 0.6, y: -0.6, z, connectors: [
+        { id: 'm2c1', anchor: 'back', transform: { rotate: { y: 180 } } },
+      ]
+    })
+    const middle3 = flow.addNode({
+      x: 0.6, y: 0.6, z, connectors: [
+        { id: 'm3c1', anchor: 'top' },
+      ]
+    })
+    const middle4 = flow.addNode({
+      x: -0.6, y: 0.6, z, connectors: [
+        { id: 'm4c1', anchor: 'front' },
+      ]
+    })
 
-    //// top
-    //z = 2
-    //// bottom
-    //const top1 = flow.addNode({ x: -1, y: -1, z })
-    //const top2 = flow.addNode({ x: 1, y: -1, z })
-    //const top3 = flow.addNode({ x: 1, y: 1, z })
-    //const top4 = flow.addNode({ x: -1, y: 1, z })
+    // top
+    z = 2
+    // bottom
+    const top1 = flow.addNode({
+      x: -1, y: -1, z, connectors: [
+        { id: 't1c1', anchor: 'top', transform: { translate: { z: -0.002 }, rotate: { y: 180 } } },
+      ] })
+    const top2 = flow.addNode({
+      x: 1, y: -1, z, connectors: [
+        { id: 't2c1', anchor: 'right', transform: { translate: { z: 0.002 }, rotate: { y: 180 } } },
+        { id: 't2c2', anchor: 'bottom', transform: { translate: { z: -0.002 }, rotate: { y: 180 } } },
+      ] })
+    const top3 = flow.addNode({
+      x: 1, y: 1, z, connectors: [
+        { id: 't3c1', anchor: 'left', transform: { translate: { z: -0.002 }, rotate: { y: 180 } } },
+      ] })
+    const top4 = flow.addNode({
+      x: -1, y: 1, z, connectors: [
+        { id: 't4c1', anchor: 'bottom', transform: { translate: { z: -0.002 }, rotate: { y: 180 } } },
+      ] })
 
     flow.addEdge({ from: bottom1.name, to: middle1.name, fromconnector: 'b1c1', toconnector: 'm1c1' })
+    flow.addEdge({ from: bottom1.name, to: middle4.name, fromconnector: 'b1c2', toconnector: 'm4c1' })
+    flow.addEdge({ from: bottom2.name, to: top3.name, fromconnector: 'b2c1', toconnector: 't3c1' })
+    flow.addEdge({ from: bottom3.name, to: top2.name, fromconnector: 'b3c1', toconnector: 't2c1' })
+    flow.addEdge({ from: middle4.name, to: top1.name, fromconnector: 'm4c1', toconnector: 't1c1' })
+    flow.addEdge({ from: middle3.name, to: top4.name, fromconnector: 'm3c1', toconnector: 't4c1' })
+    flow.addEdge({ from: top2.name, to: middle2.name, fromconnector: 't2c2', toconnector: 'm2c1' })
 
     this.dispose = () => {
       orbit.dispose()
