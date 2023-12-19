@@ -17,7 +17,7 @@ class MyFlowDiagram extends FlowDiagram {
     //parameters.side = DoubleSide
     return new MeshStandardMaterial(parameters)
   }
-   
+
   override createLabel(label: FlowLabelParameters): FlowLabel {
     return new TroikaFlowLabel(this, label)
   }
@@ -446,6 +446,7 @@ export class GalleryExample {
       if (node.x == undefined) node.x = 0
       node.x -= 1
       node.draggable = false
+      node.autogrow = false
       node.label!.material = { color: 'white' }
       node.label!.size = 0.15
       node.label!.hidden = true
