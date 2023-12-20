@@ -22,11 +22,11 @@ export class DesignerExample {
     scene.background = new Color(0x444444)
 
     const ambient = new AmbientLight()
-    ambient.intensity = 1
+    ambient.intensity = 0.4
     scene.add(ambient)
 
-    const light = new PointLight(0xffffff, 1, 100)
-    light.position.set(1, 1, 0)
+    const light = new PointLight(0xffffff, 2, 100)
+    light.position.set(0, 0, 2)
     light.castShadow = true
     //light.shadow.bias = -0.001 // this prevents artifacts
     light.shadow.mapSize.width = light.shadow.mapSize.height = 512 * 2
@@ -44,7 +44,7 @@ export class DesignerExample {
 
     //scene.add(new AxesHelper(3))
 
-    const flow = new DesignerFlowDiagram()
+    const flow = new DesignerFlowDiagram({ linestyle: 'step' })
     scene.add(flow);
 
     const interaction = new FlowInteraction(flow, app, app.camera)
@@ -54,6 +54,7 @@ export class DesignerExample {
     const tablegeometry = new PlaneGeometry(10, 8)
     const table = new Mesh(tablegeometry, tablematerial)
     scene.add(table)
+    table.position.z = - 0.01
     table.receiveShadow = true
 
     const radius = 0.2
@@ -233,7 +234,7 @@ class AssetNode extends FlowNode {
       const nodeconnectors = connectors.addConnectors(node, [
         {
           id: '', anchor: 'center', radius: node.width / 2,
-          selectable: true, draggable: true, hidden: true
+          selectable: true, draggable: true, hidden: true, createOnDrop: false
         },
       ])
 
@@ -263,10 +264,10 @@ class AssetNode extends FlowNode {
         const newconnectors = nodeconnectors.flowconnectors.hasNode(newnode.name)!
         const hidden = false
         const connectors: Array<FlowConnectorParameters> = [
-          { id: `${newnode.name}-left`, anchor: 'left', radius: 0.05, hidden },
-          { id: `${newnode.name}-top`, anchor: 'top', radius: 0.05, hidden },
+          { id: `${newnode.name}-left`, anchor: 'left', radius: 0.05, hidden, selectable: true, draggable: true },
+          { id: `${newnode.name}-top`, anchor: 'top', radius: 0.05, hidden, selectable: true, draggable: true },
           { id: `${newnode.name}-right`, anchor: 'right', radius: 0.05, hidden, selectable: true, draggable: true },
-          { id: `${newnode.name}-bottom`, anchor: 'bottom', radius: 0.05, hidden },
+          { id: `${newnode.name}-bottom`, anchor: 'bottom', radius: 0.05, hidden, selectable: true, draggable: true },
         ]
         connectors.forEach(parameters => {
           newconnectors.addConnector(parameters)
@@ -292,10 +293,8 @@ class AssetConnector extends ConnectorMesh {
 
   }
 
-  //override pointerEnter(): string {
-  //  console.warn('pointer neter')
-  //  return 'dragging'
-  //}
+  override pointerEnter(): string { return 'crosshair' }
+
   //override dropCompleted(diagram: DesignerFlowDiagram, start: Vector3): FlowNode | undefined {
   //  const parentNode = this.parent as FlowNode
 
@@ -331,7 +330,6 @@ class DesignerConnectors extends FlowConnectors {
   }
 
   override createConnector(connectors: NodeConnectors, parameters: FlowConnectorParameters): ConnectorMesh {
-    parameters.createOnDrop = false
     return new AssetConnector(this.diagram, connectors, parameters)
   }
 
