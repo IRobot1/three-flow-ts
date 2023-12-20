@@ -88,17 +88,17 @@ export class ThreeInteractive {
     }
 
     const handleEvent = (newevent: PointerEvent | MouseEvent) => {
-      let _intersects = raycaster.intersectObjects(this.selectable.list, false);
+      const selectIntersects = raycaster.intersectObjects(this.selectable.list, false);
 
       _event.type = events[newevent.type];
-      _event.intersections = _intersects
+      _event.intersections = selectIntersects
 
-      if (_intersects.length > 0) {
+      if (selectIntersects.length > 0) {
         // remember what's overlapping
         const overlapping = new Set<Object3D>(entered)
 
         _event.stop = false
-        _intersects.forEach(intersection => {
+        selectIntersects.forEach(intersection => {
           // stop bubbling event to anything behind last object
           if (_event.stop) return
 
@@ -161,11 +161,10 @@ export class ThreeInteractive {
       // prevent dragging if last event was stopped
       if (!_selected && _event.stop) return
 
-      _intersects = raycaster.intersectObjects(this.draggable.list, false);
-      _event.intersections = _intersects
+      const dragIntersects = raycaster.intersectObjects(this.draggable.list, false);
 
-      if (_intersects.length > 0) {
-        const intersection = _intersects[0];
+      if (selectIntersects.length > 0) {
+        const intersection = selectIntersects[0];
 
         const object = intersection.object;
 
@@ -177,7 +176,7 @@ export class ThreeInteractive {
           if (raycaster.ray.intersectPlane(_plane, _intersection)) {
             _inverseMatrix.copy(_selected.parent.matrixWorld).invert();
 
-            _selected.dispatchEvent({ type: InteractiveEventType.DRAGSTART, position: _intersection.applyMatrix4(_inverseMatrix), data: _intersects });
+            _selected.dispatchEvent({ type: InteractiveEventType.DRAGSTART, position: _intersection.applyMatrix4(_inverseMatrix), selectIntersects, dragIntersects });
           }
 
         }
@@ -188,7 +187,7 @@ export class ThreeInteractive {
           if (raycaster.ray.intersectPlane(_plane, _intersection)) {
 
             // let selected object decide if dragging is allowed
-            _selected.dispatchEvent({ type: InteractiveEventType.DRAG, position: _intersection.applyMatrix4(_inverseMatrix) });
+            _selected.dispatchEvent({ type: InteractiveEventType.DRAG, position: _intersection.applyMatrix4(_inverseMatrix), selectIntersects, dragIntersects });
           }
 
 
@@ -198,7 +197,7 @@ export class ThreeInteractive {
         if (_selected) {
           document.body.style.cursor = 'default'
 
-          _selected.dispatchEvent({ type: InteractiveEventType.DRAGEND, position: _intersection });
+          _selected.dispatchEvent({ type: InteractiveEventType.DRAGEND, position: _intersection, selectIntersects, dragIntersects });
 
           _selected = undefined;
 

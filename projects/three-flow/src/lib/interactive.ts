@@ -333,7 +333,7 @@ export class ConnectorInteractive {
       dragDistance = diff.length()
       if (dragDistance > mesh.startDragDistance) {
         if (!mesh.createOnDrop) {
-          if (!newnode) newnode = mesh.dropCompleted(diagram, flowStart!)
+          if (!newnode) newnode = mesh.dropCompleted(diagram, flowStart!, e.dragIntersects, e.selectIntersects)
         }
         else {
           if (!dragroute) dragroute = createDragRoute(flowStart!)
@@ -364,7 +364,7 @@ export class ConnectorInteractive {
       if (dragging && dragDistance > mesh.startDragDistance) {
         if (mesh.createOnDrop) {
           if (dragroute)
-            mesh.dropCompleted(diagram, diagram.getFlowPosition(dragroute))
+            mesh.dropCompleted(diagram, diagram.getFlowPosition(dragroute), e.dragIntersects, e.selectIntersects)
         }
         cancelDrag()
       }

@@ -1,5 +1,5 @@
 import { AnchorType, FlowConnectorParameters, FlowEventType, FlowTransform } from "./model"
-import { BufferGeometry, CircleGeometry, ColorRepresentation, Mesh, MeshBasicMaterialParameters, Object3D, Vector3 } from "three"
+import { BufferGeometry, CircleGeometry, ColorRepresentation, Intersection, Mesh, MeshBasicMaterialParameters, Object3D, Vector3 } from "three"
 import { FlowDiagram } from "./diagram"
 import { FlowNode } from "./node"
 import { FlowLabel } from "./label"
@@ -84,7 +84,7 @@ export class FlowConnectors {
 export class NodeConnectors {
   // options
   spacing = 0.1
-  private total: any = { left: 0, right: 0, top: 0, bottom: 0, front:0, back: 0, center: 0, count: 0 }
+  private total: any = { left: 0, right: 0, top: 0, bottom: 0, front: 0, back: 0, center: 0, count: 0 }
 
   constructor(public flowconnectors: FlowConnectors, public node: FlowNode, public parameters: Array<FlowConnectorParameters>) {
     if (node.parameters.connectors) {
@@ -167,7 +167,7 @@ export class NodeConnectors {
 
   private positionConnector(connector: ConnectorMesh) {
     const anchor = connector.anchor
-    let x = 0, y = 0, z =0.001
+    let x = 0, y = 0, z = 0.001
     switch (anchor) {
       case 'left':
         x = -this.node.width / 2
@@ -205,7 +205,7 @@ export class NodeConnectors {
       connector.position.set(position, y, z)
     }
     else {
-      connector.position.z =  z
+      connector.position.z = z
     }
   }
 
@@ -350,7 +350,7 @@ export class ConnectorMesh extends Mesh {
     return diagram.addRoute({ x: start.x, y: start.y, dragging: true })
   }
 
-  dropCompleted(diagram: FlowDiagram, position: Vector3): FlowNode | undefined {
+  dropCompleted(diagram: FlowDiagram, position: Vector3, dragIntersects: Array<Intersection>, selectIntersects: Array<Intersection>): FlowNode | undefined {
     console.warn('drop complete not handled')
     return undefined
   }

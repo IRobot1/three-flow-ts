@@ -1,9 +1,9 @@
-import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, ExtrudeGeometry, ExtrudeGeometryOptions, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, RingGeometry, Scene, Shape, ShapeGeometry, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, ExtrudeGeometry, ExtrudeGeometryOptions, Intersection, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, RingGeometry, Scene, Shape, ShapeGeometry, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, NodeConnectors } from "three-flow";
+import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, NodeConnectors } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 import { FlowProperties } from "./flow-properties";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
@@ -295,32 +295,23 @@ class AssetConnector extends ConnectorMesh {
 
   override pointerEnter(): string { return 'crosshair' }
 
-  //override dropCompleted(diagram: DesignerFlowDiagram, start: Vector3): FlowNode | undefined {
-  //  const parentNode = this.parent as FlowNode
+  override dropCompleted(diagram: DesignerFlowDiagram, start: Vector3, dragIntersects: Array<Intersection>): FlowNode | undefined {
+    const intersect = dragIntersects.filter(i => i.object.type == 'flowconnector')
+    // ignore unless drop was on top of a connector
+    if (!intersect.length) return
 
-  //  // clone parameters of the template
-  //  const parameters = JSON.parse(JSON.stringify(parentNode.parameters)) as FlowNodeParameters
-  //  parameters.id = undefined
-  //  parameters.x = start.x
-  //  parameters.y = start.y
-  //  parameters.connectors = undefined
-  //  parameters.selectable = parameters.draggable = true
-  //  const newnode = diagram.addNode(parameters)
+    intersect.forEach(intersect => {
+      const mesh = intersect.object as ConnectorMesh
+      const node = mesh.parent as FlowNode
 
-  //  const newconnectors = this.connectors.flowconnectors.hasNode(newnode.name)!
-  //  const hidden = false
-  //  const connectors: Array<FlowConnectorParameters> = [
-  //    { id: `${newnode.name}-left`, anchor: 'left', radius: 0.05, hidden },
-  //    { id: `${newnode.name}-top`, anchor: 'top', radius: 0.05, hidden },
-  //    { id: `${newnode.name}-right`, anchor: 'right', radius: 0.05, hidden, selectable:true, draggable:true },
-  //    { id: `${newnode.name}-bottom`, anchor: 'bottom', radius: 0.05, hidden },
-  //  ]
-  //  connectors.forEach(parameters => {
-  //    newconnectors.addConnector(parameters)
-  //  })
+      const edgeparams: FlowEdgeParameters = {
+        from: this.parent!.name, to: node.name, fromconnector: this.name, toconnector: mesh.name
+      }
+      diagram.addEdge(edgeparams)
+    })
 
-  //  return newnode
-  //}
+    return undefined
+  }
 }
 
 
