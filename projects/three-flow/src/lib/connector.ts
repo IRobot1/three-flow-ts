@@ -85,8 +85,7 @@ export class NodeConnectors {
   spacing = 0.1
   private total: any = { left: 0, right: 0, top: 0, bottom: 0, front:0, back: 0, center: 0, count: 0 }
 
-  constructor(public connectors: FlowConnectors, public node: FlowNode, public parameters: Array<FlowConnectorParameters>) {
-
+  constructor(public flowconnectors: FlowConnectors, public node: FlowNode, public parameters: Array<FlowConnectorParameters>) {
     if (node.parameters.connectors) {
       node.parameters.connectors.forEach(parameters => {
         this.addConnector(parameters)
@@ -126,7 +125,7 @@ export class NodeConnectors {
       if (index > 0) parameters.id += `-${index}`
     }
 
-    const connector = this.connectors.createConnector(this, parameters)!
+    const connector = this.flowconnectors.createConnector(this, parameters)!
     this.node.add(connector)
     this.total[parameters.anchor]++;
     this.total.count++
@@ -220,7 +219,7 @@ export class NodeConnectors {
 
   // overridables
   createGeometry(parameters: FlowConnectorParameters): BufferGeometry {
-    return this.connectors.createGeometry(parameters)
+    return this.flowconnectors.createGeometry(parameters)
   }
 
 }
@@ -247,7 +246,7 @@ export class ConnectorMesh extends Mesh {
     if (this._matparams.color != newvalue) {
       this._matparams.color = newvalue;
       if (newvalue)
-        this.material = this.connectors.connectors.diagram.getMaterial('geometry', 'connector', this._matparams)
+        this.material = this.connectors.flowconnectors.diagram.getMaterial('geometry', 'connector', this._matparams)
     }
   }
 
@@ -308,7 +307,7 @@ export class ConnectorMesh extends Mesh {
     this.hidden = parameters.hidden != undefined ? parameters.hidden : false
     this.visible = !this.hidden
 
-    const diagram = connectors.connectors.diagram
+    const diagram = connectors.flowconnectors.diagram
 
     if (parameters.label) {
       this.label = diagram.createLabel(parameters.label)
