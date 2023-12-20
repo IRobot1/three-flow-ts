@@ -25,7 +25,8 @@ export class DragNode {
     })
 
     node.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
-      document.body.style.cursor = 'default'
+      if (document.body.style.cursor == 'grab')
+        document.body.style.cursor = 'default'
     })
 
     let offset: Vector3

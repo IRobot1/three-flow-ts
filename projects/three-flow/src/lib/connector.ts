@@ -36,7 +36,7 @@ export class FlowConnectors {
     return this.connectorsMap.get(id)
   }
 
-  addConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>) {
+  addConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>): NodeConnectors {
     let nodeconnectors = this.connectorsMap.get(node.name)
     if (nodeconnectors) {
       // add to existing
@@ -48,9 +48,10 @@ export class FlowConnectors {
       })
     }
     else {
-      this.createConnectors(node, connectors)
+      nodeconnectors = this.createConnectors(node, connectors)
       node.parameters.connectors = connectors
     }
+    return nodeconnectors
   }
 
   removeConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>) {
@@ -338,6 +339,7 @@ export class ConnectorMesh extends Mesh {
   }
 
   // overridables
+  // return a cursor https://developer.mozilla.org/en-US/docs/Web/CSS/cursor#keyword
   pointerEnter(): string | undefined {
     return 'grab'
   }
