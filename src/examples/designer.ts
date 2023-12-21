@@ -58,21 +58,21 @@ export class DesignerExample {
     table.position.z = - 0.01
     table.receiveShadow = true
 
-    const radius = 0.2
+    const width = 0.4
 
     const cylinderparams: DesignerNodeParameters = {
-      x: 1, width: radius * 2, height: radius * 2, depth: 0.1,
-      data: { assettype: 'cylinder', radius, hidden: false },
+      x: 1, width, height: width , depth: 0.1,
+      data: { assettype: 'cylinder', hidden: false },
     }
 
     const cubeparams: DesignerNodeParameters = {
-      x: -1, width: radius * 2, height: radius * 2, depth: 0.1,
-      data: { assettype: 'cube', radius: 0.02, hidden: false },
+      x: -1, width, height: width , depth: 0.1,
+      data: { assettype: 'cube', hidden: false },
     }
 
     const assetparams: DesignerNodeParameters = {
       label: { text: 'Assets', material: { color: 'black' }, padding: 0 },
-      data: { assettype: 'asset', radius: 0, hidden: false },
+      data: { assettype: 'asset', hidden: false },
     }
     const assets = flow.addNode(assetparams) as AssetNode
     assets.addAssets([cylinderparams, cubeparams])
@@ -89,7 +89,6 @@ type ShapeType = 'asset' | 'cylinder' | 'cube'
 
 interface ShapeParameters {
   assettype: ShapeType
-  radius: number
   hidden: boolean
 }
 interface DesignerNodeParameters extends FlowNodeParameters {
@@ -97,6 +96,13 @@ interface DesignerNodeParameters extends FlowNodeParameters {
 }
 
 class ShapeNode extends FlowNode {
+  get hideshape() { return !this.solid.visible }
+  set hideshape(newvalue: boolean) {
+    this.solid.visible = !newvalue
+  }
+
+  private solid: Mesh
+
   constructor(diagram: FlowDiagram, parameters: DesignerNodeParameters) {
     parameters.resizable = parameters.scalable = false
     parameters.material = { color: '#DECAAF' }
@@ -108,35 +114,43 @@ class ShapeNode extends FlowNode {
     material.transparent = true
     material.opacity = 0
 
-    // add the border
-    let geometry
-    if (parameters.data.assettype == 'cylinder') {
-      geometry = new RingGeometry(parameters.data.radius - 0.005, parameters.data.radius + 0.005, 32)
-      this.createCylinder(parameters)
-    }
-    else {
-      geometry = this.addBorder()
-      this.createCube(parameters)
-    }
-
-    const bordermesh = new Mesh(geometry)
+    const bordermesh = new Mesh()
     bordermesh.material = diagram.getMaterial('geometry', 'border', <MeshBasicMaterialParameters>{ color: 'black' })
     this.add(bordermesh)
     bordermesh.position.z = 0.001
 
-    // add the solid shape
-    if (parameters.data.assettype == 'cylinder') {
-      geometry = this.createCylinder(parameters)
-    }
-    else {
-      geometry = this.createCube(parameters)
-    }
-
-    const solid = new Mesh(geometry)
+    const solid = new Mesh()
     solid.material = diagram.getMaterial('geometry', 'border', parameters.material!)
     this.add(solid)
     solid.castShadow = true
-    solid.visible = !parameters.data.hidden
+    this.solid = solid
+    this.solid.visible = !parameters.data.hidden
+
+    const resizeGeometry = () => {
+      // add the border
+      let geometry
+      if (parameters.data.assettype == 'cylinder') {
+        geometry = new RingGeometry(this.width/2 - 0.005, this.width/2 + 0.005, 32)
+      }
+      else {
+        geometry = this.addBorder()
+      }
+
+      bordermesh.geometry = geometry
+
+      // add the solid shape
+      if (parameters.data.assettype == 'cylinder') {
+        geometry = this.createCylinder(parameters)
+      }
+      else {
+        geometry = this.createCube(parameters)
+      }
+
+      solid.geometry = geometry
+    }
+    resizeGeometry()
+
+    this.addEventListener(FlowEventType.WIDTH_CHANGED, resizeGeometry)
   }
 
   private addBorder(): BufferGeometry {
@@ -174,7 +188,7 @@ class ShapeNode extends FlowNode {
 
 
   private createCube(parameters: DesignerNodeParameters): BufferGeometry {
-    const geometry = new RoundedBoxGeometry(this.width - 0.04, this.height - 0.04, this.depth, 8, parameters.data.radius)
+    const geometry = new RoundedBoxGeometry(this.width - 0.04, this.height - 0.04, this.depth, 8, 0.02)
     geometry.translate(0, 0, this.depth / 2)
     return geometry
   }
@@ -182,7 +196,7 @@ class ShapeNode extends FlowNode {
   // try using Lathe to eliminate artifact
   private createCylinder(parameters: DesignerNodeParameters): BufferGeometry {
     const circleShape = new Shape();
-    const radius = parameters.data.radius - 0.04
+    const radius = this.width/2 - 0.04
     circleShape.absellipse(0, 0, radius, radius, 0, Math.PI * 2);
 
 
@@ -202,7 +216,7 @@ class ShapeNode extends FlowNode {
   // this shape is invisible, but needed for dragging
   override createGeometry(parameters: DesignerNodeParameters): BufferGeometry {
     if (parameters.data.assettype == 'cylinder')
-      return new CircleGeometry(parameters.data.radius)
+      return new CircleGeometry(this.width/2)
     return super.createGeometry(parameters)
   }
 }
@@ -341,7 +355,7 @@ class DesignerFlowDiagram extends FlowDiagram {
   ctrlKey = false
   connectors: DesignerConnectors
   gui: GUI
-  properties :FlowProperties
+  properties: FlowProperties
 
   override dispose() {
     this.gui.destroy()
@@ -413,9 +427,9 @@ class DesignerFlowDiagram extends FlowDiagram {
       }
     }
     gui.add<any, any>(params, 'clear').name('Clear')
+    gui.add<any, any>(params, 'load').name('Load')
     gui.add<any, any>(params, 'filename').name('File name')
     gui.add<any, any>(params, 'save').name('Save')
-    gui.add<any, any>(params, 'load').name('Load')
   }
 
   loadFrom(storage: DesignerStorage) {
@@ -424,7 +438,7 @@ class DesignerFlowDiagram extends FlowDiagram {
         id: item.id,
         x: item.position.x, y: item.position.y,
         width: item.size, height: item.size, depth: 0.1,
-        data: item.data,
+        data: item.data
       }
       this.loadShape(parameters)
     })
@@ -467,7 +481,8 @@ class DesignerFlowDiagram extends FlowDiagram {
   }
 
   loadShape(parameters: FlowNodeParameters): FlowNode {
-    const newnode = this.addNode(parameters)
+    const newnode = this.addNode(parameters) as ShapeNode
+    newnode.minwidth = newnode.minheight = 0.3
 
     // get the connectors for the new node
     const newconnectors = this.connectors.hasNode(newnode.name)!
@@ -487,6 +502,8 @@ class DesignerFlowDiagram extends FlowDiagram {
       const gui = e.gui as GUI
       gui.title(`${newnode.name} Properties`)
 
+      gui.add(newnode, 'width', 0.2, 1).name('Size').onChange(() => newnode.height = newnode.width)
+      gui.add(newnode, 'hideshape').name('Hide Shape')
     })
 
     this.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, node: newnode })
