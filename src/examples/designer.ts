@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, ExtrudeGeometry, ExtrudeGeometryOptions, FileLoader, Intersection, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, RingGeometry, Scene, Shape, ShapeGeometry, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, ExtrudeGeometry, ExtrudeGeometryOptions, FileLoader, Intersection, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, PropertyBinding, RingGeometry, Scene, Shape, ShapeGeometry, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
@@ -24,7 +24,7 @@ export class DesignerExample {
     scene.background = new Color(0x444444)
 
     const ambient = new AmbientLight()
-    ambient.intensity = 0.4
+    ambient.intensity = 0.6
     scene.add(ambient)
 
     const light = new PointLight(0xffffff, 2, 100)
@@ -78,6 +78,7 @@ export class DesignerExample {
     assets.addAssets([cylinderparams, cubeparams])
 
     this.dispose = () => {
+      flow.dispose()
       interaction.dispose()
       orbit.dispose()
     }
@@ -339,17 +340,20 @@ interface DesignerStorage {
 class DesignerFlowDiagram extends FlowDiagram {
   ctrlKey = false
   connectors: DesignerConnectors
+  gui: GUI
+  properties :FlowProperties
+
+  override dispose() {
+    this.gui.destroy()
+    this.properties.dispose()
+    super.dispose()
+  }
 
   constructor(options?: FlowDiagramOptions) {
     super(options)
 
     this.connectors = new DesignerConnectors(this)
-    const properties = new FlowProperties(this)
-
-    this.dispose = () => {
-      properties.dispose()
-      super.dispose()
-    }
+    const properties = this.properties = new FlowProperties(this)
 
     this.addEventListener(FlowEventType.KEY_DOWN, (e: any) => {
       const keyboard = e.keyboard as KeyboardEvent
@@ -376,6 +380,7 @@ class DesignerFlowDiagram extends FlowDiagram {
     gui.domElement.style.position = 'fixed';
     gui.domElement.style.top = '0';
     gui.domElement.style.left = '15px';
+    this.gui = gui
 
     const fileSaver = new Exporter()
     const fileLoader = new FileLoader();
