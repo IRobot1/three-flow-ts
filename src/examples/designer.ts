@@ -3,7 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, NodeConnectors } from "three-flow";
+import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 import { FlowProperties } from "./flow-properties";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
@@ -44,7 +44,7 @@ export class DesignerExample {
 
     //scene.add(new AxesHelper(3))
 
-    const flow = new DesignerFlowDiagram({ linestyle: 'step' })
+    const flow = new DesignerFlowDiagram({ linestyle: 'step', lineoffset:0.1 })
     scene.add(flow);
 
     const interaction = new FlowInteraction(flow, app, app.camera)
@@ -214,10 +214,6 @@ class AssetNode extends FlowNode {
 
     super(diagram, parameters);
 
-    //const geometry = new PlaneGeometry(1, 3)
-    //geometry.translate(0, -1.5 - 0.1,0)
-    //const plane = new Mesh(geometry)
-    //this.add(plane)
   }
 
   addAssets(assetparameters: ShapeParameters[], connectors: DesignerConnectors) {
@@ -273,6 +269,13 @@ class AssetNode extends FlowNode {
           newconnectors.addConnector(parameters)
         })
 
+        // listen for request to show node properties
+        newnode.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
+          const gui = e.gui as GUI
+          gui.title(`${newnode.name} Properties`)
+
+        })
+
         return newnode
       }
 
@@ -289,6 +292,23 @@ class AssetConnector extends ConnectorMesh {
       const gui = e.gui as GUI
       gui.title(`${this.name} Properties`)
 
+    })
+
+    let control = false
+    diagram.addEventListener<any>(FlowEventType.KEY_DOWN, (e: any) => {
+      const keyboard = e.keyboard as KeyboardEvent
+      control = keyboard.ctrlKey
+    })
+
+    diagram.addEventListener<any>(FlowEventType.KEY_UP, (e: any) => {
+      const keyboard = e.keyboard as KeyboardEvent
+      control = keyboard.ctrlKey
+    })
+
+    this.addEventListener(InteractiveEventType.CLICK, (e: any) => {
+      if (control) {
+        this.dispatchEvent<any>({ type: FlowEventType.EDGE_DELETE })
+      }
     })
 
   }

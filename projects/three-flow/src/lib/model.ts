@@ -149,6 +149,7 @@ export const FlowEventType = {
   NODE_SELECTED: 'node_selected',
   NODE_PROPERTIES: 'node_properties',
   EDGE_ADDED: 'edge_added',
+  EDGE_DELETE: 'edge_delete',
   EDGE_REMOVED: 'edge_removed',
   //EDGE_SELECTED: 'edge_selected',
   CONNECTOR_ADDED: 'connector_added',
