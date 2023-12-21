@@ -1,5 +1,5 @@
 import { AnchorType, FlowConnectorParameters, FlowEventType, FlowTransform } from "./model"
-import { BufferGeometry, CircleGeometry, ColorRepresentation, Mesh, MeshBasicMaterialParameters, Object3D, Vector3 } from "three"
+import { BufferGeometry, CircleGeometry, ColorRepresentation, Intersection, Mesh, MeshBasicMaterialParameters, Object3D, Vector3 } from "three"
 import { FlowDiagram } from "./diagram"
 import { FlowNode } from "./node"
 import { FlowLabel } from "./label"
@@ -7,7 +7,7 @@ import { FlowUtils } from "./utils"
 import { FlowRoute } from "./route"
 
 export class FlowConnectors {
-  private connectorsMap = new Map<string, NodeConnectors>()
+  private nodesMap = new Map<string, NodeConnectors>()
 
   constructor(public diagram: FlowDiagram) {
     diagram.addEventListener(FlowEventType.NODE_ADDED, (e: any) => {
@@ -20,7 +20,7 @@ export class FlowConnectors {
 
   private createConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>): NodeConnectors {
     const nodeconnectors = new NodeConnectors(this, node, connectors)
-    this.connectorsMap.set(node.name, nodeconnectors)
+    this.nodesMap.set(node.name, nodeconnectors)
 
     const getConnector = (id?: string): Object3D => {
       if (!id) return node
@@ -33,11 +33,23 @@ export class FlowConnectors {
   }
 
   hasNode(id: string): NodeConnectors | undefined {
-    return this.connectorsMap.get(id)
+    return this.nodesMap.get(id)
   }
 
-  addConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>) {
-    let nodeconnectors = this.connectorsMap.get(node.name)
+  get allNodeConnnectors(): Array<NodeConnectors> {
+    return Array.from(this.nodesMap.values())
+  }
+
+  get allConnectors(): Array<ConnectorMesh> {
+    const connectors: Array<ConnectorMesh> = []
+    this.allNodeConnnectors.forEach(node => {
+      connectors.push(...node.connectors)
+    })
+    return connectors
+  }
+
+  addConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>): NodeConnectors {
+    let nodeconnectors = this.nodesMap.get(node.name)
     if (nodeconnectors) {
       // add to existing
       connectors.forEach(connector => {
@@ -48,13 +60,14 @@ export class FlowConnectors {
       })
     }
     else {
-      this.createConnectors(node, connectors)
+      nodeconnectors = this.createConnectors(node, connectors)
       node.parameters.connectors = connectors
     }
+    return nodeconnectors
   }
 
   removeConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>) {
-    let nodeconnectors = this.connectorsMap.get(node.name)
+    let nodeconnectors = this.nodesMap.get(node.name)
     if (nodeconnectors) {
       connectors.forEach(connector => {
         if (nodeconnectors) nodeconnectors.removeConnector(connector)
@@ -81,12 +94,13 @@ export class FlowConnectors {
 }
 
 export class NodeConnectors {
+  private connectorsMap = new Map<string, ConnectorMesh>()
+
   // options
   spacing = 0.1
-  private total: any = { left: 0, right: 0, top: 0, bottom: 0, front:0, back: 0, center: 0, count: 0 }
+  private total: any = { left: 0, right: 0, top: 0, bottom: 0, front: 0, back: 0, center: 0, count: 0 }
 
-  constructor(public connectors: FlowConnectors, public node: FlowNode, public parameters: Array<FlowConnectorParameters>) {
-
+  constructor(public flowconnectors: FlowConnectors, public node: FlowNode, public parameters: Array<FlowConnectorParameters>) {
     if (node.parameters.connectors) {
       node.parameters.connectors.forEach(parameters => {
         this.addConnector(parameters)
@@ -104,15 +118,7 @@ export class NodeConnectors {
   }
 
   hasConnector(id: string): ConnectorMesh | undefined {
-
-    for (const child of this.node.children) {
-      if (child.type == 'flowconnector') {
-        const connector = child as ConnectorMesh
-        if (connector.name == id) return connector
-      }
-    }
-
-    return undefined
+    return this.connectorsMap.get(id)
   }
 
   addConnector(parameters: FlowConnectorParameters): ConnectorMesh {
@@ -126,10 +132,12 @@ export class NodeConnectors {
       if (index > 0) parameters.id += `-${index}`
     }
 
-    const connector = this.connectors.createConnector(this, parameters)!
+    const connector = this.flowconnectors.createConnector(this, parameters)!
     this.node.add(connector)
     this.total[parameters.anchor]++;
     this.total.count++
+
+    this.connectorsMap.set(connector.name, connector)
 
     this.moveConnectors()
     if (connector.transform)
@@ -146,15 +154,16 @@ export class NodeConnectors {
       this.total[connector.anchor]--;
       this.total.count--
 
+      this.connectorsMap.delete(connector.name)
+
       this.moveConnectors()
 
       this.node.diagram.dispatchEvent<any>({ type: FlowEventType.CONNECTOR_REMOVED, connector })
     }
   }
 
-  public getConnectors() {
-    return (this.node.children as Array<ConnectorMesh>)
-      .filter(item => item.type == 'flowconnector')
+  public get connectors() {
+    return Array.from(this.connectorsMap.values())
   }
 
   private calculateOffset(count: number, index: number, width: number): number {
@@ -167,7 +176,7 @@ export class NodeConnectors {
 
   private positionConnector(connector: ConnectorMesh) {
     const anchor = connector.anchor
-    let x = 0, y = 0, z =0.001
+    let x = 0, y = 0, z = 0.001
     switch (anchor) {
       case 'left':
         x = -this.node.width / 2
@@ -205,13 +214,13 @@ export class NodeConnectors {
       connector.position.set(position, y, z)
     }
     else {
-      connector.position.z =  z
+      connector.position.z = z
     }
   }
 
   private moveConnectors() {
 
-    this.getConnectors().sort((a, b) => a.index - b.index).forEach(connector => {
+    this.connectors.sort((a, b) => a.index - b.index).forEach(connector => {
       this.positionConnector(connector)
       connector.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
     })
@@ -220,7 +229,7 @@ export class NodeConnectors {
 
   // overridables
   createGeometry(parameters: FlowConnectorParameters): BufferGeometry {
-    return this.connectors.createGeometry(parameters)
+    return this.flowconnectors.createGeometry(parameters)
   }
 
 }
@@ -247,7 +256,7 @@ export class ConnectorMesh extends Mesh {
     if (this._matparams.color != newvalue) {
       this._matparams.color = newvalue;
       if (newvalue)
-        this.material = this.connectors.connectors.diagram.getMaterial('geometry', 'connector', this._matparams)
+        this.material = this.connectors.flowconnectors.diagram.getMaterial('geometry', 'connector', this._matparams)
     }
   }
 
@@ -308,7 +317,7 @@ export class ConnectorMesh extends Mesh {
     this.hidden = parameters.hidden != undefined ? parameters.hidden : false
     this.visible = !this.hidden
 
-    const diagram = connectors.connectors.diagram
+    const diagram = connectors.flowconnectors.diagram
 
     if (parameters.label) {
       this.label = diagram.createLabel(parameters.label)
@@ -339,6 +348,7 @@ export class ConnectorMesh extends Mesh {
   }
 
   // overridables
+  // return a cursor https://developer.mozilla.org/en-US/docs/Web/CSS/cursor#keyword
   pointerEnter(): string | undefined {
     return 'grab'
   }
@@ -349,7 +359,7 @@ export class ConnectorMesh extends Mesh {
     return diagram.addRoute({ x: start.x, y: start.y, dragging: true })
   }
 
-  dropCompleted(diagram: FlowDiagram, position: Vector3): FlowNode | undefined {
+  dropCompleted(diagram: FlowDiagram, position: Vector3, dragIntersects: Array<Intersection>, selectIntersects: Array<Intersection>): FlowNode | undefined {
     console.warn('drop complete not handled')
     return undefined
   }

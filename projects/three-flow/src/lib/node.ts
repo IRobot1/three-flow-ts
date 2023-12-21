@@ -37,6 +37,19 @@ export class FlowNode extends Mesh {
     this.label.labelMesh.position.y += ydiff
   }
 
+  private moveLabelZ(zdiff: number) {
+    if (!this.label.labelMesh) return
+    switch (this.labelanchor) {
+      case 'front':
+        zdiff = -zdiff
+        break;
+      case 'center':
+        zdiff = 0
+        break;
+    }
+    this.label.labelMesh.position.z += zdiff
+  }
+
 
   protected _width: number
   get width() { return this._width }
@@ -74,6 +87,25 @@ export class FlowNode extends Mesh {
   maxheight: number;
 
   lockaspectratio: boolean;
+
+  protected _depth: number
+  get depth() { return this._depth }
+  set depth(newvalue: number) {
+    newvalue = MathUtils.clamp(newvalue, this.mindepth, this.maxdepth)
+    if (this._depth != newvalue) {
+      const diff = newvalue - this._depth
+      this._depth = newvalue
+      this._resizeGeometry()
+
+      // move label by difference in depth change
+      this.moveLabelZ(diff / 2)
+
+      this.dispatchEvent<any>({ type: FlowEventType.DEPTH_CHANGED })
+    }
+  }
+  mindepth: number;
+  maxdepth: number;
+
 
   private _matparams!: MeshBasicMaterialParameters
   get color() { return this._matparams.color! }
@@ -194,6 +226,11 @@ export class FlowNode extends Mesh {
     this._height = parameters.height = parameters.height != undefined ? parameters.height : 1;
     this.minheight = parameters.minheight != undefined ? parameters.minheight : this.height;
     this.maxheight = parameters.maxheight != undefined ? parameters.maxheight : Number.POSITIVE_INFINITY
+
+    this._depth = parameters.depth = parameters.depth != undefined ? parameters.depth : 1;
+    this.mindepth = parameters.mindepth != undefined ? parameters.mindepth : this.depth;
+    this.maxdepth = parameters.maxdepth != undefined ? parameters.maxdepth : Number.POSITIVE_INFINITY
+
     this._matparams = parameters.material ? parameters.material : { color: 'white' }
 
     this.lockaspectratio = parameters.lockaspectratio ? parameters.lockaspectratio : false

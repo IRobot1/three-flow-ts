@@ -84,7 +84,7 @@ export class FlowEdge extends Mesh {
     if (this.fromNode) {
       this.fromNode.addEventListener(FlowEventType.DRAGGED, () => { this.dragged() })
       this.fromNode.addEventListener(FlowEventType.SCALE_CHANGED, () => { this.dragged() })
-
+      this.fromNode.addEventListener(FlowEventType.EDGE_DELETE, () => { console.warn('TODO: delete edge from node') })
       this.fromNode.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
         if (this.fromNode)
           this.visible = this.fromNode.visible
@@ -97,7 +97,7 @@ export class FlowEdge extends Mesh {
     if (this.toNode) {
       this.toNode.addEventListener(FlowEventType.DRAGGED, () => { this.dragged() })
       this.toNode.addEventListener(FlowEventType.SCALE_CHANGED, () => { this.dragged() })
-
+      this.toNode.addEventListener(FlowEventType.EDGE_DELETE, () => { console.warn('TODO: delete edge to node') })
       this.toNode.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
         if (this.toNode)
           this.visible = this.toNode.visible
@@ -155,11 +155,14 @@ export class FlowEdge extends Mesh {
     this.updateVisuals()
   }
 
+  private deleteEdge() { this.diagram.removeEdge(this) }
+
   addConnector(fromconnector?: string, toconnector?: string, update = true) {
     if (this.fromNode) {
       this.fromConnector = this.fromNode.getConnector(fromconnector)
       if (this.fromConnector != this.fromNode) {
         this.fromConnector.addEventListener(FlowEventType.DRAGGED, () => { this.dragged() })
+        this.fromConnector.addEventListener(FlowEventType.EDGE_DELETE, () => { this.deleteEdge() })
         this.parameters.fromconnector = fromconnector
       }
     }
@@ -167,6 +170,7 @@ export class FlowEdge extends Mesh {
       this.toConnector = this.toNode.getConnector(toconnector)
       if (this.toConnector != this.toNode) {
         this.toConnector.addEventListener(FlowEventType.DRAGGED, () => { this.dragged() })
+        this.toConnector.addEventListener(FlowEventType.EDGE_DELETE, () => { this.deleteEdge() })
         this.parameters.toconnector = toconnector
       }
     }

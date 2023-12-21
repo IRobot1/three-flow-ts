@@ -144,6 +144,8 @@ export class GalleryExample {
     const column6 = 4.5
     const column7 = 6
     const column8 = 7.5
+    const column9 = 9
+    const column10 = 10.5
 
 
     const nodes: Tile[] = [
@@ -153,7 +155,7 @@ export class GalleryExample {
         x: column1, y: row1,
         assetimage: 'documentation', route: 'documentation',
         connectors: [
-          { id: "c1documentation", anchor: 'right', material: { color: 'white' }, },
+          { id: "c1documentation", anchor: 'right',  },
         ],
       },
       {
@@ -162,9 +164,9 @@ export class GalleryExample {
         x: column3, y: row1,
         label: { text: "Basic" },
         connectors: [
-          { id: "c1basic", anchor: 'left', material: { color: 'white' }, },
-          { id: "c2basic", anchor: 'right', material: { color: 'white' }, },
-          { id: "c3basic", anchor: 'bottom', material: { color: 'white' }, },
+          { id: "c1basic", anchor: 'left' },
+          { id: "c2basic", anchor: 'right' },
+          { id: "c3basic", anchor: 'bottom' },
         ],
       },
       {
@@ -173,8 +175,8 @@ export class GalleryExample {
         assetimage: 'geometry', route: 'geometry',
         label: { text: "Custom Geometry" },
         connectors: [
-          { id: "c1custom", anchor: 'top', material: { color: 'white' }, },
-          { id: "c2custom", anchor: 'bottom', material: { color: 'white' }, }
+          { id: "c1custom", anchor: 'top' },
+          { id: "c2custom", anchor: 'bottom' }
         ],
       },
       {
@@ -183,8 +185,8 @@ export class GalleryExample {
         x: column2, y: row2,
         assetimage: 'builder', route: 'builder',
         connectors: [
-          { id: "c1builder", anchor: 'top', material: { color: 'white' }, },
-          { id: "c2builder", anchor: 'bottom', material: { color: 'white' }, }
+          { id: "c1builder", anchor: 'top' },
+          { id: "c2builder", anchor: 'bottom' }
         ],
       },
       {
@@ -193,7 +195,7 @@ export class GalleryExample {
         label: { text: "Loader from JSON" },
         assetimage: 'loader', route: 'loader',
         connectors: [
-          { id: "c1loader", anchor: 'top', material: { color: 'white' }, },
+          { id: "c1loader", anchor: 'top' },
         ],
       },
       {
@@ -202,7 +204,7 @@ export class GalleryExample {
         x: column1, y: row3,
         assetimage: 'languages', route: 'languages',
         connectors: [
-          { id: "c1languages", anchor: 'top', material: { color: 'white' }, },
+          { id: "c1languages", anchor: 'top' },
         ],
       },
       {
@@ -211,7 +213,7 @@ export class GalleryExample {
         x: column2, y: row3,
         assetimage: 'civilization', route: 'civilization',
         connectors: [
-          { id: "c1civilization", anchor: 'top', material: { color: 'white' }, },
+          { id: "c1civilization", anchor: 'top' },
         ],
       },
       {
@@ -220,7 +222,7 @@ export class GalleryExample {
         x: column4, y: row3,
         assetimage: 'mermaid', route: 'mermaid',
         connectors: [
-          { id: "c1mermaid", anchor: 'top', material: { color: 'white' }, },
+          { id: "c1mermaid", anchor: 'top' },
         ],
       },
       {
@@ -229,8 +231,9 @@ export class GalleryExample {
         x: column7, y: row1,
         assetimage: 'visuals', route: 'visuals',
         connectors: [
-          { id: "c1visuals", anchor: 'left', material: { color: 'white' }, },
-          { id: "c2visuals", anchor: 'bottom', material: { color: 'white' }, },
+          { id: "c1visuals", anchor: 'left' },
+          { id: "c2visuals", anchor: 'bottom' },
+          { id: "c3visuals", anchor: 'right' },
         ],
       },
       {
@@ -239,7 +242,7 @@ export class GalleryExample {
         x: column6, y: row2,
         assetimage: 'popout', route: 'popout',
         connectors: [
-          { id: "c1popout", anchor: 'top', material: { color: 'white' }, },
+          { id: "c1popout", anchor: 'top' },
         ],
       },
       {
@@ -248,8 +251,8 @@ export class GalleryExample {
         x: column7, y: row2,
         assetimage: 'frames', route: 'frames',
         connectors: [
-          { id: "c1frames", anchor: 'top', material: { color: 'white' }, },
-          { id: "c2frames", anchor: 'bottom', material: { color: 'white' }, },
+          { id: "c1frames", anchor: 'top' },
+          { id: "c2frames", anchor: 'bottom' },
         ],
       },
       {
@@ -258,7 +261,7 @@ export class GalleryExample {
         x: column3, y: row2,
         assetimage: 'edgestyles', route: 'edgestyles',
         connectors: [
-          { id: "c1edgestyles", anchor: 'top', material: { color: 'white' }, },
+          { id: "c1edgestyles", anchor: 'top' },
         ],
       },
       {
@@ -267,8 +270,8 @@ export class GalleryExample {
         x: column8, y: row2,
         assetimage: 'podium', route: 'podium',
         connectors: [
-          { id: "c1podium", anchor: 'top', material: { color: 'white' }, },
-          { id: "c2podium", anchor: 'bottom', material: { color: 'white' }, },
+          { id: "c1podium", anchor: 'top' },
+          { id: "c2podium", anchor: 'bottom' },
         ],
       },
       {
@@ -277,7 +280,7 @@ export class GalleryExample {
         x: column6, y: row3,
         assetimage: 'banner', route: 'banner',
         connectors: [
-          { id: "c1banner", anchor: 'top', material: { color: 'white' }, },
+          { id: "c1banner", anchor: 'top' },
         ],
       },
       {
@@ -286,7 +289,7 @@ export class GalleryExample {
         x: column7, y: row3,
         assetimage: 'livedata', route: 'livedata',
         connectors: [
-          { id: "c1livedata", anchor: 'top', material: { color: 'white' }, },
+          { id: "c1livedata", anchor: 'top' },
         ],
       },
       {
@@ -295,7 +298,7 @@ export class GalleryExample {
         x: column5, y: row2,
         assetimage: 'kpi', route: 'kpi',
         connectors: [
-          { id: "c1kpi", anchor: 'top', material: { color: 'white' }, },
+          { id: "c1kpi", anchor: 'top' },
         ],
       },
       {
@@ -304,8 +307,8 @@ export class GalleryExample {
         x: column3a, y: row2,
         assetimage: 'mindmap', route: 'mindmap',
         connectors: [
-          { id: "c1mindmap", anchor: 'top', material: { color: 'white' }, },
-          { id: "c2mindmap", anchor: 'bottom', material: { color: 'white' }, },
+          { id: "c1mindmap", anchor: 'top' },
+          { id: "c2mindmap", anchor: 'bottom' },
         ],
       },
       {
@@ -314,7 +317,17 @@ export class GalleryExample {
         x: column3a, y: row3,
         assetimage: 'hyperflow', route: 'hyperflow',
         connectors: [
-          { id: "c1hyperflow", anchor: 'top', material: { color: 'white' }, },
+          { id: "c1hyperflow", anchor: 'top' },
+        ],
+      },
+      {
+        id: 'designer',
+        label: { text: "Basic Designer" },
+        x: column9, y: row1,
+        assetimage: 'designer', route: 'designer',
+        connectors: [
+          { id: "c1designer", anchor: 'left' },
+          { id: "c2designer", anchor: 'bottom' },
         ],
       },
     ];
@@ -422,6 +435,12 @@ export class GalleryExample {
         to: "hyperflow",
         fromconnector: "c2mindmap",
         toconnector: "c1hyperflow"
+      },
+      {
+        from: "visuals",
+        to: "designer",
+        fromconnector: "c3visuals",
+        toconnector: "c1designer"
       },
     ];
 

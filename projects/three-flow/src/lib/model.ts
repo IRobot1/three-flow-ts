@@ -96,6 +96,9 @@ export interface FlowNodeParameters {
   height?: number
   minheight?: number
   maxheight?: number
+  depth?: number
+  mindepth?: number
+  maxdepth?: number
   lockaspectratio?: boolean
   material?: MeshBasicMaterialParameters
   label?: FlowLabelParameters
@@ -146,6 +149,7 @@ export const FlowEventType = {
   NODE_SELECTED: 'node_selected',
   NODE_PROPERTIES: 'node_properties',
   EDGE_ADDED: 'edge_added',
+  EDGE_DELETE: 'edge_delete',
   EDGE_REMOVED: 'edge_removed',
   //EDGE_SELECTED: 'edge_selected',
   CONNECTOR_ADDED: 'connector_added',
@@ -155,6 +159,7 @@ export const FlowEventType = {
   ACTIVE_CHANGED: 'active_changed',
   WIDTH_CHANGED: 'width_changed',
   HEIGHT_CHANGED: 'height_changed',
+  DEPTH_CHANGED: 'depth_changed',
   SCALE_CHANGED: 'scale_changed',
   DRAGGABLE_CHANGED: 'draggable_changed',
   SCALABLE_CHANGED: 'scalable_changed',
