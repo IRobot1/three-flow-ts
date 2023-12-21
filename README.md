@@ -10,6 +10,11 @@ This library is still under active development.  Updates and improvements may ha
 
 [Live Demo](https://threeflow.z9.web.core.windows.net/)
 
+## Inspiration
+[Inspiration for Working Examples](https://github.com/IRobot1/three-flow-ts/wiki/Working-Inspiration)
+
+[Future Inspiration Imagery](https://github.com/IRobot1/three-flow-ts/wiki/Inspiration-Imagery)
+
 ## Documentation
 
 [Overview](https://github.com/IRobot1/three-flow-ts/wiki/Overview) - understand the big picture
