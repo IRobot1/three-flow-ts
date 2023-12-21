@@ -1,0 +1,63 @@
+{
+  "nodes": [
+    {
+      "id": "n5",
+      "data": {
+        "assettype": "cube",
+        "radius": 0.02,
+        "hidden": false
+      },
+      "position": {
+        "x": 0.38,
+        "y": 0.78
+      },
+      "size": 0.4
+    },
+    {
+      "id": "n6",
+      "data": {
+        "assettype": "cube",
+        "radius": 0.02,
+        "hidden": false
+      },
+      "position": {
+        "x": 0.88,
+        "y": -0.35
+      },
+      "size": 0.4
+    },
+    {
+      "id": "n7",
+      "data": {
+        "assettype": "cylinder",
+        "radius": 0.2,
+        "hidden": false
+      },
+      "position": {
+        "x": 1.69,
+        "y": 0.51
+      },
+      "size": 0.4
+    }
+  ],
+  "edges": [
+    {
+      "from": "n5",
+      "to": "n6",
+      "fromconnector": "n5-bottom",
+      "toconnector": "n6-left"
+    },
+    {
+      "from": "n7",
+      "to": "n5",
+      "fromconnector": "n7-left",
+      "toconnector": "n5-right"
+    },
+    {
+      "from": "n6",
+      "to": "n7",
+      "fromconnector": "n6-right",
+      "toconnector": "n7-bottom"
+    }
+  ]
+}

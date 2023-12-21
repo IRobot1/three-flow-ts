@@ -1,12 +1,14 @@
-import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, ExtrudeGeometry, ExtrudeGeometryOptions, Intersection, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, RingGeometry, Scene, Shape, ShapeGeometry, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, ExtrudeGeometry, ExtrudeGeometryOptions, FileLoader, Intersection, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, RingGeometry, Scene, Shape, ShapeGeometry, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry";
+import GUI from "three/examples/jsm/libs/lil-gui.module.min";
+
+import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 import { FlowProperties } from "./flow-properties";
-import GUI from "three/examples/jsm/libs/lil-gui.module.min";
+import { Exporter } from "./export";
 
 export class DesignerExample {
 
@@ -44,11 +46,10 @@ export class DesignerExample {
 
     //scene.add(new AxesHelper(3))
 
-    const flow = new DesignerFlowDiagram({ linestyle: 'step', lineoffset:0.1 })
+    const flow = new DesignerFlowDiagram({ linestyle: 'step', lineoffset: 0.1 })
     scene.add(flow);
 
     const interaction = new FlowInteraction(flow, app, app.camera)
-    const connectors = new DesignerConnectors(flow)
 
     const tablematerial = flow.getMaterial('geometry', 'table', <MeshStandardMaterialParameters>{ color: '#F0CB2A' })
     const tablegeometry = new PlaneGeometry(10, 8)
@@ -59,22 +60,22 @@ export class DesignerExample {
 
     const radius = 0.2
 
-    const cylinderparams: ShapeParameters = {
+    const cylinderparams: DesignerNodeParameters = {
       x: 1, width: radius * 2, height: radius * 2, depth: 0.1,
       data: { assettype: 'cylinder', radius, hidden: false },
     }
 
-    const cubeparams: ShapeParameters = {
+    const cubeparams: DesignerNodeParameters = {
       x: -1, width: radius * 2, height: radius * 2, depth: 0.1,
       data: { assettype: 'cube', radius: 0.02, hidden: false },
     }
 
-    const assetparams: ShapeParameters = {
+    const assetparams: DesignerNodeParameters = {
       label: { text: 'Assets', material: { color: 'black' }, padding: 0 },
       data: { assettype: 'asset', radius: 0, hidden: false },
     }
     const assets = flow.addNode(assetparams) as AssetNode
-    assets.addAssets([cylinderparams, cubeparams], connectors)
+    assets.addAssets([cylinderparams, cubeparams])
 
     this.dispose = () => {
       interaction.dispose()
@@ -85,15 +86,17 @@ export class DesignerExample {
 
 type ShapeType = 'asset' | 'cylinder' | 'cube'
 
-interface ShapeParameters extends FlowNodeParameters {
-  data: {
-    assettype: ShapeType
-    radius: number
-    hidden: boolean
-  }
+interface ShapeParameters {
+  assettype: ShapeType
+  radius: number
+  hidden: boolean
 }
+interface DesignerNodeParameters extends FlowNodeParameters {
+  data: ShapeParameters
+}
+
 class ShapeNode extends FlowNode {
-  constructor(diagram: FlowDiagram, parameters: ShapeParameters) {
+  constructor(diagram: FlowDiagram, parameters: DesignerNodeParameters) {
     parameters.resizable = parameters.scalable = false
     parameters.material = { color: '#DECAAF' }
     super(diagram, parameters);
@@ -169,14 +172,14 @@ class ShapeNode extends FlowNode {
   }
 
 
-  private createCube(parameters: ShapeParameters): BufferGeometry {
+  private createCube(parameters: DesignerNodeParameters): BufferGeometry {
     const geometry = new RoundedBoxGeometry(this.width - 0.04, this.height - 0.04, this.depth, 8, parameters.data.radius)
     geometry.translate(0, 0, this.depth / 2)
     return geometry
   }
 
   // try using Lathe to eliminate artifact
-  private createCylinder(parameters: ShapeParameters): BufferGeometry {
+  private createCylinder(parameters: DesignerNodeParameters): BufferGeometry {
     const circleShape = new Shape();
     const radius = parameters.data.radius - 0.04
     circleShape.absellipse(0, 0, radius, radius, 0, Math.PI * 2);
@@ -196,7 +199,7 @@ class ShapeNode extends FlowNode {
   }
 
   // this shape is invisible, but needed for dragging
-  override createGeometry(parameters: ShapeParameters): BufferGeometry {
+  override createGeometry(parameters: DesignerNodeParameters): BufferGeometry {
     if (parameters.data.assettype == 'cylinder')
       return new CircleGeometry(parameters.data.radius)
     return super.createGeometry(parameters)
@@ -213,10 +216,11 @@ class AssetNode extends FlowNode {
     parameters.resizable = parameters.scalable = false
 
     super(diagram, parameters);
-
   }
 
-  addAssets(assetparameters: ShapeParameters[], connectors: DesignerConnectors) {
+  addAssets(assetparameters: DesignerNodeParameters[]) {
+    const diagram = this.diagram as DesignerFlowDiagram
+
     const nodes: Array<FlowNode> = []
     const padding = 0.2
     let position = 0
@@ -227,7 +231,7 @@ class AssetNode extends FlowNode {
       const node = this.diagram.addNode(parameters)
       this.add(node)
 
-      const nodeconnectors = connectors.addConnectors(node, [
+      const nodeconnectors = diagram.connectors.addConnectors(node, [
         {
           id: '', anchor: 'center', radius: node.width / 2,
           selectable: true, draggable: true, hidden: true, createOnDrop: false
@@ -254,37 +258,14 @@ class AssetNode extends FlowNode {
         parameters.y = start.y
         parameters.connectors = undefined
         parameters.selectable = parameters.draggable = true
-        const newnode = diagram.addNode(parameters)
-
-        // get the connectors for the new node
-        const newconnectors = nodeconnectors.flowconnectors.hasNode(newnode.name)!
-        const hidden = false
-        const connectors: Array<FlowConnectorParameters> = [
-          { id: `${newnode.name}-left`, anchor: 'left', radius: 0.05, hidden, selectable: true, draggable: true },
-          { id: `${newnode.name}-top`, anchor: 'top', radius: 0.05, hidden, selectable: true, draggable: true },
-          { id: `${newnode.name}-right`, anchor: 'right', radius: 0.05, hidden, selectable: true, draggable: true },
-          { id: `${newnode.name}-bottom`, anchor: 'bottom', radius: 0.05, hidden, selectable: true, draggable: true },
-        ]
-        connectors.forEach(parameters => {
-          newconnectors.addConnector(parameters)
-        })
-
-        // listen for request to show node properties
-        newnode.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
-          const gui = e.gui as GUI
-          gui.title(`${newnode.name} Properties`)
-
-        })
-
-        return newnode
+        return diagram.loadShape(parameters)
       }
-
     })
   }
 }
 
 class AssetConnector extends ConnectorMesh {
-  constructor(diagram: FlowDiagram, connectors: NodeConnectors, parameters: FlowConnectorParameters) {
+  constructor(diagram: DesignerFlowDiagram, connectors: NodeConnectors, parameters: FlowConnectorParameters) {
     super(connectors, parameters)
 
     // listen for request to show connector properties
@@ -294,19 +275,9 @@ class AssetConnector extends ConnectorMesh {
 
     })
 
-    let control = false
-    diagram.addEventListener<any>(FlowEventType.KEY_DOWN, (e: any) => {
-      const keyboard = e.keyboard as KeyboardEvent
-      control = keyboard.ctrlKey
-    })
-
-    diagram.addEventListener<any>(FlowEventType.KEY_UP, (e: any) => {
-      const keyboard = e.keyboard as KeyboardEvent
-      control = keyboard.ctrlKey
-    })
 
     this.addEventListener(InteractiveEventType.CLICK, (e: any) => {
-      if (control) {
+      if (diagram.ctrlKey) {
         this.dispatchEvent<any>({ type: FlowEventType.EDGE_DELETE })
       }
     })
@@ -336,19 +307,43 @@ class AssetConnector extends ConnectorMesh {
 
 
 class DesignerConnectors extends FlowConnectors {
-  constructor(diagram: FlowDiagram) {
+  constructor(diagram: DesignerFlowDiagram) {
     super(diagram)
   }
 
   override createConnector(connectors: NodeConnectors, parameters: FlowConnectorParameters): ConnectorMesh {
-    return new AssetConnector(this.diagram, connectors, parameters)
+    return new AssetConnector(this.diagram as DesignerFlowDiagram, connectors, parameters)
   }
 
 }
+
+
+interface DesignerNodeStorage {
+  data: ShapeParameters
+  id: string
+  position: { x: number, y: number }
+  size: number
+}
+
+interface DesignerEdgeStorage {
+  from: string, fromconnector: string,
+  to: string, toconnector: string
+}
+
+interface DesignerStorage {
+  nodes: DesignerNodeStorage[],
+  edges: DesignerEdgeStorage[]
+}
+
+
 class DesignerFlowDiagram extends FlowDiagram {
+  ctrlKey = false
+  connectors: DesignerConnectors
+
   constructor(options?: FlowDiagramOptions) {
     super(options)
 
+    this.connectors = new DesignerConnectors(this)
     const properties = new FlowProperties(this)
 
     this.dispose = () => {
@@ -358,13 +353,13 @@ class DesignerFlowDiagram extends FlowDiagram {
 
     this.addEventListener(FlowEventType.KEY_DOWN, (e: any) => {
       const keyboard = e.keyboard as KeyboardEvent
-      if (!properties.selectedConnector) return
-      const connector = properties.selectedConnector
-      const node = connector.connectors.node
+      this.ctrlKey = keyboard.ctrlKey
+
+      if (!properties.selectedNode) return
+      const node = properties.selectedNode as FlowNode
 
       switch (keyboard.code) {
         case 'Delete':
-          console.warn('dlete')
           // only handle most simple case
           if (this.allNodes.length > 1) {
             this.removeNode(node)
@@ -372,8 +367,127 @@ class DesignerFlowDiagram extends FlowDiagram {
           break;
       }
     })
+    this.addEventListener<any>(FlowEventType.KEY_UP, (e: any) => {
+      const keyboard = e.keyboard as KeyboardEvent
+      this.ctrlKey = keyboard.ctrlKey
+    })
 
+    const gui = new GUI();
+    gui.domElement.style.position = 'fixed';
+    gui.domElement.style.top = '0';
+    gui.domElement.style.left = '15px';
+
+    const fileSaver = new Exporter()
+    const fileLoader = new FileLoader();
+
+    const params = {
+      clear: () => {
+        this.allNodes.forEach((node, index) => {
+          // dumb way to exclude asset nodes
+          if (index < 3) return // TODO: better solution than this
+
+          this.removeNode(node)
+        })
+      },
+      filename: 'flow-designer.json',
+      save: () => {
+        const storage = this.saveShape()
+        fileSaver.saveJSON(storage, params.filename)
+      },
+      load: () => {
+        fileLoader.load(`assets/flow-designer.json`, (data) => {
+          params.clear()
+
+          const storage = <DesignerStorage>JSON.parse(<string>data)
+
+          // optionally, iterate over nodes and edges to override parameters before loading
+
+          this.loadFrom(storage)
+        });
+
+      }
+    }
+    gui.add<any, any>(params, 'clear').name('Clear')
+    gui.add<any, any>(params, 'filename').name('File name')
+    gui.add<any, any>(params, 'save').name('Save')
+    gui.add<any, any>(params, 'load').name('Load')
   }
+
+  loadFrom(storage: DesignerStorage) {
+    storage.nodes.forEach(item => {
+      const parameters: DesignerNodeParameters = {
+        id: item.id,
+        x: item.position.x, y: item.position.y,
+        width: item.size, height: item.size, depth: 0.1,
+        data: item.data,
+      }
+      this.loadShape(parameters)
+    })
+
+    storage.edges.forEach(item => {
+      const parameters: FlowEdgeParameters = {
+        from: item.from, to: item.to,
+        fromconnector: item.fromconnector, toconnector: item.toconnector
+      }
+      this.addEdge(parameters)
+    })
+  }
+
+  saveShape(): DesignerStorage {
+    const storage: DesignerStorage = { nodes: [], edges: [] }
+    this.allNodes.forEach((node, index) => {
+      // dumb way to exclude asset nodes
+      if (index < 3) return // TODO: better solution than this
+
+      const parameters = node.parameters as DesignerNodeParameters
+
+      const nodeparams = <DesignerNodeStorage>{
+        id: parameters.id,
+        data: parameters.data,
+        position: { x: +node.position.x.toFixed(2), y: +node.position.y.toFixed(2) },
+        size: parameters.width
+      }
+      storage.nodes.push(nodeparams)
+    })
+
+    this.allEdges.forEach(edge => {
+      const parameters = edge.parameters
+      const edgeparams = <DesignerEdgeStorage>{
+        from: parameters.from, to: parameters.to,
+        fromconnector: parameters.fromconnector, toconnector: parameters.toconnector
+      }
+      storage.edges.push(edgeparams)
+    })
+    return storage
+  }
+
+  loadShape(parameters: FlowNodeParameters): FlowNode {
+    const newnode = this.addNode(parameters)
+
+    // get the connectors for the new node
+    const newconnectors = this.connectors.hasNode(newnode.name)!
+    const hidden = false
+    const connectors: Array<FlowConnectorParameters> = [
+      { id: `${newnode.name}-left`, anchor: 'left', radius: 0.05, hidden, selectable: true, draggable: true },
+      { id: `${newnode.name}-top`, anchor: 'top', radius: 0.05, hidden, selectable: true, draggable: true },
+      { id: `${newnode.name}-right`, anchor: 'right', radius: 0.05, hidden, selectable: true, draggable: true },
+      { id: `${newnode.name}-bottom`, anchor: 'bottom', radius: 0.05, hidden, selectable: true, draggable: true },
+    ]
+    connectors.forEach(parameters => {
+      newconnectors.addConnector(parameters)
+    })
+
+    // listen for request to show node properties
+    newnode.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
+      const gui = e.gui as GUI
+      gui.title(`${newnode.name} Properties`)
+
+    })
+
+    this.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, node: newnode })
+    return newnode
+  }
+
 
   override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
     return new MeshStandardMaterial(parameters);
@@ -383,7 +497,7 @@ class DesignerFlowDiagram extends FlowDiagram {
     return new TroikaFlowLabel(this, parameters)
   }
 
-  override createNode(parameters: ShapeParameters): FlowNode {
+  override createNode(parameters: DesignerNodeParameters): FlowNode {
     if (parameters.data.assettype == 'asset')
       return new AssetNode(this, parameters)
     return new ShapeNode(this, parameters)
