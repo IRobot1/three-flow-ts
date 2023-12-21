@@ -1,9 +1,10 @@
-import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, ExtrudeGeometry, ExtrudeGeometryOptions, FileLoader, Intersection, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, PropertyBinding, RingGeometry, Scene, Shape, ShapeGeometry, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, ExtrudeGeometry, ExtrudeGeometryOptions, FileLoader, Intersection, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, PropertyBinding, RingGeometry, Scene, Shape, ShapeGeometry, Vector2, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry";
+import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
-import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors } from "three-flow";
+import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "./troika-label";
@@ -46,7 +47,7 @@ export class DesignerExample {
 
     //scene.add(new AxesHelper(3))
 
-    const flow = new DesignerFlowDiagram({ linestyle: 'step', lineoffset: 0.1 })
+    const flow = new DesignerFlowDiagram({ linestyle: 'step', lineoffset: 0.1, gridsize: 0.1 })
     scene.add(flow);
 
     const interaction = new FlowInteraction(flow, app, app.camera)
@@ -61,12 +62,12 @@ export class DesignerExample {
     const width = 0.4
 
     const cylinderparams: DesignerNodeParameters = {
-      x: 1, width, height: width , depth: 0.1,
+      x: 1, width, height: width, depth: 0.1,
       data: { assettype: 'cylinder', hidden: false },
     }
 
     const cubeparams: DesignerNodeParameters = {
-      x: -1, width, height: width , depth: 0.1,
+      x: -1, width, height: width, depth: 0.1,
       data: { assettype: 'cube', hidden: false },
     }
 
@@ -130,7 +131,7 @@ class ShapeNode extends FlowNode {
       // add the border
       let geometry
       if (parameters.data.assettype == 'cylinder') {
-        geometry = new RingGeometry(this.width/2 - 0.005, this.width/2 + 0.005, 32)
+        geometry = new RingGeometry(this.width / 2 - 0.005, this.width / 2 + 0.005, 32)
       }
       else {
         geometry = this.addBorder()
@@ -196,7 +197,7 @@ class ShapeNode extends FlowNode {
   // try using Lathe to eliminate artifact
   private createCylinder(parameters: DesignerNodeParameters): BufferGeometry {
     const circleShape = new Shape();
-    const radius = this.width/2 - 0.04
+    const radius = this.width / 2 - 0.04
     circleShape.absellipse(0, 0, radius, radius, 0, Math.PI * 2);
 
 
@@ -216,7 +217,7 @@ class ShapeNode extends FlowNode {
   // this shape is invisible, but needed for dragging
   override createGeometry(parameters: DesignerNodeParameters): BufferGeometry {
     if (parameters.data.assettype == 'cylinder')
-      return new CircleGeometry(this.width/2)
+      return new CircleGeometry(this.width / 2)
     return super.createGeometry(parameters)
   }
 }
@@ -350,6 +351,23 @@ interface DesignerStorage {
   edges: DesignerEdgeStorage[]
 }
 
+export type StrokeLineJoin = 'arcs' | 'bevel' | 'miter' | 'miter-clip' | 'round'
+
+class DesignerEdge extends FlowEdge {
+  constructor(diagram: FlowDiagram, edge: FlowEdgeParameters) {
+    if (!edge.material) edge.material = {}
+    edge.material.color = 'black'
+    super(diagram, edge)
+  }
+
+  override createGeometry(curvepoints: Array<Vector3>, thickness: number): BufferGeometry | undefined {
+    const lineJoin: StrokeLineJoin = 'miter'
+    const style = SVGLoader.getStrokeStyle(thickness, 'black', lineJoin)
+    return SVGLoader.pointsToStroke(curvepoints.map(v => new Vector2(v.x, v.y)), style)
+  }
+}
+
+
 
 class DesignerFlowDiagram extends FlowDiagram {
   ctrlKey = false
@@ -423,13 +441,16 @@ class DesignerFlowDiagram extends FlowDiagram {
 
           this.loadFrom(storage)
         });
-
-      }
+      },
+      hideconnectors: true
     }
     gui.add<any, any>(params, 'clear').name('Clear')
     gui.add<any, any>(params, 'load').name('Load')
     gui.add<any, any>(params, 'filename').name('File name')
     gui.add<any, any>(params, 'save').name('Save')
+    gui.add<any, any>(params, 'hideconnectors').name('Hide Connectors').onChange(() => {
+      this.connectors.allConnectors.forEach(connector => connector.visible = !params.hideconnectors)
+    })
   }
 
   loadFrom(storage: DesignerStorage) {
@@ -458,13 +479,14 @@ class DesignerFlowDiagram extends FlowDiagram {
       // dumb way to exclude asset nodes
       if (index < 3) return // TODO: better solution than this
 
-      const parameters = node.parameters as DesignerNodeParameters
+      const shape = node as ShapeNode
+      const parameters = shape.parameters as DesignerNodeParameters
 
       const nodeparams = <DesignerNodeStorage>{
-        id: parameters.id,
-        data: parameters.data,
+        id: node.name,
+        data: { assettype: parameters.data.assettype, hidden: shape.hideshape },
         position: { x: +node.position.x.toFixed(2), y: +node.position.y.toFixed(2) },
-        size: parameters.width
+        size: node.width
       }
       storage.nodes.push(nodeparams)
     })
@@ -482,11 +504,11 @@ class DesignerFlowDiagram extends FlowDiagram {
 
   loadShape(parameters: FlowNodeParameters): FlowNode {
     const newnode = this.addNode(parameters) as ShapeNode
-    newnode.minwidth = newnode.minheight = 0.3
+    newnode.minwidth = newnode.minheight = 0.2
 
     // get the connectors for the new node
     const newconnectors = this.connectors.hasNode(newnode.name)!
-    const hidden = false
+    const hidden = true
     const connectors: Array<FlowConnectorParameters> = [
       { id: `${newnode.name}-left`, anchor: 'left', radius: 0.05, hidden, selectable: true, draggable: true },
       { id: `${newnode.name}-top`, anchor: 'top', radius: 0.05, hidden, selectable: true, draggable: true },
@@ -523,6 +545,10 @@ class DesignerFlowDiagram extends FlowDiagram {
     if (parameters.data.assettype == 'asset')
       return new AssetNode(this, parameters)
     return new ShapeNode(this, parameters)
+  }
+
+  override createEdge(parameters: FlowEdgeParameters): FlowEdge {
+    return new DesignerEdge(this, parameters)
   }
 
 }

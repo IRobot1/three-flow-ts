@@ -36,6 +36,18 @@ export class FlowConnectors {
     return this.connectorsMap.get(id)
   }
 
+  get allNodeConnnectors(): Array<NodeConnectors> {
+    return Array.from(this.connectorsMap.values())
+  }
+
+  get allConnectors(): Array<ConnectorMesh> {
+    const connectors: Array<ConnectorMesh> = []
+    this.allNodeConnnectors.forEach(node => {
+      connectors.push(...node.getConnectors())
+    })
+    return connectors
+  }
+
   addConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>): NodeConnectors {
     let nodeconnectors = this.connectorsMap.get(node.name)
     if (nodeconnectors) {

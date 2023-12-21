@@ -1,15 +1,26 @@
 {
   "nodes": [
     {
-      "id": "n5",
+      "id": "n3",
       "data": {
         "assettype": "cube",
-        "radius": 0.02,
         "hidden": false
       },
       "position": {
-        "x": 0.38,
-        "y": 0.78
+        "x": -0.88,
+        "y": -0.15
+      },
+      "size": 0.2
+    },
+    {
+      "id": "n4",
+      "data": {
+        "assettype": "cylinder",
+        "hidden": false
+      },
+      "position": {
+        "x": -0.32,
+        "y": 0.62
       },
       "size": 0.4
     },
@@ -17,47 +28,465 @@
       "id": "n6",
       "data": {
         "assettype": "cube",
-        "radius": 0.02,
         "hidden": false
       },
       "position": {
-        "x": 0.88,
-        "y": -0.35
+        "x": 0.6,
+        "y": 1
       },
-      "size": 0.4
+      "size": 0.2
     },
     {
-      "id": "n7",
+      "id": "n8",
       "data": {
-        "assettype": "cylinder",
-        "radius": 0.2,
+        "assettype": "cube",
         "hidden": false
       },
       "position": {
-        "x": 1.69,
-        "y": 0.51
+        "x": 1.2,
+        "y": 1
       },
-      "size": 0.4
+      "size": 0.3312
+    },
+    {
+      "id": "n12",
+      "data": {
+        "assettype": "cube",
+        "hidden": false
+      },
+      "position": {
+        "x": 0.4,
+        "y": -0.1
+      },
+      "size": 0.3216
+    },
+    {
+      "id": "n14",
+      "data": {
+        "assettype": "cube",
+        "hidden": false
+      },
+      "position": {
+        "x": 0.1,
+        "y": 0.3
+      },
+      "size": 0.2
+    },
+    {
+      "id": "n21",
+      "data": {
+        "assettype": "cube",
+        "hidden": true
+      },
+      "position": {
+        "x": 1.2,
+        "y": 0.4
+      },
+      "size": 0.2
+    },
+    {
+      "id": "n31",
+      "data": {
+        "assettype": "cube",
+        "hidden": true
+      },
+      "position": {
+        "x": -0.2,
+        "y": -0.4
+      },
+      "size": 0.2232
+    },
+    {
+      "id": "n35",
+      "data": {
+        "assettype": "cube",
+        "hidden": false
+      },
+      "position": {
+        "x": 0.1,
+        "y": -0.8
+      },
+      "size": 0.2328
+    },
+    {
+      "id": "n36",
+      "data": {
+        "assettype": "cube",
+        "hidden": false
+      },
+      "position": {
+        "x": -0.8,
+        "y": -1.1
+      },
+      "size": 0.312
+    },
+    {
+      "id": "n38",
+      "data": {
+        "assettype": "cylinder",
+        "hidden": false
+      },
+      "position": {
+        "x": 0.42,
+        "y": -0.62
+      },
+      "size": 0.3016
+    },
+    {
+      "id": "n39",
+      "data": {
+        "assettype": "cube",
+        "hidden": false
+      },
+      "position": {
+        "x": 0.97,
+        "y": -1.07
+      },
+      "size": 0.3312
+    },
+    {
+      "id": "n41",
+      "data": {
+        "assettype": "cylinder",
+        "hidden": true
+      },
+      "position": {
+        "x": 1,
+        "y": -0.5
+      },
+      "size": 0.292
+    },
+    {
+      "id": "n43",
+      "data": {
+        "assettype": "cube",
+        "hidden": false
+      },
+      "position": {
+        "x": 2.4,
+        "y": 0.6
+      },
+      "size": 0.3216
+    },
+    {
+      "id": "n44",
+      "data": {
+        "assettype": "cylinder",
+        "hidden": true
+      },
+      "position": {
+        "x": 2.1,
+        "y": 1
+      },
+      "size": 0.272
+    },
+    {
+      "id": "n45",
+      "data": {
+        "assettype": "cylinder",
+        "hidden": false
+      },
+      "position": {
+        "x": 1.6,
+        "y": 0.4
+      },
+      "size": 0.2624
+    },
+    {
+      "id": "n48",
+      "data": {
+        "assettype": "cylinder",
+        "hidden": false
+      },
+      "position": {
+        "x": 1.9,
+        "y": -0.06
+      },
+      "size": 0.292
+    },
+    {
+      "id": "n50",
+      "data": {
+        "assettype": "cylinder",
+        "hidden": false
+      },
+      "position": {
+        "x": 3.01,
+        "y": 0.18
+      },
+      "size": 0.3216
+    },
+    {
+      "id": "n52",
+      "data": {
+        "assettype": "cylinder",
+        "hidden": false
+      },
+      "position": {
+        "x": 3.1,
+        "y": -0.5
+      },
+      "size": 0.2624
+    },
+    {
+      "id": "n55",
+      "data": {
+        "assettype": "cube",
+        "hidden": false
+      },
+      "position": {
+        "x": 1.6,
+        "y": -1.39
+      },
+      "size": 0.2
+    },
+    {
+      "id": "n57",
+      "data": {
+        "assettype": "cube",
+        "hidden": true
+      },
+      "position": {
+        "x": 1.5,
+        "y": -0.8
+      },
+      "size": 0.2
+    },
+    {
+      "id": "n59",
+      "data": {
+        "assettype": "cylinder",
+        "hidden": false
+      },
+      "position": {
+        "x": 2.04,
+        "y": -1.16
+      },
+      "size": 0.3016
+    },
+    {
+      "id": "n60",
+      "data": {
+        "assettype": "cube",
+        "hidden": false
+      },
+      "position": {
+        "x": 2.6,
+        "y": -1.4
+      },
+      "size": 0.2136
+    },
+    {
+      "id": "n62",
+      "data": {
+        "assettype": "cylinder",
+        "hidden": false
+      },
+      "position": {
+        "x": 3.1,
+        "y": -1
+      },
+      "size": 0.3608
+    },
+    {
+      "id": "n64",
+      "data": {
+        "assettype": "cube",
+        "hidden": true
+      },
+      "position": {
+        "x": 2.44,
+        "y": -0.64
+      },
+      "size": 0.2328
+    },
+    {
+      "id": "n66",
+      "data": {
+        "assettype": "cube",
+        "hidden": true
+      },
+      "position": {
+        "x": 3.5,
+        "y": -0.2
+      },
+      "size": 0.2624
     }
   ],
   "edges": [
     {
-      "from": "n5",
-      "to": "n6",
-      "fromconnector": "n5-bottom",
-      "toconnector": "n6-left"
+      "from": "n12",
+      "to": "n14",
+      "fromconnector": "n12-left",
+      "toconnector": "n14-bottom"
     },
     {
-      "from": "n7",
-      "to": "n5",
-      "fromconnector": "n7-left",
-      "toconnector": "n5-right"
+      "from": "n4",
+      "to": "n3",
+      "fromconnector": "n4-bottom",
+      "toconnector": "n3-right"
     },
     {
       "from": "n6",
-      "to": "n7",
+      "to": "n4",
+      "fromconnector": "n6-left",
+      "toconnector": "n4-right"
+    },
+    {
+      "from": "n6",
+      "to": "n8",
       "fromconnector": "n6-right",
-      "toconnector": "n7-bottom"
+      "toconnector": "n8-left"
+    },
+    {
+      "from": "n8",
+      "to": "n10",
+      "fromconnector": "n8-bottom",
+      "toconnector": "n10-top"
+    },
+    {
+      "from": "n10",
+      "to": "n12",
+      "fromconnector": "n10-left",
+      "toconnector": "n12-top"
+    },
+    {
+      "from": "n14",
+      "to": "n4",
+      "fromconnector": "n14-top",
+      "toconnector": "n4-right"
+    },
+    {
+      "from": "n8",
+      "to": "n10",
+      "fromconnector": "n8-bottom",
+      "toconnector": "n10-top"
+    },
+    {
+      "from": "n10",
+      "to": "n8",
+      "fromconnector": "n10-top",
+      "toconnector": "n8-bottom"
+    },
+    {
+      "from": "n10",
+      "to": "n8",
+      "fromconnector": "n10-top",
+      "toconnector": "n8-bottom"
+    },
+    {
+      "from": "n21",
+      "to": "n8",
+      "fromconnector": "n21-top",
+      "toconnector": "n8-bottom"
+    },
+    {
+      "from": "n21",
+      "to": "n8",
+      "fromconnector": "n21-top",
+      "toconnector": "n8-bottom"
+    },
+    {
+      "from": "n21",
+      "to": "n12",
+      "fromconnector": "n21-left",
+      "toconnector": "n12-top"
+    },
+    {
+      "from": "n12",
+      "to": "n31",
+      "fromconnector": "n12-left",
+      "toconnector": "n31-right"
+    },
+    {
+      "from": "n14",
+      "to": "n12",
+      "fromconnector": "n14-bottom",
+      "toconnector": "n12-left"
+    },
+    {
+      "from": "n35",
+      "to": "n36",
+      "fromconnector": "n35-left",
+      "toconnector": "n36-right"
+    },
+    {
+      "from": "n38",
+      "to": "n39",
+      "fromconnector": "n38-bottom",
+      "toconnector": "n39-left"
+    },
+    {
+      "from": "n12",
+      "to": "n41",
+      "fromconnector": "n12-right",
+      "toconnector": "n41-top"
+    },
+    {
+      "from": "n45",
+      "to": "n43",
+      "fromconnector": "n45-right",
+      "toconnector": "n43-left"
+    },
+    {
+      "from": "n44",
+      "to": "n43",
+      "fromconnector": "n44-bottom",
+      "toconnector": "n43-left"
+    },
+    {
+      "from": "n43",
+      "to": "n48",
+      "fromconnector": "n43-bottom",
+      "toconnector": "n48-right"
+    },
+    {
+      "from": "n43",
+      "to": "n50",
+      "fromconnector": "n43-right",
+      "toconnector": "n50-top"
+    },
+    {
+      "from": "n50",
+      "to": "n52",
+      "fromconnector": "n50-bottom",
+      "toconnector": "n52-top"
+    },
+    {
+      "from": "n39",
+      "to": "n55",
+      "fromconnector": "n39-right",
+      "toconnector": "n55-top"
+    },
+    {
+      "from": "n57",
+      "to": "n39",
+      "fromconnector": "n57-left",
+      "toconnector": "n39-right"
+    },
+    {
+      "from": "n59",
+      "to": "n60",
+      "fromconnector": "n59-right",
+      "toconnector": "n60-left"
+    },
+    {
+      "from": "n60",
+      "to": "n62",
+      "fromconnector": "n60-right",
+      "toconnector": "n62-bottom"
+    },
+    {
+      "from": "n64",
+      "to": "n62",
+      "fromconnector": "n64-bottom",
+      "toconnector": "n62-left"
+    },
+    {
+      "from": "n66",
+      "to": "n62",
+      "fromconnector": "n66-bottom",
+      "toconnector": "n62-right"
     }
   ]
 }
