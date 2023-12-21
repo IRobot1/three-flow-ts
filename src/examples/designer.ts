@@ -77,6 +77,13 @@ export class DesignerExample {
     }
     const assets = flow.addNode(assetparams) as AssetNode
     assets.addAssets([cylinderparams, cubeparams])
+    assets.position.set(-2, 0.5, 0)
+
+    const fileLoader = new FileLoader()
+    fileLoader.load(`assets/flow-designer.json`, (data) => {
+      const storage = <DesignerStorage>JSON.parse(<string>data)
+      flow.loadFrom(storage)
+    })
 
     this.dispose = () => {
       flow.dispose()
@@ -374,8 +381,10 @@ class DesignerFlowDiagram extends FlowDiagram {
   connectors: DesignerConnectors
   gui: GUI
   properties: FlowProperties
+  inputElement: HTMLInputElement
 
   override dispose() {
+    document.body.removeChild(this.inputElement)
     this.gui.destroy()
     this.properties.dispose()
     super.dispose()
@@ -414,6 +423,33 @@ class DesignerFlowDiagram extends FlowDiagram {
     gui.domElement.style.left = '15px';
     this.gui = gui
 
+    // Create the input element
+    var inputElement = document.createElement("input");
+    inputElement.type = "file";
+    inputElement.style.display = "none";
+    inputElement.accept = "application/json";
+    inputElement.multiple = false
+
+    // Add event listener for the 'change' event
+    inputElement.addEventListener("change", () => {
+      if (!inputElement.files || inputElement.files.length == 0 ) return
+      const file = inputElement.files[0]
+
+      const reader = new FileReader();
+      reader.readAsText(file);
+      reader.onloadend = () => {
+        params.clear()
+
+        const storage = <DesignerStorage>JSON.parse(<string>reader.result)
+        this.loadFrom(storage)
+      };
+
+    });
+    this.inputElement = inputElement
+
+    // Append the input element to the body or another DOM element
+    document.body.appendChild(inputElement);
+
     const fileSaver = new Exporter()
     const fileLoader = new FileLoader();
 
@@ -432,15 +468,7 @@ class DesignerFlowDiagram extends FlowDiagram {
         fileSaver.saveJSON(storage, params.filename)
       },
       load: () => {
-        fileLoader.load(`assets/flow-designer.json`, (data) => {
-          params.clear()
-
-          const storage = <DesignerStorage>JSON.parse(<string>data)
-
-          // optionally, iterate over nodes and edges to override parameters before loading
-
-          this.loadFrom(storage)
-        });
+        inputElement.click()
       },
       hideconnectors: true
     }
