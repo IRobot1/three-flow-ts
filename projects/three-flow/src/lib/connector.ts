@@ -7,7 +7,7 @@ import { FlowUtils } from "./utils"
 import { FlowRoute } from "./route"
 
 export class FlowConnectors {
-  private connectorsMap = new Map<string, NodeConnectors>()
+  private nodesMap = new Map<string, NodeConnectors>()
 
   constructor(public diagram: FlowDiagram) {
     diagram.addEventListener(FlowEventType.NODE_ADDED, (e: any) => {
@@ -20,7 +20,7 @@ export class FlowConnectors {
 
   private createConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>): NodeConnectors {
     const nodeconnectors = new NodeConnectors(this, node, connectors)
-    this.connectorsMap.set(node.name, nodeconnectors)
+    this.nodesMap.set(node.name, nodeconnectors)
 
     const getConnector = (id?: string): Object3D => {
       if (!id) return node
@@ -33,23 +33,23 @@ export class FlowConnectors {
   }
 
   hasNode(id: string): NodeConnectors | undefined {
-    return this.connectorsMap.get(id)
+    return this.nodesMap.get(id)
   }
 
   get allNodeConnnectors(): Array<NodeConnectors> {
-    return Array.from(this.connectorsMap.values())
+    return Array.from(this.nodesMap.values())
   }
 
   get allConnectors(): Array<ConnectorMesh> {
     const connectors: Array<ConnectorMesh> = []
     this.allNodeConnnectors.forEach(node => {
-      connectors.push(...node.getConnectors())
+      connectors.push(...node.connectors)
     })
     return connectors
   }
 
   addConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>): NodeConnectors {
-    let nodeconnectors = this.connectorsMap.get(node.name)
+    let nodeconnectors = this.nodesMap.get(node.name)
     if (nodeconnectors) {
       // add to existing
       connectors.forEach(connector => {
@@ -67,7 +67,7 @@ export class FlowConnectors {
   }
 
   removeConnectors(node: FlowNode, connectors: Array<FlowConnectorParameters>) {
-    let nodeconnectors = this.connectorsMap.get(node.name)
+    let nodeconnectors = this.nodesMap.get(node.name)
     if (nodeconnectors) {
       connectors.forEach(connector => {
         if (nodeconnectors) nodeconnectors.removeConnector(connector)
@@ -94,6 +94,8 @@ export class FlowConnectors {
 }
 
 export class NodeConnectors {
+  private connectorsMap = new Map<string, ConnectorMesh>()
+
   // options
   spacing = 0.1
   private total: any = { left: 0, right: 0, top: 0, bottom: 0, front: 0, back: 0, center: 0, count: 0 }
@@ -116,15 +118,7 @@ export class NodeConnectors {
   }
 
   hasConnector(id: string): ConnectorMesh | undefined {
-
-    for (const child of this.node.children) {
-      if (child.type == 'flowconnector') {
-        const connector = child as ConnectorMesh
-        if (connector.name == id) return connector
-      }
-    }
-
-    return undefined
+    return this.connectorsMap.get(id)
   }
 
   addConnector(parameters: FlowConnectorParameters): ConnectorMesh {
@@ -143,6 +137,8 @@ export class NodeConnectors {
     this.total[parameters.anchor]++;
     this.total.count++
 
+    this.connectorsMap.set(connector.name, connector)
+
     this.moveConnectors()
     if (connector.transform)
       FlowUtils.transformObject(connector.transform, connector)
@@ -158,15 +154,16 @@ export class NodeConnectors {
       this.total[connector.anchor]--;
       this.total.count--
 
+      this.connectorsMap.delete(connector.name)
+
       this.moveConnectors()
 
       this.node.diagram.dispatchEvent<any>({ type: FlowEventType.CONNECTOR_REMOVED, connector })
     }
   }
 
-  public getConnectors() {
-    return (this.node.children as Array<ConnectorMesh>)
-      .filter(item => item.type == 'flowconnector')
+  public get connectors() {
+    return Array.from(this.connectorsMap.values())
   }
 
   private calculateOffset(count: number, index: number, width: number): number {
@@ -223,7 +220,7 @@ export class NodeConnectors {
 
   private moveConnectors() {
 
-    this.getConnectors().sort((a, b) => a.index - b.index).forEach(connector => {
+    this.connectors.sort((a, b) => a.index - b.index).forEach(connector => {
       this.positionConnector(connector)
       connector.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
     })

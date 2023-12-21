@@ -259,7 +259,7 @@ class AssetNode extends FlowNode {
       node.position.y = -position
       position += padding
 
-      const mesh = nodeconnectors.getConnectors()[0]
+      const mesh = nodeconnectors.connectors[0]
 
       mesh.pointerEnter = (): string => { return 'cell' }
 

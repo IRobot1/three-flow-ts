@@ -222,7 +222,7 @@ class MindMapDiagram extends FlowDiagram {
             const parentconnectors = connectors.hasNode(parent.name)
             if (parentconnectors) {
               // get the first connector - mind map only has one
-              const first = parentconnectors.getConnectors()[0]
+              const first = parentconnectors.connectors[0]
               // get its interaction to create as child node
               const interact = interaction.getConnectorInteractive(first)
               if (interact) this.connectIdea(interact, position)
@@ -286,7 +286,7 @@ class MindMapDiagram extends FlowDiagram {
   private getConnectorInteractive(parent: FlowNode): ConnectorInteractive {
     const parentconnectors = this.connectors.hasNode(parent.name)
     // get the first connector - mind map only has one
-    const first = parentconnectors!.getConnectors()[0]
+    const first = parentconnectors!.connectors[0]
     // get its interaction to create as child node
     return this.interaction.getConnectorInteractive(first)!
   }
