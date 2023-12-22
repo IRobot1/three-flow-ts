@@ -47,7 +47,7 @@ export class FlowProperties {
         close: () => {
           gui.destroy()
           diagram.remove(htmlMesh)
-          interaction!.interactive.selectable.add(htmlMesh)
+          if (interaction) interaction.interactive.selectable.add(htmlMesh)
         }
       }
 
@@ -68,12 +68,13 @@ export class FlowProperties {
       const meshwidth = 1.2
       const updatePosition = () => {
         const box = htmlMesh.geometry.boundingBox
-        const size = box!.getSize(new Vector3())
+        if (!box) return
+        const size = box.getSize(new Vector3())
         htmlMesh.position.set(mesh.position.x + (size.x + meshwidth) / 2, mesh.position.y, mesh.position.z + 0.02)
       }
       updatePosition()
 
-      interaction!.interactive.selectable.add(htmlMesh)
+      if (interaction) interaction.interactive.selectable.add(htmlMesh)
 
       // if the node is removed, make sure GUI and HTML mesh is cleaned up
       mesh.addEventListener(FlowEventType.DISPOSE, () => { params.close() })
