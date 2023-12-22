@@ -17,7 +17,7 @@ import {
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "./troika-label";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
-import { FlowProperties } from "./flow-properties";
+import { FlowProperties } from "three-flow";
 
 interface BannerParameters extends FlowNodeParameters {
   titleborderheight?: number

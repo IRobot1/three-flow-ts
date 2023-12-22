@@ -19,7 +19,7 @@ import {
   ThreeInteractive,
 } from "three-flow";
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowProperties } from "./flow-properties";
+import { FlowProperties } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 import { Exporter } from "./export";
 

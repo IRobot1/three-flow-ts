@@ -8,7 +8,7 @@ import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, Fl
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "./troika-label";
-import { FlowProperties } from "./flow-properties";
+import { FlowProperties } from "three-flow";
 import { Exporter } from "./export";
 
 export class DesignerExample {

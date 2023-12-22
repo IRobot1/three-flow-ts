@@ -19,7 +19,7 @@ import { TroikaFlowLabel } from "../troika-label";
 import { DagreLayout } from "../dagre-layout";
 import { GraphLabel } from "@dagrejs/dagre";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
-import { FlowProperties } from "../flow-properties";
+import { FlowProperties } from "three-flow";
 
 
 export class ComputerNetworkExample {

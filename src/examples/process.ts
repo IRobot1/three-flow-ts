@@ -16,7 +16,7 @@ import {
   FlowEventType,
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
-import { FlowProperties } from "./flow-properties";
+import { FlowProperties } from "three-flow";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
 type ProcessShapeType = 'circle' | 'rhombus' | 'rect' | 'parallel'

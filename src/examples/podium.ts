@@ -17,7 +17,7 @@ import {
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
-import { FlowProperties } from "./flow-properties";
+import { FlowProperties } from "three-flow";
 
 interface PodiumParameters extends FlowNodeParameters {
   icon: string

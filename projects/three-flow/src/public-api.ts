@@ -18,3 +18,5 @@ export * from './lib/edge';
 export * from './lib/arrow';
 export * from './lib/label';
 export * from './lib/background';
+
+export * from './lib/properties'

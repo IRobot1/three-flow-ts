@@ -1,7 +1,11 @@
+import { Mesh, Vector3 } from 'three';
 import { HTMLMesh } from 'three/examples/jsm/interactive/HTMLMesh.js';
 import GUI from "three/examples/jsm/libs/lil-gui.module.min"
-import { ConnectorMesh, FlowDiagram, FlowEventType, FlowInteraction, FlowNode } from "three-flow"
-import { Mesh, Vector3 } from 'three';
+import { FlowNode } from './node';
+import { ConnectorMesh } from './connector';
+import { FlowDiagram } from './diagram';
+import { FlowInteraction } from './interactive';
+import { FlowEventType } from './model';
 
 export class FlowProperties {
   private gui?: GUI

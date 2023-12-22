@@ -18,7 +18,7 @@ import {
 import { TroikaFlowLabel } from "./troika-label";
 import { MathUtils } from "three/src/math/MathUtils";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
-import { FlowProperties } from "./flow-properties";
+import { FlowProperties } from "three-flow";
 
 type PopoutShapeType = 'circle' | 'stadium'
 interface PopoutShape extends FlowNodeParameters {
