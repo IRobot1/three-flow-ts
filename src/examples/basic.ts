@@ -208,7 +208,7 @@ export class BasicExample {
       }
 
       // make the flow interactive
-      interaction = new FlowInteraction(flow, app, app.camera)
+      interaction = new FlowInteraction(flow, app.interactive)
       const connectors = new FlowConnectors(flow)
 
       let triangle: BufferGeometry

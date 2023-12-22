@@ -1,13 +1,14 @@
-import { ACESFilmicToneMapping, BufferGeometry, Camera, Line, PCFSoftShadowMap, PerspectiveCamera, SRGBColorSpace, Scene, Vector3, WebGLRenderer, sRGBEncoding } from "three";
+import { ACESFilmicToneMapping, BufferGeometry, Camera, Line, PCFSoftShadowMap, PerspectiveCamera, SRGBColorSpace, Scene, Vector3, WebGLRenderer } from "three";
 import { UIRouter } from "./ui-routes";
 import { VRButton } from "three/examples/jsm/webxr/VRButton";
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
+import { ThreeInteractive } from "three-flow";
 
 export interface renderState { scene: Scene, camera: Camera, renderer: WebGLRenderer }
 
 export class ThreeJSApp extends WebGLRenderer {
   public camera!: Camera;
-
+  readonly interactive: ThreeInteractive
   public router = new UIRouter()
 
   private _scene: Scene | undefined
@@ -87,6 +88,8 @@ export class ThreeJSApp extends WebGLRenderer {
       }
     });
 
+    this.interactive = new ThreeInteractive(this, this.camera)
+
     const animate = () => {
       if (!this.scene) return
 
@@ -98,6 +101,8 @@ export class ThreeJSApp extends WebGLRenderer {
 
   // short-cut
   navigateto(route: string) {
+    this.interactive.selectable.clear()
+    this.interactive.draggable.clear()
     this.router.navigateto(route)
   }
 

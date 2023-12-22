@@ -145,7 +145,7 @@ export class MermaidExample {
       }
 
       // make the flow interactive
-      interaction = new FlowInteraction(flow, app, app.camera)
+      interaction = new FlowInteraction(flow, app.interactive)
 
       let parsedOutput: MermaidFlowchart
       // Parse the flowchart

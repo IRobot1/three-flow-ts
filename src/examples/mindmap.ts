@@ -1,4 +1,4 @@
-import { AmbientLight, BufferGeometry, Camera, Color, FileLoader, Object3D, PlaneGeometry, PointLight, Scene, Vector2, Vector3, WebGLRenderer } from "three";
+import { AmbientLight, BufferGeometry, Color, FileLoader, PlaneGeometry, PointLight, Scene, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 
@@ -9,7 +9,6 @@ import {
   FlowConnectors,
   FlowDiagram,
   FlowDiagramOptions,
-  FlowDiagramParameters,
   FlowEdgeParameters,
   FlowEventType,
   FlowInteraction,
@@ -17,12 +16,13 @@ import {
   FlowLabelParameters,
   FlowNode,
   NodeConnectors,
+  ThreeInteractive,
 } from "three-flow";
 import { ThreeJSApp } from "../app/threejs-app";
 import { FlowProperties } from "./flow-properties";
 import { TroikaFlowLabel } from "./troika-label";
 import { Exporter } from "./export";
-import { connect } from "rxjs";
+
 
 export class MindmapExample {
 
@@ -66,7 +66,7 @@ export class MindmapExample {
     }
 
     // read-only flow
-    const flow = new MindMapDiagram(app, app.camera, options)
+    const flow = new MindMapDiagram(app.interactive, options)
     scene.add(flow);
     //flow.position.y = 1
 
@@ -160,11 +160,11 @@ class MindMapDiagram extends FlowDiagram {
   private connectors: MindMapConnectors
   private interaction: FlowInteraction
 
-  constructor(renderer: WebGLRenderer, camera: Camera, options?: FlowDiagramOptions) {
+  constructor(interactive: ThreeInteractive, options?: FlowDiagramOptions) {
     super(options)
 
     // make the flow interactive
-    const interaction = this.interaction = new FlowInteraction(this, renderer, camera)
+    const interaction = this.interaction = new FlowInteraction(this, interactive)
     const connectors = this.connectors = new MindMapConnectors(this)
     const properties = new FlowProperties(this)
 

@@ -83,7 +83,7 @@ export class PopoutExample {
     background.add(flow);
     flow.position.z = 0.1
 
-    const interaction = new FlowInteraction(flow, app, app.camera)
+    const interaction = new FlowInteraction(flow, app.interactive)
     new FlowConnectors(flow)
     const properties = new FlowProperties(flow)
 

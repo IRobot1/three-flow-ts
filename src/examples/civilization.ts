@@ -68,7 +68,7 @@ export class CivilizationExample {
       flow.rotation.x = MathUtils.degToRad(-15) 
 
       // make the flow interactive
-      interaction = new FlowInteraction(flow, app, app.camera)
+      interaction = new FlowInteraction(flow, app.interactive)
 
       civilizationdata.forEach(tech => {
         const from = tech.tech_name;

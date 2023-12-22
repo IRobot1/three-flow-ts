@@ -1,4 +1,4 @@
-import { Camera, Material, MeshBasicMaterial, MeshBasicMaterialParameters, Vector3, WebGLRenderer } from "three";
+import { Material, MeshBasicMaterialParameters, Vector3 } from "three";
 import { DragNode } from "./drag-node";
 import { FlowDiagram } from "./diagram";
 import { InteractiveEventType, ThreeInteractive } from "./three-interactive";
@@ -13,8 +13,6 @@ import { FlowRoute } from "./route";
 export class FlowInteraction {
   private nodes: Array<NodeInteractive> = []
   private connectors: Array<ConnectorInteractive> = []
-
-  readonly interactive: ThreeInteractive
 
   private _draggable = true
   get draggable() { return this._draggable }
@@ -52,8 +50,7 @@ export class FlowInteraction {
     }
   }
 
-  constructor(public diagram: FlowDiagram, renderer: WebGLRenderer, camera: Camera) {
-    this.interactive = this.createThreeInteractive(renderer, camera)
+  constructor(public diagram: FlowDiagram, public readonly interactive: ThreeInteractive) {
 
     diagram.addEventListener(FlowEventType.NODE_REMOVED, (e: any) => {
       const node = e.node as FlowNode
@@ -149,15 +146,10 @@ export class FlowInteraction {
     return this.connectors.find(x => x.mesh == mesh)
   }
 
-  createThreeInteractive(renderer: WebGLRenderer, camera: Camera): ThreeInteractive {
-    return new ThreeInteractive(renderer, camera)
-  }
-
   private _dispose: () => void
 
   dispose() {
     this.nodes.forEach(node => node.dispose())
-    this.interactive.dispose()
     this._dispose()
   }
 }

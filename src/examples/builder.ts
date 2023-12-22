@@ -93,7 +93,7 @@ export class BuilderExample {
         return result;
       };
       // make the flow interactive
-      interaction = new FlowInteraction(flow, app, app.camera)
+      interaction = new FlowInteraction(flow, app.interactive)
 
 
       // build the diagram programmatically

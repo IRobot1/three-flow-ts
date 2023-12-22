@@ -197,7 +197,7 @@ export class CustomGeometryExample {
       scene.add(flow);
 
       // make the flow interactive
-      interaction = new FlowInteraction(flow, app, app.camera)
+      interaction = new FlowInteraction(flow, app.interactive)
 
       flow.load(diagram)
       console.log(flow)

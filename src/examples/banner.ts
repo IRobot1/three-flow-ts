@@ -71,7 +71,7 @@ export class BannerExample {
     scene.add(flow);
     flow.position.z = 0.3
 
-    const interaction = new FlowInteraction(flow, app, app.camera)
+    const interaction = new FlowInteraction(flow, app.interactive)
     const properties = new FlowProperties(flow)
     const connectors = new FlowConnectors(flow)
 

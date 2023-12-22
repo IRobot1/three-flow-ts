@@ -65,7 +65,7 @@ export class ComputerNetworkExample {
     scene.add(flow);
     flow.position.z = 0.15
 
-    const interaction = new FlowInteraction(flow, app, app.camera)
+    const interaction = new FlowInteraction(flow, app.interactive)
     interaction.resizable = interaction.scalable = false
 
     const properties = new FlowProperties(flow)

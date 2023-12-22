@@ -50,7 +50,7 @@ export class DesignerExample {
     const flow = new DesignerFlowDiagram({ linestyle: 'step', lineoffset: 0.1, gridsize: 0.1 })
     scene.add(flow);
 
-    const interaction = new FlowInteraction(flow, app, app.camera)
+    const interaction = new FlowInteraction(flow, app.interactive)
 
     const tablematerial = flow.getMaterial('geometry', 'table', <MeshStandardMaterialParameters>{ color: '#F0CB2A' })
     const tablegeometry = new PlaneGeometry(10, 8)

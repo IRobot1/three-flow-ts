@@ -62,7 +62,7 @@ export class ProcessExample {
     background.add(flow);
     flow.position.z = 0.3
 
-    const interaction = new FlowInteraction(flow, app, app.camera)
+    const interaction = new FlowInteraction(flow, app.interactive)
 
     new FlowConnectors(flow)
 

@@ -34,6 +34,8 @@ export class FlowObjects {
         this._list.splice(index, 1);
     });
   }
+
+  clear() { this._list.length = 0 }
 }
 
 

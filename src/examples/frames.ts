@@ -59,7 +59,7 @@ export class FramesExample {
     flow.rotation.x = MathUtils.degToRad(-5)
 
     // make the flow interactive
-    const interaction = new FlowInteraction(flow, app, app.camera)
+    const interaction = new FlowInteraction(flow, app.interactive)
 
     const connectors = new FlowConnectors(flow)
 

@@ -76,7 +76,7 @@ export class KPIExample {
     flow.createNode = (node: KPIParameters) => { return new KPINode(flow, node) }
 
     // make the flow interactive
-    //const interaction = new FlowInteraction(flow, app, app.camera)
+    //const interaction = new FlowInteraction(flow, app.interactive)
 
     let value = 15857
     let max = 30000

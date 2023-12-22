@@ -109,7 +109,7 @@ export class LoaderExample {
       scene.add(flow);
 
       // make the flow interactive
-      interaction = new FlowInteraction(flow, app, app.camera)
+      interaction = new FlowInteraction(flow, app.interactive)
 
       // Create a file loader to load the JSON file
       const fileLoader = new FileLoader();

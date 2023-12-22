@@ -129,8 +129,6 @@ export class GalleryExample {
     table.position.y = 0.93
     table.receiveShadow = table.castShadow = true
 
-    const interactive = new ThreeInteractive(app, app.camera)
-
     const row1 = 2.5
     const row2 = 1
     const row3 = -0.5
@@ -489,7 +487,7 @@ export class GalleryExample {
       const tile = node.parameters as Tile
       node.addEventListener(InteractiveEventType.CLICK, () => { app.navigateto(tile.route) })
 
-      interactive.selectable.add(node)
+      app.interactive.selectable.add(node)
     })
 
 
@@ -497,7 +495,6 @@ export class GalleryExample {
     this.dispose = () => {
       flow.dispose()
       orbit.dispose()
-      interactive.dispose()
     }
   }
 }

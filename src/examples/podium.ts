@@ -75,7 +75,7 @@ export class PodiumExample {
     background.add(flow);
     flow.position.z = 0.01
 
-    const interaction = new FlowInteraction(flow, app, app.camera)
+    const interaction = new FlowInteraction(flow, app.interactive)
     const properties = new FlowProperties(flow)
 
     const connectors = new FlowConnectors(flow)
