@@ -4,11 +4,10 @@ import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeom
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
-import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors, ThreeInteractive } from "three-flow";
+import { ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors, FlowDesignerOptions, FlowDiagram, FlowDiagramDesigner, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors, ThreeInteractive } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "./troika-label";
-import { FlowProperties } from "three-flow";
 import { Exporter } from "./export";
 
 export class DesignerExample {
@@ -46,11 +45,11 @@ export class DesignerExample {
     })
 
     //scene.add(new AxesHelper(3))
-
-    const flow = new DesignerFlowDiagram(app.interactive, { linestyle: 'step', lineoffset: 0.1, gridsize: 0.1 })
+    const flow = new DesignerFlowDiagram(app.interactive, { diagram: { linestyle: 'step', lineoffset: 0.1, gridsize: 0.1 } })
     scene.add(flow);
 
     const tablematerial = flow.getMaterial('geometry', 'table', <MeshStandardMaterialParameters>{ color: '#F0CB2A' })
+
     const tablegeometry = new PlaneGeometry(10, 8)
     const table = new Mesh(tablegeometry, tablematerial)
     scene.add(table)
@@ -79,8 +78,8 @@ export class DesignerExample {
 
     const fileLoader = new FileLoader()
     fileLoader.load(`assets/flow-designer.json`, (data) => {
-      const storage = <DesignerStorage>JSON.parse(<string>data)
-      flow.loadFrom(storage)
+      const storage = <ShapeStorage>JSON.parse(<string>data)
+      flow.loadDesign(storage)
     })
 
     this.dispose = () => {
@@ -297,7 +296,7 @@ class AssetConnector extends ConnectorMesh {
 
 
     this.addEventListener(InteractiveEventType.CLICK, (e: any) => {
-      if (diagram.ctrlKey) {
+      if (diagram.keyboard && diagram.keyboard.ctrlKey) {
         this.dispatchEvent<any>({ type: FlowEventType.EDGE_DELETE })
       }
     })
@@ -350,7 +349,7 @@ interface DesignerEdgeStorage {
   to: string, toconnector: string
 }
 
-interface DesignerStorage {
+interface ShapeStorage extends DesignerStorage {
   nodes: DesignerNodeStorage[],
   edges: DesignerEdgeStorage[]
 }
@@ -373,50 +372,32 @@ class DesignerEdge extends FlowEdge {
 
 
 
-class DesignerFlowDiagram extends FlowDiagram {
-  ctrlKey = false
-  connectors: DesignerConnectors
-  gui: GUI
-  properties: FlowProperties
-  inputElement: HTMLInputElement
-  interaction: FlowInteraction
+class DesignerFlowDiagram extends FlowDiagramDesigner {
+  gui!: GUI
+  inputElement!: HTMLInputElement
 
   override dispose() {
     document.body.removeChild(this.inputElement)
     this.gui.destroy()
-    this.properties.dispose()
-    this.interaction.dispose()
     super.dispose()
   }
 
-  constructor(interactive: ThreeInteractive, options?: FlowDiagramOptions) {
-    super(options)
+  constructor(interactive: ThreeInteractive, options: FlowDesignerOptions) {
+    super(interactive, options)
 
-    this.interaction = new FlowInteraction(this, interactive)
-    this.connectors = new DesignerConnectors(this)
-    const properties = this.properties = new FlowProperties(this)
-
-    this.addEventListener(FlowEventType.KEY_DOWN, (e: any) => {
-      const keyboard = e.keyboard as KeyboardEvent
-      this.ctrlKey = keyboard.ctrlKey
-
-      if (!properties.selectedNode) return
-      const node = properties.selectedNode as FlowNode
-
-      switch (keyboard.code) {
-        case 'Delete':
-          // only handle most simple case
-          if (this.allNodes.length > 1) {
-            this.removeNode(node)
-          }
-          break;
+    options.keyboard = {
+      'Delete': (keyboard: KeyboardEvent, node?: FlowNode) => {
+        if (!node) return
+        // only handle most simple case
+        if (this.allNodes.length > 1) {
+          this.removeNode(node)
+        }
       }
-    })
-    this.addEventListener<any>(FlowEventType.KEY_UP, (e: any) => {
-      const keyboard = e.keyboard as KeyboardEvent
-      this.ctrlKey = keyboard.ctrlKey
-    })
+    }
 
+  }
+
+  override init() {
     const gui = new GUI();
     gui.domElement.style.position = 'fixed';
     gui.domElement.style.top = '0';
@@ -440,8 +421,8 @@ class DesignerFlowDiagram extends FlowDiagram {
       reader.onloadend = () => {
         params.clear()
 
-        const storage = <DesignerStorage>JSON.parse(<string>reader.result)
-        this.loadFrom(storage)
+        const storage = <ShapeStorage>JSON.parse(<string>reader.result)
+        this.loadDesign(storage)
       };
 
     });
@@ -464,7 +445,7 @@ class DesignerFlowDiagram extends FlowDiagram {
       },
       filename: 'flow-designer.json',
       save: () => {
-        const storage = this.saveShape()
+        const storage = this.saveDesign()
         fileSaver.saveJSON(storage, params.filename)
       },
       load: () => {
@@ -481,7 +462,7 @@ class DesignerFlowDiagram extends FlowDiagram {
     })
   }
 
-  loadFrom(storage: DesignerStorage) {
+  override loadDesign(storage: ShapeStorage) {
     storage.nodes.forEach(item => {
       const parameters: DesignerNodeParameters = {
         id: item.id,
@@ -501,8 +482,8 @@ class DesignerFlowDiagram extends FlowDiagram {
     })
   }
 
-  saveShape(): DesignerStorage {
-    const storage: DesignerStorage = { nodes: [], edges: [] }
+  override saveDesign(): ShapeStorage {
+    const storage: ShapeStorage = { nodes: [], edges: [] }
     this.allNodes.forEach((node, index) => {
       // dumb way to exclude asset nodes
       if (index < 3) return // TODO: better solution than this

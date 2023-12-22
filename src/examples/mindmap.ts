@@ -7,11 +7,11 @@ import {
   ConnectorMesh,
   FlowConnectorParameters,
   FlowConnectors,
+  FlowDesignerOptions,
   FlowDiagram,
-  FlowDiagramOptions,
+  FlowDiagramDesigner,
   FlowEdgeParameters,
   FlowEventType,
-  FlowInteraction,
   FlowLabel,
   FlowLabelParameters,
   FlowNode,
@@ -19,7 +19,6 @@ import {
   ThreeInteractive,
 } from "three-flow";
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowProperties } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 import { Exporter } from "./export";
 
@@ -61,8 +60,8 @@ export class MindmapExample {
 
     //scene.add(new AxesHelper(3))
 
-    const options: FlowDiagramOptions = {
-      gridsize: 0.3,
+    const options: FlowDesignerOptions = {
+      diagram: { gridsize: 0.3 }
     }
 
     // read-only flow
@@ -154,84 +153,74 @@ interface MindMapText {
   children?: Array<MindMapText>
 }
 
-class MindMapDiagram extends FlowDiagram {
-  override dispose: () => void
+class MindMapDiagram extends FlowDiagramDesigner {
 
-  private connectors: MindMapConnectors
-  private interaction: FlowInteraction
+  override createFlowConnectors() {
+    return new MindMapConnectors(this)
+  }
 
-  constructor(interactive: ThreeInteractive, options?: FlowDiagramOptions) {
-    super(options)
+  constructor(interactive: ThreeInteractive, options: FlowDesignerOptions) {
+    super(interactive, options)
 
-    // make the flow interactive
-    const interaction = this.interaction = new FlowInteraction(this, interactive)
-    const connectors = this.connectors = new MindMapConnectors(this)
-    const properties = new FlowProperties(this)
+    const handleDelete = (keyboard: KeyboardEvent, node?: FlowNode) => {
+      console.warn(node)
+      if (!node) return
 
-    this.dispose = () => {
-      interaction.dispose()
-      properties.dispose()
-      super.dispose()
+      // only handle most simple case
+      if (this.allNodes.length > 1) {
+
+        // prevent delete if node has any child nodes
+        if (node.children.find(x => x.type == 'flownode')) return
+
+        // since we're nesting them, we're responsible for removing from parent
+        if (node.parent) node.parent.remove(node)
+
+        // finally, remove from diagram
+        this.removeNode(node)
+      }
+    }
+    const handleTab = (keyboard: KeyboardEvent, node?: FlowNode, connector?: ConnectorMesh) => {
+      if (!node || !connector) return
+      const position = this.getFlowPosition(node)
+      if (keyboard.shiftKey)
+        position.x -= 1
+      else
+        position.x += 1
+
+      // re-use method in connector interaction when dragging
+      const interact = this.interaction.getConnectorInteractive(connector)
+      if (interact) this.connectIdea(interact, position)
     }
 
+    const handleEnter = (keyboard: KeyboardEvent, node?: FlowNode) => {
+      if (!node) return
 
-    this.addEventListener(FlowEventType.KEY_DOWN, (e: any) => {
-      const keyboard = e.keyboard as KeyboardEvent
-      if (!properties.selectedConnector) return
-      const connector = properties.selectedConnector
-      const node = connector.connectors.node
+      const position = this.getFlowPosition(node)
+      if (keyboard.shiftKey)
+        position.y += 0.3
+      else
+        position.y -= 0.3
 
-      switch (keyboard.code) {
-        case 'Delete':
-          // only handle most simple case
-          if (this.allNodes.length > 1) {
-
-            // prevent delete if node has any child nodes
-            if (node.children.find(x => x.type == 'flownode')) return
-
-            // since we're nesting them, we're responsible for removing from parent
-            if (node.parent) node.parent.remove(node)
-
-            // finally, remove from diagram
-            this.removeNode(node)
-          }
-          break;
-        case 'Tab': {
-          const position = this.getFlowPosition(node)
-          if (keyboard.shiftKey)
-            position.x -= 1
-          else
-            position.x += 1
-
-          // re-use method in connector interaction when dragging
-          const interact = interaction.getConnectorInteractive(connector)
+      // get parent of this connector's node
+      const parent = node.parent
+      if (parent && parent.type == 'flownode') {
+        // get its connectors
+        const parentconnectors = this.connectors.hasNode(parent.name)
+        if (parentconnectors) {
+          // get the first connector - mind map only has one
+          const first = parentconnectors.connectors[0]
+          // get its interaction to create as child node
+          const interact = this.interaction.getConnectorInteractive(first)
           if (interact) this.connectIdea(interact, position)
         }
-          break;
-        case 'Enter': {
-          const position = this.getFlowPosition(node)
-          if (keyboard.shiftKey)
-            position.y += 0.3
-          else
-            position.y -= 0.3
-
-          // get parent of this connector's node
-          const parent = node.parent
-          if (parent && parent.type == 'flownode') {
-            // get its connectors
-            const parentconnectors = connectors.hasNode(parent.name)
-            if (parentconnectors) {
-              // get the first connector - mind map only has one
-              const first = parentconnectors.connectors[0]
-              // get its interaction to create as child node
-              const interact = interaction.getConnectorInteractive(first)
-              if (interact) this.connectIdea(interact, position)
-            }
-          }
-        }
-          break;
       }
-    })
+    }
+
+    options.keyboard = {
+      'Delete': handleDelete,
+      'Tab': handleTab,
+      'Enter': handleEnter,
+    }
   }
 
   private connectIdea(interact: ConnectorInteractive, position: Vector3): FlowNode | undefined {

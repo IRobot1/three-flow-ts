@@ -20,3 +20,4 @@ export * from './lib/label';
 export * from './lib/background';
 
 export * from './lib/properties'
+export * from './lib/designer'
