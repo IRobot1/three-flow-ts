@@ -4,7 +4,7 @@ import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeom
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
-import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors } from "three-flow";
+import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors, ThreeInteractive } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "./troika-label";
@@ -47,10 +47,8 @@ export class DesignerExample {
 
     //scene.add(new AxesHelper(3))
 
-    const flow = new DesignerFlowDiagram({ linestyle: 'step', lineoffset: 0.1, gridsize: 0.1 })
+    const flow = new DesignerFlowDiagram(app.interactive, { linestyle: 'step', lineoffset: 0.1, gridsize: 0.1 })
     scene.add(flow);
-
-    const interaction = new FlowInteraction(flow, app.interactive)
 
     const tablematerial = flow.getMaterial('geometry', 'table', <MeshStandardMaterialParameters>{ color: '#F0CB2A' })
     const tablegeometry = new PlaneGeometry(10, 8)
@@ -87,7 +85,6 @@ export class DesignerExample {
 
     this.dispose = () => {
       flow.dispose()
-      interaction.dispose()
       orbit.dispose()
     }
   }
@@ -382,17 +379,20 @@ class DesignerFlowDiagram extends FlowDiagram {
   gui: GUI
   properties: FlowProperties
   inputElement: HTMLInputElement
+  interaction: FlowInteraction
 
   override dispose() {
     document.body.removeChild(this.inputElement)
     this.gui.destroy()
     this.properties.dispose()
+    this.interaction.dispose()
     super.dispose()
   }
 
-  constructor(options?: FlowDiagramOptions) {
+  constructor(interactive: ThreeInteractive, options?: FlowDiagramOptions) {
     super(options)
 
+    this.interaction = new FlowInteraction(this, interactive)
     this.connectors = new DesignerConnectors(this)
     const properties = this.properties = new FlowProperties(this)
 
@@ -432,7 +432,7 @@ class DesignerFlowDiagram extends FlowDiagram {
 
     // Add event listener for the 'change' event
     inputElement.addEventListener("change", () => {
-      if (!inputElement.files || inputElement.files.length == 0 ) return
+      if (!inputElement.files || inputElement.files.length == 0) return
       const file = inputElement.files[0]
 
       const reader = new FileReader();
