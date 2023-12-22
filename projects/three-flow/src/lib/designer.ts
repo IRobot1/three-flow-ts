@@ -2,7 +2,7 @@ import GUI from "three/examples/jsm/libs/lil-gui.module.min"
 import { ConnectorMesh, FlowConnectors } from "./connector"
 import { FlowDiagram, FlowDiagramOptions } from "./diagram"
 import { FlowInteraction } from "./interactive"
-import { FlowEventType } from "./model"
+import { FlowEventType, FlowNodeParameters } from "./model"
 import { FlowNode } from "./node"
 import { FlowProperties } from "./properties"
 import { ThreeInteractive } from "./three-interactive"
@@ -11,7 +11,6 @@ import { Exporter } from "./exporter"
 
 
 export interface DesignerStorage { }
-
 export interface FlowDesignerOptions {
   diagram?: FlowDiagramOptions
   title?: string,
@@ -22,7 +21,7 @@ export interface FlowDesignerOptions {
   } // map of keyboard code actions
 }
 
-export class FlowDiagramDesigner extends FlowDiagram {
+export abstract class FlowDiagramDesigner extends FlowDiagram {
   connectors: FlowConnectors
   properties: FlowProperties
   interaction: FlowInteraction
@@ -40,9 +39,9 @@ export class FlowDiagramDesigner extends FlowDiagram {
 
   // overridable
   // required
-  init() { }
-  loadDesign(storage: DesignerStorage) { }
-  saveDesign(): DesignerStorage { return {} }
+  abstract loadDesign(storage: DesignerStorage) :void
+  abstract saveDesign(): DesignerStorage 
+  abstract loadAsset(parameters: FlowNodeParameters): FlowNode 
 
   // optional
   createFlowInteraction(interactive: ThreeInteractive): FlowInteraction {
@@ -87,11 +86,6 @@ export class FlowDiagramDesigner extends FlowDiagram {
 
 
     this.initGUI()
-
-    requestAnimationFrame(() => {
-      this.init()
-    })
-
   }
 
   mimetype: string

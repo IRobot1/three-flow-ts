@@ -15,6 +15,7 @@ import {
   FlowLabel,
   FlowLabelParameters,
   FlowNode,
+  FlowNodeParameters,
   NodeConnectors,
   ThreeInteractive,
 } from "three-flow";
@@ -202,6 +203,10 @@ class MindMapDiagram extends FlowDiagramDesigner {
   private connectIdea(interact: ConnectorInteractive, position: Vector3): FlowNode | undefined {
     const mesh = interact.mesh as MindMapConnector
     return mesh.connectIdea(this, position)
+  }
+
+  override loadAsset(parameters: FlowNodeParameters): FlowNode {
+    throw new Error("Method not implemented.");
   }
 
   addIdea(text: string, x: number, y: number): FlowNode {
