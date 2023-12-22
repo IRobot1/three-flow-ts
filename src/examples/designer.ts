@@ -44,20 +44,27 @@ export class DesignerExample {
     })
 
     //scene.add(new AxesHelper(3))
-    const flow = new DesignerFlowDiagram(app.interactive, {
+    const designer = new DesignerFlowDiagram(app.interactive, {
       diagram: { linestyle: 'step', lineoffset: 0.1, gridsize: 0.1 },
-      title: 'Shape Designer', initialFileName : 'flow-shapes.json'
+      title: 'Shape Designer', initialFileName: 'flow-shapes.json'
     })
-    scene.add(flow);
-    
+    scene.add(designer);
 
-    const tablematerial = flow.getMaterial('geometry', 'table', <MeshStandardMaterialParameters>{ color: '#F0CB2A' })
+
+    const tablematerial = designer.getMaterial('geometry', 'table', <MeshStandardMaterialParameters>{ color: '#F0CB2A' })
 
     const tablegeometry = new PlaneGeometry(10, 8)
     const table = new Mesh(tablegeometry, tablematerial)
     scene.add(table)
     table.position.z = - 0.01
     table.receiveShadow = true
+
+
+    const fileLoader = new FileLoader()
+    fileLoader.load(`assets/flow-designer.json`, (data) => {
+      const storage = <ShapeStorage>JSON.parse(<string>data)
+      designer.loadDesign(storage)
+    })
 
     const width = 0.4
 
@@ -75,18 +82,28 @@ export class DesignerExample {
       label: { text: 'Assets', material: { color: 'black' }, padding: 0 },
       data: { assettype: 'asset', hidden: false },
     }
-    const assets = flow.addNode(assetparams) as AssetNode
-    assets.addAssets([cylinderparams, cubeparams])
-    assets.position.set(-2, 0.5, 0)
 
-    const fileLoader = new FileLoader()
-    fileLoader.load(`assets/flow-designer.json`, (data) => {
-      const storage = <ShapeStorage>JSON.parse(<string>data)
-      flow.loadDesign(storage)
-    })
+    //requestAnimationFrame(() => {
+    const assets = new AssetDiagram(designer)
+    const interactive = new FlowInteraction(assets, app.interactive)
+
+    assets.position.z = 0.01
+    assets.createNode = (parameters: DesignerNodeParameters): FlowNode => {
+      if (parameters.data.assettype == 'asset')
+        return new AssetNode(assets, parameters)
+      return new ShapeNode(assets, parameters)
+    }
+
+    const assetnode = assets.addNode(assetparams) as AssetNode
+    assetnode.addAssets([cylinderparams, cubeparams])
+    assetnode.position.set(-2, 0.5, 0)
+
+    scene.add(assets)
+    //})
 
     this.dispose = () => {
-      flow.dispose()
+      designer.dispose()
+      assets.dispose()
       orbit.dispose()
     }
   }
@@ -228,63 +245,6 @@ class ShapeNode extends FlowNode {
   }
 }
 
-// container for registered asset nodes
-class AssetNode extends FlowNode {
-
-  constructor(diagram: FlowDiagram, parameters: FlowNodeParameters) {
-    parameters.width = 1
-    parameters.height = 0.2
-    parameters.z = 0.001
-    parameters.resizable = parameters.scalable = false
-
-    super(diagram, parameters);
-  }
-
-  addAssets(assetparameters: DesignerNodeParameters[]) {
-    const diagram = this.diagram as DesignerFlowDiagram
-
-    const nodes: Array<FlowNode> = []
-    const padding = 0.2
-    let position = 0
-
-    assetparameters.forEach(parameters => {
-      parameters.x = parameters.y = parameters.z = 0
-      parameters.draggable = false
-      const node = this.diagram.addNode(parameters)
-      this.add(node)
-
-      const nodeconnectors = diagram.connectors.addConnectors(node, [
-        {
-          id: '', anchor: 'center', radius: node.width / 2,
-          selectable: true, draggable: true, hidden: true, createOnDrop: false
-        },
-      ])
-
-      nodes.push(node)
-      position += node.height
-      node.position.y = -position
-      position += padding
-
-      const mesh = nodeconnectors.connectors[0]
-
-      mesh.pointerEnter = (): string => { return 'cell' }
-
-      // override drop complete for the asset to create a new node when dragging
-      mesh.dropCompleted = (diagram: DesignerFlowDiagram, start: Vector3): FlowNode | undefined => {
-        const parentNode = mesh.parent as FlowNode
-
-        // clone parameters of the template
-        const parameters = JSON.parse(JSON.stringify(parentNode.parameters)) as FlowNodeParameters
-        parameters.id = undefined
-        parameters.x = start.x
-        parameters.y = start.y
-        parameters.connectors = undefined
-        parameters.selectable = parameters.draggable = true
-        return diagram.loadShape(parameters)
-      }
-    })
-  }
-}
 
 class AssetConnector extends ConnectorMesh {
   constructor(diagram: DesignerFlowDiagram, connectors: NodeConnectors, parameters: FlowConnectorParameters) {
@@ -377,6 +337,10 @@ class DesignerEdge extends FlowEdge {
 
 class DesignerFlowDiagram extends FlowDiagramDesigner {
   hideconnectors = true
+
+  override createFlowConnectors() {
+    return new DesignerConnectors(this)
+  }
   constructor(interactive: ThreeInteractive, options: FlowDesignerOptions) {
     super(interactive, options)
 
@@ -398,10 +362,10 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
     })
   }
 
-  override clear():this {
+  override clear(): this {
     this.allNodes.forEach((node, index) => {
-      // dumb way to exclude asset nodes
-      if (index < 3) return // TODO: better solution than this
+      //// dumb way to exclude asset nodes
+      //if (index < 3) return // TODO: better solution than this
 
       this.removeNode(node)
     })
@@ -431,8 +395,8 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
   override saveDesign(): ShapeStorage {
     const storage: ShapeStorage = { nodes: [], edges: [] }
     this.allNodes.forEach((node, index) => {
-      // dumb way to exclude asset nodes
-      if (index < 3) return // TODO: better solution than this
+      //// dumb way to exclude asset nodes
+      //if (index < 3) return // TODO: better solution than this
 
       const shape = node as ShapeNode
       const parameters = shape.parameters as DesignerNodeParameters
@@ -497,13 +461,90 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
   }
 
   override createNode(parameters: DesignerNodeParameters): FlowNode {
-    if (parameters.data.assettype == 'asset')
-      return new AssetNode(this, parameters)
     return new ShapeNode(this, parameters)
   }
 
   override createEdge(parameters: FlowEdgeParameters): FlowEdge {
     return new DesignerEdge(this, parameters)
   }
+
+}
+
+// container for registered asset nodes
+class AssetNode extends FlowNode {
+
+  constructor(diagram: FlowDiagram, parameters: FlowNodeParameters) {
+    parameters.width = 1
+    parameters.height = 0.2
+    parameters.z = 0.001
+    parameters.resizable = parameters.scalable = false
+
+    super(diagram, parameters);
+  }
+
+  addAssets(assetparameters: DesignerNodeParameters[]) {
+    const diagram = this.diagram as AssetDiagram
+    const designer = diagram.designer
+
+    const nodes: Array<FlowNode> = []
+    const padding = 0.2
+    let position = 0
+
+    assetparameters.forEach(parameters => {
+      parameters.x = parameters.y = parameters.z = 0
+      parameters.draggable = false
+      const node = diagram.addNode(parameters)
+
+      // change parent from diagram to this node
+      this.add(node)
+
+      const nodeconnectors = diagram.connectors.addConnectors(node, [
+        {
+          id: '', anchor: 'center', radius: node.width / 2,
+          selectable: true, draggable: true, hidden: true, createOnDrop: false
+        },
+      ])
+
+      nodes.push(node)
+      position += node.height
+      node.position.y = -position
+      position += padding
+
+      const mesh = nodeconnectors.connectors[0]
+
+      mesh.pointerEnter = (): string => { return 'cell' }
+
+      // override drop complete for the asset to create a new node when dragging
+      mesh.dropCompleted = (diagram: DesignerFlowDiagram, start: Vector3): FlowNode | undefined => {
+        const parentNode = mesh.parent as FlowNode
+
+        // clone parameters of the template
+        const parameters = JSON.parse(JSON.stringify(parentNode.parameters)) as FlowNodeParameters
+        parameters.id = undefined
+        parameters.x = start.x
+        parameters.y = start.y
+        parameters.connectors = undefined
+        parameters.selectable = parameters.draggable = true
+        return designer.loadShape(parameters)
+      }
+    })
+  }
+}
+
+class AssetDiagram extends FlowDiagram {
+  connectors: FlowConnectors
+  constructor(public designer: DesignerFlowDiagram, options?: FlowDiagramOptions) {
+    super(options)
+    this.connectors = new FlowConnectors(this)
+  }
+
+  override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
+    return new MeshStandardMaterial(parameters);
+  }
+
+  override createLabel(parameters: FlowLabelParameters): FlowLabel {
+    return new TroikaFlowLabel(this, parameters)
+  }
+
 
 }
