@@ -142,6 +142,8 @@ export interface FlowHandleParameters {
 
 
 export const FlowEventType = {
+  DIAGRAM_NEW: 'diagram_new',
+  DIAGRAM_PROPERTIES: 'diagram_properties',
   DISPOSE: 'dispose',
   DRAGGED: 'dragged',
   NODE_ADDED: 'node_added',

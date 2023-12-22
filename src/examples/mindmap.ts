@@ -20,7 +20,7 @@ import {
 } from "three-flow";
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "./troika-label";
-import { Exporter } from "./export";
+import { Exporter } from "three-flow";
 
 
 export class MindmapExample {
@@ -61,7 +61,8 @@ export class MindmapExample {
     //scene.add(new AxesHelper(3))
 
     const options: FlowDesignerOptions = {
-      diagram: { gridsize: 0.3 }
+      diagram: { gridsize: 0.3 },
+      title: 'Mind Map', initialFileName: 'flow-mindmap.json'
     }
 
     // read-only flow
@@ -105,42 +106,14 @@ export class MindmapExample {
     //  return mesh
     //}
 
-    flow.addIdea('Main Idea', 0, 0)
-
-    const gui = new GUI();
-    gui.domElement.style.position = 'fixed';
-    gui.domElement.style.top = '0';
-    gui.domElement.style.left = '15px';
-
-    const fileSaver = new Exporter()
     const fileLoader = new FileLoader();
-
-    const params = {
-      filename: 'flow-mindmap.json',
-      save: () => {
-        const text = flow.saveTo()
-        fileSaver.saveJSON(text, params.filename)
-      },
-      load: () => {
-        fileLoader.load(`assets/mindmap.json`, (data) => {
-          flow.clear()
-
-          const diagram = <Array<MindMapText>>JSON.parse(<string>data)
-          console.warn(diagram)
-          // optionally, iterate over nodes and edges to override parameters before loading
-
-          flow.loadFrom(diagram)
-        });
-
-      }
-    }
-    gui.add<any, any>(params, 'filename').name('File name')
-    gui.add<any, any>(params, 'save').name('Save')
-    gui.add<any, any>(params, 'load').name('Load')
+    fileLoader.load(`assets/mindmap.json`, (data) => {
+      const diagram = <Array<MindMapText>>JSON.parse(<string>data)
+      flow.loadDesign(diagram)
+    })
 
     this.dispose = () => {
       flow.dispose()
-      gui.destroy()
       orbit.dispose()
     }
 
@@ -163,7 +136,6 @@ class MindMapDiagram extends FlowDiagramDesigner {
     super(interactive, options)
 
     const handleDelete = (keyboard: KeyboardEvent, node?: FlowNode) => {
-      console.warn(node)
       if (!node) return
 
       // only handle most simple case
@@ -221,6 +193,10 @@ class MindMapDiagram extends FlowDiagramDesigner {
       'Tab': handleTab,
       'Enter': handleEnter,
     }
+
+    this.addEventListener(FlowEventType.DIAGRAM_NEW, () => {
+      this.addIdea('Main Idea', 0, 0)
+    })
   }
 
   private connectIdea(interact: ConnectorInteractive, position: Vector3): FlowNode | undefined {
@@ -262,7 +238,7 @@ class MindMapDiagram extends FlowDiagramDesigner {
 
   }
 
-  saveTo(): Array<MindMapText> {
+  override saveDesign(): Array<MindMapText> {
     const result: Array<MindMapText> = []
     this.allNodes.forEach(node => {
       if (node.parent == this)
@@ -302,7 +278,7 @@ class MindMapDiagram extends FlowDiagramDesigner {
     }
   }
 
-  loadFrom(array: Array<MindMapText>) {
+  override loadDesign(array: Array<MindMapText>) {
     array.forEach(item => {
       const node = this.addIdea(item.text, item.position.x, item.position.y)
       this.add(node)

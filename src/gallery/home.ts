@@ -480,7 +480,7 @@ export class GalleryExample {
     //edges.forEach(edge => {
     //})
 
-    flow.load(diagram)
+    flow.loadDiagram(diagram)
 
     // add click to navigate to example
     flow.allNodes.forEach(node => {

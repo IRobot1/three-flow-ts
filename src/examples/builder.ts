@@ -10,7 +10,7 @@ import {
   FlowNode,
   FlowNodeParameters
 } from "three-flow";
-import { Exporter } from "./export";
+import { Exporter } from "three-flow";
 import { DagreLayout } from "./dagre-layout";
 
 interface MyFlowNodeParameters extends FlowNodeParameters {
@@ -126,7 +126,7 @@ export class BuilderExample {
 
       flow.layout({ rankdir: 'LR', ranksep: 1 })
 
-      console.log(flow.save())
+      console.log(flow.saveDiagram())
       //flow.removeNode(node1)
       //flow.removeNode(node2)
       //flow.removeNode(node3)

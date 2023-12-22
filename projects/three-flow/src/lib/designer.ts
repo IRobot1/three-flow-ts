@@ -1,3 +1,4 @@
+import GUI from "three/examples/jsm/libs/lil-gui.module.min"
 import { ConnectorMesh, FlowConnectors } from "./connector"
 import { FlowDiagram, FlowDiagramOptions } from "./diagram"
 import { FlowInteraction } from "./interactive"
@@ -5,12 +6,17 @@ import { FlowEventType } from "./model"
 import { FlowNode } from "./node"
 import { FlowProperties } from "./properties"
 import { ThreeInteractive } from "./three-interactive"
+import { FileLoader } from "three"
+import { Exporter } from "./exporter"
 
 
 export interface DesignerStorage { }
 
 export interface FlowDesignerOptions {
   diagram?: FlowDiagramOptions
+  title?: string,
+  initialFileName?: string,
+  mimeType?: string,
   keyboard?: {
     [code: string]: (keyboard: KeyboardEvent, selectedNode: FlowNode | undefined, selectedConnector: ConnectorMesh | undefined) => void
   } // map of keyboard code actions
@@ -21,8 +27,12 @@ export class FlowDiagramDesigner extends FlowDiagram {
   properties: FlowProperties
   interaction: FlowInteraction
   keyboard?: KeyboardEvent
+  gui!: GUI
+  inputElement!: HTMLInputElement
 
   override dispose() {
+    document.body.removeChild(this.inputElement)
+    this.gui.destroy()
     this.properties.dispose()
     this.interaction.dispose()
     super.dispose()
@@ -48,8 +58,11 @@ export class FlowDiagramDesigner extends FlowDiagram {
     return new FlowProperties(this, this.interaction)
   }
 
-  constructor(interactive: ThreeInteractive, options: FlowDesignerOptions) {
-    super(options.diagram)
+  constructor(interactive: ThreeInteractive, private designoptions: FlowDesignerOptions) {
+    super(designoptions.diagram)
+
+    this.filename = designoptions.initialFileName ? designoptions.initialFileName : 'flow-designer.json'
+    this.mimetype = designoptions.mimeType ? designoptions.mimeType : 'application/json'
 
     this.interaction = this.createFlowInteraction(interactive)
     this.connectors = this.createFlowConnectors()
@@ -62,15 +75,18 @@ export class FlowDiagramDesigner extends FlowDiagram {
       let node = properties.selectedNode
       if (!node && properties.selectedConnector) node = properties.selectedConnector.parent as FlowNode
 
-      if (options.keyboard) {
-        const callback = options.keyboard[keyboard.code]
+      if (designoptions.keyboard) {
+        const callback = designoptions.keyboard[keyboard.code]
         if (callback) callback(keyboard, node, properties.selectedConnector)
       }
     })
+
     this.addEventListener<any>(FlowEventType.KEY_UP, (e: any) => {
       this.keyboard = e.keyboard as KeyboardEvent
     })
 
+
+    this.initGUI()
 
     requestAnimationFrame(() => {
       this.init()
@@ -78,5 +94,67 @@ export class FlowDiagramDesigner extends FlowDiagram {
 
   }
 
+  mimetype: string
+  filename: string
+
+  private save() {
+    const storage = this.saveDesign()
+    const fileSaver = new Exporter()
+    fileSaver.saveJSON(storage, this.filename)
+  }
+
+  private load() {
+    this.inputElement.click()
+  }
+
+  private newDiagram() {
+    this.clear()
+    this.dispatchEvent<any>({ type: FlowEventType.DIAGRAM_NEW })
+  }
+
+
+  private initGUI() {
+    const gui = new GUI({ title: this.designoptions.title });
+    gui.domElement.style.position = 'fixed';
+    gui.domElement.style.top = '0';
+    gui.domElement.style.left = '15px';
+    this.gui = gui
+
+    // Create the input element
+    var inputElement = document.createElement("input");
+    inputElement.type = "file";
+    inputElement.style.display = "none";
+    inputElement.accept = this.mimetype;
+    inputElement.multiple = false
+
+    // Add event listener for the 'change' event
+    inputElement.addEventListener("change", () => {
+      if (!inputElement.files || inputElement.files.length == 0) return
+      const file = inputElement.files[0]
+
+      const reader = new FileReader();
+      reader.readAsText(file);
+      reader.onloadend = () => {
+        this.clear()
+
+        const storage = <DesignerStorage>JSON.parse(<string>reader.result)
+        this.loadDesign(storage)
+      };
+
+    });
+    this.inputElement = inputElement
+
+    // Append the input element to the body or another DOM element
+    document.body.appendChild(inputElement);
+
+    gui.add<any, any>(this, 'newDiagram').name('New Diagram')
+    gui.add<any, any>(this, 'load').name('Load')
+    gui.add<any, any>(this, 'filename').name('File name')
+    gui.add<any, any>(this, 'save').name('Save')
+
+    requestAnimationFrame(() => {
+      this.dispatchEvent<any>({ type: FlowEventType.DIAGRAM_PROPERTIES, gui: this.gui })
+    })
+  }
 
 }

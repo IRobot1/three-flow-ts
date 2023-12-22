@@ -118,8 +118,8 @@ export class LoaderExample {
 
         const diagram = <FlowDiagramParameters>JSON.parse(<string>data)
 
-        flow.load(diagram)
-        console.log(flow.save())
+        flow.loadDiagram(diagram)
+        console.log(flow.saveDiagram())
       });
     });
 

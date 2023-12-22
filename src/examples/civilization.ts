@@ -11,7 +11,7 @@ import {
 } from "three-flow";
 
 import { civilizationdata } from "./civilization-data";
-import { Exporter } from "./export";
+import { Exporter } from "three-flow";
 import { DagreLayout } from "./dagre-layout";
 
 export class CivilizationExample {

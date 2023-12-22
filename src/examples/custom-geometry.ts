@@ -199,7 +199,7 @@ export class CustomGeometryExample {
       // make the flow interactive
       interaction = new FlowInteraction(flow, app.interactive)
 
-      flow.load(diagram)
+      flow.loadDiagram(diagram)
       console.log(flow)
 
       flow.layout()

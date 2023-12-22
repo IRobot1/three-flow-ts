@@ -14,7 +14,7 @@ export class Exporter {
     if (!Exporter.link) {
       Exporter.link = document.createElement('a');
       Exporter.link.style.display = 'none';
-      document.body.appendChild(Exporter.link); // Firefox workaround, see #6594
+      document.body.appendChild(Exporter.link); 
     }
   }
 
@@ -23,8 +23,6 @@ export class Exporter {
     Exporter.link.href = URL.createObjectURL(blob);
     Exporter.link.download = filename;
     Exporter.link.click();
-
-    // URL.revokeObjectURL( url ); breaks Firefox...
 
   }
 

@@ -60,7 +60,7 @@ export class FlowDiagram extends Object3D {
 
   }
 
-  save(): FlowDiagramParameters {
+  saveDiagram(): FlowDiagramParameters {
     const diagram: FlowDiagramParameters = {
       version: 1,
       nodes: [], edges: []
@@ -76,7 +76,7 @@ export class FlowDiagram extends Object3D {
     return diagram
   }
 
-  load(input: FlowDiagramParameters) {
+  loadDiagram(input: FlowDiagramParameters) {
     const diagram = input as Partial<FlowDiagramParameters>
 
     if (diagram.nodes) {

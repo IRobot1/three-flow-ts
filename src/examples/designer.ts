@@ -8,7 +8,6 @@ import { ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "./troika-label";
-import { Exporter } from "./export";
 
 export class DesignerExample {
 
@@ -45,8 +44,12 @@ export class DesignerExample {
     })
 
     //scene.add(new AxesHelper(3))
-    const flow = new DesignerFlowDiagram(app.interactive, { diagram: { linestyle: 'step', lineoffset: 0.1, gridsize: 0.1 } })
+    const flow = new DesignerFlowDiagram(app.interactive, {
+      diagram: { linestyle: 'step', lineoffset: 0.1, gridsize: 0.1 },
+      title: 'Shape Designer', initialFileName : 'flow-shapes.json'
+    })
     scene.add(flow);
+    
 
     const tablematerial = flow.getMaterial('geometry', 'table', <MeshStandardMaterialParameters>{ color: '#F0CB2A' })
 
@@ -373,15 +376,7 @@ class DesignerEdge extends FlowEdge {
 
 
 class DesignerFlowDiagram extends FlowDiagramDesigner {
-  gui!: GUI
-  inputElement!: HTMLInputElement
-
-  override dispose() {
-    document.body.removeChild(this.inputElement)
-    this.gui.destroy()
-    super.dispose()
-  }
-
+  hideconnectors = true
   constructor(interactive: ThreeInteractive, options: FlowDesignerOptions) {
     super(interactive, options)
 
@@ -395,71 +390,22 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
       }
     }
 
+    this.addEventListener(FlowEventType.DIAGRAM_PROPERTIES, (e: any) => {
+      const gui = e.gui as GUI
+      gui.add<any, any>(this, 'hideconnectors').name('Hide Connectors').onChange(() => {
+        this.connectors.allConnectors.forEach(connector => connector.visible = !this.hideconnectors)
+      })
+    })
   }
 
-  override init() {
-    const gui = new GUI();
-    gui.domElement.style.position = 'fixed';
-    gui.domElement.style.top = '0';
-    gui.domElement.style.left = '15px';
-    this.gui = gui
+  override clear():this {
+    this.allNodes.forEach((node, index) => {
+      // dumb way to exclude asset nodes
+      if (index < 3) return // TODO: better solution than this
 
-    // Create the input element
-    var inputElement = document.createElement("input");
-    inputElement.type = "file";
-    inputElement.style.display = "none";
-    inputElement.accept = "application/json";
-    inputElement.multiple = false
-
-    // Add event listener for the 'change' event
-    inputElement.addEventListener("change", () => {
-      if (!inputElement.files || inputElement.files.length == 0) return
-      const file = inputElement.files[0]
-
-      const reader = new FileReader();
-      reader.readAsText(file);
-      reader.onloadend = () => {
-        params.clear()
-
-        const storage = <ShapeStorage>JSON.parse(<string>reader.result)
-        this.loadDesign(storage)
-      };
-
-    });
-    this.inputElement = inputElement
-
-    // Append the input element to the body or another DOM element
-    document.body.appendChild(inputElement);
-
-    const fileSaver = new Exporter()
-    const fileLoader = new FileLoader();
-
-    const params = {
-      clear: () => {
-        this.allNodes.forEach((node, index) => {
-          // dumb way to exclude asset nodes
-          if (index < 3) return // TODO: better solution than this
-
-          this.removeNode(node)
-        })
-      },
-      filename: 'flow-designer.json',
-      save: () => {
-        const storage = this.saveDesign()
-        fileSaver.saveJSON(storage, params.filename)
-      },
-      load: () => {
-        inputElement.click()
-      },
-      hideconnectors: true
-    }
-    gui.add<any, any>(params, 'clear').name('Clear')
-    gui.add<any, any>(params, 'load').name('Load')
-    gui.add<any, any>(params, 'filename').name('File name')
-    gui.add<any, any>(params, 'save').name('Save')
-    gui.add<any, any>(params, 'hideconnectors').name('Hide Connectors').onChange(() => {
-      this.connectors.allConnectors.forEach(connector => connector.visible = !params.hideconnectors)
+      this.removeNode(node)
     })
+    return this
   }
 
   override loadDesign(storage: ShapeStorage) {

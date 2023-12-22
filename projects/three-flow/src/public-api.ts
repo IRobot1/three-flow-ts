@@ -21,3 +21,4 @@ export * from './lib/background';
 
 export * from './lib/properties'
 export * from './lib/designer'
+export * from './lib/exporter'

@@ -199,7 +199,7 @@ export class MermaidExample {
 
         flow.layout(<GraphLabel>{ rankdir: parsedOutput.layout.direction, ranksep: 1 })
 
-        console.warn(flow.save())
+        console.warn(flow.saveDiagram())
       })
 
       this.dispose = () => {

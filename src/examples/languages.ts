@@ -13,7 +13,7 @@ import {
   FlowLabelParameters
 } from "three-flow";
 import { languagedata } from "./langauge-data";
-import { Exporter } from "./export";
+import { Exporter } from "three-flow";
 import { DagreLayout } from "./dagre-layout";
 import { TroikaFlowLabel } from "./troika-label";
 

@@ -225,7 +225,7 @@ export class BasicExample {
           return hexagon
       }
 
-      flow.load(diagram)
+      flow.loadDiagram(diagram)
 
       //
       // how to override connector shape for a specific node or type of node
@@ -331,7 +331,7 @@ export class BasicExample {
       ////flow.removeEdge(edge4)
       ////edge4.removeConnector()
 
-      console.warn(flow.save())
+      console.warn(flow.saveDiagram())
 
       gui.add(flow, 'gridsize', 0, 1).name('Snap-to-Grid Size')
 

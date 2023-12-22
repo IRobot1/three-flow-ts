@@ -74,7 +74,7 @@ export class ComputerNetworkExample {
       node.label = { text: node.id }, node.labelanchor = 'top',
         node.labeltransform = { translate: { y: -0.1 } }
     })
-    flow.load({ nodes: ComputerNetworkNodes, edges: ComputerNetworkEdges })
+    flow.loadDiagram({ nodes: ComputerNetworkNodes, edges: ComputerNetworkEdges })
     flow.layout(<GraphLabel>{ rankdir: 'TD', ranksep: 0.5, nodesep: 0.5 })
 
     setInterval(() => {

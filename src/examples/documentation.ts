@@ -212,7 +212,7 @@ export class DocumentationExample {
 
     new FlowConnectors(flow)
 
-    flow.load({ nodes, edges })
+    flow.loadDiagram({ nodes, edges })
 
 
     this.dispose = () => {
