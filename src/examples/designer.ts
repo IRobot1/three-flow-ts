@@ -89,13 +89,10 @@ export class DesignerExample {
 
     //requestAnimationFrame(() => {
     const assets = new AssetViewer(app.interactive, designer)
-
-    assets.position.z = 0.01
-    assets.createNode = (parameters: DesignerNodeParameters): FlowNode => {
-      if (parameters.type == 'asset')
-        return new AssetNode(assets, parameters)
+    assets.createAsset = (parameters: DesignerNodeParameters): FlowNode => {
       return new ShapeNode(assets, parameters)
     }
+    assets.position.z = 0.01
 
     const assetnode = assets.addNode(assetparams) as AssetNode
     assetnode.addAssets([cylinderparams, cubeparams])
@@ -142,7 +139,7 @@ class ShapeNode extends FlowNode {
     bordermesh.position.z = 0.001
 
     const solid = new Mesh()
-    solid.material = diagram.getMaterial('geometry', 'border', parameters.material!)
+    solid.material = diagram.getMaterial('geometry', 'solid', parameters.material!)
     this.add(solid)
     solid.castShadow = true
     this.solid = solid

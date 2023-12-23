@@ -77,6 +77,10 @@ export class AssetViewer extends FlowDiagram {
     this.interaction = new FlowInteraction(this, interactive)
   }
 
+  createAsset(parameters: FlowNodeParameters): FlowNode {
+    return new FlowNode(this, parameters) // blank node
+  }
+
   override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
     return new MeshStandardMaterial(parameters);
   }
@@ -86,6 +90,8 @@ export class AssetViewer extends FlowDiagram {
   }
 
   override createNode(parameters: FlowNodeParameters): FlowNode {
-    return new AssetNode(this, parameters)
+    if (parameters.type == 'asset')
+      return new AssetNode(this, parameters)
+    return this.createAsset(parameters)
   }
 }
