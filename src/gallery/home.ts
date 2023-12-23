@@ -328,6 +328,15 @@ export class GalleryExample {
           { id: "c2designer", anchor: 'bottom' },
         ],
       },
+      {
+        id: 'alchemist',
+        label: { text: "Alchemist Recipes" },
+        x: column9, y: row2,
+        assetimage: 'alchemist', route: 'alchemist',
+        connectors: [
+          { id: "c1alchemist", anchor: 'top' },
+        ],
+      },
     ];
 
 
@@ -439,6 +448,12 @@ export class GalleryExample {
         to: "designer",
         fromconnector: "c3visuals",
         toconnector: "c1designer"
+      },
+      {
+        from: "designer",
+        to: "alchemist",
+        fromconnector: "c2designer",
+        toconnector: "c1alchemist"
       },
     ];
 

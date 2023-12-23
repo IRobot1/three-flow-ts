@@ -2,7 +2,7 @@ import { Material, MaterialParameters, MeshStandardMaterial, Vector3 } from "thr
 import { FlowInteraction, ThreeInteractive, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, FlowDiagramDesigner } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 
-export class AssetNode extends FlowNode {
+export class AssetViewer extends FlowNode {
 
   constructor(diagram: FlowDiagram, parameters: FlowNodeParameters) {
     parameters.width = 1
@@ -14,7 +14,7 @@ export class AssetNode extends FlowNode {
   }
 
   addAssets(assetparameters: FlowNodeParameters[]) {
-    const diagram = this.diagram as AssetViewer
+    const diagram = this.diagram as AssetViewerDiagram
     const designer = diagram.designer
 
     const nodes: Array<FlowNode> = []
@@ -62,7 +62,7 @@ export class AssetNode extends FlowNode {
   }
 }
 
-export class AssetViewer extends FlowDiagram {
+export class AssetViewerDiagram extends FlowDiagram {
   connectors: FlowConnectors
   interaction: FlowInteraction
 
@@ -81,6 +81,10 @@ export class AssetViewer extends FlowDiagram {
     return new FlowNode(this, parameters) // blank node
   }
 
+  createViewer(parameters: FlowNodeParameters): FlowNode {
+    return new AssetViewer(this, parameters)
+  }
+
   override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
     return new MeshStandardMaterial(parameters);
   }
@@ -91,7 +95,7 @@ export class AssetViewer extends FlowDiagram {
 
   override createNode(parameters: FlowNodeParameters): FlowNode {
     if (parameters.type == 'asset')
-      return new AssetNode(this, parameters)
+      return this.createViewer(parameters)
     return this.createAsset(parameters)
   }
 }

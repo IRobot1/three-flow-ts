@@ -20,6 +20,7 @@ import { KPIExample } from '../examples/kpi';
 import { MindmapExample } from '../examples/mindmap';
 import { HyperFlowExample } from '../examples/hyper-flow';
 import { DesignerExample } from '../examples/designer';
+import { AlchemistExample } from '../examples/alchemist';
 
 
 @Component({
@@ -52,5 +53,6 @@ export class AppComponent {
     app.router.add('mindmap', () => { return new MindmapExample(app) })
     app.router.add('hyperflow', () => { return new HyperFlowExample(app) })
     app.router.add('designer', () => { return new DesignerExample(app) })
+    app.router.add('alchemist', () => { return new AlchemistExample(app) })
   }
 }

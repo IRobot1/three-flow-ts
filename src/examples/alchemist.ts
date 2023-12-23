@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, ExtrudeGeometry, ExtrudeGeometryOptions, FileLoader, Intersection, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, PropertyBinding, RingGeometry, Scene, Shape, ShapeGeometry, Vector2, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, ExtrudeGeometry, ExtrudeGeometryOptions, FileLoader, Intersection, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, PropertyBinding, RingGeometry, Scene, Shape, ShapeGeometry, TextureLoader, Vector2, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry";
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
@@ -10,7 +10,7 @@ import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "./troika-label";
 import { AssetViewerDiagram, AssetViewer } from "./asset-viewer";
 
-export class DesignerExample {
+export class AlchemistExample {
 
   dispose = () => { }
 
@@ -19,7 +19,7 @@ export class DesignerExample {
     const scene = new Scene()
     app.scene = scene
 
-    app.camera.position.z = 2
+    app.camera.position.z = 4
 
     scene.background = new Color(0x444444)
 
@@ -51,8 +51,10 @@ export class DesignerExample {
     })
     scene.add(designer);
 
+    const textureLoader = new TextureLoader()
+    const blankpage = textureLoader.load('assets/blank-page.png')
 
-    const tablematerial = designer.getMaterial('geometry', 'table', <MeshStandardMaterialParameters>{ color: '#F0CB2A' })
+    const tablematerial = designer.getMaterial('geometry', 'table', <MeshStandardMaterialParameters>{ color: '#F0EBDD', map:blankpage, transparent:true })
 
     const tablegeometry = new PlaneGeometry(10, 8)
     const table = new Mesh(tablegeometry, tablematerial)
@@ -61,11 +63,11 @@ export class DesignerExample {
     table.receiveShadow = true
 
 
-    const fileLoader = new FileLoader()
-    fileLoader.load(`assets/flow-shapes.json`, (data) => {
-      const storage = <ShapeStorage>JSON.parse(<string>data)
-      designer.loadDesign(storage)
-    })
+    //const fileLoader = new FileLoader()
+    //fileLoader.load(`assets/flow-recipe.json`, (data) => {
+    //  const storage = <ShapeStorage>JSON.parse(<string>data)
+    //  designer.loadDesign(storage)
+    //})
 
     const width = 0.4
 
