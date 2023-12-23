@@ -165,7 +165,21 @@ export class FlowDiagram extends Object3D {
     return this.nodesMap.get(id)
   }
 
+  private extractId(id: string): number | undefined {
+    let match = id.match(/^n(\d+)$/);
+    return match ? parseInt(match[1], 10) : undefined;
+  }
+
   public addNode(parameters: FlowNodeParameters): FlowNode {
+    if (parameters.id) {
+      const id = this.extractId(parameters.id)
+
+      if (id != undefined) {
+        // avoid re-using ids
+        if (id > this._nextId) this._nextId = id
+      }
+    }
+
     const node = this.createNode(parameters)
     this.add(node)
     this._nextId++
