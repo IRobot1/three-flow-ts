@@ -217,7 +217,7 @@ export class FlowNode extends Mesh {
     //@ts-ignore
     this.type = 'flownode'
     this.name = parameters.id = parameters.id ? parameters.id : diagram.nextNodeId()
-    parameters.type = parameters.type ? parameters.type : 'node'
+    const nodetype = parameters.type = parameters.type ? parameters.type : 'node'
 
     this._width = parameters.width = parameters.width != undefined ? parameters.width : 1;
     this.minwidth = parameters.minwidth != undefined ? parameters.minwidth : this.width
@@ -270,7 +270,7 @@ export class FlowNode extends Mesh {
 
     if (parameters.userData) this.userData = parameters.userData;
 
-    this.material = diagram.getMaterial('geometry', 'node', this._matparams);
+    this.material = diagram.getMaterial('geometry', nodetype, this._matparams);
 
     if (parameters.x != undefined) this.position.x = parameters.x
     if (parameters.y != undefined) this.position.y = parameters.y
