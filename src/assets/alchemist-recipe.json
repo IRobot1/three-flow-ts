@@ -1,0 +1,495 @@
+{
+  "nodes": [
+    {
+      "id": "n0",
+      "type": "bowl",
+      "position": {
+        "x": 0.5,
+        "y": 1.1
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/apparatus/bowl.png",
+      "ingredienttype": "apparatus",
+      "label": "bowl",
+      "showlabel": false
+    },
+    {
+      "id": "n1",
+      "type": "bowl2",
+      "position": {
+        "x": 1.1,
+        "y": 1.92
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/apparatus/bowl2.png",
+      "ingredienttype": "apparatus",
+      "label": "bowl2",
+      "showlabel": false
+    },
+    {
+      "id": "n2",
+      "type": "sunflower",
+      "position": {
+        "x": 2.1,
+        "y": 2
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/plants/sunflower.png",
+      "ingredienttype": "flowers",
+      "label": "sunflower",
+      "showlabel": false
+    },
+    {
+      "id": "n4",
+      "type": "cork-flask",
+      "position": {
+        "x": 0.02,
+        "y": 2.03
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/apparatus/cork-flask.png",
+      "ingredienttype": "apparatus",
+      "label": "cork-flask",
+      "showlabel": false
+    },
+    {
+      "id": "n7",
+      "type": "distiller1",
+      "position": {
+        "x": 0.2,
+        "y": -0.1
+      },
+      "size": 1,
+      "ingredienttexture": "assets/alchemist/apparatus/distiller1.png",
+      "ingredienttype": "apparatus",
+      "label": "distiller1",
+      "showlabel": false
+    },
+    {
+      "id": "n9",
+      "type": "beaker",
+      "position": {
+        "x": -1,
+        "y": 1.1
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/apparatus/beaker.png",
+      "ingredienttype": "apparatus",
+      "label": "beaker",
+      "showlabel": false
+    },
+    {
+      "id": "n10",
+      "type": "tube-rack",
+      "position": {
+        "x": 0.2,
+        "y": -1.1
+      },
+      "size": 0.5184,
+      "ingredienttexture": "assets/alchemist/apparatus/tube-rack.png",
+      "ingredienttype": "apparatus",
+      "label": "tube-rack",
+      "showlabel": false
+    },
+    {
+      "id": "n11",
+      "type": "warmer",
+      "position": {
+        "x": 1.2,
+        "y": -1.6
+      },
+      "size": 0.6264,
+      "ingredienttexture": "assets/alchemist/apparatus/warmer.png",
+      "ingredienttype": "apparatus",
+      "label": "warmer",
+      "showlabel": false
+    },
+    {
+      "id": "n12",
+      "type": "flat-beaker",
+      "position": {
+        "x": -1,
+        "y": 1.7
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/apparatus/flat-beaker.png",
+      "ingredienttype": "apparatus",
+      "label": "flat-beaker",
+      "showlabel": false
+    },
+    {
+      "id": "n14",
+      "type": "flask-stand",
+      "position": {
+        "x": 1.5,
+        "y": 0
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/apparatus/flask-stand.png",
+      "ingredienttype": "apparatus",
+      "label": "flask-stand",
+      "showlabel": false
+    },
+    {
+      "id": "n15",
+      "type": "cranberries",
+      "position": {
+        "x": 2.1,
+        "y": 1.1
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/plants/cranberries.png",
+      "ingredienttype": "flowers",
+      "label": "cranberries",
+      "showlabel": false
+    },
+    {
+      "id": "n18",
+      "type": "pestal",
+      "position": {
+        "x": 1.4,
+        "y": 0.7
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/apparatus/pestal.png",
+      "ingredienttype": "apparatus",
+      "label": "pestal",
+      "showlabel": false
+    },
+    {
+      "id": "n21",
+      "type": "symbol2",
+      "position": {
+        "x": -2.6,
+        "y": 2.85
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/art/symbols/symbol2.png",
+      "ingredienttype": "symbols",
+      "label": "symbol2",
+      "showlabel": false
+    },
+    {
+      "id": "n27",
+      "type": "symbol4",
+      "position": {
+        "x": -2.58,
+        "y": -3.26
+      },
+      "size": 0.5968,
+      "ingredienttexture": "assets/alchemist/art/symbols/symbol4.png",
+      "ingredienttype": "symbols",
+      "label": "symbol4",
+      "showlabel": false
+    },
+    {
+      "id": "n43",
+      "type": "poison2",
+      "position": {
+        "x": -1.8,
+        "y": 1.9
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/plants/poison2.png",
+      "ingredienttype": "flowers",
+      "label": "poison2",
+      "showlabel": false
+    },
+    {
+      "id": "n44",
+      "type": "starflower",
+      "position": {
+        "x": -1.8,
+        "y": 1.3
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/plants/starflower.png",
+      "ingredienttype": "flowers",
+      "label": "starflower",
+      "showlabel": false
+    },
+    {
+      "id": "n51",
+      "type": "round-beaker",
+      "position": {
+        "x": -1,
+        "y": 0.5
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/apparatus/round-beaker.png",
+      "ingredienttype": "apparatus",
+      "label": "round-beaker",
+      "showlabel": false
+    },
+    {
+      "id": "n52",
+      "type": "poison1",
+      "position": {
+        "x": -1.8,
+        "y": 0.7
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/plants/poison1.png",
+      "ingredienttype": "flowers",
+      "label": "poison1",
+      "showlabel": false
+    },
+    {
+      "id": "n55",
+      "type": "tin",
+      "position": {
+        "x": -1.8,
+        "y": -0.4
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/apparatus/tin.png",
+      "ingredienttype": "apparatus",
+      "label": "tin",
+      "showlabel": false
+    },
+    {
+      "id": "n56",
+      "type": "scales",
+      "position": {
+        "x": -1,
+        "y": -0.8
+      },
+      "size": 0.8128,
+      "ingredienttexture": "assets/alchemist/apparatus/scales.png",
+      "ingredienttype": "apparatus",
+      "label": "scales",
+      "showlabel": false
+    },
+    {
+      "id": "n57",
+      "type": "urn1",
+      "position": {
+        "x": -1.8,
+        "y": -1.2
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/apparatus/urn1.png",
+      "ingredienttype": "apparatus",
+      "label": "urn1",
+      "showlabel": false
+    },
+    {
+      "id": "n22",
+      "type": "symbol3",
+      "position": {
+        "x": 2.98,
+        "y": 2.87
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/art/symbols/symbol3.png",
+      "ingredienttype": "symbols",
+      "label": "symbol3",
+      "showlabel": false
+    },
+    {
+      "id": "n23",
+      "type": "dragon1",
+      "position": {
+        "x": 1.85,
+        "y": -0.63
+      },
+      "size": 1,
+      "ingredienttexture": "assets/alchemist/art/creatures/dragon1.png",
+      "ingredienttype": "creatures",
+      "label": "dragon1",
+      "showlabel": false
+    },
+    {
+      "id": "n25",
+      "type": "griffin2",
+      "position": {
+        "x": -1.7,
+        "y": -2.5
+      },
+      "size": 0.7544,
+      "ingredienttexture": "assets/alchemist/art/creatures/griffin2.png",
+      "ingredienttype": "creatures",
+      "label": "griffin2",
+      "showlabel": false
+    },
+    {
+      "id": "n28",
+      "type": "gem3",
+      "position": {
+        "x": 2.89,
+        "y": -3.22
+      },
+      "size": 0.4,
+      "ingredienttexture": "assets/alchemist/gems/gem3.png",
+      "ingredienttype": "gems",
+      "label": "gem3",
+      "showlabel": false
+    },
+    {
+      "id": "n29",
+      "type": "bottle6",
+      "position": {
+        "x": -0.8,
+        "y": -2.6
+      },
+      "size": 0.5768,
+      "ingredienttexture": "assets/alchemist/bottles/bottle6.png",
+      "ingredienttype": "bottles",
+      "label": "bottle6",
+      "showlabel": false
+    },
+    {
+      "id": "n31",
+      "type": "dripper",
+      "position": {
+        "x": 0.2,
+        "y": -2.4
+      },
+      "size": 1,
+      "ingredienttexture": "assets/alchemist/apparatus/dripper.png",
+      "ingredienttype": "apparatus",
+      "label": "dripper",
+      "showlabel": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "n2",
+      "to": "n1",
+      "fromconnector": "n2-left",
+      "toconnector": "n1-right"
+    },
+    {
+      "from": "n4",
+      "to": "n1",
+      "fromconnector": "n4-right",
+      "toconnector": "n1-left"
+    },
+    {
+      "from": "n1",
+      "to": "n0",
+      "fromconnector": "n1-bottom",
+      "toconnector": "n0-right"
+    },
+    {
+      "from": "n0",
+      "to": "n7",
+      "fromconnector": "n0-bottom",
+      "toconnector": "n7-top"
+    },
+    {
+      "from": "n14",
+      "to": "n7",
+      "fromconnector": "n14-left",
+      "toconnector": "n7-right"
+    },
+    {
+      "from": "n15",
+      "to": "n18",
+      "fromconnector": "n15-left",
+      "toconnector": "n18-right"
+    },
+    {
+      "from": "n18",
+      "to": "n14",
+      "fromconnector": "n18-bottom",
+      "toconnector": "n14-top"
+    },
+    {
+      "from": "n7",
+      "to": "n10",
+      "fromconnector": "n7-bottom",
+      "toconnector": "n10-top"
+    },
+    {
+      "from": "n10",
+      "to": "n11",
+      "fromconnector": "n10-right",
+      "toconnector": "n11-left"
+    },
+    {
+      "from": "n44",
+      "to": "n9",
+      "fromconnector": "n44-right",
+      "toconnector": "n9-left"
+    },
+    {
+      "from": "n43",
+      "to": "n12",
+      "fromconnector": "n43-right",
+      "toconnector": "n12-left"
+    },
+    {
+      "from": "n12",
+      "to": "n0",
+      "fromconnector": "n12-right",
+      "toconnector": "n0-left"
+    },
+    {
+      "from": "n12",
+      "to": "n0",
+      "fromconnector": "n12-right",
+      "toconnector": "n0-left"
+    },
+    {
+      "from": "n9",
+      "to": "n0",
+      "fromconnector": "n9-right",
+      "toconnector": "n0-left"
+    },
+    {
+      "from": "n9",
+      "to": "n0",
+      "fromconnector": "n9-right",
+      "toconnector": "n0-left"
+    },
+    {
+      "from": "n52",
+      "to": "n51",
+      "fromconnector": "n52-right",
+      "toconnector": "n51-left"
+    },
+    {
+      "from": "n51",
+      "to": "n0",
+      "fromconnector": "n51-right",
+      "toconnector": "n0-left"
+    },
+    {
+      "from": "n51",
+      "to": "n0",
+      "fromconnector": "n51-right",
+      "toconnector": "n0-left"
+    },
+    {
+      "from": "n55",
+      "to": "n56",
+      "fromconnector": "n55-right",
+      "toconnector": "n56-left"
+    },
+    {
+      "from": "n57",
+      "to": "n56",
+      "fromconnector": "n57-right",
+      "toconnector": "n56-left"
+    },
+    {
+      "from": "n56",
+      "to": "n7",
+      "fromconnector": "n56-right",
+      "toconnector": "n7-left"
+    },
+    {
+      "from": "n11",
+      "to": "n31",
+      "fromconnector": "n11-bottom",
+      "toconnector": "n31-right"
+    },
+    {
+      "from": "n31",
+      "to": "n29",
+      "fromconnector": "n31-top",
+      "toconnector": "n29-top"
+    }
+  ]
+}

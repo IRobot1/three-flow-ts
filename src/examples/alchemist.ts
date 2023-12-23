@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, BufferGeometry, Color, EventDispatcher, Intersection, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, RingGeometry, Scene, Shape, Texture, TextureLoader, Vector2, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, Color, EventDispatcher, FileLoader, Intersection, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, RingGeometry, Scene, Shape, Texture, TextureLoader, Vector2, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
@@ -83,31 +83,7 @@ export class AlchemistExample {
     table.receiveShadow = true
 
 
-    //const fileLoader = new FileLoader()
-    //fileLoader.load(`assets/flow-recipe.json`, (data) => {
-    //  const storage = <ShapeStorage>JSON.parse(<string>data)
-    //  designer.loadDesign(storage)
-    //})
-
     const width = 0.4
-
-    const flowers: Array<string> = ['sunflower', 'cranberries', 'poison1', 'poison2', 'starflower']
-    const parameters: Array<AlchemistNodeParameters> = []
-    flowers.forEach(flower => {
-      parameters.push(<AlchemistNodeParameters>{
-        x: 1, width, height: width, depth: 0.1,
-        type: flower,
-        label: { text: flower, hidden: false, },
-        ingredienttype: 'flower',
-        ingredienttexture: flower
-      })
-    })
-
-
-    const assetparams: FlowNodeParameters = {
-      label: { text: 'Poisonous Plants', material: { color: 'black' }, padding: 0 },
-      type: 'asset',
-    }
 
     //requestAnimationFrame(() => {
     const assets = new AchemistIngredientViewer(app.interactive, designer, cache)
@@ -115,13 +91,73 @@ export class AlchemistExample {
       return new AlchemistTextureNode(assets, parameters)
     }
     assets.position.z = 0.01
-
-    const assetnode = assets.addNode(assetparams) as AssetViewer
-    assetnode.addAssets(parameters)
-    assetnode.position.set(-3, 2.5, 0)
-
     scene.add(assets)
+
+    const loadTextures = (items: Array<string>, path: string, type: string, title: string, x: number, y: number) => {
+      const assetparams: FlowNodeParameters = {
+        label: { text: title, material: { color: 'black' }, padding: 0 },
+        type: 'asset',
+      }
+
+      const assetnode = assets.addNode(assetparams) as AssetViewer
+      assetnode.position.set(x, y, 0)
+
+      const parameters: Array<AlchemistNodeParameters> = []
+      items.forEach(item => {
+        parameters.push(<AlchemistNodeParameters>{
+          x: 1, width, height: width, depth: 0.1,
+          type: item,
+          label: { text: item, hidden: false, },
+          ingredienttype: type,
+          ingredienttexture: `assets/${path}/${item}.png`
+        })
+      })
+
+      assetnode.addAssets(parameters)
+    }
+
+    const row1 = 3.5
+    const row2 = -0.5
+
+    const flowers: Array<string> = ['sunflower', 'cranberries', 'poison1', 'poison2', 'starflower']
+    loadTextures(flowers, 'alchemist/plants', 'flowers', 'Poisonous Plants', 5.1, row1)
+
+    const apparatus: Array<string> = [
+      'beaker', 'bottle', 'bowl', 'bowl2', 'cork-flask', 'distiller1', 'distiller2',
+      'distiller3', 'dripper', 'flask-stand', 'flask1', 'flask2', 'flat-beaker', 'pestal',
+      'round-beaker', 'scales', 'tall-pestal', 'tin', 'tiny-bottle', 'tube-rack', 'urn1', 'urn2', 'warmer'
+    ]
+    loadTextures(apparatus, 'alchemist/apparatus', 'apparatus', 'Apparatus', 4, row1)
+
+    const creatures: Array<string> = ['dragon1', 'dragon2', 'dragon3', 'griffin1', 'griffin2',]
+    loadTextures(creatures, 'alchemist/art/creatures', 'creatures', 'Mythical Creatures', -4.1, row1)
+
+    const symbols: Array<string> = ['symbol1', 'symbol2', 'symbol3', 'symbol4', 'symbol5', 'symbol6',]
+    loadTextures(symbols, 'alchemist/art/symbols', 'symbols', 'Symbols', -5.3, row1)
+
+    const bottles: Array<string> = ['bottle1', 'bottle2', 'bottle3', 'bottle4', 'bottle5', 'bottle6',]
+    loadTextures(bottles, 'alchemist/bottles', 'bottles', 'Bottles', -6.4, row1)
+
+    const crystals: Array<string> = ['crystal1', 'crystal2', 'crystal3', 'crystal4', 'crystal5',]
+    loadTextures(crystals, 'alchemist/crystals', 'crystals', 'Crystals', -7.5, row1)
+
+    const gems: Array<string> = ['gem1', 'gem2', 'gem3', 'gem4', 'gem5',]
+    loadTextures(gems, 'alchemist/gems', 'gems', 'Gems', -4.1, row2)
+
+    const mushrooms: Array<string> = ['mushroom1', 'mushroom2', 'mushroom3', 'mushroom4', 'mushroom5', 'mushroom6',]
+    loadTextures(mushrooms, 'alchemist/mushrooms', 'mushrooms', 'Mushrooms', -5.2, row2)
+
+    const mythicalplants: Array<string> = ['plant1', 'plant2', 'plant3', 'plant4', 'plant5', 'plant6',]
+    loadTextures(mythicalplants, 'alchemist/mythical plants', 'mythicalplants', 'Mythical Plants', -6.3, row2)
+
     //})
+
+    const fileLoader = new FileLoader()
+    fileLoader.load(`assets/alchemist-recipe.json`, (data) => {
+      const storage = JSON.parse(<string>data)
+      designer.loadDesign(storage)
+    })
+
 
     this.dispose = () => {
       designer.dispose()
@@ -183,7 +219,7 @@ class AlchemistTextureNode extends FlowNode {
 
     const material = this.material as MeshBasicMaterial
     material.transparent = true
-    diagram.dispatchEvent<any>({ type: AlchemistEventType.MATERIAL_TEXTURE, material, url: `assets/alchemist/plants/${parameters.type}.png` })
+    diagram.dispatchEvent<any>({ type: AlchemistEventType.MATERIAL_TEXTURE, material, url: parameters.ingredienttexture })
 
     const bordermesh = new Mesh()
     bordermesh.material = diagram.getMaterial('geometry', 'border', <MeshBasicMaterialParameters>{ color: 'black' })
@@ -266,14 +302,14 @@ class DesignerConnectors extends FlowConnectors {
 }
 
 
-interface DesignerEdgeStorage {
+interface RecipeStepStorage {
   from: string, fromconnector: string,
   to: string, toconnector: string
 }
 
-interface ShapeStorage extends DesignerStorage {
+interface RecipeStorage extends DesignerStorage {
   nodes: AlchemistNodeStorage[],
-  edges: DesignerEdgeStorage[]
+  edges: RecipeStepStorage[]
 }
 
 export type StrokeLineJoin = 'arcs' | 'bevel' | 'miter' | 'miter-clip' | 'round'
@@ -334,7 +370,7 @@ class AlchemistRecipeDiagram extends FlowDiagramDesigner {
     return this
   }
 
-  override loadDesign(storage: ShapeStorage) {
+  override loadDesign(storage: RecipeStorage) {
     storage.nodes.forEach(item => {
       const parameters: AlchemistNodeParameters = {
         id: item.id,
@@ -358,8 +394,8 @@ class AlchemistRecipeDiagram extends FlowDiagramDesigner {
     })
   }
 
-  override saveDesign(): ShapeStorage {
-    const storage: ShapeStorage = { nodes: [], edges: [] }
+  override saveDesign(): RecipeStorage {
+    const storage: RecipeStorage = { nodes: [], edges: [] }
     this.allNodes.forEach((node, index) => {
       const shape = node as AlchemistTextureNode
       const parameters = shape.parameters as AlchemistNodeParameters
@@ -380,7 +416,7 @@ class AlchemistRecipeDiagram extends FlowDiagramDesigner {
 
     this.allEdges.forEach(edge => {
       const parameters = edge.parameters
-      const edgeparams = <DesignerEdgeStorage>{
+      const edgeparams = <RecipeStepStorage>{
         from: parameters.from, to: parameters.to,
         fromconnector: parameters.fromconnector, toconnector: parameters.toconnector
       }
