@@ -6,7 +6,6 @@ import { FlowEventType, FlowNodeParameters } from "./model"
 import { FlowNode } from "./node"
 import { FlowProperties } from "./properties"
 import { ThreeInteractive } from "./three-interactive"
-import { FileLoader } from "three"
 import { Exporter } from "./exporter"
 
 

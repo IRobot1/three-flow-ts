@@ -1,9 +1,9 @@
-import { AmbientLight, AxesHelper, BufferGeometry, Color, EventDispatcher, FileLoader, Intersection, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, RingGeometry, Scene, Shape, Texture, TextureLoader, Vector2, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, Color, FileLoader, Intersection, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, RingGeometry, Scene, Texture, TextureLoader, Vector2, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
-import { AnchorType, ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors, FlowDesignerOptions, FlowDiagram, FlowDiagramDesigner, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors, ThreeInteractive } from "three-flow";
+import { ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors, FlowDesignerOptions, FlowDiagram, FlowDiagramDesigner, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors, ThreeInteractive } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "./troika-label";
@@ -25,6 +25,11 @@ interface AlchemistNodeStorage {
   size: number
 }
 
+interface AlchemistNodeParameters extends FlowNodeParameters {
+  showborder?: boolean
+  ingredienttexture: string
+  ingredienttype: string
+}
 
 
 export class AlchemistExample {
@@ -194,11 +199,6 @@ class AchemistIngredientViewer extends AssetViewerDiagram {
   }
 }
 
-interface AlchemistNodeParameters extends FlowNodeParameters {
-  showborder?: boolean
-  ingredienttexture: string
-  ingredienttype: string
-}
 
 
 class AlchemistTextureNode extends FlowNode {
@@ -238,13 +238,6 @@ class AlchemistTextureNode extends FlowNode {
 
   }
 
-
-  //  // this shape is invisible, but needed for dragging
-  //  override createGeometry(parameters: AlchemistNodeParameters): BufferGeometry {
-  //    if (parameters.type == 'cylinder')
-  //      return new CircleGeometry(this.width / 2)
-  //    return super.createGeometry(parameters)
-  //  }
 }
 
 
@@ -408,8 +401,8 @@ class AlchemistRecipeDiagram extends FlowDiagramDesigner {
         size: node.width,
         ingredienttexture: parameters.ingredienttexture,
         ingredienttype: parameters.ingredienttype,
-        label: parameters.label!.text,
-        showlabel: parameters.label!.hidden
+        label: node.label!.text,
+        showlabel: !node.label!.hidden
       }
       storage.nodes.push(nodeparams)
     })
@@ -426,6 +419,7 @@ class AlchemistRecipeDiagram extends FlowDiagramDesigner {
   }
 
   override loadAsset(parameters: FlowNodeParameters): FlowNode {
+    parameters.label!.hidden = true
     return this.loadShape(parameters)
   }
 
@@ -435,12 +429,11 @@ class AlchemistRecipeDiagram extends FlowDiagramDesigner {
 
     // get the connectors for the new node
     const newconnectors = this.connectors.hasNode(newnode.name)!
-    const hidden = true
     const connectors: Array<FlowConnectorParameters> = [
-      { id: `${newnode.name}-left`, anchor: 'left', radius: 0.05, hidden, selectable: true, draggable: true },
-      { id: `${newnode.name}-top`, anchor: 'top', radius: 0.05, hidden, selectable: true, draggable: true },
-      { id: `${newnode.name}-right`, anchor: 'right', radius: 0.05, hidden, selectable: true, draggable: true },
-      { id: `${newnode.name}-bottom`, anchor: 'bottom', radius: 0.05, hidden, selectable: true, draggable: true },
+      { id: `${newnode.name}-left`, anchor: 'left', radius: 0.05, hidden: this.hideconnectors, selectable: true, draggable: true },
+      { id: `${newnode.name}-top`, anchor: 'top', radius: 0.05, hidden: this.hideconnectors, selectable: true, draggable: true },
+      { id: `${newnode.name}-right`, anchor: 'right', radius: 0.05, hidden: this.hideconnectors, selectable: true, draggable: true },
+      { id: `${newnode.name}-bottom`, anchor: 'bottom', radius: 0.05, hidden: this.hideconnectors, selectable: true, draggable: true },
     ]
     connectors.forEach(parameters => {
       newconnectors.addConnector(parameters)

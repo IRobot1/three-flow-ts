@@ -23,8 +23,8 @@
       "size": 0.4,
       "ingredienttexture": "assets/alchemist/apparatus/bowl2.png",
       "ingredienttype": "apparatus",
-      "label": "bowl2",
-      "showlabel": false
+      "label": "bowl",
+      "showlabel": true
     },
     {
       "id": "n2",
@@ -101,8 +101,8 @@
       "size": 0.6264,
       "ingredienttexture": "assets/alchemist/apparatus/warmer.png",
       "ingredienttype": "apparatus",
-      "label": "warmer",
-      "showlabel": false
+      "label": "warm",
+      "showlabel": true
     },
     {
       "id": "n12",
@@ -350,6 +350,32 @@
       "ingredienttype": "apparatus",
       "label": "dripper",
       "showlabel": false
+    },
+    {
+      "id": "n64",
+      "type": "bottle",
+      "position": {
+        "x": 1.8,
+        "y": -2.6
+      },
+      "size": 0.5,
+      "ingredienttexture": "assets/alchemist/apparatus/bottle.png",
+      "ingredienttype": "apparatus",
+      "label": "bottle",
+      "showlabel": false
+    },
+    {
+      "id": "n65",
+      "type": "bottle",
+      "position": {
+        "x": 2.11,
+        "y": -2.61
+      },
+      "size": 0.5,
+      "ingredienttexture": "assets/alchemist/apparatus/bottle.png",
+      "ingredienttype": "apparatus",
+      "label": "bottle",
+      "showlabel": false
     }
   ],
   "edges": [
@@ -490,6 +516,18 @@
       "to": "n29",
       "fromconnector": "n31-top",
       "toconnector": "n29-top"
+    },
+    {
+      "from": "n11",
+      "to": "n64",
+      "fromconnector": "n11-right",
+      "toconnector": "n64-top"
+    },
+    {
+      "from": "n11",
+      "to": "n65",
+      "fromconnector": "n11-right",
+      "toconnector": "n65-top"
     }
   ]
 }
