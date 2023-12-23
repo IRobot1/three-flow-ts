@@ -3,9 +3,7 @@
     {
       "id": "n3",
       "type": "cube",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": -0.88,
         "y": -0.15
@@ -15,9 +13,7 @@
     {
       "id": "n4",
       "type": "cylinder",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": -0.32,
         "y": 0.62
@@ -27,9 +23,7 @@
     {
       "id": "n6",
       "type": "cube",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": 0.6,
         "y": 1
@@ -39,9 +33,7 @@
     {
       "id": "n8",
       "type": "cube",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": 1.2,
         "y": 1
@@ -51,9 +43,7 @@
     {
       "id": "n12",
       "type": "cube",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": 0.4,
         "y": -0.1
@@ -63,9 +53,7 @@
     {
       "id": "n14",
       "type": "cube",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": 0.1,
         "y": 0.3
@@ -75,9 +63,7 @@
     {
       "id": "n21",
       "type": "cube",
-      "data": {
-        "hidden": true
-      },
+      "showsolid": false,
       "position": {
         "x": 1.2,
         "y": 0.4
@@ -87,9 +73,7 @@
     {
       "id": "n31",
       "type": "cube",
-      "data": {
-        "hidden": true
-      },
+      "showsolid": false,
       "position": {
         "x": -0.2,
         "y": -0.4
@@ -99,9 +83,7 @@
     {
       "id": "n35",
       "type": "cube",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": 0.1,
         "y": -0.8
@@ -111,9 +93,7 @@
     {
       "id": "n36",
       "type": "cube",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": -0.8,
         "y": -1.1
@@ -123,9 +103,7 @@
     {
       "id": "n38",
       "type": "cylinder",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": 0.42,
         "y": -0.62
@@ -135,9 +113,7 @@
     {
       "id": "n39",
       "type": "cube",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": 0.97,
         "y": -1.07
@@ -147,9 +123,7 @@
     {
       "id": "n41",
       "type": "cylinder",
-      "data": {
-        "hidden": true
-      },
+      "showsolid": false,
       "position": {
         "x": 1,
         "y": -0.5
@@ -159,9 +133,7 @@
     {
       "id": "n43",
       "type": "cube",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": 2.4,
         "y": 0.6
@@ -171,9 +143,7 @@
     {
       "id": "n44",
       "type": "cylinder",
-      "data": {
-        "hidden": true
-      },
+      "showsolid": false,
       "position": {
         "x": 2.1,
         "y": 1
@@ -183,9 +153,7 @@
     {
       "id": "n45",
       "type": "cylinder",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": 1.6,
         "y": 0.4
@@ -195,9 +163,7 @@
     {
       "id": "n48",
       "type": "cylinder",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": 1.9,
         "y": -0.06
@@ -207,9 +173,7 @@
     {
       "id": "n50",
       "type": "cylinder",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": 3.01,
         "y": 0.18
@@ -219,9 +183,7 @@
     {
       "id": "n52",
       "type": "cylinder",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": 3.1,
         "y": -0.5
@@ -231,9 +193,7 @@
     {
       "id": "n55",
       "type": "cube",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": 1.6,
         "y": -1.39
@@ -243,9 +203,7 @@
     {
       "id": "n57",
       "type": "cube",
-      "data": {
-        "hidden": true
-      },
+      "showsolid": false,
       "position": {
         "x": 1.5,
         "y": -0.8
@@ -255,9 +213,7 @@
     {
       "id": "n59",
       "type": "cylinder",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": 2.04,
         "y": -1.16
@@ -267,9 +223,7 @@
     {
       "id": "n60",
       "type": "cube",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": 2.6,
         "y": -1.4
@@ -279,9 +233,7 @@
     {
       "id": "n62",
       "type": "cylinder",
-      "data": {
-        "hidden": false
-      },
+      "showsolid": true,
       "position": {
         "x": 3.1,
         "y": -1
@@ -291,9 +243,7 @@
     {
       "id": "n64",
       "type": "cube",
-      "data": {
-        "hidden": true
-      },
+      "showsolid": false,
       "position": {
         "x": 2.44,
         "y": -0.64
@@ -303,9 +253,7 @@
     {
       "id": "n66",
       "type": "cube",
-      "data": {
-        "hidden": true
-      },
+      "showsolid": false,
       "position": {
         "x": 3.5,
         "y": -0.2

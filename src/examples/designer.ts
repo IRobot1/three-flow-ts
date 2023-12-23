@@ -62,7 +62,7 @@ export class DesignerExample {
 
 
     const fileLoader = new FileLoader()
-    fileLoader.load(`assets/flow-designer.json`, (data) => {
+    fileLoader.load(`assets/flow-shapes.json`, (data) => {
       const storage = <ShapeStorage>JSON.parse(<string>data)
       designer.loadDesign(storage)
     })
@@ -72,25 +72,19 @@ export class DesignerExample {
     const cylinderparams: DesignerNodeParameters = {
       x: 1, width, height: width, depth: 0.1,
       type: 'cylinder',
-      data: {
-        hidden: false
-      },
+      showsolid: true,
     }
 
     const cubeparams: DesignerNodeParameters = {
       x: -1, width, height: width, depth: 0.1,
       type: 'cube',
-      data: {
-        hidden: false
-      },
+      showsolid: true,
     }
 
     const assetparams: DesignerNodeParameters = {
       label: { text: 'Assets', material: { color: 'black' }, padding: 0 },
       type: 'asset',
-      data: {
-        hidden: false
-      },
+      showsolid: true,
     }
 
     //requestAnimationFrame(() => {
@@ -119,17 +113,14 @@ export class DesignerExample {
 }
 
 
-interface ShapeParameters {
-  hidden: boolean
-}
 interface DesignerNodeParameters extends FlowNodeParameters {
-  data: ShapeParameters
+  showsolid: boolean
 }
 
 class ShapeNode extends FlowNode {
-  get hideshape() { return !this.solid.visible }
-  set hideshape(newvalue: boolean) {
-    this.solid.visible = !newvalue
+  get showsolid() { return this.solid.visible }
+  set showsolid(newvalue: boolean) {
+    this.solid.visible = newvalue
   }
 
   private solid: Mesh
@@ -155,7 +146,7 @@ class ShapeNode extends FlowNode {
     this.add(solid)
     solid.castShadow = true
     this.solid = solid
-    this.solid.visible = !parameters.data.hidden
+    this.solid.visible = parameters.showsolid
 
     const resizeGeometry = () => {
       // add the border
@@ -308,9 +299,9 @@ class DesignerConnectors extends FlowConnectors {
 
 
 interface DesignerNodeStorage {
-  data: ShapeParameters
   id: string
   type: string
+  showsolid: boolean
   position: { x: number, y: number }
   size: number
 }
@@ -387,7 +378,7 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
         x: item.position.x, y: item.position.y,
         width: item.size, height: item.size, depth: 0.1,
         type: item.type,
-        data: item.data
+        showsolid: item.showsolid
       }
       this.loadShape(parameters)
     })
@@ -413,9 +404,7 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
       const nodeparams = <DesignerNodeStorage>{
         id: node.name,
         type: parameters.type,
-        data: {
-          hidden: shape.hideshape
-        },
+        showsolid: shape.showsolid,
         position: { x: +node.position.x.toFixed(2), y: +node.position.y.toFixed(2) },
         size: node.width
       }
@@ -460,7 +449,7 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
       gui.title(`${newnode.name} Properties`)
 
       gui.add(newnode, 'width', 0.2, 1).name('Size').onChange(() => newnode.height = newnode.width)
-      gui.add(newnode, 'hideshape').name('Hide Shape')
+      gui.add(newnode, 'showsolid').name('Show Shape')
     })
 
     this.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, node: newnode })
