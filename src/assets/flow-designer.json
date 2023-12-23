@@ -2,8 +2,8 @@
   "nodes": [
     {
       "id": "n3",
+      "type": "cube",
       "data": {
-        "assettype": "cube",
         "hidden": false
       },
       "position": {
@@ -14,8 +14,8 @@
     },
     {
       "id": "n4",
+      "type": "cylinder",
       "data": {
-        "assettype": "cylinder",
         "hidden": false
       },
       "position": {
@@ -26,8 +26,8 @@
     },
     {
       "id": "n6",
+      "type": "cube",
       "data": {
-        "assettype": "cube",
         "hidden": false
       },
       "position": {
@@ -38,8 +38,8 @@
     },
     {
       "id": "n8",
+      "type": "cube",
       "data": {
-        "assettype": "cube",
         "hidden": false
       },
       "position": {
@@ -50,8 +50,8 @@
     },
     {
       "id": "n12",
+      "type": "cube",
       "data": {
-        "assettype": "cube",
         "hidden": false
       },
       "position": {
@@ -62,8 +62,8 @@
     },
     {
       "id": "n14",
+      "type": "cube",
       "data": {
-        "assettype": "cube",
         "hidden": false
       },
       "position": {
@@ -74,8 +74,8 @@
     },
     {
       "id": "n21",
+      "type": "cube",
       "data": {
-        "assettype": "cube",
         "hidden": true
       },
       "position": {
@@ -86,8 +86,8 @@
     },
     {
       "id": "n31",
+      "type": "cube",
       "data": {
-        "assettype": "cube",
         "hidden": true
       },
       "position": {
@@ -98,8 +98,8 @@
     },
     {
       "id": "n35",
+      "type": "cube",
       "data": {
-        "assettype": "cube",
         "hidden": false
       },
       "position": {
@@ -110,8 +110,8 @@
     },
     {
       "id": "n36",
+      "type": "cube",
       "data": {
-        "assettype": "cube",
         "hidden": false
       },
       "position": {
@@ -122,8 +122,8 @@
     },
     {
       "id": "n38",
+      "type": "cylinder",
       "data": {
-        "assettype": "cylinder",
         "hidden": false
       },
       "position": {
@@ -134,8 +134,8 @@
     },
     {
       "id": "n39",
+      "type": "cube",
       "data": {
-        "assettype": "cube",
         "hidden": false
       },
       "position": {
@@ -146,8 +146,8 @@
     },
     {
       "id": "n41",
+      "type": "cylinder",
       "data": {
-        "assettype": "cylinder",
         "hidden": true
       },
       "position": {
@@ -158,8 +158,8 @@
     },
     {
       "id": "n43",
+      "type": "cube",
       "data": {
-        "assettype": "cube",
         "hidden": false
       },
       "position": {
@@ -170,8 +170,8 @@
     },
     {
       "id": "n44",
+      "type": "cylinder",
       "data": {
-        "assettype": "cylinder",
         "hidden": true
       },
       "position": {
@@ -182,8 +182,8 @@
     },
     {
       "id": "n45",
+      "type": "cylinder",
       "data": {
-        "assettype": "cylinder",
         "hidden": false
       },
       "position": {
@@ -194,8 +194,8 @@
     },
     {
       "id": "n48",
+      "type": "cylinder",
       "data": {
-        "assettype": "cylinder",
         "hidden": false
       },
       "position": {
@@ -206,8 +206,8 @@
     },
     {
       "id": "n50",
+      "type": "cylinder",
       "data": {
-        "assettype": "cylinder",
         "hidden": false
       },
       "position": {
@@ -218,8 +218,8 @@
     },
     {
       "id": "n52",
+      "type": "cylinder",
       "data": {
-        "assettype": "cylinder",
         "hidden": false
       },
       "position": {
@@ -230,8 +230,8 @@
     },
     {
       "id": "n55",
+      "type": "cube",
       "data": {
-        "assettype": "cube",
         "hidden": false
       },
       "position": {
@@ -242,8 +242,8 @@
     },
     {
       "id": "n57",
+      "type": "cube",
       "data": {
-        "assettype": "cube",
         "hidden": true
       },
       "position": {
@@ -254,8 +254,8 @@
     },
     {
       "id": "n59",
+      "type": "cylinder",
       "data": {
-        "assettype": "cylinder",
         "hidden": false
       },
       "position": {
@@ -266,8 +266,8 @@
     },
     {
       "id": "n60",
+      "type": "cube",
       "data": {
-        "assettype": "cube",
         "hidden": false
       },
       "position": {
@@ -278,8 +278,8 @@
     },
     {
       "id": "n62",
+      "type": "cylinder",
       "data": {
-        "assettype": "cylinder",
         "hidden": false
       },
       "position": {
@@ -290,8 +290,8 @@
     },
     {
       "id": "n64",
+      "type": "cube",
       "data": {
-        "assettype": "cube",
         "hidden": true
       },
       "position": {
@@ -302,8 +302,8 @@
     },
     {
       "id": "n66",
+      "type": "cube",
       "data": {
-        "assettype": "cube",
         "hidden": true
       },
       "position": {

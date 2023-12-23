@@ -71,17 +71,26 @@ export class DesignerExample {
 
     const cylinderparams: DesignerNodeParameters = {
       x: 1, width, height: width, depth: 0.1,
-      data: { assettype: 'cylinder', hidden: false },
+      type: 'cylinder',
+      data: {
+        hidden: false
+      },
     }
 
     const cubeparams: DesignerNodeParameters = {
       x: -1, width, height: width, depth: 0.1,
-      data: { assettype: 'cube', hidden: false },
+      type: 'cube',
+      data: {
+        hidden: false
+      },
     }
 
     const assetparams: DesignerNodeParameters = {
       label: { text: 'Assets', material: { color: 'black' }, padding: 0 },
-      data: { assettype: 'asset', hidden: false },
+      type: 'asset',
+      data: {
+        hidden: false
+      },
     }
 
     //requestAnimationFrame(() => {
@@ -89,7 +98,7 @@ export class DesignerExample {
 
     assets.position.z = 0.01
     assets.createNode = (parameters: DesignerNodeParameters): FlowNode => {
-      if (parameters.data.assettype == 'asset')
+      if (parameters.type == 'asset')
         return new AssetNode(assets, parameters)
       return new ShapeNode(assets, parameters)
     }
@@ -109,10 +118,8 @@ export class DesignerExample {
   }
 }
 
-type ShapeType = 'asset' | 'cylinder' | 'cube'
 
 interface ShapeParameters {
-  assettype: ShapeType
   hidden: boolean
 }
 interface DesignerNodeParameters extends FlowNodeParameters {
@@ -153,7 +160,7 @@ class ShapeNode extends FlowNode {
     const resizeGeometry = () => {
       // add the border
       let geometry
-      if (parameters.data.assettype == 'cylinder') {
+      if (parameters.type == 'cylinder') {
         geometry = new RingGeometry(this.width / 2 - 0.005, this.width / 2 + 0.005, 32)
       }
       else {
@@ -163,7 +170,7 @@ class ShapeNode extends FlowNode {
       bordermesh.geometry = geometry
 
       // add the solid shape
-      if (parameters.data.assettype == 'cylinder') {
+      if (parameters.type == 'cylinder') {
         geometry = this.createCylinder(parameters)
       }
       else {
@@ -239,7 +246,7 @@ class ShapeNode extends FlowNode {
 
   // this shape is invisible, but needed for dragging
   override createGeometry(parameters: DesignerNodeParameters): BufferGeometry {
-    if (parameters.data.assettype == 'cylinder')
+    if (parameters.type == 'cylinder')
       return new CircleGeometry(this.width / 2)
     return super.createGeometry(parameters)
   }
@@ -303,6 +310,7 @@ class DesignerConnectors extends FlowConnectors {
 interface DesignerNodeStorage {
   data: ShapeParameters
   id: string
+  type: string
   position: { x: number, y: number }
   size: number
 }
@@ -378,6 +386,7 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
         id: item.id,
         x: item.position.x, y: item.position.y,
         width: item.size, height: item.size, depth: 0.1,
+        type: item.type,
         data: item.data
       }
       this.loadShape(parameters)
@@ -403,7 +412,10 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
 
       const nodeparams = <DesignerNodeStorage>{
         id: node.name,
-        data: { assettype: parameters.data.assettype, hidden: shape.hideshape },
+        type: parameters.type,
+        data: {
+          hidden: shape.hideshape
+        },
         position: { x: +node.position.x.toFixed(2), y: +node.position.y.toFixed(2) },
         size: node.width
       }
