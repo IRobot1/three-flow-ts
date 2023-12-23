@@ -141,7 +141,7 @@ export abstract class FlowDiagramDesigner extends FlowDiagram {
     // Append the input element to the body or another DOM element
     document.body.appendChild(inputElement);
 
-    gui.add<any, any>(this, 'newDiagram').name('New Diagram')
+    gui.add<any, any>(this, 'newDiagram').name('New')
     gui.add<any, any>(this, 'load').name('Load')
     gui.add<any, any>(this, 'filename').name('File name')
     gui.add<any, any>(this, 'save').name('Save')

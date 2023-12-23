@@ -63,9 +63,11 @@ export class FlowLabel extends Object3D {
     }
   }
 
+  get hidden() { return !this.visible }
+  set hidden(newvalue: boolean) { this.visible = !newvalue }
+
   alignX: LabelAlignX
   alignY: LabelAlignY
-  hidden: boolean
   wrapwidth: number
   textalign: LabelTextAlign
   isicon: boolean
@@ -91,12 +93,9 @@ export class FlowLabel extends Object3D {
     this.isicon = parameters.isicon ? parameters.isicon : false
 
     this.hidden = parameters.hidden != undefined ? parameters.hidden : false
-    this.visible = !this.hidden
 
     this.material = diagram.getMaterial('geometry', 'label', this._matparams)!;
     this.font = diagram.getFont(parameters.font)
-
-
   }
 
   private labelposition = new Vector3()

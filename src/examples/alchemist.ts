@@ -1,14 +1,31 @@
-import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, ExtrudeGeometry, ExtrudeGeometryOptions, FileLoader, Intersection, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, PropertyBinding, RingGeometry, Scene, Shape, ShapeGeometry, TextureLoader, Vector2, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, Color, EventDispatcher, Intersection, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, RingGeometry, Scene, Shape, Texture, TextureLoader, Vector2, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry";
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
-import { ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors, FlowDesignerOptions, FlowDiagram, FlowDiagramDesigner, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors, ThreeInteractive } from "three-flow";
+import { AnchorType, ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors, FlowDesignerOptions, FlowDiagram, FlowDiagramDesigner, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors, ThreeInteractive } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "./troika-label";
 import { AssetViewerDiagram, AssetViewer } from "./asset-viewer";
+
+const AlchemistEventType = {
+  MATERIAL_TEXTURE: 'material_texture',  // set a materials map property with a loaded texture
+}
+
+interface AlchemistNodeStorage {
+  id: string
+  type: string
+  showborder: boolean
+  ingredienttexture: string
+  ingredienttype: string
+  label: string
+  showlabel: boolean,
+  position: { x: number, y: number }
+  size: number
+}
+
+
 
 export class AlchemistExample {
 
@@ -45,16 +62,19 @@ export class AlchemistExample {
     })
 
     //scene.add(new AxesHelper(3))
-    const designer = new DesignerFlowDiagram(app.interactive, {
+
+    const cache = new TextureCache()
+
+    const designer = new AlchemistRecipeDiagram(app.interactive, cache, {
       diagram: { linestyle: 'step', lineoffset: 0.1, gridsize: 0.1 },
-      title: 'Shape Designer', initialFileName: 'flow-shapes.json'
+      title: 'Alchemist Recipe', initialFileName: 'alchemist-recipe.json'
     })
     scene.add(designer);
 
     const textureLoader = new TextureLoader()
     const blankpage = textureLoader.load('assets/blank-page.png')
 
-    const tablematerial = designer.getMaterial('geometry', 'table', <MeshStandardMaterialParameters>{ color: '#F0EBDD', map:blankpage, transparent:true })
+    const tablematerial = designer.getMaterial('geometry', 'table', <MeshStandardMaterialParameters>{ color: '#F0EBDD', map: blankpage, transparent: true })
 
     const tablegeometry = new PlaneGeometry(10, 8)
     const table = new Mesh(tablegeometry, tablematerial)
@@ -71,34 +91,34 @@ export class AlchemistExample {
 
     const width = 0.4
 
-    const cylinderparams: DesignerNodeParameters = {
-      x: 1, width, height: width, depth: 0.1,
-      type: 'cylinder',
-      showsolid: true,
-    }
+    const flowers: Array<string> = ['sunflower', 'cranberries', 'poison1', 'poison2', 'starflower']
+    const parameters: Array<AlchemistNodeParameters> = []
+    flowers.forEach(flower => {
+      parameters.push(<AlchemistNodeParameters>{
+        x: 1, width, height: width, depth: 0.1,
+        type: flower,
+        label: { text: flower, hidden: false, },
+        ingredienttype: 'flower',
+        ingredienttexture: flower
+      })
+    })
 
-    const cubeparams: DesignerNodeParameters = {
-      x: -1, width, height: width, depth: 0.1,
-      type: 'cube',
-      showsolid: true,
-    }
 
-    const assetparams: DesignerNodeParameters = {
-      label: { text: 'Assets', material: { color: 'black' }, padding: 0 },
+    const assetparams: FlowNodeParameters = {
+      label: { text: 'Poisonous Plants', material: { color: 'black' }, padding: 0 },
       type: 'asset',
-      showsolid: true,
     }
 
     //requestAnimationFrame(() => {
-    const assets = new AssetViewerDiagram(app.interactive, designer)
-    assets.createAsset = (parameters: DesignerNodeParameters): FlowNode => {
-      return new ShapeNode(assets, parameters)
+    const assets = new AchemistIngredientViewer(app.interactive, designer, cache)
+    assets.createAsset = (parameters: AlchemistNodeParameters): FlowNode => {
+      return new AlchemistTextureNode(assets, parameters)
     }
     assets.position.z = 0.01
 
     const assetnode = assets.addNode(assetparams) as AssetViewer
-    assetnode.addAssets([cylinderparams, cubeparams])
-    assetnode.position.set(-2, 0.5, 0)
+    assetnode.addAssets(parameters)
+    assetnode.position.set(-3, 2.5, 0)
 
     scene.add(assets)
     //})
@@ -111,140 +131,89 @@ export class AlchemistExample {
   }
 }
 
+class TextureCache {
+  private textureMap = new Map<string, Texture>([])
 
-interface DesignerNodeParameters extends FlowNodeParameters {
-  showsolid: boolean
+  private textureLoader = new TextureLoader()
+
+  getTexture(url: string): Texture {
+    let texture = this.textureMap.get(url)
+    if (!texture) {
+      texture = this.textureLoader.load(url)
+      this.textureMap.set(url, texture)
+    }
+    return texture
+  }
 }
 
-class ShapeNode extends FlowNode {
-  get showsolid() { return this.solid.visible }
-  set showsolid(newvalue: boolean) {
-    this.solid.visible = newvalue
+class AchemistIngredientViewer extends AssetViewerDiagram {
+  constructor(interactive: ThreeInteractive, designer: FlowDiagramDesigner, cache: TextureCache, options?: FlowDiagramOptions) {
+    super(interactive, designer, options)
+
+    this.addEventListener(AlchemistEventType.MATERIAL_TEXTURE, (e: any) => {
+      const material = e.material
+      const url = e.url
+      material.map = cache.getTexture(url)
+    })
+  }
+}
+
+interface AlchemistNodeParameters extends FlowNodeParameters {
+  showborder?: boolean
+  ingredienttexture: string
+  ingredienttype: string
+}
+
+
+class AlchemistTextureNode extends FlowNode {
+  private bordermesh: Mesh
+  get showborder() { return this.bordermesh.visible }
+  set showborder(newvalue: boolean) {
+    this.bordermesh.visible = newvalue
   }
 
-  private solid: Mesh
-
-  constructor(diagram: FlowDiagram, parameters: DesignerNodeParameters) {
+  constructor(diagram: FlowDiagram, parameters: AlchemistNodeParameters) {
     parameters.resizable = parameters.scalable = false
-    parameters.material = { color: '#DECAAF' }
+    parameters.autogrow = false
+    parameters.labelanchor = 'bottom'
+
     super(diagram, parameters);
 
     this.castShadow = true
 
     const material = this.material as MeshBasicMaterial
     material.transparent = true
-    material.opacity = 0
+    diagram.dispatchEvent<any>({ type: AlchemistEventType.MATERIAL_TEXTURE, material, url: `assets/alchemist/plants/${parameters.type}.png` })
 
     const bordermesh = new Mesh()
     bordermesh.material = diagram.getMaterial('geometry', 'border', <MeshBasicMaterialParameters>{ color: 'black' })
     this.add(bordermesh)
     bordermesh.position.z = 0.001
+    this.bordermesh = bordermesh
 
-    const solid = new Mesh()
-    solid.material = diagram.getMaterial('geometry', 'solid', parameters.material!)
-    this.add(solid)
-    solid.castShadow = true
-    this.solid = solid
-    this.solid.visible = parameters.showsolid
+    this.showborder = parameters.showborder ? parameters.showborder : false
 
     const resizeGeometry = () => {
-      // add the border
-      let geometry
-      if (parameters.type == 'cylinder') {
-        geometry = new RingGeometry(this.width / 2 - 0.005, this.width / 2 + 0.005, 32)
-      }
-      else {
-        geometry = this.addBorder()
-      }
-
-      bordermesh.geometry = geometry
-
-      // add the solid shape
-      if (parameters.type == 'cylinder') {
-        geometry = this.createCylinder(parameters)
-      }
-      else {
-        geometry = this.createCube(parameters)
-      }
-
-      solid.geometry = geometry
+      bordermesh.geometry = new RingGeometry(this.width / 2 - 0.01, this.width / 2 + 0.01, 32)
     }
     resizeGeometry()
 
     this.addEventListener(FlowEventType.WIDTH_CHANGED, resizeGeometry)
-  }
 
-  private addBorder(): BufferGeometry {
-    const r = 0.04
-    // add a border around node
-    const shape = this.rectangularShape(this.width + 0.01, this.height + 0.01, 0.03)
-
-    const points = this.rectangularShape(this.width - 0.01, this.height - 0.01, 0.02).getPoints();
-
-    // draw the hole
-    const holePath = new Shape(points.reverse())
-
-    // add hole to shape
-    shape.holes.push(holePath);
-    return new ShapeGeometry(shape);
-  }
-
-  private rectangularShape(width: number, height: number, radius: number): Shape {
-    const halfwidth = width / 2
-    const halfheight = height / 2
-
-    const shape = new Shape()
-      .moveTo(-halfwidth + radius, -halfheight)
-      .lineTo(halfwidth - radius, -halfheight)
-      .quadraticCurveTo(halfwidth, -halfheight, halfwidth, -halfheight + radius)
-      .lineTo(halfwidth, halfheight - radius)
-      .quadraticCurveTo(halfwidth, halfheight, halfwidth - radius, halfheight)
-      .lineTo(-halfwidth + radius, halfheight)
-      .quadraticCurveTo(-halfwidth, halfheight, -halfwidth, halfheight - radius)
-      .lineTo(-halfwidth, -halfheight + radius)
-      .quadraticCurveTo(-halfwidth, -halfheight, -halfwidth + radius, -halfheight)
-
-    return shape
   }
 
 
-  private createCube(parameters: DesignerNodeParameters): BufferGeometry {
-    const geometry = new RoundedBoxGeometry(this.width - 0.04, this.height - 0.04, this.depth, 8, 0.02)
-    geometry.translate(0, 0, this.depth / 2)
-    return geometry
-  }
-
-  // try using Lathe to eliminate artifact
-  private createCylinder(parameters: DesignerNodeParameters): BufferGeometry {
-    const circleShape = new Shape();
-    const radius = this.width / 2 - 0.04
-    circleShape.absellipse(0, 0, radius, radius, 0, Math.PI * 2);
-
-
-    const bevelSize = radius / 20
-    // Define extrusion settings
-    const extrudeSettings = <ExtrudeGeometryOptions>{
-      curveSegments: 32,
-      depth: parameters.depth, // extrusion depth
-      bevelEnabled: true,
-      bevelSize, bevelThickness: bevelSize, bevelSegments: 4
-
-    };
-
-    return new ExtrudeGeometry(circleShape, extrudeSettings);
-  }
-
-  // this shape is invisible, but needed for dragging
-  override createGeometry(parameters: DesignerNodeParameters): BufferGeometry {
-    if (parameters.type == 'cylinder')
-      return new CircleGeometry(this.width / 2)
-    return super.createGeometry(parameters)
-  }
+  //  // this shape is invisible, but needed for dragging
+  //  override createGeometry(parameters: AlchemistNodeParameters): BufferGeometry {
+  //    if (parameters.type == 'cylinder')
+  //      return new CircleGeometry(this.width / 2)
+  //    return super.createGeometry(parameters)
+  //  }
 }
 
 
 class AssetConnector extends ConnectorMesh {
-  constructor(diagram: DesignerFlowDiagram, connectors: NodeConnectors, parameters: FlowConnectorParameters) {
+  constructor(diagram: AlchemistRecipeDiagram, connectors: NodeConnectors, parameters: FlowConnectorParameters) {
     super(connectors, parameters)
 
     // listen for request to show connector properties
@@ -265,7 +234,7 @@ class AssetConnector extends ConnectorMesh {
 
   override pointerEnter(): string { return 'crosshair' }
 
-  override dropCompleted(diagram: DesignerFlowDiagram, start: Vector3, dragIntersects: Array<Intersection>): FlowNode | undefined {
+  override dropCompleted(diagram: AlchemistRecipeDiagram, start: Vector3, dragIntersects: Array<Intersection>): FlowNode | undefined {
     const intersect = dragIntersects.filter(i => i.object.type == 'flowconnector')
     // ignore unless drop was on top of a connector
     if (!intersect.length) return
@@ -286,24 +255,16 @@ class AssetConnector extends ConnectorMesh {
 
 
 class DesignerConnectors extends FlowConnectors {
-  constructor(diagram: DesignerFlowDiagram) {
+  constructor(diagram: AlchemistRecipeDiagram) {
     super(diagram)
   }
 
   override createConnector(connectors: NodeConnectors, parameters: FlowConnectorParameters): ConnectorMesh {
-    return new AssetConnector(this.diagram as DesignerFlowDiagram, connectors, parameters)
+    return new AssetConnector(this.diagram as AlchemistRecipeDiagram, connectors, parameters)
   }
 
 }
 
-
-interface DesignerNodeStorage {
-  id: string
-  type: string
-  showsolid: boolean
-  position: { x: number, y: number }
-  size: number
-}
 
 interface DesignerEdgeStorage {
   from: string, fromconnector: string,
@@ -311,7 +272,7 @@ interface DesignerEdgeStorage {
 }
 
 interface ShapeStorage extends DesignerStorage {
-  nodes: DesignerNodeStorage[],
+  nodes: AlchemistNodeStorage[],
   edges: DesignerEdgeStorage[]
 }
 
@@ -333,14 +294,20 @@ class DesignerEdge extends FlowEdge {
 
 
 
-class DesignerFlowDiagram extends FlowDiagramDesigner {
+class AlchemistRecipeDiagram extends FlowDiagramDesigner {
   hideconnectors = true
 
   override createFlowConnectors() {
     return new DesignerConnectors(this)
   }
-  constructor(interactive: ThreeInteractive, options: FlowDesignerOptions) {
+  constructor(interactive: ThreeInteractive, cache: TextureCache, options: FlowDesignerOptions) {
     super(interactive, options)
+
+    this.addEventListener(AlchemistEventType.MATERIAL_TEXTURE, (e: any) => {
+      const material = e.material
+      const url = e.url
+      material.map = cache.getTexture(url)
+    })
 
     options.keyboard = {
       'Delete': (keyboard: KeyboardEvent, node?: FlowNode) => {
@@ -362,9 +329,6 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
 
   override clear(): this {
     this.allNodes.forEach((node, index) => {
-      //// dumb way to exclude asset nodes
-      //if (index < 3) return // TODO: better solution than this
-
       this.removeNode(node)
     })
     return this
@@ -372,12 +336,15 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
 
   override loadDesign(storage: ShapeStorage) {
     storage.nodes.forEach(item => {
-      const parameters: DesignerNodeParameters = {
+      const parameters: AlchemistNodeParameters = {
         id: item.id,
         x: item.position.x, y: item.position.y,
         width: item.size, height: item.size, depth: 0.1,
         type: item.type,
-        showsolid: item.showsolid
+        showborder: item.showborder,
+        ingredienttexture: item.ingredienttexture,
+        ingredienttype: item.ingredienttype,
+        label: { text: item.label, hidden: !item.showlabel }
       }
       this.loadShape(parameters)
     })
@@ -394,18 +361,19 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
   override saveDesign(): ShapeStorage {
     const storage: ShapeStorage = { nodes: [], edges: [] }
     this.allNodes.forEach((node, index) => {
-      //// dumb way to exclude asset nodes
-      //if (index < 3) return // TODO: better solution than this
+      const shape = node as AlchemistTextureNode
+      const parameters = shape.parameters as AlchemistNodeParameters
 
-      const shape = node as ShapeNode
-      const parameters = shape.parameters as DesignerNodeParameters
-
-      const nodeparams = <DesignerNodeStorage>{
+      const nodeparams = <AlchemistNodeStorage>{
         id: node.name,
         type: parameters.type,
-        showsolid: shape.showsolid,
+        showborder: parameters.showborder,
         position: { x: +node.position.x.toFixed(2), y: +node.position.y.toFixed(2) },
-        size: node.width
+        size: node.width,
+        ingredienttexture: parameters.ingredienttexture,
+        ingredienttype: parameters.ingredienttype,
+        label: parameters.label!.text,
+        showlabel: parameters.label!.hidden
       }
       storage.nodes.push(nodeparams)
     })
@@ -426,7 +394,7 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
   }
 
   loadShape(parameters: FlowNodeParameters): FlowNode {
-    const newnode = this.addNode(parameters) as ShapeNode
+    const newnode = this.addNode(parameters) as AlchemistTextureNode
     newnode.minwidth = newnode.minheight = 0.2
 
     // get the connectors for the new node
@@ -448,7 +416,9 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
       gui.title(`${newnode.name} Properties`)
 
       gui.add(newnode, 'width', 0.2, 1).name('Size').onChange(() => newnode.height = newnode.width)
-      gui.add(newnode, 'showsolid').name('Show Shape')
+      //gui.add(newnode, 'showborder').name('Show Border')
+      gui.add(newnode.label, 'text').name('Label')
+      gui.add(newnode.label, 'hidden').name('Hide Label')
     })
 
     this.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, node: newnode })
@@ -464,8 +434,8 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
     return new TroikaFlowLabel(this, parameters)
   }
 
-  override createNode(parameters: DesignerNodeParameters): FlowNode {
-    return new ShapeNode(this, parameters)
+  override createNode(parameters: AlchemistNodeParameters): FlowNode {
+    return new AlchemistTextureNode(this, parameters)
   }
 
   override createEdge(parameters: FlowEdgeParameters): FlowEdge {

@@ -360,9 +360,6 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
 
   override clear(): this {
     this.allNodes.forEach((node, index) => {
-      //// dumb way to exclude asset nodes
-      //if (index < 3) return // TODO: better solution than this
-
       this.removeNode(node)
     })
     return this
@@ -392,9 +389,6 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
   override saveDesign(): ShapeStorage {
     const storage: ShapeStorage = { nodes: [], edges: [] }
     this.allNodes.forEach((node, index) => {
-      //// dumb way to exclude asset nodes
-      //if (index < 3) return // TODO: better solution than this
-
       const shape = node as ShapeNode
       const parameters = shape.parameters as DesignerNodeParameters
 
