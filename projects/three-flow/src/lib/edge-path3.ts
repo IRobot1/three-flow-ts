@@ -186,7 +186,7 @@ export class FlowEdgePath3 {
 
         // if an edge goes from right to right for example (sourcePosition === targetPosition) and the distance between source.x and target.x is less than the offset, the added point and the gapped source/target will overlap. This leads to a weird edge path. To avoid this we add a gapOffset to the source/target
         if (diff <= offset) {
-          const gapOffset = Math.min(offset - 1, offset - diff);
+          const gapOffset = Math.min(offset, offset - diff);
           if (sourceDir[dirXY] === currDir) {
             sourceGapOffset[dirXY] = (sourceGapped[dirXY] > source[dirXY] ? -1 : 1) * gapOffset;
           } else {
