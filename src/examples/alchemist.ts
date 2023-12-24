@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, BufferGeometry, Color, FileLoader, Intersection, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, RingGeometry, Scene, Texture, TextureLoader, Vector2, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CircleGeometry, Color, FileLoader, Intersection, LinearFilter, Material, MaterialParameters, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, RingGeometry, Scene, Texture, TextureLoader, Vector2, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
@@ -41,7 +41,7 @@ export class AlchemistExample {
     const scene = new Scene()
     app.scene = scene
 
-    app.camera.position.z = 4
+    //app.enableVR() - not working well
 
     scene.background = new Color(0x444444)
 
@@ -51,22 +51,36 @@ export class AlchemistExample {
 
     const light = new PointLight(0xffffff, 2, 100)
     light.position.set(0, 0, 2)
-    light.castShadow = true
-    //light.shadow.bias = -0.001 // this prevents artifacts
-    light.shadow.mapSize.width = light.shadow.mapSize.height = 512 * 2
     scene.add(light)
 
+    app.camera.position.set(0.013345295270752611, 1.200363663156926, 0.6082108650792649 - 1)
+
     const orbit = new OrbitControls(app.camera, app.domElement);
-    orbit.target.set(0, app.camera.position.y, 0)
+    orbit.target.set(0, 0.8, -1.1)
     orbit.enableRotate = false;
     orbit.update();
+    //orbit.addEventListener('change', (e: any) => {
+    //  console.warn(app.camera.position)
+    //})
 
     window.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.code == 'Space')
         orbit.enableRotate = !orbit.enableRotate
     })
 
-    //scene.add(new AxesHelper(3))
+    // scene.add(new AxesHelper(3))
+
+    const floor = new Mesh(new CircleGeometry(3), new MeshStandardMaterial({ color: '#666' }))
+    scene.add(floor)
+    floor.rotation.x = MathUtils.degToRad(-90)
+    floor.receiveShadow = true
+
+
+    const table = new Mesh(new BoxGeometry(2, 0.1, 1), new MeshStandardMaterial({ color: '#6F6454' }))
+    scene.add(table)
+    table.position.y = 0.93
+    table.position.z = -1
+    table.rotation.x = MathUtils.degToRad(45)
 
     const cache = new TextureCache()
 
@@ -74,19 +88,22 @@ export class AlchemistExample {
       diagram: { linestyle: 'step', lineoffset: 0.1, gridsize: 0.1 },
       title: 'Alchemist Recipe', initialFileName: 'alchemist-recipe.json'
     })
-    scene.add(designer);
+    table.add(designer);
+    designer.rotation.x = MathUtils.degToRad(-90)
+    designer.scale.setScalar(0.1)
+    designer.position.y = 0.06
+    // designer .position.z = 0.1
 
     const textureLoader = new TextureLoader()
     const blankpage = textureLoader.load('assets/blank-page.png')
 
-    const tablematerial = designer.getMaterial('geometry', 'table', <MeshStandardMaterialParameters>{ color: '#F0EBDD', map: blankpage, transparent: true })
+    const pagematerial = designer.getMaterial('geometry', 'table', <MeshStandardMaterialParameters>{ color: 'white', map: blankpage, transparent: true, opacity: 0.99 })
 
-    const tablegeometry = new PlaneGeometry(10, 8)
-    const table = new Mesh(tablegeometry, tablematerial)
-    scene.add(table)
-    table.position.z = - 0.01
-    table.receiveShadow = true
-
+    const pagegeometry = new PlaneGeometry(10, 8)
+    const page = new Mesh(pagegeometry, pagematerial)
+    designer.add(page)
+    page.position.z = - 0.01
+    page.receiveShadow = true
 
     const width = 0.4
 
@@ -95,8 +112,8 @@ export class AlchemistExample {
     assets.createAsset = (parameters: AlchemistNodeParameters): FlowNode => {
       return new AlchemistTextureNode(assets, parameters)
     }
-    assets.position.z = 0.01
-    scene.add(assets)
+    assets.position.z = 0.005
+    designer.add(assets)
 
     const loadTextures = (items: Array<string>, path: string, type: string, title: string, x: number, y: number) => {
       const assetparams: FlowNodeParameters = {
@@ -105,7 +122,7 @@ export class AlchemistExample {
       }
 
       const assetnode = assets.addNode(assetparams) as AssetViewer
-      assetnode.position.set(x, y, 0)
+      assetnode.position.set(x, y, 0.001)
 
       const parameters: Array<AlchemistNodeParameters> = []
       items.forEach(item => {
@@ -165,6 +182,7 @@ export class AlchemistExample {
 
 
     this.dispose = () => {
+      //app.disableVR()
       designer.dispose()
       assets.dispose()
       orbit.dispose()
@@ -212,13 +230,13 @@ class AlchemistTextureNode extends FlowNode {
     parameters.resizable = parameters.scalable = false
     parameters.autogrow = false
     parameters.labelanchor = 'bottom'
-
+    parameters.z = 0.001
     super(diagram, parameters);
-
-    this.castShadow = true
 
     const material = this.material as MeshBasicMaterial
     material.transparent = true
+    this.renderOrder = 1
+
     diagram.dispatchEvent<any>({ type: AlchemistEventType.MATERIAL_TEXTURE, material, url: parameters.ingredienttexture })
 
     const bordermesh = new Mesh()

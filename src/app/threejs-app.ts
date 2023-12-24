@@ -69,10 +69,6 @@ export class ThreeJSApp extends WebGLRenderer {
     this.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(this.domElement);
 
-    this.xr.enabled = false
-    if (this.xr.enabled)
-      document.body.appendChild(VRButton.createButton(this));
-
     this.shadowMap.enabled = true;
     this.shadowMap.type = PCFSoftShadowMap;
 
@@ -99,6 +95,8 @@ export class ThreeJSApp extends WebGLRenderer {
     this.setAnimationLoop(animate);
   }
 
+  vrbutton?: HTMLElement
+
   // short-cut
   navigateto(route: string) {
     this.interactive.selectable.clear()
@@ -106,5 +104,17 @@ export class ThreeJSApp extends WebGLRenderer {
     this.router.navigateto(route)
   }
 
+  disableVR() {
+    this.xr.enabled = false
+    if (this.vrbutton) {
+      document.body.removeChild(this.vrbutton);
+      this.vrbutton = undefined
+    }
+  }
 
+  enableVR() {
+    this.xr.enabled = true
+    this.vrbutton = VRButton.createButton(this)
+    document.body.appendChild(this.vrbutton);
+  }
 }
