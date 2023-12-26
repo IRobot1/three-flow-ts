@@ -21,6 +21,7 @@ import { MindmapExample } from '../examples/mindmap';
 import { HyperFlowExample } from '../examples/hyper-flow';
 import { DesignerExample } from '../examples/designer';
 import { AlchemistExample } from '../examples/alchemist';
+import { ConnectorsExample } from '../examples/connectors';
 
 
 @Component({
@@ -49,10 +50,11 @@ export class AppComponent {
     app.router.add('podium', () => { return new PodiumExample(app) })
     app.router.add('banner', () => { return new BannerExample(app) })
     app.router.add('livedata', () => { return new ComputerNetworkExample(app) })
-    app.router.add('kpi', () => { return new KPIExample(app) })
+    //app.router.add('kpi', () => { return new KPIExample(app) })
     app.router.add('mindmap', () => { return new MindmapExample(app) })
     app.router.add('hyperflow', () => { return new HyperFlowExample(app) })
     app.router.add('designer', () => { return new DesignerExample(app) })
     app.router.add('alchemist', () => { return new AlchemistExample(app) })
+    app.router.add('connectors', () => { return new ConnectorsExample(app) })
   }
 }

@@ -291,14 +291,23 @@ export class GalleryExample {
         ],
       },
       {
-        id: 'kpi',
-        label: { text: "KPI" },
+        id: 'connectors',
+        label: { text: "Connectors" },
         x: column5, y: row2,
-        assetimage: 'kpi', route: 'kpi',
+        assetimage: 'connectors', route: 'connectors',
         connectors: [
-          { id: "c1kpi", anchor: 'top' },
+          { id: "c1connectors", anchor: 'top' },
         ],
       },
+      //{
+      //  id: 'kpi',
+      //  label: { text: "KPI" },
+      //  x: column5, y: row2,
+      //  assetimage: 'kpi', route: 'kpi',
+      //  connectors: [
+      //    { id: "c1kpi", anchor: 'top' },
+      //  ],
+      //},
       {
         id: 'mindmap',
         label: { text: "Mind Map" },
@@ -427,10 +436,16 @@ export class GalleryExample {
       },
       {
         from: "basic",
-        to: "kpi",
+        to: "connectors",
         fromconnector: "c2basic",
-        toconnector: "c1kpi"
+        toconnector: "c1connectors"
       },
+      //{
+      //  from: "basic",
+      //  to: "kpi",
+      //  fromconnector: "c2basic",
+      //  toconnector: "c1kpi"
+      //},
       {
         from: "basic",
         to: "mindmap",
