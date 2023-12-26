@@ -291,7 +291,7 @@ export class ConnectorInteractive {
     })
 
     const createDragRoute = (start: Vector3): FlowRoute | undefined => {
-      const route = mesh.dragStarting(diagram, start)
+      const route = diagram.addRoute({ x: start.x, y: start.y, dragging: true })
       if (route) {
         const params: FlowEdgeParameters = { from: parentNode.name, to: route.name, fromconnector: mesh.name, }
         dragedge = diagram.addEdge(params)
@@ -312,7 +312,7 @@ export class ConnectorInteractive {
     })
 
     let newnode: FlowNode | undefined
-    let dragroute: FlowNode | undefined
+    let dragroute: FlowRoute | undefined
     let dragedge: FlowEdge | undefined
     let dragDistance = 0
     mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
@@ -355,6 +355,10 @@ export class ConnectorInteractive {
         dragroute.position.copy(position.add(flowStart) as Vector3)
         dragroute.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
       }
+
+      if (dragroute && dragedge)
+      mesh.dragging(dragedge, dragroute)
+
     })
 
     const cancelDrag = () => {

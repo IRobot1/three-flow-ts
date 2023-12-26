@@ -2,7 +2,7 @@ import { AmbientLight, AxesHelper, Color, Intersection, MeshBasicMaterial, MeshB
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowInteraction, FlowNode, FlowNodeParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowLabel, FlowLabelParameters, NodeConnectors, FlowConnectorParameters, ConnectorMesh, FlowEdgeParameters, FlowEventType } from "three-flow";
+import { FlowInteraction, FlowNode, FlowNodeParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowLabel, FlowLabelParameters, NodeConnectors, FlowConnectorParameters, ConnectorMesh, FlowEdgeParameters, FlowEventType, FlowEdge, FlowRoute } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 
 export class ConnectorsExample {
@@ -90,6 +90,7 @@ class MyConnector extends ConnectorMesh {
     this.addEventListener(FlowEventType.DISABLE_CHANGED, setColor)
   }
 
+
   override canDrop(source: ConnectorMesh): boolean {
     if (!this.allowDrop) return false
 
@@ -98,6 +99,12 @@ class MyConnector extends ConnectorMesh {
     const othercolor = (source.material as MeshBasicMaterial).color.getStyle()
     return color == othercolor
   }
+
+  //override dragging(edge: FlowEdge, route: FlowRoute) {
+  //  // demonstrate live updating edge label
+  //  const p = route.position
+  //  edge.label.text = `x:${p.x.toFixed(1)}, y:${p.y.toFixed(1)}`
+  //}
 
   //override dragOver(connector: ConnectorMesh) {
   //}

@@ -5,6 +5,7 @@ import { FlowNode } from "./node"
 import { FlowLabel } from "./label"
 import { FlowUtils } from "./utils"
 import { FlowRoute } from "./route"
+import { FlowEdge } from "./edge"
 
 export class FlowConnectors {
   private nodesMap = new Map<string, NodeConnectors>()
@@ -362,9 +363,7 @@ export class ConnectorMesh extends Mesh {
 
   pointerLeave(): void { }
 
-  dragStarting(diagram: FlowDiagram, start: Vector3): FlowRoute | undefined {
-    return diagram.addRoute({ x: start.x, y: start.y, dragging: true })
-  }
+  dragging(edge: FlowEdge, route: FlowRoute) { }
 
   canDrop(source: ConnectorMesh): boolean { return this.allowDrop }
 
