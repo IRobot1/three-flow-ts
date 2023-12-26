@@ -230,6 +230,7 @@ export class FlowEdgePath3 {
         centerZ = points[0].z;
       }
     }
+    center.set(centerX, centerY, centerZ)
 
     const pathPoints = [
       source,

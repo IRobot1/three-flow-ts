@@ -81,6 +81,9 @@ export interface FlowEdgeParameters {
 
   fromconnector?: string // optional connector id on from node
   toconnector?: string   // optional connector id on to node
+
+  label?: FlowLabelParameters
+
 }
 
 export type FlowNodeType = 'node' | 'route' | string

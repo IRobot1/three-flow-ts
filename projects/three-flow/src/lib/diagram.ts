@@ -234,6 +234,10 @@ export class FlowDiagram extends Object3D {
     return this.edgesMap.get(id)
   }
 
+  public matchEdge(from: string, to: string): FlowEdge | undefined {
+    return this.edgesMap.get(`${from}-${to}`)
+  }
+
   public addEdge(parameters: FlowEdgeParameters): FlowEdge {
     if (!parameters.material && this.options) parameters.material = this.options.linematerial
     if (!parameters.linestyle && this.options) parameters.linestyle = this.options.linestyle
@@ -256,6 +260,9 @@ export class FlowDiagram extends Object3D {
     this._nextEdgeId++;
 
     this.edgesMap.set(edge.name, edge)
+    this.edgesMap.set(`${edge.from}-${edge.to}`, edge)
+    if (edge.fromconnector && edge.toconnector)
+      this.edgesMap.set(`${edge.fromconnector}-${edge.toconnector}`, edge)
 
     this.dispatchEvent<any>({ type: FlowEventType.EDGE_ADDED, edge })
     return edge
@@ -266,6 +273,9 @@ export class FlowDiagram extends Object3D {
     this.dispatchEvent<any>({ type: FlowEventType.EDGE_REMOVED, edge })
 
     this.edgesMap.delete(edge.name)
+    this.edgesMap.delete(`${edge.from}-${edge.to}`)
+    if (edge.fromconnector && edge.toconnector)
+      this.edgesMap.delete(`${edge.fromconnector}-${edge.toconnector}`)
 
     this.remove(edge)
     //edge.dispose()

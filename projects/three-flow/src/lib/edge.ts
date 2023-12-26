@@ -6,10 +6,13 @@ import { FlowArrow } from "./arrow";
 import { ConnectorMesh } from "./connector";
 import { Path3 } from "./path3";
 import { FlowEdgePath3 } from "./edge-path3";
+import { FlowLabel } from "./label";
 
 export class FlowEdge extends Mesh {
   readonly from: string;
   readonly to: string;
+  fromconnector?: string
+  toconnector?: string
 
   private _matparams!: MeshBasicMaterialParameters
   get color() { return this._matparams.color! }
@@ -65,6 +68,8 @@ export class FlowEdge extends Mesh {
   private toConnector: Object3D | undefined
 
   private line?: Line
+  public label: FlowLabel
+
 
   isFlow = true
   constructor(public diagram: FlowDiagram, public parameters: FlowEdgeParameters) {
@@ -133,6 +138,10 @@ export class FlowEdge extends Mesh {
 
     this.material = diagram.getMaterial('line', 'edge', this._matparams)
 
+    if (!parameters.label) parameters.label = {}
+    this.label = diagram.createLabel(parameters.label)
+    this.add(this.label)
+
     diagram.addEventListener(FlowEventType.NODE_REMOVED, (e: any) => {
       const node = e.node as FlowNode
 
@@ -141,6 +150,8 @@ export class FlowEdge extends Mesh {
     })
 
     requestAnimationFrame(() => {
+      this.label.updateLabel()
+
       this.updateVisuals()
 
       if (this.line) {
@@ -165,6 +176,7 @@ export class FlowEdge extends Mesh {
         this.fromConnector.addEventListener(FlowEventType.EDGE_DELETE, () => { this.deleteEdge() })
         this.parameters.fromconnector = fromconnector
       }
+      this.fromconnector = this.fromConnector.name
     }
     if (this.toNode) {
       this.toConnector = this.toNode.getConnector(toconnector)
@@ -173,6 +185,7 @@ export class FlowEdge extends Mesh {
         this.toConnector.addEventListener(FlowEventType.EDGE_DELETE, () => { this.deleteEdge() })
         this.parameters.toconnector = toconnector
       }
+      this.toconnector = this.toConnector.name
     }
     if (update) this.updateVisuals()
   }
@@ -217,6 +230,7 @@ export class FlowEdge extends Mesh {
     const from = new Vector3()
     const to = new Vector3()
     let path: Path3
+    let labelPosition: Vector3 | undefined
 
     // use layout when provided
     if (this.parameters.points) {
@@ -254,15 +268,18 @@ export class FlowEdge extends Mesh {
         case 'straight': {
           const result = edge.getStraightPath({ source: from, target: to })
           path = result.path
+          labelPosition = result.label
         }
           break
         case 'step':
           const result = edge.getSmoothStepPath({ source: from, sourcePosition: fromanchor, target: to, targetPosition: toanchor })
           path = result.path
+          labelPosition = result.label
           break
         case 'bezier': {
           const result = edge.getBezierPath({ source: from, sourcePosition: fromanchor, target: to, targetPosition: toanchor })
           path = result.path
+          labelPosition = result.label
         }
           break
 
@@ -287,7 +304,12 @@ export class FlowEdge extends Mesh {
       this.line.computeLineDistances()
     }
 
+    if (labelPosition) {
+      if (this.label.labelMesh) {
+        this.label.labelMesh.position.copy(labelPosition)
+      }
 
+    }
     if (this.toArrow) {
       this.toArrow.position.set(to.x, to.y, 0)
       if (this.toConnector) {

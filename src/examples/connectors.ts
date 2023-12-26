@@ -41,7 +41,7 @@ export class ConnectorsExample {
 
     //scene.add(new AxesHelper(3))
 
-    const flow = new ConnectorDiagram()
+    const flow = new ConnectorDiagram({ linestyle: 'step' })
     scene.add(flow);
 
     const interaction = new FlowInteraction(flow, app.interactive)
@@ -67,6 +67,7 @@ export class ConnectorsExample {
         { id: 'c3end', anchor: 'left', index: 2, draggable: true, allowDrop: true, material: { color: 'red' } },
       ]
     })
+
 
     this.dispose = () => {
       orbit.dispose()
@@ -110,14 +111,21 @@ class MyConnector extends ConnectorMesh {
       const otherconnector = intersect.object as ConnectorMesh
       if (!otherconnector.canDrop(this)) return
 
-      const othernode = otherconnector.parent as FlowNode
+      // if there's no edge already connecting
+      if (!diagram.matchEdge(this.name, otherconnector.name)) {
 
-      const color = (this.material as MeshBasicMaterial).color.getStyle()
+        const othernode = otherconnector.parent as FlowNode
 
-      const edgeparams: FlowEdgeParameters = {
-        from: this.parent!.name, to: othernode.name, fromconnector: this.name, toconnector: otherconnector.name, material: { color },
+        const color = this.parameters.material!.color as string
+
+        const edgeparams: FlowEdgeParameters = {
+          from: this.parent!.name, to: othernode.name, fromconnector: this.name, toconnector: otherconnector.name, material: { color },
+          label: { text: color }
+        }
+
+        // add edge between connectors
+        diagram.addEdge(edgeparams)
       }
-      diagram.addEdge(edgeparams)
     })
 
     return undefined
