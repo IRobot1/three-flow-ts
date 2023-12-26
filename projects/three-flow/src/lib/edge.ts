@@ -1,4 +1,4 @@
-import { BufferGeometry, ColorRepresentation, Line, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Path, SplineCurve, Vector2, Vector3 } from "three";
+import { BufferGeometry, ColorRepresentation, Line, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Vector3 } from "three";
 import { FlowArrowParameters, FlowEdgeParameters, EdgeLineStyle, FlowEventType, AnchorType } from "./model";
 import { FlowDiagram } from "./diagram";
 import { FlowNode } from "./node";
@@ -243,24 +243,56 @@ export class FlowEdge extends Mesh {
       from.copy(curvepoints[0])
       to.copy(curvepoints[curvepoints.length - 1])
     }
-    else if (this.fromConnector && this.toConnector) {
-
-      from.copy(this.diagram.getFlowPosition(this.fromConnector))
-      to.copy(this.diagram.getFlowPosition(this.toConnector))
-
+    else {
       let fromanchor: AnchorType = 'center'
       let toanchor: AnchorType = 'center'
 
-      if (this.fromConnector.type == 'flowconnector') {
-        const frommesh = this.fromConnector as ConnectorMesh
-        from.copy(this.diagram.getFlowPosition(frommesh))
-        fromanchor = frommesh.anchor
-      }
+      if (this.fromConnector) {
+        from.copy(this.diagram.getFlowPosition(this.fromConnector))
 
-      if (this.toConnector.type == 'flowconnector') {
-        const tomesh = this.toConnector as ConnectorMesh
-        to.copy(this.diagram.getFlowPosition(tomesh))
-        toanchor = tomesh.anchor
+        if (this.fromConnector.type == 'flowconnector') {
+          const frommesh = this.fromConnector as ConnectorMesh
+          from.copy(this.diagram.getFlowPosition(frommesh))
+          fromanchor = frommesh.anchor
+        }
+      }
+      else if (this.fromNode)
+        from.copy(this.fromNode.position)
+
+      if (this.toConnector) {
+        to.copy(this.diagram.getFlowPosition(this.toConnector))
+        if (this.toConnector.type == 'flowconnector') {
+          const tomesh = this.toConnector as ConnectorMesh
+          to.copy(this.diagram.getFlowPosition(tomesh))
+          toanchor = tomesh.anchor
+        }
+      }
+      else if (this.toNode)
+        to.copy(this.toNode.position)
+
+      if (fromanchor == 'center' || toanchor == 'center') {
+        const xdiff = Math.abs(to.x - from.x)
+        const ydiff = Math.abs(to.y - from.y)
+        if (xdiff > ydiff) {
+          if (from.x < to.x) {
+            fromanchor = 'right'
+            toanchor = 'left'
+          }
+          else if (from.x > to.x) {
+            fromanchor = 'left'
+            toanchor = 'right'
+          }
+        }
+        else {
+          if (from.y < to.y) {
+            fromanchor = 'top'
+            toanchor = 'bottom'
+          }
+          else if (from.y > to.y) {
+            fromanchor = 'bottom'
+            toanchor = 'top'
+          }
+        }
       }
 
       const edge = new FlowEdgePath3()
@@ -285,8 +317,6 @@ export class FlowEdge extends Mesh {
 
       }
     }
-    else
-      path = new Path3([from, to])
 
     const curvepoints = path.getPoints(this.divisions)//.map(p => new Vector3(p.x, p.y, p.z))
     const geometry = this.createGeometry(curvepoints, this.thickness)
