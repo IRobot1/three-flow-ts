@@ -1,4 +1,4 @@
-import { Material, MeshBasicMaterialParameters, Vector3 } from "three";
+import { Intersection, Material, MeshBasicMaterialParameters, Object3D, Vector3 } from "three";
 import { DragNode } from "./drag-node";
 import { FlowDiagram } from "./diagram";
 import { InteractiveEventType, ThreeInteractive } from "./three-interactive";
@@ -309,7 +309,6 @@ export class ConnectorInteractive {
 
       dragStart = e.position.clone()
       flowStart = diagram.getFlowPosition(mesh)
-      document.body.style.cursor = 'grabbing'
       dragging = true
     })
 
@@ -320,17 +319,28 @@ export class ConnectorInteractive {
     mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
       if (!mesh.draggable || mesh.disabled || !dragging) return
 
+      document.body.style.cursor = 'grabbing'
+
+      const selectIntersects = e.selectIntersects as Array<Intersection>
+      const dragIntersects = e.dragIntersects as Array<Intersection>
+
       const position = e.position.clone()
       const diff = position.sub(dragStart) as Vector3
       dragDistance = diff.length()
       if (dragDistance > mesh.startDragDistance) {
         if (!mesh.createOnDrop) {
-          if (!newnode) newnode = mesh.dropCompleted(diagram, flowStart!, e.dragIntersects, e.selectIntersects)
+          if (!newnode) newnode = mesh.dropCompleted(diagram, flowStart!, dragIntersects, selectIntersects)
         }
         else {
           if (!dragroute) dragroute = createDragRoute(flowStart!)
         }
       }
+
+      dragIntersects.forEach(intersect => {
+        if (intersect.object.type != 'flowconnector') return
+        mesh.dragOver()
+        intersect.object.dispatchEvent<any>({ type: FlowEventType.DRAG_OVER })
+      })
 
       if (newnode) {
         newnode.position.copy(position.add(flowStart) as Vector3)

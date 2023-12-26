@@ -44,6 +44,7 @@ export interface FlowConnectorParameters {
   draggable?: boolean // listen for drag events
   startDragDistance?: number  // distance moved before dragging starts
   createOnDrop?: boolean // call dropCompleted when dragging starts or ends. Default is when it ends
+  allowDrop?: boolean
 }
 
 export type ArrowType = 'from' | 'to'
@@ -146,6 +147,7 @@ export const FlowEventType = {
   DIAGRAM_PROPERTIES: 'diagram_properties',
   DISPOSE: 'dispose',
   DRAGGED: 'dragged',
+  DRAG_OVER: 'drag_over',
   NODE_ADDED: 'node_added',
   NODE_REMOVED: 'node_removed',
   NODE_SELECTED: 'node_selected',
@@ -168,6 +170,7 @@ export const FlowEventType = {
   RESIZABLE_CHANGED: 'resizable_changed',
   SELECTABLE_CHANGED: 'selectable_changed',
   HIDDEN_CHANGED: 'hidden_changed',
+  DISABLE_CHANGED: 'disable_changed',
   LABEL_READY: 'synccomplete',
   KEY_DOWN: 'keydown',
   KEY_UP: 'keyup',
