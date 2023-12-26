@@ -44,6 +44,7 @@ export interface FlowConnectorParameters {
   startDragDistance?: number  // distance moved before dragging starts
   createOnDrop?: boolean // call dropCompleted when dragging starts or ends. Default is when it ends
   allowDrop?: boolean
+  limit?: number  // limit number of connections, default is Infinity
 }
 
 export type ArrowType = 'from' | 'to'

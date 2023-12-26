@@ -299,6 +299,7 @@ export class ConnectorMesh extends Mesh {
   selectcursor: string
   startDragDistance: number
   createOnDrop: boolean
+  limit: number
 
   isFlow = true
   constructor(public connectors: NodeConnectors, public parameters: FlowConnectorParameters) {
@@ -322,6 +323,7 @@ export class ConnectorMesh extends Mesh {
     this._allowDrop = parameters.allowDrop != undefined ? parameters.allowDrop : true
     this.startDragDistance = parameters.startDragDistance != undefined ? parameters.startDragDistance : 0.2
     this.createOnDrop = parameters.createOnDrop != undefined ? parameters.createOnDrop : true
+    this.limit = parameters.limit != undefined ? parameters.limit : Number.POSITIVE_INFINITY
     this.hidden = parameters.hidden != undefined ? parameters.hidden : false
     this.visible = !this.hidden
 

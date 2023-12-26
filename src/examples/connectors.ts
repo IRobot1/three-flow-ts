@@ -56,15 +56,18 @@ export class ConnectorsExample {
     const startNode = flow.addNode({
       x: column1, y: row1, label: { text: 'Match' }, resizable: false, scalable: false, draggable: true,
       connectors: [
-        { id: 'c1start', anchor: 'right', selectable: true, draggable: true, startDragDistance: 0.05, material: { color: 'green' } }
+        { id: 'c1start', anchor: 'right', selectable: true, draggable: true, startDragDistance: 0.05, material: { color: 'green' } },
+        { id: 'c2start', anchor: 'right', selectable: true, index: 1, draggable: true, startDragDistance: 0.05, material: { color: 'blue' } },
+        { id: 'c3start', anchor: 'right', selectable: true, index: 2, draggable: true, startDragDistance: 0.05, material: { color: 'blue' } },
       ]
     })
     const endNode = flow.addNode({
-      x: column2, y: row1, label: { text: 'Colors', }, resizable: false, scalable: false, draggable: false,
+      x: column2, y: row1, height: 1.5, label: { text: 'Colors', }, resizable: false, scalable: false, draggable: false,
       connectors: [
         { id: 'c1end', anchor: 'left', draggable: true, allowDrop: false, material: { color: 'gray' } },
         { id: 'c2end', anchor: 'left', index: 1, draggable: true, allowDrop: true, material: { color: 'green' } },
         { id: 'c3end', anchor: 'left', index: 2, draggable: true, allowDrop: true, material: { color: 'red' } },
+        { id: 'c4end', anchor: 'left', index: 3, draggable: true, allowDrop: true, label: { text: 'Limit 1', alignX: 'left' }, material: { color: 'blue' }, limit: 1 },
       ]
     })
 
@@ -97,7 +100,12 @@ class MyConnector extends ConnectorMesh {
     const color = (this.material as MeshBasicMaterial).color.getStyle()
     // @ts-ignore
     const othercolor = (source.material as MeshBasicMaterial).color.getStyle()
-    return color == othercolor
+    if (color != othercolor) return false
+
+    const matches = this.diagram.allEdges.filter(e => e.toconnector == this.name)
+    if (matches.length > this.limit) return false
+
+    return true
   }
 
   //override dragging(edge: FlowEdge, route: FlowRoute) {
