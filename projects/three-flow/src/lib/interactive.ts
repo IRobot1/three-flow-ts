@@ -274,19 +274,18 @@ export class ConnectorInteractive {
     })
 
     mesh.addEventListener(InteractiveEventType.POINTERENTER, () => {
-      if (!mesh.selectable) return
-      if (mesh.disabled) {
+      if (!mesh.selectable) {
         document.body.style.cursor = 'not-allowed'
       }
       else {
-        let cursor = mesh.pointerEnter()
-        if (!cursor) cursor = mesh.selectcursor
-        if (cursor)
-          document.body.style.cursor = cursor
+        //let cursor = mesh.pointerEnter()
+        //if (!cursor) cursor = mesh.selectcursor
+        //if (cursor)
+        //  document.body.style.cursor = cursor
       }
     })
     mesh.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
-      if (!mesh.selectable) return
+      //if (!mesh.selectable) return
       mesh.pointerLeave()
       document.body.style.cursor = 'default'
     })
@@ -305,7 +304,7 @@ export class ConnectorInteractive {
     let flowStart: Vector3 | undefined
     let dragging = false
     mesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
-      if (!mesh.draggable || mesh.disabled) return
+      if (!mesh.draggable) return
 
       dragStart = e.position.clone()
       flowStart = diagram.getFlowPosition(mesh)
@@ -317,7 +316,7 @@ export class ConnectorInteractive {
     let dragedge: FlowEdge | undefined
     let dragDistance = 0
     mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
-      if (!mesh.draggable || mesh.disabled || !dragging) return
+      if (!mesh.draggable || !dragging) return
 
       document.body.style.cursor = 'grabbing'
 
@@ -337,9 +336,15 @@ export class ConnectorInteractive {
       }
 
       dragIntersects.forEach(intersect => {
-        if (intersect.object.type != 'flowconnector') return
-        mesh.dragOver()
-        intersect.object.dispatchEvent<any>({ type: FlowEventType.DRAG_OVER })
+        if (intersect.object == mesh || intersect.object.type != 'flowconnector') return
+        const connector = intersect.object as ConnectorMesh
+        mesh.dragOver(connector)
+        intersect.object.dispatchEvent<any>({ type: FlowEventType.DRAG_OVER, connector })
+
+        if (connector.canDrop(mesh))
+          document.body.style.cursor = 'copy'
+        else
+          document.body.style.cursor = 'not-allowed'
       })
 
       if (newnode) {
@@ -361,7 +366,7 @@ export class ConnectorInteractive {
     }
 
     mesh.addEventListener(InteractiveEventType.DRAGEND, (e: any) => {
-      if (!mesh.draggable || mesh.disabled) return
+      if (!mesh.draggable) return
 
       if (dragging && dragDistance > mesh.startDragDistance) {
         if (mesh.createOnDrop) {

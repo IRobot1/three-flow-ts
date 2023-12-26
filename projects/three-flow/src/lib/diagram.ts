@@ -25,11 +25,8 @@ export class FlowDiagram extends Object3D {
   private materials: Map<string, Material>
   private graph!: FlowLayout
 
-  private _nextId = 0
-  get nextId() { return this._nextId }
-
-  private _edgeCount = 0
-  get edgeCount() { return this._edgeCount }
+  private _nextNodeId = 0
+  private _nextEdgeId = 0
 
   private _active: FlowNode | undefined;
   get active() { return this._active }
@@ -156,6 +153,7 @@ export class FlowDiagram extends Object3D {
   }
 
   private nodesMap = new Map<string, FlowNode>([])
+  private edgesMap = new Map<string, FlowEdge>([])
 
   get allNodes(): Array<FlowNode> {
     return Array.from(this.nodesMap.values())
@@ -165,24 +163,24 @@ export class FlowDiagram extends Object3D {
     return this.nodesMap.get(id)
   }
 
-  private extractId(id: string): number | undefined {
-    let match = id.match(/^n(\d+)$/);
+  private extractId(prefix: string, id: string): number | undefined {
+    let match = id.match(`/^${prefix}(\d+)$/`);
     return match ? parseInt(match[1], 10) : undefined;
   }
 
   public addNode(parameters: FlowNodeParameters): FlowNode {
     if (parameters.id) {
-      const id = this.extractId(parameters.id)
+      const id = this.extractId('n', parameters.id)
 
       if (id != undefined) {
         // avoid re-using ids
-        if (id > this._nextId) this._nextId = id
+        if (id > this._nextNodeId) this._nextNodeId = id
       }
     }
 
     const node = this.createNode(parameters)
     this.add(node)
-    this._nextId++
+    this._nextNodeId++
 
     this.nodesMap.set(node.name, node)
 
@@ -193,7 +191,7 @@ export class FlowDiagram extends Object3D {
   addRoute(parameters: FlowRouteParameters): FlowRoute {
     const route = this.createRoute(parameters)
     this.add(route)
-    this._nextId++;
+    this._nextNodeId++;
 
     this.nodesMap.set(route.name, route)
 
@@ -216,7 +214,7 @@ export class FlowDiagram extends Object3D {
   }
 
   nextNodeId(): string {
-    return `n${this.nextId}`
+    return `n${this._nextNodeId}`
   }
 
   newNode(): FlowNode {
@@ -229,18 +227,11 @@ export class FlowDiagram extends Object3D {
 
 
   get allEdges(): Array<FlowEdge> {
-    return this.children.filter(child => child.type == 'flowedge') as Array<FlowEdge>
+    return Array.from(this.edgesMap.values())
   }
 
   public hasEdge(id: string): FlowEdge | undefined {
-
-    for (const child of this.children) {
-      if (child.type == 'flowedge') {
-        const edge = child as FlowEdge
-        if (edge.name == id) return edge
-      }
-    }
-    return undefined
+    return this.edgesMap.get(id)
   }
 
   public addEdge(parameters: FlowEdgeParameters): FlowEdge {
@@ -251,9 +242,20 @@ export class FlowDiagram extends Object3D {
     if (!parameters.lineoffset && this.options) parameters.lineoffset = this.options.lineoffset
     if (!parameters.z && this.options) parameters.z = this.options.edgez
 
+    if (parameters.id) {
+      const id = this.extractId('e', parameters.id)
+
+      if (id != undefined) {
+        // avoid re-using ids
+        if (id > this._nextEdgeId) this._nextEdgeId = id
+      }
+    }
+
     const edge = this.createEdge(parameters)
     this.add(edge)
-    this._edgeCount++;
+    this._nextEdgeId++;
+
+    this.edgesMap.set(edge.name, edge)
 
     this.dispatchEvent<any>({ type: FlowEventType.EDGE_ADDED, edge })
     return edge
@@ -261,15 +263,16 @@ export class FlowDiagram extends Object3D {
 
   public removeEdge(edge: FlowEdge): void {
 
-    this._edgeCount--
-
     this.dispatchEvent<any>({ type: FlowEventType.EDGE_REMOVED, edge })
 
+    this.edgesMap.delete(edge.name)
+
     this.remove(edge)
+    //edge.dispose()
   }
 
   nextEdgeId(): string {
-    return `e${this.edgeCount}`
+    return `e${this._nextEdgeId}`
   }
 
   //

@@ -287,15 +287,6 @@ export class ConnectorMesh extends Mesh {
     }
   }
 
-  private _disabled: boolean;
-  get disabled() { return this._disabled }
-  set disabled(newvalue: boolean) {
-    if (this._disabled != newvalue) {
-      this._disabled = newvalue;
-      this.dispatchEvent<any>({ type: FlowEventType.DISABLE_CHANGED })
-    }
-  }
-
   private _allowDrop: boolean;
   get allowDrop() { return this._allowDrop }
   set allowDrop(newvalue: boolean) {
@@ -327,7 +318,6 @@ export class ConnectorMesh extends Mesh {
     this._selectable = parameters.selectable ? parameters.selectable : false
     this._draggable = parameters.draggable ? parameters.draggable : false
     this.selectcursor = parameters.selectcursor ? parameters.selectcursor : 'grab'
-    this._disabled = parameters.disabled ? parameters.disabled : false
     this._allowDrop = parameters.allowDrop != undefined ? parameters.allowDrop : true
     this.startDragDistance = parameters.startDragDistance != undefined ? parameters.startDragDistance : 0.2
     this.createOnDrop = parameters.createOnDrop != undefined ? parameters.createOnDrop : true
@@ -376,7 +366,9 @@ export class ConnectorMesh extends Mesh {
     return diagram.addRoute({ x: start.x, y: start.y, dragging: true })
   }
 
-  dragOver() { }
+  canDrop(source: ConnectorMesh): boolean { return this.allowDrop }
+
+  dragOver(connector: ConnectorMesh) { }
 
   dropCompleted(diagram: FlowDiagram, position: Vector3, dragIntersects: Array<Intersection>, selectIntersects: Array<Intersection>): FlowNode | undefined {
     console.warn('drop complete not handled')

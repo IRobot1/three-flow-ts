@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, Color, Intersection, MeshBasicMaterialParameters, PointLight, Scene, Vector3 } from "three";
+import { AmbientLight, AxesHelper, Color, Intersection, MeshBasicMaterial, MeshBasicMaterialParameters, PointLight, Scene, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
@@ -53,16 +53,18 @@ export class ConnectorsExample {
     const column2 = 1
     const row1 = 0
 
-    const node1 = flow.addNode({
-      x: column1, y: row1, label: { text: 'Start', material: { color: 'black' } }, resizable: false, scalable: false, draggable: false,
+    const startNode = flow.addNode({
+      x: column1, y: row1, label: { text: 'Match' }, resizable: false, scalable: false, draggable: true,
       connectors: [
-        { id: 'c1n1', anchor: 'right', selectable: true, draggable: true, startDragDistance: 0.05 }
+        { id: 'c1start', anchor: 'right', selectable: true, draggable: true, startDragDistance: 0.05, material: { color: 'green' } }
       ]
     })
-    const node2 = flow.addNode({
-      x: column2, y: row1, label: { text: 'End', material: { color: 'black' } }, resizable: false, scalable: false, draggable: false,
+    const endNode = flow.addNode({
+      x: column2, y: row1, label: { text: 'Colors', }, resizable: false, scalable: false, draggable: false,
       connectors: [
-        { id: 'c1n1', anchor: 'left', disabled: true, draggable: true, selectable:true }
+        { id: 'c1end', anchor: 'left', draggable: true, allowDrop: false, material: { color: 'gray' } },
+        { id: 'c2end', anchor: 'left', index: 1, draggable: true, allowDrop: true, material: { color: 'green' } },
+        { id: 'c3end', anchor: 'left', index: 2, draggable: true, allowDrop: true, material: { color: 'red' } },
       ]
     })
 
@@ -80,21 +82,24 @@ class MyConnector extends ConnectorMesh {
     const enabledmaterial = this.material
 
     const setColor = () => {
-      this.material = this.disabled ? disabledmaterial : enabledmaterial
+      this.material = this.allowDrop ? enabledmaterial : disabledmaterial
     }
     setColor()
 
     this.addEventListener(FlowEventType.DISABLE_CHANGED, setColor)
   }
 
-  override dragOver() {
-    if (this.disabled || !this.allowDrop) {
+  override canDrop(source: ConnectorMesh): boolean {
+    if (!this.allowDrop) return false
 
-    console.warn('drag over')
-      document.body.style.cursor = 'not-allowed'
-    }
-
+    const color = (this.material as MeshBasicMaterial).color.getStyle()
+    // @ts-ignore
+    const othercolor = (source.material as MeshBasicMaterial).color.getStyle()
+    return color == othercolor
   }
+
+  //override dragOver(connector: ConnectorMesh) {
+  //}
 
   override dropCompleted(diagram: FlowDiagram, start: Vector3, dragIntersects: Array<Intersection>): FlowNode | undefined {
     const intersect = dragIntersects.filter(i => i.object.type == 'flowconnector')
@@ -102,14 +107,15 @@ class MyConnector extends ConnectorMesh {
     if (!intersect.length) return
 
     intersect.forEach(intersect => {
-      const mesh = intersect.object as ConnectorMesh
-      console.warn(mesh.disabled, mesh.allowDrop)
-      if (mesh.disabled || !mesh.allowDrop) return
+      const otherconnector = intersect.object as ConnectorMesh
+      if (!otherconnector.canDrop(this)) return
 
-      const node = mesh.parent as FlowNode
+      const othernode = otherconnector.parent as FlowNode
+
+      const color = (this.material as MeshBasicMaterial).color.getStyle()
 
       const edgeparams: FlowEdgeParameters = {
-        from: this.parent!.name, to: node.name, fromconnector: this.name, toconnector: mesh.name
+        from: this.parent!.name, to: othernode.name, fromconnector: this.name, toconnector: otherconnector.name, material: { color },
       }
       diagram.addEdge(edgeparams)
     })

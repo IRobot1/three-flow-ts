@@ -281,7 +281,7 @@ export class BasicExample {
         return mesh
       }
 
-      connectors.addConnectors(node4, [{ id: 'n4c1', anchor: 'right', selectable: true, disabled: true }])
+      connectors.addConnectors(node4, [{ id: 'n4c1', anchor: 'right', selectable: true }])
       connectors.addConnectors(node4, [{
         id: 'n4c2', anchor: 'left',
         selectable: true, selectcursor: 'crosshair',
