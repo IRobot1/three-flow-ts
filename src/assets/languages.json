@@ -10,6 +10,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 44.949999999999946,
       "y": 15,
       "rank": 0,
@@ -24,6 +25,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -79.04999999999993,
       "y": 10,
       "rank": 2,
@@ -38,6 +40,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -23.249999999999957,
       "y": 10,
       "rank": 2,
@@ -52,6 +55,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 10.84999999999998,
       "y": 10,
       "rank": 2,
@@ -66,6 +70,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 27.899999999999878,
       "y": 10,
       "rank": 2,
@@ -80,6 +85,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 32.54999999999994,
       "y": 10,
       "rank": 2,
@@ -94,6 +100,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 41.84999999999992,
       "y": 10,
       "rank": 2,
@@ -108,6 +115,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 49.59999999999992,
       "y": 10,
       "rank": 2,
@@ -122,6 +130,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 60.449999999999946,
       "y": 10,
       "rank": 2,
@@ -136,6 +145,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 54.24999999999993,
       "y": 5,
       "rank": 4,
@@ -150,6 +160,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 58.899999999999935,
       "y": 5,
       "rank": 4,
@@ -164,6 +175,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 83.69999999999989,
       "y": 5,
       "rank": 4,
@@ -178,6 +190,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 77.4999999999999,
       "y": 0,
       "rank": 6,
@@ -192,6 +205,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 75.94999999999992,
       "y": -5,
       "rank": 8,
@@ -206,6 +220,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 58.899999999999935,
       "y": 0,
       "rank": 6,
@@ -220,6 +235,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 21.69999999999996,
       "y": 5,
       "rank": 4,
@@ -234,6 +250,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 27.89999999999995,
       "y": 5,
       "rank": 4,
@@ -248,6 +265,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 26.34999999999995,
       "y": 0,
       "rank": 6,
@@ -262,6 +280,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 4.6499999999999915,
       "y": 5,
       "rank": 4,
@@ -276,6 +295,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 15.499999999999972,
       "y": 5,
       "rank": 4,
@@ -290,6 +310,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -40.29999999999994,
       "y": 5,
       "rank": 4,
@@ -304,6 +325,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -23.249999999999886,
       "y": 5,
       "rank": 4,
@@ -318,6 +340,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -4.6499999999999915,
       "y": 5,
       "rank": 4,
@@ -332,6 +355,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -44.94999999999994,
       "y": 0,
       "rank": 6,
@@ -346,6 +370,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -40.29999999999994,
       "y": 0,
       "rank": 6,
@@ -360,6 +385,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -37.199999999999946,
       "y": 0,
       "rank": 6,
@@ -374,6 +400,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -34.099999999999945,
       "y": 0,
       "rank": 6,
@@ -388,6 +415,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -29.449999999999946,
       "y": 0,
       "rank": 6,
@@ -402,6 +430,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -20.149999999999963,
       "y": 0,
       "rank": 6,
@@ -416,6 +445,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -12.399999999999977,
       "y": 0,
       "rank": 6,
@@ -430,6 +460,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -7.749999999999986,
       "y": 0,
       "rank": 6,
@@ -444,6 +475,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -49.59999999999994,
       "y": -5,
       "rank": 8,
@@ -458,6 +490,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -46.499999999999936,
       "y": -5,
       "rank": 8,
@@ -472,6 +505,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -46.499999999999936,
       "y": -10,
       "rank": 10,
@@ -486,6 +520,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -40.29999999999994,
       "y": -5,
       "rank": 8,
@@ -500,6 +535,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -37.199999999999946,
       "y": -5,
       "rank": 8,
@@ -514,6 +550,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -34.099999999999945,
       "y": -5,
       "rank": 8,
@@ -528,6 +565,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -20.149999999999963,
       "y": -5,
       "rank": 8,
@@ -542,6 +580,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -12.399999999999977,
       "y": -5,
       "rank": 8,
@@ -556,6 +595,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -7.749999999999986,
       "y": -5,
       "rank": 8,
@@ -570,6 +610,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -88.34999999999991,
       "y": 5,
       "rank": 4,
@@ -584,6 +625,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -69.74999999999991,
       "y": 5,
       "rank": 4,
@@ -598,6 +640,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -80.59999999999991,
       "y": 0,
       "rank": 6,
@@ -612,6 +655,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -68.19999999999993,
       "y": 0,
       "rank": 6,
@@ -626,6 +670,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -55.79999999999993,
       "y": 0,
       "rank": 6,
@@ -640,6 +685,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 63.54999999999997,
       "y": 10,
       "rank": 2,
@@ -654,6 +700,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 66.64999999999993,
       "y": 10,
       "rank": 2,
@@ -668,6 +715,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 69.74999999999996,
       "y": 10,
       "rank": 2,
@@ -682,6 +730,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 72.84999999999992,
       "y": 10,
       "rank": 2,
@@ -696,6 +745,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 48.04999999999994,
       "y": 5,
       "rank": 4,
@@ -710,6 +760,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 51.149999999999935,
       "y": 5,
       "rank": 4,
@@ -724,6 +775,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 35.64999999999995,
       "y": 5,
       "rank": 4,
@@ -738,6 +790,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 38.74999999999996,
       "y": 5,
       "rank": 4,
@@ -752,6 +805,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 41.84999999999992,
       "y": 5,
       "rank": 4,
@@ -766,6 +820,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 44.949999999999946,
       "y": 5,
       "rank": 4,
@@ -780,6 +835,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 80.59999999999992,
       "y": 0,
       "rank": 6,
@@ -794,6 +850,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 83.69999999999989,
       "y": 0,
       "rank": 6,
@@ -808,6 +865,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 86.79999999999991,
       "y": 0,
       "rank": 6,
@@ -822,6 +880,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 89.8999999999999,
       "y": 0,
       "rank": 6,
@@ -836,6 +895,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 79.04999999999991,
       "y": -5,
       "rank": 8,
@@ -850,6 +910,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 75.94999999999992,
       "y": -10,
       "rank": 10,
@@ -864,6 +925,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 32.54999999999994,
       "y": 5,
       "rank": 4,
@@ -878,6 +940,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 54.24999999999993,
       "y": 0,
       "rank": 6,
@@ -892,6 +955,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 40.29999999999994,
       "y": -5,
       "rank": 8,
@@ -906,6 +970,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 43.399999999999935,
       "y": -5,
       "rank": 8,
@@ -920,6 +985,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 46.49999999999993,
       "y": -5,
       "rank": 8,
@@ -934,6 +1000,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 49.59999999999992,
       "y": -5,
       "rank": 8,
@@ -948,6 +1015,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 52.699999999999946,
       "y": -5,
       "rank": 8,
@@ -962,6 +1030,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 57.34999999999992,
       "y": -5,
       "rank": 8,
@@ -976,6 +1045,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 60.449999999999946,
       "y": -5,
       "rank": 8,
@@ -990,6 +1060,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 63.54999999999991,
       "y": -5,
       "rank": 8,
@@ -1004,6 +1075,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 66.64999999999993,
       "y": -5,
       "rank": 8,
@@ -1018,6 +1090,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 69.7499999999999,
       "y": -5,
       "rank": 8,
@@ -1032,6 +1105,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 72.84999999999992,
       "y": -5,
       "rank": 8,
@@ -1046,6 +1120,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 20.149999999999963,
       "y": 0,
       "rank": 6,
@@ -1060,6 +1135,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 23.249999999999957,
       "y": 0,
       "rank": 6,
@@ -1074,6 +1150,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 40.29999999999991,
       "y": 0,
       "rank": 6,
@@ -1088,6 +1165,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 6.199999999999989,
       "y": -5,
       "rank": 8,
@@ -1102,6 +1180,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 9.299999999999983,
       "y": -5,
       "rank": 8,
@@ -1116,6 +1195,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 12.399999999999977,
       "y": -5,
       "rank": 8,
@@ -1130,6 +1210,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 15.499999999999972,
       "y": -5,
       "rank": 8,
@@ -1144,6 +1225,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 27.89999999999995,
       "y": -5,
       "rank": 8,
@@ -1158,6 +1240,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 30.999999999999943,
       "y": -5,
       "rank": 8,
@@ -1172,6 +1255,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 34.09999999999995,
       "y": -5,
       "rank": 8,
@@ -1186,6 +1270,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 37.199999999999946,
       "y": -5,
       "rank": 8,
@@ -1200,6 +1285,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -1.5499999999999972,
       "y": 0,
       "rank": 6,
@@ -1214,6 +1300,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 1.5499999999999972,
       "y": 0,
       "rank": 6,
@@ -1228,6 +1315,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 4.6499999999999915,
       "y": 0,
       "rank": 6,
@@ -1242,6 +1330,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 7.749999999999986,
       "y": 0,
       "rank": 6,
@@ -1256,6 +1345,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 10.84999999999998,
       "y": 0,
       "rank": 6,
@@ -1270,6 +1360,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 13.949999999999974,
       "y": 0,
       "rank": 6,
@@ -1284,6 +1375,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 17.04999999999997,
       "y": 0,
       "rank": 6,
@@ -1298,6 +1390,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -4.6499999999999915,
       "y": 0,
       "rank": 6,
@@ -1312,6 +1405,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -12.399999999999977,
       "y": -10,
       "rank": 10,
@@ -1326,6 +1420,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -9.299999999999983,
       "y": -10,
       "rank": 10,
@@ -1340,6 +1435,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 32.54999999999994,
       "y": -10,
       "rank": 10,
@@ -1354,6 +1450,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -34.099999999999945,
       "y": -10,
       "rank": 10,
@@ -1368,6 +1465,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -30.999999999999943,
       "y": -10,
       "rank": 10,
@@ -1382,6 +1480,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -27.89999999999995,
       "y": -10,
       "rank": 10,
@@ -1396,6 +1495,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -24.799999999999955,
       "y": -10,
       "rank": 10,
@@ -1410,6 +1510,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -21.69999999999996,
       "y": -10,
       "rank": 10,
@@ -1424,6 +1525,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -18.599999999999966,
       "y": -10,
       "rank": 10,
@@ -1438,6 +1540,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -15.499999999999972,
       "y": -10,
       "rank": 10,
@@ -1452,6 +1555,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -29.449999999999946,
       "y": -5,
       "rank": 8,
@@ -1466,6 +1570,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -37.199999999999946,
       "y": -10,
       "rank": 10,
@@ -1480,6 +1585,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -40.29999999999994,
       "y": -10,
       "rank": 10,
@@ -1494,6 +1600,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -46.499999999999936,
       "y": -15,
       "rank": 12,
@@ -1508,6 +1615,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -43.399999999999935,
       "y": -5,
       "rank": 8,
@@ -1522,6 +1630,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -49.59999999999994,
       "y": -10,
       "rank": 10,
@@ -1536,6 +1645,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -89.8999999999999,
       "y": 0,
       "rank": 6,
@@ -1550,6 +1660,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -86.79999999999991,
       "y": 0,
       "rank": 6,
@@ -1564,6 +1675,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -83.69999999999992,
       "y": 0,
       "rank": 6,
@@ -1578,6 +1690,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -74.39999999999992,
       "y": -5,
       "rank": 8,
@@ -1592,6 +1705,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -71.29999999999993,
       "y": -5,
       "rank": 8,
@@ -1606,6 +1720,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -68.19999999999992,
       "y": -5,
       "rank": 8,
@@ -1620,6 +1735,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -65.09999999999992,
       "y": -5,
       "rank": 8,
@@ -1634,6 +1750,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -89.8999999999999,
       "y": -5,
       "rank": 8,
@@ -1648,6 +1765,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -86.79999999999991,
       "y": -5,
       "rank": 8,
@@ -1662,6 +1780,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -83.6999999999999,
       "y": -5,
       "rank": 8,
@@ -1676,6 +1795,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -80.59999999999991,
       "y": -5,
       "rank": 8,
@@ -1690,6 +1810,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -77.49999999999991,
       "y": -5,
       "rank": 8,
@@ -1704,6 +1825,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -61.99999999999993,
       "y": -5,
       "rank": 8,
@@ -1718,6 +1840,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -58.89999999999993,
       "y": -5,
       "rank": 8,
@@ -1732,6 +1855,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -55.799999999999926,
       "y": -5,
       "rank": 8,
@@ -1746,6 +1870,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -52.69999999999993,
       "y": -5,
       "rank": 8,
@@ -1756,8 +1881,30 @@
     {
       "from": "Proto Indo-European",
       "to": "Balto-Slavic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e0",
+      "label": {},
+      "points": [
+        {
+          "x": 43.449999999999946,
+          "y": -14.969758064516128
+        },
+        {
+          "x": -79.04999999999993,
+          "y": -12.5
+        },
+        {
+          "x": -79.04999999999993,
+          "y": -10.5
+        }
+      ]
+    },
+    {
+      "from": "Proto Indo-European",
+      "to": "Balto-Slavic",
+      "linestyle": "step",
+      "id": "e0",
+      "label": {},
       "points": [
         {
           "x": 43.449999999999946,
@@ -1776,8 +1923,30 @@
     {
       "from": "Proto Indo-European",
       "to": "Germanic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e1",
+      "label": {},
+      "points": [
+        {
+          "x": 43.449999999999946,
+          "y": -14.945014662756599
+        },
+        {
+          "x": -23.249999999999957,
+          "y": -12.5
+        },
+        {
+          "x": -23.249999999999957,
+          "y": -10.5
+        }
+      ]
+    },
+    {
+      "from": "Proto Indo-European",
+      "to": "Germanic",
+      "linestyle": "step",
+      "id": "e1",
+      "label": {},
       "points": [
         {
           "x": 43.449999999999946,
@@ -1796,8 +1965,30 @@
     {
       "from": "Proto Indo-European",
       "to": "Celtic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e2",
+      "label": {},
+      "points": [
+        {
+          "x": 43.449999999999946,
+          "y": -14.890029325513197
+        },
+        {
+          "x": 10.84999999999998,
+          "y": -12.5
+        },
+        {
+          "x": 10.84999999999998,
+          "y": -10.5
+        }
+      ]
+    },
+    {
+      "from": "Proto Indo-European",
+      "to": "Celtic",
+      "linestyle": "step",
+      "id": "e2",
+      "label": {},
       "points": [
         {
           "x": 43.449999999999946,
@@ -1816,8 +2007,30 @@
     {
       "from": "Proto Indo-European",
       "to": "Italic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e3",
+      "label": {},
+      "points": [
+        {
+          "x": 43.449999999999946,
+          "y": -14.780058651026394
+        },
+        {
+          "x": 27.899999999999878,
+          "y": -12.5
+        },
+        {
+          "x": 27.899999999999878,
+          "y": -10.5
+        }
+      ]
+    },
+    {
+      "from": "Proto Indo-European",
+      "to": "Italic",
+      "linestyle": "step",
+      "id": "e3",
+      "label": {},
       "points": [
         {
           "x": 43.449999999999946,
@@ -1836,8 +2049,30 @@
     {
       "from": "Proto Indo-European",
       "to": "Hellenic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e4",
+      "label": {},
+      "points": [
+        {
+          "x": 43.449999999999946,
+          "y": -14.69758064516129
+        },
+        {
+          "x": 32.54999999999994,
+          "y": -12.5
+        },
+        {
+          "x": 32.54999999999994,
+          "y": -10.5
+        }
+      ]
+    },
+    {
+      "from": "Proto Indo-European",
+      "to": "Hellenic",
+      "linestyle": "step",
+      "id": "e4",
+      "label": {},
       "points": [
         {
           "x": 43.449999999999946,
@@ -1856,8 +2091,30 @@
     {
       "from": "Proto Indo-European",
       "to": "Anatolian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e5",
+      "label": {},
+      "points": [
+        {
+          "x": 44.32999999999994,
+          "y": -14.5
+        },
+        {
+          "x": 41.84999999999992,
+          "y": -12.5
+        },
+        {
+          "x": 41.84999999999992,
+          "y": -10.5
+        }
+      ]
+    },
+    {
+      "from": "Proto Indo-European",
+      "to": "Anatolian",
+      "linestyle": "step",
+      "id": "e5",
+      "label": {},
       "points": [
         {
           "x": 44.32999999999994,
@@ -1876,8 +2133,30 @@
     {
       "from": "Proto Indo-European",
       "to": "Tocharian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e6",
+      "label": {},
+      "points": [
+        {
+          "x": 45.87999999999995,
+          "y": -14.5
+        },
+        {
+          "x": 49.59999999999992,
+          "y": -12.5
+        },
+        {
+          "x": 49.59999999999992,
+          "y": -10.5
+        }
+      ]
+    },
+    {
+      "from": "Proto Indo-European",
+      "to": "Tocharian",
+      "linestyle": "step",
+      "id": "e6",
+      "label": {},
       "points": [
         {
           "x": 45.87999999999995,
@@ -1896,8 +2175,30 @@
     {
       "from": "Proto Indo-European",
       "to": "Indo-Iranian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e7",
+      "label": {},
+      "points": [
+        {
+          "x": 46.449999999999946,
+          "y": -14.758064516129032
+        },
+        {
+          "x": 60.449999999999946,
+          "y": -12.5
+        },
+        {
+          "x": 60.449999999999946,
+          "y": -10.5
+        }
+      ]
+    },
+    {
+      "from": "Proto Indo-European",
+      "to": "Indo-Iranian",
+      "linestyle": "step",
+      "id": "e7",
+      "label": {},
       "points": [
         {
           "x": 46.449999999999946,
@@ -1916,8 +2217,30 @@
     {
       "from": "Indo-Iranian",
       "to": "Dardic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e8",
+      "label": {},
+      "points": [
+        {
+          "x": 59.20999999999994,
+          "y": -9.5
+        },
+        {
+          "x": 54.24999999999993,
+          "y": -7.5
+        },
+        {
+          "x": 54.24999999999993,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Indo-Iranian",
+      "to": "Dardic",
+      "linestyle": "step",
+      "id": "e8",
+      "label": {},
       "points": [
         {
           "x": 59.20999999999994,
@@ -1936,8 +2259,30 @@
     {
       "from": "Indo-Iranian",
       "to": "Indic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e9",
+      "label": {},
+      "points": [
+        {
+          "x": 60.139999999999944,
+          "y": -9.5
+        },
+        {
+          "x": 58.899999999999935,
+          "y": -7.5
+        },
+        {
+          "x": 58.899999999999935,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Indo-Iranian",
+      "to": "Indic",
+      "linestyle": "step",
+      "id": "e9",
+      "label": {},
       "points": [
         {
           "x": 60.139999999999944,
@@ -1956,8 +2301,30 @@
     {
       "from": "Indo-Iranian",
       "to": "Iranian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e10",
+      "label": {},
+      "points": [
+        {
+          "x": 61.949999999999946,
+          "y": -9.838709677419354
+        },
+        {
+          "x": 83.69999999999989,
+          "y": -7.5
+        },
+        {
+          "x": 83.69999999999989,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Indo-Iranian",
+      "to": "Iranian",
+      "linestyle": "step",
+      "id": "e10",
+      "label": {},
       "points": [
         {
           "x": 61.949999999999946,
@@ -1976,8 +2343,30 @@
     {
       "from": "Iranian",
       "to": "Old Persian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e11",
+      "label": {},
+      "points": [
+        {
+          "x": 82.45999999999988,
+          "y": -4.5
+        },
+        {
+          "x": 77.4999999999999,
+          "y": -2.5
+        },
+        {
+          "x": 77.4999999999999,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Iranian",
+      "to": "Old Persian",
+      "linestyle": "step",
+      "id": "e11",
+      "label": {},
       "points": [
         {
           "x": 82.45999999999988,
@@ -1996,8 +2385,30 @@
     {
       "from": "Old Persian",
       "to": "Middle Persian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e12",
+      "label": {},
+      "points": [
+        {
+          "x": 77.1899999999999,
+          "y": 0.5
+        },
+        {
+          "x": 75.94999999999992,
+          "y": 2.5
+        },
+        {
+          "x": 75.94999999999992,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Old Persian",
+      "to": "Middle Persian",
+      "linestyle": "step",
+      "id": "e12",
+      "label": {},
       "points": [
         {
           "x": 77.1899999999999,
@@ -2016,8 +2427,30 @@
     {
       "from": "Indic",
       "to": "Sanskrit",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e13",
+      "label": {},
+      "points": [
+        {
+          "x": 58.899999999999935,
+          "y": -4.5
+        },
+        {
+          "x": 58.899999999999935,
+          "y": -2.5
+        },
+        {
+          "x": 58.899999999999935,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Indic",
+      "to": "Sanskrit",
+      "linestyle": "step",
+      "id": "e13",
+      "label": {},
       "points": [
         {
           "x": 58.899999999999935,
@@ -2036,8 +2469,30 @@
     {
       "from": "Italic",
       "to": "Osco-Umbrian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e14",
+      "label": {},
+      "points": [
+        {
+          "x": 26.659999999999897,
+          "y": -9.5
+        },
+        {
+          "x": 21.69999999999996,
+          "y": -7.5
+        },
+        {
+          "x": 21.69999999999996,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Italic",
+      "to": "Osco-Umbrian",
+      "linestyle": "step",
+      "id": "e14",
+      "label": {},
       "points": [
         {
           "x": 26.659999999999897,
@@ -2056,8 +2511,30 @@
     {
       "from": "Italic",
       "to": "Latino-Faliscan",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e15",
+      "label": {},
+      "points": [
+        {
+          "x": 27.899999999999892,
+          "y": -9.5
+        },
+        {
+          "x": 27.89999999999995,
+          "y": -7.5
+        },
+        {
+          "x": 27.89999999999995,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Italic",
+      "to": "Latino-Faliscan",
+      "linestyle": "step",
+      "id": "e15",
+      "label": {},
       "points": [
         {
           "x": 27.899999999999892,
@@ -2076,8 +2553,30 @@
     {
       "from": "Latino-Faliscan",
       "to": "Latin",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e16",
+      "label": {},
+      "points": [
+        {
+          "x": 27.589999999999947,
+          "y": -4.5
+        },
+        {
+          "x": 26.34999999999995,
+          "y": -2.5
+        },
+        {
+          "x": 26.34999999999995,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Latino-Faliscan",
+      "to": "Latin",
+      "linestyle": "step",
+      "id": "e16",
+      "label": {},
       "points": [
         {
           "x": 27.589999999999947,
@@ -2096,8 +2595,30 @@
     {
       "from": "Celtic",
       "to": "Brythonic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e17",
+      "label": {},
+      "points": [
+        {
+          "x": 9.609999999999985,
+          "y": -9.5
+        },
+        {
+          "x": 4.6499999999999915,
+          "y": -7.5
+        },
+        {
+          "x": 4.6499999999999915,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Celtic",
+      "to": "Brythonic",
+      "linestyle": "step",
+      "id": "e17",
+      "label": {},
       "points": [
         {
           "x": 9.609999999999985,
@@ -2116,8 +2637,30 @@
     {
       "from": "Celtic",
       "to": "Goidelic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e18",
+      "label": {},
+      "points": [
+        {
+          "x": 11.779999999999973,
+          "y": -9.5
+        },
+        {
+          "x": 15.499999999999972,
+          "y": -7.5
+        },
+        {
+          "x": 15.499999999999972,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Celtic",
+      "to": "Goidelic",
+      "linestyle": "step",
+      "id": "e18",
+      "label": {},
       "points": [
         {
           "x": 11.779999999999973,
@@ -2136,8 +2679,30 @@
     {
       "from": "Germanic",
       "to": "North Germanic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e19",
+      "label": {},
+      "points": [
+        {
+          "x": -24.749999999999957,
+          "y": -9.780058651026394
+        },
+        {
+          "x": -40.29999999999994,
+          "y": -7.5
+        },
+        {
+          "x": -40.29999999999994,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Germanic",
+      "to": "North Germanic",
+      "linestyle": "step",
+      "id": "e19",
+      "label": {},
       "points": [
         {
           "x": -24.749999999999957,
@@ -2156,8 +2721,30 @@
     {
       "from": "Germanic",
       "to": "West Germanic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e20",
+      "label": {},
+      "points": [
+        {
+          "x": -23.249999999999943,
+          "y": -9.5
+        },
+        {
+          "x": -23.249999999999886,
+          "y": -7.5
+        },
+        {
+          "x": -23.249999999999886,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Germanic",
+      "to": "West Germanic",
+      "linestyle": "step",
+      "id": "e20",
+      "label": {},
       "points": [
         {
           "x": -23.249999999999943,
@@ -2176,8 +2763,30 @@
     {
       "from": "Germanic",
       "to": "East Germanic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e21",
+      "label": {},
+      "points": [
+        {
+          "x": -21.749999999999957,
+          "y": -9.798387096774192
+        },
+        {
+          "x": -4.6499999999999915,
+          "y": -7.5
+        },
+        {
+          "x": -4.6499999999999915,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Germanic",
+      "to": "East Germanic",
+      "linestyle": "step",
+      "id": "e21",
+      "label": {},
       "points": [
         {
           "x": -21.749999999999957,
@@ -2196,8 +2805,30 @@
     {
       "from": "North Germanic",
       "to": "Old Norse",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e22",
+      "label": {},
+      "points": [
+        {
+          "x": -41.22999999999994,
+          "y": -4.5
+        },
+        {
+          "x": -44.94999999999994,
+          "y": -2.5
+        },
+        {
+          "x": -44.94999999999994,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "North Germanic",
+      "to": "Old Norse",
+      "linestyle": "step",
+      "id": "e22",
+      "label": {},
       "points": [
         {
           "x": -41.22999999999994,
@@ -2216,8 +2847,30 @@
     {
       "from": "North Germanic",
       "to": "Old Swedish",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e23",
+      "label": {},
+      "points": [
+        {
+          "x": -40.29999999999994,
+          "y": -4.5
+        },
+        {
+          "x": -40.29999999999994,
+          "y": -2.5
+        },
+        {
+          "x": -40.29999999999994,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "North Germanic",
+      "to": "Old Swedish",
+      "linestyle": "step",
+      "id": "e23",
+      "label": {},
       "points": [
         {
           "x": -40.29999999999994,
@@ -2236,8 +2889,30 @@
     {
       "from": "North Germanic",
       "to": "Old Danish",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e24",
+      "label": {},
+      "points": [
+        {
+          "x": -39.67999999999994,
+          "y": -4.5
+        },
+        {
+          "x": -37.199999999999946,
+          "y": -2.5
+        },
+        {
+          "x": -37.199999999999946,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "North Germanic",
+      "to": "Old Danish",
+      "linestyle": "step",
+      "id": "e24",
+      "label": {},
       "points": [
         {
           "x": -39.67999999999994,
@@ -2256,8 +2931,30 @@
     {
       "from": "West Germanic",
       "to": "Old English",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e25",
+      "label": {},
+      "points": [
+        {
+          "x": -24.749999999999886,
+          "y": -4.6543778801843345
+        },
+        {
+          "x": -34.099999999999945,
+          "y": -2.5
+        },
+        {
+          "x": -34.099999999999945,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "West Germanic",
+      "to": "Old English",
+      "linestyle": "step",
+      "id": "e25",
+      "label": {},
       "points": [
         {
           "x": -24.749999999999886,
@@ -2276,8 +2973,30 @@
     {
       "from": "West Germanic",
       "to": "Old Frisian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e26",
+      "label": {},
+      "points": [
+        {
+          "x": -24.489999999999895,
+          "y": -4.5
+        },
+        {
+          "x": -29.449999999999946,
+          "y": -2.5
+        },
+        {
+          "x": -29.449999999999946,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "West Germanic",
+      "to": "Old Frisian",
+      "linestyle": "step",
+      "id": "e26",
+      "label": {},
       "points": [
         {
           "x": -24.489999999999895,
@@ -2296,8 +3015,30 @@
     {
       "from": "West Germanic",
       "to": "Old Dutch",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e27",
+      "label": {},
+      "points": [
+        {
+          "x": -22.629999999999896,
+          "y": -4.5
+        },
+        {
+          "x": -20.149999999999963,
+          "y": -2.5
+        },
+        {
+          "x": -20.149999999999963,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "West Germanic",
+      "to": "Old Dutch",
+      "linestyle": "step",
+      "id": "e27",
+      "label": {},
       "points": [
         {
           "x": -22.629999999999896,
@@ -2316,8 +3057,30 @@
     {
       "from": "West Germanic",
       "to": "Old Low German",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e28",
+      "label": {},
+      "points": [
+        {
+          "x": -21.749999999999886,
+          "y": -4.654377880184329
+        },
+        {
+          "x": -12.399999999999977,
+          "y": -2.5
+        },
+        {
+          "x": -12.399999999999977,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "West Germanic",
+      "to": "Old Low German",
+      "linestyle": "step",
+      "id": "e28",
+      "label": {},
       "points": [
         {
           "x": -21.749999999999886,
@@ -2336,8 +3099,30 @@
     {
       "from": "West Germanic",
       "to": "Old High German",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e29",
+      "label": {},
+      "points": [
+        {
+          "x": -21.749999999999886,
+          "y": -4.75806451612903
+        },
+        {
+          "x": -7.749999999999986,
+          "y": -2.5
+        },
+        {
+          "x": -7.749999999999986,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "West Germanic",
+      "to": "Old High German",
+      "linestyle": "step",
+      "id": "e29",
+      "label": {},
       "points": [
         {
           "x": -21.749999999999886,
@@ -2356,8 +3141,30 @@
     {
       "from": "Old Norse",
       "to": "Old Icelandic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e30",
+      "label": {},
+      "points": [
+        {
+          "x": -45.87999999999994,
+          "y": 0.5
+        },
+        {
+          "x": -49.59999999999994,
+          "y": 2.5
+        },
+        {
+          "x": -49.59999999999994,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Old Norse",
+      "to": "Old Icelandic",
+      "linestyle": "step",
+      "id": "e30",
+      "label": {},
       "points": [
         {
           "x": -45.87999999999994,
@@ -2376,8 +3183,30 @@
     {
       "from": "Old Norse",
       "to": "Old Norwegian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e31",
+      "label": {},
+      "points": [
+        {
+          "x": -45.25999999999994,
+          "y": 0.5
+        },
+        {
+          "x": -46.499999999999936,
+          "y": 2.5
+        },
+        {
+          "x": -46.499999999999936,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Old Norse",
+      "to": "Old Norwegian",
+      "linestyle": "step",
+      "id": "e31",
+      "label": {},
       "points": [
         {
           "x": -45.25999999999994,
@@ -2396,8 +3225,30 @@
     {
       "from": "Old Norwegian",
       "to": "Middle Norwegian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e32",
+      "label": {},
+      "points": [
+        {
+          "x": -46.499999999999936,
+          "y": 5.5
+        },
+        {
+          "x": -46.499999999999936,
+          "y": 7.5
+        },
+        {
+          "x": -46.499999999999936,
+          "y": 9.5
+        }
+      ]
+    },
+    {
+      "from": "Old Norwegian",
+      "to": "Middle Norwegian",
+      "linestyle": "step",
+      "id": "e32",
+      "label": {},
       "points": [
         {
           "x": -46.499999999999936,
@@ -2416,8 +3267,30 @@
     {
       "from": "Old Swedish",
       "to": "Middle Swedish",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e33",
+      "label": {},
+      "points": [
+        {
+          "x": -40.29999999999994,
+          "y": 0.5
+        },
+        {
+          "x": -40.29999999999994,
+          "y": 2.5
+        },
+        {
+          "x": -40.29999999999994,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Old Swedish",
+      "to": "Middle Swedish",
+      "linestyle": "step",
+      "id": "e33",
+      "label": {},
       "points": [
         {
           "x": -40.29999999999994,
@@ -2436,8 +3309,30 @@
     {
       "from": "Old Danish",
       "to": "Middle Danish",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e34",
+      "label": {},
+      "points": [
+        {
+          "x": -37.199999999999946,
+          "y": 0.5
+        },
+        {
+          "x": -37.199999999999946,
+          "y": 2.5
+        },
+        {
+          "x": -37.199999999999946,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Old Danish",
+      "to": "Middle Danish",
+      "linestyle": "step",
+      "id": "e34",
+      "label": {},
       "points": [
         {
           "x": -37.199999999999946,
@@ -2456,8 +3351,30 @@
     {
       "from": "Old English",
       "to": "Middle English",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e35",
+      "label": {},
+      "points": [
+        {
+          "x": -34.099999999999945,
+          "y": 0.5
+        },
+        {
+          "x": -34.099999999999945,
+          "y": 2.5
+        },
+        {
+          "x": -34.099999999999945,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Old English",
+      "to": "Middle English",
+      "linestyle": "step",
+      "id": "e35",
+      "label": {},
       "points": [
         {
           "x": -34.099999999999945,
@@ -2476,8 +3393,30 @@
     {
       "from": "Old Dutch",
       "to": "Middle Dutch",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e36",
+      "label": {},
+      "points": [
+        {
+          "x": -20.149999999999963,
+          "y": 0.5
+        },
+        {
+          "x": -20.149999999999963,
+          "y": 2.5
+        },
+        {
+          "x": -20.149999999999963,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Old Dutch",
+      "to": "Middle Dutch",
+      "linestyle": "step",
+      "id": "e36",
+      "label": {},
       "points": [
         {
           "x": -20.149999999999963,
@@ -2496,8 +3435,30 @@
     {
       "from": "Old Low German",
       "to": "Middle Low German",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e37",
+      "label": {},
+      "points": [
+        {
+          "x": -12.399999999999977,
+          "y": 0.5
+        },
+        {
+          "x": -12.399999999999977,
+          "y": 2.5
+        },
+        {
+          "x": -12.399999999999977,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Old Low German",
+      "to": "Middle Low German",
+      "linestyle": "step",
+      "id": "e37",
+      "label": {},
       "points": [
         {
           "x": -12.399999999999977,
@@ -2516,8 +3477,30 @@
     {
       "from": "Old High German",
       "to": "Middle High German",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e38",
+      "label": {},
+      "points": [
+        {
+          "x": -7.749999999999986,
+          "y": 0.5
+        },
+        {
+          "x": -7.749999999999986,
+          "y": 2.5
+        },
+        {
+          "x": -7.749999999999986,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Old High German",
+      "to": "Middle High German",
+      "linestyle": "step",
+      "id": "e38",
+      "label": {},
       "points": [
         {
           "x": -7.749999999999986,
@@ -2536,8 +3519,30 @@
     {
       "from": "Balto-Slavic",
       "to": "Baltic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e39",
+      "label": {},
+      "points": [
+        {
+          "x": -80.54999999999993,
+          "y": -9.596774193548386
+        },
+        {
+          "x": -88.34999999999991,
+          "y": -7.5
+        },
+        {
+          "x": -88.34999999999991,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Balto-Slavic",
+      "to": "Baltic",
+      "linestyle": "step",
+      "id": "e39",
+      "label": {},
       "points": [
         {
           "x": -80.54999999999993,
@@ -2556,8 +3561,30 @@
     {
       "from": "Balto-Slavic",
       "to": "Slavic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e40",
+      "label": {},
+      "points": [
+        {
+          "x": -77.54999999999993,
+          "y": -9.596774193548388
+        },
+        {
+          "x": -69.74999999999991,
+          "y": -7.5
+        },
+        {
+          "x": -69.74999999999991,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Balto-Slavic",
+      "to": "Slavic",
+      "linestyle": "step",
+      "id": "e40",
+      "label": {},
       "points": [
         {
           "x": -77.54999999999993,
@@ -2576,8 +3603,30 @@
     {
       "from": "Slavic",
       "to": "East Slavic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e41",
+      "label": {},
+      "points": [
+        {
+          "x": -71.24999999999991,
+          "y": -4.654377880184331
+        },
+        {
+          "x": -80.59999999999991,
+          "y": -2.5
+        },
+        {
+          "x": -80.59999999999991,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Slavic",
+      "to": "East Slavic",
+      "linestyle": "step",
+      "id": "e41",
+      "label": {},
       "points": [
         {
           "x": -71.24999999999991,
@@ -2596,8 +3645,30 @@
     {
       "from": "Slavic",
       "to": "West Slavic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e42",
+      "label": {},
+      "points": [
+        {
+          "x": -69.43999999999993,
+          "y": -4.5
+        },
+        {
+          "x": -68.19999999999993,
+          "y": -2.5
+        },
+        {
+          "x": -68.19999999999993,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Slavic",
+      "to": "West Slavic",
+      "linestyle": "step",
+      "id": "e42",
+      "label": {},
       "points": [
         {
           "x": -69.43999999999993,
@@ -2616,8 +3687,30 @@
     {
       "from": "Slavic",
       "to": "South Slavic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e43",
+      "label": {},
+      "points": [
+        {
+          "x": -68.24999999999991,
+          "y": -4.731182795698924
+        },
+        {
+          "x": -55.79999999999993,
+          "y": -2.5
+        },
+        {
+          "x": -55.79999999999993,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Slavic",
+      "to": "South Slavic",
+      "linestyle": "step",
+      "id": "e43",
+      "label": {},
       "points": [
         {
           "x": -68.24999999999991,
@@ -2636,8 +3729,30 @@
     {
       "from": "Proto Indo-European",
       "to": "Phrygian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e44",
+      "label": {},
+      "points": [
+        {
+          "x": 46.449999999999946,
+          "y": -14.798387096774194
+        },
+        {
+          "x": 63.54999999999997,
+          "y": -12.5
+        },
+        {
+          "x": 63.54999999999997,
+          "y": -10.5
+        }
+      ]
+    },
+    {
+      "from": "Proto Indo-European",
+      "to": "Phrygian",
+      "linestyle": "step",
+      "id": "e44",
+      "label": {},
       "points": [
         {
           "x": 46.449999999999946,
@@ -2656,8 +3771,30 @@
     {
       "from": "Proto Indo-European",
       "to": "Armenian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e45",
+      "label": {},
+      "points": [
+        {
+          "x": 46.449999999999946,
+          "y": -14.827188940092165
+        },
+        {
+          "x": 66.64999999999993,
+          "y": -12.5
+        },
+        {
+          "x": 66.64999999999993,
+          "y": -10.5
+        }
+      ]
+    },
+    {
+      "from": "Proto Indo-European",
+      "to": "Armenian",
+      "linestyle": "step",
+      "id": "e45",
+      "label": {},
       "points": [
         {
           "x": 46.449999999999946,
@@ -2676,8 +3813,30 @@
     {
       "from": "Proto Indo-European",
       "to": "Albanian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e46",
+      "label": {},
+      "points": [
+        {
+          "x": 46.449999999999946,
+          "y": -14.848790322580646
+        },
+        {
+          "x": 69.74999999999996,
+          "y": -12.5
+        },
+        {
+          "x": 69.74999999999996,
+          "y": -10.5
+        }
+      ]
+    },
+    {
+      "from": "Proto Indo-European",
+      "to": "Albanian",
+      "linestyle": "step",
+      "id": "e46",
+      "label": {},
       "points": [
         {
           "x": 46.449999999999946,
@@ -2696,8 +3855,30 @@
     {
       "from": "Proto Indo-European",
       "to": "Thracian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e47",
+      "label": {},
+      "points": [
+        {
+          "x": 46.449999999999946,
+          "y": -14.865591397849462
+        },
+        {
+          "x": 72.84999999999992,
+          "y": -12.5
+        },
+        {
+          "x": 72.84999999999992,
+          "y": -10.5
+        }
+      ]
+    },
+    {
+      "from": "Proto Indo-European",
+      "to": "Thracian",
+      "linestyle": "step",
+      "id": "e47",
+      "label": {},
       "points": [
         {
           "x": 46.449999999999946,
@@ -2716,8 +3897,30 @@
     {
       "from": "Tocharian",
       "to": "Tocharian A",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e48",
+      "label": {},
+      "points": [
+        {
+          "x": 49.28999999999992,
+          "y": -9.5
+        },
+        {
+          "x": 48.04999999999994,
+          "y": -7.5
+        },
+        {
+          "x": 48.04999999999994,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Tocharian",
+      "to": "Tocharian A",
+      "linestyle": "step",
+      "id": "e48",
+      "label": {},
       "points": [
         {
           "x": 49.28999999999992,
@@ -2736,8 +3939,30 @@
     {
       "from": "Tocharian",
       "to": "Tocharian B",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e49",
+      "label": {},
+      "points": [
+        {
+          "x": 49.909999999999926,
+          "y": -9.5
+        },
+        {
+          "x": 51.149999999999935,
+          "y": -7.5
+        },
+        {
+          "x": 51.149999999999935,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Tocharian",
+      "to": "Tocharian B",
+      "linestyle": "step",
+      "id": "e49",
+      "label": {},
       "points": [
         {
           "x": 49.909999999999926,
@@ -2756,8 +3981,30 @@
     {
       "from": "Anatolian",
       "to": "Hittite",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e50",
+      "label": {},
+      "points": [
+        {
+          "x": 40.609999999999914,
+          "y": -9.5
+        },
+        {
+          "x": 35.64999999999995,
+          "y": -7.5
+        },
+        {
+          "x": 35.64999999999995,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Anatolian",
+      "to": "Hittite",
+      "linestyle": "step",
+      "id": "e50",
+      "label": {},
       "points": [
         {
           "x": 40.609999999999914,
@@ -2776,8 +4023,30 @@
     {
       "from": "Anatolian",
       "to": "Palaic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e51",
+      "label": {},
+      "points": [
+        {
+          "x": 41.22999999999992,
+          "y": -9.5
+        },
+        {
+          "x": 38.74999999999996,
+          "y": -7.5
+        },
+        {
+          "x": 38.74999999999996,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Anatolian",
+      "to": "Palaic",
+      "linestyle": "step",
+      "id": "e51",
+      "label": {},
       "points": [
         {
           "x": 41.22999999999992,
@@ -2796,8 +4065,30 @@
     {
       "from": "Anatolian",
       "to": "Luwic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e52",
+      "label": {},
+      "points": [
+        {
+          "x": 41.84999999999992,
+          "y": -9.5
+        },
+        {
+          "x": 41.84999999999992,
+          "y": -7.5
+        },
+        {
+          "x": 41.84999999999992,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Anatolian",
+      "to": "Luwic",
+      "linestyle": "step",
+      "id": "e52",
+      "label": {},
       "points": [
         {
           "x": 41.84999999999992,
@@ -2816,8 +4107,30 @@
     {
       "from": "Anatolian",
       "to": "Lydian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e53",
+      "label": {},
+      "points": [
+        {
+          "x": 42.46999999999993,
+          "y": -9.5
+        },
+        {
+          "x": 44.949999999999946,
+          "y": -7.5
+        },
+        {
+          "x": 44.949999999999946,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Anatolian",
+      "to": "Lydian",
+      "linestyle": "step",
+      "id": "e53",
+      "label": {},
       "points": [
         {
           "x": 42.46999999999993,
@@ -2836,8 +4149,30 @@
     {
       "from": "Iranian",
       "to": "Balochi",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e54",
+      "label": {},
+      "points": [
+        {
+          "x": 83.07999999999988,
+          "y": -4.5
+        },
+        {
+          "x": 80.59999999999992,
+          "y": -2.5
+        },
+        {
+          "x": 80.59999999999992,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Iranian",
+      "to": "Balochi",
+      "linestyle": "step",
+      "id": "e54",
+      "label": {},
       "points": [
         {
           "x": 83.07999999999988,
@@ -2856,8 +4191,30 @@
     {
       "from": "Iranian",
       "to": "Kurdish",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e55",
+      "label": {},
+      "points": [
+        {
+          "x": 83.69999999999989,
+          "y": -4.5
+        },
+        {
+          "x": 83.69999999999989,
+          "y": -2.5
+        },
+        {
+          "x": 83.69999999999989,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Iranian",
+      "to": "Kurdish",
+      "linestyle": "step",
+      "id": "e55",
+      "label": {},
       "points": [
         {
           "x": 83.69999999999989,
@@ -2876,8 +4233,30 @@
     {
       "from": "Iranian",
       "to": "Pashto",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e56",
+      "label": {},
+      "points": [
+        {
+          "x": 84.3199999999999,
+          "y": -4.5
+        },
+        {
+          "x": 86.79999999999991,
+          "y": -2.5
+        },
+        {
+          "x": 86.79999999999991,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Iranian",
+      "to": "Pashto",
+      "linestyle": "step",
+      "id": "e56",
+      "label": {},
       "points": [
         {
           "x": 84.3199999999999,
@@ -2896,8 +4275,30 @@
     {
       "from": "Iranian",
       "to": "Sogdian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e57",
+      "label": {},
+      "points": [
+        {
+          "x": 84.9399999999999,
+          "y": -4.5
+        },
+        {
+          "x": 89.8999999999999,
+          "y": -2.5
+        },
+        {
+          "x": 89.8999999999999,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Iranian",
+      "to": "Sogdian",
+      "linestyle": "step",
+      "id": "e57",
+      "label": {},
       "points": [
         {
           "x": 84.9399999999999,
@@ -2916,8 +4317,30 @@
     {
       "from": "Old Persian",
       "to": "Pahlavi",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e58",
+      "label": {},
+      "points": [
+        {
+          "x": 77.8099999999999,
+          "y": 0.5
+        },
+        {
+          "x": 79.04999999999991,
+          "y": 2.5
+        },
+        {
+          "x": 79.04999999999991,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Old Persian",
+      "to": "Pahlavi",
+      "linestyle": "step",
+      "id": "e58",
+      "label": {},
       "points": [
         {
           "x": 77.8099999999999,
@@ -2936,8 +4359,30 @@
     {
       "from": "Middle Persian",
       "to": "Persian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e59",
+      "label": {},
+      "points": [
+        {
+          "x": 75.94999999999992,
+          "y": 5.5
+        },
+        {
+          "x": 75.94999999999992,
+          "y": 7.5
+        },
+        {
+          "x": 75.94999999999992,
+          "y": 9.5
+        }
+      ]
+    },
+    {
+      "from": "Middle Persian",
+      "to": "Persian",
+      "linestyle": "step",
+      "id": "e59",
+      "label": {},
       "points": [
         {
           "x": 75.94999999999992,
@@ -2956,8 +4401,30 @@
     {
       "from": "Hellenic",
       "to": "Greek",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e60",
+      "label": {},
+      "points": [
+        {
+          "x": 32.54999999999994,
+          "y": -9.5
+        },
+        {
+          "x": 32.54999999999994,
+          "y": -7.5
+        },
+        {
+          "x": 32.54999999999994,
+          "y": -5.5
+        }
+      ]
+    },
+    {
+      "from": "Hellenic",
+      "to": "Greek",
+      "linestyle": "step",
+      "id": "e60",
+      "label": {},
       "points": [
         {
           "x": 32.54999999999994,
@@ -2976,8 +4443,30 @@
     {
       "from": "Dardic",
       "to": "Dard",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e61",
+      "label": {},
+      "points": [
+        {
+          "x": 54.24999999999993,
+          "y": -4.5
+        },
+        {
+          "x": 54.24999999999993,
+          "y": -2.5
+        },
+        {
+          "x": 54.24999999999993,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Dardic",
+      "to": "Dard",
+      "linestyle": "step",
+      "id": "e61",
+      "label": {},
       "points": [
         {
           "x": 54.24999999999993,
@@ -2996,8 +4485,30 @@
     {
       "from": "Sanskrit",
       "to": "Sindhi",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e62",
+      "label": {},
+      "points": [
+        {
+          "x": 57.399999999999935,
+          "y": 0.20161290322580605
+        },
+        {
+          "x": 40.29999999999994,
+          "y": 2.5
+        },
+        {
+          "x": 40.29999999999994,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Sanskrit",
+      "to": "Sindhi",
+      "linestyle": "step",
+      "id": "e62",
+      "label": {},
       "points": [
         {
           "x": 57.399999999999935,
@@ -3016,8 +4527,30 @@
     {
       "from": "Sanskrit",
       "to": "Romani",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e63",
+      "label": {},
+      "points": [
+        {
+          "x": 57.399999999999935,
+          "y": 0.24193548387096797
+        },
+        {
+          "x": 43.399999999999935,
+          "y": 2.5
+        },
+        {
+          "x": 43.399999999999935,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Sanskrit",
+      "to": "Romani",
+      "linestyle": "step",
+      "id": "e63",
+      "label": {},
       "points": [
         {
           "x": 57.399999999999935,
@@ -3036,8 +4569,30 @@
     {
       "from": "Sanskrit",
       "to": "Urdu",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e64",
+      "label": {},
+      "points": [
+        {
+          "x": 57.399999999999935,
+          "y": 0.30241935483870996
+        },
+        {
+          "x": 46.49999999999993,
+          "y": 2.5
+        },
+        {
+          "x": 46.49999999999993,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Sanskrit",
+      "to": "Urdu",
+      "linestyle": "step",
+      "id": "e64",
+      "label": {},
       "points": [
         {
           "x": 57.399999999999935,
@@ -3056,8 +4611,30 @@
     {
       "from": "Sanskrit",
       "to": "Hindi",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e65",
+      "label": {},
+      "points": [
+        {
+          "x": 57.399999999999935,
+          "y": 0.4032258064516121
+        },
+        {
+          "x": 49.59999999999992,
+          "y": 2.5
+        },
+        {
+          "x": 49.59999999999992,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Sanskrit",
+      "to": "Hindi",
+      "linestyle": "step",
+      "id": "e65",
+      "label": {},
       "points": [
         {
           "x": 57.399999999999935,
@@ -3076,8 +4653,30 @@
     {
       "from": "Sanskrit",
       "to": "Bihari",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e66",
+      "label": {},
+      "points": [
+        {
+          "x": 57.659999999999926,
+          "y": 0.5
+        },
+        {
+          "x": 52.699999999999946,
+          "y": 2.5
+        },
+        {
+          "x": 52.699999999999946,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Sanskrit",
+      "to": "Bihari",
+      "linestyle": "step",
+      "id": "e66",
+      "label": {},
       "points": [
         {
           "x": 57.659999999999926,
@@ -3096,8 +4695,30 @@
     {
       "from": "Sanskrit",
       "to": "Assamese",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e67",
+      "label": {},
+      "points": [
+        {
+          "x": 58.58999999999993,
+          "y": 0.5
+        },
+        {
+          "x": 57.34999999999992,
+          "y": 2.5
+        },
+        {
+          "x": 57.34999999999992,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Sanskrit",
+      "to": "Assamese",
+      "linestyle": "step",
+      "id": "e67",
+      "label": {},
       "points": [
         {
           "x": 58.58999999999993,
@@ -3116,8 +4737,30 @@
     {
       "from": "Sanskrit",
       "to": "Bengali",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e68",
+      "label": {},
+      "points": [
+        {
+          "x": 59.20999999999994,
+          "y": 0.5
+        },
+        {
+          "x": 60.449999999999946,
+          "y": 2.5
+        },
+        {
+          "x": 60.449999999999946,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Sanskrit",
+      "to": "Bengali",
+      "linestyle": "step",
+      "id": "e68",
+      "label": {},
       "points": [
         {
           "x": 59.20999999999994,
@@ -3136,8 +4779,30 @@
     {
       "from": "Sanskrit",
       "to": "Marathi",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e69",
+      "label": {},
+      "points": [
+        {
+          "x": 59.82999999999994,
+          "y": 0.5
+        },
+        {
+          "x": 63.54999999999991,
+          "y": 2.5
+        },
+        {
+          "x": 63.54999999999991,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Sanskrit",
+      "to": "Marathi",
+      "linestyle": "step",
+      "id": "e69",
+      "label": {},
       "points": [
         {
           "x": 59.82999999999994,
@@ -3156,8 +4821,30 @@
     {
       "from": "Sanskrit",
       "to": "Gujarati",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e70",
+      "label": {},
+      "points": [
+        {
+          "x": 60.399999999999935,
+          "y": 0.48387096774193594
+        },
+        {
+          "x": 66.64999999999993,
+          "y": 2.5
+        },
+        {
+          "x": 66.64999999999993,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Sanskrit",
+      "to": "Gujarati",
+      "linestyle": "step",
+      "id": "e70",
+      "label": {},
       "points": [
         {
           "x": 60.399999999999935,
@@ -3176,8 +4863,30 @@
     {
       "from": "Sanskrit",
       "to": "Punjabi",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e71",
+      "label": {},
+      "points": [
+        {
+          "x": 60.399999999999935,
+          "y": 0.34562211981566904
+        },
+        {
+          "x": 69.7499999999999,
+          "y": 2.5
+        },
+        {
+          "x": 69.7499999999999,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Sanskrit",
+      "to": "Punjabi",
+      "linestyle": "step",
+      "id": "e71",
+      "label": {},
       "points": [
         {
           "x": 60.399999999999935,
@@ -3196,8 +4905,30 @@
     {
       "from": "Sanskrit",
       "to": "Sinhalese",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e72",
+      "label": {},
+      "points": [
+        {
+          "x": 60.399999999999935,
+          "y": 0.2688172043010759
+        },
+        {
+          "x": 72.84999999999992,
+          "y": 2.5
+        },
+        {
+          "x": 72.84999999999992,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Sanskrit",
+      "to": "Sinhalese",
+      "linestyle": "step",
+      "id": "e72",
+      "label": {},
       "points": [
         {
           "x": 60.399999999999935,
@@ -3216,8 +4947,30 @@
     {
       "from": "Osco-Umbrian",
       "to": "Umbrian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e73",
+      "label": {},
+      "points": [
+        {
+          "x": 21.389999999999958,
+          "y": -4.5
+        },
+        {
+          "x": 20.149999999999963,
+          "y": -2.5
+        },
+        {
+          "x": 20.149999999999963,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Osco-Umbrian",
+      "to": "Umbrian",
+      "linestyle": "step",
+      "id": "e73",
+      "label": {},
       "points": [
         {
           "x": 21.389999999999958,
@@ -3236,8 +4989,30 @@
     {
       "from": "Osco-Umbrian",
       "to": "Oscan",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e74",
+      "label": {},
+      "points": [
+        {
+          "x": 22.009999999999962,
+          "y": -4.5
+        },
+        {
+          "x": 23.249999999999957,
+          "y": -2.5
+        },
+        {
+          "x": 23.249999999999957,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Osco-Umbrian",
+      "to": "Oscan",
+      "linestyle": "step",
+      "id": "e74",
+      "label": {},
       "points": [
         {
           "x": 22.009999999999962,
@@ -3256,8 +5031,30 @@
     {
       "from": "Latino-Faliscan",
       "to": "Faliscan",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e75",
+      "label": {},
+      "points": [
+        {
+          "x": 29.39999999999995,
+          "y": -4.69758064516129
+        },
+        {
+          "x": 40.29999999999991,
+          "y": -2.5
+        },
+        {
+          "x": 40.29999999999991,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Latino-Faliscan",
+      "to": "Faliscan",
+      "linestyle": "step",
+      "id": "e75",
+      "label": {},
       "points": [
         {
           "x": 29.39999999999995,
@@ -3276,8 +5073,30 @@
     {
       "from": "Latin",
       "to": "Portugese",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e76",
+      "label": {},
+      "points": [
+        {
+          "x": 24.84999999999995,
+          "y": 0.1861042183622832
+        },
+        {
+          "x": 6.199999999999989,
+          "y": 2.5
+        },
+        {
+          "x": 6.199999999999989,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Latin",
+      "to": "Portugese",
+      "linestyle": "step",
+      "id": "e76",
+      "label": {},
       "points": [
         {
           "x": 24.84999999999995,
@@ -3296,8 +5115,30 @@
     {
       "from": "Latin",
       "to": "Spanish",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e77",
+      "label": {},
+      "points": [
+        {
+          "x": 24.84999999999995,
+          "y": 0.21994134897360773
+        },
+        {
+          "x": 9.299999999999983,
+          "y": 2.5
+        },
+        {
+          "x": 9.299999999999983,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Latin",
+      "to": "Spanish",
+      "linestyle": "step",
+      "id": "e77",
+      "label": {},
       "points": [
         {
           "x": 24.84999999999995,
@@ -3316,8 +5157,30 @@
     {
       "from": "Latin",
       "to": "French",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e78",
+      "label": {},
+      "points": [
+        {
+          "x": 24.84999999999995,
+          "y": 0.2688172043010759
+        },
+        {
+          "x": 12.399999999999977,
+          "y": 2.5
+        },
+        {
+          "x": 12.399999999999977,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Latin",
+      "to": "French",
+      "linestyle": "step",
+      "id": "e78",
+      "label": {},
       "points": [
         {
           "x": 24.84999999999995,
@@ -3336,8 +5199,30 @@
     {
       "from": "Latin",
       "to": "Romanian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e79",
+      "label": {},
+      "points": [
+        {
+          "x": 24.84999999999995,
+          "y": 0.34562211981566904
+        },
+        {
+          "x": 15.499999999999972,
+          "y": 2.5
+        },
+        {
+          "x": 15.499999999999972,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Latin",
+      "to": "Romanian",
+      "linestyle": "step",
+      "id": "e79",
+      "label": {},
       "points": [
         {
           "x": 24.84999999999995,
@@ -3356,8 +5241,30 @@
     {
       "from": "Latin",
       "to": "Italian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e80",
+      "label": {},
+      "points": [
+        {
+          "x": 26.659999999999954,
+          "y": 0.5
+        },
+        {
+          "x": 27.89999999999995,
+          "y": 2.5
+        },
+        {
+          "x": 27.89999999999995,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Latin",
+      "to": "Italian",
+      "linestyle": "step",
+      "id": "e80",
+      "label": {},
       "points": [
         {
           "x": 26.659999999999954,
@@ -3376,8 +5283,30 @@
     {
       "from": "Latin",
       "to": "Catalan",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e81",
+      "label": {},
+      "points": [
+        {
+          "x": 27.279999999999944,
+          "y": 0.5
+        },
+        {
+          "x": 30.999999999999943,
+          "y": 2.5
+        },
+        {
+          "x": 30.999999999999943,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Latin",
+      "to": "Catalan",
+      "linestyle": "step",
+      "id": "e81",
+      "label": {},
       "points": [
         {
           "x": 27.279999999999944,
@@ -3396,8 +5325,30 @@
     {
       "from": "Latin",
       "to": "Franco-Provençal",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e82",
+      "label": {},
+      "points": [
+        {
+          "x": 27.84999999999995,
+          "y": 0.48387096774193594
+        },
+        {
+          "x": 34.09999999999995,
+          "y": 2.5
+        },
+        {
+          "x": 34.09999999999995,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Latin",
+      "to": "Franco-Provençal",
+      "linestyle": "step",
+      "id": "e82",
+      "label": {},
       "points": [
         {
           "x": 27.84999999999995,
@@ -3416,8 +5367,30 @@
     {
       "from": "Latin",
       "to": "Rhaeto-Romance",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e83",
+      "label": {},
+      "points": [
+        {
+          "x": 27.84999999999995,
+          "y": 0.34562211981566904
+        },
+        {
+          "x": 37.199999999999946,
+          "y": 2.5
+        },
+        {
+          "x": 37.199999999999946,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Latin",
+      "to": "Rhaeto-Romance",
+      "linestyle": "step",
+      "id": "e83",
+      "label": {},
       "points": [
         {
           "x": 27.84999999999995,
@@ -3436,8 +5409,30 @@
     {
       "from": "Brythonic",
       "to": "Welsh",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e84",
+      "label": {},
+      "points": [
+        {
+          "x": 3.4099999999999966,
+          "y": -4.5
+        },
+        {
+          "x": -1.5499999999999972,
+          "y": -2.5
+        },
+        {
+          "x": -1.5499999999999972,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Brythonic",
+      "to": "Welsh",
+      "linestyle": "step",
+      "id": "e84",
+      "label": {},
       "points": [
         {
           "x": 3.4099999999999966,
@@ -3456,8 +5451,30 @@
     {
       "from": "Brythonic",
       "to": "Breton",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e85",
+      "label": {},
+      "points": [
+        {
+          "x": 4.029999999999987,
+          "y": -4.5
+        },
+        {
+          "x": 1.5499999999999972,
+          "y": -2.5
+        },
+        {
+          "x": 1.5499999999999972,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Brythonic",
+      "to": "Breton",
+      "linestyle": "step",
+      "id": "e85",
+      "label": {},
       "points": [
         {
           "x": 4.029999999999987,
@@ -3476,8 +5493,30 @@
     {
       "from": "Brythonic",
       "to": "Cornish",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e86",
+      "label": {},
+      "points": [
+        {
+          "x": 4.6499999999999915,
+          "y": -4.5
+        },
+        {
+          "x": 4.6499999999999915,
+          "y": -2.5
+        },
+        {
+          "x": 4.6499999999999915,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Brythonic",
+      "to": "Cornish",
+      "linestyle": "step",
+      "id": "e86",
+      "label": {},
       "points": [
         {
           "x": 4.6499999999999915,
@@ -3496,8 +5535,30 @@
     {
       "from": "Brythonic",
       "to": "Cuymbric",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e87",
+      "label": {},
+      "points": [
+        {
+          "x": 5.269999999999996,
+          "y": -4.5
+        },
+        {
+          "x": 7.749999999999986,
+          "y": -2.5
+        },
+        {
+          "x": 7.749999999999986,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Brythonic",
+      "to": "Cuymbric",
+      "linestyle": "step",
+      "id": "e87",
+      "label": {},
       "points": [
         {
           "x": 5.269999999999996,
@@ -3516,8 +5577,30 @@
     {
       "from": "Goidelic",
       "to": "Modern Irish",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e88",
+      "label": {},
+      "points": [
+        {
+          "x": 14.569999999999979,
+          "y": -4.5
+        },
+        {
+          "x": 10.84999999999998,
+          "y": -2.5
+        },
+        {
+          "x": 10.84999999999998,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Goidelic",
+      "to": "Modern Irish",
+      "linestyle": "step",
+      "id": "e88",
+      "label": {},
       "points": [
         {
           "x": 14.569999999999979,
@@ -3536,8 +5619,30 @@
     {
       "from": "Goidelic",
       "to": "Scottish Gaelic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e89",
+      "label": {},
+      "points": [
+        {
+          "x": 15.18999999999997,
+          "y": -4.5
+        },
+        {
+          "x": 13.949999999999974,
+          "y": -2.5
+        },
+        {
+          "x": 13.949999999999974,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Goidelic",
+      "to": "Scottish Gaelic",
+      "linestyle": "step",
+      "id": "e89",
+      "label": {},
       "points": [
         {
           "x": 15.18999999999997,
@@ -3556,8 +5661,30 @@
     {
       "from": "Goidelic",
       "to": "Manx",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e90",
+      "label": {},
+      "points": [
+        {
+          "x": 15.809999999999974,
+          "y": -4.5
+        },
+        {
+          "x": 17.04999999999997,
+          "y": -2.5
+        },
+        {
+          "x": 17.04999999999997,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Goidelic",
+      "to": "Manx",
+      "linestyle": "step",
+      "id": "e90",
+      "label": {},
       "points": [
         {
           "x": 15.809999999999974,
@@ -3576,8 +5703,30 @@
     {
       "from": "East Germanic",
       "to": "Gothic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e91",
+      "label": {},
+      "points": [
+        {
+          "x": -4.6499999999999915,
+          "y": -4.5
+        },
+        {
+          "x": -4.6499999999999915,
+          "y": -2.5
+        },
+        {
+          "x": -4.6499999999999915,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "East Germanic",
+      "to": "Gothic",
+      "linestyle": "step",
+      "id": "e91",
+      "label": {},
       "points": [
         {
           "x": -4.6499999999999915,
@@ -3596,8 +5745,30 @@
     {
       "from": "Middle Low German",
       "to": "Low German",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e92",
+      "label": {},
+      "points": [
+        {
+          "x": -12.399999999999977,
+          "y": 5.5
+        },
+        {
+          "x": -12.399999999999977,
+          "y": 7.5
+        },
+        {
+          "x": -12.399999999999977,
+          "y": 9.5
+        }
+      ]
+    },
+    {
+      "from": "Middle Low German",
+      "to": "Low German",
+      "linestyle": "step",
+      "id": "e92",
+      "label": {},
       "points": [
         {
           "x": -12.399999999999977,
@@ -3616,8 +5787,30 @@
     {
       "from": "Middle High German",
       "to": "(High) German",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e93",
+      "label": {},
+      "points": [
+        {
+          "x": -8.059999999999988,
+          "y": 5.5
+        },
+        {
+          "x": -9.299999999999983,
+          "y": 7.5
+        },
+        {
+          "x": -9.299999999999983,
+          "y": 9.5
+        }
+      ]
+    },
+    {
+      "from": "Middle High German",
+      "to": "(High) German",
+      "linestyle": "step",
+      "id": "e93",
+      "label": {},
       "points": [
         {
           "x": -8.059999999999988,
@@ -3636,8 +5829,30 @@
     {
       "from": "Middle High German",
       "to": "Yiddish",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e94",
+      "label": {},
+      "points": [
+        {
+          "x": -6.249999999999986,
+          "y": 5.093052109181141
+        },
+        {
+          "x": 32.54999999999994,
+          "y": 7.5
+        },
+        {
+          "x": 32.54999999999994,
+          "y": 9.5
+        }
+      ]
+    },
+    {
+      "from": "Middle High German",
+      "to": "Yiddish",
+      "linestyle": "step",
+      "id": "e94",
+      "label": {},
       "points": [
         {
           "x": -6.249999999999986,
@@ -3656,8 +5871,30 @@
     {
       "from": "Middle English",
       "to": "English",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e95",
+      "label": {},
+      "points": [
+        {
+          "x": -34.099999999999945,
+          "y": 5.5
+        },
+        {
+          "x": -34.099999999999945,
+          "y": 7.5
+        },
+        {
+          "x": -34.099999999999945,
+          "y": 9.5
+        }
+      ]
+    },
+    {
+      "from": "Middle English",
+      "to": "English",
+      "linestyle": "step",
+      "id": "e95",
+      "label": {},
       "points": [
         {
           "x": -34.099999999999945,
@@ -3676,8 +5913,30 @@
     {
       "from": "Middle Dutch",
       "to": "Hollandic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e96",
+      "label": {},
+      "points": [
+        {
+          "x": -21.649999999999963,
+          "y": 5.345622119815669
+        },
+        {
+          "x": -30.999999999999943,
+          "y": 7.5
+        },
+        {
+          "x": -30.999999999999943,
+          "y": 9.5
+        }
+      ]
+    },
+    {
+      "from": "Middle Dutch",
+      "to": "Hollandic",
+      "linestyle": "step",
+      "id": "e96",
+      "label": {},
       "points": [
         {
           "x": -21.649999999999963,
@@ -3696,8 +5955,30 @@
     {
       "from": "Middle Dutch",
       "to": "Flemish",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e97",
+      "label": {},
+      "points": [
+        {
+          "x": -21.649999999999963,
+          "y": 5.483870967741936
+        },
+        {
+          "x": -27.89999999999995,
+          "y": 7.5
+        },
+        {
+          "x": -27.89999999999995,
+          "y": 9.5
+        }
+      ]
+    },
+    {
+      "from": "Middle Dutch",
+      "to": "Flemish",
+      "linestyle": "step",
+      "id": "e97",
+      "label": {},
       "points": [
         {
           "x": -21.649999999999963,
@@ -3716,8 +5997,30 @@
     {
       "from": "Middle Dutch",
       "to": "Dutch",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e98",
+      "label": {},
+      "points": [
+        {
+          "x": -21.079999999999956,
+          "y": 5.5
+        },
+        {
+          "x": -24.799999999999955,
+          "y": 7.5
+        },
+        {
+          "x": -24.799999999999955,
+          "y": 9.5
+        }
+      ]
+    },
+    {
+      "from": "Middle Dutch",
+      "to": "Dutch",
+      "linestyle": "step",
+      "id": "e98",
+      "label": {},
       "points": [
         {
           "x": -21.079999999999956,
@@ -3736,8 +6039,30 @@
     {
       "from": "Middle Dutch",
       "to": "Limburgish",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e99",
+      "label": {},
+      "points": [
+        {
+          "x": -20.459999999999965,
+          "y": 5.5
+        },
+        {
+          "x": -21.69999999999996,
+          "y": 7.5
+        },
+        {
+          "x": -21.69999999999996,
+          "y": 9.5
+        }
+      ]
+    },
+    {
+      "from": "Middle Dutch",
+      "to": "Limburgish",
+      "linestyle": "step",
+      "id": "e99",
+      "label": {},
       "points": [
         {
           "x": -20.459999999999965,
@@ -3756,8 +6081,30 @@
     {
       "from": "Middle Dutch",
       "to": "Brabantian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e100",
+      "label": {},
+      "points": [
+        {
+          "x": -19.83999999999996,
+          "y": 5.5
+        },
+        {
+          "x": -18.599999999999966,
+          "y": 7.5
+        },
+        {
+          "x": -18.599999999999966,
+          "y": 9.5
+        }
+      ]
+    },
+    {
+      "from": "Middle Dutch",
+      "to": "Brabantian",
+      "linestyle": "step",
+      "id": "e100",
+      "label": {},
       "points": [
         {
           "x": -19.83999999999996,
@@ -3776,8 +6123,30 @@
     {
       "from": "Middle Dutch",
       "to": "Rhinelandic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e101",
+      "label": {},
+      "points": [
+        {
+          "x": -19.21999999999997,
+          "y": 5.5
+        },
+        {
+          "x": -15.499999999999972,
+          "y": 7.5
+        },
+        {
+          "x": -15.499999999999972,
+          "y": 9.5
+        }
+      ]
+    },
+    {
+      "from": "Middle Dutch",
+      "to": "Rhinelandic",
+      "linestyle": "step",
+      "id": "e101",
+      "label": {},
       "points": [
         {
           "x": -19.21999999999997,
@@ -3796,8 +6165,30 @@
     {
       "from": "Old Frisian",
       "to": "Frisian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e102",
+      "label": {},
+      "points": [
+        {
+          "x": -29.449999999999946,
+          "y": 0.5
+        },
+        {
+          "x": -29.449999999999946,
+          "y": 2.5
+        },
+        {
+          "x": -29.449999999999946,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Old Frisian",
+      "to": "Frisian",
+      "linestyle": "step",
+      "id": "e102",
+      "label": {},
       "points": [
         {
           "x": -29.449999999999946,
@@ -3816,8 +6207,30 @@
     {
       "from": "Middle Danish",
       "to": "Danish",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e103",
+      "label": {},
+      "points": [
+        {
+          "x": -37.199999999999946,
+          "y": 5.5
+        },
+        {
+          "x": -37.199999999999946,
+          "y": 7.5
+        },
+        {
+          "x": -37.199999999999946,
+          "y": 9.5
+        }
+      ]
+    },
+    {
+      "from": "Middle Danish",
+      "to": "Danish",
+      "linestyle": "step",
+      "id": "e103",
+      "label": {},
       "points": [
         {
           "x": -37.199999999999946,
@@ -3836,8 +6249,30 @@
     {
       "from": "Middle Swedish",
       "to": "Swedish",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e104",
+      "label": {},
+      "points": [
+        {
+          "x": -40.29999999999994,
+          "y": 5.5
+        },
+        {
+          "x": -40.29999999999994,
+          "y": 7.5
+        },
+        {
+          "x": -40.29999999999994,
+          "y": 9.5
+        }
+      ]
+    },
+    {
+      "from": "Middle Swedish",
+      "to": "Swedish",
+      "linestyle": "step",
+      "id": "e104",
+      "label": {},
       "points": [
         {
           "x": -40.29999999999994,
@@ -3856,8 +6291,30 @@
     {
       "from": "Middle Norwegian",
       "to": "Norwegian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e105",
+      "label": {},
+      "points": [
+        {
+          "x": -46.499999999999936,
+          "y": 10.5
+        },
+        {
+          "x": -46.499999999999936,
+          "y": 12.5
+        },
+        {
+          "x": -46.499999999999936,
+          "y": 14.5
+        }
+      ]
+    },
+    {
+      "from": "Middle Norwegian",
+      "to": "Norwegian",
+      "linestyle": "step",
+      "id": "e105",
+      "label": {},
       "points": [
         {
           "x": -46.499999999999936,
@@ -3876,8 +6333,30 @@
     {
       "from": "Old Norse",
       "to": "Faroese",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e106",
+      "label": {},
+      "points": [
+        {
+          "x": -44.63999999999994,
+          "y": 0.5
+        },
+        {
+          "x": -43.399999999999935,
+          "y": 2.5
+        },
+        {
+          "x": -43.399999999999935,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "Old Norse",
+      "to": "Faroese",
+      "linestyle": "step",
+      "id": "e106",
+      "label": {},
       "points": [
         {
           "x": -44.63999999999994,
@@ -3896,8 +6375,30 @@
     {
       "from": "Old Icelandic",
       "to": "Icelandic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e107",
+      "label": {},
+      "points": [
+        {
+          "x": -49.59999999999994,
+          "y": 5.5
+        },
+        {
+          "x": -49.59999999999994,
+          "y": 7.5
+        },
+        {
+          "x": -49.59999999999994,
+          "y": 9.5
+        }
+      ]
+    },
+    {
+      "from": "Old Icelandic",
+      "to": "Icelandic",
+      "linestyle": "step",
+      "id": "e107",
+      "label": {},
       "points": [
         {
           "x": -49.59999999999994,
@@ -3916,8 +6417,30 @@
     {
       "from": "Baltic",
       "to": "Old Prussian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e108",
+      "label": {},
+      "points": [
+        {
+          "x": -88.65999999999991,
+          "y": -4.5
+        },
+        {
+          "x": -89.8999999999999,
+          "y": -2.5
+        },
+        {
+          "x": -89.8999999999999,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Baltic",
+      "to": "Old Prussian",
+      "linestyle": "step",
+      "id": "e108",
+      "label": {},
       "points": [
         {
           "x": -88.65999999999991,
@@ -3936,8 +6459,30 @@
     {
       "from": "Baltic",
       "to": "Lithuanian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e109",
+      "label": {},
+      "points": [
+        {
+          "x": -88.0399999999999,
+          "y": -4.5
+        },
+        {
+          "x": -86.79999999999991,
+          "y": -2.5
+        },
+        {
+          "x": -86.79999999999991,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Baltic",
+      "to": "Lithuanian",
+      "linestyle": "step",
+      "id": "e109",
+      "label": {},
       "points": [
         {
           "x": -88.0399999999999,
@@ -3956,8 +6501,30 @@
     {
       "from": "Baltic",
       "to": "Latvian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e110",
+      "label": {},
+      "points": [
+        {
+          "x": -87.4199999999999,
+          "y": -4.5
+        },
+        {
+          "x": -83.69999999999992,
+          "y": -2.5
+        },
+        {
+          "x": -83.69999999999992,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Baltic",
+      "to": "Latvian",
+      "linestyle": "step",
+      "id": "e110",
+      "label": {},
       "points": [
         {
           "x": -87.4199999999999,
@@ -3976,8 +6543,30 @@
     {
       "from": "West Slavic",
       "to": "Polish",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e111",
+      "label": {},
+      "points": [
+        {
+          "x": -69.43999999999993,
+          "y": 0.5
+        },
+        {
+          "x": -74.39999999999992,
+          "y": 2.5
+        },
+        {
+          "x": -74.39999999999992,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "West Slavic",
+      "to": "Polish",
+      "linestyle": "step",
+      "id": "e111",
+      "label": {},
       "points": [
         {
           "x": -69.43999999999993,
@@ -3996,8 +6585,30 @@
     {
       "from": "West Slavic",
       "to": "Slovak",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e112",
+      "label": {},
+      "points": [
+        {
+          "x": -68.81999999999992,
+          "y": 0.5
+        },
+        {
+          "x": -71.29999999999993,
+          "y": 2.5
+        },
+        {
+          "x": -71.29999999999993,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "West Slavic",
+      "to": "Slovak",
+      "linestyle": "step",
+      "id": "e112",
+      "label": {},
       "points": [
         {
           "x": -68.81999999999992,
@@ -4016,8 +6627,30 @@
     {
       "from": "West Slavic",
       "to": "Czech",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e113",
+      "label": {},
+      "points": [
+        {
+          "x": -68.19999999999993,
+          "y": 0.5
+        },
+        {
+          "x": -68.19999999999992,
+          "y": 2.5
+        },
+        {
+          "x": -68.19999999999992,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "West Slavic",
+      "to": "Czech",
+      "linestyle": "step",
+      "id": "e113",
+      "label": {},
       "points": [
         {
           "x": -68.19999999999993,
@@ -4036,8 +6669,30 @@
     {
       "from": "West Slavic",
       "to": "Wendish",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e114",
+      "label": {},
+      "points": [
+        {
+          "x": -67.57999999999993,
+          "y": 0.5
+        },
+        {
+          "x": -65.09999999999992,
+          "y": 2.5
+        },
+        {
+          "x": -65.09999999999992,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "West Slavic",
+      "to": "Wendish",
+      "linestyle": "step",
+      "id": "e114",
+      "label": {},
       "points": [
         {
           "x": -67.57999999999993,
@@ -4056,8 +6711,30 @@
     {
       "from": "East Slavic",
       "to": "Bulgarian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e115",
+      "label": {},
+      "points": [
+        {
+          "x": -82.09999999999991,
+          "y": 0.4032258064516139
+        },
+        {
+          "x": -89.8999999999999,
+          "y": 2.5
+        },
+        {
+          "x": -89.8999999999999,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "East Slavic",
+      "to": "Bulgarian",
+      "linestyle": "step",
+      "id": "e115",
+      "label": {},
       "points": [
         {
           "x": -82.09999999999991,
@@ -4076,8 +6753,30 @@
     {
       "from": "East Slavic",
       "to": "Old Church Slavonic",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e116",
+      "label": {},
+      "points": [
+        {
+          "x": -81.83999999999992,
+          "y": 0.5
+        },
+        {
+          "x": -86.79999999999991,
+          "y": 2.5
+        },
+        {
+          "x": -86.79999999999991,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "East Slavic",
+      "to": "Old Church Slavonic",
+      "linestyle": "step",
+      "id": "e116",
+      "label": {},
       "points": [
         {
           "x": -81.83999999999992,
@@ -4096,8 +6795,30 @@
     {
       "from": "East Slavic",
       "to": "Macedonian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e117",
+      "label": {},
+      "points": [
+        {
+          "x": -81.21999999999991,
+          "y": 0.5
+        },
+        {
+          "x": -83.6999999999999,
+          "y": 2.5
+        },
+        {
+          "x": -83.6999999999999,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "East Slavic",
+      "to": "Macedonian",
+      "linestyle": "step",
+      "id": "e117",
+      "label": {},
       "points": [
         {
           "x": -81.21999999999991,
@@ -4116,8 +6837,30 @@
     {
       "from": "East Slavic",
       "to": "Serbo-Croatian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e118",
+      "label": {},
+      "points": [
+        {
+          "x": -80.59999999999991,
+          "y": 0.5
+        },
+        {
+          "x": -80.59999999999991,
+          "y": 2.5
+        },
+        {
+          "x": -80.59999999999991,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "East Slavic",
+      "to": "Serbo-Croatian",
+      "linestyle": "step",
+      "id": "e118",
+      "label": {},
       "points": [
         {
           "x": -80.59999999999991,
@@ -4136,8 +6879,30 @@
     {
       "from": "East Slavic",
       "to": "Slovene",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e119",
+      "label": {},
+      "points": [
+        {
+          "x": -79.97999999999992,
+          "y": 0.5
+        },
+        {
+          "x": -77.49999999999991,
+          "y": 2.5
+        },
+        {
+          "x": -77.49999999999991,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "East Slavic",
+      "to": "Slovene",
+      "linestyle": "step",
+      "id": "e119",
+      "label": {},
       "points": [
         {
           "x": -79.97999999999992,
@@ -4156,8 +6921,30 @@
     {
       "from": "South Slavic",
       "to": "Russian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e120",
+      "label": {},
+      "points": [
+        {
+          "x": -57.039999999999935,
+          "y": 0.5
+        },
+        {
+          "x": -61.99999999999993,
+          "y": 2.5
+        },
+        {
+          "x": -61.99999999999993,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "South Slavic",
+      "to": "Russian",
+      "linestyle": "step",
+      "id": "e120",
+      "label": {},
       "points": [
         {
           "x": -57.039999999999935,
@@ -4176,8 +6963,30 @@
     {
       "from": "South Slavic",
       "to": "Ukrainian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e121",
+      "label": {},
+      "points": [
+        {
+          "x": -56.41999999999993,
+          "y": 0.5
+        },
+        {
+          "x": -58.89999999999993,
+          "y": 2.5
+        },
+        {
+          "x": -58.89999999999993,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "South Slavic",
+      "to": "Ukrainian",
+      "linestyle": "step",
+      "id": "e121",
+      "label": {},
       "points": [
         {
           "x": -56.41999999999993,
@@ -4196,8 +7005,30 @@
     {
       "from": "South Slavic",
       "to": "Belarusian",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e122",
+      "label": {},
+      "points": [
+        {
+          "x": -55.79999999999993,
+          "y": 0.5
+        },
+        {
+          "x": -55.799999999999926,
+          "y": 2.5
+        },
+        {
+          "x": -55.799999999999926,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "South Slavic",
+      "to": "Belarusian",
+      "linestyle": "step",
+      "id": "e122",
+      "label": {},
       "points": [
         {
           "x": -55.79999999999993,
@@ -4216,8 +7047,30 @@
     {
       "from": "South Slavic",
       "to": "Rusyn",
-      "linestyle": "bezier",
+      "linestyle": "step",
       "id": "e123",
+      "label": {},
+      "points": [
+        {
+          "x": -55.179999999999936,
+          "y": 0.5
+        },
+        {
+          "x": -52.69999999999993,
+          "y": 2.5
+        },
+        {
+          "x": -52.69999999999993,
+          "y": 4.5
+        }
+      ]
+    },
+    {
+      "from": "South Slavic",
+      "to": "Rusyn",
+      "linestyle": "step",
+      "id": "e123",
+      "label": {},
       "points": [
         {
           "x": -55.179999999999936,

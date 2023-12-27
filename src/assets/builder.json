@@ -5,12 +5,15 @@
       "label": {
         "text": "Node3"
       },
-      "color": "gold",
+      "material": {
+        "color": "gold"
+      },
       "x": -3,
       "id": "n0",
       "type": "node",
       "width": 1,
       "height": 1,
+      "depth": 1,
       "shape": "round",
       "y": 0.55,
       "rank": 0,
@@ -20,13 +23,16 @@
       "label": {
         "text": "Node4"
       },
-      "color": "gold",
+      "material": {
+        "color": "gold"
+      },
       "x": -3,
       "y": -0.55,
       "id": "n1",
       "type": "node",
       "width": 1,
       "height": 1,
+      "depth": 1,
       "shape": "round",
       "rank": 0,
       "z": 0
@@ -35,12 +41,15 @@
       "label": {
         "text": "Node1"
       },
-      "color": "green",
+      "material": {
+        "color": "green"
+      },
       "y": 0,
       "id": "n2",
       "type": "node",
       "width": 1,
       "height": 1,
+      "depth": 1,
       "shape": "round",
       "x": -1,
       "rank": 2,
@@ -50,13 +59,16 @@
       "label": {
         "text": "Node2"
       },
-      "color": "red",
+      "material": {
+        "color": "red"
+      },
       "x": 1,
       "y": 0.5,
       "id": "n3",
       "type": "node",
       "width": 1,
       "height": 1,
+      "depth": 1,
       "shape": "round",
       "rank": 4,
       "z": 0
@@ -65,25 +77,31 @@
       "label": {
         "text": "Node5"
       },
-      "color": "red",
+      "material": {
+        "color": "red"
+      },
       "x": 3,
       "y": -0.5,
       "id": "n4",
       "type": "node",
       "width": 1,
       "height": 1,
+      "depth": 1,
       "shape": "round",
       "rank": 6,
       "z": 0
     },
     {
-      "color": "blue",
+      "material": {
+        "color": "blue"
+      },
       "y": -0.5,
       "type": "route",
       "radius": 0.1,
       "width": 0.1,
       "height": 0.1,
       "id": "n5",
+      "depth": 1,
       "label": {},
       "x": 1,
       "rank": 4,
@@ -94,7 +112,30 @@
     {
       "from": "n0",
       "to": "n2",
+      "linestyle": "straight",
       "id": "e0",
+      "label": {},
+      "points": [
+        {
+          "x": -2.5,
+          "y": -0.55
+        },
+        {
+          "x": -2,
+          "y": -0.55
+        },
+        {
+          "x": -1.5,
+          "y": -0.275
+        }
+      ]
+    },
+    {
+      "from": "n0",
+      "to": "n2",
+      "linestyle": "straight",
+      "id": "e0",
+      "label": {},
       "points": [
         {
           "x": -2.5,
@@ -113,7 +154,30 @@
     {
       "from": "n1",
       "to": "n2",
+      "linestyle": "straight",
       "id": "e1",
+      "label": {},
+      "points": [
+        {
+          "x": -2.5,
+          "y": 0.55
+        },
+        {
+          "x": -2,
+          "y": 0.55
+        },
+        {
+          "x": -1.5,
+          "y": 0.27500000000000013
+        }
+      ]
+    },
+    {
+      "from": "n1",
+      "to": "n2",
+      "linestyle": "straight",
+      "id": "e1",
+      "label": {},
       "points": [
         {
           "x": -2.5,
@@ -132,7 +196,30 @@
     {
       "from": "n2",
       "to": "n3",
+      "linestyle": "straight",
       "id": "e2",
+      "label": {},
+      "points": [
+        {
+          "x": -0.5,
+          "y": -0.25
+        },
+        {
+          "x": 0,
+          "y": -0.5
+        },
+        {
+          "x": 0.5,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "n2",
+      "to": "n3",
+      "linestyle": "straight",
+      "id": "e2",
+      "label": {},
       "points": [
         {
           "x": -0.5,
@@ -152,9 +239,37 @@
       "from": "n2",
       "to": "n5",
       "toarrow": {
+        "scale": 1,
         "type": "to"
       },
+      "linestyle": "straight",
       "id": "e3",
+      "label": {},
+      "points": [
+        {
+          "x": -0.5,
+          "y": 0.25
+        },
+        {
+          "x": 0,
+          "y": 0.5
+        },
+        {
+          "x": 0.9500000000000002,
+          "y": 0.5
+        }
+      ]
+    },
+    {
+      "from": "n2",
+      "to": "n5",
+      "toarrow": {
+        "scale": 1,
+        "type": "to"
+      },
+      "linestyle": "straight",
+      "id": "e3",
+      "label": {},
       "points": [
         {
           "x": -0.5,
@@ -175,10 +290,46 @@
       "to": "n4",
       "toarrow": {
         "indent": 0,
-        "color": "gold",
+        "scale": 1,
+        "offset": 0.2,
+        "material": {
+          "color": "gold"
+        },
         "type": "to"
       },
+      "linestyle": "straight",
       "id": "e4",
+      "label": {},
+      "points": [
+        {
+          "x": 1.0499999999999998,
+          "y": 0.5
+        },
+        {
+          "x": 2,
+          "y": 0.5
+        },
+        {
+          "x": 2.5,
+          "y": 0.5
+        }
+      ]
+    },
+    {
+      "from": "n5",
+      "to": "n4",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0.2,
+        "material": {
+          "color": "gold"
+        },
+        "type": "to"
+      },
+      "linestyle": "straight",
+      "id": "e4",
+      "label": {},
       "points": [
         {
           "x": 1.0499999999999998,

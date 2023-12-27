@@ -57,7 +57,7 @@ export class BuilderExample {
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
       const options: FlowDiagramOptions = {
-        gridsize: 0.3,
+        gridsize: 0.3, linestyle: 'straight',
         fonts: new Map<string, Font>([
           ['default', font],
         ]),
@@ -121,8 +121,8 @@ export class BuilderExample {
       //const node5 = node5.addInputConnector({})
 
       const route1 = flow.addRoute({ material: { color: 'blue' }, y: -1 })
-      const edge6 = flow.addEdge({ from: node1.name, to: route1.name, toarrow: {} })
-      const edge5 = flow.addEdge({ from: route1.name, to: node5.name, toarrow: { indent: 0, material: { color: 'gold' } } })
+      const edge6 = flow.addEdge({ from: node1.name, to: route1.name, toarrow: { scale: 1 } })
+      const edge5 = flow.addEdge({ from: route1.name, to: node5.name, toarrow: { indent: 0, scale: 1, offset: 0.2, material: { color: 'gold' } } })
 
       flow.layout({ rankdir: 'LR', ranksep: 1 })
 
@@ -151,7 +151,7 @@ export class BuilderExample {
       //console.warn(interactive)
 
       //const exporter = new Exporter()
-      //exporter.saveJSON(flow.save(), 'builder')
+      //exporter.saveJSON(flow.saveDiagram(), 'builder')
 
     });
 

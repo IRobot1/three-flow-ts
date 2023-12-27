@@ -10,6 +10,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -59.5,
       "y": -5.000000000000002,
       "rank": 0,
@@ -24,6 +25,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -45.5,
       "y": 6.600000000000001,
       "rank": 4,
@@ -38,6 +40,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -52.5,
       "y": 2.5000000000000018,
       "rank": 2,
@@ -52,6 +55,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -52.5,
       "y": -6.949999999999999,
       "rank": 2,
@@ -66,6 +70,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -52.5,
       "y": -8.624999999999996,
       "rank": 2,
@@ -80,6 +85,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 3.5,
       "y": 6.625000000000002,
       "rank": 18,
@@ -94,6 +100,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 10.5,
       "y": 5.625000000000002,
       "rank": 20,
@@ -108,6 +115,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 10.5,
       "y": -6.6250000000000036,
       "rank": 20,
@@ -122,6 +130,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 17.5,
       "y": -2.1250000000000018,
       "rank": 22,
@@ -136,6 +145,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 3.5,
       "y": -1.6250000000000018,
       "rank": 18,
@@ -150,6 +160,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 10.5,
       "y": 0.8749999999999982,
       "rank": 20,
@@ -164,6 +175,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -3.5,
       "y": -5.075000000000001,
       "rank": 16,
@@ -178,6 +190,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 3.5,
       "y": -3.6250000000000018,
       "rank": 18,
@@ -192,6 +205,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 3.5,
       "y": -6.075000000000001,
       "rank": 18,
@@ -206,6 +220,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -3.5,
       "y": 7.625000000000002,
       "rank": 16,
@@ -220,6 +235,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 3.5,
       "y": 0.5,
       "rank": 18,
@@ -234,6 +250,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -3.5,
       "y": -2.1250000000000018,
       "rank": 16,
@@ -248,6 +265,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 17.5,
       "y": 2.450000000000001,
       "rank": 22,
@@ -262,6 +280,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -10.5,
       "y": -6.6250000000000036,
       "rank": 14,
@@ -276,6 +295,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -3.5,
       "y": -7.175000000000001,
       "rank": 16,
@@ -290,6 +310,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 45.5,
       "y": -3.049999999999997,
       "rank": 30,
@@ -304,6 +325,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 52.5,
       "y": 3.552713678800501e-15,
       "rank": 32,
@@ -318,6 +340,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 52.5,
       "y": -1.0999999999999979,
       "rank": 32,
@@ -332,6 +355,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 52.5,
       "y": -6.1999999999999975,
       "rank": 32,
@@ -346,6 +370,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -10.5,
       "y": 1,
       "rank": 14,
@@ -360,6 +385,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -3.5,
       "y": 1,
       "rank": 16,
@@ -374,6 +400,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 10.5,
       "y": -2.1250000000000018,
       "rank": 20,
@@ -388,6 +415,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 17.5,
       "y": -3.6750000000000007,
       "rank": 22,
@@ -402,6 +430,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 17.5,
       "y": -0.12500000000000178,
       "rank": 22,
@@ -416,6 +445,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -10.5,
       "y": -4.025,
       "rank": 14,
@@ -430,6 +460,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 3.5,
       "y": -7.175000000000001,
       "rank": 18,
@@ -444,6 +475,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 59.5,
       "y": 1.1000000000000032,
       "rank": 34,
@@ -458,6 +490,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 52.5,
       "y": -4.149999999999999,
       "rank": 32,
@@ -472,6 +505,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 45.5,
       "y": 8.6,
       "rank": 30,
@@ -486,6 +520,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 52.5,
       "y": 7.1,
       "rank": 32,
@@ -500,6 +535,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 45.5,
       "y": -0.04999999999999716,
       "rank": 30,
@@ -514,6 +550,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 52.5,
       "y": 1.5500000000000025,
       "rank": 32,
@@ -528,6 +565,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 45.5,
       "y": -8.150000000000002,
       "rank": 30,
@@ -542,6 +580,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 38.5,
       "y": -1.4999999999999982,
       "rank": 28,
@@ -556,6 +595,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 45.5,
       "y": -5.599999999999996,
       "rank": 30,
@@ -570,6 +610,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 31.5,
       "y": -4.999999999999995,
       "rank": 26,
@@ -584,6 +625,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 38.5,
       "y": 6.449999999999999,
       "rank": 28,
@@ -598,6 +640,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 45.5,
       "y": 6.449999999999999,
       "rank": 30,
@@ -612,6 +655,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 38.5,
       "y": -4.049999999999997,
       "rank": 28,
@@ -626,6 +670,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 38.5,
       "y": 0.5000000000000018,
       "rank": 28,
@@ -640,6 +685,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 31.5,
       "y": 5.05,
       "rank": 26,
@@ -654,6 +700,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 24.5,
       "y": -3.0999999999999996,
       "rank": 24,
@@ -668,6 +715,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 24.5,
       "y": 5.500000000000002,
       "rank": 24,
@@ -682,6 +730,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 31.5,
       "y": -2.9999999999999982,
       "rank": 26,
@@ -696,6 +745,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 24.5,
       "y": -7.6249999999999964,
       "rank": 24,
@@ -710,6 +760,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 24.5,
       "y": -1.9999999999999982,
       "rank": 24,
@@ -724,6 +775,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 31.5,
       "y": -7.6249999999999964,
       "rank": 26,
@@ -738,6 +790,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": 17.5,
       "y": 4.500000000000002,
       "rank": 22,
@@ -752,6 +805,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -10.5,
       "y": 7.625000000000002,
       "rank": 14,
@@ -766,6 +820,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -10.5,
       "y": 6.525,
       "rank": 14,
@@ -780,6 +835,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -17.5,
       "y": -7.074999999999999,
       "rank": 12,
@@ -794,6 +850,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -24.5,
       "y": -4.024999999999999,
       "rank": 10,
@@ -808,6 +865,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -17.5,
       "y": -3.5250000000000004,
       "rank": 12,
@@ -822,6 +880,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -17.5,
       "y": 0,
       "rank": 12,
@@ -836,6 +895,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -17.5,
       "y": -5.525,
       "rank": 12,
@@ -850,6 +910,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -31.5,
       "y": 7.575000000000002,
       "rank": 8,
@@ -864,6 +925,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -24.5,
       "y": 6.550000000000002,
       "rank": 10,
@@ -878,6 +940,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -17.5,
       "y": 9.150000000000002,
       "rank": 12,
@@ -892,6 +955,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -24.5,
       "y": 9.150000000000002,
       "rank": 10,
@@ -906,6 +970,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -17.5,
       "y": 6.025,
       "rank": 12,
@@ -920,6 +985,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -38.5,
       "y": -4.024999999999999,
       "rank": 6,
@@ -934,6 +1000,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -31.5,
       "y": -3.5249999999999986,
       "rank": 8,
@@ -948,6 +1015,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -31.5,
       "y": -6.599999999999998,
       "rank": 8,
@@ -962,6 +1030,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -24.5,
       "y": -6.0749999999999975,
       "rank": 10,
@@ -976,6 +1045,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -38.5,
       "y": 5.050000000000002,
       "rank": 6,
@@ -990,6 +1060,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -31.5,
       "y": 4.550000000000002,
       "rank": 8,
@@ -1004,6 +1075,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -24.5,
       "y": -0.47499999999999964,
       "rank": 10,
@@ -1018,6 +1090,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -45.5,
       "y": 3.0000000000000018,
       "rank": 4,
@@ -1032,6 +1105,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -38.5,
       "y": -0.47499999999999964,
       "rank": 6,
@@ -1046,6 +1120,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -38.5,
       "y": -7.574999999999999,
       "rank": 6,
@@ -1060,6 +1135,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -31.5,
       "y": 9.150000000000002,
       "rank": 8,
@@ -1074,6 +1150,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -38.5,
       "y": 8.075000000000003,
       "rank": 6,
@@ -1088,6 +1165,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -45.5,
       "y": -8.075,
       "rank": 4,
@@ -1102,6 +1180,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -38.5,
       "y": -9.150000000000002,
       "rank": 6,
@@ -1116,6 +1195,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -31.5,
       "y": -9.150000000000002,
       "rank": 8,
@@ -1130,6 +1210,7 @@
       "width": 3,
       "type": "node",
       "height": 1,
+      "depth": 1,
       "x": -45.5,
       "y": -4.024999999999999,
       "rank": 4,
@@ -1142,10 +1223,48 @@
       "to": "Pottery",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e0",
+      "label": {},
+      "points": [
+        {
+          "x": -59.349137931034484,
+          "y": 4.500000000000002
+        },
+        {
+          "x": -56,
+          "y": -6.600000000000001
+        },
+        {
+          "x": -52.5,
+          "y": -6.600000000000001
+        },
+        {
+          "x": -49,
+          "y": -6.600000000000001
+        },
+        {
+          "x": -47,
+          "y": -6.600000000000001
+        }
+      ]
+    },
+    {
+      "from": "Agriculture",
+      "to": "Pottery",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e0",
+      "label": {},
       "points": [
         {
           "x": -59.349137931034484,
@@ -1174,10 +1293,40 @@
       "to": "Animal husbandry",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e1",
+      "label": {},
+      "points": [
+        {
+          "x": -59.266666666666666,
+          "y": 4.500000000000002
+        },
+        {
+          "x": -56,
+          "y": -2.5000000000000018
+        },
+        {
+          "x": -54,
+          "y": -2.5000000000000018
+        }
+      ]
+    },
+    {
+      "from": "Agriculture",
+      "to": "Animal husbandry",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e1",
+      "label": {},
       "points": [
         {
           "x": -59.266666666666666,
@@ -1198,10 +1347,40 @@
       "to": "Archery",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e2",
+      "label": {},
+      "points": [
+        {
+          "x": -58.6025641025641,
+          "y": 5.500000000000002
+        },
+        {
+          "x": -56,
+          "y": 6.949999999999999
+        },
+        {
+          "x": -54,
+          "y": 6.949999999999999
+        }
+      ]
+    },
+    {
+      "from": "Agriculture",
+      "to": "Archery",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e2",
+      "label": {},
       "points": [
         {
           "x": -58.6025641025641,
@@ -1222,10 +1401,40 @@
       "to": "Mining",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e3",
+      "label": {},
+      "points": [
+        {
+          "x": -59.01724137931034,
+          "y": 5.500000000000002
+        },
+        {
+          "x": -56,
+          "y": 8.624999999999996
+        },
+        {
+          "x": -54,
+          "y": 8.624999999999996
+        }
+      ]
+    },
+    {
+      "from": "Agriculture",
+      "to": "Mining",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e3",
+      "label": {},
       "points": [
         {
           "x": -59.01724137931034,
@@ -1246,10 +1455,40 @@
       "to": "Biology",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e4",
+      "label": {},
+      "points": [
+        {
+          "x": 5,
+          "y": -6.625000000000002
+        },
+        {
+          "x": 7,
+          "y": -6.625000000000002
+        },
+        {
+          "x": 9,
+          "y": -6.053571428571431
+        }
+      ]
+    },
+    {
+      "from": "Archaeology",
+      "to": "Biology",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e4",
+      "label": {},
       "points": [
         {
           "x": 5,
@@ -1270,10 +1509,40 @@
       "to": "Railroad",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e5",
+      "label": {},
+      "points": [
+        {
+          "x": 12,
+          "y": 6.6250000000000036
+        },
+        {
+          "x": 14,
+          "y": 6.6250000000000036
+        },
+        {
+          "x": 17.111111111111114,
+          "y": 2.6250000000000018
+        }
+      ]
+    },
+    {
+      "from": "Dynamite",
+      "to": "Railroad",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e5",
+      "label": {},
       "points": [
         {
           "x": 12,
@@ -1294,10 +1563,40 @@
       "to": "Steam power",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e6",
+      "label": {},
+      "points": [
+        {
+          "x": 5,
+          "y": 1.6250000000000018
+        },
+        {
+          "x": 7,
+          "y": 1.6250000000000018
+        },
+        {
+          "x": 9.799999999999997,
+          "y": -0.3749999999999982
+        }
+      ]
+    },
+    {
+      "from": "Industrialization",
+      "to": "Steam power",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e6",
+      "label": {},
       "points": [
         {
           "x": 5,
@@ -1318,10 +1617,40 @@
       "to": "Rifling",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e7",
+      "label": {},
+      "points": [
+        {
+          "x": -2.2931034482758648,
+          "y": 4.575000000000001
+        },
+        {
+          "x": 0,
+          "y": 3.6250000000000018
+        },
+        {
+          "x": 2,
+          "y": 3.6250000000000018
+        }
+      ]
+    },
+    {
+      "from": "Metallurgy",
+      "to": "Rifling",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e7",
+      "label": {},
       "points": [
         {
           "x": -2.2931034482758648,
@@ -1342,10 +1671,40 @@
       "to": "Military science",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e8",
+      "label": {},
+      "points": [
+        {
+          "x": -2,
+          "y": 5.075000000000001
+        },
+        {
+          "x": 0,
+          "y": 5.075000000000001
+        },
+        {
+          "x": 2,
+          "y": 5.646428571428572
+        }
+      ]
+    },
+    {
+      "from": "Metallurgy",
+      "to": "Military science",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e8",
+      "label": {},
       "points": [
         {
           "x": -2,
@@ -1366,10 +1725,40 @@
       "to": "Archaeology",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e9",
+      "label": {},
+      "points": [
+        {
+          "x": -2,
+          "y": -8.05357142857143
+        },
+        {
+          "x": 0,
+          "y": -8.625000000000002
+        },
+        {
+          "x": 2.625,
+          "y": -7.125000000000002
+        }
+      ]
+    },
+    {
+      "from": "Navigation",
+      "to": "Archaeology",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e9",
+      "label": {},
       "points": [
         {
           "x": -2,
@@ -1390,10 +1779,40 @@
       "to": "Scientific theory",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e10",
+      "label": {},
+      "points": [
+        {
+          "x": -2,
+          "y": -7.625000000000002
+        },
+        {
+          "x": 0,
+          "y": -7.625000000000002
+        },
+        {
+          "x": 3.2543859649122737,
+          "y": -1
+        }
+      ]
+    },
+    {
+      "from": "Navigation",
+      "to": "Scientific theory",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e10",
+      "label": {},
       "points": [
         {
           "x": -2,
@@ -1414,10 +1833,40 @@
       "to": "Dynamite",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e11",
+      "label": {},
+      "points": [
+        {
+          "x": 5,
+          "y": 3.6250000000000018
+        },
+        {
+          "x": 7,
+          "y": 3.6250000000000018
+        },
+        {
+          "x": 9.916666666666671,
+          "y": 6.1250000000000036
+        }
+      ]
+    },
+    {
+      "from": "Rifling",
+      "to": "Dynamite",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e11",
+      "label": {},
       "points": [
         {
           "x": 5,
@@ -1438,10 +1887,40 @@
       "to": "Scientific theory",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e12",
+      "label": {},
+      "points": [
+        {
+          "x": -2.676470588235297,
+          "y": 1.6250000000000018
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": -0.2857142857142865
+        }
+      ]
+    },
+    {
+      "from": "Economics",
+      "to": "Scientific theory",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e12",
+      "label": {},
       "points": [
         {
           "x": -2.676470588235297,
@@ -1462,10 +1941,40 @@
       "to": "Industrialization",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e13",
+      "label": {},
+      "points": [
+        {
+          "x": -2,
+          "y": 1.9107142857142883
+        },
+        {
+          "x": 0,
+          "y": 1.6250000000000018
+        },
+        {
+          "x": 2,
+          "y": 1.6250000000000018
+        }
+      ]
+    },
+    {
+      "from": "Economics",
+      "to": "Industrialization",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e13",
+      "label": {},
       "points": [
         {
           "x": -2,
@@ -1486,10 +1995,40 @@
       "to": "Rifling",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e14",
+      "label": {},
+      "points": [
+        {
+          "x": -2,
+          "y": 2.3392857142857153
+        },
+        {
+          "x": 0,
+          "y": 2.6250000000000018
+        },
+        {
+          "x": 2,
+          "y": 3.196428571428573
+        }
+      ]
+    },
+    {
+      "from": "Economics",
+      "to": "Rifling",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e14",
+      "label": {},
       "points": [
         {
           "x": -2,
@@ -1510,10 +2049,40 @@
       "to": "Refrigeration",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e15",
+      "label": {},
+      "points": [
+        {
+          "x": 12,
+          "y": -5.625000000000002
+        },
+        {
+          "x": 14,
+          "y": -5.625000000000002
+        },
+        {
+          "x": 16.948818897637793,
+          "y": -2.950000000000001
+        }
+      ]
+    },
+    {
+      "from": "Biology",
+      "to": "Refrigeration",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e15",
+      "label": {},
       "points": [
         {
           "x": 12,
@@ -1534,10 +2103,40 @@
       "to": "Chemistry",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e16",
+      "label": {},
+      "points": [
+        {
+          "x": -9,
+          "y": 6.389285714285716
+        },
+        {
+          "x": -7,
+          "y": 6.0749999999999975
+        },
+        {
+          "x": -5,
+          "y": 6.703571428571429
+        }
+      ]
+    },
+    {
+      "from": "Gunpowder",
+      "to": "Chemistry",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e16",
+      "label": {},
       "points": [
         {
           "x": -9,
@@ -1558,10 +2157,40 @@
       "to": "Metallurgy",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e17",
+      "label": {},
+      "points": [
+        {
+          "x": -9,
+          "y": 6.817857142857143
+        },
+        {
+          "x": -7,
+          "y": 7.074999999999999
+        },
+        {
+          "x": -4.375,
+          "y": 5.575000000000001
+        }
+      ]
+    },
+    {
+      "from": "Gunpowder",
+      "to": "Metallurgy",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e17",
+      "label": {},
       "points": [
         {
           "x": -9,
@@ -1582,10 +2211,40 @@
       "to": "Globalization",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e18",
+      "label": {},
+      "points": [
+        {
+          "x": 47,
+          "y": 2.8357142857142836
+        },
+        {
+          "x": 49,
+          "y": 2.549999999999997
+        },
+        {
+          "x": 51.81372549019608,
+          "y": 0.49999999999999645
+        }
+      ]
+    },
+    {
+      "from": "Telecommunications",
+      "to": "Globalization",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e18",
+      "label": {},
       "points": [
         {
           "x": 47,
@@ -1606,10 +2265,40 @@
       "to": "Particle physics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e19",
+      "label": {},
+      "points": [
+        {
+          "x": 47,
+          "y": 3.285714285714283
+        },
+        {
+          "x": 49,
+          "y": 3.599999999999998
+        },
+        {
+          "x": 51.8,
+          "y": 1.5999999999999979
+        }
+      ]
+    },
+    {
+      "from": "Telecommunications",
+      "to": "Particle physics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e19",
+      "label": {},
       "points": [
         {
           "x": 47,
@@ -1630,10 +2319,40 @@
       "to": "The Internet",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e20",
+      "label": {},
+      "points": [
+        {
+          "x": 46.62903225806451,
+          "y": 3.549999999999997
+        },
+        {
+          "x": 49,
+          "y": 4.599999999999998
+        },
+        {
+          "x": 51.40625,
+          "y": 5.6999999999999975
+        }
+      ]
+    },
+    {
+      "from": "Telecommunications",
+      "to": "The Internet",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e20",
+      "label": {},
       "points": [
         {
           "x": 46.62903225806451,
@@ -1654,10 +2373,40 @@
       "to": "Economics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e21",
+      "label": {},
+      "points": [
+        {
+          "x": -10.067901234567898,
+          "y": -1.5
+        },
+        {
+          "x": -7,
+          "y": -5.050000000000002
+        },
+        {
+          "x": -3.7439024390243887,
+          "y": 1.6250000000000018
+        }
+      ]
+    },
+    {
+      "from": "Banking",
+      "to": "Economics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e21",
+      "label": {},
       "points": [
         {
           "x": -10.067901234567898,
@@ -1678,10 +2427,40 @@
       "to": "Architecture",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e22",
+      "label": {},
+      "points": [
+        {
+          "x": -9.35245901639344,
+          "y": -0.5
+        },
+        {
+          "x": -7,
+          "y": 0.5249999999999986
+        },
+        {
+          "x": -4.647540983606561,
+          "y": -0.5
+        }
+      ]
+    },
+    {
+      "from": "Banking",
+      "to": "Architecture",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e22",
+      "label": {},
       "points": [
         {
           "x": -9.35245901639344,
@@ -1702,10 +2481,40 @@
       "to": "Refrigeration",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e23",
+      "label": {},
+      "points": [
+        {
+          "x": 11.666666666666671,
+          "y": 1.6250000000000018
+        },
+        {
+          "x": 14,
+          "y": 0.6250000000000018
+        },
+        {
+          "x": 16.930894308943095,
+          "y": -1.950000000000001
+        }
+      ]
+    },
+    {
+      "from": "Electricity",
+      "to": "Refrigeration",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e23",
+      "label": {},
       "points": [
         {
           "x": 11.666666666666671,
@@ -1726,10 +2535,40 @@
       "to": "Radio",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e24",
+      "label": {},
+      "points": [
+        {
+          "x": 12,
+          "y": 1.9107142857142883
+        },
+        {
+          "x": 14,
+          "y": 1.6250000000000018
+        },
+        {
+          "x": 16.64634146341463,
+          "y": 3.1750000000000007
+        }
+      ]
+    },
+    {
+      "from": "Electricity",
+      "to": "Radio",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e24",
+      "label": {},
       "points": [
         {
           "x": 12,
@@ -1750,10 +2589,40 @@
       "to": "Replaceable parts",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e25",
+      "label": {},
+      "points": [
+        {
+          "x": 12,
+          "y": 2.3392857142857153
+        },
+        {
+          "x": 14,
+          "y": 2.6250000000000018
+        },
+        {
+          "x": 16.799999999999997,
+          "y": 0.6250000000000018
+        }
+      ]
+    },
+    {
+      "from": "Electricity",
+      "to": "Replaceable parts",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e25",
+      "label": {},
       "points": [
         {
           "x": 12,
@@ -1774,10 +2643,40 @@
       "to": "Economics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e26",
+      "label": {},
+      "points": [
+        {
+          "x": -9.333333333333336,
+          "y": 3.5250000000000004
+        },
+        {
+          "x": -7,
+          "y": 2.5249999999999986
+        },
+        {
+          "x": -5,
+          "y": 2.2964285714285726
+        }
+      ]
+    },
+    {
+      "from": "Printing press",
+      "to": "Economics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e26",
+      "label": {},
       "points": [
         {
           "x": -9.333333333333336,
@@ -1798,10 +2697,40 @@
       "to": "Metallurgy",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e27",
+      "label": {},
+      "points": [
+        {
+          "x": -9,
+          "y": 4.025
+        },
+        {
+          "x": -7,
+          "y": 4.025
+        },
+        {
+          "x": -5,
+          "y": 4.625
+        }
+      ]
+    },
+    {
+      "from": "Printing press",
+      "to": "Metallurgy",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e27",
+      "label": {},
       "points": [
         {
           "x": -9,
@@ -1822,10 +2751,40 @@
       "to": "Military science",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e28",
+      "label": {},
+      "points": [
+        {
+          "x": -2,
+          "y": 6.703571428571429
+        },
+        {
+          "x": 0,
+          "y": 6.075000000000001
+        },
+        {
+          "x": 2,
+          "y": 6.075000000000001
+        }
+      ]
+    },
+    {
+      "from": "Chemistry",
+      "to": "Military science",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e28",
+      "label": {},
       "points": [
         {
           "x": -2,
@@ -1846,10 +2805,40 @@
       "to": "Fertilizer",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e29",
+      "label": {},
+      "points": [
+        {
+          "x": -2,
+          "y": 7.175000000000001
+        },
+        {
+          "x": 0,
+          "y": 7.175000000000001
+        },
+        {
+          "x": 2,
+          "y": 7.175000000000001
+        }
+      ]
+    },
+    {
+      "from": "Chemistry",
+      "to": "Fertilizer",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e29",
+      "label": {},
       "points": [
         {
           "x": -2,
@@ -1870,10 +2859,40 @@
       "to": "Future tech",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e30",
+      "label": {},
+      "points": [
+        {
+          "x": 54,
+          "y": 6.1999999999999975
+        },
+        {
+          "x": 56,
+          "y": 6.1999999999999975
+        },
+        {
+          "x": 59.26027397260275,
+          "y": -0.6000000000000032
+        }
+      ]
+    },
+    {
+      "from": "The Internet",
+      "to": "Future tech",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e30",
+      "label": {},
       "points": [
         {
           "x": 54,
@@ -1894,10 +2913,40 @@
       "to": "Future tech",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e31",
+      "label": {},
+      "points": [
+        {
+          "x": 54,
+          "y": 4.149999999999999
+        },
+        {
+          "x": 56,
+          "y": 4.149999999999999
+        },
+        {
+          "x": 59.16666666666667,
+          "y": -0.6000000000000032
+        }
+      ]
+    },
+    {
+      "from": "Stealth",
+      "to": "Future tech",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e31",
+      "label": {},
       "points": [
         {
           "x": 54,
@@ -1918,10 +2967,40 @@
       "to": "Dynamite",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e32",
+      "label": {},
+      "points": [
+        {
+          "x": 5,
+          "y": 7.175000000000001
+        },
+        {
+          "x": 7,
+          "y": 7.175000000000001
+        },
+        {
+          "x": 9,
+          "y": 6.8607142857142875
+        }
+      ]
+    },
+    {
+      "from": "Fertilizer",
+      "to": "Dynamite",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e32",
+      "label": {},
       "points": [
         {
           "x": 5,
@@ -1942,10 +3021,40 @@
       "to": "Nuclear fusion",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e33",
+      "label": {},
+      "points": [
+        {
+          "x": 47,
+          "y": -8.6
+        },
+        {
+          "x": 49,
+          "y": -8.6
+        },
+        {
+          "x": 51.33333333333333,
+          "y": -7.6
+        }
+      ]
+    },
+    {
+      "from": "Satellites",
+      "to": "Nuclear fusion",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e33",
+      "label": {},
       "points": [
         {
           "x": 47,
@@ -1966,10 +3075,40 @@
       "to": "Nuclear fusion",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e34",
+      "label": {},
+      "points": [
+        {
+          "x": 45.849999999999994,
+          "y": -0.45000000000000284
+        },
+        {
+          "x": 49,
+          "y": -4.949999999999999
+        },
+        {
+          "x": 51.68604651162791,
+          "y": -6.6
+        }
+      ]
+    },
+    {
+      "from": "Robotics",
+      "to": "Nuclear fusion",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e34",
+      "label": {},
       "points": [
         {
           "x": 45.849999999999994,
@@ -1990,10 +3129,40 @@
       "to": "Nanotechnology",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e35",
+      "label": {},
+      "points": [
+        {
+          "x": 47,
+          "y": 0.2642857142857107
+        },
+        {
+          "x": 49,
+          "y": 0.5499999999999972
+        },
+        {
+          "x": 51.66666666666667,
+          "y": -1.0500000000000025
+        }
+      ]
+    },
+    {
+      "from": "Robotics",
+      "to": "Nanotechnology",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e35",
+      "label": {},
       "points": [
         {
           "x": 47,
@@ -2014,10 +3183,40 @@
       "to": "Stealth",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e36",
+      "label": {},
+      "points": [
+        {
+          "x": 46.66666666666667,
+          "y": 0.5499999999999972
+        },
+        {
+          "x": 49,
+          "y": 1.5499999999999972
+        },
+        {
+          "x": 51.82692307692308,
+          "y": 3.6499999999999986
+        }
+      ]
+    },
+    {
+      "from": "Robotics",
+      "to": "Stealth",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e36",
+      "label": {},
       "points": [
         {
           "x": 46.66666666666667,
@@ -2038,10 +3237,40 @@
       "to": "Stealth",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e37",
+      "label": {},
+      "points": [
+        {
+          "x": 47,
+          "y": 8.150000000000002
+        },
+        {
+          "x": 49,
+          "y": 8.150000000000002
+        },
+        {
+          "x": 52.0625,
+          "y": 4.649999999999999
+        }
+      ]
+    },
+    {
+      "from": "Lasers",
+      "to": "Stealth",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e37",
+      "label": {},
       "points": [
         {
           "x": 47,
@@ -2062,10 +3291,40 @@
       "to": "Future tech",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e38",
+      "label": {},
+      "points": [
+        {
+          "x": 54,
+          "y": -3.552713678800501e-15
+        },
+        {
+          "x": 56,
+          "y": -3.552713678800501e-15
+        },
+        {
+          "x": 58,
+          "y": -0.6285714285714317
+        }
+      ]
+    },
+    {
+      "from": "Globalization",
+      "to": "Future tech",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e38",
+      "label": {},
       "points": [
         {
           "x": 54,
@@ -2086,10 +3345,40 @@
       "to": "Future tech",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e39",
+      "label": {},
+      "points": [
+        {
+          "x": 54,
+          "y": -1.5500000000000025
+        },
+        {
+          "x": 56,
+          "y": -1.5500000000000025
+        },
+        {
+          "x": 58,
+          "y": -1.2928571428571463
+        }
+      ]
+    },
+    {
+      "from": "Nanotechnology",
+      "to": "Future tech",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e39",
+      "label": {},
       "points": [
         {
           "x": 54,
@@ -2110,10 +3399,40 @@
       "to": "Telecommunications",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e40",
+      "label": {},
+      "points": [
+        {
+          "x": 40,
+          "y": 1.4999999999999982
+        },
+        {
+          "x": 42,
+          "y": 1.4999999999999982
+        },
+        {
+          "x": 44.37096774193549,
+          "y": 2.549999999999997
+        }
+      ]
+    },
+    {
+      "from": "Ecology",
+      "to": "Telecommunications",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e40",
+      "label": {},
       "points": [
         {
           "x": 40,
@@ -2134,10 +3453,40 @@
       "to": "Mobile tactics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e41",
+      "label": {},
+      "points": [
+        {
+          "x": 39.62903225806451,
+          "y": 1.9999999999999982
+        },
+        {
+          "x": 42,
+          "y": 3.049999999999997
+        },
+        {
+          "x": 44.81372549019608,
+          "y": 5.099999999999996
+        }
+      ]
+    },
+    {
+      "from": "Ecology",
+      "to": "Mobile tactics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e41",
+      "label": {},
       "points": [
         {
           "x": 39.62903225806451,
@@ -2158,10 +3507,40 @@
       "to": "Ecology",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e42",
+      "label": {},
+      "points": [
+        {
+          "x": 33,
+          "y": 4.999999999999995
+        },
+        {
+          "x": 35,
+          "y": 4.999999999999995
+        },
+        {
+          "x": 38,
+          "y": 1.9999999999999982
+        }
+      ]
+    },
+    {
+      "from": "Penicillin",
+      "to": "Ecology",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e42",
+      "label": {},
       "points": [
         {
           "x": 33,
@@ -2182,10 +3561,40 @@
       "to": "Advanced ballistics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e43",
+      "label": {},
+      "points": [
+        {
+          "x": 39.66666666666667,
+          "y": -6.949999999999999
+        },
+        {
+          "x": 42,
+          "y": -7.949999999999999
+        },
+        {
+          "x": 44.33333333333333,
+          "y": -6.949999999999999
+        }
+      ]
+    },
+    {
+      "from": "Rocketry",
+      "to": "Advanced ballistics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e43",
+      "label": {},
       "points": [
         {
           "x": 39.66666666666667,
@@ -2206,10 +3615,40 @@
       "to": "Satellites",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e44",
+      "label": {},
+      "points": [
+        {
+          "x": 40,
+          "y": -6.449999999999999
+        },
+        {
+          "x": 42,
+          "y": -6.449999999999999
+        },
+        {
+          "x": 44.68604651162791,
+          "y": -8.1
+        }
+      ]
+    },
+    {
+      "from": "Rocketry",
+      "to": "Satellites",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e44",
+      "label": {},
       "points": [
         {
           "x": 40,
@@ -2230,10 +3669,40 @@
       "to": "Robotics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e45",
+      "label": {},
+      "points": [
+        {
+          "x": 40,
+          "y": -6.0214285714285705
+        },
+        {
+          "x": 42,
+          "y": -5.449999999999999
+        },
+        {
+          "x": 45.18181818181819,
+          "y": -0.45000000000000284
+        }
+      ]
+    },
+    {
+      "from": "Rocketry",
+      "to": "Robotics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e45",
+      "label": {},
       "points": [
         {
           "x": 40,
@@ -2254,10 +3723,40 @@
       "to": "Robotics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e46",
+      "label": {},
+      "points": [
+        {
+          "x": 40,
+          "y": 4.049999999999997
+        },
+        {
+          "x": 42,
+          "y": 4.049999999999997
+        },
+        {
+          "x": 45.0625,
+          "y": 0.5499999999999972
+        }
+      ]
+    },
+    {
+      "from": "Computers",
+      "to": "Robotics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e46",
+      "label": {},
       "points": [
         {
           "x": 40,
@@ -2278,10 +3777,40 @@
       "to": "Lasers",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e47",
+      "label": {},
+      "points": [
+        {
+          "x": 38.92682926829268,
+          "y": 4.549999999999997
+        },
+        {
+          "x": 42,
+          "y": 8.150000000000002
+        },
+        {
+          "x": 44,
+          "y": 8.150000000000002
+        }
+      ]
+    },
+    {
+      "from": "Computers",
+      "to": "Lasers",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e47",
+      "label": {},
       "points": [
         {
           "x": 38.92682926829268,
@@ -2302,10 +3831,40 @@
       "to": "Particle physics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e48",
+      "label": {},
+      "points": [
+        {
+          "x": 47,
+          "y": 5.599999999999996
+        },
+        {
+          "x": 49,
+          "y": 5.599999999999996
+        },
+        {
+          "x": 52.111111111111114,
+          "y": 1.5999999999999979
+        }
+      ]
+    },
+    {
+      "from": "Mobile tactics",
+      "to": "Particle physics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e48",
+      "label": {},
       "points": [
         {
           "x": 47,
@@ -2326,10 +3885,40 @@
       "to": "Nuclear fusion",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e49",
+      "label": {},
+      "points": [
+        {
+          "x": 47,
+          "y": -6.664285714285714
+        },
+        {
+          "x": 49,
+          "y": -6.949999999999999
+        },
+        {
+          "x": 51,
+          "y": -7.035714285714285
+        }
+      ]
+    },
+    {
+      "from": "Advanced ballistics",
+      "to": "Nuclear fusion",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e49",
+      "label": {},
       "points": [
         {
           "x": 47,
@@ -2350,10 +3939,40 @@
       "to": "Particle physics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e50",
+      "label": {},
+      "points": [
+        {
+          "x": 47,
+          "y": -6.235714285714285
+        },
+        {
+          "x": 49,
+          "y": -5.949999999999999
+        },
+        {
+          "x": 52.251773049645394,
+          "y": 0.5999999999999979
+        }
+      ]
+    },
+    {
+      "from": "Advanced ballistics",
+      "to": "Particle physics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e50",
+      "label": {},
       "points": [
         {
           "x": 47,
@@ -2374,10 +3993,40 @@
       "to": "Advanced ballistics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e51",
+      "label": {},
+      "points": [
+        {
+          "x": 39.21428571428571,
+          "y": -1.0000000000000018
+        },
+        {
+          "x": 42,
+          "y": -2.9499999999999993
+        },
+        {
+          "x": 45,
+          "y": -5.949999999999999
+        }
+      ]
+    },
+    {
+      "from": "Nuclear fission",
+      "to": "Advanced ballistics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e51",
+      "label": {},
       "points": [
         {
           "x": 39.21428571428571,
@@ -2398,10 +4047,40 @@
       "to": "Mobile tactics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e52",
+      "label": {},
+      "points": [
+        {
+          "x": 40,
+          "y": -0.07142857142857295
+        },
+        {
+          "x": 42,
+          "y": 0.4999999999999982
+        },
+        {
+          "x": 45.15686274509804,
+          "y": 5.099999999999996
+        }
+      ]
+    },
+    {
+      "from": "Nuclear fission",
+      "to": "Mobile tactics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e52",
+      "label": {},
       "points": [
         {
           "x": 40,
@@ -2422,10 +4101,40 @@
       "to": "Rocketry",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e53",
+      "label": {},
+      "points": [
+        {
+          "x": 32.75,
+          "y": -5.55
+        },
+        {
+          "x": 35,
+          "y": -6.449999999999999
+        },
+        {
+          "x": 37,
+          "y": -6.449999999999999
+        }
+      ]
+    },
+    {
+      "from": "Radar",
+      "to": "Rocketry",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e53",
+      "label": {},
       "points": [
         {
           "x": 32.75,
@@ -2446,10 +4155,40 @@
       "to": "Nuclear fission",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e54",
+      "label": {},
+      "points": [
+        {
+          "x": 32.59375,
+          "y": -4.55
+        },
+        {
+          "x": 35,
+          "y": -3.4499999999999993
+        },
+        {
+          "x": 37.906779661016955,
+          "y": -1.0000000000000018
+        }
+      ]
+    },
+    {
+      "from": "Radar",
+      "to": "Nuclear fission",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e54",
+      "label": {},
       "points": [
         {
           "x": 32.59375,
@@ -2470,10 +4209,40 @@
       "to": "Computers",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e55",
+      "label": {},
+      "points": [
+        {
+          "x": 31.92682926829268,
+          "y": -4.55
+        },
+        {
+          "x": 35,
+          "y": -0.9500000000000011
+        },
+        {
+          "x": 38.150000000000006,
+          "y": 3.549999999999997
+        }
+      ]
+    },
+    {
+      "from": "Radar",
+      "to": "Computers",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e55",
+      "label": {},
       "points": [
         {
           "x": 31.92682926829268,
@@ -2494,10 +4263,40 @@
       "to": "Plastics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e56",
+      "label": {},
+      "points": [
+        {
+          "x": 19,
+          "y": 3.6750000000000007
+        },
+        {
+          "x": 21,
+          "y": 3.6750000000000007
+        },
+        {
+          "x": 23,
+          "y": 3.3464285714285715
+        }
+      ]
+    },
+    {
+      "from": "Radio",
+      "to": "Plastics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e56",
+      "label": {},
       "points": [
         {
           "x": 19,
@@ -2518,10 +4317,40 @@
       "to": "Future tech",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e57",
+      "label": {},
+      "points": [
+        {
+          "x": 54,
+          "y": 1.0999999999999979
+        },
+        {
+          "x": 56,
+          "y": 1.0999999999999979
+        },
+        {
+          "x": 58.70454545454545,
+          "y": -0.6000000000000032
+        }
+      ]
+    },
+    {
+      "from": "Particle physics",
+      "to": "Future tech",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e57",
+      "label": {},
       "points": [
         {
           "x": 54,
@@ -2542,10 +4371,40 @@
       "to": "Future tech",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e58",
+      "label": {},
+      "points": [
+        {
+          "x": 54,
+          "y": -7.1
+        },
+        {
+          "x": 56,
+          "y": -7.1
+        },
+        {
+          "x": 59.20833333333333,
+          "y": -1.6000000000000032
+        }
+      ]
+    },
+    {
+      "from": "Nuclear fusion",
+      "to": "Future tech",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e58",
+      "label": {},
       "points": [
         {
           "x": 54,
@@ -2566,10 +4425,40 @@
       "to": "Atomic theory",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e59",
+      "label": {},
+      "points": [
+        {
+          "x": 26,
+          "y": -5.928571428571431
+        },
+        {
+          "x": 28,
+          "y": -6.500000000000002
+        },
+        {
+          "x": 31.315789473684205,
+          "y": 2.4999999999999982
+        }
+      ]
+    },
+    {
+      "from": "Electronics",
+      "to": "Atomic theory",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e59",
+      "label": {},
       "points": [
         {
           "x": 26,
@@ -2590,10 +4479,40 @@
       "to": "Radar",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e60",
+      "label": {},
+      "points": [
+        {
+          "x": 26,
+          "y": -5.307142857142858
+        },
+        {
+          "x": 28,
+          "y": -5.05
+        },
+        {
+          "x": 30,
+          "y": -5.05
+        }
+      ]
+    },
+    {
+      "from": "Electronics",
+      "to": "Radar",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e60",
+      "label": {},
       "points": [
         {
           "x": 26,
@@ -2614,10 +4533,40 @@
       "to": "Combustion",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e61",
+      "label": {},
+      "points": [
+        {
+          "x": 19,
+          "y": 1.696428571428573
+        },
+        {
+          "x": 21,
+          "y": 1.1250000000000018
+        },
+        {
+          "x": 24.230769230769226,
+          "y": 7.1249999999999964
+        }
+      ]
+    },
+    {
+      "from": "Railroad",
+      "to": "Combustion",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e61",
+      "label": {},
       "points": [
         {
           "x": 19,
@@ -2638,10 +4587,40 @@
       "to": "Ballistics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e62",
+      "label": {},
+      "points": [
+        {
+          "x": 19,
+          "y": 2.1250000000000018
+        },
+        {
+          "x": 21,
+          "y": 2.1250000000000018
+        },
+        {
+          "x": 23,
+          "y": 2.053571428571429
+        }
+      ]
+    },
+    {
+      "from": "Railroad",
+      "to": "Ballistics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e62",
+      "label": {},
       "points": [
         {
           "x": 19,
@@ -2662,10 +4641,48 @@
       "to": "Penicillin",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e63",
+      "label": {},
+      "points": [
+        {
+          "x": 19,
+          "y": -2.450000000000001
+        },
+        {
+          "x": 21,
+          "y": -2.450000000000001
+        },
+        {
+          "x": 24.5,
+          "y": -2.450000000000001
+        },
+        {
+          "x": 28,
+          "y": -2.450000000000001
+        },
+        {
+          "x": 31.265100671140942,
+          "y": 4.499999999999995
+        }
+      ]
+    },
+    {
+      "from": "Refrigeration",
+      "to": "Penicillin",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e63",
+      "label": {},
       "points": [
         {
           "x": 19,
@@ -2694,10 +4711,40 @@
       "to": "Penicillin",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e64",
+      "label": {},
+      "points": [
+        {
+          "x": 25.35365853658537,
+          "y": 2.5999999999999996
+        },
+        {
+          "x": 28,
+          "y": 1.049999999999999
+        },
+        {
+          "x": 31.05696202531645,
+          "y": 4.499999999999995
+        }
+      ]
+    },
+    {
+      "from": "Plastics",
+      "to": "Penicillin",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e64",
+      "label": {},
       "points": [
         {
           "x": 25.35365853658537,
@@ -2718,10 +4765,40 @@
       "to": "Atomic theory",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e65",
+      "label": {},
+      "points": [
+        {
+          "x": 26,
+          "y": 3.314285714285713
+        },
+        {
+          "x": 28,
+          "y": 3.5999999999999996
+        },
+        {
+          "x": 30,
+          "y": 3.2571428571428562
+        }
+      ]
+    },
+    {
+      "from": "Plastics",
+      "to": "Atomic theory",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e65",
+      "label": {},
       "points": [
         {
           "x": 26,
@@ -2742,10 +4819,40 @@
       "to": "Computers",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e66",
+      "label": {},
+      "points": [
+        {
+          "x": 33,
+          "y": 7.6249999999999964
+        },
+        {
+          "x": 35,
+          "y": 7.6249999999999964
+        },
+        {
+          "x": 38.010489510489506,
+          "y": 4.549999999999997
+        }
+      ]
+    },
+    {
+      "from": "Combined arms",
+      "to": "Computers",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e66",
+      "label": {},
       "points": [
         {
           "x": 33,
@@ -2766,10 +4873,40 @@
       "to": "Electronics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e67",
+      "label": {},
+      "points": [
+        {
+          "x": 19,
+          "y": -4.928571428571431
+        },
+        {
+          "x": 21,
+          "y": -5.500000000000002
+        },
+        {
+          "x": 23,
+          "y": -5.500000000000002
+        }
+      ]
+    },
+    {
+      "from": "Flight",
+      "to": "Electronics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e67",
+      "label": {},
       "points": [
         {
           "x": 19,
@@ -2790,10 +4927,40 @@
       "to": "Ballistics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e68",
+      "label": {},
+      "points": [
+        {
+          "x": 19,
+          "y": -4.500000000000002
+        },
+        {
+          "x": 21,
+          "y": -4.500000000000002
+        },
+        {
+          "x": 24.230769230769226,
+          "y": 1.4999999999999982
+        }
+      ]
+    },
+    {
+      "from": "Flight",
+      "to": "Ballistics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e68",
+      "label": {},
       "points": [
         {
           "x": 19,
@@ -2814,10 +4981,40 @@
       "to": "Dynamite",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e69",
+      "label": {},
+      "points": [
+        {
+          "x": 5,
+          "y": 6.075000000000001
+        },
+        {
+          "x": 7,
+          "y": 6.075000000000001
+        },
+        {
+          "x": 9,
+          "y": 6.389285714285716
+        }
+      ]
+    },
+    {
+      "from": "Military science",
+      "to": "Dynamite",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e69",
+      "label": {},
       "points": [
         {
           "x": 5,
@@ -2838,10 +5035,40 @@
       "to": "Ecology",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e70",
+      "label": {},
+      "points": [
+        {
+          "x": 32.093220338983045,
+          "y": 2.4999999999999982
+        },
+        {
+          "x": 35,
+          "y": 0.049999999999998934
+        },
+        {
+          "x": 37.29310344827586,
+          "y": 0.9999999999999982
+        }
+      ]
+    },
+    {
+      "from": "Atomic theory",
+      "to": "Ecology",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e70",
+      "label": {},
       "points": [
         {
           "x": 32.093220338983045,
@@ -2862,10 +5089,40 @@
       "to": "Nuclear fission",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e71",
+      "label": {},
+      "points": [
+        {
+          "x": 33,
+          "y": 3.428571428571427
+        },
+        {
+          "x": 35,
+          "y": 3.9999999999999982
+        },
+        {
+          "x": 38.111111111111114,
+          "y": -1.7763568394002505e-15
+        }
+      ]
+    },
+    {
+      "from": "Atomic theory",
+      "to": "Nuclear fission",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e71",
+      "label": {},
       "points": [
         {
           "x": 33,
@@ -2886,10 +5143,40 @@
       "to": "Biology",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e72",
+      "label": {},
+      "points": [
+        {
+          "x": 3.8414634146341484,
+          "y": -1
+        },
+        {
+          "x": 7,
+          "y": -5.625000000000002
+        },
+        {
+          "x": 9,
+          "y": -5.625000000000002
+        }
+      ]
+    },
+    {
+      "from": "Scientific theory",
+      "to": "Biology",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e72",
+      "label": {},
       "points": [
         {
           "x": 3.8414634146341484,
@@ -2910,10 +5197,40 @@
       "to": "Steam power",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e73",
+      "label": {},
+      "points": [
+        {
+          "x": 4.666666666666671,
+          "y": -1
+        },
+        {
+          "x": 7,
+          "y": -2
+        },
+        {
+          "x": 9,
+          "y": -1.3571428571428559
+        }
+      ]
+    },
+    {
+      "from": "Scientific theory",
+      "to": "Steam power",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e73",
+      "label": {},
       "points": [
         {
           "x": 4.666666666666671,
@@ -2934,10 +5251,40 @@
       "to": "Electricity",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e74",
+      "label": {},
+      "points": [
+        {
+          "x": 5,
+          "y": -0.2857142857142865
+        },
+        {
+          "x": 7,
+          "y": 0
+        },
+        {
+          "x": 9.67647058823529,
+          "y": 1.6250000000000018
+        }
+      ]
+    },
+    {
+      "from": "Scientific theory",
+      "to": "Electricity",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e74",
+      "label": {},
       "points": [
         {
           "x": 5,
@@ -2958,10 +5305,40 @@
       "to": "Plastics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e75",
+      "label": {},
+      "points": [
+        {
+          "x": 19,
+          "y": -0.30357142857142705
+        },
+        {
+          "x": 21,
+          "y": -0.8749999999999982
+        },
+        {
+          "x": 24.059748427672957,
+          "y": 2.5999999999999996
+        }
+      ]
+    },
+    {
+      "from": "Replaceable parts",
+      "to": "Plastics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e75",
+      "label": {},
       "points": [
         {
           "x": 19,
@@ -2982,10 +5359,40 @@
       "to": "Electronics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e76",
+      "label": {},
+      "points": [
+        {
+          "x": 19,
+          "y": 0.12500000000000178
+        },
+        {
+          "x": 21,
+          "y": 0.12500000000000178
+        },
+        {
+          "x": 24.188888888888883,
+          "y": -5.000000000000002
+        }
+      ]
+    },
+    {
+      "from": "Replaceable parts",
+      "to": "Electronics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e76",
+      "label": {},
       "points": [
         {
           "x": 19,
@@ -3006,10 +5413,40 @@
       "to": "Combined arms",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e77",
+      "label": {},
+      "points": [
+        {
+          "x": 26,
+          "y": 7.6249999999999964
+        },
+        {
+          "x": 28,
+          "y": 7.6249999999999964
+        },
+        {
+          "x": 30,
+          "y": 7.6249999999999964
+        }
+      ]
+    },
+    {
+      "from": "Combustion",
+      "to": "Combined arms",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e77",
+      "label": {},
       "points": [
         {
           "x": 26,
@@ -3030,10 +5467,40 @@
       "to": "Navigation",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e78",
+      "label": {},
+      "points": [
+        {
+          "x": -9,
+          "y": -7.625000000000002
+        },
+        {
+          "x": -7,
+          "y": -7.625000000000002
+        },
+        {
+          "x": -5,
+          "y": -7.625000000000002
+        }
+      ]
+    },
+    {
+      "from": "Astronomy",
+      "to": "Navigation",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e78",
+      "label": {},
       "points": [
         {
           "x": -9,
@@ -3054,10 +5521,40 @@
       "to": "Architecture",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e79",
+      "label": {},
+      "points": [
+        {
+          "x": -9,
+          "y": -6.525
+        },
+        {
+          "x": -7,
+          "y": -6.525
+        },
+        {
+          "x": -3.8167420814479627,
+          "y": -1.5
+        }
+      ]
+    },
+    {
+      "from": "Acoustics",
+      "to": "Architecture",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e79",
+      "label": {},
       "points": [
         {
           "x": -9,
@@ -3078,10 +5575,40 @@
       "to": "Gunpowder",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e80",
+      "label": {},
+      "points": [
+        {
+          "x": -16,
+          "y": 7.074999999999999
+        },
+        {
+          "x": -14,
+          "y": 7.074999999999999
+        },
+        {
+          "x": -12,
+          "y": 6.817857142857143
+        }
+      ]
+    },
+    {
+      "from": "Steel",
+      "to": "Gunpowder",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e80",
+      "label": {},
       "points": [
         {
           "x": -16,
@@ -3102,10 +5629,40 @@
       "to": "Machinery",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e81",
+      "label": {},
+      "points": [
+        {
+          "x": -23,
+          "y": 3.810714285714285
+        },
+        {
+          "x": -21,
+          "y": 3.5249999999999986
+        },
+        {
+          "x": -19,
+          "y": 3.5250000000000004
+        }
+      ]
+    },
+    {
+      "from": "Guilds",
+      "to": "Machinery",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e81",
+      "label": {},
       "points": [
         {
           "x": -23,
@@ -3126,10 +5683,40 @@
       "to": "Chivalry",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e82",
+      "label": {},
+      "points": [
+        {
+          "x": -23,
+          "y": 4.239285714285712
+        },
+        {
+          "x": -21,
+          "y": 4.524999999999999
+        },
+        {
+          "x": -17.886740331491715,
+          "y": 0.5
+        }
+      ]
+    },
+    {
+      "from": "Guilds",
+      "to": "Chivalry",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e82",
+      "label": {},
       "points": [
         {
           "x": -23,
@@ -3150,10 +5737,40 @@
       "to": "Printing press",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e83",
+      "label": {},
+      "points": [
+        {
+          "x": -16,
+          "y": 5.310714285714287
+        },
+        {
+          "x": -14,
+          "y": 5.025
+        },
+        {
+          "x": -12,
+          "y": 4.453571428571429
+        }
+      ]
+    },
+    {
+      "from": "Physics",
+      "to": "Printing press",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e83",
+      "label": {},
       "points": [
         {
           "x": -16,
@@ -3174,10 +5791,40 @@
       "to": "Gunpowder",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e84",
+      "label": {},
+      "points": [
+        {
+          "x": -16,
+          "y": 5.739285714285714
+        },
+        {
+          "x": -14,
+          "y": 6.025
+        },
+        {
+          "x": -12,
+          "y": 6.367857142857144
+        }
+      ]
+    },
+    {
+      "from": "Physics",
+      "to": "Gunpowder",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e84",
+      "label": {},
       "points": [
         {
           "x": -16,
@@ -3198,10 +5845,40 @@
       "to": "Archaeology",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e85",
+      "label": {},
+      "points": [
+        {
+          "x": -3.18888888888889,
+          "y": -1.5
+        },
+        {
+          "x": 0,
+          "y": -6.625000000000002
+        },
+        {
+          "x": 2,
+          "y": -6.625000000000002
+        }
+      ]
+    },
+    {
+      "from": "Architecture",
+      "to": "Archaeology",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e85",
+      "label": {},
       "points": [
         {
           "x": -3.18888888888889,
@@ -3222,10 +5899,40 @@
       "to": "Scientific theory",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e86",
+      "label": {},
+      "points": [
+        {
+          "x": -2,
+          "y": -1
+        },
+        {
+          "x": 0,
+          "y": -1
+        },
+        {
+          "x": 2,
+          "y": -0.7142857142857135
+        }
+      ]
+    },
+    {
+      "from": "Architecture",
+      "to": "Scientific theory",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e86",
+      "label": {},
       "points": [
         {
           "x": -2,
@@ -3246,10 +5953,40 @@
       "to": "Theology",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e87",
+      "label": {},
+      "points": [
+        {
+          "x": -30,
+          "y": -7.575000000000002
+        },
+        {
+          "x": -28,
+          "y": -7.575000000000002
+        },
+        {
+          "x": -26,
+          "y": -6.989285714285716
+        }
+      ]
+    },
+    {
+      "from": "Philosophy",
+      "to": "Theology",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e87",
+      "label": {},
       "points": [
         {
           "x": -30,
@@ -3270,10 +6007,40 @@
       "to": "Printing press",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e88",
+      "label": {},
+      "points": [
+        {
+          "x": -16,
+          "y": 3.5250000000000004
+        },
+        {
+          "x": -14,
+          "y": 3.5250000000000004
+        },
+        {
+          "x": -12,
+          "y": 3.810714285714287
+        }
+      ]
+    },
+    {
+      "from": "Machinery",
+      "to": "Printing press",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e88",
+      "label": {},
       "points": [
         {
           "x": -16,
@@ -3294,10 +6061,40 @@
       "to": "Astronomy",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e89",
+      "label": {},
+      "points": [
+        {
+          "x": -16,
+          "y": -9.150000000000002
+        },
+        {
+          "x": -14,
+          "y": -9.150000000000002
+        },
+        {
+          "x": -11.647540983606554,
+          "y": -8.125000000000002
+        }
+      ]
+    },
+    {
+      "from": "Compass",
+      "to": "Astronomy",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e89",
+      "label": {},
       "points": [
         {
           "x": -16,
@@ -3318,10 +6115,40 @@
       "to": "Banking",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e90",
+      "label": {},
+      "points": [
+        {
+          "x": -16,
+          "y": -0.22499999999999964
+        },
+        {
+          "x": -14,
+          "y": -0.5250000000000004
+        },
+        {
+          "x": -12,
+          "y": -0.7964285714285708
+        }
+      ]
+    },
+    {
+      "from": "Chivalry",
+      "to": "Banking",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e90",
+      "label": {},
       "points": [
         {
           "x": -16,
@@ -3342,10 +6169,40 @@
       "to": "Printing press",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e91",
+      "label": {},
+      "points": [
+        {
+          "x": -16,
+          "y": 0.43928571428571317
+        },
+        {
+          "x": -14,
+          "y": 1.0249999999999986
+        },
+        {
+          "x": -11.083333333333336,
+          "y": 3.5250000000000004
+        }
+      ]
+    },
+    {
+      "from": "Chivalry",
+      "to": "Printing press",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e91",
+      "label": {},
       "points": [
         {
           "x": -16,
@@ -3366,10 +6223,40 @@
       "to": "Compass",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e92",
+      "label": {},
+      "points": [
+        {
+          "x": -23,
+          "y": -9.150000000000002
+        },
+        {
+          "x": -21,
+          "y": -9.150000000000002
+        },
+        {
+          "x": -19,
+          "y": -9.150000000000002
+        }
+      ]
+    },
+    {
+      "from": "Optics",
+      "to": "Compass",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e92",
+      "label": {},
       "points": [
         {
           "x": -23,
@@ -3390,10 +6277,40 @@
       "to": "Education",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e93",
+      "label": {},
+      "points": [
+        {
+          "x": -23,
+          "y": -6.764285714285716
+        },
+        {
+          "x": -21,
+          "y": -7.050000000000002
+        },
+        {
+          "x": -19,
+          "y": -6.464285714285715
+        }
+      ]
+    },
+    {
+      "from": "Theology",
+      "to": "Education",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e93",
+      "label": {},
       "points": [
         {
           "x": -23,
@@ -3414,10 +6331,40 @@
       "to": "Compass",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e94",
+      "label": {},
+      "points": [
+        {
+          "x": -23.625,
+          "y": -6.050000000000002
+        },
+        {
+          "x": -21,
+          "y": -4.550000000000002
+        },
+        {
+          "x": -17.880434782608695,
+          "y": -8.650000000000002
+        }
+      ]
+    },
+    {
+      "from": "Theology",
+      "to": "Compass",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e94",
+      "label": {},
       "points": [
         {
           "x": -23.625,
@@ -3438,10 +6385,40 @@
       "to": "Flight",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e95",
+      "label": {},
+      "points": [
+        {
+          "x": 11.179611650485441,
+          "y": -1.3749999999999982
+        },
+        {
+          "x": 14,
+          "y": -3.4499999999999993
+        },
+        {
+          "x": 16,
+          "y": -4.050000000000001
+        }
+      ]
+    },
+    {
+      "from": "Steam power",
+      "to": "Flight",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e95",
+      "label": {},
       "points": [
         {
           "x": 11.179611650485441,
@@ -3462,10 +6439,40 @@
       "to": "Replaceable parts",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e96",
+      "label": {},
+      "points": [
+        {
+          "x": 12,
+          "y": -1.303571428571427
+        },
+        {
+          "x": 14,
+          "y": -1.8749999999999982
+        },
+        {
+          "x": 16.625,
+          "y": -0.3749999999999982
+        }
+      ]
+    },
+    {
+      "from": "Steam power",
+      "to": "Replaceable parts",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e96",
+      "label": {},
       "points": [
         {
           "x": 12,
@@ -3486,10 +6493,40 @@
       "to": "Railroad",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e97",
+      "label": {},
+      "points": [
+        {
+          "x": 12,
+          "y": -0.6607142857142847
+        },
+        {
+          "x": 14,
+          "y": -0.3749999999999982
+        },
+        {
+          "x": 16.799999999999997,
+          "y": 1.6250000000000018
+        }
+      ]
+    },
+    {
+      "from": "Steam power",
+      "to": "Railroad",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e97",
+      "label": {},
       "points": [
         {
           "x": 12,
@@ -3510,10 +6547,40 @@
       "to": "Currency",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e98",
+      "label": {},
+      "points": [
+        {
+          "x": -37,
+          "y": 3.810714285714285
+        },
+        {
+          "x": -35,
+          "y": 3.5249999999999986
+        },
+        {
+          "x": -33,
+          "y": 3.5249999999999986
+        }
+      ]
+    },
+    {
+      "from": "Mathematics",
+      "to": "Currency",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e98",
+      "label": {},
       "points": [
         {
           "x": -37,
@@ -3534,10 +6601,40 @@
       "to": "Engineering",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e99",
+      "label": {},
+      "points": [
+        {
+          "x": -37.333333333333336,
+          "y": 4.524999999999999
+        },
+        {
+          "x": -35,
+          "y": 5.525
+        },
+        {
+          "x": -33,
+          "y": 6.1392857142857125
+        }
+      ]
+    },
+    {
+      "from": "Mathematics",
+      "to": "Engineering",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e99",
+      "label": {},
       "points": [
         {
           "x": -37.333333333333336,
@@ -3558,10 +6655,40 @@
       "to": "Physics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e100",
+      "label": {},
+      "points": [
+        {
+          "x": -23,
+          "y": 5.8392857142857135
+        },
+        {
+          "x": -21,
+          "y": 5.525
+        },
+        {
+          "x": -19,
+          "y": 5.525
+        }
+      ]
+    },
+    {
+      "from": "Metal casting",
+      "to": "Physics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e100",
+      "label": {},
       "points": [
         {
           "x": -23,
@@ -3582,10 +6709,40 @@
       "to": "Steel",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e101",
+      "label": {},
+      "points": [
+        {
+          "x": -23,
+          "y": 6.503571428571426
+        },
+        {
+          "x": -21,
+          "y": 7.074999999999999
+        },
+        {
+          "x": -19,
+          "y": 7.074999999999999
+        }
+      ]
+    },
+    {
+      "from": "Metal casting",
+      "to": "Steel",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e101",
+      "label": {},
       "points": [
         {
           "x": -23,
@@ -3606,10 +6763,40 @@
       "to": "Metal casting",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e102",
+      "label": {},
+      "points": [
+        {
+          "x": -30,
+          "y": 6.3749999999999964
+        },
+        {
+          "x": -28,
+          "y": 6.0749999999999975
+        },
+        {
+          "x": -26,
+          "y": 6.0749999999999975
+        }
+      ]
+    },
+    {
+      "from": "Engineering",
+      "to": "Metal casting",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e102",
+      "label": {},
       "points": [
         {
           "x": -30,
@@ -3630,10 +6817,48 @@
       "to": "Machinery",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e103",
+      "label": {},
+      "points": [
+        {
+          "x": -30.333333333333332,
+          "y": 7.099999999999998
+        },
+        {
+          "x": -28,
+          "y": 8.099999999999998
+        },
+        {
+          "x": -24.5,
+          "y": 8.099999999999998
+        },
+        {
+          "x": -21,
+          "y": 8.099999999999998
+        },
+        {
+          "x": -17.88251366120219,
+          "y": 4.025
+        }
+      ]
+    },
+    {
+      "from": "Engineering",
+      "to": "Machinery",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e103",
+      "label": {},
       "points": [
         {
           "x": -30.333333333333332,
@@ -3662,10 +6887,40 @@
       "to": "Philosophy",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e104",
+      "label": {},
+      "points": [
+        {
+          "x": -37.35245901639344,
+          "y": -5.550000000000002
+        },
+        {
+          "x": -35,
+          "y": -6.575000000000002
+        },
+        {
+          "x": -33,
+          "y": -7.146428571428574
+        }
+      ]
+    },
+    {
+      "from": "Writing",
+      "to": "Philosophy",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e104",
+      "label": {},
       "points": [
         {
           "x": -37.35245901639344,
@@ -3686,10 +6941,40 @@
       "to": "Drama and poetry",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e105",
+      "label": {},
+      "points": [
+        {
+          "x": -37,
+          "y": -4.835714285714287
+        },
+        {
+          "x": -35,
+          "y": -4.550000000000002
+        },
+        {
+          "x": -33,
+          "y": -4.550000000000002
+        }
+      ]
+    },
+    {
+      "from": "Writing",
+      "to": "Drama and poetry",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e105",
+      "label": {},
       "points": [
         {
           "x": -37,
@@ -3710,10 +6995,40 @@
       "to": "Chivalry",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e106",
+      "label": {},
+      "points": [
+        {
+          "x": -23,
+          "y": 0.2607142857142861
+        },
+        {
+          "x": -21,
+          "y": -0.025000000000000355
+        },
+        {
+          "x": -19,
+          "y": -0.01071428571428612
+        }
+      ]
+    },
+    {
+      "from": "Civil service",
+      "to": "Chivalry",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e106",
+      "label": {},
       "points": [
         {
           "x": -23,
@@ -3734,10 +7049,40 @@
       "to": "Education",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e107",
+      "label": {},
+      "points": [
+        {
+          "x": -23,
+          "y": 0.9249999999999989
+        },
+        {
+          "x": -21,
+          "y": 1.5249999999999986
+        },
+        {
+          "x": -17.7317880794702,
+          "y": -5.525
+        }
+      ]
+    },
+    {
+      "from": "Civil service",
+      "to": "Education",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e107",
+      "label": {},
       "points": [
         {
           "x": -23,
@@ -3758,10 +7103,40 @@
       "to": "Astronomy",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e108",
+      "label": {},
+      "points": [
+        {
+          "x": -16.40625,
+          "y": -6.525
+        },
+        {
+          "x": -14,
+          "y": -7.625000000000002
+        },
+        {
+          "x": -12,
+          "y": -7.625000000000002
+        }
+      ]
+    },
+    {
+      "from": "Education",
+      "to": "Astronomy",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e108",
+      "label": {},
       "points": [
         {
           "x": -16.40625,
@@ -3782,10 +7157,40 @@
       "to": "Acoustics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e109",
+      "label": {},
+      "points": [
+        {
+          "x": -16,
+          "y": -6.239285714285715
+        },
+        {
+          "x": -14,
+          "y": -6.525
+        },
+        {
+          "x": -12,
+          "y": -6.525
+        }
+      ]
+    },
+    {
+      "from": "Education",
+      "to": "Acoustics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e109",
+      "label": {},
       "points": [
         {
           "x": -16,
@@ -3806,10 +7211,40 @@
       "to": "Banking",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e110",
+      "label": {},
+      "points": [
+        {
+          "x": -16,
+          "y": -5.607142857142858
+        },
+        {
+          "x": -14,
+          "y": -5.050000000000002
+        },
+        {
+          "x": -10.932098765432102,
+          "y": -1.5
+        }
+      ]
+    },
+    {
+      "from": "Education",
+      "to": "Banking",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e110",
+      "label": {},
       "points": [
         {
           "x": -16,
@@ -3830,10 +7265,40 @@
       "to": "Horseback riding",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e111",
+      "label": {},
+      "points": [
+        {
+          "x": -44,
+          "y": -3.0000000000000018
+        },
+        {
+          "x": -42,
+          "y": -3.0000000000000018
+        },
+        {
+          "x": -39.00359712230215,
+          "y": -0.025000000000000355
+        }
+      ]
+    },
+    {
+      "from": "Trapping",
+      "to": "Horseback riding",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e111",
+      "label": {},
       "points": [
         {
           "x": -44,
@@ -3854,10 +7319,40 @@
       "to": "Engineering",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e112",
+      "label": {},
+      "points": [
+        {
+          "x": -37,
+          "y": 7.574999999999999
+        },
+        {
+          "x": -35,
+          "y": 7.574999999999999
+        },
+        {
+          "x": -33,
+          "y": 7.017857142857142
+        }
+      ]
+    },
+    {
+      "from": "Construction",
+      "to": "Engineering",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e112",
+      "label": {},
       "points": [
         {
           "x": -37,
@@ -3878,10 +7373,40 @@
       "to": "Optics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e113",
+      "label": {},
+      "points": [
+        {
+          "x": -30,
+          "y": -9.150000000000002
+        },
+        {
+          "x": -28,
+          "y": -9.150000000000002
+        },
+        {
+          "x": -26,
+          "y": -9.150000000000002
+        }
+      ]
+    },
+    {
+      "from": "Sailing",
+      "to": "Optics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e113",
+      "label": {},
       "points": [
         {
           "x": -30,
@@ -3902,10 +7427,48 @@
       "to": "Sailing",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e114",
+      "label": {},
+      "points": [
+        {
+          "x": -44.81372549019608,
+          "y": -7.100000000000001
+        },
+        {
+          "x": -42,
+          "y": -9.150000000000002
+        },
+        {
+          "x": -38.5,
+          "y": -9.150000000000002
+        },
+        {
+          "x": -35,
+          "y": -9.150000000000002
+        },
+        {
+          "x": -33,
+          "y": -9.150000000000002
+        }
+      ]
+    },
+    {
+      "from": "Pottery",
+      "to": "Sailing",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e114",
+      "label": {},
       "points": [
         {
           "x": -44.81372549019608,
@@ -3934,10 +7497,40 @@
       "to": "Calendar",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e115",
+      "label": {},
+      "points": [
+        {
+          "x": -44.313559322033896,
+          "y": -7.100000000000001
+        },
+        {
+          "x": -42,
+          "y": -8.075000000000003
+        },
+        {
+          "x": -40,
+          "y": -8.075000000000003
+        }
+      ]
+    },
+    {
+      "from": "Pottery",
+      "to": "Calendar",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e115",
+      "label": {},
       "points": [
         {
           "x": -44.313559322033896,
@@ -3958,10 +7551,40 @@
       "to": "Writing",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e116",
+      "label": {},
+      "points": [
+        {
+          "x": -44.37096774193549,
+          "y": -6.100000000000001
+        },
+        {
+          "x": -42,
+          "y": -5.050000000000002
+        },
+        {
+          "x": -40,
+          "y": -5.050000000000002
+        }
+      ]
+    },
+    {
+      "from": "Pottery",
+      "to": "Writing",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e116",
+      "label": {},
       "points": [
         {
           "x": -44.37096774193549,
@@ -3982,10 +7605,40 @@
       "to": "Masonry",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e117",
+      "label": {},
+      "points": [
+        {
+          "x": -51,
+          "y": 8.389285714285712
+        },
+        {
+          "x": -49,
+          "y": 8.075
+        },
+        {
+          "x": -47,
+          "y": 8.075
+        }
+      ]
+    },
+    {
+      "from": "Mining",
+      "to": "Masonry",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e117",
+      "label": {},
       "points": [
         {
           "x": -51,
@@ -4006,10 +7659,48 @@
       "to": "Bronze working",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e118",
+      "label": {},
+      "points": [
+        {
+          "x": -51,
+          "y": 8.849999999999998
+        },
+        {
+          "x": -49,
+          "y": 9.150000000000002
+        },
+        {
+          "x": -45.5,
+          "y": 9.150000000000002
+        },
+        {
+          "x": -42,
+          "y": 9.150000000000002
+        },
+        {
+          "x": -40,
+          "y": 9.150000000000002
+        }
+      ]
+    },
+    {
+      "from": "Mining",
+      "to": "Bronze working",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e118",
+      "label": {},
       "points": [
         {
           "x": -51,
@@ -4038,10 +7729,40 @@
       "to": "Theology",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e119",
+      "label": {},
+      "points": [
+        {
+          "x": -30,
+          "y": -4.764285714285716
+        },
+        {
+          "x": -28,
+          "y": -5.050000000000002
+        },
+        {
+          "x": -25.666666666666664,
+          "y": -6.050000000000002
+        }
+      ]
+    },
+    {
+      "from": "Drama and poetry",
+      "to": "Theology",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e119",
+      "label": {},
       "points": [
         {
           "x": -30,
@@ -4062,10 +7783,40 @@
       "to": "Civil service",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e120",
+      "label": {},
+      "points": [
+        {
+          "x": -30,
+          "y": -4.335714285714287
+        },
+        {
+          "x": -28,
+          "y": -4.050000000000002
+        },
+        {
+          "x": -24.886740331491715,
+          "y": -0.025000000000000355
+        }
+      ]
+    },
+    {
+      "from": "Drama and poetry",
+      "to": "Civil service",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e120",
+      "label": {},
       "points": [
         {
           "x": -30,
@@ -4086,10 +7837,40 @@
       "to": "Metal casting",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e121",
+      "label": {},
+      "points": [
+        {
+          "x": -30,
+          "y": 9.150000000000002
+        },
+        {
+          "x": -28,
+          "y": 9.150000000000002
+        },
+        {
+          "x": -25.06910569105691,
+          "y": 6.574999999999999
+        }
+      ]
+    },
+    {
+      "from": "Iron working",
+      "to": "Metal casting",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e121",
+      "label": {},
       "points": [
         {
           "x": -30,
@@ -4110,10 +7891,48 @@
       "to": "Civil service",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e122",
+      "label": {},
+      "points": [
+        {
+          "x": -37,
+          "y": 0.47499999999999964
+        },
+        {
+          "x": -35,
+          "y": 0.47499999999999964
+        },
+        {
+          "x": -31.5,
+          "y": 0.47499999999999964
+        },
+        {
+          "x": -28,
+          "y": 0.47499999999999964
+        },
+        {
+          "x": -26,
+          "y": 0.47499999999999964
+        }
+      ]
+    },
+    {
+      "from": "Horseback riding",
+      "to": "Civil service",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e122",
+      "label": {},
       "points": [
         {
           "x": -37,
@@ -4142,10 +7961,40 @@
       "to": "Horseback riding",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e123",
+      "label": {},
+      "points": [
+        {
+          "x": -44.91666666666667,
+          "y": 3.5249999999999986
+        },
+        {
+          "x": -42,
+          "y": 1.0249999999999986
+        },
+        {
+          "x": -40,
+          "y": 0.7107142857142854
+        }
+      ]
+    },
+    {
+      "from": "The wheel",
+      "to": "Horseback riding",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e123",
+      "label": {},
       "points": [
         {
           "x": -44.91666666666667,
@@ -4166,10 +8015,40 @@
       "to": "Mathematics",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e124",
+      "label": {},
+      "points": [
+        {
+          "x": -44,
+          "y": 4.024999999999999
+        },
+        {
+          "x": -42,
+          "y": 4.024999999999999
+        },
+        {
+          "x": -40,
+          "y": 4.024999999999999
+        }
+      ]
+    },
+    {
+      "from": "The wheel",
+      "to": "Mathematics",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e124",
+      "label": {},
       "points": [
         {
           "x": -44,
@@ -4190,10 +8069,40 @@
       "to": "Construction",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e125",
+      "label": {},
+      "points": [
+        {
+          "x": -44.91176470588235,
+          "y": 4.524999999999999
+        },
+        {
+          "x": -42,
+          "y": 6.9999999999999964
+        },
+        {
+          "x": -40,
+          "y": 7.328571428571426
+        }
+      ]
+    },
+    {
+      "from": "The wheel",
+      "to": "Construction",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e125",
+      "label": {},
       "points": [
         {
           "x": -44.91176470588235,
@@ -4214,10 +8123,40 @@
       "to": "Construction",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e126",
+      "label": {},
+      "points": [
+        {
+          "x": -44,
+          "y": 8.075
+        },
+        {
+          "x": -42,
+          "y": 8.075
+        },
+        {
+          "x": -40,
+          "y": 7.789285714285715
+        }
+      ]
+    },
+    {
+      "from": "Masonry",
+      "to": "Construction",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e126",
+      "label": {},
       "points": [
         {
           "x": -44,
@@ -4238,10 +8177,40 @@
       "to": "Philosophy",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e127",
+      "label": {},
+      "points": [
+        {
+          "x": -37,
+          "y": -8.075000000000003
+        },
+        {
+          "x": -35,
+          "y": -8.075000000000003
+        },
+        {
+          "x": -33,
+          "y": -7.789285714285716
+        }
+      ]
+    },
+    {
+      "from": "Calendar",
+      "to": "Philosophy",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e127",
+      "label": {},
       "points": [
         {
           "x": -37,
@@ -4262,10 +8231,40 @@
       "to": "Civil service",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e128",
+      "label": {},
+      "points": [
+        {
+          "x": -30.333333333333332,
+          "y": 3.0249999999999986
+        },
+        {
+          "x": -28,
+          "y": 2.0249999999999986
+        },
+        {
+          "x": -25.62903225806452,
+          "y": 0.9749999999999996
+        }
+      ]
+    },
+    {
+      "from": "Currency",
+      "to": "Civil service",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e128",
+      "label": {},
       "points": [
         {
           "x": -30.333333333333332,
@@ -4286,10 +8285,40 @@
       "to": "Guilds",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e129",
+      "label": {},
+      "points": [
+        {
+          "x": -30,
+          "y": 3.739285714285712
+        },
+        {
+          "x": -28,
+          "y": 4.024999999999999
+        },
+        {
+          "x": -26,
+          "y": 4.024999999999999
+        }
+      ]
+    },
+    {
+      "from": "Currency",
+      "to": "Guilds",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e129",
+      "label": {},
       "points": [
         {
           "x": -30,
@@ -4310,10 +8339,40 @@
       "to": "Iron working",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e130",
+      "label": {},
+      "points": [
+        {
+          "x": -37,
+          "y": 9.150000000000002
+        },
+        {
+          "x": -35,
+          "y": 9.150000000000002
+        },
+        {
+          "x": -33,
+          "y": 9.150000000000002
+        }
+      ]
+    },
+    {
+      "from": "Bronze working",
+      "to": "Iron working",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e130",
+      "label": {},
       "points": [
         {
           "x": -37,
@@ -4334,10 +8393,40 @@
       "to": "Trapping",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e131",
+      "label": {},
+      "points": [
+        {
+          "x": -51,
+          "y": -2.714285714285716
+        },
+        {
+          "x": -49,
+          "y": -3.0000000000000018
+        },
+        {
+          "x": -47,
+          "y": -3.0000000000000018
+        }
+      ]
+    },
+    {
+      "from": "Animal husbandry",
+      "to": "Trapping",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e131",
+      "label": {},
       "points": [
         {
           "x": -51,
@@ -4358,10 +8447,40 @@
       "to": "The wheel",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e132",
+      "label": {},
+      "points": [
+        {
+          "x": -51,
+          "y": -2.264285714285716
+        },
+        {
+          "x": -49,
+          "y": -1.950000000000001
+        },
+        {
+          "x": -45.79288702928871,
+          "y": 3.5249999999999986
+        }
+      ]
+    },
+    {
+      "from": "Animal husbandry",
+      "to": "The wheel",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e132",
+      "label": {},
       "points": [
         {
           "x": -51,
@@ -4382,10 +8501,40 @@
       "to": "The wheel",
       "toarrow": {
         "indent": 0,
+        "scale": 1,
+        "offset": 0,
         "type": "to"
       },
       "divisions": 5,
       "id": "e133",
+      "label": {},
+      "points": [
+        {
+          "x": -51,
+          "y": 6.949999999999999
+        },
+        {
+          "x": -49,
+          "y": 6.949999999999999
+        },
+        {
+          "x": -46.098290598290596,
+          "y": 4.524999999999999
+        }
+      ]
+    },
+    {
+      "from": "Archery",
+      "to": "The wheel",
+      "toarrow": {
+        "indent": 0,
+        "scale": 1,
+        "offset": 0,
+        "type": "to"
+      },
+      "divisions": 5,
+      "id": "e133",
+      "label": {},
       "points": [
         {
           "x": -51,

@@ -63,7 +63,7 @@ export class LanguagesExample {
         fonts: new Map<string, Font>([
           ['default', font],
         ]),
-        linestyle: 'bezier',
+        linestyle: 'step',
         layout: new DagreLayout()
       }
       const flow = new MyFlowDiagram(options)
@@ -107,8 +107,8 @@ export class LanguagesExample {
 
       flow.rotation.y = MathUtils.degToRad(-45)
 
-      //  const exporter = new Exporter()
-      //  exporter.saveJSON(flow.save(), 'languages')
+    //  const exporter = new Exporter()
+    //  exporter.saveJSON(flow.saveDiagram(), 'languages')
     });
 
 

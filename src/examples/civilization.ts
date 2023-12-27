@@ -122,8 +122,8 @@ export class CivilizationExample {
       orbit.target.set(app.camera.position.x, app.camera.position.y, 0)
       app.camera.position.z = 16
 
-      //  const exporter = new Exporter()
-      //  exporter.saveJSON(flow.save(), 'civilization')
+    //    const exporter = new Exporter()
+    //    exporter.saveJSON(flow.saveDiagram(), 'civilization')
     });
 
     this.dispose = () => {
