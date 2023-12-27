@@ -4,7 +4,7 @@ import { LineMaterial } from "three/examples/jsm/lines/LineMaterial";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowProperties, FlowInteraction, FlowNode, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowLabel, FlowLabelParameters, NodeConnectors, FlowConnectorParameters, ConnectorMesh, FlowEdgeParameters, FlowEventType, FlowRouteParameters, FlowRoute, FlowEdge } from "three-flow";
+import { FlowProperties, FlowInteraction, FlowNode, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowLabel, FlowLabelParameters, NodeConnectors, FlowConnectorParameters, ConnectorMesh, FlowEdgeParameters, FlowEventType, FlowRouteParameters, FlowRoute, FlowEdge, CustomPathParams, Path3, FlowEdgePath3 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 
 export class ConnectorsExample {
@@ -123,7 +123,14 @@ class MyConnector extends ConnectorMesh {
 
   override createDragRoute(routeparams: FlowRouteParameters, edgeparams: FlowEdgeParameters): { dragroute: FlowRoute, dragedge: FlowEdge } {
     edgeparams.material = { dashSize: 0.03, gapSize: 0.01, dashed: true, linewidth: 6 }
-    return super.createDragRoute(routeparams, edgeparams)
+    edgeparams.linestyle = 'custom'
+    const { dragedge, dragroute } = super.createDragRoute(routeparams, edgeparams)
+    dragedge.getCustomPath = (params: CustomPathParams): { path: Path3, center: Vector3 } => {
+      const edgepath = new FlowEdgePath3()
+      const { path, label } = edgepath.getStraightPath(params)
+      return { path, center: label }
+    }
+    return { dragedge, dragroute }
   }
 
 

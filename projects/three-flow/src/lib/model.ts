@@ -63,7 +63,7 @@ export interface FlowArrowParameters {
   offset?: number // from begging or end of edge line
 }
 
-export type EdgeLineStyle = 'straight' | 'step' | 'bezier'
+export type EdgeLineStyle = 'straight' | 'step' | 'bezier' | 'custom'
 
 export interface FlowEdgeParameters {
   from: string // from node id

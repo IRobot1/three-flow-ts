@@ -9,6 +9,8 @@ export * from './lib/drag-node'
 export * from './lib/resize-node'
 export * from './lib/scale-node'
 export * from './lib/interactive'
+export * from './lib/path3'
+export * from './lib/edge-path3'
 
 export * from './lib/diagram';
 export * from './lib/connector';

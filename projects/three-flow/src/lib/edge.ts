@@ -11,6 +11,14 @@ import { Path3 } from "./path3";
 import { FlowEdgePath3 } from "./edge-path3";
 import { FlowLabel } from "./label";
 
+export type CustomPathParams = {
+  source: Vector3
+  sourcePosition: AnchorType;
+  target: Vector3
+  targetPosition: AnchorType;
+  curvature?: number;
+};
+
 export class FlowEdge extends Mesh {
   readonly from: string;
   readonly to: string;
@@ -331,11 +339,18 @@ export class FlowEdge extends Mesh {
           center = result.label
         }
           break
-
+        case 'custom': {
+          const result = this.getCustomPath({ source: from, sourcePosition: fromanchor, target: to, targetPosition: toanchor })
+          path = result.path
+          center = result.center
+        }
       }
     }
 
-    const curvepoints = path.getPoints(this.divisions)//.map(p => new Vector3(p.x, p.y, p.z))
+    const curvepoints = path.getPoints(this.divisions)
+    // avoid errors if something isn't right
+    if (curvepoints.length == 0) return
+
     const geometry = this.createGeometry(curvepoints, this.thickness)
     if (geometry) {
       this.geometry.dispose()
@@ -378,10 +393,6 @@ export class FlowEdge extends Mesh {
         this.fromArrow.rotate = angle + MathUtils.degToRad(90)
       }
     }
-
-
-
-
   }
 
   // overridable
@@ -398,4 +409,16 @@ export class FlowEdge extends Mesh {
   createArrow(arrow: FlowArrowParameters): FlowArrow {
     return new FlowArrow(this.diagram, arrow)
   }
+
+  getCustomPath({
+    source,
+    sourcePosition = 'bottom',
+    target,
+    targetPosition = 'top',
+  }: CustomPathParams): { path: Path3, center: Vector3 } {
+    console.warn('custom path not implemented')
+    return { path: new Path3(), center: new Vector3 }
+  }
 }
+
+

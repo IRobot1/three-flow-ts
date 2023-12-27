@@ -372,7 +372,7 @@ export class ConnectorMesh extends Mesh {
   dragOver(connector: ConnectorMesh) { }
 
   dropCompleted(diagram: FlowDiagram, position: Vector3, dragIntersects: Array<Intersection>, selectIntersects: Array<Intersection>): FlowNode | undefined {
-    console.warn('drop complete not handled')
+    console.warn('drop complete not implemented')
     return undefined
   }
 
