@@ -1,4 +1,4 @@
-import { Color, ColorRepresentation, Euler, Material, MaterialParameters, Matrix4, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Vector3 } from "three";
+import { ColorRepresentation, Euler, Material, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Vector3 } from "three";
 import { FlowEventType, FlowLabelParameters, LabelAlignX, LabelAlignY, LabelTextAlign } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowDiagram } from "./diagram";

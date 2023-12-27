@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, Color, Intersection, MeshBasicMaterial, MeshBasicMaterialParameters, PointLight, Scene, Vector3 } from "three";
+import { AmbientLight, AxesHelper, CircleGeometry, Color, Intersection, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, PlaneGeometry, PointLight, RingGeometry, Scene, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
@@ -96,10 +96,10 @@ class MyConnector extends ConnectorMesh {
     if (!this.allowDrop) return false
 
     const color = (this.material as MeshBasicMaterial).color.getStyle()
-    // @ts-ignore
     const othercolor = (source.material as MeshBasicMaterial).color.getStyle()
     if (color != othercolor) return false
 
+    // check if connected limit is exceeded
     const matches = this.diagram.allEdges.filter(e => e.toconnector == this.name)
     if (matches.length > this.limit) return false
 
@@ -133,13 +133,31 @@ class MyConnector extends ConnectorMesh {
 
         const edgeparams: FlowEdgeParameters = {
           from: this.parent!.name, to: othernode.name, fromconnector: this.name, toconnector: otherconnector.name, material: { color },
-          label: { text: color },
           toarrow: {}, fromarrow: {},
           //stepOffset: 0.1, stepRadius: 0.1, bezierCurvature: 0.5
         }
+        edgeparams.label = { text: color, padding: 0.01 }
 
         // add edge between connectors
-        diagram.addEdge(edgeparams)
+        const edge = diagram.addEdge(edgeparams)
+
+        // demonstrate another object placed at center behind label
+        if (color != 'green') {
+          const mesh = new Mesh()
+          mesh.material = diagram.getMaterial('geometry', 'edge-center', <MeshBasicMaterialParameters>{ color: 'white' })
+          edge.add(mesh)
+
+          edge.label.addEventListener(FlowEventType.HEIGHT_CHANGED, () => {
+            mesh.geometry = new PlaneGeometry(edge.label.width, edge.label.height)
+          })
+
+          // listen for center position changing
+          edge.addEventListener(FlowEventType.EDGE_CENTER, (e: any) => {
+            const center = e.center as Vector3
+            center.z = -0.001
+            mesh.position.copy(center)
+          })
+        }
       }
     })
 
@@ -149,10 +167,6 @@ class MyConnector extends ConnectorMesh {
 }
 
 class MyConnectors extends FlowConnectors {
-  //constructor(diagram: FlowDiagram) {
-  //  super(diagram)
-  //}
-
   override createConnector(connectors: NodeConnectors, parameters: FlowConnectorParameters): ConnectorMesh {
     return new MyConnector(this.diagram, connectors, parameters)
   }
@@ -161,10 +175,9 @@ class MyConnectors extends FlowConnectors {
 
 
 class ConnectorDiagram extends FlowDiagram {
-  constructor(xoptions?: FlowDiagramOptions) {
-    super(xoptions)
+  constructor(options?: FlowDiagramOptions) {
+    super(options)
   }
-
 
   override createLabel(parameters: FlowLabelParameters): FlowLabel {
     return new TroikaFlowLabel(this, parameters)

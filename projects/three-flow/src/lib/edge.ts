@@ -232,7 +232,7 @@ export class FlowEdge extends Mesh {
     const from = new Vector3()
     const to = new Vector3()
     let path: Path3
-    let labelPosition: Vector3 | undefined
+    let center: Vector3 | undefined
 
     // use layout when provided
     if (this.parameters.points) {
@@ -302,18 +302,18 @@ export class FlowEdge extends Mesh {
         case 'straight': {
           const result = edge.getStraightPath({ source: from, target: to })
           path = result.path
-          labelPosition = result.label
+          center = result.label
         }
           break
         case 'step':
           const result = edge.getSmoothStepPath({ source: from, sourcePosition: fromanchor, target: to, targetPosition: toanchor, borderRadius: this.stepRadius, lineoffset: this.stepOffset })
           path = result.path
-          labelPosition = result.label
+          center = result.label
           break
         case 'bezier': {
           const result = edge.getBezierPath({ source: from, sourcePosition: fromanchor, target: to, targetPosition: toanchor, curvature: this.bezierCurvature })
           path = result.path
-          labelPosition = result.label
+          center = result.label
         }
           break
 
@@ -336,10 +336,11 @@ export class FlowEdge extends Mesh {
       this.line.computeLineDistances()
     }
 
-    if (labelPosition) {
+    if (center) {
       if (this.label.labelMesh) {
-        this.label.labelMesh.position.copy(labelPosition)
+        this.label.labelMesh.position.copy(center)
       }
+      this.dispatchEvent<any>({ type: FlowEventType.EDGE_CENTER, center })
     }
 
     if (this.toArrow) {
