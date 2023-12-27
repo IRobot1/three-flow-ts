@@ -29,7 +29,7 @@ export class FlowEdge extends Mesh {
   get color() { return this._matparams.color! }
   set color(newvalue: ColorRepresentation) {
     if (this._matparams.color != newvalue) {
-      this._matparams.color = newvalue;
+      this._matparams.color = newvalue as number;
       if (newvalue)
         (this.material as LineMaterial).color.set(newvalue)
     }
@@ -149,11 +149,11 @@ export class FlowEdge extends Mesh {
     }
 
     if (parameters.material) {
-      this._matparams = parameters.material
-      if (!parameters.material.color) parameters.material.color = 'white'
+      this._matparams = parameters.material as LineMaterialParameters
+      if (parameters.material.color == undefined) parameters.material.color = 0xffffff
     }
     else
-      this._matparams = { color: 'white' }
+      this._matparams = { color: 0xffffff }
 
     this._linestyle = parameters.linestyle ? parameters.linestyle : 'bezier'
     this.lineoffset = parameters.lineoffset != undefined ? parameters.lineoffset : 0.2
