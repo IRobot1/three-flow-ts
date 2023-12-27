@@ -28,7 +28,6 @@ export class FlowEdge extends Mesh {
   get linestyle() { return this._linestyle }
   set linestyle(newvalue: EdgeLineStyle) {
     if (this._linestyle != newvalue) {
-      if (this._linestyle == 'bezier') this.removeArrows()
       this._linestyle = newvalue
       this.updateVisuals()
     }
@@ -162,8 +161,10 @@ export class FlowEdge extends Mesh {
   }
 
   private dragged() {
-    this.removeArrows()
+    // invalidate layout points
+    if (this.parameters.points) this.parameters.points = undefined
     this.updateVisuals()
+    this.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
   }
 
   private deleteEdge() { this.diagram.removeEdge(this) }
@@ -204,11 +205,7 @@ export class FlowEdge extends Mesh {
     this.updateVisuals()
   }
 
-  private removeArrows() {
-    // invalidate layout points
-    if (this.parameters.points) this.parameters.points = undefined
-
-    // and arrows
+  removeArrows() {
     if (this.toArrow) {
       this.remove(this.toArrow)
       this.toArrow = undefined
@@ -338,19 +335,23 @@ export class FlowEdge extends Mesh {
       if (this.label.labelMesh) {
         this.label.labelMesh.position.copy(labelPosition)
       }
-
     }
+
     if (this.toArrow) {
-      this.toArrow.position.set(to.x, to.y, 0)
+      const start = path.getPointAt(0.9)
+      const end = path.getPointAt(0.95)
+      this.toArrow.position.copy(path.getPointAt(1 - this.toArrow.offset))
       if (this.toConnector) {
-        const angle = this.arrowLookAt(this.toArrow.position, this.toConnector.position)
+        const angle = this.arrowLookAt(start, end)
         this.toArrow.rotate = angle + MathUtils.degToRad(90)
       }
     }
     if (this.fromArrow) {
-      this.fromArrow.position.set(from.x, from.y, 0)
+      const start = path.getPointAt(0.1)
+      const end = path.getPointAt(0.05)
+      this.fromArrow.position.copy(path.getPointAt(this.fromArrow.offset))
       if (this.fromConnector) {
-        const angle = this.arrowLookAt(this.fromArrow.position, this.fromConnector.position)
+        const angle = this.arrowLookAt(start, end)
         this.fromArrow.rotate = angle + MathUtils.degToRad(90)
       }
     }
@@ -370,6 +371,6 @@ export class FlowEdge extends Mesh {
   }
 
   createArrow(arrow: FlowArrowParameters): FlowArrow {
-    return new FlowArrow(this, arrow)
+    return new FlowArrow(this.diagram, arrow)
   }
 }

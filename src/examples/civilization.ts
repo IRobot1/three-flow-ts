@@ -7,7 +7,8 @@ import {
   FlowEdgeParameters,
   FlowDiagram,
   FlowDiagramOptions,
-  FlowInteraction
+  FlowInteraction,
+  FlowEventType
 } from "three-flow";
 
 import { civilizationdata } from "./civilization-data";
@@ -52,7 +53,7 @@ export class CivilizationExample {
     //scene.add(new AxesHelper())
 
     const loader = new FontLoader();
-    let interaction:FlowInteraction
+    let interaction: FlowInteraction
 
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
       const options: FlowDiagramOptions = {
@@ -65,7 +66,7 @@ export class CivilizationExample {
       }
       const flow = new FlowDiagram(options)
       scene.add(flow);
-      flow.rotation.x = MathUtils.degToRad(-15) 
+      flow.rotation.x = MathUtils.degToRad(-15)
 
       // make the flow interactive
       interaction = new FlowInteraction(flow, app.interactive)
@@ -80,9 +81,9 @@ export class CivilizationExample {
           //node.addOutputConnector({ text: outlink })
         }
         else {
-        //  if (!fromnode.getConnector(outlink)) {
-        //    //fromnode.addOutputConnector({ text: outlink })
-        //  }
+          //  if (!fromnode.getConnector(outlink)) {
+          //    //fromnode.addOutputConnector({ text: outlink })
+          //  }
         }
         tech.leads_to.forEach(item => {
           const to = item;
@@ -101,10 +102,11 @@ export class CivilizationExample {
           //}
 
 
-          const edge: FlowEdgeParameters = {
-            from: from, to: to, toarrow: { indent: 0 }
+          const edgeparams: FlowEdgeParameters = {
+            from: from, to: to, toarrow: { indent: 0, scale: 1, offset: 0 }
           }
-          flow.addEdge(edge);
+          const edge = flow.addEdge(edgeparams);
+          edge.addEventListener(FlowEventType.DRAGGED, () => { edge.removeArrows() })
 
           // export to mermaid
           //console.log(`${from.replace(/ /g, '')}[${from}] --> ${to.replace(/ /g, '')}[${to}]`);

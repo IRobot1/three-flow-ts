@@ -2,7 +2,7 @@ import { AmbientLight, AxesHelper, Color, Intersection, MeshBasicMaterial, MeshB
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowInteraction, FlowNode, FlowNodeParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowLabel, FlowLabelParameters, NodeConnectors, FlowConnectorParameters, ConnectorMesh, FlowEdgeParameters, FlowEventType, FlowEdge, FlowRoute } from "three-flow";
+import { FlowInteraction, FlowNode, FlowNodeParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowLabel, FlowLabelParameters, NodeConnectors, FlowConnectorParameters, ConnectorMesh, FlowEdgeParameters, FlowEventType, FlowEdge, FlowRoute, FlowArrow } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 
 export class ConnectorsExample {
@@ -47,7 +47,6 @@ export class ConnectorsExample {
     const interaction = new FlowInteraction(flow, app.interactive)
 
     const connectors = new MyConnectors(flow)
-    connectors.createConnector
 
     const column1 = -1
     const column2 = 1
@@ -70,7 +69,6 @@ export class ConnectorsExample {
         { id: 'c4end', anchor: 'left', index: 3, draggable: true, allowDrop: true, label: { text: 'Limit 1', alignX: 'left' }, material: { color: 'blue' }, limit: 1 },
       ]
     })
-
 
     this.dispose = () => {
       orbit.dispose()
@@ -135,7 +133,8 @@ class MyConnector extends ConnectorMesh {
 
         const edgeparams: FlowEdgeParameters = {
           from: this.parent!.name, to: othernode.name, fromconnector: this.name, toconnector: otherconnector.name, material: { color },
-          label: { text: color }
+          label: { text: color },
+          toarrow: {}, fromarrow: {}
         }
 
         // add edge between connectors

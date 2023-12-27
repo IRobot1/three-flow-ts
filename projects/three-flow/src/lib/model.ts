@@ -59,6 +59,7 @@ export interface FlowArrowParameters {
   material?: MeshBasicMaterialParameters
   arrowstyle?: ArrowStyle
   scale?: number
+  offset?: number // from begging or end of edge line
 }
 
 export type EdgeLineStyle = 'straight' | 'step' | 'bezier'

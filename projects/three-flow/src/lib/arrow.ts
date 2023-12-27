@@ -1,6 +1,7 @@
 import { BufferGeometry, ColorRepresentation, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Shape, ShapeGeometry } from "three";
 import { FlowArrowParameters, ArrowStyle } from "./model";
 import { FlowEdge } from "./edge";
+import { FlowDiagram } from "./diagram";
 
 
 export class FlowArrow extends Mesh {
@@ -56,7 +57,7 @@ export class FlowArrow extends Mesh {
     }
   }
 
-  private _scalar: number
+  private _scalar = 1
   get scalar() { return this._scalar }
   set scalar(newvalue: number) {
     newvalue = Math.max(0, newvalue)
@@ -66,20 +67,24 @@ export class FlowArrow extends Mesh {
     }
   }
 
-  constructor(edge: FlowEdge, public arrow: FlowArrowParameters) {
+  offset: number
+
+  constructor(diagram: FlowDiagram, public arrow: FlowArrowParameters) {
     super()
 
     this._matparams = arrow.material ? arrow.material : { color: 'black' }
-    this._width = arrow.width ? arrow.width : 0.15
-    this._height = arrow.height ? arrow.height : 0.3
-    this._indent = arrow.indent ? arrow.indent : 0.05
+    this._width = arrow.width != undefined ? arrow.width : 0.15
+    this._height = arrow.height != undefined ? arrow.height : 0.3
+    this._indent = arrow.indent != undefined ? arrow.indent : 0.05
+    this.offset = arrow.offset != undefined ? arrow.offset : 0.1
 
     this.arrowstyle = arrow.arrowstyle ? arrow.arrowstyle : 'default'
 
-    this.material = edge.diagram.getMaterial('geometry', 'arrow', this._matparams)
+    this.material = diagram.getMaterial('geometry', 'arrow', this._matparams)
     this.updateVisuals()
 
-    this._scalar = arrow.scale ? arrow.scale : 1
+    this.scalar = arrow.scale != undefined ? arrow.scale : 1 / 3
+
 
   }
 

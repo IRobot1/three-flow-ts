@@ -301,7 +301,7 @@ class MyFlowEdge extends FlowEdge {
   }
 
   override createArrow(arrow: FlowArrowParameters) {
-    return new MyArrow(this, arrow)
+    return new MyArrow(this.diagram, arrow)
   }
 }
 
