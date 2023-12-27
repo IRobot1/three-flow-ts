@@ -71,6 +71,8 @@ export class ConnectorsExample {
     })
 
     this.dispose = () => {
+      flow.dispose()
+      interaction.dispose()
       orbit.dispose()
     }
   }
