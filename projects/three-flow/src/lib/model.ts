@@ -85,7 +85,9 @@ export interface FlowEdgeParameters {
   toconnector?: string   // optional connector id on to node
 
   label?: FlowLabelParameters
-
+  stepRadius?: number  // default is 0.1, set to zero for sharp corners
+  stepOffset?: number // default is 0.1
+  bezierCurvature?: number  // default is 0.25
 }
 
 export type FlowNodeType = 'node' | 'route' | string

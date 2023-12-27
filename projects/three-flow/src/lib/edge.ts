@@ -68,6 +68,9 @@ export class FlowEdge extends Mesh {
 
   private line?: Line
   public label: FlowLabel
+  public stepRadius: number
+  public stepOffset: number
+  public bezierCurvature: number
 
 
   isFlow = true
@@ -106,8 +109,6 @@ export class FlowEdge extends Mesh {
         if (this.toNode)
           this.visible = this.toNode.visible
       })
-
-
     }
 
     this.addConnector(parameters.fromconnector, parameters.toconnector, false)
@@ -134,6 +135,10 @@ export class FlowEdge extends Mesh {
     this.lineoffset = parameters.lineoffset != undefined ? parameters.lineoffset : 0.2
     this._divisions = parameters.divisions ? parameters.divisions : 20
     this._thickness = parameters.thickness ? parameters.thickness : 0.01
+
+    this.stepRadius = parameters.stepRadius != undefined ? parameters.stepRadius : 0.1
+    this.stepOffset = parameters.stepOffset != undefined ? parameters.stepOffset : 0.1
+    this.bezierCurvature = parameters.bezierCurvature != undefined ? parameters.bezierCurvature : 0.25
 
     this.material = diagram.getMaterial('line', 'edge', this._matparams)
 
@@ -301,12 +306,12 @@ export class FlowEdge extends Mesh {
         }
           break
         case 'step':
-          const result = edge.getSmoothStepPath({ source: from, sourcePosition: fromanchor, target: to, targetPosition: toanchor })
+          const result = edge.getSmoothStepPath({ source: from, sourcePosition: fromanchor, target: to, targetPosition: toanchor, borderRadius: this.stepRadius, lineoffset: this.stepOffset })
           path = result.path
           labelPosition = result.label
           break
         case 'bezier': {
-          const result = edge.getBezierPath({ source: from, sourcePosition: fromanchor, target: to, targetPosition: toanchor })
+          const result = edge.getBezierPath({ source: from, sourcePosition: fromanchor, target: to, targetPosition: toanchor, curvature: this.bezierCurvature })
           path = result.path
           labelPosition = result.label
         }
