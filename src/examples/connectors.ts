@@ -1,8 +1,8 @@
-import { AmbientLight, AxesHelper, CircleGeometry, Color, Intersection, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, PlaneGeometry, PointLight, RingGeometry, Scene, Vector3 } from "three";
+import { LineDashedMaterial, AmbientLight, AxesHelper, CircleGeometry, Color, Intersection, LineBasicMaterialParameters, Material, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, PlaneGeometry, PointLight, RingGeometry, Scene, Vector3, LineDashedMaterialParameters } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowInteraction, FlowNode, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowLabel, FlowLabelParameters, NodeConnectors, FlowConnectorParameters, ConnectorMesh, FlowEdgeParameters, FlowEventType } from "three-flow";
+import { FlowInteraction, FlowNode, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowLabel, FlowLabelParameters, NodeConnectors, FlowConnectorParameters, ConnectorMesh, FlowEdgeParameters, FlowEventType, FlowRouteParameters, FlowRoute, FlowEdge } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 
 export class ConnectorsExample {
@@ -117,6 +117,12 @@ class MyConnector extends ConnectorMesh {
   //override dragOver(connector: ConnectorMesh) {
   //}
 
+  override createDragRoute(routeparams: FlowRouteParameters, edgeparams: FlowEdgeParameters): { dragroute: FlowRoute, dragedge: FlowEdge } {
+    edgeparams.material = <LineDashedMaterialParameters>{ dashSize: 0.03, gapSize: 0.01 }
+    return super.createDragRoute(routeparams, edgeparams)
+  }
+
+
   override dropCompleted(diagram: FlowDiagram, start: Vector3, dragIntersects: Array<Intersection>): FlowNode | undefined {
     const intersect = dragIntersects.filter(i => i.object.type == 'flowconnector')
     // ignore unless drop was on top of a connector
@@ -134,7 +140,8 @@ class MyConnector extends ConnectorMesh {
         const color = this.parameters.material!.color as string
 
         const edgeparams: FlowEdgeParameters = {
-          from: this.parent!.name, to: othernode.name, fromconnector: this.name, toconnector: otherconnector.name, material: { color },
+          from: this.parent!.name, to: othernode.name, fromconnector: this.name, toconnector: otherconnector.name,
+          material: <LineDashedMaterialParameters>{ color, dashSize: 0.03, gapSize: 0.01 },
           toarrow: {}, fromarrow: {},
           //stepOffset: 0.1, stepRadius: 0.1, bezierCurvature: 0.5
         }
@@ -179,6 +186,10 @@ class MyConnectors extends FlowConnectors {
 class ConnectorDiagram extends FlowDiagram {
   constructor(options?: FlowDiagramOptions) {
     super(options)
+  }
+
+  override createLineMaterial(purpose: string, parameters: LineDashedMaterialParameters): Material {
+    return new LineDashedMaterial(parameters);
   }
 
   override createLabel(parameters: FlowLabelParameters): FlowLabel {

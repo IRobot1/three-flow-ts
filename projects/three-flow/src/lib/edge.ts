@@ -1,4 +1,4 @@
-import { BufferGeometry, ColorRepresentation, Line, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Vector3 } from "three";
+import { BufferGeometry, ColorRepresentation, Line, LineBasicMaterial, LineBasicMaterialParameters, MathUtils, Mesh, Object3D, Vector3 } from "three";
 import { FlowArrowParameters, FlowEdgeParameters, EdgeLineStyle, FlowEventType, AnchorType } from "./model";
 import { FlowDiagram } from "./diagram";
 import { FlowNode } from "./node";
@@ -14,13 +14,13 @@ export class FlowEdge extends Mesh {
   fromconnector?: string
   toconnector?: string
 
-  private _matparams!: MeshBasicMaterialParameters
+  private _matparams!: LineBasicMaterialParameters
   get color() { return this._matparams.color! }
   set color(newvalue: ColorRepresentation) {
     if (this._matparams.color != newvalue) {
       this._matparams.color = newvalue;
       if (newvalue)
-        (this.material as MeshBasicMaterial).color.set(newvalue)
+        (this.material as LineBasicMaterial).color.set(newvalue)
     }
   }
 

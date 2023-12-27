@@ -1,4 +1,4 @@
-import { AnchorType, FlowConnectorParameters, FlowEventType, FlowTransform } from "./model"
+import { AnchorType, FlowConnectorParameters, FlowEdgeParameters, FlowEventType, FlowRouteParameters, FlowTransform } from "./model"
 import { BufferGeometry, CircleGeometry, ColorRepresentation, Intersection, Mesh, MeshBasicMaterialParameters, Object3D, Vector3 } from "three"
 import { FlowDiagram } from "./diagram"
 import { FlowNode } from "./node"
@@ -376,5 +376,13 @@ export class ConnectorMesh extends Mesh {
     return undefined
   }
 
+  createDragRoute(routeparams: FlowRouteParameters, edgeparams: FlowEdgeParameters): { dragroute: FlowRoute, dragedge: FlowEdge } {
+    const diagram = this.connectors.flowconnectors.diagram
+    const dragroute = diagram.addRoute(routeparams)
+    edgeparams.to = dragroute.name
+
+    const dragedge = diagram.addEdge(edgeparams)
+    return { dragroute, dragedge }
+  }
 }
 

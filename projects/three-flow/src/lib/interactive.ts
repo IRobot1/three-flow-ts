@@ -1,11 +1,11 @@
-import { Intersection, Material, MeshBasicMaterialParameters, Object3D, Vector3 } from "three";
+import { Intersection, Material, MeshBasicMaterialParameters, Vector3 } from "three";
 import { DragNode } from "./drag-node";
 import { FlowDiagram } from "./diagram";
 import { InteractiveEventType, ThreeInteractive } from "./three-interactive";
 import { FlowNode } from "./node";
 import { ResizeNode } from "./resize-node";
 import { ScaleNode } from "./scale-node";
-import { FlowEdgeParameters, FlowEventType } from "./model";
+import { FlowEdgeParameters, FlowEventType, FlowRouteParameters } from "./model";
 import { ConnectorMesh } from "./connector";
 import { FlowEdge } from "./edge";
 import { FlowRoute } from "./route";
@@ -290,16 +290,6 @@ export class ConnectorInteractive {
       document.body.style.cursor = 'default'
     })
 
-    const createDragRoute = (start: Vector3): FlowRoute | undefined => {
-      const route = diagram.addRoute({ x: start.x, y: start.y, dragging: true })
-      if (route) {
-        const params: FlowEdgeParameters = { from: parentNode.name, to: route.name, fromconnector: mesh.name, }
-        dragedge = diagram.addEdge(params)
-      }
-      return route
-    }
-    this.createDragRoute = createDragRoute
-
     let dragStart: Vector3 | undefined
     let flowStart: Vector3 | undefined
     let dragging = false
@@ -331,7 +321,14 @@ export class ConnectorInteractive {
           if (!newnode) newnode = mesh.dropCompleted(diagram, flowStart!, dragIntersects, selectIntersects)
         }
         else {
-          if (!dragroute) dragroute = createDragRoute(flowStart!)
+          if (!dragroute) {
+            const start = flowStart!
+            const routeparams: FlowRouteParameters = { x: start.x, y: start.y, dragging: true }
+            const edgeparams: FlowEdgeParameters = { from: parentNode.name, to: '', fromconnector: mesh.name, }
+            const result = mesh.createDragRoute(routeparams, edgeparams)
+            dragroute = result.dragroute
+            dragedge = result.dragedge
+          }
         }
       }
 
@@ -357,7 +354,7 @@ export class ConnectorInteractive {
       }
 
       if (dragroute && dragedge)
-      mesh.dragging(dragedge, dragroute)
+        mesh.dragging(dragedge, dragroute)
 
     })
 
@@ -388,5 +385,4 @@ export class ConnectorInteractive {
     })
   }
 
-  createDragRoute: (start: Vector3) => FlowRoute | undefined
 }
