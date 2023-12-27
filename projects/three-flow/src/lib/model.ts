@@ -1,4 +1,5 @@
 import { Mesh, MeshBasicMaterialParameters, Vector2 } from "three"
+import { LineMaterialParameters } from "three/examples/jsm/lines/LineMaterial"
 
 export interface FlowTransform {
   translate?: { x?: number, y?: number, z?: number }
@@ -72,7 +73,7 @@ export interface FlowEdgeParameters {
   points?: Array<Vector2>  // dagre layout positions of line segments
 
   z?: number // default is -0.005
-  material?: MeshBasicMaterialParameters
+  material?: LineMaterialParameters | MeshBasicMaterialParameters
   linestyle?: EdgeLineStyle
   lineoffset?: number // offset from connector to start drawing edge
   divisions?: number

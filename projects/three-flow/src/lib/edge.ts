@@ -1,4 +1,7 @@
 import { BufferGeometry, ColorRepresentation, Line, LineBasicMaterial, LineBasicMaterialParameters, MathUtils, Mesh, Object3D, Vector3 } from "three";
+import { LineGeometry } from "three/examples/jsm/lines/LineGeometry";
+import { LineMaterial, LineMaterialParameters } from "three/examples/jsm/lines/LineMaterial";
+import { Line2 } from "three/examples/jsm/lines/Line2";
 import { FlowArrowParameters, FlowEdgeParameters, EdgeLineStyle, FlowEventType, AnchorType } from "./model";
 import { FlowDiagram } from "./diagram";
 import { FlowNode } from "./node";
@@ -14,13 +17,13 @@ export class FlowEdge extends Mesh {
   fromconnector?: string
   toconnector?: string
 
-  private _matparams!: LineBasicMaterialParameters
+  private _matparams!: LineMaterialParameters
   get color() { return this._matparams.color! }
   set color(newvalue: ColorRepresentation) {
     if (this._matparams.color != newvalue) {
       this._matparams.color = newvalue;
       if (newvalue)
-        (this.material as LineBasicMaterial).color.set(newvalue)
+        (this.material as LineMaterial).color.set(newvalue)
     }
   }
 
@@ -66,7 +69,7 @@ export class FlowEdge extends Mesh {
   private fromConnector: Object3D | undefined
   private toConnector: Object3D | undefined
 
-  private line?: Line
+  private line?: Line2
   public label: FlowLabel
   public stepRadius: number
   public stepOffset: number
@@ -140,8 +143,6 @@ export class FlowEdge extends Mesh {
     this.stepOffset = parameters.stepOffset != undefined ? parameters.stepOffset : 0.1
     this.bezierCurvature = parameters.bezierCurvature != undefined ? parameters.bezierCurvature : 0.25
 
-    this.material = diagram.getMaterial('line', 'edge', this._matparams)
-
     if (!parameters.label) parameters.label = {}
     this.label = diagram.createLabel(parameters.label)
     this.add(this.label)
@@ -159,7 +160,6 @@ export class FlowEdge extends Mesh {
       this.updateVisuals()
 
       if (this.line) {
-        this.line.material = this.material
         this.line.position.z = this.z
       }
     })
@@ -325,10 +325,12 @@ export class FlowEdge extends Mesh {
     if (geometry) {
       this.geometry.dispose()
       this.geometry = geometry
+      this.material = this.diagram.getMaterial('geometry', 'edge', this._matparams)
     }
     else {
       if (!this.line) {
-        this.line = new Line()
+        this.line = new Line2()
+        this.material = this.line.material = this.diagram.getMaterial('line', 'edge', this._matparams) as LineMaterial
         this.add(this.line)
       }
       this.line.geometry.dispose()
@@ -368,8 +370,10 @@ export class FlowEdge extends Mesh {
   }
 
   // overridable
-  createLine(curvepoints: Array<Vector3>): BufferGeometry {
-    return new BufferGeometry().setFromPoints(curvepoints);
+  createLine(curvepoints: Array<Vector3>): LineGeometry {
+    const positions: Array<number> = []
+    curvepoints.forEach(p => positions.push(p.x, p.y, p.z))
+    return new LineGeometry().setPositions(positions)
   }
 
   createGeometry(curvepoints: Array<Vector3>, thickness: number): BufferGeometry | undefined {

@@ -1,4 +1,5 @@
-import { Box3, ColorRepresentation, LineBasicMaterial, LineBasicMaterialParameters, Material, MaterialParameters, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Vector2, Vector3 } from "three";
+import { Box3, Material, MaterialParameters, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Vector2, Vector3 } from "three";
+import { LineMaterial, LineMaterialParameters } from "three/examples/jsm/lines/LineMaterial";
 import { FlowEdgeParameters, FlowDiagramParameters, FlowNodeParameters, FlowRouteParameters, EdgeLineStyle, FlowEventType, FlowLayout, FlowLabelParameters } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
@@ -318,8 +319,10 @@ export class FlowDiagram extends Object3D {
   }
 
   // allow overriding
-  createLineMaterial(purpose: string, parameters: LineBasicMaterialParameters): Material {
-    return new LineBasicMaterial(parameters);
+  createLineMaterial(purpose: string, parameters: LineMaterialParameters): Material {
+    const material = new LineMaterial(parameters);
+    material.resolution.set(window.innerWidth, window.innerHeight); // resolution of the viewport
+    return material
   }
 
   createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {

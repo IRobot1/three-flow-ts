@@ -1,5 +1,6 @@
-import { LineDashedMaterial, AmbientLight, AxesHelper, CircleGeometry, Color, Intersection, LineBasicMaterialParameters, Material, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, PlaneGeometry, PointLight, RingGeometry, Scene, Vector3, LineDashedMaterialParameters } from "three";
+import { AmbientLight, AxesHelper, Color, Intersection, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, PlaneGeometry, PointLight, Scene, Vector3, LineDashedMaterialParameters } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { LineMaterial, LineMaterialParameters } from "three/examples/jsm/lines/LineMaterial";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { FlowInteraction, FlowNode, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowLabel, FlowLabelParameters, NodeConnectors, FlowConnectorParameters, ConnectorMesh, FlowEdgeParameters, FlowEventType, FlowRouteParameters, FlowRoute, FlowEdge } from "three-flow";
@@ -118,7 +119,7 @@ class MyConnector extends ConnectorMesh {
   //}
 
   override createDragRoute(routeparams: FlowRouteParameters, edgeparams: FlowEdgeParameters): { dragroute: FlowRoute, dragedge: FlowEdge } {
-    edgeparams.material = <LineDashedMaterialParameters>{ dashSize: 0.03, gapSize: 0.01 }
+    edgeparams.material = { dashSize: 0.03, gapSize: 0.01, dashed: true, linewidth:6 }
     return super.createDragRoute(routeparams, edgeparams)
   }
 
@@ -141,7 +142,7 @@ class MyConnector extends ConnectorMesh {
 
         const edgeparams: FlowEdgeParameters = {
           from: this.parent!.name, to: othernode.name, fromconnector: this.name, toconnector: otherconnector.name,
-          material: <LineDashedMaterialParameters>{ color, dashSize: 0.03, gapSize: 0.01 },
+          material: { color, dashSize: 0.03, gapSize: 0.01, dashed: true, linewidth: 6, dashOffset: 0.1 },
           toarrow: {}, fromarrow: {},
           //stepOffset: 0.1, stepRadius: 0.1, bezierCurvature: 0.5
         }
@@ -149,6 +150,16 @@ class MyConnector extends ConnectorMesh {
 
         // add edge between connectors
         const edge = diagram.addEdge(edgeparams)
+
+        // animate dashes
+        const timer = setInterval(() => {
+          const material = edge.material as LineMaterial
+          material.dashOffset -= 0.01
+        }, 100)
+
+        diagram.addEventListener(FlowEventType.DISPOSE, () => {
+          clearInterval(timer)
+        })
 
         // demonstrate another object placed at center behind label
         if (color != 'green') {
@@ -173,6 +184,7 @@ class MyConnector extends ConnectorMesh {
     return undefined
   }
 
+ 
 }
 
 class MyConnectors extends FlowConnectors {
@@ -186,10 +198,6 @@ class MyConnectors extends FlowConnectors {
 class ConnectorDiagram extends FlowDiagram {
   constructor(options?: FlowDiagramOptions) {
     super(options)
-  }
-
-  override createLineMaterial(purpose: string, parameters: LineDashedMaterialParameters): Material {
-    return new LineDashedMaterial(parameters);
   }
 
   override createLabel(parameters: FlowLabelParameters): FlowLabel {
