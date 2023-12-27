@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, CurvePath, LineCurve3, Material, MeshBasicMaterialParameters, PointLight, Scene, TextureLoader, TubeGeometry, Vector2, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, CurvePath, DoubleSide, LineCurve3, Material, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, PointLight, RepeatWrapping, Scene, TextureLoader, TubeGeometry, Vector2, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
@@ -7,6 +7,7 @@ import { FlowTrack, FlowTracks } from "./flow-track";
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
 import { MathUtils } from "three/src/math/MathUtils";
 import { LineMaterialParameters } from "three/examples/jsm/lines/LineMaterial";
+import { TrackGeometry } from "./TrackGeometry";
 
 type TrackNodeType = 'spawner' | 'destroy'
 
@@ -88,6 +89,36 @@ export class TracksExample {
     }
 
     diagram.addEdge(edgeparams)
+
+    var curvePoints = [
+      -25, 0.2, -25,
+      -24, 0.2, -24,
+      -4, 2, -9,
+      4, 1, -6,
+      6, 0, 0,
+      -3, 1, 1,
+      -11, 0, 6,
+      -12, 1, 1,
+      -7, 1, -3,
+      7, 8, -9,
+      13, 2, -12,
+    ];
+    var lengthSegments = 200;
+    var trackDistances = [-0.62, -0.6, -0.02, 0.02, 0.6, 0.62];
+
+    var g = new TrackGeometry({ curvePoints, lengthSegments, trackDistances });
+
+     const wireframe = false 
+    var material = [
+      new MeshBasicMaterial({ color: 'gold', side: DoubleSide, wireframe }),
+      new MeshBasicMaterial({ color: 0x000000, side: DoubleSide, wireframe}),
+      new MeshBasicMaterial({ side: DoubleSide, wireframe  }),
+      new MeshBasicMaterial({ color: 0x000000, side: DoubleSide,wireframe }),
+      new MeshBasicMaterial({ color: 'gold', side: DoubleSide,wireframe }),
+    ];
+    // mesh
+    var mesh = new Mesh(g, material);
+    scene.add(mesh);
 
     this.dispose = () => {
       orbit.dispose()
