@@ -74,9 +74,40 @@ export class FlowInteraction {
         else
           this.interactive.selectable.remove(node)
       }
-      // enable mouse enter/leave/missed events
       node.addEventListener(FlowEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
       selectableChanged()
+    })
+
+    diagram.addEventListener(FlowEventType.EDGE_REMOVED, (e: any) => {
+      const edge = e.edge as FlowEdge
+      if (edge.selectable) this.interactive.selectable.remove(edge.selectableObject)
+    })
+
+
+    diagram.addEventListener(FlowEventType.EDGE_ADDED, (e: any) => {
+      const edge = e.edge as FlowEdge
+
+      const selectableChanged = () => {
+        if (edge.selectable)
+          this.interactive.selectable.add(edge.selectableObject)
+        else
+          this.interactive.selectable.remove(edge.selectableObject)
+      }
+      edge.addEventListener(FlowEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
+      // give the line a chance to be drawn
+      requestAnimationFrame(() => {
+        selectableChanged()
+
+        edge.selectableObject.addEventListener(InteractiveEventType.CLICK, () => {
+          if (!edge.selectable) return
+          diagram.dispatchEvent<any>({ type: FlowEventType.EDGE_SELECTED, edge })
+        })
+
+        edge.selectableObject.addEventListener(InteractiveEventType.POINTERMISSED, () => {
+          diagram.dispatchEvent<any>({ type: FlowEventType.EDGE_SELECTED, edge: undefined })
+        })
+      })
+
     })
 
     diagram.addEventListener(FlowEventType.CONNECTOR_ADDED, (e: any) => {
@@ -92,7 +123,6 @@ export class FlowInteraction {
           else
             this.interactive.selectable.remove(connector)
         }
-        // enable mouse enter/leave/missed events
         connector.addEventListener(FlowEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
         selectableChanged()
       }
@@ -104,7 +134,6 @@ export class FlowInteraction {
           else
             this.interactive.draggable.remove(connector)
         }
-        // enable mouse enter/leave/missed events
         connector.addEventListener(FlowEventType.DRAGGABLE_CHANGED, () => { draggableChanged() })
         draggableChanged()
       }
@@ -270,7 +299,7 @@ export class ConnectorInteractive {
     })
 
     mesh.addEventListener(InteractiveEventType.POINTERMISSED, () => {
-      diagram.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, connector: undefined })
+      diagram.dispatchEvent<any>({ type: FlowEventType.CONNECTOR_SELECTED, connector: undefined })
     })
 
     mesh.addEventListener(InteractiveEventType.POINTERENTER, () => {

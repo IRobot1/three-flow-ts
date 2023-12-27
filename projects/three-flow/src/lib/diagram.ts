@@ -322,6 +322,7 @@ export class FlowDiagram extends Object3D {
   createLineMaterial(purpose: string, parameters: LineMaterialParameters): Material {
     const material = new LineMaterial(parameters);
     material.resolution.set(window.innerWidth, window.innerHeight); // resolution of the viewport
+    material.worldUnits = false
     return material
   }
 

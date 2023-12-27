@@ -1,4 +1,4 @@
-import { BufferGeometry, ColorRepresentation, Line, LineBasicMaterial, LineBasicMaterialParameters, MathUtils, Mesh, Object3D, Vector3 } from "three";
+import { BufferGeometry, ColorRepresentation, MathUtils, Mesh, Object3D, Vector3 } from "three";
 import { LineGeometry } from "three/examples/jsm/lines/LineGeometry";
 import { LineMaterial, LineMaterialParameters } from "three/examples/jsm/lines/LineMaterial";
 import { Line2 } from "three/examples/jsm/lines/Line2";
@@ -69,11 +69,24 @@ export class FlowEdge extends Mesh {
   private fromConnector: Object3D | undefined
   private toConnector: Object3D | undefined
 
-  private line?: Line2
+  public line?: Line2
   public label: FlowLabel
   public stepRadius: number
   public stepOffset: number
   public bezierCurvature: number
+
+  private _selectable: boolean;
+  get selectable() { return this._selectable }
+  set selectable(newvalue: boolean) {
+    if (this._selectable != newvalue) {
+      this._selectable = newvalue;
+      this.dispatchEvent<any>({ type: FlowEventType.SELECTABLE_CHANGED })
+    }
+  }
+
+  get selectableObject(): Object3D {
+    return this.line ? this.line : this
+  }
 
 
   isFlow = true
@@ -142,6 +155,8 @@ export class FlowEdge extends Mesh {
     this.stepRadius = parameters.stepRadius != undefined ? parameters.stepRadius : 0.1
     this.stepOffset = parameters.stepOffset != undefined ? parameters.stepOffset : 0.1
     this.bezierCurvature = parameters.bezierCurvature != undefined ? parameters.bezierCurvature : 0.25
+
+    this._selectable = parameters.selectable != undefined ? parameters.selectable : true
 
     if (!parameters.label) parameters.label = {}
     this.label = diagram.createLabel(parameters.label)

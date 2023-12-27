@@ -85,6 +85,8 @@ export interface FlowEdgeParameters {
   fromconnector?: string // optional connector id on from node
   toconnector?: string   // optional connector id on to node
 
+  selectable?: boolean
+
   label?: FlowLabelParameters
   stepRadius?: number  // default is 0.1, set to zero for sharp corners
   stepOffset?: number // default is 0.1
@@ -160,6 +162,8 @@ export const FlowEventType = {
   NODE_SELECTED: 'node_selected',
   NODE_PROPERTIES: 'node_properties',
   EDGE_ADDED: 'edge_added',
+  EDGE_SELECTED: 'edge_selected',
+  EDGE_PROPERTIES: 'edge_properties',
   EDGE_CENTER: 'edge_center',
   EDGE_DELETE: 'edge_delete',
   EDGE_REMOVED: 'edge_removed',

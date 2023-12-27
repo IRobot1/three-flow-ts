@@ -6,6 +6,7 @@ import { ConnectorMesh } from './connector';
 import { FlowDiagram } from './diagram';
 import { FlowInteraction } from './interactive';
 import { FlowEventType } from './model';
+import { FlowEdge } from './edge';
 
 export class FlowProperties {
   private gui?: GUI
@@ -13,6 +14,7 @@ export class FlowProperties {
 
   public selectedNode: FlowNode | undefined
   public selectedConnector: ConnectorMesh | undefined
+  public selectedEdge: FlowEdge | undefined
 
   constructor(public diagram: FlowDiagram, interaction?: FlowInteraction, guioptions?: any) {
 
@@ -99,8 +101,20 @@ export class FlowProperties {
       this.selected = node
     })
 
-    diagram.addEventListener(FlowEventType.DISPOSE, () => this.dispose())
+    diagram.addEventListener(FlowEventType.EDGE_SELECTED, (e: any) => {
+      const edge = e.edge as FlowEdge
+      this.selectedEdge = edge
+      if (!edge) return
 
+      if (interaction && interaction.interactive.renderer.xr.isPresenting) {
+        vrmethod(edge, FlowEventType.EDGE_PROPERTIES)
+      }
+      else {
+        htmlmethod(edge, FlowEventType.EDGE_PROPERTIES)
+      }
+
+      this.selected = edge
+    })
 
     diagram.addEventListener(FlowEventType.CONNECTOR_SELECTED, (e: any) => {
       const connector = e.connector as ConnectorMesh
