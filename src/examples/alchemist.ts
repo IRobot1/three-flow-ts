@@ -291,7 +291,8 @@ class AssetConnector extends ConnectorMesh {
       const node = mesh.parent as FlowNode
 
       const edgeparams: FlowEdgeParameters = {
-        from: this.parent!.name, to: node.name, fromconnector: this.name, toconnector: mesh.name
+        from: this.parent!.name, to: node.name, fromconnector: this.name, toconnector: mesh.name,
+        toarrow: { offset: 0 }
       }
       diagram.addEdge(edgeparams)
     })
@@ -399,7 +400,8 @@ class AlchemistRecipeDiagram extends FlowDiagramDesigner {
     storage.edges.forEach(item => {
       const parameters: FlowEdgeParameters = {
         from: item.from, to: item.to,
-        fromconnector: item.fromconnector, toconnector: item.toconnector
+        fromconnector: item.fromconnector, toconnector: item.toconnector,
+        toarrow: { offset: 0 }
       }
       this.addEdge(parameters)
     })
