@@ -297,6 +297,16 @@ export class GalleryExample {
         assetimage: 'connectors', route: 'connectors',
         connectors: [
           { id: "c1connectors", anchor: 'top' },
+          { id: "c2connectors", anchor: 'bottom' },
+        ],
+      },
+      {
+        id: 'tracks',
+        label: { text: "Tracks" },
+        x: column5, y: row3,
+        assetimage: 'tracks', route: 'tracks',
+        connectors: [
+          { id: "c1tracks", anchor: 'top' },
         ],
       },
       //{
@@ -469,6 +479,12 @@ export class GalleryExample {
         to: "alchemist",
         fromconnector: "c2designer",
         toconnector: "c1alchemist"
+      },
+      {
+        from: "connectors",
+        to: "tracks",
+        fromconnector: "c2connectors",
+        toconnector: "c1tracls"
       },
     ];
 

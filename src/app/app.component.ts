@@ -22,6 +22,7 @@ import { HyperFlowExample } from '../examples/hyper-flow';
 import { DesignerExample } from '../examples/designer';
 import { AlchemistExample } from '../examples/alchemist';
 import { ConnectorsExample } from '../examples/connectors';
+import { TracksExample } from '../examples/track';
 
 
 @Component({
@@ -56,5 +57,6 @@ export class AppComponent {
     app.router.add('designer', () => { return new DesignerExample(app) })
     app.router.add('alchemist', () => { return new AlchemistExample(app) })
     app.router.add('connectors', () => { return new ConnectorsExample(app) })
+    app.router.add('tracks', () => { return new TracksExample(app) })
   }
 }
