@@ -1,10 +1,11 @@
-import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CircleGeometry, Clock, Color, Material, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, PointLight, Scene, Shape, TextureLoader, Vector2, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CircleGeometry, Clock, Color, Material, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, PointLight, RepeatWrapping, Scene, Shape, TextureLoader, Vector2, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowInteraction, FlowNode, FlowNodeParameters} from "three-flow";
 import { FlowTrack, FlowTrackParameters, FlowTracks, TrackItemEventMap } from "./flow-track";
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
+import { FlowEventType } from "../../dist/three-flow";
 
 export class TracksExample {
 
@@ -206,9 +207,14 @@ class TrackDiagram extends FlowDiagram {
 
     const textureLoader = new TextureLoader()
     const road = textureLoader.load('assets/road.png')
+    road.wrapS = road.wrapT = RepeatWrapping
+    const timer = setInterval(() => {
+      road.offset.x -= 0.05
+    }, 100)
 
     this.roadmaterial = this.getMaterial('geometry', 'road', <MeshBasicMaterialParameters>{ color: 'white', map: road, depthTest: false })
 
+    this.addEventListener(FlowEventType.DISPOSE, () => { clearInterval(timer) })
   }
 
   roadmaterial: Material
