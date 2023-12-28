@@ -4,7 +4,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { ThreeJSApp } from "../app/threejs-app";
 import { FlowDiagram } from "three-flow";
 
-export class PlaceholderExample {
+export class CraftingExample {
 
   dispose = () => { }
 

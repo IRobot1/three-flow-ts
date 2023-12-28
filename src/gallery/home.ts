@@ -356,6 +356,15 @@ export class GalleryExample {
           { id: "c1alchemist", anchor: 'top' },
         ],
       },
+      {
+        id: 'crafting',
+        label: { text: "Crafting System" },
+        x: column9, y: row3,
+        assetimage: 'placeholder', route: 'crafting',
+        connectors: [
+          { id: "c1crafting", anchor: 'top' },
+        ],
+      },
     ];
 
 

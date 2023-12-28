@@ -23,6 +23,7 @@ import { DesignerExample } from '../examples/designer';
 import { AlchemistExample } from '../examples/alchemist';
 import { ConnectorsExample } from '../examples/connectors';
 import { TracksExample } from '../examples/track';
+import { CraftingExample } from '../examples/crafting';
 
 
 @Component({
@@ -58,5 +59,6 @@ export class AppComponent {
     app.router.add('alchemist', () => { return new AlchemistExample(app) })
     app.router.add('connectors', () => { return new ConnectorsExample(app) })
     app.router.add('tracks', () => { return new TracksExample(app) })
+    app.router.add('crafting', () => { return new CraftingExample(app) })
   }
 }
