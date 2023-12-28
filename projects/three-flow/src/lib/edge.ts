@@ -155,6 +155,8 @@ export class FlowEdge extends Mesh {
     else
       this._matparams = { color: 0xffffff }
 
+    this.material = this.diagram.getMaterial('geometry', 'edge', this._matparams)
+
     this._linestyle = parameters.linestyle ? parameters.linestyle : 'bezier'
     this.lineoffset = parameters.lineoffset != undefined ? parameters.lineoffset : 0.2
     this._divisions = parameters.divisions ? parameters.divisions : 20
@@ -249,6 +251,8 @@ export class FlowEdge extends Mesh {
     // Calculate the angle to rotate
     return Math.atan2(target.y - source.y, target.x - source.x)
   }
+
+  curvepoints: Array<Vector3> = []
 
   updateVisuals() {
     // also used for arrows
@@ -347,15 +351,16 @@ export class FlowEdge extends Mesh {
       }
     }
 
-    const curvepoints = path.getPoints(this.divisions)
+    const curvepoints = path.getSpacedPoints(63)
     // avoid errors if something isn't right
     if (curvepoints.length == 0) return
+
+    this.curvepoints = curvepoints
 
     const geometry = this.createGeometry(curvepoints, this.thickness)
     if (geometry) {
       this.geometry.dispose()
       this.geometry = geometry
-      this.material = this.diagram.getMaterial('geometry', 'edge', this._matparams)
     }
     else {
       if (!this.line) {

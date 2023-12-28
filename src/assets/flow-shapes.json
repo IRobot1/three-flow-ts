@@ -45,8 +45,8 @@
       "type": "cube",
       "showsolid": true,
       "position": {
-        "x": 0.4,
-        "y": -0.1
+        "x": 0.6,
+        "y": -0.2
       },
       "size": 0.3216
     },
@@ -269,46 +269,10 @@
       "toconnector": "n14-bottom"
     },
     {
-      "from": "n12",
-      "to": "n14",
-      "fromconnector": "n12-left",
-      "toconnector": "n14-bottom"
-    },
-    {
-      "from": "n12",
-      "to": "n14",
-      "fromconnector": "n12-left",
-      "toconnector": "n14-bottom"
-    },
-    {
       "from": "n4",
       "to": "n3",
       "fromconnector": "n4-bottom",
       "toconnector": "n3-right"
-    },
-    {
-      "from": "n4",
-      "to": "n3",
-      "fromconnector": "n4-bottom",
-      "toconnector": "n3-right"
-    },
-    {
-      "from": "n4",
-      "to": "n3",
-      "fromconnector": "n4-bottom",
-      "toconnector": "n3-right"
-    },
-    {
-      "from": "n6",
-      "to": "n4",
-      "fromconnector": "n6-left",
-      "toconnector": "n4-right"
-    },
-    {
-      "from": "n6",
-      "to": "n4",
-      "fromconnector": "n6-left",
-      "toconnector": "n4-right"
     },
     {
       "from": "n6",
@@ -323,46 +287,10 @@
       "toconnector": "n8-left"
     },
     {
-      "from": "n6",
-      "to": "n8",
-      "fromconnector": "n6-right",
-      "toconnector": "n8-left"
-    },
-    {
-      "from": "n6",
-      "to": "n8",
-      "fromconnector": "n6-right",
-      "toconnector": "n8-left"
-    },
-    {
       "from": "n14",
       "to": "n4",
       "fromconnector": "n14-top",
       "toconnector": "n4-right"
-    },
-    {
-      "from": "n14",
-      "to": "n4",
-      "fromconnector": "n14-top",
-      "toconnector": "n4-right"
-    },
-    {
-      "from": "n14",
-      "to": "n4",
-      "fromconnector": "n14-top",
-      "toconnector": "n4-right"
-    },
-    {
-      "from": "n12",
-      "to": "n31",
-      "fromconnector": "n12-left",
-      "toconnector": "n31-right"
-    },
-    {
-      "from": "n12",
-      "to": "n31",
-      "fromconnector": "n12-left",
-      "toconnector": "n31-right"
     },
     {
       "from": "n12",
@@ -377,46 +305,10 @@
       "toconnector": "n12-left"
     },
     {
-      "from": "n14",
-      "to": "n12",
-      "fromconnector": "n14-bottom",
-      "toconnector": "n12-left"
-    },
-    {
-      "from": "n14",
-      "to": "n12",
-      "fromconnector": "n14-bottom",
-      "toconnector": "n12-left"
-    },
-    {
       "from": "n35",
       "to": "n36",
       "fromconnector": "n35-left",
       "toconnector": "n36-right"
-    },
-    {
-      "from": "n35",
-      "to": "n36",
-      "fromconnector": "n35-left",
-      "toconnector": "n36-right"
-    },
-    {
-      "from": "n35",
-      "to": "n36",
-      "fromconnector": "n35-left",
-      "toconnector": "n36-right"
-    },
-    {
-      "from": "n38",
-      "to": "n39",
-      "fromconnector": "n38-bottom",
-      "toconnector": "n39-left"
-    },
-    {
-      "from": "n38",
-      "to": "n39",
-      "fromconnector": "n38-bottom",
-      "toconnector": "n39-left"
     },
     {
       "from": "n38",
@@ -431,45 +323,9 @@
       "toconnector": "n41-top"
     },
     {
-      "from": "n12",
-      "to": "n41",
-      "fromconnector": "n12-right",
-      "toconnector": "n41-top"
-    },
-    {
-      "from": "n12",
-      "to": "n41",
-      "fromconnector": "n12-right",
-      "toconnector": "n41-top"
-    },
-    {
       "from": "n45",
       "to": "n43",
       "fromconnector": "n45-right",
-      "toconnector": "n43-left"
-    },
-    {
-      "from": "n45",
-      "to": "n43",
-      "fromconnector": "n45-right",
-      "toconnector": "n43-left"
-    },
-    {
-      "from": "n45",
-      "to": "n43",
-      "fromconnector": "n45-right",
-      "toconnector": "n43-left"
-    },
-    {
-      "from": "n44",
-      "to": "n43",
-      "fromconnector": "n44-bottom",
-      "toconnector": "n43-left"
-    },
-    {
-      "from": "n44",
-      "to": "n43",
-      "fromconnector": "n44-bottom",
       "toconnector": "n43-left"
     },
     {
@@ -486,45 +342,9 @@
     },
     {
       "from": "n43",
-      "to": "n48",
-      "fromconnector": "n43-bottom",
-      "toconnector": "n48-right"
-    },
-    {
-      "from": "n43",
-      "to": "n48",
-      "fromconnector": "n43-bottom",
-      "toconnector": "n48-right"
-    },
-    {
-      "from": "n43",
       "to": "n50",
       "fromconnector": "n43-right",
       "toconnector": "n50-top"
-    },
-    {
-      "from": "n43",
-      "to": "n50",
-      "fromconnector": "n43-right",
-      "toconnector": "n50-top"
-    },
-    {
-      "from": "n43",
-      "to": "n50",
-      "fromconnector": "n43-right",
-      "toconnector": "n50-top"
-    },
-    {
-      "from": "n50",
-      "to": "n52",
-      "fromconnector": "n50-bottom",
-      "toconnector": "n52-top"
-    },
-    {
-      "from": "n50",
-      "to": "n52",
-      "fromconnector": "n50-bottom",
-      "toconnector": "n52-top"
     },
     {
       "from": "n50",
@@ -539,46 +359,10 @@
       "toconnector": "n55-top"
     },
     {
-      "from": "n39",
-      "to": "n55",
-      "fromconnector": "n39-right",
-      "toconnector": "n55-top"
-    },
-    {
-      "from": "n39",
-      "to": "n55",
-      "fromconnector": "n39-right",
-      "toconnector": "n55-top"
-    },
-    {
       "from": "n57",
       "to": "n39",
       "fromconnector": "n57-left",
       "toconnector": "n39-right"
-    },
-    {
-      "from": "n57",
-      "to": "n39",
-      "fromconnector": "n57-left",
-      "toconnector": "n39-right"
-    },
-    {
-      "from": "n57",
-      "to": "n39",
-      "fromconnector": "n57-left",
-      "toconnector": "n39-right"
-    },
-    {
-      "from": "n59",
-      "to": "n60",
-      "fromconnector": "n59-right",
-      "toconnector": "n60-left"
-    },
-    {
-      "from": "n59",
-      "to": "n60",
-      "fromconnector": "n59-right",
-      "toconnector": "n60-left"
     },
     {
       "from": "n59",
@@ -593,30 +377,6 @@
       "toconnector": "n62-bottom"
     },
     {
-      "from": "n60",
-      "to": "n62",
-      "fromconnector": "n60-right",
-      "toconnector": "n62-bottom"
-    },
-    {
-      "from": "n60",
-      "to": "n62",
-      "fromconnector": "n60-right",
-      "toconnector": "n62-bottom"
-    },
-    {
-      "from": "n64",
-      "to": "n62",
-      "fromconnector": "n64-bottom",
-      "toconnector": "n62-left"
-    },
-    {
-      "from": "n64",
-      "to": "n62",
-      "fromconnector": "n64-bottom",
-      "toconnector": "n62-left"
-    },
-    {
       "from": "n64",
       "to": "n62",
       "fromconnector": "n64-bottom",
@@ -629,36 +389,6 @@
       "toconnector": "n62-right"
     },
     {
-      "from": "n66",
-      "to": "n62",
-      "fromconnector": "n66-bottom",
-      "toconnector": "n62-right"
-    },
-    {
-      "from": "n66",
-      "to": "n62",
-      "fromconnector": "n66-bottom",
-      "toconnector": "n62-right"
-    },
-    {
-      "from": "n8",
-      "to": "n21",
-      "fromconnector": "n8-bottom",
-      "toconnector": "n21-top"
-    },
-    {
-      "from": "n8",
-      "to": "n21",
-      "fromconnector": "n8-bottom",
-      "toconnector": "n21-top"
-    },
-    {
-      "from": "n8",
-      "to": "n21",
-      "fromconnector": "n8-bottom",
-      "toconnector": "n21-top"
-    },
-    {
       "from": "n8",
       "to": "n21",
       "fromconnector": "n8-bottom",
@@ -667,19 +397,7 @@
     {
       "from": "n21",
       "to": "n12",
-      "fromconnector": "n21-left",
-      "toconnector": "n12-top"
-    },
-    {
-      "from": "n21",
-      "to": "n12",
-      "fromconnector": "n21-left",
-      "toconnector": "n12-top"
-    },
-    {
-      "from": "n21",
-      "to": "n12",
-      "fromconnector": "n21-left",
+      "fromconnector": "n21-bottom",
       "toconnector": "n12-top"
     }
   ]

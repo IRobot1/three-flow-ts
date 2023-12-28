@@ -155,6 +155,7 @@ export class FlowDiagram extends Object3D {
 
   private nodesMap = new Map<string, FlowNode>([])
   private edgesMap = new Map<string, FlowEdge>([])
+  private connectorMap = new Map<string, FlowEdge>([])
 
   get allNodes(): Array<FlowNode> {
     return Array.from(this.nodesMap.values())
@@ -236,7 +237,16 @@ export class FlowDiagram extends Object3D {
   }
 
   public matchEdge(from: string, to: string): FlowEdge | undefined {
-    return this.edgesMap.get(`${from}-${to}`)
+    return this.connectorMap.get(`${from}-${to}`)
+  }
+
+
+  get allConnectors(): Array<FlowEdge> {
+    return Array.from(this.connectorMap.values())
+  }
+
+  public matchConnector(from: string, to: string): FlowEdge | undefined {
+    return this.connectorMap.get(`${from}-${to}`)
   }
 
   public addEdge(parameters: FlowEdgeParameters): FlowEdge {
@@ -261,9 +271,9 @@ export class FlowDiagram extends Object3D {
     this._nextEdgeId++;
 
     this.edgesMap.set(edge.name, edge)
-    this.edgesMap.set(`${edge.from}-${edge.to}`, edge)
+    this.connectorMap.set(`${edge.from}-${edge.to}`, edge)
     if (edge.fromconnector && edge.toconnector)
-      this.edgesMap.set(`${edge.fromconnector}-${edge.toconnector}`, edge)
+      this.connectorMap.set(`${edge.fromconnector}-${edge.toconnector}`, edge)
 
     this.dispatchEvent<any>({ type: FlowEventType.EDGE_ADDED, edge })
     return edge
@@ -274,9 +284,9 @@ export class FlowDiagram extends Object3D {
     this.dispatchEvent<any>({ type: FlowEventType.EDGE_REMOVED, edge })
 
     this.edgesMap.delete(edge.name)
-    this.edgesMap.delete(`${edge.from}-${edge.to}`)
+    this.connectorMap.delete(`${edge.from}-${edge.to}`)
     if (edge.fromconnector && edge.toconnector)
-      this.edgesMap.delete(`${edge.fromconnector}-${edge.toconnector}`)
+      this.connectorMap.delete(`${edge.fromconnector}-${edge.toconnector}`)
 
     this.remove(edge)
     //edge.dispose()
