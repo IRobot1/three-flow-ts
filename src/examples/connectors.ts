@@ -106,7 +106,7 @@ class MyConnector extends ConnectorMesh {
     if (color != othercolor) return false
 
     // check if connected limit is exceeded
-    const matches = this.diagram.allEdges.filter(e => e.toconnector == this.name)
+    const matches = this.diagram.allConnectors.filter(e => e.toconnector == this.name)
     if (matches.length > this.limit) return false
 
     return true
@@ -144,7 +144,7 @@ class MyConnector extends ConnectorMesh {
       if (!otherconnector.canDrop(this)) return
 
       // if there's no edge already connecting
-      if (!diagram.matchEdge(this.name, otherconnector.name)) {
+      if (!diagram.matchConnector(this.name, otherconnector.name)) {
 
         const othernode = otherconnector.parent as FlowNode
 
