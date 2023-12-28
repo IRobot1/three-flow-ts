@@ -91,31 +91,14 @@ export class TracksExample {
     diagram.addEdge(edgeparams)
 
     var curvePoints = [
-      -25, 0.2, -25,
-      -24, 0.2, -24,
-      -4, 2, -9,
-      4, 1, -6,
-      6, 0, 0,
-      -3, 1, 1,
-      -11, 0, 6,
-      -12, 1, 1,
-      -7, 1, -3,
-      7, 8, -9,
-      13, 2, -12,
+      new Vector3(-2, 0, 0),
+      new Vector3(2, 0, 0),
     ];
-    var lengthSegments = 200;
-    var trackDistances = [-0.62, -0.6, -0.02, 0.02, 0.6, 0.62];
+    var lengthSegments = 64;
 
-    var g = new TrackGeometry({ curvePoints, lengthSegments, trackDistances });
+    var g = new TrackGeometry({ curvePoints, lengthSegments });
 
-     const wireframe = false 
-    var material = [
-      new MeshBasicMaterial({ color: 'gold', side: DoubleSide, wireframe }),
-      new MeshBasicMaterial({ color: 0x000000, side: DoubleSide, wireframe}),
-      new MeshBasicMaterial({ side: DoubleSide, wireframe  }),
-      new MeshBasicMaterial({ color: 0x000000, side: DoubleSide,wireframe }),
-      new MeshBasicMaterial({ color: 'gold', side: DoubleSide,wireframe }),
-    ];
+    var material = new MeshBasicMaterial({ color: 0x000000, side: DoubleSide })
     // mesh
     var mesh = new Mesh(g, material);
     scene.add(mesh);

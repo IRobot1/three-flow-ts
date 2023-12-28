@@ -5,9 +5,9 @@ import { BufferAttribute, BufferGeometry, CatmullRomCurve3, Vector3 } from "thre
 //
 
 export interface TrackGeometryParameters {
-  curvePoints: Array<number>,
+  curvePoints: Array<Vector3>,
   lengthSegments: number,
-  trackDistances: Array<number>,
+  trackDistances?: Array<number>,
 }
 export class TrackGeometry extends BufferGeometry {
 
@@ -28,12 +28,7 @@ export class TrackGeometry extends BufferGeometry {
 
     let pts: Array<Vector3>
     if (parameters.curvePoints) {
-      pts = []
-      const cP = parameters.curvePoints
-      for (var i = 0; i < cP.length; i += 3) {
-
-        pts.push(new Vector3(cP[i], cP[i + 1], cP[i + 2]));
-      }
+      pts = parameters.curvePoints
     }
     else
       pts = [new Vector3(-10, 0, 5), new Vector3(0, 1, 0), new Vector3(10, 0, 5)];
