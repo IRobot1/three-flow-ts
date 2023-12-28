@@ -250,6 +250,8 @@ export class FlowEdge extends Mesh {
     return Math.atan2(target.y - source.y, target.x - source.x)
   }
 
+  curvepoints: Array<Vector3> = []
+
   updateVisuals() {
     // also used for arrows
     const from = new Vector3()
@@ -350,6 +352,8 @@ export class FlowEdge extends Mesh {
     const curvepoints = path.getSpacedPoints(63)
     // avoid errors if something isn't right
     if (curvepoints.length == 0) return
+
+    this.curvepoints = curvepoints
 
     const geometry = this.createGeometry(curvepoints, this.thickness)
     if (geometry) {
