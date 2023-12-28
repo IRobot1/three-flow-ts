@@ -1,24 +1,10 @@
-import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, CurvePath, DoubleSide, LineCurve3, Material, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, PointLight, RepeatWrapping, Scene, TextureLoader, TubeGeometry, Vector2, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CircleGeometry, Clock, Color, Material, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, PointLight, Scene, Shape, TextureLoader, Vector2, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowNode, FlowNodeParameters } from "three-flow";
-import { FlowTrack, FlowTracks } from "./flow-track";
+import { FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowInteraction, FlowNode, FlowNodeParameters} from "three-flow";
+import { FlowTrack, FlowTrackParameters, FlowTracks, TrackItemEventMap } from "./flow-track";
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
-import { MathUtils } from "three/src/math/MathUtils";
-import { LineMaterialParameters } from "three/examples/jsm/lines/LineMaterial";
-import { TrackGeometry } from "./TrackGeometry";
-
-type TrackNodeType = 'spawner' | 'destroy'
-
-interface TrackNodeParameters extends FlowNodeParameters {
-  nodetype: TrackNodeType
-}
-
-interface SpawnNodeParameters extends TrackNodeParameters {
-  rate: number
-}
-
 
 export class TracksExample {
 
@@ -58,78 +44,122 @@ export class TracksExample {
 
     const diagram = new TrackDiagram({ linestyle: 'bezier' })
     scene.add(diagram);
+    //diagram.position.y = 1
 
-    const connectors = new FlowConnectors(diagram)
+    const interaction = new FlowInteraction(diagram, app.interactive)
 
-    const spawnerparams: SpawnNodeParameters = {
-      nodetype: 'spawner',
-      x: -1, y: 1, z: -0.001, width: 0.2, height: 0.2,
-      rate: 1,
-      connectors: [
-        { id: '', anchor: 'center', material: { color: 'green' }, transform: { translate: { z: 0.001 } } },
-      ]
+    // generate a basic track
+    const shape = this.rectangularShape(3, 3, 0.5)
+    const points = shape.getSpacedPoints(15)
+    points.splice(15)// remove the last duplicate point
+
+    // add waypoints to diagram with some random changes
+    points.forEach(point => {
+      const params: FlowNodeParameters = {
+        x: point.x + 0.4 - Math.random(), y: point.y + 0.4 - Math.random(), z: -0.001, width: 0.2, height: 0.2,
+        resizable: false, scalable: false, material: { transparent: true, opacity: 0 },
+      }
+      diagram.addNode(params)
+    })
+
+    // connect all the waypoints on the track
+    const allnodes = diagram.allNodes
+    for (let index = 0; index < allnodes.length; index++) {
+      const from = allnodes[index]
+
+      // connect the last to the first
+      let nextindex = index + 1
+      if (nextindex > allnodes.length - 1) nextindex = 0
+
+      const to = allnodes[nextindex]
+
+      const edgeparams: FlowEdgeParameters = {
+        from: from.name, to: to.name, selectable: false,
+      }
+
+      diagram.addEdge(edgeparams)
     }
-    const spawner = diagram.addNode(spawnerparams)
 
-    const destroyerparams: TrackNodeParameters = {
-      nodetype: 'destroy',
-      x: 1, y: 1, z: -0.001, width: 0.2, height: 0.2,
-      connectors: [
-        { id: '', anchor: 'center', material: { color: 'red' }, transform: { translate: { z: 0.001 } } },
-      ]
-    }
-    const destroyer = diagram.addNode(destroyerparams)
+    const manager = new FlowTracks()
+    let index = 0
+    let edge: FlowEdge
 
-    const tracks = new FlowTracks()
-    //diagram.add(tracks)
+    const section = manager.addTrack({
+      points: [], speed: 0.5
+    })
+    const vehicle = new Vehicle(section, scene)
 
-    const edgeparams: FlowEdgeParameters = {
-      from: spawner.name, to: destroyer.name, fromconnector: spawnerparams.connectors![0].id, toconnector: destroyerparams.connectors![0].id,
-      material: <LineMaterialParameters>{ color: 0x000000 }
-    }
+    // there's actually only 1 section, just change its curve when end of last curve is reached
+    vehicle.addEventListener('endReached', (e) => {
+      // move to next edge or back to first edge
+      if (index++ > diagram.allEdges.length) index = 0
+      edge = diagram.allEdges[index]
+      // update points to be relative to diagram
+      section.points = edge.curvepoints//.map(p => p.clone().add(diagram.position))
+      section.start()  // start moving
+    })
+    scene.add(vehicle)
 
-    diagram.addEdge(edgeparams)
+    // add the vehicle to the track
+    section.addItem(vehicle)
 
-    var curvePoints = [
-      new Vector3(-2, 0, 0),
-      new Vector3(2, 0, 0),
-    ];
-    var lengthSegments = 64;
+    // wait for all edges to get rendered
+    requestAnimationFrame(() => {
+      // start at first edge
+      edge = diagram.allEdges[index]
+      section.points = edge.curvepoints
+      section.start()
+    })
 
-    var g = new TrackGeometry({ curvePoints, lengthSegments });
 
-    var material = new MeshBasicMaterial({ color: 0x000000, side: DoubleSide })
-    // mesh
-    var mesh = new Mesh(g, material);
-    scene.add(mesh);
+    const clock = new Clock()
+    // frame independent updates
+    const timer = setInterval(() => {
+      manager.updateTracks(clock.getDelta())
+    }, 1000 / 30)
+
 
     this.dispose = () => {
+      diagram.dispose()
+      interaction.dispose()
       orbit.dispose()
     }
   }
-}
 
-class SpawnerNode extends FlowNode {
-  constructor(diagram: FlowDiagram, parameters: FlowNodeParameters) {
-    super(diagram, parameters);
-  }
+  private rectangularShape(width: number, height: number, radius: number): Shape {
+    const halfwidth = width / 2
+    const halfheight = height / 2
 
-  override createGeometry(parameters: FlowNodeParameters): BufferGeometry {
-    return new CircleGeometry(this.width)
-  }
+    const shape = new Shape()
+      .moveTo(-halfwidth + radius, -halfheight)
+      .lineTo(halfwidth - radius, -halfheight)
+      .quadraticCurveTo(halfwidth, -halfheight, halfwidth, -halfheight + radius)
+      .lineTo(halfwidth, halfheight - radius)
+      .quadraticCurveTo(halfwidth, halfheight, halfwidth - radius, halfheight)
+      .lineTo(-halfwidth + radius, halfheight)
+      .quadraticCurveTo(-halfwidth, halfheight, -halfwidth, halfheight - radius)
+      .lineTo(-halfwidth, -halfheight + radius)
+      .quadraticCurveTo(-halfwidth, -halfheight, -halfwidth + radius, -halfheight)
 
-}
-
-class DestroyerNode extends FlowNode {
-  constructor(diagram: FlowDiagram, parameters: FlowNodeParameters) {
-    super(diagram, parameters);
-  }
-
-  override createGeometry(parameters: FlowNodeParameters): BufferGeometry {
-    return new CircleGeometry(this.width)
+    return shape
   }
 
 }
+
+class Vehicle extends Mesh<BufferGeometry, Material | Material[], TrackItemEventMap> {
+  constructor(belt: FlowTrack, scene: Scene) {
+    const geometry = new BoxGeometry(0.1, 0.1, 0.1)
+    geometry.translate(0, 0, 0.05)
+    const material = new MeshBasicMaterial({ color: 'red' })
+    super(geometry, material)
+
+    this.addEventListener('positionUpdated', (e) => {
+      this.position.copy(e.position)
+    })
+
+  }
+}
+
 
 export type StrokeLineJoin = 'arcs' | 'bevel' | 'miter' | 'miter-clip' | 'round'
 export type StrokeLineCap = 'butt' | 'round' | 'square'
@@ -138,47 +168,59 @@ class TrackEdge extends FlowEdge {
   constructor(diagram: TrackDiagram, edge: FlowEdgeParameters) {
     super(diagram, edge)
 
-    //  requestAnimationFrame(() => {
-    //    // @ts-ignore
-    //    this.selectableObject.material = diagram.roadmaterial
-    //  })
+    requestAnimationFrame(() => {
+      // @ts-ignore
+      this.selectableObject.material = diagram.roadmaterial
+    })
   }
 
   override createGeometry(curvepoints: Array<Vector3>, thickness: number): BufferGeometry | undefined {
     const lineJoin: StrokeLineJoin = 'miter'
-    const lineCap: StrokeLineCap = 'butt'
+    const lineCap: StrokeLineCap = 'round'
     const style = SVGLoader.getStrokeStyle(thickness * 12, 'black', lineJoin, lineCap)
     return SVGLoader.pointsToStroke(curvepoints.map(v => new Vector2(v.x, v.y)), style)
 
   }
 }
 
+class TrackNode extends FlowNode {
+  constructor(diagram: FlowDiagram, parameters: FlowNodeParameters) {
+    parameters.resizable = parameters.scalable = false
+    super(diagram, parameters);
+
+    const geometry = new CircleGeometry(0.06)
+    const material = diagram.getMaterial('geometry', 'crossing', <MeshBasicMaterialParameters>{ color: 'black' })
+    const mesh = new Mesh(geometry, material)
+    this.add(mesh)
+    mesh.position.z = 0.002 
+  }
+
+  override createGeometry(parameters: FlowNodeParameters): BufferGeometry {
+    return new CircleGeometry(0.15)
+  }
+
+}
 class TrackDiagram extends FlowDiagram {
   constructor(options?: FlowDiagramOptions) {
     super(options)
 
-    //const textureLoader = new TextureLoader()
-    //const road = textureLoader.load('assets/road.png')
+    const textureLoader = new TextureLoader()
+    const road = textureLoader.load('assets/road.png')
 
-    //this.roadmaterial = this.getMaterial('geometry', 'road', <MeshBasicMaterialParameters>{ color: 'white', map: road, wireframe:false })
+    this.roadmaterial = this.getMaterial('geometry', 'road', <MeshBasicMaterialParameters>{ color: 'white', map: road, depthTest: false })
 
   }
 
-  //roadmaterial: Material
+  roadmaterial: Material
 
-  override createNode(parameters: TrackNodeParameters): FlowNode {
-    switch (parameters.nodetype) {
-      case 'spawner':
-        return new SpawnerNode(this, parameters);
-      case 'destroy':
-        return new DestroyerNode(this, parameters);
-      default:
-        return new FlowNode(this, parameters)
-    }
-  }
+
 
   override createEdge(parameters: FlowEdgeParameters): FlowEdge {
     return new TrackEdge(this, parameters)
+  }
+
+  override createNode(parameters: FlowNodeParameters): FlowNode {
+    return new TrackNode(this, parameters)
   }
 
 }
