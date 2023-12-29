@@ -13,26 +13,29 @@
  * @param {Array.<Ingredient>} ingredients
  * @param {Function} iterator receives `effect` and `ingredient`
  */
-function iterateEffects(ingredients: Array<Ingredient>, iterator: (effect: string, index: number, ingredient: Ingredient) => void) {
+function iterateEffects(ingredients: Array<Ingredient>, iterator: (effect: Effect, index: number, ingredient: Ingredient) => void) {
   for (let ingredient of ingredients) {
-    for (let [index, effect] of ingredient.effects.entries()) {
+    let index = 0
+    for (let  effect of ingredient.effects) {
       iterator(effect, index, ingredient);
     }
   }
 }
 
-export interface EffectParameters {
+export interface Effect {
   name: string
 }
 
+export interface EffectCount { effect: Effect, count: number }
+
 export interface IngredientParameters {
   name: string
-  effects: Array<string>
+  effects: Array<Effect>
 }
 
 export interface IngredientProperties {
   amount: number // number of this ingredient
-  potency: number 
+  potency: number
   purity: number // as a percentage from 0 to 100
 }
 
@@ -46,16 +49,16 @@ export class Ingredient implements IngredientParameters {
    * @param {String} name
    * @param {Array.<String>} effects
    */
-  constructor(public name: string, public effects: Array<string>, public properties: IngredientProperties) { }
+  constructor(public name: string, public effects: Array<Effect>, public properties: IngredientProperties) { }
 
   /**
    * Returns array of effects present both in this ingredient and `other`
    * @param {Ingredient} other
    * @return {Array.<String>}
    */
-  getSharedEffects(other: Ingredient): Array<string> {
+  getSharedEffects(other: Ingredient): Array<Effect> {
     return this.effects.filter((effect) => {
-      return other.hasEffect(effect);
+      return other.hasEffect(effect.name);
     });
   }
 
@@ -65,7 +68,7 @@ export class Ingredient implements IngredientParameters {
    * @return {Boolean}
    */
   hasEffect(effect: string): boolean {
-    return this.effects.indexOf(effect) > -1;
+    return this.effects.findIndex(e => e.name == effect) > -1;
   }
 
   /**
@@ -80,82 +83,86 @@ export class Ingredient implements IngredientParameters {
   }
 }
 
+interface PotionProperties extends IngredientProperties {
+}
 
 export class Potion extends Ingredient {
-  
-  constructor(name: string, effects: Array<string>, properties: IngredientProperties) {
+
+  constructor(name: string, effects: Array<Effect>, properties: PotionProperties) {
     super(name, effects, properties)
   }
 
-  combineIngredients(ingredients: Ingredient[]): this {
-    this.properties.potency = ingredients.reduce((sum, ingredient) => sum + ingredient.properties.potency, 0);
-    this.properties.purity = ingredients.reduce((sum, ingredient) => sum + ingredient.properties.purity, 0) / ingredients.length;
+}
 
-    this.effects = this.determineEffects(this.properties.potency, this.properties.purity);
-    return this
+export class Crafting {
+  constructor(public potions: Array<Potion>) {  }
+  combineIngredients(ingredients: Ingredient[]): Potion {
+    let totalPotency = ingredients.reduce((sum, ingredient) => sum + ingredient.properties.potency, 0);
+    let averagePurity = ingredients.reduce((sum, ingredient) => sum + ingredient.properties.purity, 0) / ingredients.length;
+
+    let effects = [...IngredientUtils.getEffectsForIngredients(ingredients), this.combinedEffect(totalPotency, averagePurity)]
+    return new Potion('fred', effects, { amount: 1, purity: averagePurity, potency: totalPotency });
   }
 
-  private determineEffects(totalPotency: number, averagePurity: number): string[] {
+  // overridable
+  combinedEffect(totalPotency: number, averagePurity: number): Effect {
     // Simplified logic to determine potion effects based on potency and purity
     if (averagePurity < 50) {
-      return ["Unstable Potion"];
+      return { name: "Unstable Potion" };
     } else if (totalPotency > 15) {
-      return ["Powerful Healing"];
+      return { name: "Powerful Healing" };
     } else if (totalPotency > 10) {
-      return ["Moderate Healing"];
+      return { name: "Moderate Healing" };
     } else {
-      return ["Mild Healing"];
+      return { name: "Mild Healing" };
     }
   }
 }
 
 export class IngredientUtils {
-
-  /**
-   * Given ingredient list, return list of all possible potions
-   * @param {Array.<Ingredient>} currentIngredients collection of ingredients
-   */
-  static getSharedEffects(currentIngredients: Array<Ingredient>): any {
-    let effects: any = {};
-    let potions: any = {};
-
-    iterateEffects(currentIngredients, (effect, index, ingredient) => {
-      if (!effects[effect]) {
-        effects[effect] = [ingredient];
-      } else {
-        if (effects[effect].indexOf(ingredient) === -1) { // some ingredients have same effect twice
-          effects[effect].push(ingredient);
-        }
-
-        if (effects[effect].length === 2) {
-          potions[effect] = effects[effect];
-        } else if (effects[effect].length > 2) {
-          potions[effect].push(ingredient);
-        }
-      }
-    });
-
-    return potions;
-  }
-
   /**
    * Given ingredient list, determine which effect(s) potion would have
    * @param {Array.<Ingredient>} ingredients
    * @return {Array.<String>}
    */
-  static getEffectsForIngredients(ingredients: Array<Ingredient>): Array<string> {
-    let effects: any = {};
-    let resultingEffects: Array<string> = [];
+  private static getEffectsMap(ingredients: Array<Ingredient>): Map<string, EffectCount> {
+    let effectsMap = new Map<string, EffectCount>()
 
     iterateEffects(ingredients, (effect) => {
-      if (!effects[effect]) {
-        effects[effect] = true;
-      } else {
-        resultingEffects.push(effect);
-      }
+      if (!effectsMap.has(effect.name))
+        effectsMap.set(effect.name, { effect, count: 0 });
+      effectsMap.get(effect.name)!.count++
     });
+    return effectsMap
+  }
 
-    return resultingEffects;
+  /**
+   * Given ingredient list, determine which effect(s) meet common count
+   * @param {Array.<Ingredient>} ingredients
+   * @return {Array.<String>}
+   */
+  static getEffectsForIngredients(ingredients: Array<Ingredient>, commonCount: number = ingredients.length - 1): Array<Effect> {
+    let effectsMap = this.getEffectsMap(ingredients)
+
+    // return effects that have a minimum overlap 
+    return Array.from(effectsMap.entries())
+      .filter(([key, value]) => value.count >= commonCount)
+      .map(([_, value]) => value.effect);
+  }
+
+  /**
+ * Given ingredient list, determine top most common effect(s)
+ * @param {Array.<Ingredient>} ingredients
+ * @return {Array.<String>}
+ */
+  static getTopEffects(ingredients: Array<Ingredient>, top : number = 4): Array<Effect> {
+    let effectsMap = this.getEffectsMap(ingredients)
+
+    // Get top 3 keys with the highest values
+    return Array.from(effectsMap)
+      .sort((a, b) => b[1].count - a[1].count) // Sort by value in descending order
+      .slice(0, top)                 // Get top entries
+      .map(([_, value]) => value.effect);     // Extract keys
   }
 
   /**

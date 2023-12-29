@@ -4,7 +4,9 @@ import { IngredientParameters } from "./crafting-system";
 // data from https://github.com/hogart/alchemy/blob/master/src/lib/data/skyrim.js
 //
 
-export interface SkyrimParameters extends IngredientParameters {
+export interface SkyrimParameters  {
+  name: string
+  effects: Array<string>
   icon: string
   note: string
 }
