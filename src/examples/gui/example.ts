@@ -6,6 +6,7 @@ import { FlowDiagram } from "three-flow";
 import { UIPanel } from "./panel";
 import { PanelInteraction } from "./panel-interaction";
 import { UIButton } from "./button";
+import { UIEventType } from "./model";
 
 export class GUIExample {
 
@@ -46,18 +47,35 @@ export class GUIExample {
     const flow = new FlowDiagram()
     scene.add(flow);
 
-    //const panel = new UIPanel({draggable:true})  
+    //const panel = new UIPanel({draggable:true})
     //scene.add(panel)
 
-    const button = new UIButton({
-      material: { color: 'red' },
-      label: {
-        text: 'favorite', material: { color: 'blue' }, isicon: false
-      }
-    })
-    scene.add(button)
+    //new PanelInteraction(panel, app.interactive)
 
-    new PanelInteraction(button, app.interactive)
+    const button = new UIButton({
+      position: { x: -0.5 },
+      width:0.6, height:0.2,
+      material: { color: 'gray' },
+      label: {
+        text: 'Click Me', material: { color: 'black' }
+      }
+    }, app.interactive)
+    scene.add(button)
+    //button.clicked = () => { console.warn('clicked from override') }
+    button.addEventListener(UIEventType.CLICKED, () => {
+      console.warn('clicked from event')
+    })
+
+    const icon = new UIButton({
+      position: { x: 0.5 },
+      width: 0.2, height: 0.2,
+      material: { color: 'gray' },
+      label: {
+        text: 'favorite', material: { color: 'black' }, isicon: true
+      }
+    }, app.interactive)
+    scene.add(icon)
+
 
     // const codepointsMap = new Map<string, string>()
 

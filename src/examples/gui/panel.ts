@@ -1,5 +1,5 @@
 import { BufferGeometry, ColorRepresentation, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, PlaneGeometry } from "three";
-import { GUIEventType, PanelParameters, UIOptions } from "./model";
+import { UIEventType, PanelParameters, UIOptions } from "./model";
 import { FontCache, MaterialCache } from "./cache";
 
 export interface PanelOptions extends UIOptions {
@@ -15,7 +15,7 @@ export class UIPanel extends Mesh {
       this._width = newvalue
       this._resizeGeometry()
 
-      this.dispatchEvent<any>({ type: GUIEventType.WIDTH_CHANGED, diff })
+      this.dispatchEvent<any>({ type: UIEventType.WIDTH_CHANGED, diff })
     }
   }
   minwidth: number;
@@ -47,7 +47,7 @@ export class UIPanel extends Mesh {
       this._depth = newvalue
       this._resizeGeometry()
 
-      this.dispatchEvent<any>({ type: GUIEventType.DEPTH_CHANGED, diff })
+      this.dispatchEvent<any>({ type: UIEventType.DEPTH_CHANGED, diff })
     }
   }
   mindepth: number;
@@ -71,7 +71,7 @@ export class UIPanel extends Mesh {
   set draggable(newvalue: boolean) {
     if (this._draggable != newvalue) {
       this._draggable = newvalue;
-      this.dispatchEvent<any>({ type: GUIEventType.DRAGGABLE_CHANGED })
+      this.dispatchEvent<any>({ type: UIEventType.DRAGGABLE_CHANGED })
     }
   }
 
@@ -80,7 +80,7 @@ export class UIPanel extends Mesh {
   set selectable(newvalue: boolean) {
     if (this._selectable != newvalue) {
       this._selectable = newvalue;
-      this.dispatchEvent<any>({ type: GUIEventType.SELECTABLE_CHANGED })
+      this.dispatchEvent<any>({ type: UIEventType.SELECTABLE_CHANGED })
     }
   }
 

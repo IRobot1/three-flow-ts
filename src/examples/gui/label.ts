@@ -2,7 +2,7 @@ import { ColorRepresentation, Mesh, MeshBasicMaterial, MeshBasicMaterialParamete
 import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
-import { GUIEventType, LabelAlignX, LabelAlignY, LabelParameters, LabelTextAlign, UIOptions } from "./model";
+import { UIEventType, LabelAlignX, LabelAlignY, LabelParameters, LabelTextAlign, UIOptions } from "./model";
 import { FontCache, MaterialCache } from "./cache";
 
 
@@ -55,7 +55,7 @@ export class UILabel extends Mesh {
   protected set width(newvalue: number) {
     if (this._width != newvalue) {
       this._width = newvalue
-      this.dispatchEvent<any>({ type: GUIEventType.WIDTH_CHANGED, width: newvalue })
+      this.dispatchEvent<any>({ type: UIEventType.WIDTH_CHANGED, width: newvalue })
     }
   }
 
@@ -64,7 +64,7 @@ export class UILabel extends Mesh {
   protected set height(newvalue: number) {
     if (this._height != newvalue) {
       this._height = newvalue
-      this.dispatchEvent<any>({ type: GUIEventType.HEIGHT_CHANGED, height: newvalue })
+      this.dispatchEvent<any>({ type: UIEventType.HEIGHT_CHANGED, height: newvalue })
     }
   }
 
@@ -113,8 +113,6 @@ export class UILabel extends Mesh {
 
     this.fontCache.getFont(fontName, (font: Font) => {
       this.font = font
-      font.data
-      console.warn(font)
       this.updateLabel()
     })
   }

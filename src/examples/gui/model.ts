@@ -67,7 +67,7 @@ export type LabelAlignY = 'middle' | 'top' | 'bottom'
 export type LabelTextAlign = 'left' | 'right' | 'center' | 'justify'
 
 export interface LabelParameters {
-  id?:string
+  id?: string
   text?: string
   isicon?: boolean // text is the name of an icon. see https://fonts.google.com/icons
   size?: number
@@ -82,9 +82,9 @@ export interface LabelParameters {
 }
 
 export interface ButtonParameters extends PanelParameters {
-label?: LabelParameters
+  label?: LabelParameters
 }
-export enum GUIEventType {
+export enum UIEventType {
   WIDTH_CHANGED = 'width_changed',
   HEIGHT_CHANGED = 'height_changed',
   DEPTH_CHANGED = 'depth_changed',
@@ -92,6 +92,7 @@ export enum GUIEventType {
   SELECTABLE_CHANGED = 'selectable_changed',
   DRAGGED = 'dragged',
   LABEL_READY = 'label_ready',
+  CLICKED = 'clicked',
 }
 
 export interface UIOptions {
