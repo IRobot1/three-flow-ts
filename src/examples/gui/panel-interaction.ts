@@ -1,5 +1,5 @@
 import { InteractiveEventType, ThreeInteractive } from "three-flow";
-import { Panel } from "./panel";
+import { UIPanel } from "./panel";
 import { Vector3 } from "three";
 import { GUIEventType } from "./model";
 
@@ -7,7 +7,7 @@ export class PanelInteraction {
 
   private dragging = false
 
-  constructor(public panel: Panel, private interactive: ThreeInteractive, gridsize = 0) {
+  constructor(public panel: UIPanel, private interactive: ThreeInteractive, gridsize = 0) {
 
     const selectableChanged = () => {
       if (panel.selectable)

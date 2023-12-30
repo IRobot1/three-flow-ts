@@ -3,8 +3,9 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../../app/threejs-app";
 import { FlowDiagram } from "three-flow";
-import { Panel } from "./panel";
+import { UIPanel } from "./panel";
 import { PanelInteraction } from "./panel-interaction";
+import { UIButton } from "./button";
 
 export class GUIExample {
 
@@ -45,11 +46,26 @@ export class GUIExample {
     const flow = new FlowDiagram()
     scene.add(flow);
 
-    const panel = new Panel({draggable:false})  
-    scene.add(panel)
+    //const panel = new UIPanel({draggable:true})  
+    //scene.add(panel)
 
-    new PanelInteraction(panel, app.interactive)
+    const button = new UIButton({
+      material: { color: 'red' },
+      label: {
+        text: 'favorite', material: { color: 'blue' }, isicon: false
+      }
+    })
+    scene.add(button)
 
+    new PanelInteraction(button, app.interactive)
+
+    // const codepointsMap = new Map<string, string>()
+
+    // codepoints.split('\n').forEach(line => {
+    //     const parts = line.split(' ')
+    //   codepointsMap.set(parts[0], `\\u${parts[1]}`)
+    // })
+    // console.warn(codepointsMap)
     this.dispose = () => {
       orbit.dispose()
     }

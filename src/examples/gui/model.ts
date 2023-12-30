@@ -1,5 +1,6 @@
 import { MeshBasicMaterialParameters } from "three";
 import { LineMaterialParameters } from "three/examples/jsm/lines/LineMaterial";
+import { FontCache, MaterialCache } from "./cache";
 
 export type BorderStyle = 'none' | 'solid' | 'dashed'
 export interface BorderParameters extends LineMaterialParameters {
@@ -49,7 +50,7 @@ export interface TranformParameters {
 }
 export interface PanelParameters extends TranformParameters, SizeParameters {
   // meta data
-  name?: string | undefined   // optional name to assign the Object3D
+  id?: string | undefined   // optional name to assign the Object3D
   value?: any                  // default is undefined, assigned to Object3D userData
 
   // interaction
@@ -61,6 +62,28 @@ export interface PanelParameters extends TranformParameters, SizeParameters {
   border?: BorderParameters | undefined               // default is none
 }
 
+export type LabelAlignX = 'center' | 'left' | 'right'
+export type LabelAlignY = 'middle' | 'top' | 'bottom'
+export type LabelTextAlign = 'left' | 'right' | 'center' | 'justify'
+
+export interface LabelParameters {
+  id?:string
+  text?: string
+  isicon?: boolean // text is the name of an icon. see https://fonts.google.com/icons
+  size?: number
+  material?: MeshBasicMaterialParameters
+  font?: string
+  padding?: number
+  alignX?: LabelAlignX
+  alignY?: LabelAlignY
+  wrapwidth?: number
+  textalign?: LabelTextAlign
+  visible?: boolean
+}
+
+export interface ButtonParameters extends PanelParameters {
+label?: LabelParameters
+}
 export enum GUIEventType {
   WIDTH_CHANGED = 'width_changed',
   HEIGHT_CHANGED = 'height_changed',
@@ -68,4 +91,10 @@ export enum GUIEventType {
   DRAGGABLE_CHANGED = 'draggable_changed',
   SELECTABLE_CHANGED = 'selectable_changed',
   DRAGGED = 'dragged',
+  LABEL_READY = 'label_ready',
+}
+
+export interface UIOptions {
+  fontCache?: FontCache
+  materialCache?: MaterialCache
 }

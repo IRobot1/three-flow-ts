@@ -1,9 +1,11 @@
-import { BufferGeometry, MathUtils, Mesh, Object3D, PlaneGeometry } from "three";
-import { GUIEventType, PanelParameters } from "./model";
+import { BufferGeometry, ColorRepresentation, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, PlaneGeometry } from "three";
+import { GUIEventType, PanelParameters, UIOptions } from "./model";
+import { FontCache, MaterialCache } from "./cache";
 
+export interface PanelOptions extends UIOptions {
+}
 
-
-export class Panel extends Mesh {
+export class UIPanel extends Mesh {
   protected _width = 1
   get width() { return this._width }
   set width(newvalue: number) {
@@ -54,12 +56,22 @@ export class Panel extends Mesh {
   autogrow: boolean
   autoshrink: boolean
 
+  private _matparams!: MeshBasicMaterialParameters
+  get color() { return this._matparams.color! }
+  set color(newvalue: ColorRepresentation) {
+    if (this._matparams.color != newvalue) {
+      this._matparams.color = newvalue;
+      (this.material as MeshBasicMaterial).color.set(newvalue)
+    }
+  }
+
+
   private _draggable: boolean;
   get draggable() { return this._draggable }
   set draggable(newvalue: boolean) {
     if (this._draggable != newvalue) {
       this._draggable = newvalue;
-      this.dispatchEvent<any>({ type: GUIEventType.DRAGGABLE_CHANGED }) 
+      this.dispatchEvent<any>({ type: GUIEventType.DRAGGABLE_CHANGED })
     }
   }
 
@@ -72,10 +84,16 @@ export class Panel extends Mesh {
     }
   }
 
+  protected fontCache: FontCache;
+  protected materialCache: MaterialCache;
 
 
-  constructor(private parameters: PanelParameters = {}) {
+  constructor(private parameters: PanelParameters = {}, options: PanelOptions = {}) {
     super()
+
+    this.fontCache = options.fontCache != undefined ? options.fontCache : new FontCache()
+    this.materialCache = options.materialCache != undefined ? options.materialCache : new MaterialCache()
+
 
     if (parameters.position) {
       if (parameters.position.x != undefined) this.position.x = parameters.position.x
@@ -110,6 +128,14 @@ export class Panel extends Mesh {
     this.autogrow = parameters.autogrow != undefined ? parameters.autogrow : false
     this.autoshrink = parameters.autoshrink != undefined ? parameters.autoshrink : false
 
+    if (parameters.material) {
+      this._matparams = parameters.material
+      this.material = this.materialCache.getMaterial('geometry', this.name, this._matparams)!;
+    }
+    else {
+      parameters.material = { color: 'white' }
+    }
+
     this._selectable = parameters.selectable != undefined ? parameters.selectable : true
     this._draggable = parameters.draggable != undefined ? parameters.draggable : false
 
@@ -131,7 +157,7 @@ export class Panel extends Mesh {
     return super.remove(...object)
   }
 
-  
+
   // rendering
   private _resizeGeometry() {
     this.geometry.dispose()
