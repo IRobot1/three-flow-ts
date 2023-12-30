@@ -3,6 +3,8 @@
  * @license MIT
  */
 
+import { min } from "rxjs";
+
 //
 // adapted from https://github.com/hogart/alchemy/blob/master/src/lib/alchemy.js
 //
@@ -16,7 +18,7 @@
 function iterateEffects(ingredients: Array<Ingredient>, iterator: (effect: Effect, index: number, ingredient: Ingredient) => void) {
   for (let ingredient of ingredients) {
     let index = 0
-    for (let  effect of ingredient.effects) {
+    for (let effect of ingredient.effects) {
       iterator(effect, index, ingredient);
     }
   }
@@ -34,10 +36,15 @@ export interface IngredientParameters {
 }
 
 export interface IngredientProperties {
-  amount: number // number of this ingredient
+  count: number // number of this ingredient
   potency: number
   purity: number // as a percentage from 0 to 100
+  buyvalue: number
+  sellvalue: number
 }
+
+
+
 
 /**
  * Class, representing particular ingredient
@@ -49,7 +56,12 @@ export class Ingredient implements IngredientParameters {
    * @param {String} name
    * @param {Array.<String>} effects
    */
-  constructor(public name: string, public effects: Array<Effect>, public properties: IngredientProperties) { }
+  constructor(public name: string, public effects: Array<Effect>, public properties: IngredientProperties = Ingredient.newProperties()) { }
+
+
+  static newProperties(): IngredientProperties {
+    return { count: 1, purity: 1, potency: 1, buyvalue: 0, sellvalue: 0 }
+  }
 
   /**
    * Returns array of effects present both in this ingredient and `other`
@@ -58,7 +70,7 @@ export class Ingredient implements IngredientParameters {
    */
   getSharedEffects(other: Ingredient): Array<Effect> {
     return this.effects.filter((effect) => {
-      return other.hasEffect(effect.name);
+      return other.hasEffect(effect);
     });
   }
 
@@ -67,8 +79,8 @@ export class Ingredient implements IngredientParameters {
    * @param {String} effect
    * @return {Boolean}
    */
-  hasEffect(effect: string): boolean {
-    return this.effects.findIndex(e => e.name == effect) > -1;
+  hasEffect(effect: Effect): boolean {
+    return this.effects.findIndex(e => e.name == effect.name) > -1;
   }
 
   /**
@@ -76,48 +88,101 @@ export class Ingredient implements IngredientParameters {
    * @param {Array.<String>} effects
    * @return {boolean}
    */
-  hasSomeEffects(effects: Array<string>): boolean {
+  hasSomeEffects(effects: Array<Effect>): boolean {
     return effects.some((effect) => {
+      return this.hasEffect(effect);
+    });
+  }
+
+  /**
+   * Does this ingredient has any of desired effects?
+   * @param {Array.<String>} effects
+   * @return {boolean}
+   */
+  hasAllEffects(effects: Array<Effect>): boolean {
+    return effects.every((effect) => {
       return this.hasEffect(effect);
     });
   }
 }
 
-interface PotionProperties extends IngredientProperties {
+export interface PotionProperties extends IngredientProperties {
+}
+
+
+
+export interface Recipe {
+  effects: Array<Effect>  // required effects
+  total?: Partial<IngredientProperties> // optional, for all ingredients, sum of these properties must exceed this value - required total
+  average?: Partial<IngredientProperties> // optional, for all ingredients, average of these properties must exceed this value - required average
 }
 
 export class Potion extends Ingredient {
 
-  constructor(name: string, effects: Array<Effect>, properties: PotionProperties) {
+  constructor(name: string, effects: Array<Effect>, properties: PotionProperties = Potion.newProperties(), public recipe: Recipe) {
     super(name, effects, properties)
-  }
-
-}
-
-export class Crafting {
-  constructor(public potions: Array<Potion>) {  }
-  combineIngredients(ingredients: Ingredient[]): Potion {
-    let totalPotency = ingredients.reduce((sum, ingredient) => sum + ingredient.properties.potency, 0);
-    let averagePurity = ingredients.reduce((sum, ingredient) => sum + ingredient.properties.purity, 0) / ingredients.length;
-
-    let effects = [...IngredientUtils.getEffectsForIngredients(ingredients), this.combinedEffect(totalPotency, averagePurity)]
-    return new Potion('fred', effects, { amount: 1, purity: averagePurity, potency: totalPotency });
-  }
-
-  // overridable
-  combinedEffect(totalPotency: number, averagePurity: number): Effect {
-    // Simplified logic to determine potion effects based on potency and purity
-    if (averagePurity < 50) {
-      return { name: "Unstable Potion" };
-    } else if (totalPotency > 15) {
-      return { name: "Powerful Healing" };
-    } else if (totalPotency > 10) {
-      return { name: "Moderate Healing" };
-    } else {
-      return { name: "Mild Healing" };
+    if (recipe.average?.purity && recipe.average.purity > 0.5) {
+      console.warn(`Average ${recipe.average.purity} is greater than 0.5, reducing`)
+      recipe.average.purity *= 0.5
     }
   }
+
+  static override newProperties(): PotionProperties {
+    return { count: 1, purity: 1, potency: 1, buyvalue: 0, sellvalue: 0 }
+  }
+
+  hasAllRecipeEffects(effects: Array<Effect>): boolean {
+    return this.recipe.effects.every((effect) => {
+      return effects.some(item => item.name == effect.name)
+    });
+  }
+
+  makeFromIngredients(ingredients: Ingredient[]): boolean {
+    let effects = IngredientUtils.getCombinedEffects(ingredients)
+    if (!this.hasAllRecipeEffects(effects)) {
+      //console.warn(`Recipe ${this.name} has ${effects.map(e => e.name)}, requires ${this.recipe.effects.map(e => e.name)}`)
+      return false
+    }
+
+    let meets = true
+    for (const key in this.recipe.total) {
+      if (this.recipe.total.hasOwnProperty(key)) {
+        // @ts-ignore
+        const total = ingredients.reduce((sum, ingredient) => sum + ingredient.properties[key], 0);
+
+        // @ts-ignore
+        const required = this.recipe.total[key]
+
+        if (total < required) {
+          //console.warn(`Recipe ${this.name} required average for ${key}: ${total}<${required}`)
+          meets = false
+        }
+      }
+    }
+    if (!meets) return false
+
+    meets = true
+    for (const key in this.recipe.average) {
+      if (this.recipe.average.hasOwnProperty(key)) {
+        // @ts-ignore
+        const average = ingredients.reduce((sum, ingredient) => sum + ingredient.properties[key], 0) / ingredients.length;
+
+        // @ts-ignore
+        const required = this.recipe.average[key]
+
+        if (average < required) {
+         // console.warn(`Recipe ${this.name} required average for ${key}: ${average}<${required}`)
+          meets = false
+        }
+      }
+    }
+
+//      console.warn(`Recipe ${this.name} has ${effects.map(e => e.name)}, requires ${this.recipe.effects.map(e => e.name)}`)
+    return meets
+  }
+
 }
+
 
 export class IngredientUtils {
   /**
@@ -125,7 +190,7 @@ export class IngredientUtils {
    * @param {Array.<Ingredient>} ingredients
    * @return {Array.<String>}
    */
-  private static getEffectsMap(ingredients: Array<Ingredient>): Map<string, EffectCount> {
+  static getEffectsMap(ingredients: Array<Ingredient>): Map<string, EffectCount> {
     let effectsMap = new Map<string, EffectCount>()
 
     iterateEffects(ingredients, (effect) => {
@@ -136,12 +201,20 @@ export class IngredientUtils {
     return effectsMap
   }
 
+  static getCombinedEffects(ingredients: Array<Ingredient>): Array<Effect> {
+    let effectsMap = this.getEffectsMap(ingredients)
+
+    // return effects that have a minimum overlap 
+    return Array.from(effectsMap.entries())
+      .map(([_, value]) => value.effect);
+  }
+
   /**
    * Given ingredient list, determine which effect(s) meet common count
    * @param {Array.<Ingredient>} ingredients
    * @return {Array.<String>}
    */
-  static getEffectsForIngredients(ingredients: Array<Ingredient>, commonCount: number = ingredients.length - 1): Array<Effect> {
+  static getEffectsForIngredients(ingredients: Array<Ingredient>, commonCount: number = ingredients.length): Array<Effect> {
     let effectsMap = this.getEffectsMap(ingredients)
 
     // return effects that have a minimum overlap 
@@ -155,7 +228,7 @@ export class IngredientUtils {
  * @param {Array.<Ingredient>} ingredients
  * @return {Array.<String>}
  */
-  static getTopEffects(ingredients: Array<Ingredient>, top : number = 4): Array<Effect> {
+  static getTopEffects(ingredients: Array<Ingredient>, top: number = 4): Array<Effect> {
     let effectsMap = this.getEffectsMap(ingredients)
 
     // Get top 3 keys with the highest values
@@ -190,7 +263,7 @@ export class IngredientUtils {
    * @param {Array.<Ingredient>} ingredients
    * @return {Array.<Ingredient>}
    */
-  static getIngredientsWithEffects(desiredEffects: Array<string>, ingredients: Array<Ingredient>): Array<Ingredient> {
+  static getIngredientsWithEffects(desiredEffects: Array<Effect>, ingredients: Array<Ingredient>): Array<Ingredient> {
     return ingredients.filter((/** @type {Ingredient} */ingredient) => {
       return ingredient.hasSomeEffects(desiredEffects);
     });
