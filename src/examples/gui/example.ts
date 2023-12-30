@@ -3,6 +3,8 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../../app/threejs-app";
 import { FlowDiagram } from "three-flow";
+import { Panel } from "./panel";
+import { PanelInteraction } from "./panel-interaction";
 
 export class GUIExample {
 
@@ -42,6 +44,11 @@ export class GUIExample {
 
     const flow = new FlowDiagram()
     scene.add(flow);
+
+    const panel = new Panel({draggable:false})  
+    scene.add(panel)
+
+    new PanelInteraction(panel, app.interactive)
 
     this.dispose = () => {
       orbit.dispose()
