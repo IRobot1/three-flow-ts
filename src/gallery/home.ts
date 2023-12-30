@@ -366,6 +366,15 @@ export class GalleryExample {
           { id: "c1alchemist", anchor: 'top' },
         ],
       },
+      {
+        id: 'gui',
+        label: { text: "User Interface" },
+        x: column9, y: row0,
+        assetimage: 'gui', route: 'gui',
+      //  connectors: [
+      //    { id: "c1gui", anchor: 'top' },
+      //  ],
+      },
     ];
 
 
