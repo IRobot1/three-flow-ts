@@ -24,8 +24,33 @@ function iterateEffects(ingredients: Array<Ingredient>, iterator: (effect: Effec
   }
 }
 
+// effect combinations - cancel, make something entirely different
+// anti effect - negative intensity
+// side effects
+// category - senses
+// time - speed up or slow down
+// emotions
+// frequency
+// visibility
+// brightness
+// color
+
+//Duration: Time the effect lasts.
+//Intensity: Strength or magnitude of the effect.
+//Range of Effect: Area covered by the effect.
+//Cooldown Period: Waiting time before reuse.
+//Side Effects: Unintended additional effects.
+//Conditional Effects: Effects triggered under specific conditions.
+// Visibility: If the effect is observable by others.
+//Type of Effect: Category of the effect(healing, buff, etc.).
+// Compatibility: Interactions with other effects.
+//Activation Delay: Time before the effect begins.
+//Removability: Whether the effect can be undone.
+//Rarity: How rare and valuable the potion is.
+
 export interface Effect {
   name: string
+  // intensity: number // positive or negative
 }
 
 export interface EffectCount { effect: Effect, count: number }
@@ -37,10 +62,16 @@ export interface IngredientParameters {
 
 export interface IngredientProperties {
   count: number // number of this ingredient
-  potency: number
+  potency: number // strength
   purity: number // as a percentage from 0 to 100
   buyvalue: number
   sellvalue: number
+  // rarity
+  // stability
+  // magic
+  // harvest conditions - time of day, season, weather
+  // expiration - reduce potency over time - preserve in better bottle
+  // amplify
 }
 
 
