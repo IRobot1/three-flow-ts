@@ -2,10 +2,9 @@ import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CircleGeometry, 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowInteraction, FlowNode, FlowNodeParameters} from "three-flow";
-import { FlowTrack, FlowTrackParameters, FlowTracks, TrackItemEventMap } from "./flow-track";
+import { FlowEventType ,FlowDiagram, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowInteraction, FlowNode, FlowNodeParameters} from "three-flow";
+import { FlowTrack, FlowTracks, TrackItemEventMap } from "./flow-track";
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
-import { FlowEventType } from "../../dist/three-flow";
 
 export class TracksExample {
 

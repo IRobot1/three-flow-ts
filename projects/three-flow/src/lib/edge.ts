@@ -351,7 +351,7 @@ export class FlowEdge extends Mesh {
       }
     }
 
-    const curvepoints = path.getSpacedPoints(63)
+    const curvepoints = path.getPoints(this.divisions)
     // avoid errors if something isn't right
     if (curvepoints.length == 0) return
 

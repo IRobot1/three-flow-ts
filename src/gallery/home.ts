@@ -129,6 +129,7 @@ export class GalleryExample {
     table.position.y = 0.93
     table.receiveShadow = table.castShadow = true
 
+    const row0 = 4
     const row1 = 2.5
     const row2 = 1
     const row3 = -0.5
@@ -150,10 +151,19 @@ export class GalleryExample {
       {
         id: 'documentation',
         label: { text: "Flow Relationships" },
-        x: column1, y: row1,
+        x: column2, y: row0,
         assetimage: 'documentation', route: 'documentation',
         connectors: [
-          { id: "c1documentation", anchor: 'right',  },
+          { id: "c1documentation", anchor: 'bottom',  },
+        ],
+      },
+      {
+        id: 'stress',
+        label: { text: "Stress Test" },
+        x: column1, y: row1,
+        assetimage: 'stress', route: 'stress',
+        connectors: [
+          { id: "c1stress", anchor: 'right',  },
         ],
       },
       {
@@ -484,7 +494,13 @@ export class GalleryExample {
         from: "connectors",
         to: "tracks",
         fromconnector: "c2connectors",
-        toconnector: "c1tracls"
+        toconnector: "c1tracks"
+      },
+      {
+        from: "stress",
+        to: "basic",
+        fromconnector: "c1stress",
+        toconnector: "c1basic"
       },
     ];
 

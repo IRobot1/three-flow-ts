@@ -1,8 +1,14 @@
+import { NgZone } from "@angular/core";
+
 import { ACESFilmicToneMapping, BufferGeometry, Camera, Line, PCFSoftShadowMap, PerspectiveCamera, SRGBColorSpace, Scene, Vector3, WebGLRenderer } from "three";
-import { UIRouter } from "./ui-routes";
-import { VRButton } from "three/examples/jsm/webxr/VRButton";
+
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
+import { VRButton } from "three/examples/jsm/webxr/VRButton";
+import Stats from 'three/examples/jsm/libs/stats.module.js';
+
 import { ThreeInteractive } from "three-flow";
+
+import { UIRouter } from "./ui-routes";
 
 export interface renderState { scene: Scene, camera: Camera, renderer: WebGLRenderer }
 
@@ -43,7 +49,7 @@ export class ThreeJSApp extends WebGLRenderer {
     }
   }
 
-  constructor(camera?: Camera) {
+  constructor(camera?: Camera, zone?: NgZone) {
     super({ alpha: true, antialias: true })
 
     this.router.addEventListener('load', () => {
@@ -89,10 +95,19 @@ export class ThreeJSApp extends WebGLRenderer {
     const animate = () => {
       if (!this.scene) return
 
+      if (this.stats) this.stats.update()
+
       this.render(this.scene, this.camera);
 
     };
-    this.setAnimationLoop(animate);
+
+    if (zone) {
+      zone.runOutsideAngular(() => {
+        this.setAnimationLoop(animate);
+      })
+    }
+    else
+      this.setAnimationLoop(animate);
   }
 
   vrbutton?: HTMLElement
@@ -116,5 +131,21 @@ export class ThreeJSApp extends WebGLRenderer {
     this.xr.enabled = true
     this.vrbutton = VRButton.createButton(this)
     document.body.appendChild(this.vrbutton);
+  }
+
+  stats?: Stats
+
+  enableStats() {
+    const stats = new Stats();
+    document.body.appendChild(stats.dom);
+    stats.showPanel(0);
+    this.stats = stats
+  }
+
+  disableStats() {
+    if (this.stats) {
+      document.body.removeChild(this.stats.dom)
+      this.stats = undefined
+    }
   }
 }
