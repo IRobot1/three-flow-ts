@@ -6,6 +6,13 @@ import { PanelOptions, UIPanel } from "./panel";
 import { UILabel } from "./label";
 import { BufferGeometry, Mesh, MeshBasicMaterialParameters, Shape, ShapeGeometry } from "three";
 
+export enum ButtonEventType {
+  HIGHLIGHT_BUTTON = 'highlight_button',
+  UNHIGHLIGHT_BUTTON = 'unhighlight_button',
+  BUTTON_DOWN = 'button_down',
+  BUTTON_UP = 'button_up',
+}
+
 export interface ButtonOptions extends PanelOptions {
 }
 
@@ -45,17 +52,26 @@ export class UIButton extends UIPanel {
     outlineMesh.visible = false
     this.add(outlineMesh)
 
+    const highlight = () => {
+      outlineMesh.visible = true
+    }
+    this.highlight = highlight
+
     let clicking = false
     this.addEventListener(InteractiveEventType.POINTERENTER, () => {
       if (clicking || !this.visible) return
       document.body.style.cursor = 'pointer'
-      outlineMesh.visible = true
+      highlight()
     })
 
+    const unhighlight = () => {
+      outlineMesh.visible = false
+    }
+    this.unhighlight = unhighlight
     this.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
       if (document.body.style.cursor == 'pointer')
         document.body.style.cursor = 'default'
-      outlineMesh.visible = false
+      unhighlight()
     })
 
 
@@ -68,21 +84,45 @@ export class UIButton extends UIPanel {
     this.addEventListener(UIEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
     selectableChanged()
 
+    const buttonDown = (generateEvent = false) => {
+      if (clicking) return
+      this.scale.addScalar(-0.04);
+      if (generateEvent) this.pressed()
+      clicking = true;
+    }
+
+    const buttonUp = () => {
+      if (!clicking) return
+      this.scale.addScalar(0.04);
+      clicking = false;
+    }
+
     this.addEventListener(InteractiveEventType.CLICK, () => {
       if (!this.visible) return;
 
-      this.scale.addScalar(-0.04);
-      clicking = true;
-
+      buttonDown(true)
       const timer = setTimeout(() => {
-        this.scale.addScalar(0.04);
-        this.pressed()
+        buttonUp()
         clearTimeout(timer);
-        clicking = false;
       }, 100);
     })
 
+    this.buttonDown = buttonDown
+    this.buttonUp = buttonUp
+
+    this.addEventListener(ButtonEventType.HIGHLIGHT_BUTTON, highlight)
+    this.addEventListener(ButtonEventType.UNHIGHLIGHT_BUTTON, unhighlight)
+    this.addEventListener(ButtonEventType.BUTTON_DOWN, (e: any) => {
+      buttonDown(e.generateEvent)
+    })
+    this.addEventListener(ButtonEventType.BUTTON_UP, buttonUp)
   }
+
+  highlight() { }
+  unhighlight() { }
+
+  buttonDown(generateEvent = false) { }
+  buttonUp() { }
 
   pressed() { this.dispatchEvent<any>({ type: UIEventType.BUTTON_PRESSED }) }
 

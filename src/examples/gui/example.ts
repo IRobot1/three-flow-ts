@@ -6,6 +6,7 @@ import { FlowDiagram } from "three-flow";
 import { UIOptions } from "./model";
 import { UIKeyboard } from "./keyboard";
 import { MaterialCache } from "./cache";
+import { UIButton } from "./button";
 
 export class GUIExample {
 
@@ -16,7 +17,7 @@ export class GUIExample {
     const scene = new Scene()
     app.scene = scene
 
-    app.camera.position.z = 2
+    app.camera.position.z = 1
 
     scene.background = new Color(0x444444)
 
@@ -84,7 +85,7 @@ export class GUIExample {
     //  }
     //}, app.interactive)
     //scene.add(textbutton)
-    //let count =1 
+    //let count =1
     //setInterval(() => {
     //  textbutton.text = count.toString()
 
@@ -97,7 +98,13 @@ export class GUIExample {
     }
     const keyboard = new UIKeyboard({}, app.interactive, options)
     scene.add(keyboard)
-    console.warn(keyboard)
+
+    //keyboard.pressed = (keycode: string) => {
+    //  console.warn(keycode)
+    //}
+    //keyboard.change = (text: string) => {
+    //  console.warn(text)
+    //}
 
     //const codepointsMap = new Map<string, string>()
 

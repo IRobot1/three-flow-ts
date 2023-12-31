@@ -1,8 +1,8 @@
-import { Mesh, Vector3 } from "three";
+import { Mesh, Object3D, Vector3 } from "three";
 import { ThreeInteractive } from "three-flow";
 
-import { UIButton } from "./button";
-import { ButtonParameters, PositionParameters, UIOptions } from "./model";
+import { ButtonEventType, UIButton } from "./button";
+import { ButtonParameters, PositionParameters, UIEventType, UIOptions } from "./model";
 
 export interface KeyboardParameters {
 
@@ -19,13 +19,32 @@ class KeySetting {
 
 type KeyCase = 'lower' | 'upper' | 'numbers';
 
-
-export class UIKeyboard extends Mesh {
+export class UIKeyboard extends Object3D {
   keys: Array<KeySetting> = []
 
   allowenter = true
+
+  dispose() { }
+
+  keyMap = new Map<string, Mesh>()
+
   constructor(private parameters: KeyboardParameters, private interactive: ThreeInteractive, private options: KeyboardOptions = {}) {
     super()
+
+    const handleKeyDown = (keyboard: KeyboardEvent) => {
+      keyboard.preventDefault()  // prevent Tab from leaving the document
+      this.handleKeyDown(keyboard)
+    }
+    const handleKeyUp = (keyboard: KeyboardEvent) => {
+      this.handleKeyUp(keyboard)
+    }
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keyup', handleKeyUp);
+
+    this.dispose = () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('keyup', handleKeyUp)
+    }
 
     const keys: Array<KeySetting> = []
 
@@ -93,8 +112,11 @@ export class UIKeyboard extends Mesh {
     return icons.alpha!;
   }
 
-  private onKeyDown(event: KeyboardEvent) {
-    let keycode = event.key;
+  private handleKeyDown(event: KeyboardEvent) {
+    let keycode = event.code;
+    if (!keycode) keycode = event.key
+    console.warn(keycode)
+
     if (event.key == 'Backspace' || event.key == 'Enter')
       this.pressed(event.key);
     else if (event.key == 'Shift') {
@@ -113,14 +135,18 @@ export class UIKeyboard extends Mesh {
       }
     }
     else {
+      const mesh = this.keyMap.get(keycode)
+      if (mesh) mesh.dispatchEvent<any>({ type: ButtonEventType.BUTTON_DOWN })
+
       const key = this.keys.find(x => x.lower == keycode || x.upper == keycode || x.alpha == keycode);
       if (key)
         this.clicked(keycode);
     }
   }
 
-  private onKeyUp(event: KeyboardEvent) {
+  private handleKeyUp(event: KeyboardEvent) {
     let keycode = event.key;
+    //console.warn('up',event)
     if (event.key == 'Shift') {
       if (this.keycase == 'lower') {
         keycode = 'ABC';
@@ -129,7 +155,10 @@ export class UIKeyboard extends Mesh {
       }
       this.clicked(keycode);
     }
+    const mesh = this.keyMap.get(keycode)
+    if (mesh) mesh.dispatchEvent<any>({ type: ButtonEventType.BUTTON_UP })
   }
+
   protected clicked(keycode: string) {
     if (!this.visible) return;
 
@@ -179,7 +208,10 @@ export class UIKeyboard extends Mesh {
 
   private addKeys(keys: Array<KeySetting>) {
     keys.forEach((key) => {
-      this.createKey(key)
+      const button = this.createKey(key)
+      this.keyMap.set(key.lower, button)
+      if (key.upper) this.keyMap.set(key.upper, button)
+      if (key.alpha) this.keyMap.set(key.alpha, button)
     })
   }
 
@@ -189,21 +221,50 @@ export class UIKeyboard extends Mesh {
 
     const params: ButtonParameters = {
       position: { x, y, z },
-      width: setting.size, height: 0.2,
+      width: setting.size, height: 0.1 ,
       material: { color: 'gray' },
       label: {
-        text: setting.lower, material: { color: 'black' }, isicon: setting.upper == 'icon',
-      }
+        text: setting.lower, material: { color: 'black' }, isicon: setting.upper == 'icon', size:0.05
+      },value:setting
     }
 
     const button = new UIButton(params, this.interactive, this.options)
-    if (params.label?.isicon) console.warn(params)
-
     button.position.copy(setting.position)
     this.add(button)
+
+    button.addEventListener(UIEventType.BUTTON_PRESSED, (e: any) => {
+      
+      
+    })
+
     return button
   }
 
   pressed(keycode: string) { }
   change(text: string) { }
 }
+
+const keyboardcodes = [
+  ['Escape', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12'],
+  ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minum', 'Equal', 'Backspace'],
+  ['Tab', 'KeyQ', 'KeyW', , 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash'],
+  ['CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter'],
+  ['ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ShiftRight'],
+  ['ControlLeft','MetaLeft','AltLeft','Space', 'AltRight', 'MetaRight','ContextMenu','ControlRight']
+]
+
+const navigationcodes = [
+  ['ScrollLock', 'Pause'],
+  ['Insert', 'Home', 'PageUp'],
+  ['Down', 'End', 'PageDown'],
+  ['ArrowUp'],
+  ['ArrowLeft', 'ArrowDown', 'ArrowRight']
+]
+
+const numpadcodes = [
+  ['NumLock', 'NumpacDivide', 'NumpadMultiply', 'NumpadSubtract'],
+  ['Numpad7', 'Numpad8', 'Numpad9', 'NumpadAdd'],
+  ['Numpad4', 'Numpad5', 'Numpad6'],
+  ['Numpad1', 'Numpad3', 'Numpad5', 'NumpadEnter'],
+  ['Numpad0', 'NumpadDecimal'],
+]
