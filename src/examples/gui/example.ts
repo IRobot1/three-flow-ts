@@ -3,10 +3,9 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../../app/threejs-app";
 import { FlowDiagram } from "three-flow";
-import { UIPanel } from "./panel";
-import { PanelInteraction } from "./panel-interaction";
-import { UIButton } from "./button";
-import { UIEventType } from "./model";
+import { UIOptions } from "./model";
+import { UIKeyboard } from "./keyboard";
+import { MaterialCache } from "./cache";
 
 export class GUIExample {
 
@@ -52,40 +51,68 @@ export class GUIExample {
 
     //new PanelInteraction(panel, app.interactive)
 
-    const button = new UIButton({
-      position: { x: -0.5 },
-      width:0.6, height:0.2,
-      material: { color: 'gray' },
-      label: {
-        text: 'Click Me', material: { color: 'black' }
-      }
-    }, app.interactive)
-    scene.add(button)
-    //button.clicked = () => { console.warn('clicked from override') }
-    button.addEventListener(UIEventType.CLICKED, () => {
-      console.warn('clicked from event')
-    })
+    //const button = new UIButton({
+    //  position: { x: -0.5 },
+    //  width:0.6, height:0.2,
+    //  material: { color: 'gray' },
+    //  label: {
+    //    text: 'Click Me', material: { color: 'black' }
+    //  }
+    //}, app.interactive)
+    //scene.add(button)
+    ////button.clicked = () => { console.warn('clicked from override') }
+    //button.addEventListener(UIEventType.BUTTON_PRESSED, () => {
+    //  console.warn('clicked from event')
+    //})
 
-    const icon = new UIButton({
-      position: { x: 0.5 },
-      width: 0.2, height: 0.2,
-      material: { color: 'gray' },
-      label: {
-        text: 'favorite', material: { color: 'black' }, isicon: true
-      }
-    }, app.interactive)
-    scene.add(icon)
+    //const icon = new UIButton({
+    //  position: { x: 0.5 },
+    //  width: 0.2, height: 0.2,
+    //  material: { color: 'gray' },
+    //  label: {
+    //    text: 'favorite', material: { color: 'black' }, isicon: true
+    //  }
+    //}, app.interactive)
+    //scene.add(icon)
+
+    //const textbutton = new UIButton({
+    //  position: { x: -0.5 },
+    //  width: 0.6, height: 0.2,
+    //  material: { color: 'gray' },
+    //  label: {
+    //    text: 'Click Me', material: { color: 'black' }
+    //  }
+    //}, app.interactive)
+    //scene.add(textbutton)
+    //let count =1 
+    //setInterval(() => {
+    //  textbutton.text = count.toString()
+
+    //  count++
+    //},1000)
 
 
-    // const codepointsMap = new Map<string, string>()
+    const options: UIOptions = {
+      materialCache: new MaterialCache()
+    }
+    const keyboard = new UIKeyboard({}, app.interactive, options)
+    scene.add(keyboard)
+    console.warn(keyboard)
 
-    // codepoints.split('\n').forEach(line => {
-    //     const parts = line.split(' ')
-    //   codepointsMap.set(parts[0], `\\u${parts[1]}`)
-    // })
-    // console.warn(codepointsMap)
+    //const codepointsMap = new Map<string, string>()
+
+    //codepoints.split('\n').forEach(line => {
+    //  const parts = line.split(' ')
+    //  codepointsMap.set(parts[0], `\\u${parts[1]}`)
+    //})
+    //console.warn(codepointsMap)
+
     this.dispose = () => {
       orbit.dispose()
     }
   }
 }
+
+
+
+const codepoints = ``

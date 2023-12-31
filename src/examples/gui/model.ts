@@ -92,7 +92,7 @@ export enum UIEventType {
   SELECTABLE_CHANGED = 'selectable_changed',
   DRAGGED = 'dragged',
   LABEL_READY = 'label_ready',
-  CLICKED = 'clicked',
+  BUTTON_PRESSED = 'button_pressed',
 }
 
 export interface UIOptions {

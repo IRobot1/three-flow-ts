@@ -14,6 +14,16 @@ export class UIButton extends UIPanel {
   private label?: UILabel
   private shape: Shape
 
+  private _text = ''
+  get text() { return this._text }
+  set text(newvalue: string) {
+    if (this._text != newvalue) {
+      this._text = newvalue
+      if (newvalue && this.label)
+        this.label.text = newvalue
+    }
+  }
+
   constructor(parameters: ButtonParameters, interactive: ThreeInteractive, options: ButtonOptions = {}) {
     super(parameters, options)
 
@@ -48,7 +58,7 @@ export class UIButton extends UIPanel {
       outlineMesh.visible = false
     })
 
-    
+
     const selectableChanged = () => {
       if (this.selectable)
         interactive.selectable.add(this)
@@ -66,7 +76,7 @@ export class UIButton extends UIPanel {
 
       const timer = setTimeout(() => {
         this.scale.addScalar(0.04);
-        this.clicked()
+        this.pressed()
         clearTimeout(timer);
         clicking = false;
       }, 100);
@@ -74,7 +84,7 @@ export class UIButton extends UIPanel {
 
   }
 
-  clicked() { this.dispatchEvent<any>({ type: UIEventType.CLICKED }) }
+  pressed() { this.dispatchEvent<any>({ type: UIEventType.BUTTON_PRESSED }) }
 
   createOutline(shape: Shape): BufferGeometry {
     const positions: Array<number> = []
