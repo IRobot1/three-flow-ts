@@ -109,7 +109,7 @@ export class UILabel extends Mesh {
 
     let fontName = parameters.font != undefined ? parameters.font : 'assets/helvetiker_regular.typeface.json'
     if (parameters.isicon)
-      fontName = 'assets/Material Icons Outlined_Regular.json'
+      fontName = 'assets/Material Icons_Regular.json'
 
     this.fontCache.getFont(fontName, (font: Font) => {
       this.font = font
@@ -125,55 +125,52 @@ export class UILabel extends Mesh {
     }
 
     // only add text if font is loaded
-    if (options.font) {
-      let text = this.text
-      if (this.isicon) {
-        const icontext = materialIconsMap.get(text)
-        if (icontext) text = icontext
-      }
-      this.geometry = new TextGeometry(text, options)
-
-      this.geometry.computeBoundingBox()
-
-      const box = this.geometry.boundingBox!
-      const size = box.getSize(this.textsize)
-      const center = box.getCenter(this.textcenter)
-
-      let x = 0, y = 0
-      switch (this.alignX) {
-        case 'center':
-          x = -center.x
-          break
-        case 'right':
-          x = -size.x
-          break
-        case 'left':
-        default:
-          break
-      }
-      switch (this.alignY) {
-        case 'middle':
-          y = -center.y
-          break
-        case 'top':
-          y = -size.y
-          break
-        case 'bottom':
-        default:
-          break
-      }
-      this.geometry.translate(x, y, 0)
-
-      this.width = size.x + this.padding * 2
-      this.height = size.y + this.padding * 2
+    let text = this.text
+    if (this.isicon) {
+      const icontext = materialIconsMap.get(text)
+      if (icontext) text = icontext
     }
+    this.geometry = new TextGeometry(text, options)
+    this.geometry.computeBoundingBox()
+
+    const box = this.geometry.boundingBox!
+    const size = box.getSize(this.textsize)
+    const center = box.getCenter(this.textcenter)
+
+    let x = 0, y = 0
+    switch (this.alignX) {
+      case 'center':
+        x = -center.x
+        break
+      case 'right':
+        x = -size.x
+        break
+      case 'left':
+      default:
+        break
+    }
+    switch (this.alignY) {
+      case 'middle':
+        y = -center.y
+        break
+      case 'top':
+        y = -size.y
+        break
+      case 'bottom':
+      default:
+        break
+    }
+    this.geometry.translate(x, y, 0)
+
+    this.width = size.x + this.padding * 2
+    this.height = size.y + this.padding * 2
   }
 }
 
 //
 // adapted from from https://github.com/google/material-design-icons/blob/master/font/MaterialIconsOutlined-Regular.codepoints
 //
-const materialIconsMap = new Map<string,string>([
+const materialIconsMap = new Map<string, string>([
   [
     "10k",
     "\ue951"
@@ -493,6 +490,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "add_business",
     "\ue729"
+  ],
+  [
+    "add_call",
+    "\ue0e8"
   ],
   [
     "add_card",
@@ -915,6 +916,10 @@ const materialIconsMap = new Map<string,string>([
     "\ue85d"
   ],
   [
+    "assignment_add",
+    "\uf848"
+  ],
+  [
     "assignment_ind",
     "\ue85e"
   ],
@@ -945,6 +950,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "assistant_direction",
     "\ue988"
+  ],
+  [
+    "assistant_navigation",
+    "\ue989"
   ],
   [
     "assistant_photo",
@@ -1091,6 +1100,10 @@ const materialIconsMap = new Map<string,string>([
     "\ue26b"
   ],
   [
+    "barcode_reader",
+    "\uf85c"
+  ],
+  [
     "batch_prediction",
     "\uf0f5"
   ],
@@ -1217,6 +1230,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "block",
     "\ue14b"
+  ],
+  [
+    "block_flipped",
+    "\uef46"
   ],
   [
     "bloodtype",
@@ -1859,6 +1876,10 @@ const materialIconsMap = new Map<string,string>([
     "\ue2c3"
   ],
   [
+    "cloudy_snowing",
+    "\ue810"
+  ],
+  [
     "co2",
     "\ue7b0"
   ],
@@ -1996,15 +2017,15 @@ const materialIconsMap = new Map<string,string>([
   ],
   [
     "content_copy",
-    "\uf08a"
+    "\ue14d"
   ],
   [
     "content_cut",
-    "\uf08b"
+    "\ue14e"
   ],
   [
     "content_paste",
-    "\uf098"
+    "\ue14f"
   ],
   [
     "content_paste_go",
@@ -2035,12 +2056,12 @@ const materialIconsMap = new Map<string,string>([
     "\ue3bb"
   ],
   [
-    "cookie",
-    "\ueaac"
+    "conveyor_belt",
+    "\uf867"
   ],
   [
-    "copy",
-    "\uf08a"
+    "cookie",
+    "\ueaac"
   ],
   [
     "copy_all",
@@ -2193,10 +2214,6 @@ const materialIconsMap = new Map<string,string>([
   [
     "curtains_closed",
     "\uec1d"
-  ],
-  [
-    "cut",
-    "\uf08b"
   ],
   [
     "cyclone",
@@ -2373,6 +2390,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "devices_other",
     "\ue337"
+  ],
+  [
+    "dew_point",
+    "\uf879"
   ],
   [
     "dialer_sip",
@@ -2675,6 +2696,10 @@ const materialIconsMap = new Map<string,string>([
     "\ue675"
   ],
   [
+    "drive_file_move_outline",
+    "\ue9a1"
+  ],
+  [
     "drive_file_move_rtl",
     "\ue76d"
   ],
@@ -2751,6 +2776,10 @@ const materialIconsMap = new Map<string,string>([
     "\ue742"
   ],
   [
+    "edit_document",
+    "\uf88c"
+  ],
+  [
     "edit_location",
     "\ue568"
   ],
@@ -2773,6 +2802,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "edit_road",
     "\uef4d"
+  ],
+  [
+    "edit_square",
+    "\uf88d"
   ],
   [
     "egg",
@@ -3059,10 +3092,6 @@ const materialIconsMap = new Map<string,string>([
     "\uf007"
   ],
   [
-    "face_unlock",
-    "\uf008"
-  ],
-  [
     "facebook",
     "\uf234"
   ],
@@ -3183,6 +3212,10 @@ const materialIconsMap = new Map<string,string>([
     "\ue2c6"
   ],
   [
+    "file_upload_off",
+    "\uf886"
+  ],
+  [
     "filter",
     "\ue3d3"
   ],
@@ -3259,6 +3292,10 @@ const materialIconsMap = new Map<string,string>([
     "\ue152"
   ],
   [
+    "filter_list_alt",
+    "\ue94e"
+  ],
+  [
     "filter_list_off",
     "\ueb57"
   ],
@@ -3289,6 +3326,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "fire_extinguisher",
     "\uf1d8"
+  ],
+  [
+    "fire_hydrant",
+    "\uf1a3"
   ],
   [
     "fire_hydrant_alt",
@@ -3404,7 +3445,7 @@ const materialIconsMap = new Map<string,string>([
   ],
   [
     "fluorescent",
-    "\uf00d"
+    "\uec31"
   ],
   [
     "flutter_dash",
@@ -3417,6 +3458,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "fmd_good",
     "\uf00f"
+  ],
+  [
+    "foggy",
+    "\ue818"
   ],
   [
     "folder",
@@ -3479,6 +3524,10 @@ const materialIconsMap = new Map<string,string>([
     "\uebac"
   ],
   [
+    "forklift",
+    "\uf868"
+  ],
+  [
     "format_align_center",
     "\ue234"
   ],
@@ -3535,6 +3584,10 @@ const materialIconsMap = new Map<string,string>([
     "\ue241"
   ],
   [
+    "format_list_bulleted_add",
+    "\uf849"
+  ],
+  [
     "format_list_numbered",
     "\ue242"
   ],
@@ -3576,11 +3629,11 @@ const materialIconsMap = new Map<string,string>([
   ],
   [
     "format_underline",
-    "\ue765"
+    "\ue249"
   ],
   [
     "format_underlined",
-    "\ue765"
+    "\ue249"
   ],
   [
     "fort",
@@ -3625,6 +3678,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "front_hand",
     "\ue769"
+  ],
+  [
+    "front_loader",
+    "\uf869"
   ],
   [
     "fullscreen",
@@ -3693,6 +3750,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "gite",
     "\ue58b"
+  ],
+  [
+    "goat",
+    "\u10fffd"
   ],
   [
     "golf_course",
@@ -4003,6 +4064,10 @@ const materialIconsMap = new Map<string,string>([
     "\ue88a"
   ],
   [
+    "home_filled",
+    "\ue9b2"
+  ],
+  [
     "home_max",
     "\uf024"
   ],
@@ -4157,6 +4222,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "info",
     "\ue88e"
+  ],
+  [
+    "info_outline",
+    "\ue88f"
   ],
   [
     "input",
@@ -4323,12 +4392,16 @@ const materialIconsMap = new Map<string,string>([
     "\ue318"
   ],
   [
+    "keyboard_command",
+    "\ueae0"
+  ],
+  [
     "keyboard_command_key",
     "\ueae7"
   ],
   [
     "keyboard_control",
-    "\ueae1"
+    "\ue5d3"
   ],
   [
     "keyboard_control_key",
@@ -4353,6 +4426,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "keyboard_hide",
     "\ue31a"
+  ],
+  [
+    "keyboard_option",
+    "\ueadf"
   ],
   [
     "keyboard_option_key",
@@ -4391,8 +4468,16 @@ const materialIconsMap = new Map<string,string>([
     "\ue937"
   ],
   [
+    "label_important_outline",
+    "\ue948"
+  ],
+  [
     "label_off",
     "\ue9b6"
+  ],
+  [
+    "label_outline",
+    "\ue893"
   ],
   [
     "lan",
@@ -4456,7 +4541,7 @@ const materialIconsMap = new Map<string,string>([
   ],
   [
     "leave_bags_at_home",
-    "\uf23b"
+    "\uf21b"
   ],
   [
     "legend_toggle",
@@ -4501,6 +4586,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "lightbulb_circle",
     "\uebfe"
+  ],
+  [
+    "lightbulb_outline",
+    "\ue90f"
   ],
   [
     "line_axis",
@@ -4711,6 +4800,10 @@ const materialIconsMap = new Map<string,string>([
     "\ue0c8"
   ],
   [
+    "location_pin",
+    "\uf1db"
+  ],
+  [
     "location_searching",
     "\ue1b7"
   ],
@@ -4725,6 +4818,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "lock_open",
     "\ue898"
+  ],
+  [
+    "lock_outline",
+    "\ue899"
   ],
   [
     "lock_person",
@@ -5132,7 +5229,7 @@ const materialIconsMap = new Map<string,string>([
   ],
   [
     "more_horiz",
-    "\ueae1"
+    "\ue5d3"
   ],
   [
     "more_time",
@@ -5193,6 +5290,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "movie_creation",
     "\ue404"
+  ],
+  [
+    "movie_edit",
+    "\uf840"
   ],
   [
     "movie_filter",
@@ -5419,6 +5520,10 @@ const materialIconsMap = new Map<string,string>([
     "\uf1d6"
   ],
   [
+    "no_meals_ouline",
+    "\uf229"
+  ],
+  [
     "no_meeting_room",
     "\ueb4e"
   ],
@@ -5528,11 +5633,11 @@ const materialIconsMap = new Map<string,string>([
   ],
   [
     "now_wallpaper",
-    "\ue75f"
+    "\ue1bc"
   ],
   [
     "now_widgets",
-    "\ue75e"
+    "\ue1bd"
   ],
   [
     "numbers",
@@ -5611,6 +5716,10 @@ const materialIconsMap = new Map<string,string>([
     "\uea47"
   ],
   [
+    "outgoing_mail",
+    "\uf0d2"
+  ],
+  [
     "outlet",
     "\uf1d4"
   ],
@@ -5641,6 +5750,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "palette",
     "\ue40a"
+  ],
+  [
+    "pallet",
+    "\uf86a"
   ],
   [
     "pan_tool",
@@ -5709,10 +5822,6 @@ const materialIconsMap = new Map<string,string>([
   [
     "password",
     "\uf042"
-  ],
-  [
-    "paste",
-    "\uf098"
   ],
   [
     "pattern",
@@ -6049,6 +6158,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "pie_chart_outline",
     "\uf044"
+  ],
+  [
+    "pie_chart_outlined",
+    "\ue6c5"
   ],
   [
     "pin",
@@ -6417,6 +6530,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "real_estate_agent",
     "\ue73a"
+  ],
+  [
+    "rebase_edit",
+    "\uf846"
   ],
   [
     "receipt",
@@ -7079,6 +7196,10 @@ const materialIconsMap = new Map<string,string>([
     "\uf05f"
   ],
   [
+    "shelves",
+    "\uf86e"
+  ],
+  [
     "shield",
     "\ue9e0"
   ],
@@ -7333,6 +7454,10 @@ const materialIconsMap = new Map<string,string>([
   [
     "snowboarding",
     "\ue513"
+  ],
+  [
+    "snowing",
+    "\ue80f"
   ],
   [
     "snowmobile",
@@ -7709,6 +7834,14 @@ const materialIconsMap = new Map<string,string>([
   [
     "summarize",
     "\uf071"
+  ],
+  [
+    "sunny",
+    "\ue81a"
+  ],
+  [
+    "sunny_snowing",
+    "\ue819"
   ],
   [
     "superscript",
@@ -8235,6 +8368,10 @@ const materialIconsMap = new Map<string,string>([
     "\ue57b"
   ],
   [
+    "trolley",
+    "\uf86b"
+  ],
+  [
     "troubleshoot",
     "\ue1d2"
   ],
@@ -8611,6 +8748,10 @@ const materialIconsMap = new Map<string,string>([
     "\ue04d"
   ],
   [
+    "volume_down_alt",
+    "\ue79c"
+  ],
+  [
     "volume_mute",
     "\ue04e"
   ],
@@ -8660,7 +8801,7 @@ const materialIconsMap = new Map<string,string>([
   ],
   [
     "wallpaper",
-    "\ue75f"
+    "\ue1bc"
   ],
   [
     "warehouse",
@@ -8739,6 +8880,10 @@ const materialIconsMap = new Map<string,string>([
     "\ue430"
   ],
   [
+    "wb_twighlight",
+    "\uea02"
+  ],
+  [
     "wb_twilight",
     "\ue1c6"
   ],
@@ -8792,7 +8937,7 @@ const materialIconsMap = new Map<string,string>([
   ],
   [
     "widgets",
-    "\ue75e"
+    "\ue1bd"
   ],
   [
     "width_full",
@@ -8856,7 +9001,7 @@ const materialIconsMap = new Map<string,string>([
   ],
   [
     "wifi_tethering_error",
-    "\uf086"
+    "\uead9"
   ],
   [
     "wifi_tethering_error_rounded",
@@ -8917,6 +9062,14 @@ const materialIconsMap = new Map<string,string>([
   [
     "workspaces",
     "\ue1a0"
+  ],
+  [
+    "workspaces_filled",
+    "\uea0d"
+  ],
+  [
+    "workspaces_outline",
+    "\uea0f"
   ],
   [
     "wrap_text",
