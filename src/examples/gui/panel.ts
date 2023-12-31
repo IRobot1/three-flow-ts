@@ -87,6 +87,7 @@ export class UIPanel extends Mesh {
   protected fontCache: FontCache;
   protected materialCache: MaterialCache;
 
+  value:any
 
   constructor(private parameters: PanelParameters = {}, options: PanelOptions = {}) {
     super()
@@ -138,6 +139,8 @@ export class UIPanel extends Mesh {
 
     this._selectable = parameters.selectable != undefined ? parameters.selectable : true
     this._draggable = parameters.draggable != undefined ? parameters.draggable : false
+
+    this.value = parameters.value
 
     // allow derived classes access to "this" by delaying one frame or to override methods
     requestAnimationFrame(() => {

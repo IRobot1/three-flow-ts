@@ -1,8 +1,9 @@
-import { Mesh, Object3D, Vector3 } from "three";
+import { Box3, Box3Helper, Object3D, Vector3 } from "three";
 import { ThreeInteractive } from "three-flow";
 
-import { ButtonEventType, UIButton } from "./button";
-import { ButtonParameters, PositionParameters, UIEventType, UIOptions } from "./model";
+import { ButtonParameters, UIOptions } from "./model";
+import { englishDesktopANSI } from "./englishDesktopANSI";
+import { UIKey, UIKeyEventTypes } from "./keyboard-key";
 
 export interface KeyboardParameters {
 
@@ -11,28 +12,48 @@ export interface KeyboardOptions extends UIOptions {
 
 }
 
-class KeySetting {
-  constructor(public position: Vector3, public lower: string,
-    public upper?: string, public alpha?: string,
-    public size = 0.1, public fontsize = 0.15) { }
+interface KeySetting {
+  position: Vector3
+  width: number
+  height: number
+  keycode: string
+  text: Array<string> | string
+//  text?:string
+//  keys?: Array<string>
+//  isicon:boolean,
+  fontsize: number
 }
 
 type KeyCase = 'lower' | 'upper' | 'numbers';
 
-export class UIKeyboard extends Object3D {
-  keys: Array<KeySetting> = []
 
-  allowenter = true
+interface StateKeyData {
+  mesh: UIKey,
+  text: Array<string>
+}
+
+export class UIKeyboard extends Object3D {
 
   dispose() { }
 
-  keyMap = new Map<string, Mesh>()
+  private keys: Array<KeySetting> = []
+  private keyMap = new Map<string, UIKey>()
+  private stateKeys: Array<StateKeyData> = []
+  private shift = false
 
   constructor(private parameters: KeyboardParameters, private interactive: ThreeInteractive, private options: KeyboardOptions = {}) {
     super()
 
+    let first = true
     const handleKeyDown = (keyboard: KeyboardEvent) => {
       keyboard.preventDefault()  // prevent Tab from leaving the document
+
+      // get the lock states on first key down
+      if (first) {
+        this.getLockStates(keyboard)
+        first = false
+      }
+
       this.handleKeyDown(keyboard)
     }
     const handleKeyUp = (keyboard: KeyboardEvent) => {
@@ -47,210 +68,195 @@ export class UIKeyboard extends Object3D {
     }
 
     const keys: Array<KeySetting> = []
+    const layout = englishDesktopANSI
 
-    const top = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p']
-    const topalpha = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
-    const middle = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l']
-    const middlealpha = ['#', '$', '_', '&', '-', '+', '(', ')', '`']
-    const bottom = ['z', 'x', 'c', 'v', 'b', 'n', 'm']
-    const bottomalpha = ['*', '"', "'", '<', ';', '!', '~']
+    if (layout.keywidth == undefined) layout.keywidth = 0.1
+    if (layout.hspacing == undefined) layout.hspacing = 0.02
+    if (layout.keyheight == undefined) layout.keyheight = 0.1
+    if (layout.vspacing == undefined) layout.vspacing = 0.02
+    if (layout.fontsize == undefined) layout.fontsize = 0.045
 
-    const buttonwidth = 0.11
-    const z = 0.001;
-    const ytop = 0.17
-    const ymiddle = 0.06
-    const ybottom = -0.05
-    const yspace = -0.16
+    const position = new Vector3()
 
-    let width = (top.length - 1) * buttonwidth;
-    top.forEach((lower, index) => {
-      keys.push(new KeySetting(new Vector3((-width / 2 + index * buttonwidth), ytop, z), lower, lower.toUpperCase(), topalpha[index]));
+    let vlasthalft = 0
+    layout.rows.forEach(row => {
+      let rowkeywidth = row.keywidth != undefined ? row.keywidth : layout.keywidth!
+      let hspacing = row.hspacing != undefined ? row.hspacing : layout.hspacing!
+      let keyheight = row.keyheight != undefined ? row.keyheight : layout.keyheight!
+      let vspacing = row.vspacing != undefined ? row.vspacing : layout.vspacing!
+      let rowfontsize = row.fontsize != undefined ? row.fontsize : layout.fontsize!
+
+      position.y -= vlasthalft + keyheight / 2
+
+      let hlasthalf = 0
+      row.keys.forEach(key => {
+        let keywidth = key.keywidth != undefined ? key.keywidth : rowkeywidth
+        let fontsize = key.fontsize != undefined ? key.fontsize : rowfontsize
+
+        position.x += hlasthalf + keywidth / 2
+
+        //const isicon = key.isicon != undefined ? key.isicon : false
+        keys.push({
+          position: position.clone(),
+          width: keywidth, height: keyheight,
+          keycode: key.keycode, text: key.text, fontsize,
+          //keys: key.keys, isicon
+        });
+
+        position.x += hspacing
+        hlasthalf = keywidth / 2
+      })
+
+      position.x = 0
+      position.y -= vspacing
+
+      vlasthalft = keyheight / 2
     })
-    keys.push(new KeySetting(new Vector3((width / 2 + 0.35), 0.16, z), 'content_copy', 'icon', 'ctrl+c'));
-    keys.push(new KeySetting(new Vector3((width / 2 + 0.35), 0, z), 'content_cut', 'icon', 'ctrl+x'));
-    keys.push(new KeySetting(new Vector3((width / 2 + 0.35), -0.16, z), 'content_paste', 'icon', 'ctrl+v'));
 
-    width = (middle.length - 1) * (buttonwidth + 0.01);
-    middle.forEach((lower, index) => {
-      keys.push(new KeySetting(new Vector3((-width / 2 + index * buttonwidth + 0.12), ymiddle, z), lower, lower.toUpperCase(), middlealpha[index]));
-    })
-    keys.push(new KeySetting(new Vector3((-width / 2 + middle.length * buttonwidth + 0.15), ymiddle, z), 'backspace', 'icon', 'Backspace'));
-    keys.push(new KeySetting(new Vector3((-width / 2 - 0.09), ymiddle, z), 'ABC', 'abc', 'ABC', 0.3, 0.1));
-
-    width = (bottom.length - 1) * buttonwidth;
-    bottom.forEach((lower, index) => {
-      keys.push(new KeySetting(new Vector3((-width / 2 + index * buttonwidth), ybottom, z), lower, lower.toUpperCase(), bottomalpha[index]));
-    })
-
-    if (this.allowenter) {
-      keys.push(new KeySetting(new Vector3((-width / 2 + bottom.length * buttonwidth + 0.05), ybottom, z), 'keyboard_return', 'icon', 'Enter'));
-    }
-
-    keys.push(new KeySetting(new Vector3(-0.56, yspace, z), '123', '123', 'abc', 0.3, 0.1));
-    keys.push(new KeySetting(new Vector3(0, yspace, z), ' ', ' ', ' ', 0.8));
-    keys.push(new KeySetting(new Vector3(0.51, yspace, z), '.', ',', ':'));
-    keys.push(new KeySetting(new Vector3(0.62, yspace, z), '@', '?', '/'));
-
-    this.addKeys(keys)
+     this.addKeys(keys)
 
     this.keys = keys
+
+    // center
+    const box = new Box3()
+    box.setFromObject(this)
+    const target = new Vector3()
+    box.getSize(target)
+    this.position.x = -target.x / 2
+    this.position.y = target.y / 2
+
   }
 
-  public text = ''
-  private keycase: KeyCase = 'lower';
-
-  protected keycode(keys: KeySetting): string {
-    if (this.keycase == 'lower')
-      return keys.lower;
-    else if (this.keycase == 'upper')
-      return keys.upper ? keys.upper : keys.lower;
-    else
-      return keys.alpha ? keys.alpha : keys.lower;
-  }
-
-  protected iconcode(icons: KeySetting): string {
-    return icons.alpha!;
-  }
 
   private handleKeyDown(event: KeyboardEvent) {
     let keycode = event.code;
     if (!keycode) keycode = event.key
-    console.warn(keycode)
 
-    if (event.key == 'Backspace' || event.key == 'Enter')
-      this.pressed(event.key);
-    else if (event.key == 'Shift') {
-      if (this.keycase == 'lower') {
-        keycode = 'ABC';
-      } else if (this.keycase == 'upper') {
-        keycode = '123';
-      } else if (this.keycase == 'numbers') {
-        keycode = 'abc';
-      }
-    }
-    if (event.ctrlKey) {
-      const key = event.key.toLowerCase();
-      if (key == 'v' || key == 'c' || key == 'x') {
-        this.clicked("ctrl+" + key);
-      }
-    }
-    else {
-      const mesh = this.keyMap.get(keycode)
-      if (mesh) mesh.dispatchEvent<any>({ type: ButtonEventType.BUTTON_DOWN })
+    this.checkShift(keycode)
+    this.checkLocks(keycode, event)
 
-      const key = this.keys.find(x => x.lower == keycode || x.upper == keycode || x.alpha == keycode);
-      if (key)
-        this.clicked(keycode);
+    const key = this.keyMap.get(keycode)
+    if (key) {
+      key.dispatchEvent<any>({ type: UIKeyEventTypes.BUTTON_DOWN })
+
+      if (!event.ctrlKey && !event.altKey) {
+        const setting = key.value as KeySetting
+        if (Array.isArray(setting.text)) {
+          const index = this.shift ? 1 : 0
+          if (index < setting.text.length)
+            this.pressed(setting.text[index])
+        }
+      }
     }
   }
 
   private handleKeyUp(event: KeyboardEvent) {
-    let keycode = event.key;
-    //console.warn('up',event)
-    if (event.key == 'Shift') {
-      if (this.keycase == 'lower') {
-        keycode = 'ABC';
-      } else if (this.keycase == 'upper') {
-        keycode = 'abc';
-      }
-      this.clicked(keycode);
-    }
+    let keycode = event.code;
+    if (!keycode) keycode = event.key
+
+    this.checkShift(keycode)
+
     const mesh = this.keyMap.get(keycode)
-    if (mesh) mesh.dispatchEvent<any>({ type: ButtonEventType.BUTTON_UP })
+    if (mesh) mesh.dispatchEvent<any>({ type: UIKeyEventTypes.BUTTON_UP })
   }
 
-  protected clicked(keycode: string) {
-    if (!this.visible) return;
+  private checkShift(keycode: string) {
+    if (keycode.startsWith('Shift')) {
+      this.shift = !this.shift
+      this.updateKeyText()
+    }
+  }
 
-    if (keycode == 'ABC') {
-      this.keycase = 'upper'
-    } else if (keycode == 'abc') {
-      this.keycase = 'lower';
-    } else if (keycode == '123') {
-      this.keycase = 'numbers'
+  private checkLocks(keycode: string, event: KeyboardEvent) {
+    if (keycode == 'CapsLock' || keycode == 'NumLock' || keycode == 'ScrollLock') {
+      const state = this.updateLockState(keycode, event)
+      if (keycode == 'CapsLock') this.shift = state
+      this.updateKeyText()
     }
-    else if (keycode == 'ctrl+v') {
-      navigator.clipboard.readText().then(text => {
-        this.text += text;
-        this.change(this.text);
-      });
-    }
-    else if (keycode == 'ctrl+c' || keycode == 'ctrl+x') {
-      navigator.clipboard.writeText(this.text).then(() => {
-        console.log(this.text, 'saved to clipboard');
-        if (keycode == 'ctrl+x') {
-          this.text = '';
-          this.change(this.text);
-        }
-      });
-    }
-    else {
-      this.pressed(keycode);
-      if (keycode == 'Enter') {
-        if (this.allowenter) {
-          this.change(this.text);
-          this.text = '';
-        }
-      }
-      else if (keycode == 'Backspace') {
-        if (this.text.length > 0) {
-          this.text = this.text.slice(0, this.text.length - 1);
-          this.change(this.text);
-        }
-      }
-      else {
-        this.text += keycode;
-        this.change(this.text);
-      }
-    }
+  }
+
+  private updateLockState(keycode: string, event: KeyboardEvent): boolean {
+    const state = event.getModifierState(keycode)
+    const caps = this.keyMap.get(keycode)
+    if (caps) caps.dispatchEvent<any>({ type: UIKeyEventTypes.LOCK_STATE, state })
+    return state
+  }
+
+  private getLockStates(event: KeyboardEvent) {
+    this.shift = this.updateLockState('CapsLock', event)
+    this.updateLockState('NumLock', event)
+    this.updateLockState('ScrollLock', event)
+
+    if (this.shift) this.updateKeyText()
+  }
+
+  updateKeyText() {
+    const index = this.shift ? 1 : 0
+    this.stateKeys.forEach(key => {
+      key.mesh.dispatchEvent<any>({ type: UIKeyEventTypes.SET_TEXT, text: key.text[index] })
+    })
   }
 
 
   private addKeys(keys: Array<KeySetting>) {
-    keys.forEach((key) => {
-      const button = this.createKey(key)
-      this.keyMap.set(key.lower, button)
-      if (key.upper) this.keyMap.set(key.upper, button)
-      if (key.alpha) this.keyMap.set(key.alpha, button)
+    keys.forEach(setting => {
+      if (setting.text == '') return
+
+      let text = ''
+      let isicon = false
+      if (!Array.isArray(setting.text)) {
+        text = setting.text as string
+        isicon = true
+      }
+      else {
+        text = setting.text[0]
+      }
+
+      const mesh = this.createKey(text, isicon, setting)
+      this.keyMap.set(setting.keycode, mesh)
+
+      if (!isicon && setting.keycode.startsWith('Key')) {
+        this.stateKeys.push({ mesh, text: setting.text as string[] })
+      }
     })
   }
 
   // override
-  createKey(setting: KeySetting): Mesh {
+  createKey(text: string, isicon: boolean, setting: KeySetting): UIKey {
     const { x, y, z } = setting.position
 
     const params: ButtonParameters = {
       position: { x, y, z },
-      width: setting.size, height: 0.1 ,
+      width: setting.width, height: setting.height,
       material: { color: 'gray' },
       label: {
-        text: setting.lower, material: { color: 'black' }, isicon: setting.upper == 'icon', size:0.05
-      },value:setting
+        text, material: { color: 'black' }, isicon, size: setting.fontsize,
+      }, value: setting
     }
 
-    const button = new UIButton(params, this.interactive, this.options)
-    button.position.copy(setting.position)
-    this.add(button)
+    const key = new UIKey(params, this.interactive)
+    key.position.copy(setting.position)
+    this.add(key)
 
-    button.addEventListener(UIEventType.BUTTON_PRESSED, (e: any) => {
-      
-      
-    })
+    
+    //button.addEventListener(UIEventType.BUTTON_PRESSED, (e: any) => {
 
-    return button
+
+    //})
+
+    return key
   }
 
-  pressed(keycode: string) { }
-  change(text: string) { }
+  pressed(text: string) { }
 }
 
 const keyboardcodes = [
   ['Escape', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12'],
-  ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minum', 'Equal', 'Backspace'],
+  ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace'],
   ['Tab', 'KeyQ', 'KeyW', , 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash'],
   ['CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter'],
   ['ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ShiftRight'],
-  ['ControlLeft','MetaLeft','AltLeft','Space', 'AltRight', 'MetaRight','ContextMenu','ControlRight']
+  ['ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'MetaRight', 'ContextMenu', 'ControlRight']
 ]
 
 const navigationcodes = [

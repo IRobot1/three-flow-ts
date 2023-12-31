@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, Color, PointLight, Scene } from "three";
+import { AmbientLight, AxesHelper, Box2, Box3, Color, PointLight, Scene, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../../app/threejs-app";
@@ -33,7 +33,7 @@ export class GUIExample {
     scene.add(light)
 
     const orbit = new OrbitControls(app.camera, app.domElement);
-    orbit.target.set(0, app.camera.position.y, 0)
+    //orbit.target.set(0, app.camera.position.y, 0)
     orbit.enableRotate = false;
     orbit.update();
 
@@ -42,7 +42,7 @@ export class GUIExample {
         orbit.enableRotate = !orbit.enableRotate
     })
 
-    //scene.add(new AxesHelper(3))
+    scene.add(new AxesHelper(3))
 
     const flow = new FlowDiagram()
     scene.add(flow);
@@ -98,6 +98,7 @@ export class GUIExample {
     }
     const keyboard = new UIKeyboard({}, app.interactive, options)
     scene.add(keyboard)
+
 
     //keyboard.pressed = (keycode: string) => {
     //  console.warn(keycode)
