@@ -40,7 +40,7 @@ export class UILabel extends Mesh {
     }
   }
 
-  private _padding = 0.1
+  private _padding = 0.02
   get padding() { return this._padding }
   set padding(newvalue: number) {
     if (this._padding != newvalue) {
@@ -94,9 +94,9 @@ export class UILabel extends Mesh {
     this.materialCache = options.materialCache != undefined ? options.materialCache : new MaterialCache()
 
     this._text = parameters.text ? parameters.text : ''
-    this._size = parameters.size != undefined ? parameters.size : 0.1
+    this._size = parameters.size != undefined ? parameters.size : 0.07
     this._matparams = parameters.material ? parameters.material : { color: 'black' }
-    this._padding = parameters.padding != undefined ? parameters.padding : 0.1
+    this._padding = parameters.padding != undefined ? parameters.padding : 0.02
     this.alignX = parameters.alignX ? parameters.alignX : 'center'
     this.alignY = parameters.alignY ? parameters.alignY : 'middle'
     this.wrapwidth = parameters.wrapwidth != undefined ? parameters.wrapwidth : Infinity
@@ -118,19 +118,18 @@ export class UILabel extends Mesh {
   }
 
   public updateLabel() {
-    if (!this.text) return
+    if (this.text == undefined) return
 
     const options: TextGeometryParameters = {
       font: this.font!, height: 0, size: this.size
     }
 
     // only add text if font is loaded
-    let text = this.text
     if (this.isicon) {
-      const icontext = materialIconsMap.get(text)
-      if (icontext) text = icontext
+      const icontext = materialIconsMap.get(this.text)
+      if (icontext) this.text = icontext
     }
-    this.geometry = new TextGeometry(text, options)
+    this.geometry = new TextGeometry(this.text, options)
     this.geometry.computeBoundingBox()
 
     const box = this.geometry.boundingBox!

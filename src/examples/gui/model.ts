@@ -84,6 +84,9 @@ export interface LabelParameters {
 export interface ButtonParameters extends PanelParameters {
   label?: LabelParameters
 }
+export interface TextParameters extends PanelParameters {
+  label?: LabelParameters
+}
 export enum UIEventType {
   WIDTH_CHANGED = 'width_changed',
   HEIGHT_CHANGED = 'height_changed',

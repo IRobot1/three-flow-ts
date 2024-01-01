@@ -14,7 +14,8 @@ export interface UIKeyboardOptions extends UIOptions {
 }
 
 export interface UIKeyboardEvent {
-  keycode: string
+  code: string
+  key:string
   ctrlKey: boolean
   shiftKey: boolean
   altKey: boolean
@@ -152,7 +153,7 @@ export class UIKeyboard extends Object3D {
             this.newtext(setting.keys[index])
         }
       }
-      this.keydown({ keycode, shiftKey: event.shiftKey, ctrlKey: event.ctrlKey, altKey: event.altKey })
+      this.keydown({ code:event.code, key:event.key, shiftKey: event.shiftKey, ctrlKey: event.ctrlKey, altKey: event.altKey })
     }
   }
 
@@ -244,7 +245,7 @@ export class UIKeyboard extends Object3D {
       const shiftKey = setting.keycode.startsWith('Shift')
       const ctrlKey = setting.keycode.startsWith('Control')
       const altKey = setting.keycode.startsWith('Alt')
-      return { keycode: setting.keycode, shiftKey, ctrlKey, altKey }
+      return { code: setting.keycode, key:'', shiftKey, ctrlKey, altKey }
     }
     key.addEventListener(InteractiveEventType.POINTERDOWN, () => {
       this.keydown(generateEvent())

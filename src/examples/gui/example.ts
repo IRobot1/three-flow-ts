@@ -7,6 +7,8 @@ import { UIOptions } from "./model";
 import { UIKeyboard, UIKeyboardEvent } from "./keyboard";
 import { MaterialCache } from "./cache";
 import { UIButton } from "./button";
+import { UIInputManager } from "./input-manager";
+import { UITextEntry } from "./text-entry";
 
 export class GUIExample {
 
@@ -92,17 +94,25 @@ export class GUIExample {
     //  count++
     //},1000)
 
+    const input = new UIInputManager(app)
 
-    const options: UIOptions = {
-      materialCache: new MaterialCache()
-    }
-    const keyboard = new UIKeyboard({}, app.interactive, options)
-    scene.add(keyboard)
-    keyboard.visible = true
+    const text1 = new UITextEntry({ height:0.3, label: { text: 'test', material: { color: 'black' } } }, app.interactive)
+    scene.add(text1)
+    text1.password = true
 
-    keyboard.newtext = (text: string) => {
-      console.warn(text)
-    }
+    const text2 = new UITextEntry({ height: 0.3, label: { text: 'test', material: { color: 'black' } } }, app.interactive)
+    scene.add(text2)
+    text2.position.y = 0.35
+
+    input.add(text1, text2)
+
+    //const keyboard = new UIKeyboard({}, app.interactive)
+    //scene.add(keyboard)
+    //keyboard.visible = true
+
+    //keyboard.newtext = (text: string) => {
+    //  console.warn(text)
+    //}
     //keyboard.command = (keycode: string) => {
     //  console.warn(keycode)
     //}

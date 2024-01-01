@@ -154,6 +154,7 @@ export class UIPanel extends Mesh {
     const outlineMesh = new Mesh(outline, outlinematerial)
     outlineMesh.visible = false
     this.add(outlineMesh)
+    outlineMesh.name = 'outline'
 
     const highlight = () => {
       outlineMesh.visible = true
