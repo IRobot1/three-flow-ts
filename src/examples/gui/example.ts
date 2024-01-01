@@ -99,10 +99,9 @@ export class GUIExample {
     const keyboard = new UIKeyboard({}, app.interactive, options)
     scene.add(keyboard)
 
-
-    //keyboard.pressed = (keycode: string) => {
-    //  console.warn(keycode)
-    //}
+    keyboard.newtext = (text: string) => {
+      console.warn(text)
+    }
     //keyboard.change = (text: string) => {
     //  console.warn(text)
     //}

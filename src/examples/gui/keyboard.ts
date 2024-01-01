@@ -1,14 +1,14 @@
 import { Box3, Object3D, Vector3 } from "three";
 import { ThreeInteractive } from "three-flow";
 
-import { ButtonParameters, UIOptions } from "./model";
+import { ButtonParameters, UIEventType, UIOptions } from "./model";
 import { englishDesktopANSI } from "./englishDesktopANSI";
 import { UIKey, UIKeyEventTypes } from "./keyboard-key";
 
-export interface KeyboardParameters {
+export interface UIKeyboardParameters {
 
 }
-export interface KeyboardOptions extends UIOptions {
+export interface UIKeyboardOptions extends UIOptions {
 
 }
 
@@ -35,12 +35,11 @@ export class UIKeyboard extends Object3D {
 
   dispose() { }
 
-  private keys: Array<KeySetting> = []
   private keyMap = new Map<string, UIKey>()
   private stateKeys: Array<StateKeyData> = []
   private shift = false
 
-  constructor(private parameters: KeyboardParameters, private interactive: ThreeInteractive, private options: KeyboardOptions = {}) {
+  constructor(private parameters: UIKeyboardParameters, private interactive: ThreeInteractive, private options: UIKeyboardOptions = {}) {
     super()
 
     let first = true
@@ -114,8 +113,6 @@ export class UIKeyboard extends Object3D {
 
     this.addKeys(keys)
 
-    this.keys = keys
-
     // center
     const box = new Box3()
     box.setFromObject(this)
@@ -143,7 +140,7 @@ export class UIKeyboard extends Object3D {
         if (Array.isArray(setting.keys)) {
           const index = this.shift ? 1 : 0
           if (index < setting.keys.length)
-            this.pressed(setting.keys[index])
+            this.newtext(setting.keys[index])
         }
       }
     }
@@ -152,6 +149,7 @@ export class UIKeyboard extends Object3D {
   private handleKeyUp(event: KeyboardEvent) {
     let keycode = event.code;
     if (!keycode) keycode = event.key
+    console.warn(event)
 
     this.checkShift(keycode)
 
@@ -210,7 +208,7 @@ export class UIKeyboard extends Object3D {
       const mesh = this.createKey(text, setting.isicon, setting)
       this.keyMap.set(setting.keycode, mesh)
 
-      if (!setting.isicon && setting.keycode.startsWith('Key')) {
+      if (!setting.isicon && setting.keys && setting.keys.length>1) {
         this.stateKeys.push({ mesh, text: setting.keys as string[] })
       }
     })
@@ -234,38 +232,17 @@ export class UIKeyboard extends Object3D {
     this.add(key)
 
 
-    //button.addEventListener(UIEventType.BUTTON_PRESSED, (e: any) => {
-
-
-    //})
+    key.addEventListener(UIEventType.BUTTON_PRESSED, (e: any) => {
+      if (setting.keys) {
+        const index = this.shift ? 1 : 0
+        const text = setting.keys[index]
+        this.newtext(text)
+      }
+    })
 
     return key
   }
 
-  pressed(text: string) { }
+  
+  newtext(text: string) { }
 }
-
-const keyboardcodes = [
-  ['Escape', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12'],
-  ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace'],
-  ['Tab', 'KeyQ', 'KeyW', , 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash'],
-  ['CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter'],
-  ['ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ShiftRight'],
-  ['ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'MetaRight', 'ContextMenu', 'ControlRight']
-]
-
-const navigationcodes = [
-  ['ScrollLock', 'Pause'],
-  ['Insert', 'Home', 'PageUp'],
-  ['Down', 'End', 'PageDown'],
-  ['ArrowUp'],
-  ['ArrowLeft', 'ArrowDown', 'ArrowRight']
-]
-
-const numpadcodes = [
-  ['NumLock', 'NumpacDivide', 'NumpadMultiply', 'NumpadSubtract'],
-  ['Numpad7', 'Numpad8', 'Numpad9', 'NumpadAdd'],
-  ['Numpad4', 'Numpad5', 'Numpad6'],
-  ['Numpad1', 'Numpad3', 'Numpad5', 'NumpadEnter'],
-  ['Numpad0', 'NumpadDecimal'],
-]

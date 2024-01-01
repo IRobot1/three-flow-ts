@@ -55,7 +55,7 @@ const row2DesktopANSI: KeyboardRowParameters = {
     { keycode: 'KeyO', keys: ['o', 'O'] },
     { keycode: 'KeyP', keys: ['p', 'P'] },
     { keycode: 'BracketLeft', keys: ['[', '{'] },
-    { keycode: 'BracketRight', keys: ['', '}'] },
+    { keycode: 'BracketRight', keys: [']', '}'] },
     { keycode: 'Backslash', keys: ['\\', '|'], keywidth: 0.19 },
   ]
 }
