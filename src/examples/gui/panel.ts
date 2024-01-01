@@ -91,8 +91,6 @@ export class UIPanel extends Mesh {
   protected clicking = false
   protected shape: Shape
 
-  value: any
-
   constructor(private parameters: PanelParameters = {}, options: PanelOptions = {}) {
     super()
 
@@ -144,7 +142,7 @@ export class UIPanel extends Mesh {
     this._selectable = parameters.selectable != undefined ? parameters.selectable : true
     this._draggable = parameters.draggable != undefined ? parameters.draggable : false
 
-    this.value = parameters.value
+    this.userData = parameters.value
 
     this.shape = this.rectangle(this.width, this.height, 0.02)
 

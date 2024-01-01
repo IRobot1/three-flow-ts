@@ -146,7 +146,7 @@ export class UIKeyboard extends Object3D {
       key.dispatchEvent<any>({ type: UIKeyEventTypes.BUTTON_DOWN })
 
       if (!event.ctrlKey && !event.altKey) {
-        const setting = key.value as KeySetting
+        const setting = key.userData as KeySetting
         if (Array.isArray(setting.keys)) {
           const index = this.shift ? 1 : 0
           if (index < setting.keys.length)

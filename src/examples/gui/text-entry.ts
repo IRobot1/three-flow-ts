@@ -5,30 +5,16 @@ import { UILabel } from "./label"
 import { TextParameters, UIEventType } from "./model"
 import { ThreeInteractive } from "three-flow"
 
-interface TextOptions extends PanelOptions {
-}
-
-export enum TextEntryEventType {
-  TEXT_NORMAL = 'text_normal',
-  TEXT_DISABLED = 'text_disabled',
-  TEXT_HIGHLIGHT = 'text_highlight',
-  TEXT_VALUE_CHANGE = 'text_value_change',
-  TEXT_SIZE_CHANGE = 'text_size_change',
-}
-
-export interface TextEntrySize {
-  width: number
-  radius: number
-  depth: number
+export interface TextOptions extends PanelOptions {
 }
 
 
 export class UITextEntry extends UIPanel implements InputField {
   inputtype: string = 'text'
 
-  private label: UILabel
+  protected label: UILabel
 
-  private _text = ''
+  protected _text = ''
   get text() { return this._text }
   set text(newvalue: string) {
     if (this._text != newvalue) {

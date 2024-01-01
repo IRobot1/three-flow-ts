@@ -9,6 +9,7 @@ import { MaterialCache } from "./cache";
 import { UIButton } from "./button";
 import { UIInputManager } from "./input-manager";
 import { UITextEntry } from "./text-entry";
+import { UINumberEntry } from "./number-entry";
 
 export class GUIExample {
 
@@ -100,7 +101,7 @@ export class GUIExample {
     scene.add(text1)
     text1.password = true
 
-    const text2 = new UITextEntry({ height: 0.3, label: { text: 'test', material: { color: 'black' } } }, app.interactive)
+    const text2 = new UINumberEntry({ initialvalue: 0, height: 0.3, label: { material: { color: 'black' } } }, app.interactive)
     scene.add(text2)
     text2.position.y = 0.35
 
