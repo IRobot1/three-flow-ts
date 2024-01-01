@@ -94,6 +94,10 @@ export interface CheckboxParameters extends PanelParameters {
   checked?: boolean
   checkmaterial?: MeshBasicMaterialParameters
 }
+export interface ColorEntryParameters extends PanelParameters {
+}
+
+
 
 export enum UIEventType {
   WIDTH_CHANGED = 'width_changed',

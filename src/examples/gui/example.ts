@@ -11,6 +11,7 @@ import { UIInputManager } from "./input-manager";
 import { UITextEntry } from "./text-entry";
 import { UINumberEntry } from "./number-entry";
 import { UICheckBox } from "./checkbox";
+import { UIColorEntry } from "./color-entry";
 
 export class GUIExample {
 
@@ -111,7 +112,11 @@ export class GUIExample {
     scene.add(checkbox)
     checkbox.position.y = -0.35
 
-    input.add(text1, text2, checkbox)
+    const colorentry = new UIColorEntry({ height:0.3, material: { color:'red'} }, app.interactive)
+    scene.add(colorentry)
+    colorentry.position.y = -0.7
+
+    input.add(text1, text2, checkbox, colorentry)
     //const keyboard = new UIKeyboard({}, app.interactive)
     //scene.add(keyboard)
     //keyboard.visible = true

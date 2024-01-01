@@ -1,10 +1,10 @@
-import { BaseEvent, Mesh, Object3DEventMap } from "three"
+import { Mesh } from "three"
 import { UIKeyboardEvent } from "./keyboard";
 import { PanelOptions, UIPanel } from "./panel";
 import { ThreeInteractive } from "three-flow";
-import { PanelParameters, TextParameters, UIEventType } from "./model";
+import { PanelParameters, UIEventType } from "./model";
 
-export type InputFieldType = 'text' | 'number' | 'checkbox' | string
+export type InputFieldType = 'text' | 'number' | 'checkbox' | 'color' | string
 
 export enum InputFieldEventType {
   ACTIVE_CHANGED = 'active_changed',
