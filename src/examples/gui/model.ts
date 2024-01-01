@@ -90,6 +90,10 @@ export interface TextParameters extends PanelParameters {
 export interface NumberParameters extends TextParameters {
   initialvalue?:number
 }
+export interface CheckboxParameters extends PanelParameters {
+  checked?: boolean
+  checkmaterial?: MeshBasicMaterialParameters
+}
 
 export enum UIEventType {
   WIDTH_CHANGED = 'width_changed',

@@ -1,6 +1,6 @@
 import { ThreeInteractive } from "three-flow"
 
-import { InputField, InputFieldEventType } from "./input-field"
+import { InputField, InputFieldEventType, InputFieldType } from "./input-field"
 import { TextOptions, UITextEntry } from "./text-entry"
 import { NumberParameters } from "./model"
 
@@ -11,6 +11,8 @@ export interface NumberOptions extends TextOptions {
 }
 
 export class UINumberEntry extends UITextEntry {
+  override inputtype: InputFieldType = 'number'
+
   protected _value = NaN
   get value() { return this._value }
   set value(newvalue: number) {
@@ -87,11 +89,11 @@ export class UINumberEntry extends UITextEntry {
 
     this.name = parameters.id != undefined ? parameters.id : 'number-entry'
 
-    this.value = parameters.initialvalue!=undefined ? parameters.initialvalue:0
+    this.value = parameters.initialvalue != undefined ? parameters.initialvalue : 0
   }
 
 
-  override filter(entry: InputField, e: KeyboardEvent) {
+  override filter(entry: UITextEntry, e: KeyboardEvent) {
     let allow = false
 
     if ('-+'.includes(e.key)) {

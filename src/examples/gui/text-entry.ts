@@ -1,4 +1,4 @@
-import { InputField, InputFieldEventType } from "./input-field"
+import { InputField, InputFieldEventType, InputFieldType, UIEntry } from "./input-field"
 import { PanelOptions, UIPanel } from "./panel"
 import { UIKeyboardEvent } from "./keyboard"
 import { UILabel } from "./label"
@@ -9,8 +9,8 @@ export interface TextOptions extends PanelOptions {
 }
 
 
-export class UITextEntry extends UIPanel implements InputField {
-  inputtype: string = 'text'
+export class UITextEntry extends UIEntry implements InputField {
+  inputtype: InputFieldType = 'text'
 
   protected label: UILabel
 
@@ -25,28 +25,11 @@ export class UITextEntry extends UIPanel implements InputField {
   }
 
 
-  private _active = false
-  get active(): boolean { return this._active }
-  set active(newvalue: boolean) {
-    if (this._active != newvalue) {
-      this._active = newvalue
-      this.dispatchEvent<any>({ type: InputFieldEventType.ACTIVE_CHANGED, active: newvalue })
-    }
-  }
-
-  private _disabled = false
-  get disabled(): boolean { return this._disabled }
-  set disabled(newvalue: boolean) {
-    if (this._disabled != newvalue) {
-      this._disabled = newvalue
-      this.dispatchEvent<any>({ type: InputFieldEventType.DISABLE_CHANGED, active: newvalue })
-    }
-  }
 
   constructor(parameters: TextParameters = {}, interactive: ThreeInteractive, options: TextOptions = {}) {
     if (parameters.height == undefined) parameters.height = 0.1
 
-    super(parameters, options)
+    super(parameters, interactive, options)
 
     this.name = parameters.id != undefined ? parameters.id : 'text-entry'
 
@@ -66,45 +49,6 @@ export class UITextEntry extends UIPanel implements InputField {
     //label.cliptowidth = true
     this.text = label.text
 
-    const selectableChanged = () => {
-      if (this.selectable)
-        interactive.selectable.add(this)
-      else
-        interactive.selectable.remove(this)
-    }
-    this.addEventListener(UIEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
-    selectableChanged()
-
-
-    this.addEventListener(InputFieldEventType.KEYDOWN, (event: any) => {
-      const e = event.keyboard as UIKeyboardEvent
-      if (!this.active) return
-
-      if (e.code == 'Backspace')
-        this.text = this.text.slice(0, -1)
-
-      if (e.ctrlKey) {
-        const key = e.code.toLowerCase();
-        if (key == 'v') {
-          navigator.clipboard.readText().then(text => {
-            this.text += text;
-          });
-        }
-        else if (key == 'c' || key == 'x') {
-          navigator.clipboard.writeText(this.text).then(() => {
-            if (e.code == 'x') {
-              this.text = '';
-            }
-          });
-        }
-      }
-
-      else if (e.key.length == 1)
-        this.filter(this, e)
-
-
-    })
-
     const textChanged = () => {
       if (this.password)
         label.text = '*'.repeat(this.text.length);
@@ -119,6 +63,31 @@ export class UITextEntry extends UIPanel implements InputField {
     this.addEventListener(InputFieldEventType.TEXT_CHANGED, textChanged)
     this.addEventListener(InputFieldEventType.ACTIVE_CHANGED, textChanged)
   }
+
+  override handleKeyDown(e: UIKeyboardEvent) {
+    if (e.code == 'Backspace')
+      this.text = this.text.slice(0, -1)
+
+    if (e.ctrlKey) {
+      const key = e.code.toLowerCase();
+      if (key == 'v') {
+        navigator.clipboard.readText().then(text => {
+          this.text += text;
+        });
+      }
+      else if (key == 'c' || key == 'x') {
+        navigator.clipboard.writeText(this.text).then(() => {
+          if (e.code == 'x') {
+            this.text = '';
+          }
+        });
+      }
+    }
+
+    else if (e.key.length == 1)
+      this.filter(this, e)
+  }
+
 
   private _password = false
   get password() { return this._password }
@@ -139,7 +108,7 @@ export class UITextEntry extends UIPanel implements InputField {
   }
 
 
-  filter(entry: InputField, e: UIKeyboardEvent) {
+  filter(entry: UITextEntry, e: UIKeyboardEvent) {
     entry.text += e.key
   }
 }

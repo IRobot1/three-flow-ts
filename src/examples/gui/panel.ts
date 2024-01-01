@@ -148,7 +148,7 @@ export class UIPanel extends Mesh {
 
     const outline = this.createOutline(this.shape)
 
-    const outlinematerial = this.materialCache.getMaterial('line', 'outline', <MeshBasicMaterialParameters>{ color: 'white' });
+    const outlinematerial = this.materialCache.getMaterial('line', 'outline', <MeshBasicMaterialParameters>{ color: 'black' });
     const outlineMesh = new Mesh(outline, outlinematerial)
     outlineMesh.visible = false
     this.add(outlineMesh)
@@ -183,7 +183,7 @@ export class UIPanel extends Mesh {
 
   }
 
-  private rectangle(width: number, height: number, radius: number): Shape {
+  rectangle(width: number, height: number, radius: number): Shape {
     const halfwidth = width / 2
     const halfheight = height / 2
 

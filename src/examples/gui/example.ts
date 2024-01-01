@@ -10,6 +10,7 @@ import { UIButton } from "./button";
 import { UIInputManager } from "./input-manager";
 import { UITextEntry } from "./text-entry";
 import { UINumberEntry } from "./number-entry";
+import { UICheckBox } from "./checkbox";
 
 export class GUIExample {
 
@@ -100,13 +101,17 @@ export class GUIExample {
     const text1 = new UITextEntry({ height:0.3, label: { text: 'test', material: { color: 'black' } } }, app.interactive)
     scene.add(text1)
     text1.password = true
+    text1.position.y = 0.35
 
     const text2 = new UINumberEntry({ initialvalue: 0, height: 0.3, label: { material: { color: 'black' } } }, app.interactive)
     scene.add(text2)
-    text2.position.y = 0.35
 
-    input.add(text1, text2)
 
+    const checkbox = new UICheckBox({ checked: false, height:0.3, width:0.3 }, app.interactive)
+    scene.add(checkbox)
+    checkbox.position.y = -0.35
+
+    input.add(text1, text2, checkbox)
     //const keyboard = new UIKeyboard({}, app.interactive)
     //scene.add(keyboard)
     //keyboard.visible = true
