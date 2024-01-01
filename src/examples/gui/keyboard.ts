@@ -1,15 +1,23 @@
 import { Box3, Object3D, Vector3 } from "three";
-import { ThreeInteractive } from "three-flow";
+import { InteractiveEventType, ThreeInteractive } from "three-flow";
 
 import { ButtonParameters, UIEventType, UIOptions } from "./model";
 import { englishDesktopANSI } from "./englishDesktopANSI";
 import { UIKey, UIKeyEventTypes } from "./keyboard-key";
+import { generate } from "peggy";
 
 export interface UIKeyboardParameters {
 
 }
 export interface UIKeyboardOptions extends UIOptions {
 
+}
+
+export interface UIKeyboardEvent {
+  keycode: string
+  ctrlKey: boolean
+  shiftKey: boolean
+  altKey: boolean
 }
 
 interface KeySetting {
@@ -143,13 +151,13 @@ export class UIKeyboard extends Object3D {
             this.newtext(setting.keys[index])
         }
       }
+      this.keydown({ keycode, shiftKey: event.shiftKey, ctrlKey: event.ctrlKey, altKey: event.altKey })
     }
   }
 
   private handleKeyUp(event: KeyboardEvent) {
     let keycode = event.code;
     if (!keycode) keycode = event.key
-    console.warn(event)
 
     this.checkShift(keycode)
 
@@ -208,7 +216,7 @@ export class UIKeyboard extends Object3D {
       const mesh = this.createKey(text, setting.isicon, setting)
       this.keyMap.set(setting.keycode, mesh)
 
-      if (!setting.isicon && setting.keys && setting.keys.length>1) {
+      if (!setting.isicon && setting.keys && setting.keys.length > 1) {
         this.stateKeys.push({ mesh, text: setting.keys as string[] })
       }
     })
@@ -231,18 +239,45 @@ export class UIKeyboard extends Object3D {
     key.position.copy(setting.position)
     this.add(key)
 
+    const generateEvent = (): UIKeyboardEvent => {
+      const shiftKey = setting.keycode.startsWith('Shift')
+      const ctrlKey = setting.keycode.startsWith('Control')
+      const altKey = setting.keycode.startsWith('Alt')
+      return { keycode: setting.keycode, shiftKey, ctrlKey, altKey }
+    }
+    key.addEventListener(InteractiveEventType.POINTERDOWN, () => {
+      this.keydown(generateEvent())
+    })
+    key.addEventListener(InteractiveEventType.POINTERUP, () => {
+      this.keyup(generateEvent())
+    })
 
     key.addEventListener(UIEventType.BUTTON_PRESSED, (e: any) => {
+      // TODO: add support for repeat
       if (setting.keys) {
         const index = this.shift ? 1 : 0
         const text = setting.keys[index]
         this.newtext(text)
       }
+      else {
+        this.command(setting.keycode)
+
+        if (setting.keycode == 'CapsLock') {
+          this.shift = !this.shift
+          key.dispatchEvent<any>({ type: UIKeyEventTypes.LOCK_STATE, state: this.shift })
+          this.updateKeyText()
+        }
+      }
+
     })
 
     return key
   }
 
-  
+  keydown(event: UIKeyboardEvent) { }
+  keyup(event: UIKeyboardEvent) { }
+
   newtext(text: string) { }
+
+  command(keycode: string) { }
 }

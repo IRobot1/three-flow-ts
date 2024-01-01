@@ -4,7 +4,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { ThreeJSApp } from "../../app/threejs-app";
 import { FlowDiagram } from "three-flow";
 import { UIOptions } from "./model";
-import { UIKeyboard } from "./keyboard";
+import { UIKeyboard, UIKeyboardEvent } from "./keyboard";
 import { MaterialCache } from "./cache";
 import { UIButton } from "./button";
 
@@ -99,11 +99,17 @@ export class GUIExample {
     const keyboard = new UIKeyboard({}, app.interactive, options)
     scene.add(keyboard)
 
-    keyboard.newtext = (text: string) => {
-      console.warn(text)
-    }
-    //keyboard.change = (text: string) => {
+    //keyboard.newtext = (text: string) => {
     //  console.warn(text)
+    //}
+    keyboard.command = (keycode: string) => {
+      console.warn(keycode)
+    }
+    //keyboard.keydown = (event: UIKeyboardEvent) => {
+    //  console.warn(event)
+    //}
+    //keyboard.keyup= (event: UIKeyboardEvent) => {
+    //  console.warn(event)
     //}
 
     //const codepointsMap = new Map<string, string>()

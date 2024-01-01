@@ -97,10 +97,18 @@ export class UIButton extends UIPanel {
       clicking = false;
     }
 
+    this.addEventListener(InteractiveEventType.POINTERDOWN, () => { buttonDown(true) })
+    this.addEventListener(InteractiveEventType.POINTERUP, buttonUp)
+    this.addEventListener(InteractiveEventType.POINTERMISSED, () => {
+      buttonUp()
+      unhighlight()
+    })
+
     this.addEventListener(InteractiveEventType.CLICK, () => {
       if (!this.visible) return;
 
-      buttonDown(true)
+      // button down event already generated in POINTERDOWN event
+
       const timer = setTimeout(() => {
         buttonUp()
         clearTimeout(timer);
