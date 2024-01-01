@@ -1,4 +1,4 @@
-import { Box3, Box3Helper, Object3D, Vector3 } from "three";
+import { Box3, Object3D, Vector3 } from "three";
 import { ThreeInteractive } from "three-flow";
 
 import { ButtonParameters, UIOptions } from "./model";
@@ -17,10 +17,9 @@ interface KeySetting {
   width: number
   height: number
   keycode: string
-  text: Array<string> | string
-//  text?:string
-//  keys?: Array<string>
-//  isicon:boolean,
+  keys?: Array<string>
+  text?: string
+  isicon: boolean
   fontsize: number
 }
 
@@ -95,12 +94,12 @@ export class UIKeyboard extends Object3D {
 
         position.x += hlasthalf + keywidth / 2
 
-        //const isicon = key.isicon != undefined ? key.isicon : false
+        const isicon = key.isicon != undefined ? key.isicon : false
         keys.push({
           position: position.clone(),
           width: keywidth, height: keyheight,
-          keycode: key.keycode, text: key.text, fontsize,
-          //keys: key.keys, isicon
+          keycode: key.keycode, keys: key.keys, fontsize,
+          text: key.text, isicon
         });
 
         position.x += hspacing
@@ -113,7 +112,7 @@ export class UIKeyboard extends Object3D {
       vlasthalft = keyheight / 2
     })
 
-     this.addKeys(keys)
+    this.addKeys(keys)
 
     this.keys = keys
 
@@ -141,10 +140,10 @@ export class UIKeyboard extends Object3D {
 
       if (!event.ctrlKey && !event.altKey) {
         const setting = key.value as KeySetting
-        if (Array.isArray(setting.text)) {
+        if (Array.isArray(setting.keys)) {
           const index = this.shift ? 1 : 0
-          if (index < setting.text.length)
-            this.pressed(setting.text[index])
+          if (index < setting.keys.length)
+            this.pressed(setting.keys[index])
         }
       }
     }
@@ -203,20 +202,16 @@ export class UIKeyboard extends Object3D {
       if (setting.text == '') return
 
       let text = ''
-      let isicon = false
-      if (!Array.isArray(setting.text)) {
-        text = setting.text as string
-        isicon = true
-      }
-      else {
-        text = setting.text[0]
-      }
+      if (Array.isArray(setting.keys))
+        text = setting.keys[0]
+      else if (setting.text)
+        text = setting.text
 
-      const mesh = this.createKey(text, isicon, setting)
+      const mesh = this.createKey(text, setting.isicon, setting)
       this.keyMap.set(setting.keycode, mesh)
 
-      if (!isicon && setting.keycode.startsWith('Key')) {
-        this.stateKeys.push({ mesh, text: setting.text as string[] })
+      if (!setting.isicon && setting.keycode.startsWith('Key')) {
+        this.stateKeys.push({ mesh, text: setting.keys as string[] })
       }
     })
   }
@@ -238,7 +233,7 @@ export class UIKeyboard extends Object3D {
     key.position.copy(setting.position)
     this.add(key)
 
-    
+
     //button.addEventListener(UIEventType.BUTTON_PRESSED, (e: any) => {
 
 

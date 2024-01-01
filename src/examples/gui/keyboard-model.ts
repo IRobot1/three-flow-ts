@@ -10,7 +10,9 @@ export interface KeyParameters {
   keywidth?: number  // option to override default width for this row
   fontsize?: number // option to override default font size for this key
   keycode: string    // keyboard event code or key (if code is blank)
-  text: Array<string> | string  // when string icon name, when array character index depends on state - lower, upper, other
+  text?: string // icon name
+  keys?: Array<string> // when string icon name, when array character index depends on state - lower, upper, other
+  isicon?: boolean
 }
 
 // option to override layout defaults
