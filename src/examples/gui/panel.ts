@@ -1,6 +1,8 @@
-import { BufferGeometry, ColorRepresentation, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, PlaneGeometry } from "three";
+import { BufferGeometry, ColorRepresentation, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, PlaneGeometry, Shape, ShapeGeometry } from "three";
 import { UIEventType, PanelParameters, UIOptions } from "./model";
 import { FontCache, MaterialCache } from "./cache";
+import { InteractiveEventType } from "three-flow";
+import { LineGeometry } from "three/examples/jsm/lines/LineGeometry";
 
 export interface PanelOptions extends UIOptions {
 }
@@ -86,8 +88,10 @@ export class UIPanel extends Mesh {
 
   protected fontCache: FontCache;
   protected materialCache: MaterialCache;
+  protected clicking = false
+  protected shape: Shape
 
-  value:any
+  value: any
 
   constructor(private parameters: PanelParameters = {}, options: PanelOptions = {}) {
     super()
@@ -142,12 +146,60 @@ export class UIPanel extends Mesh {
 
     this.value = parameters.value
 
+    this.shape = this.rectangle(this.width, this.height, 0.02)
+
+    const outline = this.createOutline(this.shape)
+
+    const outlinematerial = this.materialCache.getMaterial('line', 'outline', <MeshBasicMaterialParameters>{ color: 'white' });
+    const outlineMesh = new Mesh(outline, outlinematerial)
+    outlineMesh.visible = false
+    this.add(outlineMesh)
+
+    const highlight = () => {
+      outlineMesh.visible = true
+    }
+    this.highlight = highlight
+
+    this.addEventListener(InteractiveEventType.POINTERENTER, () => {
+      if (this.clicking || !this.visible) return
+      document.body.style.cursor = 'pointer'
+      highlight()
+    })
+
+    const unhighlight = () => {
+      outlineMesh.visible = false
+    }
+    this.unhighlight = unhighlight
+    this.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
+      if (document.body.style.cursor == 'pointer')
+        document.body.style.cursor = 'default'
+      unhighlight()
+    })
+
     // allow derived classes access to "this" by delaying one frame or to override methods
     requestAnimationFrame(() => {
       this._resizeGeometry()
     })
 
 
+  }
+
+  private rectangle(width: number, height: number, radius: number): Shape {
+    const halfwidth = width / 2
+    const halfheight = height / 2
+
+    const shape = new Shape()
+      .moveTo(-halfwidth + radius, -halfheight)
+      .lineTo(halfwidth - radius, -halfheight)
+      .quadraticCurveTo(halfwidth, -halfheight, halfwidth, -halfheight + radius)
+      .lineTo(halfwidth, halfheight - radius)
+      .quadraticCurveTo(halfwidth, halfheight, halfwidth - radius, halfheight)
+      .lineTo(-halfwidth + radius, halfheight)
+      .quadraticCurveTo(-halfwidth, halfheight, -halfwidth, halfheight - radius)
+      .lineTo(-halfwidth, -halfheight + radius)
+      .quadraticCurveTo(-halfwidth, -halfheight, -halfwidth + radius, -halfheight)
+
+    return shape
   }
 
   override add(...object: Object3D[]): this {
@@ -171,8 +223,19 @@ export class UIPanel extends Mesh {
   // overridable
 
   createGeometry(parameters: PanelParameters): BufferGeometry {
-    return new PlaneGeometry(this.width, this.height)
+    return new ShapeGeometry(this.shape)
   }
 
+  createOutline(shape: Shape): BufferGeometry {
+    const positions: Array<number> = []
+    this.shape.getPoints().forEach(p => positions.push(p.x, p.y, 0))
+    return new LineGeometry().setPositions(positions)
+  }
+
+
   resizeGeometry() { }
+
+  highlight() { }
+  unhighlight() { }
+
 }

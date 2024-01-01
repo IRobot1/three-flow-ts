@@ -98,13 +98,14 @@ export class GUIExample {
     }
     const keyboard = new UIKeyboard({}, app.interactive, options)
     scene.add(keyboard)
+    keyboard.visible = true
 
-    //keyboard.newtext = (text: string) => {
-    //  console.warn(text)
-    //}
-    keyboard.command = (keycode: string) => {
-      console.warn(keycode)
+    keyboard.newtext = (text: string) => {
+      console.warn(text)
     }
+    //keyboard.command = (keycode: string) => {
+    //  console.warn(keycode)
+    //}
     //keyboard.keydown = (event: UIKeyboardEvent) => {
     //  console.warn(event)
     //}

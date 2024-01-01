@@ -129,6 +129,7 @@ export class UIKeyboard extends Object3D {
     this.position.x = -target.x / 2
     this.position.y = target.y / 2
 
+    this.visible = false
   }
 
 
