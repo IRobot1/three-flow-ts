@@ -88,13 +88,22 @@ export interface TextParameters extends PanelParameters {
   label?: LabelParameters
 }
 export interface NumberParameters extends TextParameters {
-  initialvalue?:number
+  initialvalue?: number
 }
 export interface CheckboxParameters extends PanelParameters {
   checked?: boolean
   checkmaterial?: MeshBasicMaterialParameters
 }
 export interface ColorEntryParameters extends PanelParameters {
+}
+export interface SliderbarParameters extends PanelParameters {
+  initialvalue?: number
+  min?: number
+  max?: number
+  step?: number
+  sliderwidth?: number
+  sliderradius?: number
+  slidermaterial?: MeshBasicMaterialParameters
 }
 
 

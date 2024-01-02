@@ -161,7 +161,7 @@ export class UIPanel extends Mesh {
 
     this.addEventListener(InteractiveEventType.POINTERENTER, () => {
       if (this.clicking || !this.visible) return
-      document.body.style.cursor = 'pointer'
+      //document.body.style.cursor = 'pointer'
       highlight()
     })
 
@@ -170,8 +170,8 @@ export class UIPanel extends Mesh {
     }
     this.unhighlight = unhighlight
     this.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
-      if (document.body.style.cursor == 'pointer')
-        document.body.style.cursor = 'default'
+      //if (document.body.style.cursor == 'pointer')
+      //  document.body.style.cursor = 'default'
       unhighlight()
     })
 

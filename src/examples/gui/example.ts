@@ -12,6 +12,7 @@ import { UITextEntry } from "./text-entry";
 import { UINumberEntry } from "./number-entry";
 import { UICheckBox } from "./checkbox";
 import { UIColorEntry } from "./color-entry";
+import { UISliderbar } from "./sliderbar";
 
 export class GUIExample {
 
@@ -22,7 +23,7 @@ export class GUIExample {
     const scene = new Scene()
     app.scene = scene
 
-    app.camera.position.z = 1
+    app.camera.position.z = 2
 
     scene.background = new Color(0x444444)
 
@@ -116,7 +117,12 @@ export class GUIExample {
     scene.add(colorentry)
     colorentry.position.y = -0.7
 
-    input.add(text1, text2, checkbox, colorentry)
+
+    const sliderbar = new UISliderbar({ height: 0.3 }, app.interactive)
+    scene.add(sliderbar)
+    sliderbar.position.y = -1.05
+
+    input.add(text1, text2, checkbox, colorentry, sliderbar)
     //const keyboard = new UIKeyboard({}, app.interactive)
     //scene.add(keyboard)
     //keyboard.visible = true
