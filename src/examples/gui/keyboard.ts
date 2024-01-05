@@ -230,7 +230,7 @@ export class UIKeyboard extends Object3D {
     const params: TextButtonParameters = {
       position: { x, y, z },
       width: setting.width, height: setting.height,
-      material: { color: 'gray' },
+      fill: { color: 'gray' },
       label: {
         text, material: { color: 'black' }, isicon, size: setting.fontsize,
       }, value: setting

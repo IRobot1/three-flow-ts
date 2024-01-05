@@ -58,11 +58,11 @@ export class UIPanel extends Mesh {
   autogrow: boolean
   autoshrink: boolean
 
-  private _matparams!: MeshBasicMaterialParameters
-  get color() { return this._matparams.color! }
+  private _fill!: MeshBasicMaterialParameters
+  get color() { return this._fill.color! }
   set color(newvalue: ColorRepresentation) {
-    if (this._matparams.color != newvalue) {
-      this._matparams.color = newvalue;
+    if (this._fill.color != newvalue) {
+      this._fill.color = newvalue;
       (this.material as MeshBasicMaterial).color.set(newvalue)
     }
   }
@@ -133,12 +133,13 @@ export class UIPanel extends Mesh {
     this.autogrow = parameters.autogrow != undefined ? parameters.autogrow : false
     this.autoshrink = parameters.autoshrink != undefined ? parameters.autoshrink : false
 
-    if (parameters.material) {
-      this._matparams = parameters.material
-      this.material = this.materialCache.getMaterial('geometry', this.name, this._matparams)!;
+    if (parameters.fill) {
+      this._fill = parameters.fill
+      this.material = this.materialCache.getMaterial('geometry', this.name, this._fill)!;
     }
     else {
-      parameters.material = { color: 'white' }
+      // match the default provided by three
+      parameters.fill = { color: 'white' }
     }
 
     this._selectable = parameters.selectable != undefined ? parameters.selectable : true
@@ -149,6 +150,15 @@ export class UIPanel extends Mesh {
     this.shape = this.rectangle(this.width, this.height, 0.02)
 
     const outline = this.createOutline(this.shape)
+
+    //if (parameters.outlinematerial) {
+    //  this._matparams = parameters.material as LineMaterialParameters
+    //  if (parameters.material.color == undefined) parameters.material.color = 0xffffff
+    //}
+    //else
+    //  this._matparams = { color: 0xffffff }
+
+    //this.material = this.diagram.getMaterial('geometry', 'edge', this._matparams)
 
     const outlinematerial = this.materialCache.getMaterial('line', 'outline', <MeshBasicMaterialParameters>{ color: 'black' });
     const outlineMesh = new Mesh(outline, outlinematerial)

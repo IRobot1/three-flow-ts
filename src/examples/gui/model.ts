@@ -2,11 +2,6 @@ import { MeshBasicMaterialParameters } from "three";
 import { LineMaterialParameters } from "three/examples/jsm/lines/LineMaterial";
 import { FontCache, MaterialCache } from "./cache";
 
-export type BorderStyle = 'none' | 'solid' | 'dashed'
-export interface BorderParameters extends LineMaterialParameters {
-  style?: BorderStyle | undefined // default is none
-}
-
 export interface PositionParameters {
   x?: number | undefined // default is 0
   y?: number | undefined // default is 0
@@ -58,8 +53,9 @@ export interface PanelParameters extends TranformParameters, SizeParameters {
   draggable?: boolean | undefined   // default is false, button can be moved
 
   // appearance
-  material?: MeshBasicMaterialParameters | undefined  // default is white
-  border?: BorderParameters | undefined               // default is none
+  fill?: MeshBasicMaterialParameters | undefined  // default is white
+  highlight?: LineMaterialParameters | undefined               // default is none
+  border?: LineMaterialParameters | undefined               // default is none
 }
 
 export type LabelAlignX = 'center' | 'left' | 'right'

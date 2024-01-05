@@ -118,7 +118,7 @@ export class GUIExample {
     scene.add(checkbox)
     checkbox.position.y = -0.35
 
-    const colorentry = new UIColorEntry({ height: 0.3, material: { color: 'blue' } }, app.interactive, options)
+    const colorentry = new UIColorEntry({ height: 0.3, fill: { color: 'blue' } }, app.interactive, options)
     scene.add(colorentry)
     colorentry.position.y = -0.7
 
