@@ -2,7 +2,7 @@ import { InteractiveEventType, ThreeInteractive } from "three-flow";
 import { PanelOptions } from "./panel";
 import { SliderbarParameters } from "./model";
 import { MathUtils, Mesh, ShapeGeometry, Vector3 } from "three";
-import { InputFieldType, UIEntry } from "./input-field";
+import { UIEntry } from "./input-field";
 import { UIKeyboardEvent } from "./keyboard";
 
 export enum SliderbarEventType {
@@ -11,7 +11,7 @@ export enum SliderbarEventType {
 export interface SliderbarOptions extends PanelOptions { }
 
 export class UISliderbar extends UIEntry {
-  inputtype: InputFieldType = 'sliderbar'
+  inputtype: string = 'sliderbar'
 
   // clamp value between min and max if defined
   private clampValue(newvalue: number): number {

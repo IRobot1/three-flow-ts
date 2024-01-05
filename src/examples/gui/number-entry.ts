@@ -1,6 +1,5 @@
 import { ThreeInteractive } from "three-flow"
 
-import { InputField, InputFieldEventType, InputFieldType } from "./input-field"
 import { TextOptions, UITextEntry } from "./text-entry"
 import { NumberEntryParameters } from "./model"
 
@@ -11,7 +10,7 @@ export interface NumberOptions extends TextOptions {
 }
 
 export class UINumberEntry extends UITextEntry {
-  override inputtype: InputFieldType = 'number'
+  override inputtype: string = 'number'
 
   protected _value = NaN
   get value() { return this._value }

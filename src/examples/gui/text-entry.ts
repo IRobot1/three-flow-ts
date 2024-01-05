@@ -1,8 +1,8 @@
-import { InputField, InputFieldEventType, InputFieldType, UIEntry } from "./input-field"
-import { PanelOptions, UIPanel } from "./panel"
+import { InputField, InputFieldEventType, UIEntry } from "./input-field"
+import { PanelOptions } from "./panel"
 import { UIKeyboardEvent } from "./keyboard"
 import { UILabel } from "./label"
-import { TextEntryParameters, UIEventType } from "./model"
+import { TextEntryParameters } from "./model"
 import { ThreeInteractive } from "three-flow"
 
 export interface TextOptions extends PanelOptions {
@@ -10,7 +10,7 @@ export interface TextOptions extends PanelOptions {
 
 
 export class UITextEntry extends UIEntry implements InputField {
-  inputtype: InputFieldType = 'text'
+  inputtype: string = 'text'
 
   protected label: UILabel
 

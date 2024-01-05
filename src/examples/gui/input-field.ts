@@ -4,26 +4,26 @@ import { PanelOptions, UIPanel } from "./panel";
 import { ThreeInteractive } from "three-flow";
 import { PanelParameters, UIEventType } from "./model";
 
-export type InputFieldType = 'text' | 'number' | 'checkbox' | 'color' | string
-
-
 export enum InputFieldEventType {
-    ACTIVE_CHANGED = 'active_changed',
-    DISABLE_CHANGED = 'disable_changed',
-    TEXT_CHANGED = 'text_changed',
-    KEYDOWN = 'keydown',
-    KEYUP = "KEYUP"
+  ACTIVE_CHANGED = 'active_changed',
+  DISABLE_CHANGED = 'disable_changed',
+  TEXT_CHANGED = 'text_changed',
+  KEYDOWN = 'keydown',
+  KEYUP = "KEYUP"
 }
 
 export interface InputField extends Mesh {
-  inputtype: InputFieldType
+  inputtype: string
   active: boolean
   disabled: boolean
+  width: number
+  height: number
+  depth: number
 }
 
 
 export abstract class UIEntry extends UIPanel implements InputField {
-  abstract inputtype: InputFieldType 
+  abstract inputtype: string
 
   private _active = false
   get active(): boolean { return this._active }

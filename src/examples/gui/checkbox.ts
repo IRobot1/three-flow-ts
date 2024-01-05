@@ -2,7 +2,7 @@ import { InteractiveEventType, ThreeInteractive } from "three-flow";
 import { PanelOptions } from "./panel";
 import { CheckboxParameters } from "./model";
 import { Mesh, ShapeGeometry } from "three";
-import { InputFieldType, UIEntry } from "./input-field";
+import { UIEntry } from "./input-field";
 import { UIKeyboardEvent } from "./keyboard";
 
 
@@ -13,7 +13,7 @@ export enum CheckboxEventType {
 export interface CheckboxOptions extends PanelOptions { }
 
 export class UICheckBox extends UIEntry {
-  inputtype: InputFieldType = 'checkbox'
+  inputtype: string = 'checkbox'
 
   private _checked = false
   get checked(): boolean { return this._checked }
