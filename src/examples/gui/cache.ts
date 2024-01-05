@@ -23,7 +23,7 @@ export class MaterialCache {
 
   getMaterial(type: string, purpose: string, parameters: MaterialParameters): Material {
     const color = (parameters as MeshBasicMaterialParameters).color
-    const key = `${type}-${purpose}-${color}`;
+    const key = `${type}-${purpose}|${color}`;
     if (!this.materialMap.has(key)) {
       let material
       if (type == 'line')

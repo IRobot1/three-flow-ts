@@ -60,8 +60,8 @@ export class GUIExample {
     //new PanelInteraction(panel, app.interactive)
 
     const button = new UITextButton({
-      position: { y: 0.7 },
-      width:1, height:0.3,
+      position: { y: 0.75 },
+      width:1, height:0.4,
       //material: { color: 'gray' },
       label: {
         text: 'Click Me', //material: { color: 'black' }
@@ -99,31 +99,37 @@ export class GUIExample {
     //  count++
     //},1000)
 
-    const input = new UIInputManager(app)
+    const options: UIOptions = {
+      materialCache : new MaterialCache()
+    }
 
-    const text1 = new UITextEntry({ height:0.3, label: { text: 'test', material: { color: 'black' } } }, app.interactive)
+    const input = new UIInputManager(app, { selectedMaterial: { color: 'red' }, ...options })
+
+    const text1 = new UITextEntry({ height: 0.3, label: { text: 'test', material: { color: 'black' } } }, app.interactive, options)
     scene.add(text1)
     text1.password = true
     text1.position.y = 0.35
 
-    const text2 = new UINumberEntry({ initialvalue: 0, height: 0.3, label: { material: { color: 'black' } } }, app.interactive)
+    const text2 = new UINumberEntry({ initialvalue: 0, height: 0.3, label: { material: { color: 'black' } } }, app.interactive, options)
     scene.add(text2)
 
 
-    const checkbox = new UICheckBox({ checked: false, height:0.3, width:0.3 }, app.interactive)
+    const checkbox = new UICheckBox({ checked: false, height: 0.3, width: 0.3 }, app.interactive, options)
     scene.add(checkbox)
     checkbox.position.y = -0.35
 
-    const colorentry = new UIColorEntry({ height:0.3, material: { color:'red'} }, app.interactive)
+    const colorentry = new UIColorEntry({ height: 0.3, material: { color: 'blue' } }, app.interactive, options)
     scene.add(colorentry)
     colorentry.position.y = -0.7
 
 
-    const sliderbar = new UISliderbar({ height: 0.3 }, app.interactive)
+    const sliderbar = new UISliderbar({ height: 0.3 }, app.interactive, options)
     scene.add(sliderbar)
     sliderbar.position.y = -1.05
 
-    input.add(button,text1, text2, checkbox, colorentry, sliderbar)
+    input.add(button, text1, text2, checkbox, colorentry, sliderbar)
+
+    //console.warn(options.materialCache)
     //const keyboard = new UIKeyboard({}, app.interactive)
     //scene.add(keyboard)
     //keyboard.visible = true

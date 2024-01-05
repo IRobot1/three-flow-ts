@@ -43,7 +43,7 @@ export abstract class UIEntry extends UIPanel implements InputField {
     }
   }
 
-  constructor(parameters: PanelParameters = {}, interactive: ThreeInteractive, options: PanelOptions = {}) {
+  constructor(parameters: PanelParameters, interactive: ThreeInteractive, options: PanelOptions = {}) {
     super(parameters, options)
 
     const selectableChanged = () => {

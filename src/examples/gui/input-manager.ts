@@ -1,16 +1,16 @@
-import { EventDispatcher, Object3D, WebGLRenderer } from "three"
+import { BufferGeometry, EventDispatcher, Mesh, MeshBasicMaterialParameters, Object3D, PlaneGeometry, WebGLRenderer } from "three"
 import { InputField, InputFieldEventType } from "./input-field";
 import { UIKeyboardEvent } from "./keyboard";
 import { InteractiveEventType } from "three-flow";
+import { UIOptions } from "./model";
+import { MaterialCache } from "./cache";
 
-export interface InputManagerOptions {
+export interface InputManagerOptions extends UIOptions {
+  selectedMaterial?: MeshBasicMaterialParameters
+  showSelected?: boolean
 }
 
 export class UIInputManager extends EventDispatcher {
-
-  private children: Array<InputField> = []
-
-  private currentMethod?: Object3D
 
   private _selected: InputField | undefined
   get selected() { return this._selected }
@@ -21,20 +21,41 @@ export class UIInputManager extends EventDispatcher {
       if (newvalue) {
         this.currentMethod = this.inputMethods.get(newvalue.inputtype)
         if (this.currentMethod) this.currentMethod.visible = true
+        this.showSelectedVisual()
       }
+      else
+        this.selectedMesh.visible = false
     }
   }
 
-  //public colorpicker?: ColorPicker
-  dispose: () => void
+  showSelected: boolean
+
+  private lastHeight = 0
+
+  private showSelectedVisual() {
+    if (!this.showSelected) return
+
+    const selected = this.selected!
+    if (selected.height != this.lastHeight) {
+      this.selectedMesh.geometry = this.createSelectedGeometry(selected.height)
+      this.lastHeight = selected.height
+    }
+    this.selectedMesh.position.x = -selected.width / 2 - 0.03
+    selected.add(this.selectedMesh)  // change parent to selected object
+    this.selectedMesh.visible = true
+  }
 
   private inputMethods = new Map<string, Object3D>()
+  private children: Array<InputField> = []
+  private currentMethod?: Object3D
+  private selectedMesh: Mesh
 
-  // overrides for VR
-  setInputMethods(methods: Map<string, Object3D>) { }
 
-  constructor(renderer: WebGLRenderer) {
+  constructor(renderer: WebGLRenderer, options: InputManagerOptions = {}) {
     super()
+
+
+    this.showSelected = options.showSelected != undefined ? options.showSelected : true
 
     // TODO: listen for entering and leaving VR
     // make sure input methods are hidden for now
@@ -42,6 +63,12 @@ export class UIInputManager extends EventDispatcher {
       this.setInputMethods(this.inputMethods)
       Array.from(this.inputMethods.values()).forEach(object => object.visible = false)
     }
+    const materialCache = options.materialCache != undefined ? options.materialCache : new MaterialCache()
+
+    const mesh = new Mesh()
+    const parameters = options.selectedMaterial ? options.selectedMaterial : { color: 'red' }
+    mesh.material = materialCache.getMaterial('geometry', 'selected', parameters)
+    this.selectedMesh = mesh
 
     const processKeyCode = (keyboard: UIKeyboardEvent) => {
       if (keyboard.code == 'Tab' && this.children.length > 0) {
@@ -152,4 +179,12 @@ export class UIInputManager extends EventDispatcher {
   }
 
   get count(): number { return this.children.length }
+
+  // overrides for VR
+  setInputMethods(methods: Map<string, Object3D>) { }
+  dispose: () => void
+
+  createSelectedGeometry(selectedHeight: number): BufferGeometry {
+    return new PlaneGeometry(0.04, selectedHeight)
+  }
 }

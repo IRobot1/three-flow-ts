@@ -94,6 +94,8 @@ export class UIPanel extends Mesh {
   constructor(private parameters: PanelParameters = {}, options: PanelOptions = {}) {
     super()
 
+    this.name = parameters.id != undefined ? parameters.id : 'panel'
+
     this.fontCache = options.fontCache != undefined ? options.fontCache : new FontCache()
     this.materialCache = options.materialCache != undefined ? options.materialCache : new MaterialCache()
 
