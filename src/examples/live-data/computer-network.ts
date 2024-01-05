@@ -12,6 +12,7 @@ import {
   FlowLabel,
   FlowLabelParameters,
   FlowNode,
+  RoundedRectangleGeometry,
 } from "three-flow";
 import { ComputerNetworkEdges, ComputerNetworkNodes, ComputerParameters, ComputerStatus } from "./computer-network-data";
 import { ThreeJSApp } from "../../app/threejs-app";
@@ -232,24 +233,7 @@ class ComputerNode extends FlowNode {
   }
 
   override createGeometry = (): BufferGeometry => {
-    const width = this.width
-    const height = this.height
-    const radius = 0.3
-
-    const halfwidth = width / 2
-    const halfheight = height / 2
-    const ctx = new Shape()
-      .moveTo(-halfwidth + radius, -halfheight)
-      .lineTo(halfwidth - radius, -halfheight)
-      .quadraticCurveTo(halfwidth, -halfheight, halfwidth, -halfheight + radius)
-      .lineTo(halfwidth, halfheight - radius)
-      .quadraticCurveTo(halfwidth, halfheight, halfwidth - radius, halfheight)
-      .lineTo(-halfwidth + radius, halfheight)
-      .quadraticCurveTo(-halfwidth, halfheight, -halfwidth, halfheight - radius)
-      .lineTo(-halfwidth, -halfheight + radius)
-      .quadraticCurveTo(-halfwidth, -halfheight, -halfwidth + radius, -halfheight)
-
-    return new ShapeGeometry(ctx);
+    return new RoundedRectangleGeometry(this.width, this.height, 0.3);
   }
 }
 
