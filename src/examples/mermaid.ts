@@ -11,6 +11,7 @@ import {
   FlowDiagramParameters,
   FlowInteraction,
   FlowNode,
+  RoundedRectangleGeometry,
 } from "three-flow"
 import { parse } from './mermaid/parser.js'
 import { DagreLayout } from "./dagre-layout"
@@ -220,24 +221,6 @@ class MermaidShapeNode extends FlowNode {
     super(diagram, node)
   }
 
-  private rectangularShape(width: number, height: number, radius: number): Shape {
-    const halfwidth = width / 2
-    const halfheight = height / 2
-
-    const shape = new Shape()
-      .moveTo(-halfwidth + radius, -halfheight)
-      .lineTo(halfwidth - radius, -halfheight)
-      .quadraticCurveTo(halfwidth, -halfheight, halfwidth, -halfheight + radius)
-      .lineTo(halfwidth, halfheight - radius)
-      .quadraticCurveTo(halfwidth, halfheight, halfwidth - radius, halfheight)
-      .lineTo(-halfwidth + radius, halfheight)
-      .quadraticCurveTo(-halfwidth, halfheight, -halfwidth, halfheight - radius)
-      .lineTo(-halfwidth, -halfheight + radius)
-      .quadraticCurveTo(-halfwidth, -halfheight, -halfwidth + radius, -halfheight)
-
-    return shape
-  }
-
   private stadiumShape(width: number, height: number): Shape {
     var radius = height / 2
     const shape = new Shape()
@@ -386,7 +369,7 @@ class MermaidShapeNode extends FlowNode {
 
     switch (shapenode.shape) {
       case 'roundrectangle':
-        result = new ShapeGeometry(this.rectangularShape(this.width, this.height, 0.1))
+        result = new RoundedRectangleGeometry(this.width, this.height, 0.1)
         break
       case 'stadium':
         result = new ShapeGeometry(this.stadiumShape(this.width, this.height))
