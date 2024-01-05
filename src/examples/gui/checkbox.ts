@@ -51,12 +51,14 @@ export class UICheckBox extends UIEntry {
     const checkshape = this.rectangle(this.width * checksize, this.height * checksize, 0.02)
     const checkmesh = new Mesh(new ShapeGeometry(checkshape), checkmaterial)
     this.add(checkmesh)
+    checkmesh.position.z = 0.001
     checkmesh.visible = this.checked
 
 
     const indeterminateshape = this.rectangle(this.width * checksize, this.height * 0.2, 0.02)
     const indeterminatemesh = new Mesh(new ShapeGeometry(indeterminateshape), checkmaterial)
     this.add(indeterminatemesh)
+    indeterminatemesh.position.z = 0.001
     indeterminatemesh.visible = this.indeterminate
 
     this.addEventListener(InteractiveEventType.CLICK, () => {
