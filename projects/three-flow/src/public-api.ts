@@ -24,3 +24,6 @@ export * from './lib/background';
 export * from './lib/properties'
 export * from './lib/designer'
 export * from './lib/exporter'
+
+export * from './lib/shapes/rounded-rectangle-shape'
+export * from './lib/shapes/rounded-rectangle-geometry'

@@ -14,6 +14,7 @@ import {
   FlowInteraction,
   FlowDiagramOptions,
   FlowEventType,
+  RoundedRectangleGeometry,
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 import { FlowProperties } from "three-flow";
@@ -41,8 +42,8 @@ export class ProcessExample {
 
     background.rotation.x = MathUtils.degToRad(-15)
 
-    const light = new SpotLight(0xffffff, 20, 20, 5, 1)
-    light.position.set(0.5, 0.5, 4)
+    const light = new SpotLight(0xffffff, 40, 20, 5, 1)
+    light.position.set(0, 0, 3)
     light.castShadow = true
     light.shadow.bias = -0.001 // this prevents artifacts
     light.shadow.mapSize.width = light.shadow.mapSize.height = 512 / 2
@@ -231,7 +232,7 @@ class ProcessNode extends FlowNode {
         geometry = new CircleGeometry(width / 2)
         break;
       case 'rect':
-        geometry = new ShapeGeometry(this.rectangularShape(width, height, 0.1))
+        geometry = new RoundedRectangleGeometry(width, height, 0.1)
         break;
       case 'rhombus':
         geometry = new ShapeGeometry(this.rhombusShape(width, height))
@@ -269,24 +270,4 @@ class ProcessNode extends FlowNode {
 
     return shape
   }
-
-  private rectangularShape(width: number, height: number, radius: number): Shape {
-    const halfwidth = width / 2
-    const halfheight = height / 2
-
-    const shape = new Shape()
-      .moveTo(-halfwidth + radius, -halfheight)
-      .lineTo(halfwidth - radius, -halfheight)
-      .quadraticCurveTo(halfwidth, -halfheight, halfwidth, -halfheight + radius)
-      .lineTo(halfwidth, halfheight - radius)
-      .quadraticCurveTo(halfwidth, halfheight, halfwidth - radius, halfheight)
-      .lineTo(-halfwidth + radius, halfheight)
-      .quadraticCurveTo(-halfwidth, halfheight, -halfwidth, halfheight - radius)
-      .lineTo(-halfwidth, -halfheight + radius)
-      .quadraticCurveTo(-halfwidth, -halfheight, -halfwidth + radius, -halfheight)
-
-    return shape
-  }
-
-
 }

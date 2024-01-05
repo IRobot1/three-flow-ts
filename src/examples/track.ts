@@ -2,7 +2,7 @@ import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CircleGeometry, 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowEventType ,FlowDiagram, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowInteraction, FlowNode, FlowNodeParameters} from "three-flow";
+import { FlowEventType ,FlowDiagram, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowInteraction, FlowNode, FlowNodeParameters, RoundedRectangleShape} from "three-flow";
 import { FlowTrack, FlowTracks, TrackItemEventMap } from "./flow-track";
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
 
@@ -49,7 +49,7 @@ export class TracksExample {
     const interaction = new FlowInteraction(diagram, app.interactive)
 
     // generate a basic track
-    const shape = this.rectangularShape(3, 3, 0.5)
+    const shape = new RoundedRectangleShape(3, 3, 0.5)
     const points = shape.getSpacedPoints(15)
     points.splice(15)// remove the last duplicate point
 
@@ -124,24 +124,6 @@ export class TracksExample {
       interaction.dispose()
       orbit.dispose()
     }
-  }
-
-  private rectangularShape(width: number, height: number, radius: number): Shape {
-    const halfwidth = width / 2
-    const halfheight = height / 2
-
-    const shape = new Shape()
-      .moveTo(-halfwidth + radius, -halfheight)
-      .lineTo(halfwidth - radius, -halfheight)
-      .quadraticCurveTo(halfwidth, -halfheight, halfwidth, -halfheight + radius)
-      .lineTo(halfwidth, halfheight - radius)
-      .quadraticCurveTo(halfwidth, halfheight, halfwidth - radius, halfheight)
-      .lineTo(-halfwidth + radius, halfheight)
-      .quadraticCurveTo(-halfwidth, halfheight, -halfwidth, halfheight - radius)
-      .lineTo(-halfwidth, -halfheight + radius)
-      .quadraticCurveTo(-halfwidth, -halfheight, -halfwidth + radius, -halfheight)
-
-    return shape
   }
 
 }

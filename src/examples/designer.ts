@@ -4,7 +4,7 @@ import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeom
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
-import { ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors, FlowDesignerOptions, FlowDiagram, FlowDiagramDesigner, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors, ThreeInteractive } from "three-flow";
+import { ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors, FlowDesignerOptions, FlowDiagram, FlowDiagramDesigner, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors, RoundedRectangleShape, ThreeInteractive } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "./troika-label";
@@ -175,9 +175,9 @@ class ShapeNode extends FlowNode {
   private addBorder(): BufferGeometry {
     const r = 0.04
     // add a border around node
-    const shape = this.rectangularShape(this.width + 0.01, this.height + 0.01, 0.03)
+    const shape = new RoundedRectangleShape(this.width + 0.01, this.height + 0.01, 0.03)
 
-    const points = this.rectangularShape(this.width - 0.01, this.height - 0.01, 0.02).getPoints();
+    const points = new RoundedRectangleShape(this.width - 0.01, this.height - 0.01, 0.02).getPoints();
 
     // draw the hole
     const holePath = new Shape(points.reverse())
@@ -187,23 +187,6 @@ class ShapeNode extends FlowNode {
     return new ShapeGeometry(shape);
   }
 
-  private rectangularShape(width: number, height: number, radius: number): Shape {
-    const halfwidth = width / 2
-    const halfheight = height / 2
-
-    const shape = new Shape()
-      .moveTo(-halfwidth + radius, -halfheight)
-      .lineTo(halfwidth - radius, -halfheight)
-      .quadraticCurveTo(halfwidth, -halfheight, halfwidth, -halfheight + radius)
-      .lineTo(halfwidth, halfheight - radius)
-      .quadraticCurveTo(halfwidth, halfheight, halfwidth - radius, halfheight)
-      .lineTo(-halfwidth + radius, halfheight)
-      .quadraticCurveTo(-halfwidth, halfheight, -halfwidth, halfheight - radius)
-      .lineTo(-halfwidth, -halfheight + radius)
-      .quadraticCurveTo(-halfwidth, -halfheight, -halfwidth + radius, -halfheight)
-
-    return shape
-  }
 
 
   private createCube(parameters: DesignerNodeParameters): BufferGeometry {

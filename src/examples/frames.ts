@@ -13,6 +13,8 @@ import {
   FlowEdge,
   FlowInteraction,
   FlowDiagramOptions,
+  RoundedRectangleGeometry,
+  RoundedRectangleShape,
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 
@@ -210,7 +212,7 @@ class FramesNode extends FlowNode {
     material.transparent = true
     material.opacity = 0
 
-    const geometry = new ShapeGeometry(this.rectangularShape(this.width - 0.2, this.height - 0.2, 0.1))
+    const geometry = new RoundedRectangleGeometry(this.width - 0.2, this.height - 0.2, 0.1)
     const back = diagram.getMaterial('geometry', 'background', <MeshBasicMaterialParameters>{ color: 'white' }) as MeshBasicMaterial
     back.transparent = true
     back.opacity = 0.2
@@ -228,7 +230,7 @@ class FramesNode extends FlowNode {
 
   private addBorder(): BufferGeometry {
     // add a border around node
-    const shape = this.rectangularShape(this.width, this.height, 0.1)
+    const shape = new RoundedRectangleShape(this.width, this.height, 0.1)
 
     const points = shape.getPoints();
     points.forEach(item => item.multiplyScalar(0.95))
@@ -239,24 +241,6 @@ class FramesNode extends FlowNode {
     // add hole to shape
     shape.holes.push(holePath);
     return new ShapeGeometry(shape);
-  }
-
-  private rectangularShape(width: number, height: number, radius: number): Shape {
-    const halfwidth = width / 2
-    const halfheight = height / 2
-
-    const shape = new Shape()
-      .moveTo(-halfwidth + radius, -halfheight)
-      .lineTo(halfwidth - radius, -halfheight)
-      .quadraticCurveTo(halfwidth, -halfheight, halfwidth, -halfheight + radius)
-      .lineTo(halfwidth, halfheight - radius)
-      .quadraticCurveTo(halfwidth, halfheight, halfwidth - radius, halfheight)
-      .lineTo(-halfwidth + radius, halfheight)
-      .quadraticCurveTo(-halfwidth, halfheight, -halfwidth, halfheight - radius)
-      .lineTo(-halfwidth, -halfheight + radius)
-      .quadraticCurveTo(-halfwidth, -halfheight, -halfwidth + radius, -halfheight)
-
-    return shape
   }
 }
 

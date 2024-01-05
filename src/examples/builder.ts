@@ -8,7 +8,8 @@ import {
   FlowDiagramOptions,
   FlowInteraction,
   FlowNode,
-  FlowNodeParameters
+  FlowNodeParameters,
+  RoundedRectangleGeometry
 } from "three-flow";
 import { Exporter } from "three-flow";
 import { DagreLayout } from "./dagre-layout";
@@ -71,24 +72,7 @@ export class BuilderExample {
         const result = new FlowNode(flow, mynode);
         mynode.shape = 'round'
         result.createGeometry = (): BufferGeometry => {
-          const width = result.width!
-          const height = result.height!
-          const radius = 0.3
-
-          const halfwidth = width / 2
-          const halfheight = height / 2
-          const ctx = new Shape()
-            .moveTo(-halfwidth + radius, -halfheight)
-            .lineTo(halfwidth - radius, -halfheight)
-            .quadraticCurveTo(halfwidth, -halfheight, halfwidth, -halfheight + radius)
-            .lineTo(halfwidth, halfheight - radius)
-            .quadraticCurveTo(halfwidth, halfheight, halfwidth - radius, halfheight)
-            .lineTo(-halfwidth + radius, halfheight)
-            .quadraticCurveTo(-halfwidth, halfheight, -halfwidth, halfheight - radius)
-            .lineTo(-halfwidth, -halfheight + radius)
-            .quadraticCurveTo(-halfwidth, -halfheight, -halfwidth + radius, -halfheight)
-
-          return new ShapeGeometry(ctx);
+          return new RoundedRectangleGeometry(result.width, result.height, 0.3);
         }
         return result;
       };
