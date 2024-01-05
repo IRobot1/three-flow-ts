@@ -1,10 +1,9 @@
 import { Box3, Object3D, Vector3 } from "three";
 import { InteractiveEventType, ThreeInteractive } from "three-flow";
 
-import { ButtonParameters, UIEventType, UIOptions } from "./model";
+import { TextButtonParameters, UIEventType, UIOptions } from "./model";
 import { englishDesktopANSI } from "./englishDesktopANSI";
 import { UIKey, UIKeyEventTypes } from "./keyboard-key";
-import { generate } from "peggy";
 
 export interface UIKeyboardParameters {
 
@@ -228,7 +227,7 @@ export class UIKeyboard extends Object3D {
   createKey(text: string, isicon: boolean, setting: KeySetting): UIKey {
     const { x, y, z } = setting.position
 
-    const params: ButtonParameters = {
+    const params: TextButtonParameters = {
       position: { x, y, z },
       width: setting.width, height: setting.height,
       material: { color: 'gray' },

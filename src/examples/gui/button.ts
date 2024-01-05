@@ -1,8 +1,7 @@
 import { InteractiveEventType, ThreeInteractive } from "three-flow";
 
 import { ButtonParameters, UIEventType } from "./model";
-import { PanelOptions, UIPanel } from "./panel";
-import { UILabel } from "./label";
+import { PanelOptions } from "./panel";
 import { UIEntry } from "./input-field";
 import { UIKeyboardEvent } from "./keyboard";
 
@@ -19,31 +18,10 @@ export interface ButtonOptions extends PanelOptions {
 export class UIButton extends UIEntry {
   override inputtype: string = 'button'
 
-  private label?: UILabel
-
-  private _text = ''
-  get text() { return this._text }
-  set text(newvalue: string) {
-    if (this._text != newvalue) {
-      this._text = newvalue
-      if (newvalue && this.label)
-        this.label.text = newvalue
-    }
-  }
-
   constructor(parameters: ButtonParameters, interactive: ThreeInteractive, options: ButtonOptions = {}) {
     super(parameters, interactive, options)
 
     this.name = parameters.id != undefined ? parameters.id : 'button'
-
-    if (parameters.label) {
-      const label = new UILabel(parameters.label, { fontCache: this.fontCache, materialCache: this.materialCache })
-      this.add(label)
-      label.position.z = 0.001
-      this.label = label
-    }
-
-
 
     const selectableChanged = () => {
       if (this.selectable)

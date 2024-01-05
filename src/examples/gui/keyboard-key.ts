@@ -1,7 +1,7 @@
 import { ThreeInteractive } from "three-flow";
-import { UIButton } from "./button";
-import { ButtonParameters } from "./model";
+import { TextButtonParameters } from "./model";
 import { MeshBasicMaterial } from "three";
+import { UITextButton } from "./button-text";
 
 export enum UIKeyEventTypes {
   LOCK_STATE = 'lock_state',
@@ -9,8 +9,8 @@ export enum UIKeyEventTypes {
   BUTTON_UP = 'button_up',
   SET_TEXT = 'set_text',
 }
-export class UIKey extends UIButton {
-  constructor(parameters: ButtonParameters, interactive: ThreeInteractive) {
+export class UIKey extends UITextButton {
+  constructor(parameters: TextButtonParameters, interactive: ThreeInteractive) {
     super(parameters, interactive)
 
     const original = this.material

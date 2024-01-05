@@ -13,6 +13,7 @@ import { UINumberEntry } from "./number-entry";
 import { UICheckBox } from "./checkbox";
 import { UIColorEntry } from "./color-entry";
 import { UISliderbar } from "./sliderbar";
+import { UITextButton } from "./button-text";
 
 export class GUIExample {
 
@@ -58,7 +59,7 @@ export class GUIExample {
 
     //new PanelInteraction(panel, app.interactive)
 
-    const button = new UIButton({
+    const button = new UITextButton({
       position: { y: 0.7 },
       width:1, height:0.3,
       //material: { color: 'gray' },

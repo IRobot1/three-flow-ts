@@ -82,7 +82,9 @@ export interface LabelParameters {
 }
 
 export interface ButtonParameters extends PanelParameters {
-  label?: LabelParameters
+}
+export interface TextButtonParameters extends PanelParameters {
+  label: LabelParameters
 }
 export interface TextParameters extends PanelParameters {
   label?: LabelParameters
