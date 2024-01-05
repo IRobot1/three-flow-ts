@@ -86,10 +86,10 @@ export interface ButtonParameters extends PanelParameters {
 export interface TextButtonParameters extends PanelParameters {
   label: LabelParameters
 }
-export interface TextParameters extends PanelParameters {
+export interface TextEntryParameters extends PanelParameters {
   label?: LabelParameters
 }
-export interface NumberParameters extends TextParameters {
+export interface NumberEntryParameters extends TextEntryParameters {
   initialvalue?: number
 }
 export interface CheckboxParameters extends PanelParameters {

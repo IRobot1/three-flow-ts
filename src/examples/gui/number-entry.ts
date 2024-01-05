@@ -2,7 +2,7 @@ import { ThreeInteractive } from "three-flow"
 
 import { InputField, InputFieldEventType, InputFieldType } from "./input-field"
 import { TextOptions, UITextEntry } from "./text-entry"
-import { NumberParameters } from "./model"
+import { NumberEntryParameters } from "./model"
 
 export enum NumberEntryEventType {
   VALUE_CHANGED = 'value_changed',
@@ -84,7 +84,7 @@ export class UINumberEntry extends UITextEntry {
 
 
 
-  constructor(parameters: NumberParameters = {}, interactive: ThreeInteractive, options: NumberOptions = {}) {
+  constructor(parameters: NumberEntryParameters = {}, interactive: ThreeInteractive, options: NumberOptions = {}) {
     super(parameters, interactive, options)
 
     this.name = parameters.id != undefined ? parameters.id : 'number-entry'

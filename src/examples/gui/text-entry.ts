@@ -2,7 +2,7 @@ import { InputField, InputFieldEventType, InputFieldType, UIEntry } from "./inpu
 import { PanelOptions, UIPanel } from "./panel"
 import { UIKeyboardEvent } from "./keyboard"
 import { UILabel } from "./label"
-import { TextParameters, UIEventType } from "./model"
+import { TextEntryParameters, UIEventType } from "./model"
 import { ThreeInteractive } from "three-flow"
 
 export interface TextOptions extends PanelOptions {
@@ -26,7 +26,7 @@ export class UITextEntry extends UIEntry implements InputField {
 
 
 
-  constructor(parameters: TextParameters = {}, interactive: ThreeInteractive, options: TextOptions = {}) {
+  constructor(parameters: TextEntryParameters = {}, interactive: ThreeInteractive, options: TextOptions = {}) {
     if (parameters.height == undefined) parameters.height = 0.1
 
     super(parameters, interactive, options)
