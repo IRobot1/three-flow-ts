@@ -68,12 +68,19 @@ export class UIInputManager extends EventDispatcher {
       processKeyCode({ code: e.code, key: e.key, shiftKey: e.shiftKey, ctrlKey: e.ctrlKey, altKey: e.altKey })
     }
 
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (this.selected) {
+        const keyboard: UIKeyboardEvent = { code: e.code, key: e.key, shiftKey: e.shiftKey, ctrlKey: e.ctrlKey, altKey: e.altKey }
+        this.selected.dispatchEvent<any>({ type: InputFieldEventType.KEYUP, keyboard })
+      }
+    }
+
     document.addEventListener('keydown', handleKeyDown);
-    //document.addEventListener('keyup', handleKeyUp);
+    document.addEventListener('keyup', handleKeyUp);
 
     this.dispose = () => {
       document.removeEventListener('keydown', handleKeyDown)
-      //document.removeEventListener('keyup', handleKeyUp)
+      document.removeEventListener('keyup', handleKeyUp)
     }
   }
 

@@ -3,6 +3,8 @@ import { InteractiveEventType, ThreeInteractive } from "three-flow";
 import { ButtonParameters, UIEventType } from "./model";
 import { PanelOptions, UIPanel } from "./panel";
 import { UILabel } from "./label";
+import { UIEntry } from "./input-field";
+import { UIKeyboardEvent } from "./keyboard";
 
 export enum ButtonEventType {
   HIGHLIGHT_BUTTON = 'highlight_button',
@@ -14,7 +16,8 @@ export enum ButtonEventType {
 export interface ButtonOptions extends PanelOptions {
 }
 
-export class UIButton extends UIPanel {
+export class UIButton extends UIEntry {
+  override inputtype: string = 'button'
 
   private label?: UILabel
 
@@ -29,7 +32,7 @@ export class UIButton extends UIPanel {
   }
 
   constructor(parameters: ButtonParameters, interactive: ThreeInteractive, options: ButtonOptions = {}) {
-    super(parameters, options)
+    super(parameters, interactive, options)
 
     this.name = parameters.id != undefined ? parameters.id : 'button'
 
@@ -52,21 +55,21 @@ export class UIButton extends UIPanel {
     selectableChanged()
 
 
-    const buttonDown = (generateEvent = false) => {
+    const buttonDown = () => {
       if (this.clicking) return
       this.scale.addScalar(-0.04);
-      if (generateEvent) this.pressed()
       this.clicking = true;
     }
 
-    const buttonUp = () => {
+    const buttonUp = (generateEvent = false) => {
       if (!this.clicking) return
       this.scale.addScalar(0.04);
+      if (generateEvent) this.pressed()
       this.clicking = false;
     }
 
-    this.addEventListener(InteractiveEventType.POINTERDOWN, () => { buttonDown(true) })
-    this.addEventListener(InteractiveEventType.POINTERUP, buttonUp)
+    this.addEventListener(InteractiveEventType.POINTERDOWN, buttonDown )
+    this.addEventListener(InteractiveEventType.POINTERUP, () => { buttonUp(true) })
     this.addEventListener(InteractiveEventType.POINTERMISSED, () => {
       buttonUp()
       this.unhighlight()
@@ -88,16 +91,24 @@ export class UIButton extends UIPanel {
 
     this.addEventListener(ButtonEventType.HIGHLIGHT_BUTTON, () => { this.highlight() })
     this.addEventListener(ButtonEventType.UNHIGHLIGHT_BUTTON, () => { this.unhighlight() })
-    this.addEventListener(ButtonEventType.BUTTON_DOWN, (e: any) => {
-      buttonDown(e.generateEvent)
+    this.addEventListener(ButtonEventType.BUTTON_DOWN, buttonDown)
+    this.addEventListener(ButtonEventType.BUTTON_UP, (e: any) => {
+      buttonUp(e.generateEvent)
     })
-    this.addEventListener(ButtonEventType.BUTTON_UP, buttonUp)
   }
 
-  buttonDown(generateEvent = false) { }
-  buttonUp() { }
+  override handleKeyDown(e: UIKeyboardEvent) {
+    if (e.code == 'Enter')
+      this.buttonDown()
+  }
+
+  override handleKeyUp(e: UIKeyboardEvent) {
+    if (e.code == 'Enter')
+      this.buttonUp(true)
+  }
+
+  buttonDown() { }
+  buttonUp(generateEvent = false) { }
 
   pressed() { this.dispatchEvent<any>({ type: UIEventType.BUTTON_PRESSED }) }
-
-
 }

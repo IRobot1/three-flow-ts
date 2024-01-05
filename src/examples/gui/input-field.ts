@@ -6,11 +6,13 @@ import { PanelParameters, UIEventType } from "./model";
 
 export type InputFieldType = 'text' | 'number' | 'checkbox' | 'color' | string
 
+
 export enum InputFieldEventType {
-  ACTIVE_CHANGED = 'active_changed',
-  DISABLE_CHANGED = 'disable_changed',
-  TEXT_CHANGED = 'text_changed',
-  KEYDOWN = 'keydown',
+    ACTIVE_CHANGED = 'active_changed',
+    DISABLE_CHANGED = 'disable_changed',
+    TEXT_CHANGED = 'text_changed',
+    KEYDOWN = 'keydown',
+    KEYUP = "KEYUP"
 }
 
 export interface InputField extends Mesh {
@@ -61,8 +63,16 @@ export abstract class UIEntry extends UIPanel implements InputField {
       this.handleKeyDown(e)
     })
 
+    this.addEventListener(InputFieldEventType.KEYUP, (event: any) => {
+      const e = event.keyboard as UIKeyboardEvent
+      if (!this.active) return
+
+      this.handleKeyUp(e)
+    })
+
   }
 
   handleKeyDown(keyboard: UIKeyboardEvent) { }
+  handleKeyUp(keyboard: UIKeyboardEvent) { }
 }
 

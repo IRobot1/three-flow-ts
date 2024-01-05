@@ -3,7 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../../app/threejs-app";
 import { FlowDiagram } from "three-flow";
-import { UIOptions } from "./model";
+import { UIEventType, UIOptions } from "./model";
 import { UIKeyboard, UIKeyboardEvent } from "./keyboard";
 import { MaterialCache } from "./cache";
 import { UIButton } from "./button";
@@ -58,19 +58,19 @@ export class GUIExample {
 
     //new PanelInteraction(panel, app.interactive)
 
-    //const button = new UIButton({
-    //  position: { x: -0.5 },
-    //  width:0.6, height:0.2,
-    //  material: { color: 'gray' },
-    //  label: {
-    //    text: 'Click Me', material: { color: 'black' }
-    //  }
-    //}, app.interactive)
-    //scene.add(button)
+    const button = new UIButton({
+      position: { y: 0.7 },
+      width:1, height:0.3,
+      //material: { color: 'gray' },
+      label: {
+        text: 'Click Me', //material: { color: 'black' }
+      }
+    }, app.interactive)
+    scene.add(button)
     ////button.clicked = () => { console.warn('clicked from override') }
-    //button.addEventListener(UIEventType.BUTTON_PRESSED, () => {
-    //  console.warn('clicked from event')
-    //})
+    button.addEventListener(UIEventType.BUTTON_PRESSED, () => {
+      console.warn('clicked from event')
+    })
 
     //const icon = new UIButton({
     //  position: { x: 0.5 },
@@ -122,7 +122,7 @@ export class GUIExample {
     scene.add(sliderbar)
     sliderbar.position.y = -1.05
 
-    input.add(text1, text2, checkbox, colorentry, sliderbar)
+    input.add(button,text1, text2, checkbox, colorentry, sliderbar)
     //const keyboard = new UIKeyboard({}, app.interactive)
     //scene.add(keyboard)
     //keyboard.visible = true
