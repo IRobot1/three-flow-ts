@@ -104,10 +104,6 @@ export class ThreeJSApp extends WebGLRenderer {
   }
 
   enableVR() {
-    this.xr.enabled = true
-    this.vrbutton = VRButton.createButton(this)
-    document.body.appendChild(this.vrbutton);
-
     const scene = this.scene!
 
     const geometry = new BufferGeometry();
@@ -132,6 +128,10 @@ export class ThreeJSApp extends WebGLRenderer {
     const controllerGrip2 = this.xr.getControllerGrip(1);
     controllerGrip2.add(controllerModelFactory.createControllerModel(controllerGrip2));
     scene.add(controllerGrip2);
+
+    this.xr.enabled = true
+    this.vrbutton = VRButton.createButton(this)
+    document.body.appendChild(this.vrbutton);
 
   }
 

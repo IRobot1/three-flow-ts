@@ -37,6 +37,67 @@ export class StressExample {
     orbit.enableRotate = false;
     orbit.update();
 
+    const changeLOD = (lod: number, visible: boolean) => {
+      const action = visible ? 'show' : 'hide'
+      switch (lod) {
+        case 0:
+        case 1:
+          // console.warn(`${action} connectors`)
+          connectors.allConnectors.forEach(connector => {
+            connector.visible = visible
+          })
+          break;
+        case 2:
+          // console.warn(`${action} labels`)
+          flow.allNodes.forEach(node => {
+            if (node.label) node.label.visible = visible
+          })
+          flow.allEdges.forEach(edge => {
+            if (edge.label) edge.label.visible = visible
+          })
+          break;
+        case 3:
+          // console.warn(`${action} edges`)
+          flow.allEdges.forEach(edge => {
+            edge.visible = visible
+          })
+          break;
+        case 4:
+          //  console.warn(`${action} nodes`)
+          flow.allNodes.forEach(node => {
+            node.visible = visible
+          })
+          break;
+      }
+    }
+
+    let lastLOD = 0
+    orbit.addEventListener('change', (e: any) => {
+      const length = app.camera.position.length()
+      let newLOD = 0
+      if (length > 3 && length < 10)
+        newLOD = 1
+      else if (length > 10 && length < 20)
+        newLOD = 2
+      else if (length > 20 && length < 50)
+        newLOD = 3
+      else if (length > 50 && length < 70)
+        newLOD = 4
+      else if (length > 70)
+        newLOD = 5
+
+      if (newLOD != lastLOD) {
+        //console.warn(`change LOD, new ${newLOD}, last ${lastLOD}`)
+        if (newLOD > lastLOD)
+          changeLOD(newLOD, false)
+        else
+          changeLOD(lastLOD, true)
+
+        lastLOD = newLOD
+      }
+    })
+
+
     window.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.code == 'Space')
         orbit.enableRotate = !orbit.enableRotate
@@ -44,7 +105,7 @@ export class StressExample {
 
     //scene.add(new AxesHelper(3))
 
-    const flow = new FlowDiagram({ linestyle: 'bezier' })
+    const flow = new StressFlowDiagram({ linestyle: 'bezier' })
     scene.add(flow);
 
     flow.createLabel = (parameters: FlowLabelParameters): FlowLabel => {
@@ -60,8 +121,10 @@ export class StressExample {
     let lastnode: FlowNode | undefined
     const hidden = false
 
-    for (let y = 15; y > -15; y--) {
-      for (let x = -8; x < 8; x++) {
+    const rows = 30
+    const columns = 16
+    for (let y = rows/2; y > -rows/2; y--) {
+      for (let x = -columns/2; x < columns/2; x++) {
         const text = `Node ${count}`
         const nodeparams: FlowNodeParameters = {
           x, y,
@@ -89,11 +152,13 @@ export class StressExample {
       }
     }
 
+    const range = -20
+
     const params = {
       random() {
         flow.allNodes.forEach(node => {
-          node.position.x = -20 + Math.random() * 40
-          node.position.y = -20 + Math.random() * 40
+          node.position.x = -range + Math.random() * range*2
+          node.position.y = -range + Math.random() * range*2
           node.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
         })
       },
