@@ -1,9 +1,9 @@
-import { AmbientLight, AxesHelper, Color, PointLight, Scene } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, PlaneGeometry, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowEventType, FlowDiagram, FlowNode, FlowNodeParameters, FlowEdgeParameters, FlowInteraction, FlowLabel, FlowLabelParameters, FlowConnectors, FlowProperties } from "three-flow";
+import { FlowEventType, FlowDiagram, FlowNode, FlowNodeParameters, FlowEdgeParameters, FlowInteraction, FlowLabel, FlowLabelParameters, FlowConnectors, FlowProperties, FlowDiagramOptions, FlowConnectorParameters } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 
 export class StressExample {
@@ -52,7 +52,7 @@ export class StressExample {
     }
     const interactive = new FlowInteraction(flow, app.interactive)
 
-    //const connectors = new FlowConnectors(flow)
+    const connectors = new StressFlowConnectors(flow)
 
     const properties = new FlowProperties(flow)
 
@@ -66,8 +66,8 @@ export class StressExample {
         const nodeparams: FlowNodeParameters = {
           x, y,
           width: 0.8, height: 0.8,
-          label: { text },
-          resizable: true, scalable: true,
+          label: { text, hidden },
+          resizable: false, scalable: false,
           connectors: [
             { id: "c1" + text, anchor: 'top', hidden, radius: 0.02 },
             { id: "c2" + text, anchor: 'bottom', hidden, radius: 0.02 },
@@ -75,7 +75,6 @@ export class StressExample {
         }
 
         const node = flow.addNode(nodeparams)
-        //console.warn(node)
         node.userData = { x: node.position.x, y: node.position.y }
 
         if (lastnode) {
@@ -114,6 +113,9 @@ export class StressExample {
     gui.add<any, any>(params, 'random').name('Random Positions')
     gui.add<any, any>(params, 'reset').name('Reset Positions')
 
+    //count = 0
+    //scene.traverse(object => { count++ })
+    //console.warn(scene.children, count)
 
     this.dispose = () => {
       gui.destroy()
@@ -121,6 +123,43 @@ export class StressExample {
       properties.dispose()
       orbit.dispose()
       app.disableStats()
+    }
+  }
+
+}
+
+class StressNode extends FlowNode {
+
+  constructor(diagram: StressFlowDiagram, parameters: FlowNodeParameters) {
+    super(diagram, parameters)
+
+    this.createGeometry = (): BufferGeometry => {
+      return diagram.geometry
+    }
+  }
+}
+
+class StressFlowDiagram extends FlowDiagram {
+  geometry: BufferGeometry
+  constructor(options?: FlowDiagramOptions) {
+    super(options)
+
+    this.geometry = new PlaneGeometry(0.8, 0.8)
+  }
+
+  override createNode(node: FlowNodeParameters): FlowNode {
+    return new StressNode(this, node)
+  }
+}
+
+class StressFlowConnectors extends FlowConnectors {
+  constructor(diagram: FlowDiagram) {
+    super(diagram)
+
+    const geometry = new CircleGeometry(0.02)
+
+    this.createGeometry = (parameters: FlowConnectorParameters): BufferGeometry => {
+      return geometry
     }
   }
 

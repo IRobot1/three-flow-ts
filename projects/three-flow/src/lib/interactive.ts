@@ -184,9 +184,9 @@ export class FlowInteraction {
 }
 
 class NodeInteractive {
-  private nodeResizer: ResizeNode
+  private nodeResizer?: ResizeNode
   private nodeDragger: DragNode
-  private nodeScaler: ScaleNode
+  private nodeScaler?: ScaleNode
 
   dispose = () => { }
 
@@ -206,31 +206,34 @@ class NodeInteractive {
       }
     })
 
-    this.nodeResizer = this.createResizer(node, diagram.getMaterial('geometry', 'resizing', <MeshBasicMaterialParameters>{ color: node.resizecolor }))
     const resizableChanged = () => {
       if (node.resizable) {
+        this.nodeResizer = this.createResizer(node, diagram.getMaterial('geometry', 'resizing', <MeshBasicMaterialParameters>{ color: node.resizecolor }))
         source.interactive.selectable.add(...this.nodeResizer.selectable)
         source.interactive.draggable.add(...this.nodeResizer.selectable)
       }
-      else {
+      else if (this.nodeResizer) {
         this.nodeResizer.stopResizing()
         source.interactive.selectable.remove(...this.nodeResizer.selectable)
         source.interactive.draggable.remove(...this.nodeResizer.selectable)
+        this.nodeResizer = undefined
       }
     }
     node.addEventListener(FlowEventType.RESIZABLE_CHANGED, () => { resizableChanged() })
     resizableChanged()
 
-    this.nodeScaler = this.createScaler(node, diagram.getMaterial('geometry', 'scaling', <MeshBasicMaterialParameters>{ color: node.scalecolor }))
     const scalebleChanged = () => {
       if (node.scalable) {
+        this.nodeScaler = this.createScaler(node, diagram.getMaterial('geometry', 'scaling', <MeshBasicMaterialParameters>{ color: node.scalecolor }))
+
         source.interactive.selectable.add(...this.nodeScaler.selectable)
         source.interactive.draggable.add(...this.nodeScaler.selectable)
       }
-      else {
+      else if (this.nodeScaler) {
         this.nodeScaler.stopScaling()
         source.interactive.selectable.remove(...this.nodeScaler.selectable)
         source.interactive.draggable.remove(...this.nodeScaler.selectable)
+        this.nodeScaler = undefined
       }
     }
     node.addEventListener(FlowEventType.SCALABLE_CHANGED, () => { scalebleChanged() })

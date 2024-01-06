@@ -22,30 +22,6 @@ export class ThreeJSApp extends WebGLRenderer {
   set scene(newvalue: Scene | undefined) {
     if (this._scene != newvalue) {
       this._scene = newvalue
-      if (newvalue) {
-        const geometry = new BufferGeometry();
-        geometry.setFromPoints([new Vector3(0, 0, 0), new Vector3(0, 0, - 5)]);
-
-        const controller1 = this.xr.getController(0);
-        controller1.name = 'left'
-        controller1.add(new Line(geometry));
-        newvalue.add(controller1);
-
-        const controller2 = this.xr.getController(1);
-        controller2.name = 'right'
-        controller2.add(new Line(geometry));
-        newvalue.add(controller2);
-
-        const controllerModelFactory = new XRControllerModelFactory();
-
-        const controllerGrip1 = this.xr.getControllerGrip(0);
-        controllerGrip1.add(controllerModelFactory.createControllerModel(controllerGrip1));
-        newvalue.add(controllerGrip1);
-
-        const controllerGrip2 = this.xr.getControllerGrip(1);
-        controllerGrip2.add(controllerModelFactory.createControllerModel(controllerGrip2));
-        newvalue.add(controllerGrip2);
-      }
     }
   }
 
@@ -131,6 +107,32 @@ export class ThreeJSApp extends WebGLRenderer {
     this.xr.enabled = true
     this.vrbutton = VRButton.createButton(this)
     document.body.appendChild(this.vrbutton);
+
+    const scene = this.scene!
+
+    const geometry = new BufferGeometry();
+    geometry.setFromPoints([new Vector3(0, 0, 0), new Vector3(0, 0, - 5)]);
+
+    const controller1 = this.xr.getController(0);
+    controller1.name = 'left'
+    controller1.add(new Line(geometry));
+    scene.add(controller1);
+
+    const controller2 = this.xr.getController(1);
+    controller2.name = 'right'
+    controller2.add(new Line(geometry));
+    scene.add(controller2);
+
+    const controllerModelFactory = new XRControllerModelFactory();
+
+    const controllerGrip1 = this.xr.getControllerGrip(0);
+    controllerGrip1.add(controllerModelFactory.createControllerModel(controllerGrip1));
+    scene.add(controllerGrip1);
+
+    const controllerGrip2 = this.xr.getControllerGrip(1);
+    controllerGrip2.add(controllerModelFactory.createControllerModel(controllerGrip2));
+    scene.add(controllerGrip2);
+
   }
 
   stats?: Stats
