@@ -61,8 +61,11 @@ export class GUIExample {
 
     const button = new UITextButton({
       position: { y: 0.75 },
-      width:1, height:0.4,
-      //material: { color: 'gray' },
+      width: 1, height: 0.4,
+      border: { material: { color: 'red' }, width: 0.04 },
+      highlight: {
+        width:0.04 
+      },
       label: {
         text: 'Click Me', //material: { color: 'black' }
       }
@@ -100,7 +103,7 @@ export class GUIExample {
     //},1000)
 
     const options: UIOptions = {
-      materialCache : new MaterialCache()
+      materialCache: new MaterialCache()
     }
 
     const input = new UIInputManager(app, { selectedMaterial: { color: 'red' }, ...options })

@@ -27,6 +27,8 @@ export interface SizeParameters {
   minheight?: number | undefined // defaults to height
   maxheight?: number | undefined // defaults to positive infinity
 
+  radius?: number | undefined    // default is 0.02
+
   //lockaspectratio?: boolean | undefined  // keep same aspect ratio between current width and height
 
   depth?: number | undefined     // default is 0
@@ -43,6 +45,12 @@ export interface TranformParameters {
   rotation?: RotationParameters | undefined
   scale?: ScaleParameters | undefined
 }
+
+export interface BorderParameters {
+  material?: MeshBasicMaterialParameters   // default is gray
+  width?: number                           // default is 0.02
+}
+
 export interface PanelParameters extends TranformParameters, SizeParameters {
   // meta data
   id?: string | undefined   // optional name to assign the Object3D
@@ -54,8 +62,8 @@ export interface PanelParameters extends TranformParameters, SizeParameters {
 
   // appearance
   fill?: MeshBasicMaterialParameters | undefined  // default is white
-  highlight?: LineMaterialParameters | undefined               // default is none
-  border?: LineMaterialParameters | undefined               // default is none
+  border?: BorderParameters | undefined           // default is none
+  highlight?: BorderParameters | undefined        // default is black
 }
 
 export type LabelAlignX = 'center' | 'left' | 'right'

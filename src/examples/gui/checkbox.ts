@@ -1,4 +1,4 @@
-import { InteractiveEventType, ThreeInteractive } from "three-flow";
+import { InteractiveEventType, RoundedRectangleShape, ThreeInteractive } from "three-flow";
 import { PanelOptions } from "./panel";
 import { CheckboxParameters } from "./model";
 import { Mesh, ShapeGeometry } from "three";
@@ -48,14 +48,14 @@ export class UICheckBox extends UIEntry {
     const checkmaterial = this.materialCache.getMaterial('geometry', 'checkbox', parameters.checkmaterial)
 
     const checksize = 0.8
-    const checkshape = this.rectangle(this.width * checksize, this.height * checksize, 0.02)
+    const checkshape = new RoundedRectangleShape(this.width * checksize, this.height * checksize, 0.02)
     const checkmesh = new Mesh(new ShapeGeometry(checkshape), checkmaterial)
     this.add(checkmesh)
     checkmesh.position.z = 0.001
     checkmesh.visible = this.checked
 
 
-    const indeterminateshape = this.rectangle(this.width * checksize, this.height * 0.2, 0.02)
+    const indeterminateshape = new RoundedRectangleShape(this.width * checksize, this.height * 0.2, 0.02)
     const indeterminatemesh = new Mesh(new ShapeGeometry(indeterminateshape), checkmaterial)
     this.add(indeterminatemesh)
     indeterminatemesh.position.z = 0.001

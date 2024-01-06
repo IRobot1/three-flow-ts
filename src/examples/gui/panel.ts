@@ -1,7 +1,7 @@
-import { BufferGeometry, ColorRepresentation, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, PlaneGeometry, Shape, ShapeGeometry } from "three";
-import { UIEventType, PanelParameters, UIOptions } from "./model";
+import { BufferGeometry, ColorRepresentation, DoubleSide, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, PlaneGeometry, Shape, ShapeGeometry } from "three";
+import { UIEventType, PanelParameters, UIOptions, BorderParameters } from "./model";
 import { FontCache, MaterialCache } from "./cache";
-import { InteractiveEventType } from "three-flow";
+import { InteractiveEventType, RoundedRectangleBorderGeometry, RoundedRectangleShape } from "three-flow";
 import { LineGeometry } from "three/examples/jsm/lines/LineGeometry";
 
 export interface PanelOptions extends UIOptions {
@@ -54,6 +54,8 @@ export class UIPanel extends Mesh {
   }
   mindepth: number;
   maxdepth: number;
+
+  radius: number
 
   autogrow: boolean
   autoshrink: boolean
@@ -124,6 +126,8 @@ export class UIPanel extends Mesh {
     this.minheight = parameters.minheight != undefined ? parameters.minheight : this.height;
     this.maxheight = parameters.maxheight != undefined ? parameters.maxheight : Number.POSITIVE_INFINITY
 
+    this.radius = parameters.radius != undefined ? parameters.radius : 0.02
+
     //this.lockaspectratio = p.lockaspectratio ? p.lockaspectratio : false
 
     this._depth = parameters.depth != undefined ? parameters.depth : 0
@@ -147,27 +151,35 @@ export class UIPanel extends Mesh {
 
     this.userData = parameters.value
 
-    this.shape = this.rectangle(this.width, this.height, 0.02)
+    this.shape = new RoundedRectangleShape(this.width, this.height, this.radius)
 
-    const outline = this.createOutline(this.shape)
+    if (parameters.border) {
+      const borderParams = parameters.border ? parameters.border : {}
+      if (!borderParams.material) borderParams.material = { color: 'gray' }
+      if (!borderParams.width) borderParams.width = 0.02
 
-    //if (parameters.outlinematerial) {
-    //  this._matparams = parameters.material as LineMaterialParameters
-    //  if (parameters.material.color == undefined) parameters.material.color = 0xffffff
-    //}
-    //else
-    //  this._matparams = { color: 0xffffff }
+      const border = new RoundedRectangleBorderGeometry(this.width, this.height, this.radius, borderParams.width)
+      const bordermaterial = this.materialCache.getMaterial('geometry', 'border', borderParams.material);
+      const borderMesh = new Mesh(border, bordermaterial)
+      this.add(borderMesh)
+      borderMesh.position.z = 0.001
+      borderMesh.name = 'border'
+    }
 
-    //this.material = this.diagram.getMaterial('geometry', 'edge', this._matparams)
+    const highlightParams = parameters.highlight ? parameters.highlight : {}
+    if (!highlightParams.material) highlightParams.material = { color: 'black' }
+    if (!highlightParams.width) highlightParams.width = 0.02
 
-    const outlinematerial = this.materialCache.getMaterial('line', 'outline', <MeshBasicMaterialParameters>{ color: 'black' });
-    const outlineMesh = new Mesh(outline, outlinematerial)
-    outlineMesh.visible = false
-    this.add(outlineMesh)
-    outlineMesh.name = 'outline'
+    const border = new RoundedRectangleBorderGeometry(this.width, this.height, this.radius, highlightParams.width)
+    const highlighmaterial = this.materialCache.getMaterial('geometry', 'highlight', highlightParams.material);
+    const highlightMesh = new Mesh(border, highlighmaterial)
+    highlightMesh.visible = false
+    this.add(highlightMesh)
+    highlightMesh.position.z = 0.001
+    highlightMesh.name = 'highlight'
 
     const highlight = () => {
-      outlineMesh.visible = true
+      highlightMesh.visible = true
     }
     this.highlight = highlight
 
@@ -178,7 +190,7 @@ export class UIPanel extends Mesh {
     })
 
     const unhighlight = () => {
-      outlineMesh.visible = false
+      highlightMesh.visible = false
     }
     this.unhighlight = unhighlight
     this.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
@@ -195,24 +207,6 @@ export class UIPanel extends Mesh {
 
   }
 
-  rectangle(width: number, height: number, radius: number): Shape {
-    const halfwidth = width / 2
-    const halfheight = height / 2
-
-    const shape = new Shape()
-      .moveTo(-halfwidth + radius, -halfheight)
-      .lineTo(halfwidth - radius, -halfheight)
-      .quadraticCurveTo(halfwidth, -halfheight, halfwidth, -halfheight + radius)
-      .lineTo(halfwidth, halfheight - radius)
-      .quadraticCurveTo(halfwidth, halfheight, halfwidth - radius, halfheight)
-      .lineTo(-halfwidth + radius, halfheight)
-      .quadraticCurveTo(-halfwidth, halfheight, -halfwidth, halfheight - radius)
-      .lineTo(-halfwidth, -halfheight + radius)
-      .quadraticCurveTo(-halfwidth, -halfheight, -halfwidth + radius, -halfheight)
-
-    return shape
-  }
-
   override add(...object: Object3D[]): this {
     // TODO: implement autogrow
     return super.add(...object)
@@ -227,22 +221,15 @@ export class UIPanel extends Mesh {
   // rendering
   private _resizeGeometry() {
     this.geometry.dispose()
-    this.geometry = this.createGeometry(this.parameters)
+    this.geometry = this.createGeometry(this.shape)
     this.resizeGeometry()
   }
 
   // overridable
 
-  createGeometry(parameters: PanelParameters): BufferGeometry {
-    return new ShapeGeometry(this.shape)
+  createGeometry(shape: Shape): BufferGeometry {
+    return new ShapeGeometry(shape)
   }
-
-  createOutline(shape: Shape): BufferGeometry {
-    const positions: Array<number> = []
-    this.shape.getPoints().forEach(p => positions.push(p.x, p.y, 0))
-    return new LineGeometry().setPositions(positions)
-  }
-
 
   resizeGeometry() { }
 

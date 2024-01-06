@@ -1,4 +1,4 @@
-import { InteractiveEventType, ThreeInteractive } from "three-flow";
+import { InteractiveEventType, RoundedRectangleShape, ThreeInteractive } from "three-flow";
 import { PanelOptions } from "./panel";
 import { SliderbarParameters } from "./model";
 import { MathUtils, Mesh, ShapeGeometry, Vector3 } from "three";
@@ -85,7 +85,7 @@ export class UISliderbar extends UIEntry {
     let sliderwidth = parameters.sliderwidth != undefined ? parameters.sliderwidth : 0.1
     const sliderradius = parameters.sliderradius != undefined ? parameters.sliderradius : 0.02
 
-    const shape = this.rectangle(sliderwidth, this.height * 0.9, sliderradius)
+    const shape = new RoundedRectangleShape(sliderwidth, this.height * 0.9, sliderradius)
     const mesh = new Mesh(new ShapeGeometry(shape), checkmaterial)
     this.add(mesh)
     mesh.position.z = 0.001
