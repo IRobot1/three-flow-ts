@@ -7,7 +7,7 @@ import { UIEventType, UIOptions } from "./model";
 import { UIKeyboard, UIKeyboardEvent } from "./keyboard";
 import { MaterialCache } from "./cache";
 import { UIButton } from "./button";
-import { UIInputManager } from "./input-manager";
+import { InputManagerOptions, UIInputManager } from "./input-manager";
 import { UITextEntry } from "./text-entry";
 import { UINumberEntry } from "./number-entry";
 import { UICheckBox } from "./checkbox";
@@ -102,11 +102,13 @@ export class GUIExample {
     //  count++
     //},1000)
 
-    const options: UIOptions = {
-      materialCache: new MaterialCache()
+    const options: InputManagerOptions = {
+      materialCache: new MaterialCache(),
+      //selectedOffset: {axes:'y', offset:0},
+      //selectedMaterial: { color: 'red' }
     }
 
-    const input = new UIInputManager(app, { selectedMaterial: { color: 'red' }, ...options })
+    const input = new UIInputManager(app, options)
 
     const text1 = new UITextEntry({ height: 0.3, label: { text: 'test', material: { color: 'black' } } }, app.interactive, options)
     scene.add(text1)

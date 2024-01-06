@@ -5,9 +5,15 @@ import { InteractiveEventType } from "three-flow";
 import { UIOptions } from "./model";
 import { MaterialCache } from "./cache";
 
+export interface OffsetParameters {
+  axis: 'x' | 'y',    // default is x
+  offset: number      // default is -0.03
+}
+
 export interface InputManagerOptions extends UIOptions {
   selectedMaterial?: MeshBasicMaterialParameters
   showSelected?: boolean
+  selectedOffset?: OffsetParameters
 }
 
 export class UIInputManager extends EventDispatcher {
@@ -30,17 +36,30 @@ export class UIInputManager extends EventDispatcher {
 
   showSelected: boolean
 
+  private offsetParams: OffsetParameters
+
+  private lastWidth = 0
   private lastHeight = 0
 
   private showSelectedVisual() {
     if (!this.showSelected) return
 
     const selected = this.selected!
-    if (selected.height != this.lastHeight) {
-      this.selectedMesh.geometry = this.createSelectedGeometry(selected.height)
-      this.lastHeight = selected.height
+    if (this.offsetParams.axis == 'x') {
+      if (selected.height != this.lastHeight) {
+        this.selectedMesh.geometry = this.createSelectedGeometry(selected.width, selected.height)
+        this.lastHeight = selected.height
+      }
+      this.selectedMesh.position.x = -selected.width / 2 + this.offsetParams.offset
     }
-    this.selectedMesh.position.x = -selected.width / 2 - 0.03
+    else {
+      if (selected.width != this.lastWidth) {
+        this.selectedMesh.geometry = this.createSelectedGeometry(selected.width, selected.height)
+        this.lastWidth = selected.width
+      }
+      this.selectedMesh.position.y = -selected.height / 2 + this.offsetParams.offset
+    }
+
     selected.add(this.selectedMesh)  // change parent to selected object
     this.selectedMesh.visible = true
   }
@@ -56,6 +75,7 @@ export class UIInputManager extends EventDispatcher {
 
 
     this.showSelected = options.showSelected != undefined ? options.showSelected : true
+    this.offsetParams = options.selectedOffset ? options.selectedOffset : { axis: 'x', offset: -0.03 }
 
     // TODO: listen for entering and leaving VR
     // make sure input methods are hidden for now
@@ -69,6 +89,7 @@ export class UIInputManager extends EventDispatcher {
     const parameters = options.selectedMaterial ? options.selectedMaterial : { color: 'red' }
     mesh.material = materialCache.getMaterial('geometry', 'selected', parameters)
     this.selectedMesh = mesh
+    mesh.position.z = 0.002
 
     const processKeyCode = (keyboard: UIKeyboardEvent) => {
       if (keyboard.code == 'Tab' && this.children.length > 0) {
@@ -184,7 +205,8 @@ export class UIInputManager extends EventDispatcher {
   setInputMethods(methods: Map<string, Object3D>) { }
   dispose: () => void
 
-  createSelectedGeometry(selectedHeight: number): BufferGeometry {
+  createSelectedGeometry(selectedWidth: number, selectedHeight: number): BufferGeometry {
     return new PlaneGeometry(0.04, selectedHeight)
+    //return new PlaneGeometry(selectedWidth, 0.04)
   }
 }
