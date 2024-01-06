@@ -78,7 +78,7 @@ export class FlowEdge extends Mesh {
   private toConnector: Object3D | undefined
 
   public line?: Line2
-  public label: FlowLabel
+  public label?: FlowLabel
   public stepRadius: number
   public stepOffset: number
   public bezierCurvature: number
@@ -168,9 +168,10 @@ export class FlowEdge extends Mesh {
 
     this._selectable = parameters.selectable != undefined ? parameters.selectable : true
 
-    if (!parameters.label) parameters.label = {}
-    this.label = diagram.createLabel(parameters.label)
-    this.add(this.label)
+    if (parameters.label) {
+      this.label = diagram.createLabel(parameters.label)
+      this.add(this.label)
+    }
 
     diagram.addEventListener(FlowEventType.NODE_REMOVED, (e: any) => {
       const node = e.node as FlowNode
@@ -180,7 +181,8 @@ export class FlowEdge extends Mesh {
     })
 
     requestAnimationFrame(() => {
-      this.label.updateLabel()
+      if (this.label)
+        this.label.updateLabel()
 
       this.updateVisuals()
 
@@ -373,7 +375,7 @@ export class FlowEdge extends Mesh {
       this.line.computeLineDistances()
     }
 
-    if (center) {
+    if (center && this.label) {
       if (this.label.labelMesh) {
         this.label.labelMesh.position.copy(center)
       }
