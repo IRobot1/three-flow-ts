@@ -73,7 +73,7 @@ export class UILabel extends Mesh {
 
   alignX: LabelAlignX
   alignY: LabelAlignY
-  wrapwidth: number
+  maxwidth: number
   textalign: LabelTextAlign
   isicon: boolean
 
@@ -99,7 +99,7 @@ export class UILabel extends Mesh {
     this._padding = parameters.padding != undefined ? parameters.padding : 0.02
     this.alignX = parameters.alignX ? parameters.alignX : 'center'
     this.alignY = parameters.alignY ? parameters.alignY : 'middle'
-    this.wrapwidth = parameters.wrapwidth != undefined ? parameters.wrapwidth : Infinity
+    this.maxwidth = parameters.maxwidth != undefined ? parameters.maxwidth : Infinity
     this.textalign = parameters.textalign ? parameters.textalign : 'left'
     this.isicon = parameters.isicon ? parameters.isicon : false
 
@@ -124,12 +124,17 @@ export class UILabel extends Mesh {
       font: this.font!, height: 0, size: this.size
     }
 
+    let text = this.text
     // only add text if font is loaded
     if (this.isicon) {
       const icontext = materialIconsMap.get(this.text)
-      if (icontext) this.text = icontext
+      if (icontext) text = icontext
     }
-    this.geometry = new TextGeometry(this.text, options)
+    else if (this.maxwidth < Infinity) {
+      const maxchars = this.maxwidth / this.size
+      if (maxchars < text.length) text = text.slice(0, maxchars)
+    }
+    this.geometry = new TextGeometry(text, options)
     this.geometry.computeBoundingBox()
 
     const box = this.geometry.boundingBox!

@@ -80,9 +80,11 @@ export interface LabelParameters {
   padding?: number
   alignX?: LabelAlignX
   alignY?: LabelAlignY
-  wrapwidth?: number
   textalign?: LabelTextAlign
   visible?: boolean
+
+  maxwidth?: number
+  // wrap?: boolean
 }
 
 export interface ButtonParameters extends PanelParameters {

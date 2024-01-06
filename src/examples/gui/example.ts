@@ -14,6 +14,7 @@ import { UICheckBox } from "./checkbox";
 import { UIColorEntry } from "./color-entry";
 import { UISliderbar } from "./sliderbar";
 import { UITextButton } from "./button-text";
+import { UILabel } from "./label";
 
 export class GUIExample {
 
@@ -59,12 +60,13 @@ export class GUIExample {
 
     //new PanelInteraction(panel, app.interactive)
 
+
     const button = new UITextButton({
       position: { y: 0.75 },
       width: 1, height: 0.4,
       border: { material: { color: 'red' }, width: 0.04 },
       highlight: {
-        width:0.04 
+        width: 0.04
       },
       label: {
         text: 'Click Me', //material: { color: 'black' }
@@ -107,6 +109,16 @@ export class GUIExample {
       //selectedOffset: {axes:'y', offset:0},
       //selectedMaterial: { color: 'red' }
     }
+
+    const label1 = new UILabel({ text: 'this is a test', maxwidth: 0.5 }, options)
+    scene.add(label1)
+    label1.position.x = -1
+
+    const label2 = new UILabel({ text: 'this is a test', maxwidth: 0.5, alignX: 'right' }, options)
+    scene.add(label2)
+    label2.position.x = -1
+    label2.position.y = -0.1
+
 
     const input = new UIInputManager(app, options)
 
