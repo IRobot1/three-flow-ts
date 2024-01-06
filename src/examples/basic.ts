@@ -345,7 +345,7 @@ export class BasicExample {
       folder.addColor(node1, 'color').name('Color')
       folder.add<any, any>(node1.label, 'text').name('Label')
       folder.add<any, any>(node1.label, 'size', 0.05, 0.3).name('Label Size')
-      folder.addColor(node1.label, 'color').name('Label Color')
+      if (node1.label) folder.addColor(node1.label, 'color').name('Label Color')
       //labelfont ?: string;
       //userData ?: { [key: string]: any };
       folder.add<any, any>(node1, 'resizable').name('Resizable')

@@ -41,11 +41,11 @@ class MyFlowNode extends FlowNode {
     const node = this
     node.addEventListener(InteractiveEventType.POINTERENTER, () => {
       node.position.z = 0.02
-      node.label.visible = true
+      if (node.label) node.label.visible = true
     })
     node.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
       node.position.z = 0
-      node.label.visible = false
+      if (node.label) node.label.visible = false
     })
 
   }

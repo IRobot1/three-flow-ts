@@ -466,8 +466,10 @@ class AlchemistRecipeDiagram extends FlowDiagramDesigner {
 
       gui.add(newnode, 'width', 0.2, 1).name('Size').onChange(() => newnode.height = newnode.width)
       //gui.add(newnode, 'showborder').name('Show Border')
-      gui.add(newnode.label, 'text').name('Label')
-      gui.add(newnode.label, 'hidden').name('Hide Label')
+      if (newnode.label) {
+        gui.add(newnode.label, 'text').name('Label')
+        gui.add(newnode.label, 'hidden').name('Hide Label')
+      }
     })
 
     this.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, node: newnode })

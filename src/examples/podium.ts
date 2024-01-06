@@ -229,7 +229,7 @@ class PodiumNode extends FlowNode {
 
     this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
       const gui = e.gui as GUI
-      gui.title(`${this.label.text} Properties`)
+      if (this.label) gui.title(`${this.label.text} Properties`)
 
       if (icon) gui.add<any, any>(icon, 'text').name('Icon').onChange(() => {
         if (icon) icon.updateLabel()
@@ -241,7 +241,7 @@ class PodiumNode extends FlowNode {
       gui.add<any, any>(this, 'draggable').name('Draggable')
       const folder = gui.addFolder('Shared')
       folder.addColor(icon, 'color').name('Icon Color')
-      folder.addColor(this.label, 'color').name('Label Color')
+      if (this.label) folder.addColor(this.label, 'color').name('Label Color')
       folder.addColor(sphere.material as MeshBasicMaterial, 'color').name('Sphere Color')
       folder.add<any, any>(sphere.material, 'opacity', 0, 1).name('Sphere Opacity')
       folder.addColor(this, 'color').name('Base Color')

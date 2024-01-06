@@ -205,14 +205,14 @@ class ProcessNode extends FlowNode {
 
     this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
       const gui = e.gui as GUI
-      gui.title(`${this.label.text} Properties`)
+      if (this.label) gui.title(`${this.label.text} Properties`)
 
       gui.add<any, any>(this.label, 'text').name('Label')
       gui.add<any, any>(this, 'resizable').name('Resizable')
       gui.add<any, any>(this, 'draggable').name('Draggable')
       //gui.add<any, any>(this, 'hidden').name('Hidden')
       const folder = gui.addFolder('Shared')
-      folder.addColor(this.label.material as MeshBasicMaterialParameters, 'color').name('Label Color')
+      if (this.label) folder.addColor(this.label.material as MeshBasicMaterialParameters, 'color').name('Label Color')
       folder.addColor(this.material as MeshBasicMaterialParameters, 'color').name('Base Color')
       folder.addColor(mesh.material as MeshBasicMaterialParameters, 'color').name('Border Color')
 

@@ -52,7 +52,7 @@ export class StressExample {
     }
     const interactive = new FlowInteraction(flow, app.interactive)
 
-    const connectors = new FlowConnectors(flow)
+    //const connectors = new FlowConnectors(flow)
 
     const properties = new FlowProperties(flow)
 
@@ -75,6 +75,7 @@ export class StressExample {
         }
 
         const node = flow.addNode(nodeparams)
+        //console.warn(node)
         node.userData = { x: node.position.x, y: node.position.y }
 
         if (lastnode) {

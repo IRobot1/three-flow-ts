@@ -240,13 +240,15 @@ class PopoutCircleNode extends FlowNode {
 
     this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
       const gui = e.gui as GUI
-      gui.title(`${this.label.text} Properties`)
+      if (this.label) gui.title(`${this.label.text} Properties`)
 
       if (icon) gui.add<any, any>(icon, 'text').name('Icon').onChange(() => {
         if (icon) icon.updateLabel()
       })
-      gui.add<any, any>(this.label, 'text').name('Label')
-      gui.add<any, any>(this.label, 'size', 0.1, 1).name('Label Size')
+      if (this.label) {
+        gui.add<any, any>(this.label, 'text').name('Label')
+        gui.add<any, any>(this.label, 'size', 0.1, 1).name('Label Size')
+      }
       gui.addColor(this, 'color').name('Base Color')
       gui.addColor<any, any>(mesh.material, 'color').name('Button Color')
       gui.add<any, any>(this, 'resizable').name('Resizable')
@@ -304,7 +306,7 @@ class PopoutStadiumNode extends FlowNode {
 
     this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
       const gui = e.gui as GUI
-      gui.title(`${this.label.text} Properties`)
+      if (this.label) gui.title(`${this.label.text} Properties`)
 
       gui.add<any, any>(this.label, 'text').name('Title')
       gui.add<any, any>(subtitle, 'text').name('Subtitle')

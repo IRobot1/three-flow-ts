@@ -207,7 +207,7 @@ class ComputerNode extends FlowNode {
     // handle properties display
     this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
       const gui = e.gui as GUI
-      gui.title(`${this.label.text} Properties`)
+      if (this.label) gui.title(`${this.label.text} Properties`)
 
       if (icon_label) {
         gui.add<any, any>(icon_label, 'text').name('Icon').onChange(() => {
@@ -219,7 +219,7 @@ class ComputerNode extends FlowNode {
       gui.add<any, any>(this.label, 'size', 0.1, 1).name('Title Size')
       const folder = gui.addFolder('Shared')
       folder.addColor(icon_label.material as MeshBasicMaterialParameters, 'color').name('Icon Color')
-      folder.addColor(this.label.material as MeshBasicMaterialParameters, 'color').name('Label Color')
+      if (this.label) folder.addColor(this.label.material as MeshBasicMaterialParameters, 'color').name('Label Color')
       folder.addColor(this.material as MeshBasicMaterialParameters, 'color').name('Base Color')
 
     })
