@@ -65,24 +65,6 @@ export class UINumberEntry extends UITextEntry {
 
   public decimals: number | undefined
 
-  //override set text(newvalue: string) {
-  //  if (this._text != newvalue) {
-  //    this._text = newvalue
-  //    if (newvalue != '') {
-  //      const value = parseFloat(newvalue)
-  //      if (this.inRange(newvalue, this.minvalue, this.maxvalue)) {
-  //        this.label.text = value.toFixed(this.decimals)
-  //        this.value = +this.label.text
-  //      }
-  //    }
-  //    this.dispatchEvent<any>({ type: InputFieldEventType.TEXT_CHANGED, text: newvalue })
-  //  }
-  //}
-
-
-
-
-
   constructor(parameters: NumberEntryParameters = {}, interactive: ThreeInteractive, options: NumberOptions = {}) {
     super(parameters, interactive, options)
 

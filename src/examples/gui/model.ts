@@ -94,6 +94,9 @@ export interface TextButtonParameters extends PanelParameters {
 }
 export interface TextEntryParameters extends PanelParameters {
   label?: LabelParameters
+  password?: boolean             // default is false
+  passwordChar?: string          // defaut is *
+  prompt?: string                // default is _
 }
 export interface NumberEntryParameters extends TextEntryParameters {
   initialvalue?: number

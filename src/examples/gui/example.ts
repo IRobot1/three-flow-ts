@@ -55,6 +55,8 @@ export class GUIExample {
     const flow = new FlowDiagram()
     scene.add(flow);
 
+    //    requestAnimationFrame(() => {
+
     //const panel = new UIPanel({draggable:true})
     //scene.add(panel)
 
@@ -123,9 +125,12 @@ export class GUIExample {
 
     const input = new UIInputManager(app, options)
 
-    const text1 = new UITextEntry({ height: 0.3, label: { text: 'test', material: { color: 'black' } } }, app.interactive, options)
+    const text1 = new UITextEntry({
+      height: 0.3,
+      password: false,
+      label: { text: 'test', material: { color: 'black' } }
+    }, app.interactive, options)
     scene.add(text1)
-    text1.password = true
     text1.position.y = 0.35
 
     const text2 = new UINumberEntry({ initialvalue: 0, height: 0.3, label: { material: { color: 'black' } } }, app.interactive, options)
@@ -172,6 +177,7 @@ export class GUIExample {
     //  codepointsMap.set(parts[0], `\\u${parts[1]}`)
     //})
     //console.warn(codepointsMap)
+    //    })
 
     this.dispose = () => {
       orbit.dispose()

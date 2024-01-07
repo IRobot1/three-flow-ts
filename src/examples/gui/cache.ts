@@ -69,3 +69,5 @@ export class MaterialCache {
     return new MeshBasicMaterial(parameters);
   }
 }
+
+

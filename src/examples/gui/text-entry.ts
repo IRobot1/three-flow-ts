@@ -24,6 +24,24 @@ export class UITextEntry extends UIEntry implements InputField {
     }
   }
 
+  private _password: boolean
+  get password() { return this._password }
+  set password(newvalue: boolean) {
+    if (this._password != newvalue) {
+      this._password = newvalue
+      this.dispatchEvent<any>({ type: InputFieldEventType.TEXT_CHANGED, text: this.text })
+    }
+  }
+
+  private _prompt: string
+  get prompt() { return this._prompt }
+  set prompt(newvalue: string) {
+    if (this._prompt != newvalue) {
+      this._prompt = newvalue
+      this.dispatchEvent<any>({ type: InputFieldEventType.TEXT_CHANGED, value: this.text })
+    }
+  }
+
 
 
   constructor(parameters: TextEntryParameters = {}, interactive: ThreeInteractive, options: TextOptions = {}) {
@@ -33,20 +51,30 @@ export class UITextEntry extends UIEntry implements InputField {
 
     this.name = parameters.id != undefined ? parameters.id : 'text-entry'
 
+    const padding = (this.height / 0.1) * 0.02
+
     if (parameters.label == undefined) parameters.label = {}
     parameters.label.size = this.height / 2
-    parameters.label.padding = (this.height / 0.1) * 0.02
+    parameters.label.padding = padding
+    parameters.label.maxwidth = this.width - padding * 2
+
+    this._password = parameters.password != undefined ? parameters.password : false
+    if (parameters.label.text && this.password)
+      parameters.label.text = '*'.repeat(parameters.label.text.length);
 
     const label = new UILabel(parameters.label, { fontCache: this.fontCache, materialCache: this.materialCache })
-    label.alignX = 'right'
+    label.alignX = 'left'
     label.alignY = 'bottom'
-    label.position.x = this.width / 2 - label.padding
+    label.position.x = -this.width / 2 + label.padding
     label.position.y = -label.height / 2 - label.padding
     label.position.z = 0.001
     this.label = label
 
     this.add(label)
-    //label.cliptowidth = true
+
+    this._password = parameters.password != undefined ? parameters.password : false
+    this._prompt = parameters.prompt != undefined ? parameters.prompt : '_'
+
     this.text = label.text
 
     const textChanged = () => {
@@ -58,7 +86,6 @@ export class UITextEntry extends UIEntry implements InputField {
       if (this.active)
         label.text += this.prompt
     }
-    textChanged()
 
     this.addEventListener(InputFieldEventType.TEXT_CHANGED, textChanged)
     this.addEventListener(InputFieldEventType.ACTIVE_CHANGED, textChanged)
@@ -88,24 +115,6 @@ export class UITextEntry extends UIEntry implements InputField {
       this.filter(this, e)
   }
 
-
-  private _password = false
-  get password() { return this._password }
-  set password(newvalue: boolean) {
-    if (this._password != newvalue) {
-
-      this._password = newvalue
-      this.dispatchEvent<any>({ type: InputFieldEventType.TEXT_CHANGED, text: this.text })
-    }
-  }
-
-  private _prompt = '_'
-  get prompt() { return this._prompt }
-  set prompt(newvalue: string) {
-    const changed = this._prompt != newvalue
-    this._prompt = newvalue
-    if (changed) this.dispatchEvent<any>({ type: InputFieldEventType.TEXT_CHANGED, value: this.text })
-  }
 
 
   filter(entry: UITextEntry, e: UIKeyboardEvent) {

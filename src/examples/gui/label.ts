@@ -9,6 +9,37 @@ import { FontCache, MaterialCache } from "./cache";
 export interface LabelOptions extends UIOptions {
 }
 
+// Needed to calculate length of a fragment of text for this font
+interface FontData {
+  ascender: number
+  boundingBox: {
+    yMin: number,
+    xMin: number,
+    yMax: number,
+    xMax: number,
+  },
+  cssFontStyle: string    // normal
+  cssFontWeight: string  // normal
+  descender: number
+  familyName: string
+  glyphs: {
+    [key: string]: {
+      x_min: number
+      x_max: number
+      ha: number
+      o: string // SVG path
+    };
+  },
+  lineHeight: number
+  original_font_information: any
+  resolution: number, // default is 1000
+  underlinePosition: number
+  underlineThickness: number
+}
+
+
+// single line of text
+
 export class UILabel extends Mesh {
   private _text: string
   get text() { return this._text }
@@ -78,8 +109,6 @@ export class UILabel extends Mesh {
   isicon: boolean
 
   private font?: Font;
-  private fontCache: FontCache;
-  private materialCache: MaterialCache;
 
   private textsize = new Vector3()
   private textcenter = new Vector3()
@@ -89,9 +118,6 @@ export class UILabel extends Mesh {
     super()
 
     this.name = parameters.id != undefined ? parameters.id : 'label'
-
-    this.fontCache = options.fontCache != undefined ? options.fontCache : new FontCache(true)
-    this.materialCache = options.materialCache != undefined ? options.materialCache : new MaterialCache()
 
     this._text = parameters.text ? parameters.text : ''
     this._size = parameters.size != undefined ? parameters.size : 0.07
@@ -105,23 +131,69 @@ export class UILabel extends Mesh {
 
     this.visible = parameters.visible != undefined ? parameters.visible : true
 
-    this.material = this.materialCache.getMaterial('geometry', this.name, this._matparams)!;
+    if (!options.materialCache) {
+      console.warn('UILabel requires material cache be provided')
+      return
+    }
+
+    this.material = options.materialCache.getMaterial('geometry', this.name, this._matparams)!;
 
     let fontName = parameters.font != undefined ? parameters.font : 'assets/helvetiker_regular.typeface.json'
     if (parameters.isicon)
       fontName = 'assets/Material Icons_Regular.json'
 
-    this.fontCache.getFont(fontName, (font: Font) => {
+    if (!options.fontCache) {
+      console.warn('UILabel requires font cache be provided')
+      return
+    }
+
+    options.fontCache.getFont(fontName, (font: Font) => {
       this.font = font
       this.updateLabel()
     })
   }
 
+  // adapted from https://github.com/mrdoob/three.js/blob/master/examples/jsm/loaders/FontLoader.js
+
+  private truncateText(): string {
+    if (!this.font) return ''
+
+    // @ts-ignore
+    const data = this.font.data as FontData
+    const scale = this.size / data.resolution;
+
+    let offsetX = 0
+
+    const chars = Array.from(this.text);
+    let i = 0
+    for (; i < chars.length; i++) {
+
+      const char = chars[i];
+
+      if (char === '\n') break
+
+      const glyph = data.glyphs[char] || data.glyphs['?'];
+
+      if (!glyph) break
+
+      offsetX += (glyph.ha * scale);
+      if (offsetX > this.maxwidth) break
+    }
+
+    return this.text.slice(0, i)
+  }
+
   public updateLabel() {
     if (this.text == undefined) return
 
+    if (!this.font) {
+      // uncomment this if label isn't appearing as expected
+      //console.warn(`Changing UILabel ${this.name} property before font has finished loading`)
+      return
+    }
+
     const options: TextGeometryParameters = {
-      font: this.font!, height: 0, size: this.size
+      font: this.font, height: 0, size: this.size
     }
 
     let text = this.text
@@ -131,8 +203,7 @@ export class UILabel extends Mesh {
       if (icontext) text = icontext
     }
     else if (this.maxwidth < Infinity) {
-      const maxchars = this.maxwidth / this.size
-      if (maxchars < text.length) text = text.slice(0, maxchars)
+      text = this.truncateText()
     }
     this.geometry = new TextGeometry(text, options)
     this.geometry.computeBoundingBox()
