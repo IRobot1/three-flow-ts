@@ -68,7 +68,6 @@ export interface PanelParameters extends TranformParameters, SizeParameters {
 
 export type LabelAlignX = 'center' | 'left' | 'right'
 export type LabelAlignY = 'middle' | 'top' | 'bottom'
-export type LabelTextAlign = 'left' | 'right' | 'center' | 'justify'
 export type LabelOverflow = 'clip' | 'slice'
 export interface LabelParameters {
   id?: string
@@ -80,7 +79,6 @@ export interface LabelParameters {
   padding?: number
   alignX?: LabelAlignX
   alignY?: LabelAlignY
-  textalign?: LabelTextAlign
   visible?: boolean
 
   maxwidth?: number
@@ -117,6 +115,18 @@ export interface SliderbarParameters extends PanelParameters {
   slidermaterial?: MeshBasicMaterialParameters
 }
 
+export type ListOrientation = 'vertical' | 'horizontal'
+
+export interface ListParameters extends PanelParameters {
+  data?: Array<any>             // default is empty, array of data, default type is string
+  field?: string                // default is none, field name, if data is object.  Doesn't handle nested field path
+  itemcount?: number            // default is 6, number of items to display before paging
+  itemheight?: number           // default is 0.1, height needed to display each item
+  selected?: string             // default is none, if there's a default selected item
+  spacing?: number              // default is 0.02, spacing between items
+  orientation?: ListOrientation // default is vertical
+  emptyText?: string             // default is 'List is empty'
+}
 
 
 export enum UIEventType {

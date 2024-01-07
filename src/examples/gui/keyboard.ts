@@ -236,7 +236,7 @@ export class UIKeyboard extends Object3D {
       }, value: setting
     }
 
-    const key = new UIKey(params, this.interactive)
+    const key = new UIKey(params, this.interactive, this.options)
     key.position.copy(setting.position)
     this.add(key)
 

@@ -93,7 +93,7 @@ export class UIPanel extends Mesh {
   protected clicking = false
   protected shape: Shape
 
-  constructor(private parameters: PanelParameters = {}, options: PanelOptions = {}) {
+  constructor(private parameters: PanelParameters = {}, protected options: PanelOptions = {}) {
     super()
 
     this.name = parameters.id != undefined ? parameters.id : 'panel'

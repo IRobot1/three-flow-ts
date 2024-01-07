@@ -25,6 +25,15 @@ export class UITextButton extends UIButton {
 
     const label = new UILabel(parameters.label, { fontCache: this.fontCache, materialCache: this.materialCache })
     this.add(label)
+
+    let width = this.width
+    if (label.maxwidth < width) width = label.maxwidth
+
+    if (label.alignX == 'left')
+      label.position.x = -width / 2
+    else if (label.alignX == 'right')
+      label.position.x = width / 2
+
     label.position.z = 0.001
     this.label = label
   }

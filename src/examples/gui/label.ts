@@ -2,7 +2,7 @@ import { ColorRepresentation, Mesh, MeshBasicMaterial, MeshBasicMaterialParamete
 import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
-import { UIEventType, LabelAlignX, LabelAlignY, LabelParameters, LabelTextAlign, UIOptions, LabelOverflow } from "./model";
+import { UIEventType, LabelAlignX, LabelAlignY, LabelParameters, UIOptions, LabelOverflow } from "./model";
 
 
 export interface LabelOptions extends UIOptions {
@@ -103,7 +103,6 @@ export class UILabel extends Mesh {
 
   alignX: LabelAlignX
   alignY: LabelAlignY
-  textalign: LabelTextAlign
   isicon: boolean
 
   maxwidth: number
@@ -134,7 +133,6 @@ export class UILabel extends Mesh {
     this._padding = parameters.padding != undefined ? parameters.padding : 0.02
     this.alignX = parameters.alignX ? parameters.alignX : 'center'
     this.alignY = parameters.alignY ? parameters.alignY : 'middle'
-    this.textalign = parameters.textalign ? parameters.textalign : 'left'
     this.isicon = parameters.isicon ? parameters.isicon : false
 
     this.maxwidth = parameters.maxwidth != undefined ? parameters.maxwidth : Infinity

@@ -15,6 +15,7 @@ import { UIColorEntry } from "./color-entry";
 import { UISliderbar } from "./sliderbar";
 import { UITextButton } from "./button-text";
 import { UILabel } from "./label";
+import { UIList } from "./list";
 
 export class GUIExample {
 
@@ -55,129 +56,141 @@ export class GUIExample {
     const flow = new FlowDiagram()
     scene.add(flow);
 
-    //    requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
 
-    //const panel = new UIPanel({draggable:true})
-    //scene.add(panel)
+      //const panel = new UIPanel({draggable:true})
+      //scene.add(panel)
 
-    //new PanelInteraction(panel, app.interactive)
+      //new PanelInteraction(panel, app.interactive)
 
-    const options: InputManagerOptions = {
-      fontCache: new FontCache(),
-      materialCache: new MaterialCache(),
-      //selectedOffset: {axes:'y', offset:0},
-      //selectedMaterial: { color: 'red' }
-    }
-
-
-    const button = new UITextButton({
-      position: { y: 0.75 },
-      width: 1, height: 0.4,
-      border: { material: { color: 'red' }, width: 0.04 },
-      highlight: {
-        width: 0.04
-      },
-      label: {
-        text: 'Click Me', //material: { color: 'black' }
+      const options: InputManagerOptions = {
+        fontCache: new FontCache(),
+        materialCache: new MaterialCache(),
+        //selectedOffset: {axes:'y', offset:0},
+        //selectedMaterial: { color: 'red' }
       }
-    }, app.interactive, options)
-    scene.add(button)
-    ////button.clicked = () => { console.warn('clicked from override') }
-    button.addEventListener(UIEventType.BUTTON_PRESSED, () => {
-      console.warn('clicked from event')
+
+
+      const button = new UITextButton({
+        position: { y: 0.75 },
+        width: 1, height: 0.4,
+        border: { material: { color: 'red' }, width: 0.04 },
+        highlight: {
+          width: 0.04
+        },
+        label: {
+          text: 'Click Me', //material: { color: 'black' }
+        }
+      }, app.interactive, options)
+      scene.add(button)
+      ////button.clicked = () => { console.warn('clicked from override') }
+      button.addEventListener(UIEventType.BUTTON_PRESSED, () => {
+        console.warn('clicked from event')
+      })
+
+      //const icon = new UIButton({
+      //  position: { x: 0.5 },
+      //  width: 0.2, height: 0.2,
+      //  material: { color: 'gray' },
+      //  label: {
+      //    text: 'favorite', material: { color: 'black' }, isicon: true
+      //  }
+      //}, app.interactive)
+      //scene.add(icon)
+
+      //const textbutton = new UIButton({
+      //  position: { x: -0.5 },
+      //  width: 0.6, height: 0.2,
+      //  material: { color: 'gray' },
+      //  label: {
+      //    text: 'Click Me', material: { color: 'black' }
+      //  }
+      //}, app.interactive)
+      //scene.add(textbutton)
+      //let count =1
+      //setInterval(() => {
+      //  textbutton.text = count.toString()
+
+      //  count++
+      //},1000)
+
+      const label1 = new UILabel({ text: 'this is a test', maxwidth: 0.5 }, options)
+      scene.add(label1)
+      label1.position.x = -1
+
+      const label2 = new UILabel({ text: 'this is a test', maxwidth: 0.5, alignX: 'right' }, options)
+      scene.add(label2)
+      label2.position.x = -1
+      label2.position.y = -0.1
+
+
+      const input = new UIInputManager(app, options)
+
+      const text1 = new UITextEntry({
+        height: 0.3,
+        //password: true, prompt: '|', passwordChar: '?',
+        label: { text: 'test', material: { color: 'black' } }
+      }, app.interactive, options)
+      scene.add(text1)
+      text1.position.y = 0.35
+
+      const text2 = new UINumberEntry({ initialvalue: 0, height: 0.3, label: { material: { color: 'black' } } }, app.interactive, options)
+      scene.add(text2)
+
+
+      const checkbox = new UICheckBox({ checked: false, height: 0.3, width: 0.3 }, app.interactive, options)
+      scene.add(checkbox)
+      checkbox.position.y = -0.35
+
+      const colorentry = new UIColorEntry({ height: 0.3, fill: { color: 'blue' } }, app.interactive, options)
+      scene.add(colorentry)
+      colorentry.position.y = -0.7
+
+
+      const sliderbar = new UISliderbar({ height: 0.3 }, app.interactive, options)
+      scene.add(sliderbar)
+      sliderbar.position.y = -1.05
+
+      const list = new UIList({
+        data: storydata,
+        field: 'text',
+        //orientation: 'vertical',
+        itemheight: 0.3,
+        //itemcount: 5,
+      }, app.interactive, options)
+      scene.add(list)
+      list.position.x = 1.2
+      list.position.y = 0
+
+      input.add(button, text1, text2, checkbox, colorentry, sliderbar, list)
+
+      //console.warn(options.materialCache)
+      //const keyboard = new UIKeyboard({}, app.interactive)
+      //scene.add(keyboard)
+      //keyboard.visible = true
+
+      //keyboard.newtext = (text: string) => {
+      //  console.warn(text)
+      //}
+      //keyboard.command = (keycode: string) => {
+      //  console.warn(keycode)
+      //}
+      //keyboard.keydown = (event: UIKeyboardEvent) => {
+      //  console.warn(event)
+      //}
+      //keyboard.keyup= (event: UIKeyboardEvent) => {
+      //  console.warn(event)
+      //}
+
+      //const codepointsMap = new Map<string, string>()
+
+      //codepoints.split('\n').forEach(line => {
+      //  const parts = line.split(' ')
+      //  codepointsMap.set(parts[0], `\\u${parts[1]}`)
+      //})
+      //console.warn(codepointsMap)
+
     })
-
-    //const icon = new UIButton({
-    //  position: { x: 0.5 },
-    //  width: 0.2, height: 0.2,
-    //  material: { color: 'gray' },
-    //  label: {
-    //    text: 'favorite', material: { color: 'black' }, isicon: true
-    //  }
-    //}, app.interactive)
-    //scene.add(icon)
-
-    //const textbutton = new UIButton({
-    //  position: { x: -0.5 },
-    //  width: 0.6, height: 0.2,
-    //  material: { color: 'gray' },
-    //  label: {
-    //    text: 'Click Me', material: { color: 'black' }
-    //  }
-    //}, app.interactive)
-    //scene.add(textbutton)
-    //let count =1
-    //setInterval(() => {
-    //  textbutton.text = count.toString()
-
-    //  count++
-    //},1000)
-
-    const label1 = new UILabel({ text: 'this is a test', maxwidth: 0.5 }, options)
-    scene.add(label1)
-    label1.position.x = -1
-
-    const label2 = new UILabel({ text: 'this is a test', maxwidth: 0.5, alignX: 'right' }, options)
-    scene.add(label2)
-    label2.position.x = -1
-    label2.position.y = -0.1
-
-
-    const input = new UIInputManager(app, options)
-
-    const text1 = new UITextEntry({
-      height: 0.3,
-      //password: true, prompt: '|', passwordChar: '?',
-      label: { text: 'test', material: { color: 'black' } }
-    }, app.interactive, options)
-    scene.add(text1)
-    text1.position.y = 0.35
-
-    const text2 = new UINumberEntry({ initialvalue: 0, height: 0.3, label: { material: { color: 'black' } } }, app.interactive, options)
-    scene.add(text2)
-
-
-    const checkbox = new UICheckBox({ checked: false, height: 0.3, width: 0.3 }, app.interactive, options)
-    scene.add(checkbox)
-    checkbox.position.y = -0.35
-
-    const colorentry = new UIColorEntry({ height: 0.3, fill: { color: 'blue' } }, app.interactive, options)
-    scene.add(colorentry)
-    colorentry.position.y = -0.7
-
-
-    const sliderbar = new UISliderbar({ height: 0.3 }, app.interactive, options)
-    scene.add(sliderbar)
-    sliderbar.position.y = -1.05
-
-    input.add(button, text1, text2, checkbox, colorentry, sliderbar)
-
-    //console.warn(options.materialCache)
-    //const keyboard = new UIKeyboard({}, app.interactive)
-    //scene.add(keyboard)
-    //keyboard.visible = true
-
-    //keyboard.newtext = (text: string) => {
-    //  console.warn(text)
-    //}
-    //keyboard.command = (keycode: string) => {
-    //  console.warn(keycode)
-    //}
-    //keyboard.keydown = (event: UIKeyboardEvent) => {
-    //  console.warn(event)
-    //}
-    //keyboard.keyup= (event: UIKeyboardEvent) => {
-    //  console.warn(event)
-    //}
-
-    //const codepointsMap = new Map<string, string>()
-
-    //codepoints.split('\n').forEach(line => {
-    //  const parts = line.split(' ')
-    //  codepointsMap.set(parts[0], `\\u${parts[1]}`)
-    //})
-    //console.warn(codepointsMap)
-    //    })
 
     this.dispose = () => {
       orbit.dispose()
@@ -185,6 +198,47 @@ export class GUIExample {
   }
 }
 
+const storydata: Array<{ text: string }> = [
+  { text: 'Criminal Of Nightmares' },
+  { text: 'Knight Of The Ancients and Scorcery' },
+  { text: 'Pilots Without Duty' },
+  { text: 'Horses With Pride' },
+  { text: 'Swindlers And Men' },
+  { text: 'Aliens And Mice' },
+  { text: 'Planet Of The Forsaken' },
+  { text: 'Rise With Pride' },
+  { text: 'Becoming The Town' },
+  { text: 'Battling In The River' },
+  { text: 'Warrior Of Greatness' },
+  { text: 'Enemy Without Courage' },
+  { text: 'Humans Of Earth' },
+  { text: 'Giants Of The Sea' },
+  { text: 'Girls And Strangers' },
+  { text: 'Rebels And Giants' },
+  { text: 'Beginning Of The Frontline' },
+  { text: 'Family Of Dread' },
+  { text: 'Amusing The River' },
+]
 
+const stories: Array<string> = [
+  'Criminal Of Nightmares',
+  'Knight Of The Ancients and Scorcery',
+  'Pilots Without Duty',
+  'Horses With Pride',
+  'Swindlers And Men',
+  'Aliens And Mice',
+  'Planet Of The Forsaken',
+  'Rise With Pride',
+  'Becoming The Town',
+  'Battling In The River',
+  'Warrior Of Greatness',
+  'Enemy Without Courage',
+  'Humans Of Earth',
+  'Giants Of The Sea',
+  'Girls And Strangers',
+  'Rebels And Giants',
+  'Beginning Of The Frontline',
+  'Family Of Dread',
+  'Amusing The River',
+]
 
-const codepoints = ``

@@ -2,6 +2,7 @@ import { ThreeInteractive } from "three-flow";
 import { TextButtonParameters } from "./model";
 import { MeshBasicMaterial } from "three";
 import { UITextButton } from "./button-text";
+import { ButtonOptions } from "./button";
 
 export enum UIKeyEventTypes {
   LOCK_STATE = 'lock_state',
@@ -10,8 +11,8 @@ export enum UIKeyEventTypes {
   SET_TEXT = 'set_text',
 }
 export class UIKey extends UITextButton {
-  constructor(parameters: TextButtonParameters, interactive: ThreeInteractive) {
-    super(parameters, interactive)
+  constructor(parameters: TextButtonParameters, interactive: ThreeInteractive, options: ButtonOptions = {}) {
+    super(parameters, interactive, options)
 
     const original = this.material
     const highlight = new MeshBasicMaterial({ color: 'green' })
