@@ -90,7 +90,7 @@ export class UILabel extends Mesh {
 
     this.name = parameters.id != undefined ? parameters.id : 'label'
 
-    this.fontCache = options.fontCache != undefined ? options.fontCache : new FontCache()
+    this.fontCache = options.fontCache != undefined ? options.fontCache : new FontCache(true)
     this.materialCache = options.materialCache != undefined ? options.materialCache : new MaterialCache()
 
     this._text = parameters.text ? parameters.text : ''

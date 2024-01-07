@@ -5,7 +5,7 @@ import { ThreeJSApp } from "../../app/threejs-app";
 import { FlowDiagram } from "three-flow";
 import { UIEventType, UIOptions } from "./model";
 import { UIKeyboard, UIKeyboardEvent } from "./keyboard";
-import { MaterialCache } from "./cache";
+import { FontCache, MaterialCache } from "./cache";
 import { UIButton } from "./button";
 import { InputManagerOptions, UIInputManager } from "./input-manager";
 import { UITextEntry } from "./text-entry";
@@ -60,6 +60,13 @@ export class GUIExample {
 
     //new PanelInteraction(panel, app.interactive)
 
+    const options: InputManagerOptions = {
+      fontCache: new FontCache(),
+      materialCache: new MaterialCache(),
+      //selectedOffset: {axes:'y', offset:0},
+      //selectedMaterial: { color: 'red' }
+    }
+
 
     const button = new UITextButton({
       position: { y: 0.75 },
@@ -71,7 +78,7 @@ export class GUIExample {
       label: {
         text: 'Click Me', //material: { color: 'black' }
       }
-    }, app.interactive)
+    }, app.interactive, options)
     scene.add(button)
     ////button.clicked = () => { console.warn('clicked from override') }
     button.addEventListener(UIEventType.BUTTON_PRESSED, () => {
@@ -103,12 +110,6 @@ export class GUIExample {
 
     //  count++
     //},1000)
-
-    const options: InputManagerOptions = {
-      materialCache: new MaterialCache(),
-      //selectedOffset: {axes:'y', offset:0},
-      //selectedMaterial: { color: 'red' }
-    }
 
     const label1 = new UILabel({ text: 'this is a test', maxwidth: 0.5 }, options)
     scene.add(label1)
