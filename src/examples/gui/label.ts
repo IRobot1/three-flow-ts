@@ -2,8 +2,7 @@ import { ColorRepresentation, Mesh, MeshBasicMaterial, MeshBasicMaterialParamete
 import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
-import { UIEventType, LabelAlignX, LabelAlignY, LabelParameters, LabelTextAlign, UIOptions } from "./model";
-import { FontCache, MaterialCache } from "./cache";
+import { UIEventType, LabelAlignX, LabelAlignY, LabelParameters, LabelTextAlign, UIOptions, LabelOverflow } from "./model";
 
 
 export interface LabelOptions extends UIOptions {
@@ -104,9 +103,19 @@ export class UILabel extends Mesh {
 
   alignX: LabelAlignX
   alignY: LabelAlignY
-  maxwidth: number
   textalign: LabelTextAlign
   isicon: boolean
+
+  maxwidth: number
+
+  private _overflow: LabelOverflow
+  get overflow() { return this._overflow }
+  set overflow(newvalue: LabelOverflow) {
+    if (this._overflow != newvalue) {
+      this._overflow = newvalue
+      this.updateLabel()
+    }
+  }
 
   private font?: Font;
 
@@ -125,9 +134,11 @@ export class UILabel extends Mesh {
     this._padding = parameters.padding != undefined ? parameters.padding : 0.02
     this.alignX = parameters.alignX ? parameters.alignX : 'center'
     this.alignY = parameters.alignY ? parameters.alignY : 'middle'
-    this.maxwidth = parameters.maxwidth != undefined ? parameters.maxwidth : Infinity
     this.textalign = parameters.textalign ? parameters.textalign : 'left'
     this.isicon = parameters.isicon ? parameters.isicon : false
+
+    this.maxwidth = parameters.maxwidth != undefined ? parameters.maxwidth : Infinity
+    this._overflow = parameters.overflow != undefined ? parameters.overflow : 'clip'
 
     this.visible = parameters.visible != undefined ? parameters.visible : true
 
@@ -148,6 +159,7 @@ export class UILabel extends Mesh {
     }
 
     options.fontCache.getFont(fontName, (font: Font) => {
+      //console.warn(font)
       this.font = font
       this.updateLabel()
     })
@@ -157,7 +169,7 @@ export class UILabel extends Mesh {
 
   private truncateText(): string {
     if (!this.font) return ''
-
+    
     // @ts-ignore
     const data = this.font.data as FontData
     const scale = this.size / data.resolution;
@@ -165,10 +177,12 @@ export class UILabel extends Mesh {
     let offsetX = 0
 
     const chars = Array.from(this.text);
-    let i = 0
-    for (; i < chars.length; i++) {
+    if (this.overflow == 'slice') chars.reverse()
 
-      const char = chars[i];
+    let index = 0
+    for (; index < chars.length; index++) {
+
+      const char = chars[index];
 
       if (char === '\n') break
 
@@ -179,8 +193,9 @@ export class UILabel extends Mesh {
       offsetX += (glyph.ha * scale);
       if (offsetX > this.maxwidth) break
     }
-
-    return this.text.slice(0, i)
+    if (this.overflow == 'clip')
+      return this.text.slice(0, index)
+    return this.text.slice(chars.length - index)
   }
 
   public updateLabel() {

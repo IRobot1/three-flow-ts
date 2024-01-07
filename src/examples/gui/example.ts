@@ -127,7 +127,7 @@ export class GUIExample {
 
     const text1 = new UITextEntry({
       height: 0.3,
-      password: false,
+      //password: true, prompt: '|', passwordChar: '?',
       label: { text: 'test', material: { color: 'black' } }
     }, app.interactive, options)
     scene.add(text1)

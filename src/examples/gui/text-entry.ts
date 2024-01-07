@@ -56,11 +56,14 @@ export class UITextEntry extends UIEntry implements InputField {
     if (parameters.label == undefined) parameters.label = {}
     parameters.label.size = this.height / 2
     parameters.label.padding = padding
-    parameters.label.maxwidth = this.width - padding * 2
+    parameters.label.maxwidth = this.width - padding
+    parameters.label.overflow = 'slice'
+
+    const passwordChar = parameters.passwordChar != undefined ? parameters.passwordChar : '*'
 
     this._password = parameters.password != undefined ? parameters.password : false
     if (parameters.label.text && this.password)
-      parameters.label.text = '*'.repeat(parameters.label.text.length);
+      parameters.label.text = passwordChar.repeat(parameters.label.text.length);
 
     const label = new UILabel(parameters.label, { fontCache: this.fontCache, materialCache: this.materialCache })
     label.alignX = 'left'
@@ -72,19 +75,22 @@ export class UITextEntry extends UIEntry implements InputField {
 
     this.add(label)
 
-    this._password = parameters.password != undefined ? parameters.password : false
     this._prompt = parameters.prompt != undefined ? parameters.prompt : '_'
 
     this.text = label.text
 
     const textChanged = () => {
       if (this.password)
-        label.text = '*'.repeat(this.text.length);
+        label.text = passwordChar.repeat(this.text.length);
       else
         label.text = this.text;
 
-      if (this.active)
+      if (this.active) {
+        label.overflow = 'slice'
         label.text += this.prompt
+      }
+      else
+        label.overflow = 'clip'
     }
 
     this.addEventListener(InputFieldEventType.TEXT_CHANGED, textChanged)

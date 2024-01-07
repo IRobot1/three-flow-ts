@@ -69,7 +69,7 @@ export interface PanelParameters extends TranformParameters, SizeParameters {
 export type LabelAlignX = 'center' | 'left' | 'right'
 export type LabelAlignY = 'middle' | 'top' | 'bottom'
 export type LabelTextAlign = 'left' | 'right' | 'center' | 'justify'
-
+export type LabelOverflow = 'clip' | 'slice'
 export interface LabelParameters {
   id?: string
   text?: string
@@ -84,7 +84,7 @@ export interface LabelParameters {
   visible?: boolean
 
   maxwidth?: number
-  // wrap?: boolean
+  overflow?: LabelOverflow   // when text longer than max width, either clip or slice to show end text
 }
 
 export interface ButtonParameters extends PanelParameters {
@@ -95,8 +95,8 @@ export interface TextButtonParameters extends PanelParameters {
 export interface TextEntryParameters extends PanelParameters {
   label?: LabelParameters
   password?: boolean             // default is false
-  passwordChar?: string          // defaut is *
-  prompt?: string                // default is _
+  passwordChar?: string          // defaut is *, any valid glyph for the font being used
+  prompt?: string                // default is _, any valid glyph for the font being used
 }
 export interface NumberEntryParameters extends TextEntryParameters {
   initialvalue?: number
