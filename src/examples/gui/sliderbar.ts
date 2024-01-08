@@ -1,4 +1,4 @@
-import { InteractiveEventType, RoundedRectangleShape, ThreeInteractive } from "three-flow";
+import { InteractiveEventType, RoundedRectangleGeometry, RoundedRectangleShape, ThreeInteractive } from "three-flow";
 import { PanelOptions } from "./panel";
 import { SliderbarParameters } from "./model";
 import { MathUtils, Mesh, ShapeGeometry, Vector3 } from "three";
@@ -68,8 +68,19 @@ export class UISliderbar extends UIEntry {
       //    }
       //  }
     }
-
   }
+
+
+  private _sliderwidth = 0
+  get sliderwidth() { return this._sliderwidth }
+  set sliderwidth(newvalue: number) {
+    if (this._sliderwidth != newvalue) {
+      this._sliderwidth = newvalue
+      this.slidermesh.geometry = new RoundedRectangleGeometry(newvalue, this.height * 0.9, this.sliderradius)
+    }
+  }
+  private slidermesh: Mesh
+  private sliderradius: number
 
   constructor(parameters: SliderbarParameters, interactive: ThreeInteractive, options: SliderbarOptions = {}) {
     if (parameters.height == undefined) parameters.height = 0.1
@@ -82,27 +93,28 @@ export class UISliderbar extends UIEntry {
     if (!parameters.slidermaterial) parameters.slidermaterial = { color: 'black' }
     const checkmaterial = this.materialCache.getMaterial('geometry', 'slider', parameters.slidermaterial)
 
-    let sliderwidth = parameters.sliderwidth != undefined ? parameters.sliderwidth : 0.1
-    const sliderradius = parameters.sliderradius != undefined ? parameters.sliderradius : 0.02
+    this.sliderradius = parameters.sliderradius != undefined ? parameters.sliderradius : 0.02
 
-    const shape = new RoundedRectangleShape(sliderwidth, this.height * 0.9, sliderradius)
-    const mesh = new Mesh(new ShapeGeometry(shape), checkmaterial)
-    this.add(mesh)
-    mesh.position.z = 0.001
+    const slidermesh = new Mesh()
+    slidermesh.material = checkmaterial
+    this.add(slidermesh)
+    slidermesh.position.z = 0.001
+    this.slidermesh = slidermesh
+    this.sliderwidth = parameters.sliderwidth != undefined ? parameters.sliderwidth : 0.1
 
-    interactive.selectable.add(mesh)
-    interactive.draggable.add(mesh)
+    interactive.selectable.add(slidermesh)
+    interactive.draggable.add(slidermesh)
 
     this.min = parameters.min != undefined ? parameters.min : 0
     this.max = parameters.max != undefined ? parameters.max : 100
     this.step = parameters.step != undefined ? parameters.step : 1
 
-    mesh.addEventListener(InteractiveEventType.POINTERENTER, () => {
+    slidermesh.addEventListener(InteractiveEventType.POINTERENTER, () => {
       if (!this.visible) return
       document.body.style.cursor = 'grab'
     })
 
-    mesh.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
+    slidermesh.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
       if (document.body.style.cursor == 'grab')
         document.body.style.cursor = 'default'
     })
@@ -111,9 +123,9 @@ export class UISliderbar extends UIEntry {
 
     const moveto = (x: number) => {
       if (this.min != undefined && this.max != undefined) {
-        const halfwidth = (this.width - sliderwidth) / 2;
+        const halfwidth = (this.width - this.sliderwidth) / 2;
         x = MathUtils.clamp(x, -halfwidth + padding, halfwidth - padding);
-        mesh.position.x = x
+        slidermesh.position.x = x
 
         const value = MathUtils.mapLinear(x, -halfwidth, halfwidth, this.min, this.max);
 
@@ -127,7 +139,7 @@ export class UISliderbar extends UIEntry {
     let dragging = false
 
     let offset: Vector3
-    mesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
+    slidermesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
       if (!this.visible) return
 
       moveto(e.position.x)
@@ -135,37 +147,25 @@ export class UISliderbar extends UIEntry {
 
       dragging = true
     });
-    mesh.addEventListener(InteractiveEventType.DRAGEND, () => {
+    slidermesh.addEventListener(InteractiveEventType.DRAGEND, () => {
       document.body.style.cursor = 'default'
       dragging = false
     });
 
 
-    mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
+    slidermesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
       if (!dragging || !this.visible) return
 
       moveto(e.position.x)
     });
 
 
-    const calcwidths = () => {
-      let box = this.geometry.boundingBox
-      if (box) {
-        sliderwidth = box.max.x - box.min.x
-      }
-
-      box = mesh.geometry.boundingBox
-      if (box) {
-        sliderwidth = box.max.x - box.min.x
-      }
-    }
 
     const valuechange = (value: number) => {
       if (this.min != undefined && this.max != undefined) {
-        calcwidths()
-        const halfwidth = (this.width - sliderwidth) / 2;
+        const halfwidth = (this.width - this.sliderwidth) / 2;
         const x = MathUtils.mapLinear(value, this.min, this.max, -halfwidth + padding, halfwidth - padding);
-        mesh.position.x = x
+        slidermesh.position.x = x
       }
     }
 
