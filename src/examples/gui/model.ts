@@ -105,17 +105,18 @@ export interface CheckboxParameters extends PanelParameters {
 }
 export interface ColorEntryParameters extends PanelParameters {
 }
+export type UIOrientationType = 'vertical' | 'horizontal'
 export interface SliderbarParameters extends PanelParameters {
   initialvalue?: number
   min?: number
   max?: number
   step?: number
-  sliderwidth?: number
+  slidersize?: number
   sliderradius?: number
   slidermaterial?: MeshBasicMaterialParameters
+  orientation?: UIOrientationType // default is horizontal
 }
 
-export type ListOrientation = 'vertical' | 'horizontal'
 
 export interface ListParameters extends PanelParameters {
   data?: Array<any>             // default is empty, array of data, default type is string
@@ -124,7 +125,7 @@ export interface ListParameters extends PanelParameters {
   itemheight?: number           // default is 0.1, height needed to display each item
   selected?: string             // default is none, if there's a default selected item
   spacing?: number              // default is 0.02, spacing between items
-  orientation?: ListOrientation // default is vertical
+  orientation?: UIOrientationType // default is vertical
   emptyText?: string             // default is 'List is empty'
   selectedMaterial?: MeshBasicMaterialParameters // default is 'black'
 }

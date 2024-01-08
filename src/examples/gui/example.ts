@@ -147,9 +147,15 @@ export class GUIExample {
       colorentry.position.y = -0.7
 
 
-      const sliderbar = new UISliderbar({ height: 0.3 }, app.interactive, options)
-      scene.add(sliderbar)
-      sliderbar.position.y = -1.05
+      const hsliderbar = new UISliderbar({ height: 0.3 }, app.interactive, options)
+      scene.add(hsliderbar)
+      hsliderbar.position.y = -1.05
+
+      const vsliderbar = new UISliderbar({ width: 0.3, height:1, slidersize:0.5, orientation:'vertical' }, app.interactive, options)
+      scene.add(vsliderbar)
+      vsliderbar.position.x = 1
+      vsliderbar.position.y = -1
+
 
       const list = new UIList({
         data: storydata,
@@ -165,7 +171,7 @@ export class GUIExample {
         console.warn(list.selectedtext)
       })
 
-      input.add(button, text1, text2, checkbox, colorentry, sliderbar, list)
+      input.add(button, text1, text2, checkbox, colorentry, hsliderbar, list)
 
       //console.warn(options.materialCache)
       //const keyboard = new UIKeyboard({}, app.interactive)

@@ -1,6 +1,6 @@
 import { InteractiveEventType, RoundedRectangleGeometry, RoundedRectangleShape, ThreeInteractive } from "three-flow";
 import { PanelOptions } from "./panel";
-import { SliderbarParameters } from "./model";
+import { UIOrientationType, SliderbarParameters } from "./model";
 import { MathUtils, Mesh, ShapeGeometry, Vector3 } from "three";
 import { UIEntry } from "./input-field";
 import { UIKeyboardEvent } from "./keyboard";
@@ -37,7 +37,7 @@ export class UISliderbar extends UIEntry {
     }
   }
 
-  private _min?= 0
+  private _min: number | undefined
   get min(): number | undefined { return this._min }
   set min(newvalue: number | undefined) {
     if (this._min != newvalue) {
@@ -47,7 +47,7 @@ export class UISliderbar extends UIEntry {
     }
   }
 
-  private _max?= 100
+  private _max: number | undefined
   get max(): number | undefined { return this._max }
   set max(newvalue: number | undefined) {
     if (this._max != newvalue) {
@@ -71,16 +71,20 @@ export class UISliderbar extends UIEntry {
   }
 
 
-  private _sliderwidth = 0
-  get sliderwidth() { return this._sliderwidth }
-  set sliderwidth(newvalue: number) {
-    if (this._sliderwidth != newvalue) {
-      this._sliderwidth = newvalue
-      this.slidermesh.geometry = new RoundedRectangleGeometry(newvalue, this.height * 0.9, this.sliderradius)
+  private _slidersize = 0
+  get slidersize() { return this._slidersize }
+  set slidersize(newvalue: number) {
+    if (this._slidersize != newvalue) {
+      this._slidersize = newvalue
+      if (this.orientation == 'horizontal')
+        this.slidermesh.geometry = new RoundedRectangleGeometry(newvalue, this.height * 0.9, this.sliderradius)
+      else
+        this.slidermesh.geometry = new RoundedRectangleGeometry(this.width * 0.9, newvalue, this.sliderradius)
     }
   }
   private slidermesh: Mesh
   private sliderradius: number
+  private orientation: UIOrientationType
 
   constructor(parameters: SliderbarParameters, interactive: ThreeInteractive, options: SliderbarOptions = {}) {
     if (parameters.height == undefined) parameters.height = 0.1
@@ -94,20 +98,23 @@ export class UISliderbar extends UIEntry {
     const checkmaterial = this.materialCache.getMaterial('geometry', 'slider', parameters.slidermaterial)
 
     this.sliderradius = parameters.sliderradius != undefined ? parameters.sliderradius : 0.02
+    this.orientation = parameters.orientation != undefined ? parameters.orientation : 'horizontal'
 
     const slidermesh = new Mesh()
     slidermesh.material = checkmaterial
     this.add(slidermesh)
     slidermesh.position.z = 0.001
+
+    // store the mesh and set its initial geometry by setting slider size
     this.slidermesh = slidermesh
-    this.sliderwidth = parameters.sliderwidth != undefined ? parameters.sliderwidth : 0.1
+    this.slidersize = parameters.slidersize != undefined ? parameters.slidersize : 0.1
 
     interactive.selectable.add(slidermesh)
     interactive.draggable.add(slidermesh)
 
-    this.min = parameters.min != undefined ? parameters.min : 0
-    this.max = parameters.max != undefined ? parameters.max : 100
-    this.step = parameters.step != undefined ? parameters.step : 1
+    this._min = parameters.min != undefined ? parameters.min : 0
+    this._max = parameters.max != undefined ? parameters.max : 100
+    this._step = parameters.step != undefined ? parameters.step : 1
 
     slidermesh.addEventListener(InteractiveEventType.POINTERENTER, () => {
       if (!this.visible) return
@@ -121,13 +128,17 @@ export class UISliderbar extends UIEntry {
 
     const padding = this.height / 10
 
-    const moveto = (x: number) => {
+    const moveto = (v: Vector3) => {
       if (this.min != undefined && this.max != undefined) {
-        const halfwidth = (this.width - this.sliderwidth) / 2;
-        x = MathUtils.clamp(x, -halfwidth + padding, halfwidth - padding);
-        slidermesh.position.x = x
-
-        const value = MathUtils.mapLinear(x, -halfwidth, halfwidth, this.min, this.max);
+        let value:number
+        if (this.orientation == 'horizontal') {
+          const halfwidth = (this.width - this.slidersize) / 2;
+          value = MathUtils.mapLinear(v.x, -halfwidth, halfwidth, this.min, this.max);
+        }
+        else {
+          const halfheight = (this.height - this.slidersize) / 2;
+          value = MathUtils.mapLinear(v.y, -halfheight, halfheight, this.min, this.max);
+        }
 
         if (this.step) {
           // avoid problems when step is fractional
@@ -142,7 +153,7 @@ export class UISliderbar extends UIEntry {
     slidermesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
       if (!this.visible) return
 
-      moveto(e.position.x)
+      moveto(e.position)
       document.body.style.cursor = 'grabbing'
 
       dragging = true
@@ -156,16 +167,23 @@ export class UISliderbar extends UIEntry {
     slidermesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
       if (!dragging || !this.visible) return
 
-      moveto(e.position.x)
+      moveto(e.position)
     });
 
 
 
     const valuechange = (value: number) => {
       if (this.min != undefined && this.max != undefined) {
-        const halfwidth = (this.width - this.sliderwidth) / 2;
-        const x = MathUtils.mapLinear(value, this.min, this.max, -halfwidth + padding, halfwidth - padding);
-        slidermesh.position.x = x
+        if (this.orientation == 'horizontal') {
+          const halfwidth = (this.width - this.slidersize) / 2;
+          const x = MathUtils.mapLinear(value, this.min, this.max, -halfwidth + padding, halfwidth - padding);
+          slidermesh.position.x = x
+        }
+        else {
+          const halfheight = (this.height - this.slidersize) / 2;
+          const y = MathUtils.mapLinear(value, this.min, this.max, -halfheight + padding/2, halfheight - padding/2);
+          slidermesh.position.y = y
+        }
       }
     }
 

@@ -1,6 +1,6 @@
 import { Group, Mesh, Object3D, PlaneGeometry, Vector3 } from "three";
 import { InputFieldEventType, UIEntry } from "./input-field";
-import { LabelParameters, ListOrientation, ListParameters, UIEventType } from "./model";
+import { LabelParameters, UIOrientationType, ListParameters, UIEventType } from "./model";
 import { ThreeInteractive } from "three-flow";
 import { PanelOptions } from "./panel";
 import { ButtonEventType, UIButton } from "./button";
@@ -69,9 +69,9 @@ export class UIList extends UIEntry {
     }
   }
 
-  private _orientation: ListOrientation
-  get orientation(): ListOrientation { return this._orientation }
-  set orientation(newvalue: ListOrientation) {
+  private _orientation: UIOrientationType
+  get orientation(): UIOrientationType { return this._orientation }
+  set orientation(newvalue: UIOrientationType) {
     if (this._orientation != newvalue) {
       this._orientation = newvalue
       // TODO: change layout
