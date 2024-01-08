@@ -199,6 +199,8 @@ export class UIPanel extends Mesh {
       unhighlight()
     })
 
+    this.isHighlighted = () => { return highlightMesh.visible }
+
     // allow derived classes access to "this" by delaying one frame or to override methods
     requestAnimationFrame(() => {
       this._resizeGeometry()
@@ -224,6 +226,8 @@ export class UIPanel extends Mesh {
     this.geometry = this.createGeometry(this.shape)
     this.resizeGeometry()
   }
+
+  isHighlighted(): boolean { return false }
 
   // overridable
 

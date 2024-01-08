@@ -3,7 +3,8 @@ import { InteractiveEventType, ThreeInteractive } from "three-flow";
 
 import { TextButtonParameters, UIEventType, UIOptions } from "./model";
 import { englishDesktopANSI } from "./englishDesktopANSI";
-import { UIKey, UIKeyEventTypes } from "./keyboard-key";
+import { UIKey, UIKeyEventType } from "./keyboard-key";
+import { ButtonEventType } from "./button";
 
 export interface UIKeyboardParameters {
 
@@ -142,7 +143,7 @@ export class UIKeyboard extends Object3D {
 
     const key = this.keyMap.get(keycode)
     if (key) {
-      key.dispatchEvent<any>({ type: UIKeyEventTypes.BUTTON_DOWN })
+      key.dispatchEvent<any>({ type: ButtonEventType.BUTTON_DOWN })
 
       if (!event.ctrlKey && !event.altKey) {
         const setting = key.userData as KeySetting
@@ -163,7 +164,7 @@ export class UIKeyboard extends Object3D {
     this.checkShift(keycode)
 
     const mesh = this.keyMap.get(keycode)
-    if (mesh) mesh.dispatchEvent<any>({ type: UIKeyEventTypes.BUTTON_UP })
+    if (mesh) mesh.dispatchEvent<any>({ type: ButtonEventType.BUTTON_UP })
   }
 
   private checkShift(keycode: string) {
@@ -184,7 +185,7 @@ export class UIKeyboard extends Object3D {
   private updateLockState(keycode: string, event: KeyboardEvent): boolean {
     const state = event.getModifierState(keycode)
     const caps = this.keyMap.get(keycode)
-    if (caps) caps.dispatchEvent<any>({ type: UIKeyEventTypes.LOCK_STATE, state })
+    if (caps) caps.dispatchEvent<any>({ type: UIKeyEventType.LOCK_STATE, state })
     return state
   }
 
@@ -199,7 +200,7 @@ export class UIKeyboard extends Object3D {
   updateKeyText() {
     const index = this.shift ? 1 : 0
     this.stateKeys.forEach(key => {
-      key.mesh.dispatchEvent<any>({ type: UIKeyEventTypes.SET_TEXT, text: key.text[index] })
+      key.mesh.dispatchEvent<any>({ type: UIKeyEventType.SET_TEXT, text: key.text[index] })
     })
   }
 
@@ -265,7 +266,7 @@ export class UIKeyboard extends Object3D {
 
         if (setting.keycode == 'CapsLock') {
           this.shift = !this.shift
-          key.dispatchEvent<any>({ type: UIKeyEventTypes.LOCK_STATE, state: this.shift })
+          key.dispatchEvent<any>({ type: UIKeyEventType.LOCK_STATE, state: this.shift })
           this.updateKeyText()
         }
       }

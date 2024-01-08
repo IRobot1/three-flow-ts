@@ -155,12 +155,15 @@ export class GUIExample {
         data: storydata,
         field: 'text',
         //orientation: 'vertical',
-        itemheight: 0.3,
+        //itemheight: 0.3,
         //itemcount: 5,
       }, app.interactive, options)
       scene.add(list)
       list.position.x = 1.2
       list.position.y = 0
+      list.addEventListener(UIEventType.LIST_SELECTED_CHANGED, () => {
+        console.warn(list.selectedtext)
+      })
 
       input.add(button, text1, text2, checkbox, colorentry, sliderbar, list)
 

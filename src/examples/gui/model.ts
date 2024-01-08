@@ -126,6 +126,7 @@ export interface ListParameters extends PanelParameters {
   spacing?: number              // default is 0.02, spacing between items
   orientation?: ListOrientation // default is vertical
   emptyText?: string             // default is 'List is empty'
+  selectedMaterial?: MeshBasicMaterialParameters // default is 'black'
 }
 
 
@@ -138,6 +139,7 @@ export enum UIEventType {
   DRAGGED = 'dragged',
   LABEL_READY = 'label_ready',
   BUTTON_PRESSED = 'button_pressed',
+  LIST_SELECTED_CHANGED = 'list_selected_changed'
 }
 
 export interface UIOptions {
