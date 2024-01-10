@@ -171,10 +171,8 @@ export class FramesExample {
 
 class FramesFlowDiagram extends FlowDiagram {
 
-  constructor(options?: FlowDiagramOptions) { super(options) }
-
-  override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
-    return new MeshBasicMaterial(parameters);
+  constructor(options?: FlowDiagramOptions) {
+    super(options)
   }
 
   override createLabel(label: FlowLabelParameters): FlowLabel {

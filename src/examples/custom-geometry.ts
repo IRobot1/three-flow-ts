@@ -24,6 +24,7 @@ import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeomet
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 import { DagreLayout } from "./dagre-layout";
 import { NodeBorder } from "./node-border";
+import { FlowMaterials } from "three-flow";
 
 interface MyFlowNodeData extends FlowNodeParameters {
   test: string
@@ -185,6 +186,7 @@ export class CustomGeometryExample {
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
       const options: FlowDiagramOptions = {
         gridsize: 0.3,
+        materialCache: new MyDiagramMaterials(),
         fonts: new Map<string, Font>([
           ['helvetika', font],
         ]),
@@ -245,10 +247,7 @@ export class CustomGeometryExample {
   }
 }
 
-class MyFlowDiagram extends FlowDiagram {
-  constructor(options?: FlowDiagramOptions) {
-    super(options)
-  }
+class MyDiagramMaterials extends FlowMaterials {
 
   override createLineMaterial(purpose: string, parameters: LineBasicMaterialParameters): Material {
     return new MeshBasicMaterial(parameters);
@@ -258,6 +257,13 @@ class MyFlowDiagram extends FlowDiagram {
     parameters.side = purpose == 'arrow' ? DoubleSide : FrontSide
     return new MeshStandardMaterial(parameters);
   }
+}
+
+class MyFlowDiagram extends FlowDiagram {
+  constructor(options?: FlowDiagramOptions) {
+    super(options)
+  }
+
 
   override createNode(node: MyFlowNodeData): FlowNode {
     return new MyFlowNode(this, node)

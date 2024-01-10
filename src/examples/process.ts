@@ -19,6 +19,7 @@ import {
 import { TroikaFlowLabel } from "./troika-label";
 import { FlowProperties } from "three-flow";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
+import { FlowMaterials } from "three-flow";
 
 type ProcessShapeType = 'circle' | 'rhombus' | 'rect' | 'parallel'
 interface ProcessShape extends FlowNodeParameters {
@@ -59,7 +60,12 @@ export class ProcessExample {
         orbit.enableRotate = !orbit.enableRotate
     })
 
-    const flow = new ProcessFlowDiagram({ linestyle: 'step', gridsize: 0.1 })
+    const materials = new FlowMaterials()
+    materials.createMeshMaterial = (purpose: string, parameters: MaterialParameters): Material => {
+      return new MeshStandardMaterial(parameters);
+    }
+
+    const flow = new ProcessFlowDiagram({ linestyle: 'step', gridsize: 0.1, materialCache: materials })
     background.add(flow);
     flow.position.z = 0.3
 
@@ -154,10 +160,6 @@ export class ProcessExample {
 class ProcessFlowDiagram extends FlowDiagram {
 
   constructor(options?: FlowDiagramOptions) { super(options) }
-
-  override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
-    return new MeshStandardMaterial(parameters);
-  }
 
   override createLabel(label: FlowLabelParameters): FlowLabel {
     return new TroikaFlowLabel(this, label)

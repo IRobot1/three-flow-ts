@@ -8,6 +8,7 @@ import { ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "./troika-label";
 import { AssetViewerDiagram, AssetViewer } from "./asset-viewer";
+import { FlowMaterials } from "three-flow";
 
 const AlchemistEventType = {
   MATERIAL_TEXTURE: 'material_texture',  // set a materials map property with a loaded texture
@@ -85,7 +86,7 @@ export class AlchemistExample {
     const cache = new TextureCache()
 
     const designer = new AlchemistRecipeDiagram(app.interactive, cache, {
-      diagram: { linestyle: 'step', lineoffset: 0.1, gridsize: 0.1 },
+      diagram: { linestyle: 'step', lineoffset: 0.1, gridsize: 0.1, materialCache : new AlchemistMaterials() },
       title: 'Alchemist Recipe', initialFileName: 'alchemist-recipe.json'
     })
     table.add(designer);
@@ -340,7 +341,12 @@ class DesignerEdge extends FlowEdge {
   }
 }
 
+class AlchemistMaterials extends FlowMaterials {
 
+  override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
+    return new MeshStandardMaterial(parameters);
+  }
+}
 
 class AlchemistRecipeDiagram extends FlowDiagramDesigner {
   hideconnectors = true
@@ -474,11 +480,6 @@ class AlchemistRecipeDiagram extends FlowDiagramDesigner {
 
     this.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, node: newnode })
     return newnode
-  }
-
-
-  override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
-    return new MeshStandardMaterial(parameters);
   }
 
   override createLabel(parameters: FlowLabelParameters): FlowLabel {

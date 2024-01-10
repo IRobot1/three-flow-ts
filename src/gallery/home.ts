@@ -1,21 +1,23 @@
-import { AmbientLight, BoxGeometry, BufferGeometry, DoubleSide, ExtrudeGeometry, LineBasicMaterial, LineSegments, MaterialParameters, MathUtils, Mesh, MeshBasicMaterial, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, SRGBColorSpace, Scene, Shape, ShapeGeometry, TextureLoader, Vector2 } from "three";
+import { AmbientLight, BoxGeometry, BufferGeometry, DoubleSide, ExtrudeGeometry, LineBasicMaterial, LineSegments, Material, MaterialParameters, MathUtils, Mesh, MeshBasicMaterial, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, SRGBColorSpace, Scene, Shape, ShapeGeometry, TextureLoader, Vector2 } from "three";
 import { ThreeInteractive, InteractiveEventType, FlowDiagram, FlowLabelParameters, FlowLabel, FlowNodeParameters, FlowEdgeParameters, FlowConnectors, FlowDiagramParameters, FlowNode, FlowDiagramOptions, RoundedRectangleShape } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "../examples/troika-label";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { BoxLineGeometry } from "three/examples/jsm/geometries/BoxLineGeometry";
+import { FlowMaterials } from "three-flow";
 
 class MyFlowDiagram extends FlowDiagram {
   loader = new TextureLoader()
 
-  constructor(options?: FlowDiagramOptions) {
-    super(options)
-  }
+  constructor() {
+    const materials = new FlowMaterials()
+    materials.createMeshMaterial = (purpose: string, parameters: MaterialParameters): Material => {
+      return new MeshStandardMaterial(parameters);
+    }
 
-  override createMeshMaterial(purpose: string, parameters: MaterialParameters) {
-    //parameters.side = DoubleSide
-    return new MeshStandardMaterial(parameters)
+    const options: FlowDiagramOptions = { linestyle: 'step', materialCache:materials }
+    super(options)
   }
 
   override createLabel(label: FlowLabelParameters): FlowLabel {
@@ -491,7 +493,7 @@ export class GalleryExample {
       nodes, edges
     }
 
-    const flow = new MyFlowDiagram({ linestyle: 'step' })
+    const flow = new MyFlowDiagram()
     scene.add(flow);
 
     flow.rotation.x = MathUtils.degToRad(-90)

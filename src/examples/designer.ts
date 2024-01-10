@@ -9,6 +9,7 @@ import { ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "./troika-label";
 import { AssetViewerDiagram, AssetViewer } from "./asset-viewer";
+import { FlowMaterials } from "three-flow";
 
 export class DesignerExample {
 
@@ -44,9 +45,15 @@ export class DesignerExample {
         orbit.enableRotate = !orbit.enableRotate
     })
 
+    const materials = new FlowMaterials()
+    materials.createMeshMaterial = (purpose: string, parameters: MaterialParameters): Material => {
+      return new MeshStandardMaterial(parameters);
+    }
+
+
     //scene.add(new AxesHelper(3))
     const designer = new DesignerFlowDiagram(app.interactive, {
-      diagram: { linestyle: 'step', lineoffset: 0.1, gridsize: 0.1 },
+      diagram: { linestyle: 'step', lineoffset: 0.1, gridsize: 0.1, materialCache:materials },
       title: 'Shape Designer', initialFileName: 'flow-shapes.json'
     })
     scene.add(designer);
@@ -430,10 +437,6 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
     return newnode
   }
 
-
-  override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
-    return new MeshStandardMaterial(parameters);
-  }
 
   override createLabel(parameters: FlowLabelParameters): FlowLabel {
     return new TroikaFlowLabel(this, parameters)
