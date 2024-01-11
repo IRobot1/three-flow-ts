@@ -249,8 +249,7 @@ export class CustomGeometryExample {
 
 class MyDiagramMaterials extends FlowMaterials {
 
-  override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
-    parameters.side = purpose == 'arrow' ? DoubleSide : FrontSide
+  override createMeshMaterial(parameters: MaterialParameters): Material {
     return new MeshStandardMaterial(parameters);
   }
 }

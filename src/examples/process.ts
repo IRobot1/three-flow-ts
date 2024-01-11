@@ -61,7 +61,7 @@ export class ProcessExample {
     })
 
     const materials = new FlowMaterials()
-    materials.createMeshMaterial = (purpose: string, parameters: MaterialParameters): Material => {
+    materials.createMeshMaterial = (parameters: MaterialParameters): Material => {
       return new MeshStandardMaterial(parameters);
     }
 

@@ -1,4 +1,4 @@
-import { AmbientLight, BufferGeometry, ColorRepresentation, CurvePath, DoubleSide, LineCurve3, Material, MaterialParameters, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, SRGBColorSpace, Scene, Shape, ShapeGeometry, Texture, TextureLoader, TorusKnotGeometry, TubeGeometry, Vector3 } from "three";
+import { AmbientLight, BufferGeometry, CurvePath, LineCurve3, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, SRGBColorSpace, Scene, Shape, ShapeGeometry, Texture, TextureLoader, TorusKnotGeometry, TubeGeometry, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
@@ -195,6 +195,7 @@ class FramesFlowDiagram extends FlowDiagram {
   }
 
   override createEdge(edge: FlowEdgeParameters): FlowEdge {
+    edge.material = { color: 'white' }
     return new FramesEdge(this, edge)
   }
 }
@@ -212,10 +213,8 @@ class FramesNode extends FlowNode {
 
     const geometry = new RoundedRectangleGeometry(this.width - 0.2, this.height - 0.2, 0.1)
     const back = diagram.getMaterial('geometry', 'background', <MeshBasicMaterialParameters>{
-      color: 'white', transparent: true, opacity:0.2
+      color: 'white', transparent: true, opacity: 0.2
     }) as MeshBasicMaterial
-    //back.transparent = true
-    //back.opacity = 0.2
 
     const backmesh = new Mesh(geometry, back)
     backmesh.position.z = 0.001

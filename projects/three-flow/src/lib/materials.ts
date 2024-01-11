@@ -25,16 +25,18 @@ export class FlowMaterials {
     if (theme)
       this.addTheme('default', theme)
     else {
+      const black = this.createMeshMaterial(<MeshBasicMaterialParameters>{ color: 'black' })
+      const white = this.createMeshMaterial(<MeshBasicMaterialParameters>{ color: 'white' })
       const defaultTheme: FlowTheme = {
-        'geometry-arrow': new MeshBasicMaterial({ color: 'black' }),
-        'geometry-connector': new MeshBasicMaterial({ color: 'black' }),
-        'geometry-scaling': new MeshBasicMaterial({ color: 'black' }),
-        'geometry-resizing': new MeshBasicMaterial({ color: 'black' }),
-        'geometry-label': new MeshBasicMaterial({ color: 'black' }),
-        'geometry-node': new MeshBasicMaterial({ color: 'white' }),
-        'geometry-route': new MeshBasicMaterial({ color: 'white' }),
+        'geometry-arrow': black,
+        'geometry-connector': black,
+        'geometry-scaling': black,
+        'geometry-resizing': black,
+        'geometry-label': black,
+        'geometry-node': white,
+        'geometry-route': white,
 
-        'geometry-edge': new MeshBasicMaterial({ color: 'white' }),
+        'geometry-edge': white,
         'line-edge': FlowMaterialUtils.LineMaterial({ color: 0xffffff }),
       }
       this.addTheme('default', defaultTheme)
@@ -73,7 +75,7 @@ export class FlowMaterials {
         if (type == 'line')
           material = FlowMaterialUtils.LineMaterial(parameters);
         else
-          material = this.createMeshMaterial(purpose, parameters);
+          material = this.createMeshMaterial(parameters);
         this.materialMap.set(key, material);
       }
     }
@@ -81,7 +83,7 @@ export class FlowMaterials {
       key = `${type}-${purpose}`;
       if (!this.materialMap.has(key)) {
         console.warn(`Theme material ${key} not found`)
-        this.materialMap.set(key, new MeshBasicMaterial({ color: 'black' }))
+        this.materialMap.set(key, this.createMeshMaterial(<MeshBasicMaterialParameters>{ color: 'black' }))
       }
     }
     return this.materialMap.get(key)!;
@@ -89,7 +91,7 @@ export class FlowMaterials {
 
   // overridables
 
-  createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
+  createMeshMaterial(parameters: MaterialParameters): Material {
     return new MeshBasicMaterial(parameters);
   }
 }

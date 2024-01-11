@@ -65,7 +65,7 @@ export class AssetViewer extends FlowNode {
 
 class AssetViewerMaterials extends FlowMaterials {
 
-  override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
+  override createMeshMaterial(parameters: MaterialParameters): Material {
     return new MeshStandardMaterial(parameters);
   }
 }

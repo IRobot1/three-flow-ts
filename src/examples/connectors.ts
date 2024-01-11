@@ -107,7 +107,7 @@ class MyConnector extends ConnectorMesh {
 
     // check if connected limit is exceeded
     const matches = this.diagram.allConnectors.filter(e => e.toconnector == this.name)
-    if (matches.length > this.limit) return false
+    if (matches.length >= this.limit) return false
 
     return true
   }
