@@ -208,7 +208,7 @@ class NodeInteractive {
 
     const resizableChanged = () => {
       if (node.resizable) {
-        this.nodeResizer = this.createResizer(node, diagram.getMaterial('geometry', 'resizing', <MeshBasicMaterialParameters>{ color: node.resizecolor }))
+        this.nodeResizer = this.createResizer(node, diagram.getMaterial('geometry', 'resizing', node.parameters.resizematerial))
         source.interactive.selectable.add(...this.nodeResizer.selectable)
         source.interactive.draggable.add(...this.nodeResizer.selectable)
       }
@@ -224,7 +224,7 @@ class NodeInteractive {
 
     const scalebleChanged = () => {
       if (node.scalable) {
-        this.nodeScaler = this.createScaler(node, diagram.getMaterial('geometry', 'scaling', <MeshBasicMaterialParameters>{ color: node.scalecolor }))
+        this.nodeScaler = this.createScaler(node, diagram.getMaterial('geometry', 'scaling', node.parameters.scalematerial))
 
         source.interactive.selectable.add(...this.nodeScaler.selectable)
         source.interactive.draggable.add(...this.nodeScaler.selectable)

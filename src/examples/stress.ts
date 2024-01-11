@@ -1,9 +1,10 @@
-import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, PlaneGeometry, PointLight, Scene } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, CircleGeometry, Color, MeshBasicMaterial, PlaneGeometry, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
+import { LineMaterial } from "three/examples/jsm/lines/LineMaterial";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowEventType, FlowDiagram, FlowNode, FlowNodeParameters, FlowEdgeParameters, FlowInteraction, FlowLabel, FlowLabelParameters, FlowConnectors, FlowProperties, FlowDiagramOptions, FlowConnectorParameters } from "three-flow";
+import { FlowEventType, FlowDiagram, FlowNode, FlowNodeParameters, FlowEdgeParameters, FlowInteraction, FlowLabel, FlowLabelParameters, FlowConnectors, FlowProperties, FlowDiagramOptions, FlowConnectorParameters, FlowTheme, FlowMaterials, FlowMaterialUtils } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 
 export class StressExample {
@@ -204,9 +205,19 @@ class StressNode extends FlowNode {
   }
 }
 
+const stressTheme: FlowTheme = {
+  'geometry-connector': new MeshBasicMaterial({ color: '#01411C' }),
+  'geometry-edge': new MeshBasicMaterial({ color: '#D0F0C0' }),
+  'geometry-label': new MeshBasicMaterial({ color: '#006400' }),
+  'geometry-node': new MeshBasicMaterial({ color: '#ACE1AF' }),
+  'line-edge': FlowMaterialUtils.LineMaterial({ color: 0xD0F0C0 }),
+}
+
+
 class StressFlowDiagram extends FlowDiagram {
   geometry: BufferGeometry
-  constructor(options?: FlowDiagramOptions) {
+  constructor(options: FlowDiagramOptions = {}) {
+    options.materialCache = new FlowMaterials(stressTheme)
     super(options)
 
     this.geometry = new PlaneGeometry(0.8, 0.8)

@@ -211,9 +211,11 @@ class FramesNode extends FlowNode {
     material.opacity = 0
 
     const geometry = new RoundedRectangleGeometry(this.width - 0.2, this.height - 0.2, 0.1)
-    const back = diagram.getMaterial('geometry', 'background', <MeshBasicMaterialParameters>{ color: 'white' }) as MeshBasicMaterial
-    back.transparent = true
-    back.opacity = 0.2
+    const back = diagram.getMaterial('geometry', 'background', <MeshBasicMaterialParameters>{
+      color: 'white', transparent: true, opacity:0.2
+    }) as MeshBasicMaterial
+    //back.transparent = true
+    //back.opacity = 0.2
 
     const backmesh = new Mesh(geometry, back)
     backmesh.position.z = 0.001

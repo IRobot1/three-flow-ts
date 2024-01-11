@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, Color, ColorRepresentation, DoubleSide, ExtrudeGeometry, FrontSide, LineBasicMaterialParameters, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, PointLight, Scene, Shape, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, Color, DoubleSide, ExtrudeGeometry, FrontSide, Material, MaterialParameters, Mesh, MeshStandardMaterial, PointLight, Scene, Shape, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TubeGeometry } from "three";
@@ -248,10 +248,6 @@ export class CustomGeometryExample {
 }
 
 class MyDiagramMaterials extends FlowMaterials {
-
-  override createLineMaterial(purpose: string, parameters: LineBasicMaterialParameters): Material {
-    return new MeshBasicMaterial(parameters);
-  }
 
   override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
     parameters.side = purpose == 'arrow' ? DoubleSide : FrontSide

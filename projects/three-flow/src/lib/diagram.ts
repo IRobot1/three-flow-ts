@@ -300,7 +300,7 @@ export class FlowDiagram extends Object3D {
   // purpose is node, resize, scale, disabled, error, selected, active, etc
   // note that connector may have multipe purposes based on state
   //
-  getMaterial(type: FlowMaterialType, purpose: string, parameters: MaterialParameters): Material {
+  getMaterial(type: FlowMaterialType, purpose: string, parameters?: MaterialParameters): Material {
     return this.materials.getMaterial(type, purpose, parameters)
   }
 

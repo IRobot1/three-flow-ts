@@ -155,8 +155,6 @@ export class FlowEdge extends Mesh {
     else
       this._matparams = { color: 0xffffff }
 
-    this.material = this.diagram.getMaterial('geometry', 'edge', this._matparams)
-
     this._linestyle = parameters.linestyle ? parameters.linestyle : 'bezier'
     this.lineoffset = parameters.lineoffset != undefined ? parameters.lineoffset : 0.2
     this._divisions = parameters.divisions ? parameters.divisions : 20
@@ -363,11 +361,13 @@ export class FlowEdge extends Mesh {
     if (geometry) {
       this.geometry.dispose()
       this.geometry = geometry
+      this.material = this.diagram.getMaterial('geometry', 'edge', this.parameters.material)
+
     }
     else {
       if (!this.line) {
         this.line = new Line2()
-        this.material = this.line.material = this.diagram.getMaterial('line', 'edge', this._matparams) as LineMaterial
+        this.material = this.line.material = this.diagram.getMaterial('line', 'edge', this.parameters.material) as LineMaterial
         this.add(this.line)
       }
       this.line.geometry.dispose()

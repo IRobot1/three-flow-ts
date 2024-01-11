@@ -90,7 +90,7 @@ export class DesignerExample {
 
     const assetparams: DesignerNodeParameters = {
       label: { text: 'Assets', material: { color: 'black' }, padding: 0 },
-      type: 'asset',
+      type: 'asset', material: { color: 'white' },
       showsolid: true,
     }
 

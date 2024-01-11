@@ -119,7 +119,7 @@ export class AlchemistExample {
     const loadTextures = (items: Array<string>, path: string, type: string, title: string, x: number, y: number) => {
       const assetparams: FlowNodeParameters = {
         label: { text: title, material: { color: 'black' }, padding: 0 },
-        type: 'asset',
+        type: 'asset', material: { color: 'white' }
       }
 
       const assetnode = assets.addNode(assetparams) as AssetViewer
@@ -129,7 +129,7 @@ export class AlchemistExample {
       items.forEach(item => {
         parameters.push(<AlchemistNodeParameters>{
           x: 1, width, height: width, depth: 0.1,
-          type: item,
+          type: item, material: { color: 'white' },
           label: { text: item, hidden: false, },
           ingredienttype: type,
           ingredienttexture: `assets/${path}/${item}.png`
@@ -394,7 +394,7 @@ class AlchemistRecipeDiagram extends FlowDiagramDesigner {
         id: item.id,
         x: item.position.x, y: item.position.y,
         width: item.size, height: item.size, depth: 0.1,
-        type: item.type,
+        type: item.type, material: { color: 'white' },
         showborder: item.showborder,
         ingredienttexture: item.ingredienttexture,
         ingredienttype: item.ingredienttype,
