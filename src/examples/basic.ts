@@ -6,6 +6,7 @@ import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowEdgeParameters,
+  InteractiveEventType,
   FlowRoute,
   FlowNodeParameters,
   FlowConnectorParameters,
@@ -234,6 +235,9 @@ export class BasicExample {
         id: '4', x: -2, y: 1.5, material: { color: 'blue' },
         label: { text: 'Title4', font: 'helvetika', material: { color: 'white' }, },
         resizable: false, draggable: false
+      })
+      node4.addEventListener(InteractiveEventType.CONTEXTMENU, () => {
+        console.warn('right click menu')
       })
 
       // for a specific node, override connector shape based on parameters

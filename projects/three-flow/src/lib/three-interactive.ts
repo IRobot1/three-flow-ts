@@ -8,6 +8,7 @@ export const InteractiveEventType = {
   POINTERLEAVE: 'pointerleave',
   POINTERMISSED: 'pointermissed',
   CLICK: 'click',
+  CONTEXTMENU: 'contextmenu',
   DRAGSTART: 'dragstart',
   DRAG: 'drag',
   DRAGEND: 'dragend',
@@ -69,6 +70,7 @@ export class ThreeInteractive {
       'pointerdown': 'pointerdown',
       'pointerup': 'pointerup',
       'click': 'click',
+      'contextmenu': 'contextmenu',
       'move': 'pointermove',
       'selectstart': 'pointerdown',
       'selectend': 'pointerup',
@@ -211,8 +213,7 @@ export class ThreeInteractive {
     element.addEventListener('pointerup', onPointerEvent);
     element.addEventListener('pointermove', onPointerEvent);
     element.addEventListener('click', onPointerEvent);
-
-
+    element.addEventListener('contextmenu', onPointerEvent);
 
     const tempMatrix = new Matrix4();
 
@@ -246,6 +247,7 @@ export class ThreeInteractive {
       element.removeEventListener('pointerup', onPointerEvent);
       element.removeEventListener('pointermove', onPointerEvent);
       element.removeEventListener('click', onPointerEvent);
+      element.removeEventListener('contextmenu', onPointerEvent);
     }
   }
 
