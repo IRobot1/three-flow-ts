@@ -131,18 +131,6 @@ export interface ListParameters extends PanelParameters {
 }
 
 
-export enum UIEventType {
-  WIDTH_CHANGED = 'width_changed',
-  HEIGHT_CHANGED = 'height_changed',
-  DEPTH_CHANGED = 'depth_changed',
-  DRAGGABLE_CHANGED = 'draggable_changed',
-  SELECTABLE_CHANGED = 'selectable_changed',
-  DRAGGED = 'dragged',
-  LABEL_READY = 'label_ready',
-  BUTTON_PRESSED = 'button_pressed',
-  LIST_SELECTED_CHANGED = 'list_selected_changed'
-}
-
 export interface UIOptions {
   fontCache?: FontCache
   materialCache?: MaterialCache

@@ -1,8 +1,8 @@
 import { Mesh } from "three"
 import { UIKeyboardEvent } from "./keyboard";
-import { PanelOptions, UIPanel } from "./panel";
+import { PanelEventType, PanelOptions, UIPanel } from "./panel";
 import { ThreeInteractive } from "three-flow";
-import { PanelParameters, UIEventType } from "./model";
+import { PanelParameters } from "./model";
 
 export enum InputFieldEventType {
   ACTIVE_CHANGED = 'active_changed',
@@ -52,7 +52,7 @@ export abstract class UIEntry extends UIPanel implements InputField {
       else
         interactive.selectable.remove(this)
     }
-    this.addEventListener(UIEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
+    this.addEventListener(PanelEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
     selectableChanged()
 
 

@@ -1,7 +1,7 @@
 import { InteractiveEventType, ThreeInteractive } from "three-flow";
 
-import { ButtonParameters, UIEventType } from "./model";
-import { PanelOptions } from "./panel";
+import { ButtonParameters } from "./model";
+import { PanelEventType, PanelOptions } from "./panel";
 import { UIEntry } from "./input-field";
 import { UIKeyboardEvent } from "./keyboard";
 
@@ -10,6 +10,7 @@ export enum ButtonEventType {
   UNHIGHLIGHT_BUTTON = 'unhighlight_button',
   BUTTON_DOWN = 'button_down',
   BUTTON_UP = 'button_up',
+  BUTTON_PRESSED = 'button_pressed',
 }
 
 export interface ButtonOptions extends PanelOptions {
@@ -17,6 +18,7 @@ export interface ButtonOptions extends PanelOptions {
 
 export class UIButton extends UIEntry {
   override inputtype: string = 'button'
+  public data: any
 
   constructor(parameters: ButtonParameters, interactive: ThreeInteractive, options: ButtonOptions) {
     super(parameters, interactive, options)
@@ -29,7 +31,7 @@ export class UIButton extends UIEntry {
       else
         interactive.selectable.remove(this)
     }
-    this.addEventListener(UIEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
+    this.addEventListener(PanelEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
     selectableChanged()
 
 
@@ -46,7 +48,7 @@ export class UIButton extends UIEntry {
       this.clicking = false;
     }
 
-    this.addEventListener(InteractiveEventType.POINTERDOWN, buttonDown )
+    this.addEventListener(InteractiveEventType.POINTERDOWN, buttonDown)
     this.addEventListener(InteractiveEventType.POINTERUP, () => { buttonUp(true) })
     this.addEventListener(InteractiveEventType.POINTERMISSED, () => {
       buttonUp()
@@ -88,5 +90,5 @@ export class UIButton extends UIEntry {
   buttonDown() { }
   buttonUp(generateEvent = false) { }
 
-  pressed() { this.dispatchEvent<any>({ type: UIEventType.BUTTON_PRESSED }) }
+  pressed() { this.dispatchEvent<any>({ type: ButtonEventType.BUTTON_PRESSED }) }
 }

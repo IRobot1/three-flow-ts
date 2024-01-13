@@ -1,12 +1,11 @@
-import { AmbientLight, AxesHelper, Box2, Box3, Color, PointLight, Scene, Vector3 } from "three";
+import { AmbientLight, AxesHelper, Color, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../../app/threejs-app";
 import { FlowDiagram } from "three-flow";
-import { ListParameters, UIEventType, UIOptions } from "./model";
-import { UIKeyboard, UIKeyboardEvent } from "./keyboard";
+import { ListParameters } from "./model";
 import { FontCache, MaterialCache } from "./cache";
-import { UIButton } from "./button";
+import { ButtonEventType } from "./button";
 import { InputManagerOptions, UIInputManager } from "./input-manager";
 import { UITextEntry } from "./text-entry";
 import { UINumberEntry } from "./number-entry";
@@ -15,7 +14,6 @@ import { UIColorEntry } from "./color-entry";
 import { UISliderbar } from "./sliderbar";
 import { UITextButton } from "./button-text";
 import { UILabel } from "./label";
-import { UIList } from "./list";
 import { MenuParameters, UIMiniMenu } from "./mini-menu";
 import { SelectParameters, UISelect } from "./select";
 
@@ -86,7 +84,7 @@ export class GUIExample {
       }, app.interactive, options)
       scene.add(button)
       ////button.clicked = () => { console.warn('clicked from override') }
-      button.addEventListener(UIEventType.BUTTON_PRESSED, () => {
+      button.addEventListener(ButtonEventType.BUTTON_PRESSED, () => {
         console.warn('clicked from event')
       })
 
@@ -159,7 +157,7 @@ export class GUIExample {
       vsliderbar.position.y = -1
 
       const listparams: ListParameters = {
-        data: storydata,
+        data: storydata, // stories
         field: 'text',
         //orientation: 'vertical',
         //itemheight: 0.3,
@@ -179,8 +177,8 @@ export class GUIExample {
       const select = new UISelect(selectparams, app.interactive, options)
       scene.add(select)
       select.position.set(1.15, 0.7, 0)
-      select.selected = (text:string) => {
-        console.warn('selected', text)
+      select.selected = (data:any) => {
+        console.warn('selected', data)
       }
 
       const popupbutton = new UITextButton({ width: 0.1, height: 0.1, label: { text: 'more_horiz', isicon: true } }, app.interactive, options)

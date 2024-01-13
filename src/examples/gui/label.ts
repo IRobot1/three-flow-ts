@@ -2,10 +2,15 @@ import { ColorRepresentation, Mesh, MeshBasicMaterial, MeshBasicMaterialParamete
 import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 
-import { UIEventType, LabelAlignX, LabelAlignY, LabelParameters, UIOptions, LabelOverflow } from "./model";
+import { LabelAlignX, LabelAlignY, LabelParameters, UIOptions, LabelOverflow } from "./model";
 
 
 export interface LabelOptions extends UIOptions {
+}
+
+export enum LabelEventType {
+  WIDTH_CHANGED = 'label_width_changed',
+  HEIGHT_CHANGED = 'label_height_changed',
 }
 
 // Needed to calculate length of a fragment of text for this font
@@ -85,7 +90,7 @@ export class UILabel extends Mesh {
   protected set width(newvalue: number) {
     if (this._width != newvalue) {
       this._width = newvalue
-      this.dispatchEvent<any>({ type: UIEventType.WIDTH_CHANGED, width: newvalue })
+      this.dispatchEvent<any>({ type: LabelEventType.WIDTH_CHANGED, width: newvalue })
     }
   }
 
@@ -94,7 +99,7 @@ export class UILabel extends Mesh {
   protected set height(newvalue: number) {
     if (this._height != newvalue) {
       this._height = newvalue
-      this.dispatchEvent<any>({ type: UIEventType.HEIGHT_CHANGED, height: newvalue })
+      this.dispatchEvent<any>({ type: LabelEventType.HEIGHT_CHANGED, height: newvalue })
     }
   }
 

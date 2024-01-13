@@ -1,6 +1,6 @@
-import { Group, Mesh, Object3D, PlaneGeometry, Vector3 } from "three";
-import { InputFieldEventType, UIEntry } from "./input-field";
-import { LabelParameters, UIOrientationType, ListParameters, UIEventType } from "./model";
+import { Mesh, PlaneGeometry, Vector3 } from "three";
+import { UIEntry } from "./input-field";
+import { LabelParameters, UIOrientationType, ListParameters } from "./model";
 import { ThreeInteractive } from "three-flow";
 import { PanelOptions } from "./panel";
 import { ButtonEventType, UIButton } from "./button";
@@ -12,14 +12,7 @@ export interface ListOptions extends PanelOptions {
 }
 
 export enum ListEventType {
-  LIST_SET_EMPTY = 'list_set_empty',
-  LIST_SET_SELECTED = 'list_set_selected',
-  LIST_SET_SIZE = 'list_set_size',
-  LIST_SHOW_ITEM = 'list_show_item',
-  LIST_SELECT_CHANGE = 'list_select_change',
-  LIST_DISPOSE = 'list_dispose',
-  LIST_DATA_REFRESH = 'list_data_refresh',
-  LIST_RENDER_COMPLETE = 'list_render_complete',
+  LIST_SELECTED_CHANGED = 'list_selected_changed'
 }
 
 export class UIList extends UIEntry {
@@ -79,7 +72,7 @@ export class UIList extends UIEntry {
   }
 
   private empty: UILabel
-  private selected: Mesh
+  private selectedMesh: Mesh
   private visuals: Array<UIButton> = []
   private itemcount: number
   //private highlightindex = -1
@@ -117,10 +110,10 @@ export class UIList extends UIEntry {
     this.add(this.empty)
     //this.empty.visible = true
 
-    this.selected = this.createSelected()
-    this.add(this.selected)
+    this.selectedMesh = this.createSelected()
+    this.add(this.selectedMesh)
     const matparams = parameters.selectedMaterial ? parameters.selectedMaterial : { color: 'black' }
-    this.selected.material = this.materialCache.getMaterial('geometry', this.name, matparams)!;
+    this.selectedMesh.material = this.materialCache.getMaterial('geometry', this.name, matparams)!;
 
     //const handleKeyDown = (e: KeyboardEvent) => {
     //  const keyboard: UIKeyboardEvent = { code: e.code, key: e.key, shiftKey: e.shiftKey, ctrlKey: e.ctrlKey, altKey: e.altKey }
@@ -155,6 +148,18 @@ export class UIList extends UIEntry {
     for (let i = 0; i < itemCount; i++) {
       const button = this.createItem(itemWidth, itemHeight)
       button.position.copy(position)
+
+      button.addEventListener(ButtonEventType.BUTTON_PRESSED, () => {
+        if (this.disabled || !this.visible) return
+
+        let text = button.data
+        if (this.field) text = button.data[this.field]
+
+        this.selectedtext = text
+
+        this.refresh()
+        this.selected(button.data)
+      })
 
       button.addEventListener(ButtonEventType.BUTTON_DOWN, (e: any) => { button.buttonDown() })
       button.addEventListener(ButtonEventType.BUTTON_UP, (e: any) => { button.buttonUp() })
@@ -209,7 +214,7 @@ export class UIList extends UIEntry {
       case 'Space':
         let index = this.visuals.findIndex(button => button.isHighlighted())
         if (index != -1)
-          this.visuals[index].dispatchEvent<any>({ type: UIEventType.BUTTON_PRESSED })
+          this.visuals[index].dispatchEvent<any>({ type: ButtonEventType.BUTTON_PRESSED })
         break;
     }
   }
@@ -228,20 +233,20 @@ export class UIList extends UIEntry {
       this.firstdrawindex = drawindex = 0;
     }
 
-    this.selected.visible = false
+    this.selectedMesh.visible = false
 
     this.visuals.forEach((visual, index) => {
       visual.visible = (drawindex < this.data.length)
       if (visual.visible) {
         let dataitem = this.data[drawindex]
-        if (this.field) dataitem = dataitem[this.field]
+        visual.data = dataitem
         this.showItem(visual, dataitem)
       }
 
       if (this.selectedindex == drawindex) {
-        this.selected.visible = true
+        this.selectedMesh.visible = true
         if (this.orientation == 'vertical')
-          this.selected.position.set(-this.width / 2 + 0.02, visual.position.y, 0.005)
+          this.selectedMesh.position.set(-this.width / 2 + 0.02, visual.position.y, 0.005)
         //else
         // TODO: horizontal
       }
@@ -303,7 +308,8 @@ export class UIList extends UIEntry {
   // overridables
 
   public showItem(button: UIButton, data: any) {
-    const text = data as string
+    let text = data
+    if (this.field) text = data[this.field]
     const textbutton = button as UITextButton
     textbutton.text = text
   }
@@ -315,16 +321,7 @@ export class UIList extends UIEntry {
       overflow: 'clip'
     }
 
-    const button = new UITextButton({ width, height, label }, this.interactive, this.options);
-
-    button.addEventListener(UIEventType.BUTTON_PRESSED, () => {
-      if (this.disabled || !this.visible) return
-      this.selectedtext = button.text
-      this.refresh()
-      this.dispatchEvent<any>({ type: UIEventType.LIST_SELECTED_CHANGED })
-    })
-
-    return button
+    return new UITextButton({ width, height, label }, this.interactive, this.options);
   }
 
   public createEmpty(emptyText: string): UILabel {
@@ -336,8 +333,11 @@ export class UIList extends UIEntry {
   public createSelected(): Mesh {
     const geometry = new PlaneGeometry(0.02, 0.1)
     const mesh = new Mesh(geometry)
-    //    mesh.position.set(-this.width / 2 + 0.02, 0, 0.001)
     return mesh
+  }
+
+  selected(data: any) {
+    this.dispatchEvent<any>({ type: ListEventType.LIST_SELECTED_CHANGED, data })
   }
 }
 

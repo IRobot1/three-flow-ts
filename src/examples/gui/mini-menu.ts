@@ -1,7 +1,7 @@
 import { MeshBasicMaterialParameters, Object3D, Vector3 } from "three"
 import { InteractiveEventType, ThreeInteractive } from "three-flow"
 import { UILabel } from "./label"
-import { TextButtonParameters, UIEventType, UIOptions } from "./model"
+import { TextButtonParameters, UIOptions } from "./model"
 import { ButtonEventType, UIButton } from "./button"
 import { UITextButton } from "./button-text"
 
@@ -65,7 +65,7 @@ export class UIMiniMenu extends Object3D {
         this.missed()
       })
 
-      button.addEventListener(UIEventType.BUTTON_PRESSED, () => {
+      button.addEventListener(ButtonEventType.BUTTON_PRESSED, () => {
         if (item.selected) {
           // three methods to intercept - callback, override or event
           item.selected()

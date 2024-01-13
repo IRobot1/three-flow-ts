@@ -1,9 +1,9 @@
 import { ThreeInteractive, InteractiveEventType } from "three-flow";
 import { UITextButton } from "./button-text";
-import { ListParameters, TextButtonParameters, UIEventType } from "./model";
+import { ListParameters, TextButtonParameters } from "./model";
 import { ButtonOptions } from "./button";
-import { UIList } from "./list";
-import { BufferGeometry, CircleGeometry, MathUtils, Mesh, MeshBasicMaterialParameters } from "three";
+import { ListEventType, UIList } from "./list";
+import { CircleGeometry, MathUtils, Mesh, MeshBasicMaterialParameters } from "three";
 
 export interface SelectParameters extends TextButtonParameters {
   list: ListParameters
@@ -15,6 +15,7 @@ export class UISelect extends UITextButton {
     // TODO: label maxwidth
     parameters.label.alignX = 'left'
     parameters.label.padding = 0.05
+    parameters.list.selectable = false
     super(parameters, interactive, options)
 
     this.name = parameters.id != undefined ? parameters.id : 'select'
@@ -23,12 +24,16 @@ export class UISelect extends UITextButton {
     const radius = this.height * 0.9 / 2
     this.label.maxwidth = this.width - (radius + this.label.padding)
 
-    const geometry = this.createIndicator(radius)
-    const material = this.materialCache.getMaterial('geometry', 'select-indicator', <MeshBasicMaterialParameters>{ color: 'black' })
-    const mesh = new Mesh(geometry, material)
+    const mesh = this.createIndicator(radius)
+    mesh.material = this.materialCache.getMaterial('geometry', 'select-indicator', <MeshBasicMaterialParameters>{ color: 'black' })
     mesh.position.set((this.width - radius - this.label.padding) / 2, 0, 0.001)
     this.add(mesh)
     this.indicator = mesh
+
+    this.addEventListener(InteractiveEventType.POINTERMISSED, () => {
+      this.closelist()
+    })
+
   }
 
   private list?: UIList
@@ -36,7 +41,7 @@ export class UISelect extends UITextButton {
   private closelist() {
     if (!this.list) return
     this.remove(this.list)
-    this.indicator.rotation.z = MathUtils.degToRad(90)
+    this.indicator.rotation.z = this.indicatorRotation(false)
     this.list = undefined
   }
   override pressed() {
@@ -44,21 +49,18 @@ export class UISelect extends UITextButton {
       this.closelist()
     }
     else {
-      this.indicator.rotation.z = MathUtils.degToRad(-90)
+      this.indicator.rotation.z = this.indicatorRotation(true)
       const params = this.parameters as SelectParameters
 
       const list = new UIList(params.list, this.interactive, this.options)
       this.add(list)
-      list.position.y = -(this.height + list.height) / 2
+      list.position.y = -(this.height + list.height) / 2 - list.spacing
 
-      list.addEventListener(UIEventType.LIST_SELECTED_CHANGED, () => {
-        this.selected(list.selectedtext)
+      list.selected = (data: any) => {
+        this.selected(data)
         this.closelist()
-      })
+      }
 
-      list.addEventListener(InteractiveEventType.POINTERMISSED, () => {
-        this.closelist()
-      })
       this.list = list
     }
 
@@ -66,9 +68,19 @@ export class UISelect extends UITextButton {
 
   // overridables
 
-  createIndicator(radius: number): BufferGeometry {
-    return new CircleGeometry(0.04, 3)
+  createIndicator(radius: number): Mesh {
+    const geometry = new CircleGeometry(0.04, 3)
+    return new Mesh(geometry)
   }
 
-  selected(text: string) { }
+
+  indicatorRotation(opened: boolean): number {
+    if (opened)
+      return MathUtils.degToRad(-90)
+    return MathUtils.degToRad(90)
+  }
+
+  selected(data: any) {
+    this.dispatchEvent<any>({ type: ListEventType.LIST_SELECTED_CHANGED, data })
+  }
 }

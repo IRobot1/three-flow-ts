@@ -1,7 +1,6 @@
 import { InteractiveEventType, ThreeInteractive } from "three-flow";
-import { UIPanel } from "./panel";
+import { PanelEventType, UIPanel } from "./panel";
 import { Vector3 } from "three";
-import { UIEventType } from "./model";
 
 export class PanelInteraction {
 
@@ -15,7 +14,7 @@ export class PanelInteraction {
       else
         this.interactive.selectable.remove(panel)
     }
-    panel.addEventListener(UIEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
+    panel.addEventListener(PanelEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
     selectableChanged()
 
 
@@ -58,7 +57,7 @@ export class PanelInteraction {
       let position = e.position.clone() as Vector3
 
       panel.position.copy(snapToGrid(e.position.sub(offset)))
-      panel.dispatchEvent<any>({ type: UIEventType.DRAGGED })
+      panel.dispatchEvent<any>({ type: PanelEventType.PANEL_DRAGGED })
 
     });
   }

@@ -1,11 +1,20 @@
-import { BufferGeometry, ColorRepresentation, DoubleSide, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, PlaneGeometry, Shape, ShapeGeometry } from "three";
-import { UIEventType, PanelParameters, UIOptions, BorderParameters } from "./model";
+import { BufferGeometry, ColorRepresentation, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Shape, ShapeGeometry } from "three";
+import { PanelParameters, UIOptions} from "./model";
 import { FontCache, MaterialCache } from "./cache";
 import { InteractiveEventType, RoundedRectangleBorderGeometry, RoundedRectangleShape } from "three-flow";
-import { LineGeometry } from "three/examples/jsm/lines/LineGeometry";
 
 export interface PanelOptions extends UIOptions {
 }
+
+export enum PanelEventType {
+  WIDTH_CHANGED = 'width_changed',
+  HEIGHT_CHANGED = 'height_changed',
+  DEPTH_CHANGED = 'depth_changed',
+  DRAGGABLE_CHANGED = 'draggable_changed',
+  SELECTABLE_CHANGED = 'selectable_changed',
+  PANEL_DRAGGED = 'panel_dragged',
+}
+
 
 export class UIPanel extends Mesh {
   protected _width = 1
@@ -17,7 +26,7 @@ export class UIPanel extends Mesh {
       this._width = newvalue
       this._resizeGeometry()
 
-      this.dispatchEvent<any>({ type: UIEventType.WIDTH_CHANGED, diff })
+      this.dispatchEvent<any>({ type: PanelEventType.WIDTH_CHANGED, diff })
     }
   }
   minwidth: number;
@@ -49,7 +58,7 @@ export class UIPanel extends Mesh {
       this._depth = newvalue
       this._resizeGeometry()
 
-      this.dispatchEvent<any>({ type: UIEventType.DEPTH_CHANGED, diff })
+      this.dispatchEvent<any>({ type: PanelEventType.DEPTH_CHANGED, diff })
     }
   }
   mindepth: number;
@@ -75,7 +84,7 @@ export class UIPanel extends Mesh {
   set draggable(newvalue: boolean) {
     if (this._draggable != newvalue) {
       this._draggable = newvalue;
-      this.dispatchEvent<any>({ type: UIEventType.DRAGGABLE_CHANGED })
+      this.dispatchEvent<any>({ type: PanelEventType.DRAGGABLE_CHANGED })
     }
   }
 
@@ -84,7 +93,7 @@ export class UIPanel extends Mesh {
   set selectable(newvalue: boolean) {
     if (this._selectable != newvalue) {
       this._selectable = newvalue;
-      this.dispatchEvent<any>({ type: UIEventType.SELECTABLE_CHANGED })
+      this.dispatchEvent<any>({ type: PanelEventType.SELECTABLE_CHANGED })
     }
   }
 

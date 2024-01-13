@@ -1,7 +1,7 @@
 import { Box3, Object3D, Vector3 } from "three";
 import { InteractiveEventType, ThreeInteractive } from "three-flow";
 
-import { TextButtonParameters, UIEventType, UIOptions } from "./model";
+import { TextButtonParameters, UIOptions } from "./model";
 import { englishDesktopANSI } from "./englishDesktopANSI";
 import { UIKey, UIKeyEventType } from "./keyboard-key";
 import { ButtonEventType } from "./button";
@@ -254,7 +254,7 @@ export class UIKeyboard extends Object3D {
       this.keyup(generateEvent())
     })
 
-    key.addEventListener(UIEventType.BUTTON_PRESSED, (e: any) => {
+    key.addEventListener(ButtonEventType.BUTTON_PRESSED, (e: any) => {
       // TODO: add support for repeat
       if (setting.keys) {
         const index = this.shift ? 1 : 0
