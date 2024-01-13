@@ -145,12 +145,12 @@ export class UILabel extends Mesh {
 
     this.visible = parameters.visible != undefined ? parameters.visible : true
 
-    if (!options.materialCache) {
+    if (!options.materials) {
       console.warn('UILabel requires material cache be provided')
       return
     }
 
-    this.material = options.materialCache.getMaterial('geometry', this.name, this._matparams)!;
+    this.material = options.materials.getMaterial('geometry', this.name, this._matparams)!;
 
     let fontName = parameters.font != undefined ? parameters.font : 'assets/helvetiker_regular.typeface.json'
     if (parameters.isicon)

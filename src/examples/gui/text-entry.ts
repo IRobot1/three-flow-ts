@@ -65,7 +65,7 @@ export class UITextEntry extends UIEntry implements InputField {
     if (parameters.label.text && this.password)
       parameters.label.text = passwordChar.repeat(parameters.label.text.length);
 
-    const label = new UILabel(parameters.label, { fontCache: this.fontCache, materialCache: this.materialCache })
+    const label = new UILabel(parameters.label, { fontCache: this.fontCache, materials: this.materials })
     label.alignX = 'left'
     label.alignY = 'bottom'
     label.position.x = -this.width / 2 + label.padding

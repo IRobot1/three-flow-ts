@@ -1,6 +1,6 @@
 import { MeshBasicMaterialParameters } from "three";
-import { LineMaterialParameters } from "three/examples/jsm/lines/LineMaterial";
-import { FontCache, MaterialCache } from "./cache";
+import { FontCache} from "./cache";
+import { FlowMaterials } from "three-flow";
 
 export interface PositionParameters {
   x?: number | undefined // default is 0
@@ -133,5 +133,5 @@ export interface ListParameters extends PanelParameters {
 
 export interface UIOptions {
   fontCache?: FontCache
-  materialCache?: MaterialCache
+  materials?: FlowMaterials
 }

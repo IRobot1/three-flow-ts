@@ -113,7 +113,7 @@ export class UIList extends UIEntry {
     this.selectedMesh = this.createSelected()
     this.add(this.selectedMesh)
     const matparams = parameters.selectedMaterial ? parameters.selectedMaterial : { color: 'black' }
-    this.selectedMesh.material = this.materialCache.getMaterial('geometry', this.name, matparams)!;
+    this.selectedMesh.material = this.materials.getMaterial('geometry', this.name, matparams)!;
 
     //const handleKeyDown = (e: KeyboardEvent) => {
     //  const keyboard: UIKeyboardEvent = { code: e.code, key: e.key, shiftKey: e.shiftKey, ctrlKey: e.ctrlKey, altKey: e.altKey }

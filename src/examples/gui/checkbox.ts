@@ -45,7 +45,7 @@ export class UICheckBox extends UIEntry {
     this.checked = parameters.checked != undefined ? parameters.checked : false
 
     if (!parameters.checkmaterial) parameters.checkmaterial = { color: 'black' }
-    const checkmaterial = this.materialCache.getMaterial('geometry', 'checkbox', parameters.checkmaterial)
+    const checkmaterial = this.materials.getMaterial('geometry', 'checkbox', parameters.checkmaterial)
 
     const checksize = 0.8
     const checkshape = new RoundedRectangleShape(this.width * checksize, this.height * checksize, 0.02)

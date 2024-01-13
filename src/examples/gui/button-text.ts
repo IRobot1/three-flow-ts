@@ -23,7 +23,7 @@ export class UITextButton extends UIButton {
 
     this.name = parameters.id != undefined ? parameters.id : 'text-button'
 
-    const label = new UILabel(parameters.label, { fontCache: this.fontCache, materialCache: this.materialCache })
+    const label = new UILabel(parameters.label, { fontCache: this.fontCache, materials: this.materials })
     this.add(label)
 
     let width = this.width

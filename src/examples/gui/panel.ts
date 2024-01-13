@@ -1,7 +1,7 @@
 import { BufferGeometry, ColorRepresentation, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Shape, ShapeGeometry } from "three";
 import { PanelParameters, UIOptions} from "./model";
-import { FontCache, MaterialCache } from "./cache";
-import { InteractiveEventType, RoundedRectangleBorderGeometry, RoundedRectangleShape } from "three-flow";
+import { FontCache } from "./cache";
+import { FlowMaterials, InteractiveEventType, RoundedRectangleBorderGeometry, RoundedRectangleShape } from "three-flow";
 
 export interface PanelOptions extends UIOptions {
 }
@@ -98,7 +98,7 @@ export class UIPanel extends Mesh {
   }
 
   protected fontCache: FontCache;
-  protected materialCache: MaterialCache;
+  protected materials: FlowMaterials;
   protected clicking = false
   protected shape: Shape
 
@@ -108,7 +108,7 @@ export class UIPanel extends Mesh {
     this.name = parameters.id != undefined ? parameters.id : 'panel'
 
     this.fontCache = options.fontCache != undefined ? options.fontCache : new FontCache(true)
-    this.materialCache = options.materialCache != undefined ? options.materialCache : new MaterialCache()
+    this.materials = options.materials != undefined ? options.materials : new FlowMaterials()
 
 
     if (parameters.position) {
@@ -148,7 +148,7 @@ export class UIPanel extends Mesh {
 
     if (parameters.fill) {
       this._fill = parameters.fill
-      this.material = this.materialCache.getMaterial('geometry', this.name, this._fill)!;
+      this.material = this.materials.getMaterial('geometry', this.name, this._fill)!;
     }
     else {
       // match the default provided by three
@@ -168,7 +168,7 @@ export class UIPanel extends Mesh {
       if (!borderParams.width) borderParams.width = 0.02
 
       const border = new RoundedRectangleBorderGeometry(this.width, this.height, this.radius, borderParams.width)
-      const bordermaterial = this.materialCache.getMaterial('geometry', 'border', borderParams.material);
+      const bordermaterial = this.materials.getMaterial('geometry', 'border', borderParams.material);
       const borderMesh = new Mesh(border, bordermaterial)
       this.add(borderMesh)
       borderMesh.position.z = 0.001
@@ -180,7 +180,7 @@ export class UIPanel extends Mesh {
     if (!highlightParams.width) highlightParams.width = 0.02
 
     const border = new RoundedRectangleBorderGeometry(this.width, this.height, this.radius, highlightParams.width)
-    const highlighmaterial = this.materialCache.getMaterial('geometry', 'highlight', highlightParams.material);
+    const highlighmaterial = this.materials.getMaterial('geometry', 'highlight', highlightParams.material);
     const highlightMesh = new Mesh(border, highlighmaterial)
     highlightMesh.visible = false
     this.add(highlightMesh)

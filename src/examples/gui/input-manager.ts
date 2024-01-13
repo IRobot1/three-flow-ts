@@ -1,9 +1,8 @@
 import { BufferGeometry, EventDispatcher, Mesh, MeshBasicMaterialParameters, Object3D, PlaneGeometry, WebGLRenderer } from "three"
 import { InputField, InputFieldEventType } from "./input-field";
 import { UIKeyboardEvent } from "./keyboard";
-import { InteractiveEventType } from "three-flow";
+import { FlowMaterials, InteractiveEventType } from "three-flow";
 import { UIOptions } from "./model";
-import { MaterialCache } from "./cache";
 
 export interface OffsetParameters {
   axis: 'x' | 'y',    // default is x
@@ -83,11 +82,11 @@ export class UIInputManager extends EventDispatcher {
       this.setInputMethods(this.inputMethods)
       Array.from(this.inputMethods.values()).forEach(object => object.visible = false)
     }
-    const materialCache = options.materialCache != undefined ? options.materialCache : new MaterialCache()
+    const materials = options.materials != undefined ? options.materials : new FlowMaterials()
 
     const mesh = new Mesh()
     const parameters = options.selectedMaterial ? options.selectedMaterial : { color: 'red' }
-    mesh.material = materialCache.getMaterial('geometry', 'selected', parameters)
+    mesh.material = materials.getMaterial('geometry', 'selected', parameters)
     this.selectedMesh = mesh
     mesh.position.z = 0.002
 

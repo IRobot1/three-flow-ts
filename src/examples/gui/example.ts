@@ -2,9 +2,9 @@ import { AmbientLight, AxesHelper, Color, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../../app/threejs-app";
-import { FlowDiagram } from "three-flow";
+import { FlowDiagram, FlowMaterials } from "three-flow";
 import { ListParameters } from "./model";
-import { FontCache, MaterialCache } from "./cache";
+import { FontCache } from "./cache";
 import { ButtonEventType } from "./button";
 import { InputManagerOptions, UIInputManager } from "./input-manager";
 import { UITextEntry } from "./text-entry";
@@ -65,7 +65,7 @@ export class GUIExample {
 
       const options: InputManagerOptions = {
         fontCache: new FontCache(),
-        materialCache: new MaterialCache(),
+        materials: new FlowMaterials(),
         //selectedOffset: {axes:'y', offset:0},
         //selectedMaterial: { color: 'red' }
       }
@@ -225,7 +225,6 @@ export class GUIExample {
 
       input.add(button, text1, text2, checkbox, colorentry, hsliderbar)
 
-      //console.warn(options.materialCache)
       //const keyboard = new UIKeyboard({}, app.interactive)
       //scene.add(keyboard)
       //keyboard.visible = true

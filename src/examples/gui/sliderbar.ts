@@ -95,7 +95,7 @@ export class UISliderbar extends UIEntry {
 
 
     if (!parameters.slidermaterial) parameters.slidermaterial = { color: 'black' }
-    const checkmaterial = this.materialCache.getMaterial('geometry', 'slider', parameters.slidermaterial)
+    const checkmaterial = this.materials.getMaterial('geometry', 'slider', parameters.slidermaterial)
 
     this.sliderradius = parameters.sliderradius != undefined ? parameters.sliderradius : 0.02
     this.orientation = parameters.orientation != undefined ? parameters.orientation : 'horizontal'
