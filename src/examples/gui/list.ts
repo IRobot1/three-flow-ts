@@ -8,6 +8,7 @@ import { UITextButton } from "./button-text";
 import { UILabel } from "./label";
 import { UIKeyboardEvent } from "./keyboard";
 import { Pagination } from "./pagination";
+import { UIScrollbar } from "./scrollbar";
 
 export interface ListOptions extends PanelOptions {
 }
@@ -85,7 +86,7 @@ export class UIList extends UIEntry implements Pagination {
     const totalHeight = itemCount * (itemHeight + spacing) + spacing
 
     const panelwidth = parameters.width != undefined ? parameters.width : 1
-    const itemWidth = panelwidth - spacing * 4
+    let itemWidth = panelwidth - spacing * 4
     const totalWidth = itemCount * (itemWidth + spacing) + spacing
 
     const orientation = parameters.orientation != undefined ? parameters.orientation : 'vertical'
@@ -116,26 +117,6 @@ export class UIList extends UIEntry implements Pagination {
     const matparams = parameters.selectedMaterial ? parameters.selectedMaterial : { color: 'black' }
     this.selectedMesh.material = this.materials.getMaterial('geometry', this.name, matparams)!;
 
-    //const handleKeyDown = (e: KeyboardEvent) => {
-    //  const keyboard: UIKeyboardEvent = { code: e.code, key: e.key, shiftKey: e.shiftKey, ctrlKey: e.ctrlKey, altKey: e.altKey }
-    //  this.selected.dispatchEvent<any>({ type: InputFieldEventType.KEYDOWN, keyboard })
-    //}
-
-    //const handleKeyUp = (e: KeyboardEvent) => {
-    //  if (this.selected) {
-    //    const keyboard: UIKeyboardEvent = { code: e.code, key: e.key, shiftKey: e.shiftKey, ctrlKey: e.ctrlKey, altKey: e.altKey }
-    //    this.selected.dispatchEvent<any>({ type: InputFieldEventType.KEYUP, keyboard })
-    //  }
-    //}
-
-    //document.addEventListener('keydown', handleKeyDown);
-    //document.addEventListener('keyup', handleKeyUp);
-
-    //this.dispose = () => {
-    //  document.removeEventListener('keydown', handleKeyDown)
-    //  document.removeEventListener('keyup', handleKeyUp)
-    //}
-
     // layout
     const position = new Vector3(0, 0, 0.001)
 
@@ -146,7 +127,23 @@ export class UIList extends UIEntry implements Pagination {
 
     this.empty.position.copy(position)
 
+    const scrollbar = new UIScrollbar({ orientation, height: this.height }, interactive, options)
+    this.add(scrollbar)
+    if (orientation == 'vertical') {
+      scrollbar.position.x = (this.width - scrollbar.width) / 2
+      scrollbar.position.z = 0.003
+    }
+    else
+      scrollbar.position.y = this.height / 2 - 0.1
+    scrollbar.paginate = this
+
+    scrollbar.max = this.data.length - this.itemcount
+    scrollbar.value = this.firstdrawindex
+
+
+    itemWidth -= scrollbar.width / 2
     for (let i = 0; i < itemCount; i++) {
+
       const button = this.createItem(itemWidth, itemHeight)
       button.position.copy(position)
 
@@ -165,23 +162,16 @@ export class UIList extends UIEntry implements Pagination {
       button.addEventListener(ButtonEventType.BUTTON_DOWN, (e: any) => { button.buttonDown() })
       button.addEventListener(ButtonEventType.BUTTON_UP, (e: any) => { button.buttonUp() })
 
-      if (this.orientation == 'vertical')
-        position.y -= (itemHeight + spacing)
+      if (this.orientation == 'vertical') {
+        button.position.x -= scrollbar.width / 2
+        position.y -= itemHeight + spacing
+      }
       else
         position.x += (itemWidth + spacing)
 
       this.add(button)
       this.visuals.push(button)
     }
-
-    // prevent these events from hitting anything behind
-    //const block = (e: any) => { if (this.visible) e.stop = true }
-    //this.addEventListener('pointermove', block)
-    //this.addEventListener('pointerdown', block)
-    //this.addEventListener('pointerup', block)
-    //this.addEventListener('pointerenter', block)
-    //this.addEventListener('pointerleave', block)
-    //this.addEventListener('click', block)
 
     this.refresh()
   }
@@ -293,7 +283,7 @@ export class UIList extends UIEntry implements Pagination {
   }
 
   moveNext() {
-    if (this.firstdrawindex < this.data.length - 1) {
+    if (this.firstdrawindex < this.data.length - this.itemcount) {
       this.firstdrawindex++
       this.refresh()
     }
@@ -312,6 +302,8 @@ export class UIList extends UIEntry implements Pagination {
       this.refresh()
     }
   }
+
+  get value() { return this.firstdrawindex }
 
   // overridables
 

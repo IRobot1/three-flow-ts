@@ -27,7 +27,7 @@ export class UISliderbar extends UIEntry {
     return newvalue
   }
 
-  private _value = 0;
+  private _value = -Infinity;
   get value(): number { return this._value }
   set value(newvalue: number) {
     newvalue = this.clampValue(newvalue)
@@ -100,7 +100,7 @@ export class UISliderbar extends UIEntry {
     const checkmaterial = this.materials.getMaterial('geometry', 'slider', parameters.slidermaterial)
 
     this.sliderradius = parameters.sliderradius != undefined ? parameters.sliderradius : 0.02
-    this.orientation = orientation 
+    this.orientation = orientation
 
     const slidermesh = new Mesh()
     slidermesh.material = checkmaterial
@@ -132,20 +132,22 @@ export class UISliderbar extends UIEntry {
 
     const moveto = (v: Vector3) => {
       if (this.min != undefined && this.max != undefined) {
-        let value:number
+        let value: number
         if (this.orientation == 'horizontal') {
           const halfwidth = (this.width - this.slidersize) / 2;
           value = MathUtils.mapLinear(v.x, -halfwidth, halfwidth, this.min, this.max);
         }
         else {
           const halfheight = (this.height - this.slidersize) / 2;
-          value = MathUtils.mapLinear(v.y, -halfheight, halfheight, this.min, this.max);
+          value = MathUtils.mapLinear(-v.y, -halfheight, halfheight, this.min, this.max);
         }
 
         if (this.step) {
           // avoid problems when step is fractional
-          this.value = Math.round(value / this.step) * this.step
+          value = Math.round(value / this.step) * this.step
         }
+
+        this.value = value
       }
     }
 
@@ -183,8 +185,8 @@ export class UISliderbar extends UIEntry {
         }
         else {
           const halfheight = (this.height - this.slidersize) / 2;
-          const y = MathUtils.mapLinear(value, this.min, this.max, -halfheight + padding/2, halfheight - padding/2);
-          slidermesh.position.y = y
+          const y = MathUtils.mapLinear(value, this.min, this.max, -halfheight + padding / 2, halfheight - padding / 2);
+          slidermesh.position.y = -y
         }
       }
     }

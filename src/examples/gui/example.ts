@@ -224,12 +224,12 @@ export class GUIExample {
         opened = true
       }
 
-      const expansionPanel = new UIExpansionPanel({ expanded: true, label: { text: 'Advanced Properties', size: 0.06 }, panel: { fill: { color: 'green' } } }, app.interactive, options)
-      scene.add(expansionPanel)
-      expansionPanel.position.set(1.15, 0.5, 0)
-      expansionPanel.panelExpanded = (expanded: boolean) => {
-        console.warn('panel expanded', expanded)
-      }
+      //const expansionPanel = new UIExpansionPanel({ expanded: true, label: { text: 'Advanced Properties', size: 0.06 }, panel: { fill: { color: 'green' } } }, app.interactive, options)
+      //scene.add(expansionPanel)
+      //expansionPanel.position.set(1.15, 0.5, 0)
+      //expansionPanel.panelExpanded = (expanded: boolean) => {
+      //  console.warn('panel expanded', expanded)
+      //}
 
       input.add(button, text1, text2, checkbox, colorentry, hsliderbar)
 

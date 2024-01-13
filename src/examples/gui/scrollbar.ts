@@ -1,7 +1,8 @@
 import { ThreeInteractive } from "three-flow";
 import { LabelParameters, SliderbarParameters, TextButtonParameters } from "./model";
-import { SliderbarOptions, UISliderbar } from "./sliderbar";
+import { SliderbarEventType, SliderbarOptions, UISliderbar } from "./sliderbar";
 import { UITextButton } from "./button-text";
+import { Pagination } from "./pagination";
 
 export interface ScrollbarParameters extends SliderbarParameters {
   nextbutton?: TextButtonParameters
@@ -9,6 +10,8 @@ export interface ScrollbarParameters extends SliderbarParameters {
 }
 
 export class UIScrollbar extends UISliderbar {
+  paginate?: Pagination
+
   constructor(parameters: ScrollbarParameters, interactive: ThreeInteractive, options: SliderbarOptions = {}) {
     const orientation = parameters.orientation != undefined ? parameters.orientation : 'horizontal'
     let height = parameters.height
@@ -43,6 +46,12 @@ export class UIScrollbar extends UISliderbar {
       prevbutton.position.x = -(this.width + size) / 2
     else
       prevbutton.position.y = (this.height + size) / 2
+    prevbutton.pressed = () => {
+      if (this.paginate) {
+        this.paginate.movePrevious()
+        this.value = this.paginate.value
+      }
+    }
 
     // next button
     if (!parameters.nextbutton) parameters.nextbutton = { label: {} }
@@ -56,5 +65,15 @@ export class UIScrollbar extends UISliderbar {
       nextbutton.position.x = (this.width + size) / 2
     else
       nextbutton.position.y = -(this.height + size) / 2
+    nextbutton.pressed = () => {
+      if (this.paginate) {
+        this.paginate.moveNext()
+        this.value = this.paginate.value
+      }
+    }
+
+    this.addEventListener(SliderbarEventType.VALUE_CHANGED, () => {
+      if (this.paginate) this.paginate.moveTo(this.value)
+    })
   }
 }

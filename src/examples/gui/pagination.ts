@@ -7,4 +7,5 @@ export interface Pagination {
   movePreviousPage(): void
   moveNext(): void
   moveNextPage(): void
+  value: number
 }
