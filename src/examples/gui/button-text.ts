@@ -19,6 +19,8 @@ export class UITextButton extends UIButton {
   }
 
   constructor(parameters: TextButtonParameters, interactive: ThreeInteractive, options: ButtonOptions) {
+    if (!parameters.height) parameters.height = 0.1
+
     super(parameters, interactive, options)
 
     this.name = parameters.id != undefined ? parameters.id : 'text-button'

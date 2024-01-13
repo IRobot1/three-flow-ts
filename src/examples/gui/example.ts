@@ -16,6 +16,7 @@ import { UITextButton } from "./button-text";
 import { UILabel } from "./label";
 import { MenuParameters, UIMiniMenu } from "./mini-menu";
 import { SelectParameters, UISelect } from "./select";
+import { UIExpansionPanel } from "./expansion-panel";
 
 export class GUIExample {
 
@@ -171,17 +172,17 @@ export class GUIExample {
 
       const selectparams: SelectParameters = {
         height: 0.1,
-        label: { text: 'Choose a Story'},
-        list :listparams
+        label: { text: 'Choose a Story' },
+        list: listparams
       }
       const select = new UISelect(selectparams, app.interactive, options)
       scene.add(select)
       select.position.set(1.15, 0.7, 0)
-      select.selected = (data:any) => {
+      select.selected = (data: any) => {
         console.warn('selected', data)
       }
 
-      const popupbutton = new UITextButton({ width: 0.1, height: 0.1, label: { text: 'more_horiz', isicon: true } }, app.interactive, options)
+      const popupbutton = new UITextButton({ width: 0.1, label: { text: 'more_horiz', isicon: true } }, app.interactive, options)
       scene.add(popupbutton)
       popupbutton.position.set(0.7, 0.9, 0)
 
@@ -222,6 +223,12 @@ export class GUIExample {
         opened = true
       }
 
+      const expansionPanel = new UIExpansionPanel({ expanded: true, label: { text: 'Advanced Properties', size: 0.06 }, panel: { fill: { color: 'green' } } }, app.interactive, options)
+      scene.add(expansionPanel)
+      expansionPanel.position.set(1.15, 0.5, 0)
+      expansionPanel.panelExpanded = (expanded: boolean) => {
+        console.warn('panel expanded', expanded)
+      }
 
       input.add(button, text1, text2, checkbox, colorentry, hsliderbar)
 
