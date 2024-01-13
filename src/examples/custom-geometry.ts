@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, Color, ColorRepresentation, DoubleSide, ExtrudeGeometry, FrontSide, LineBasicMaterialParameters, Material, MaterialParameters, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, MeshStandardMaterial, PointLight, Scene, Shape, Vector3 } from "three";
+import { AmbientLight, AxesHelper, BoxGeometry, BufferGeometry, CatmullRomCurve3, Color, DoubleSide, ExtrudeGeometry, FrontSide, Material, MaterialParameters, Mesh, MeshStandardMaterial, PointLight, Scene, Shape, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TubeGeometry } from "three";
@@ -24,6 +24,7 @@ import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeomet
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 import { DagreLayout } from "./dagre-layout";
 import { NodeBorder } from "./node-border";
+import { FlowMaterials } from "three-flow";
 
 interface MyFlowNodeData extends FlowNodeParameters {
   test: string
@@ -185,6 +186,7 @@ export class CustomGeometryExample {
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
       const options: FlowDiagramOptions = {
         gridsize: 0.3,
+        materialCache: new MyDiagramMaterials(),
         fonts: new Map<string, Font>([
           ['helvetika', font],
         ]),
@@ -245,19 +247,18 @@ export class CustomGeometryExample {
   }
 }
 
+class MyDiagramMaterials extends FlowMaterials {
+
+  override createMeshMaterial(parameters: MaterialParameters): Material {
+    return new MeshStandardMaterial(parameters);
+  }
+}
+
 class MyFlowDiagram extends FlowDiagram {
   constructor(options?: FlowDiagramOptions) {
     super(options)
   }
 
-  override createLineMaterial(purpose: string, parameters: LineBasicMaterialParameters): Material {
-    return new MeshBasicMaterial(parameters);
-  }
-
-  override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
-    parameters.side = purpose == 'arrow' ? DoubleSide : FrontSide
-    return new MeshStandardMaterial(parameters);
-  }
 
   override createNode(node: MyFlowNodeData): FlowNode {
     return new MyFlowNode(this, node)

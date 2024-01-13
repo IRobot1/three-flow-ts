@@ -78,7 +78,7 @@ export class FlowEdge extends Mesh {
   private toConnector: Object3D | undefined
 
   public line?: Line2
-  public label: FlowLabel
+  public label?: FlowLabel
   public stepRadius: number
   public stepOffset: number
   public bezierCurvature: number
@@ -155,8 +155,6 @@ export class FlowEdge extends Mesh {
     else
       this._matparams = { color: 0xffffff }
 
-    this.material = this.diagram.getMaterial('geometry', 'edge', this._matparams)
-
     this._linestyle = parameters.linestyle ? parameters.linestyle : 'bezier'
     this.lineoffset = parameters.lineoffset != undefined ? parameters.lineoffset : 0.2
     this._divisions = parameters.divisions ? parameters.divisions : 20
@@ -168,9 +166,10 @@ export class FlowEdge extends Mesh {
 
     this._selectable = parameters.selectable != undefined ? parameters.selectable : true
 
-    if (!parameters.label) parameters.label = {}
-    this.label = diagram.createLabel(parameters.label)
-    this.add(this.label)
+    if (parameters.label) {
+      this.label = diagram.createLabel(parameters.label)
+      this.add(this.label)
+    }
 
     diagram.addEventListener(FlowEventType.NODE_REMOVED, (e: any) => {
       const node = e.node as FlowNode
@@ -180,7 +179,8 @@ export class FlowEdge extends Mesh {
     })
 
     requestAnimationFrame(() => {
-      this.label.updateLabel()
+      if (this.label)
+        this.label.updateLabel()
 
       this.updateVisuals()
 
@@ -361,11 +361,13 @@ export class FlowEdge extends Mesh {
     if (geometry) {
       this.geometry.dispose()
       this.geometry = geometry
+      this.material = this.diagram.getMaterial('geometry', 'edge', this.parameters.material)
+
     }
     else {
       if (!this.line) {
         this.line = new Line2()
-        this.material = this.line.material = this.diagram.getMaterial('line', 'edge', this._matparams) as LineMaterial
+        this.material = this.line.material = this.diagram.getMaterial('line', 'edge', this.parameters.material) as LineMaterial
         this.add(this.line)
       }
       this.line.geometry.dispose()
@@ -373,7 +375,7 @@ export class FlowEdge extends Mesh {
       this.line.computeLineDistances()
     }
 
-    if (center) {
+    if (center && this.label) {
       if (this.label.labelMesh) {
         this.label.labelMesh.position.copy(center)
       }

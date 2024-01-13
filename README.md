@@ -31,6 +31,8 @@ This library is still under active development.  Updates and improvements may ha
 
 [Roadmap](https://github.com/IRobot1/three-flow-ts/wiki/Roadmap) - changes and features being planned
 
+[Comparison to React-Flow](https://github.com/IRobot1/three-flow-ts/wiki/Comparison-To-React-Flow) - compare working examples
+
 ## Installation
 
 To add three-flow to your existing three project

@@ -7,11 +7,13 @@ import { FlowNode } from "./node";
 import { FlowRoute } from "./route";
 import { NoOpLayout } from "./noop-layout";
 import { FlowLabel } from "./label";
+import { FlowMaterials } from "./materials";
 
 export type FlowMaterialType = 'line' | 'geometry'
 
 export interface FlowDiagramOptions {
   gridsize?: number
+  materialCache?: FlowMaterials
   fonts?: Map<string, Font>
   linematerial?: MeshBasicMaterialParameters
   linestyle?: EdgeLineStyle
@@ -23,7 +25,7 @@ export interface FlowDiagramOptions {
 }
 
 export class FlowDiagram extends Object3D {
-  private materials: Map<string, Material>
+  private materials: FlowMaterials
   private graph!: FlowLayout
 
   private _nextNodeId = 0
@@ -38,23 +40,21 @@ export class FlowDiagram extends Object3D {
     }
   }
 
-  constructor(private options?: FlowDiagramOptions) {
+  constructor(private options: FlowDiagramOptions = {}) {
     super()
 
-    if (options) {
-      if (options.gridsize != undefined)
-        this.gridsize = options.gridsize
-      else
-        this.gridsize = 0
+    if (options.gridsize != undefined)
+      this.gridsize = options.gridsize
+    else
+      this.gridsize = 0
 
-      if (options.layout)
-        this.graph = options.layout
-    }
+    if (options.layout)
+      this.graph = options.layout
 
     if (!this.graph)
       this.graph = new NoOpLayout()
 
-    this.materials = new Map();
+    this.materials = this.options.materialCache ? this.options.materialCache : new FlowMaterials()
 
   }
 
@@ -300,18 +300,8 @@ export class FlowDiagram extends Object3D {
   // purpose is node, resize, scale, disabled, error, selected, active, etc
   // note that connector may have multipe purposes based on state
   //
-  getMaterial(type: FlowMaterialType, purpose: string, parameters: MaterialParameters): Material {
-    const color = (parameters as MeshBasicMaterialParameters).color
-    const key = `${type}-${purpose}-${color}`;
-    if (!this.materials.has(key)) {
-      let material
-      if (type == 'line')
-        material = this.createLineMaterial(purpose, parameters);
-      else
-        material = this.createMeshMaterial(purpose, parameters);
-      this.materials.set(key, material);
-    }
-    return this.materials.get(key)!;
+  getMaterial(type: FlowMaterialType, purpose: string, parameters?: MaterialParameters): Material {
+    return this.materials.getMaterial(type, purpose, parameters)
   }
 
   // return local position of object within the diagram
@@ -321,24 +311,7 @@ export class FlowDiagram extends Object3D {
     return this.worldToLocal(worldPosition);
   }
 
-  private getFlowPosition2D(object: Object3D): Vector2 {
-    let worldPosition = new Vector3();
-    object.localToWorld(worldPosition);
-    const v = this.worldToLocal(worldPosition);
-    return new Vector2(v.x, v.y)
-  }
-
   // allow overriding
-  createLineMaterial(purpose: string, parameters: LineMaterialParameters): Material {
-    const material = new LineMaterial(parameters);
-    material.resolution.set(window.innerWidth, window.innerHeight); // resolution of the viewport
-    material.worldUnits = false
-    return material
-  }
-
-  createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
-    return new MeshBasicMaterial(parameters);
-  }
 
   createNode(parameters: FlowNodeParameters): FlowNode {
     return new FlowNode(this, parameters)

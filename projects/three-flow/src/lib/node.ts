@@ -8,7 +8,7 @@ import { FlowUtils } from "./utils";
 
 export class FlowNode extends Mesh {
   private moveLabelX(xdiff: number) {
-    if (!this.label.labelMesh) return
+    if (!this.label || !this.label.labelMesh) return
     switch (this.labelanchor) {
       case 'left':
         xdiff = -xdiff
@@ -23,7 +23,7 @@ export class FlowNode extends Mesh {
   }
 
   private moveLabelY(ydiff: number) {
-    if (!this.label.labelMesh) return
+    if (!this.label || !this.label.labelMesh) return
     switch (this.labelanchor) {
       case 'bottom':
         ydiff = -ydiff
@@ -38,7 +38,7 @@ export class FlowNode extends Mesh {
   }
 
   private moveLabelZ(zdiff: number) {
-    if (!this.label.labelMesh) return
+    if (!this.label || !this.label.labelMesh) return
     switch (this.labelanchor) {
       case 'front':
         zdiff = -zdiff
@@ -199,7 +199,7 @@ export class FlowNode extends Mesh {
 
   private autogrow: boolean
 
-  public label: FlowLabel
+  public label?: FlowLabel
   public labelanchor: AnchorType
   public labeltransform?: FlowTransform;
 
@@ -235,23 +235,24 @@ export class FlowNode extends Mesh {
 
     this.lockaspectratio = parameters.lockaspectratio ? parameters.lockaspectratio : false
 
-    if (!parameters.label) parameters.label = {}
-    this.label = this.diagram.createLabel(parameters.label)
-    this.add(this.label)
-
     this.autogrow = this.parameters.autogrow != undefined ? this.parameters.autogrow : true
+    if (parameters.label) {
+      this.label = this.diagram.createLabel(parameters.label)
+      this.add(this.label)
 
-    if (this.autogrow) {
-      this.label.addEventListener(FlowEventType.WIDTH_CHANGED, (e: any) => {
-        if (e.width > this.width) {
-          this.width = e.width
-        }
-      })
-      this.label.addEventListener(FlowEventType.HEIGHT_CHANGED, (e: any) => {
-        if (e.height > this.height) {
-          this.height = e.height
-        }
-      })
+
+      if (this.autogrow) {
+        this.label.addEventListener(FlowEventType.WIDTH_CHANGED, (e: any) => {
+          if (e.width > this.width) {
+            this.width = e.width
+          }
+        })
+        this.label.addEventListener(FlowEventType.HEIGHT_CHANGED, (e: any) => {
+          if (e.height > this.height) {
+            this.height = e.height
+          }
+        })
+      }
     }
 
     this.labelanchor = parameters.labelanchor ? parameters.labelanchor : 'center'
@@ -270,7 +271,7 @@ export class FlowNode extends Mesh {
 
     if (parameters.userData) this.userData = parameters.userData;
 
-    this.material = diagram.getMaterial('geometry', nodetype, this._matparams);
+    this.material = diagram.getMaterial('geometry', nodetype, parameters.material);
 
     if (parameters.x != undefined) this.position.x = parameters.x
     if (parameters.y != undefined) this.position.y = parameters.y
@@ -321,6 +322,8 @@ export class FlowNode extends Mesh {
   }
 
   private updateLabel() {
+    if (!this.label) return
+
     this.label.updateLabel()
 
     if (this.label.labelMesh) {

@@ -19,6 +19,7 @@ import { TroikaFlowLabel } from "./troika-label";
 import { MathUtils } from "three/src/math/MathUtils";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 import { FlowProperties } from "three-flow";
+import { FlowMaterials } from "three-flow";
 
 type PopoutShapeType = 'circle' | 'stadium'
 interface PopoutShape extends FlowNodeParameters {
@@ -78,8 +79,13 @@ export class PopoutExample {
         orbit.enableRotate = !orbit.enableRotate
     })
 
+    const materials = new FlowMaterials()
+    materials.createMeshMaterial = (parameters: MaterialParameters): Material => {
+      return new MeshStandardMaterial(parameters);
+    }
 
-    const flow = new PopoutFlowDiagram({ linestyle: 'step', gridsize: 0.1 })
+
+    const flow = new PopoutFlowDiagram({ linestyle: 'step', gridsize: 0.1, materialCache:materials })
     background.add(flow);
     flow.position.z = 0.1
 
@@ -194,10 +200,6 @@ class PopoutFlowDiagram extends FlowDiagram {
 
   constructor(options?: FlowDiagramOptions) { super(options) }
 
-  override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
-    return new MeshStandardMaterial(parameters);
-  }
-
   override createLabel(label: FlowLabelParameters): FlowLabel {
     return new TroikaFlowLabel(this, label)
   }
@@ -240,13 +242,15 @@ class PopoutCircleNode extends FlowNode {
 
     this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
       const gui = e.gui as GUI
-      gui.title(`${this.label.text} Properties`)
+      if (this.label) gui.title(`${this.label.text} Properties`)
 
       if (icon) gui.add<any, any>(icon, 'text').name('Icon').onChange(() => {
         if (icon) icon.updateLabel()
       })
-      gui.add<any, any>(this.label, 'text').name('Label')
-      gui.add<any, any>(this.label, 'size', 0.1, 1).name('Label Size')
+      if (this.label) {
+        gui.add<any, any>(this.label, 'text').name('Label')
+        gui.add<any, any>(this.label, 'size', 0.1, 1).name('Label Size')
+      }
       gui.addColor(this, 'color').name('Base Color')
       gui.addColor<any, any>(mesh.material, 'color').name('Button Color')
       gui.add<any, any>(this, 'resizable').name('Resizable')
@@ -304,7 +308,7 @@ class PopoutStadiumNode extends FlowNode {
 
     this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
       const gui = e.gui as GUI
-      gui.title(`${this.label.text} Properties`)
+      if (this.label) gui.title(`${this.label.text} Properties`)
 
       gui.add<any, any>(this.label, 'text').name('Title')
       gui.add<any, any>(subtitle, 'text').name('Subtitle')

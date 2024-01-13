@@ -8,6 +8,7 @@ import { ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "./troika-label";
 import { AssetViewerDiagram, AssetViewer } from "./asset-viewer";
+import { FlowMaterials } from "three-flow";
 
 const AlchemistEventType = {
   MATERIAL_TEXTURE: 'material_texture',  // set a materials map property with a loaded texture
@@ -85,7 +86,7 @@ export class AlchemistExample {
     const cache = new TextureCache()
 
     const designer = new AlchemistRecipeDiagram(app.interactive, cache, {
-      diagram: { linestyle: 'step', lineoffset: 0.1, gridsize: 0.1 },
+      diagram: { linestyle: 'step', lineoffset: 0.1, gridsize: 0.1, materialCache : new AlchemistMaterials() },
       title: 'Alchemist Recipe', initialFileName: 'alchemist-recipe.json'
     })
     table.add(designer);
@@ -118,7 +119,7 @@ export class AlchemistExample {
     const loadTextures = (items: Array<string>, path: string, type: string, title: string, x: number, y: number) => {
       const assetparams: FlowNodeParameters = {
         label: { text: title, material: { color: 'black' }, padding: 0 },
-        type: 'asset',
+        type: 'asset', material: { color: 'white' }
       }
 
       const assetnode = assets.addNode(assetparams) as AssetViewer
@@ -128,7 +129,7 @@ export class AlchemistExample {
       items.forEach(item => {
         parameters.push(<AlchemistNodeParameters>{
           x: 1, width, height: width, depth: 0.1,
-          type: item,
+          type: item, material: { color: 'white' },
           label: { text: item, hidden: false, },
           ingredienttype: type,
           ingredienttexture: `assets/${path}/${item}.png`
@@ -340,7 +341,12 @@ class DesignerEdge extends FlowEdge {
   }
 }
 
+class AlchemistMaterials extends FlowMaterials {
 
+  override createMeshMaterial(parameters: MaterialParameters): Material {
+    return new MeshStandardMaterial(parameters);
+  }
+}
 
 class AlchemistRecipeDiagram extends FlowDiagramDesigner {
   hideconnectors = true
@@ -388,7 +394,7 @@ class AlchemistRecipeDiagram extends FlowDiagramDesigner {
         id: item.id,
         x: item.position.x, y: item.position.y,
         width: item.size, height: item.size, depth: 0.1,
-        type: item.type,
+        type: item.type, material: { color: 'white' },
         showborder: item.showborder,
         ingredienttexture: item.ingredienttexture,
         ingredienttype: item.ingredienttype,
@@ -466,17 +472,14 @@ class AlchemistRecipeDiagram extends FlowDiagramDesigner {
 
       gui.add(newnode, 'width', 0.2, 1).name('Size').onChange(() => newnode.height = newnode.width)
       //gui.add(newnode, 'showborder').name('Show Border')
-      gui.add(newnode.label, 'text').name('Label')
-      gui.add(newnode.label, 'hidden').name('Hide Label')
+      if (newnode.label) {
+        gui.add(newnode.label, 'text').name('Label')
+        gui.add(newnode.label, 'hidden').name('Hide Label')
+      }
     })
 
     this.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, node: newnode })
     return newnode
-  }
-
-
-  override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
-    return new MeshStandardMaterial(parameters);
   }
 
   override createLabel(parameters: FlowLabelParameters): FlowLabel {

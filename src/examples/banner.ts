@@ -230,7 +230,7 @@ class BannerNode extends FlowNode {
     // handle properties display
     this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
       const gui = e.gui as GUI
-      gui.title(`${this.label.text} Properties`)
+      if (this.label) gui.title(`${this.label.text} Properties`)
 
       if (icon) gui.add<any, any>(icon, 'text').name('Icon').onChange(() => {
         if (icon) icon.updateLabel()
@@ -243,7 +243,7 @@ class BannerNode extends FlowNode {
       const folder = gui.addFolder('Shared')
       folder.addColor(bannermaterial, 'color').name('Banner Color')
       folder.addColor(icon.material as MeshBasicMaterialParameters, 'color').name('Icon Color')
-      folder.addColor(this.label.material as MeshBasicMaterialParameters, 'color').name('Label Color')
+      if (this.label) folder.addColor(this.label.material as MeshBasicMaterialParameters, 'color').name('Label Color')
       folder.addColor(this.material as MeshBasicMaterial, 'color').name('Base Color')
 
     })

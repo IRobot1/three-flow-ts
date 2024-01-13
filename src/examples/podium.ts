@@ -18,6 +18,7 @@ import {
 import { TroikaFlowLabel } from "./troika-label";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 import { FlowProperties } from "three-flow";
+import { FlowMaterials } from "three-flow";
 
 interface PodiumParameters extends FlowNodeParameters {
   icon: string
@@ -71,7 +72,12 @@ export class PodiumExample {
         orbit.enableRotate = !orbit.enableRotate
     })
 
-    const flow = new PodiumFlowDiagram({ gridsize: 0.1})
+    const materials = new FlowMaterials()
+    materials.createMeshMaterial = (parameters: MaterialParameters): Material => {
+      return new MeshStandardMaterial(parameters);
+    }
+
+    const flow = new PodiumFlowDiagram({ gridsize: 0.1, materialCache: materials})
     background.add(flow);
     flow.position.z = 0.01
 
@@ -145,10 +151,6 @@ export class PodiumExample {
 class PodiumFlowDiagram extends FlowDiagram {
 
   constructor(options?: FlowDiagramOptions) { super(options) }
-
-  override createMeshMaterial(purpose: string, parameters: MaterialParameters): Material {
-    return new MeshStandardMaterial(parameters);
-  }
 
   override createLabel(label: FlowLabelParameters): FlowLabel {
     return new TroikaFlowLabel(this, label)
@@ -229,7 +231,7 @@ class PodiumNode extends FlowNode {
 
     this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
       const gui = e.gui as GUI
-      gui.title(`${this.label.text} Properties`)
+      if (this.label) gui.title(`${this.label.text} Properties`)
 
       if (icon) gui.add<any, any>(icon, 'text').name('Icon').onChange(() => {
         if (icon) icon.updateLabel()
@@ -241,7 +243,7 @@ class PodiumNode extends FlowNode {
       gui.add<any, any>(this, 'draggable').name('Draggable')
       const folder = gui.addFolder('Shared')
       folder.addColor(icon, 'color').name('Icon Color')
-      folder.addColor(this.label, 'color').name('Label Color')
+      if (this.label) folder.addColor(this.label, 'color').name('Label Color')
       folder.addColor(sphere.material as MeshBasicMaterial, 'color').name('Sphere Color')
       folder.add<any, any>(sphere.material, 'opacity', 0, 1).name('Sphere Opacity')
       folder.addColor(this, 'color').name('Base Color')

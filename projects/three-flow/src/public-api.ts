@@ -11,6 +11,7 @@ export * from './lib/scale-node'
 export * from './lib/interactive'
 export * from './lib/path3'
 export * from './lib/edge-path3'
+export * from './lib/materials'
 
 export * from './lib/diagram';
 export * from './lib/connector';

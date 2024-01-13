@@ -107,7 +107,7 @@ class MyConnector extends ConnectorMesh {
 
     // check if connected limit is exceeded
     const matches = this.diagram.allConnectors.filter(e => e.toconnector == this.name)
-    if (matches.length > this.limit) return false
+    if (matches.length >= this.limit) return false
 
     return true
   }
@@ -192,9 +192,12 @@ class MyConnector extends ConnectorMesh {
           mesh.material = diagram.getMaterial('geometry', 'edge-center', <MeshBasicMaterialParameters>{ color: 'white' })
           edge.add(mesh)
 
-          edge.label.addEventListener(FlowEventType.HEIGHT_CHANGED, () => {
-            mesh.geometry = new PlaneGeometry(edge.label.width, edge.label.height)
-          })
+          if (edge.label) {
+            edge.label.addEventListener(FlowEventType.HEIGHT_CHANGED, () => {
+              if (edge.label)
+                mesh.geometry = new PlaneGeometry(edge.label.width, edge.label.height)
+            })
+          }
 
           // listen for center position changing
           edge.addEventListener(FlowEventType.EDGE_CENTER, (e: any) => {

@@ -1,5 +1,5 @@
 import { AnchorType, FlowConnectorParameters, FlowEdgeParameters, FlowEventType, FlowRouteParameters, FlowTransform } from "./model"
-import { BufferGeometry, CircleGeometry, ColorRepresentation, Intersection, Mesh, MeshBasicMaterialParameters, Object3D, Vector3 } from "three"
+import { BufferGeometry, CircleGeometry, ColorRepresentation, Intersection, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Vector3 } from "three"
 import { FlowDiagram } from "./diagram"
 import { FlowNode } from "./node"
 import { FlowLabel } from "./label"
@@ -257,7 +257,7 @@ export class ConnectorMesh extends Mesh {
     if (this._matparams.color != newvalue) {
       this._matparams.color = newvalue;
       if (newvalue)
-        this.material = this.connectors.flowconnectors.diagram.getMaterial('geometry', 'connector', this._matparams)
+        (this.material as MeshBasicMaterial).color.set(newvalue)
     }
   }
 
@@ -350,7 +350,7 @@ export class ConnectorMesh extends Mesh {
     if (parameters.userData) this.userData = parameters.userData
 
     this.geometry = this.connectors.createGeometry(parameters)
-    this.material = diagram.getMaterial('geometry', 'connector', this._matparams)
+    this.material = diagram.getMaterial('geometry', 'connector', parameters.material)
 
     requestAnimationFrame(() => {
       if (this.label) this.label.updateLabel()

@@ -80,7 +80,7 @@ export class FlowArrow extends Mesh {
 
     this.arrowstyle = arrow.arrowstyle ? arrow.arrowstyle : 'default'
 
-    this.material = diagram.getMaterial('geometry', 'arrow', this._matparams)
+    this.material = diagram.getMaterial('geometry', 'arrow', arrow.material)
     this.updateVisuals()
 
     this.scalar = arrow.scale != undefined ? arrow.scale : 1 / 3
