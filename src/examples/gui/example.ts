@@ -16,6 +16,8 @@ import { UISliderbar } from "./sliderbar";
 import { UITextButton } from "./button-text";
 import { UILabel } from "./label";
 import { UIList } from "./list";
+import { MenuItemParameters, MenuParameters, UIMiniMenu } from "./mini-menu";
+import { InteractiveEventType } from "../../../dist/three-flow";
 
 export class GUIExample {
 
@@ -151,7 +153,7 @@ export class GUIExample {
       scene.add(hsliderbar)
       hsliderbar.position.y = -1.05
 
-      const vsliderbar = new UISliderbar({ width: 0.3, height:1, slidersize:0.5, orientation:'vertical' }, app.interactive, options)
+      const vsliderbar = new UISliderbar({ width: 0.3, height: 1, slidersize: 0.5, orientation: 'vertical' }, app.interactive, options)
       scene.add(vsliderbar)
       vsliderbar.position.x = 1
       vsliderbar.position.y = -1
@@ -170,6 +172,54 @@ export class GUIExample {
       list.addEventListener(UIEventType.LIST_SELECTED_CHANGED, () => {
         console.warn(list.selectedtext)
       })
+
+
+      const popupbutton = new UITextButton({ width:0.1, height:0.1, label: { text: 'more_horiz', isicon: true } }, app.interactive, options)
+      scene.add(popupbutton)
+      popupbutton.position.set(0.7, 0.9, 0)
+
+      let opened = false
+      popupbutton.pressed = () => {
+        if (opened) return
+
+        const menuparams: MenuParameters = {
+          fill: { color: 'green' },
+          items: [
+            {
+              text: 'add', isicon: true, hint: 'one', selected: () => {
+                console.warn('add selected')
+                closemenu()
+              }
+            },
+            {
+              text: 'cancel', isicon: true, hint: 'two', selected: () => {
+                console.warn('cancel selected')
+                closemenu()
+              }
+            },
+            {
+              text: 'Test', hint: 'three', fill: { color: 'blue' }, selected: () => {
+                console.warn('test selected')
+                closemenu()
+              }
+            },
+          ]
+        }
+
+        const menu = new UIMiniMenu(menuparams, app.interactive, options)
+        popupbutton.add(menu)
+        menu.position.set(0.12, 0, 0)
+
+        const closemenu = () => { popupbutton.remove(menu), opened = false }
+        menu.missed = closemenu
+        opened = true
+      }
+
+      //const menu = new UIMiniMenu(menuparams, app.interactive, options)
+      //scene.add(menu)
+      //menu.position.set(0.65, 0.7, 0)
+
+      //menu.missed = () => { scene.remove(menu) }
 
       input.add(button, text1, text2, checkbox, colorentry, hsliderbar, list)
 

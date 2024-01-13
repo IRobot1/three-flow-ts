@@ -38,6 +38,8 @@ export class FontCache {
         waiting.callbacks.push(onLoad)
       }
     }
+    else
+      onLoad(font)
   }
 }
 
