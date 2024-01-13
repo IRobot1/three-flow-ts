@@ -7,6 +7,7 @@ import { ButtonEventType, UIButton } from "./button";
 import { UITextButton } from "./button-text";
 import { UILabel } from "./label";
 import { UIKeyboardEvent } from "./keyboard";
+import { Pagination } from "./pagination";
 
 export interface ListOptions extends PanelOptions {
 }
@@ -15,7 +16,7 @@ export enum ListEventType {
   LIST_SELECTED_CHANGED = 'list_selected_changed'
 }
 
-export class UIList extends UIEntry {
+export class UIList extends UIEntry implements Pagination {
   inputtype: string = 'list'
 
   private _field: string | undefined
@@ -301,6 +302,13 @@ export class UIList extends UIEntry {
   moveNextPage() {
     if (this.firstdrawindex + this.itemcount < this.data.length) {
       this.firstdrawindex += this.itemcount;
+      this.refresh()
+    }
+  }
+
+  moveTo(index: number) {
+    if (index >= 0 && index < this.data.length) {
+      this.firstdrawindex = index
       this.refresh()
     }
   }

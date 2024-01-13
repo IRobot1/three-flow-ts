@@ -87,7 +87,9 @@ export class UISliderbar extends UIEntry {
   private orientation: UIOrientationType
 
   constructor(parameters: SliderbarParameters, interactive: ThreeInteractive, options: SliderbarOptions = {}) {
-    if (parameters.height == undefined) parameters.height = 0.1
+    const orientation = parameters.orientation != undefined ? parameters.orientation : 'horizontal'
+    if (orientation == 'horizontal' && parameters.height == undefined) parameters.height = 0.1
+    if (orientation == 'vertical' && parameters.width == undefined) parameters.width = 0.1
 
     super(parameters, interactive, options)
 
@@ -98,7 +100,7 @@ export class UISliderbar extends UIEntry {
     const checkmaterial = this.materials.getMaterial('geometry', 'slider', parameters.slidermaterial)
 
     this.sliderradius = parameters.sliderradius != undefined ? parameters.sliderradius : 0.02
-    this.orientation = parameters.orientation != undefined ? parameters.orientation : 'horizontal'
+    this.orientation = orientation 
 
     const slidermesh = new Mesh()
     slidermesh.material = checkmaterial
@@ -126,7 +128,7 @@ export class UISliderbar extends UIEntry {
         document.body.style.cursor = 'default'
     })
 
-    const padding = this.height / 10
+    const padding = 0.0//2//this.height / 10
 
     const moveto = (v: Vector3) => {
       if (this.min != undefined && this.max != undefined) {

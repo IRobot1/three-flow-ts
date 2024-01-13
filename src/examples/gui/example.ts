@@ -17,6 +17,7 @@ import { UILabel } from "./label";
 import { MenuParameters, UIMiniMenu } from "./mini-menu";
 import { SelectParameters, UISelect } from "./select";
 import { UIExpansionPanel } from "./expansion-panel";
+import { UIScrollbar } from "./scrollbar";
 
 export class GUIExample {
 
@@ -152,9 +153,9 @@ export class GUIExample {
       scene.add(hsliderbar)
       hsliderbar.position.y = -1.05
 
-      const vsliderbar = new UISliderbar({ width: 0.3, height: 1, slidersize: 0.5, orientation: 'vertical' }, app.interactive, options)
+      const vsliderbar = new UIScrollbar({ orientation:'horizontal'  }, app.interactive, options)
       scene.add(vsliderbar)
-      vsliderbar.position.x = 1
+      vsliderbar.position.x = 1.15
       vsliderbar.position.y = -1
 
       const listparams: ListParameters = {
