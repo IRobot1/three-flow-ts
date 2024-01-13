@@ -6,6 +6,7 @@ import { ListEventType, UIList } from "./list";
 import { CircleGeometry, MathUtils, Mesh, MeshBasicMaterialParameters } from "three";
 
 export interface SelectParameters extends TextButtonParameters {
+  initialselected?: string
   list: ListParameters
 }
 
@@ -35,6 +36,9 @@ export class UISelect extends UITextButton {
       this.closelist()
     })
 
+    if (parameters.initialselected) {
+      this.label.text = parameters.initialselected
+    }
   }
 
   private list?: UIList
@@ -43,6 +47,7 @@ export class UISelect extends UITextButton {
     if (!this.list) return
     this.remove(this.list)
     this.indicator.rotation.z = this.indicatorRotation(false)
+    this.list.dispose()
     this.list = undefined
   }
   override pressed() {
@@ -52,12 +57,17 @@ export class UISelect extends UITextButton {
     else {
       this.indicator.rotation.z = this.indicatorRotation(true)
       const params = this.parameters as SelectParameters
+      params.list.selected = this.label.text
 
       const list = new UIList(params.list, this.interactive, this.options)
       this.add(list)
       list.position.y = -(this.height + list.height) / 2 - list.spacing
 
       list.selected = (data: any) => {
+        let value = data
+        if (params.list.field) value = data[params.list.field]
+        this.label.text = value
+
         this.selected(data)
         this.closelist()
       }

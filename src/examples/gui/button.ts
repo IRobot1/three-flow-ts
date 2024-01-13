@@ -25,15 +25,9 @@ export class UIButton extends UIEntry {
 
     this.name = parameters.id != undefined ? parameters.id : 'button'
 
-    const selectableChanged = () => {
-      if (this.selectable)
-        interactive.selectable.add(this)
-      else
-        interactive.selectable.remove(this)
+    this.dispose = () => {
+      interactive.selectable.remove(this)
     }
-    this.addEventListener(PanelEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
-    selectableChanged()
-
 
     const buttonDown = () => {
       if (this.clicking) return
@@ -76,6 +70,8 @@ export class UIButton extends UIEntry {
       buttonUp(e.generateEvent)
     })
   }
+
+  dispose() { }
 
   override handleKeyDown(e: UIKeyboardEvent) {
     if (e.code == 'Enter')

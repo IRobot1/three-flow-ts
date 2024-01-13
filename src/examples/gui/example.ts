@@ -58,207 +58,206 @@ export class GUIExample {
     const flow = new FlowDiagram()
     scene.add(flow);
 
-    requestAnimationFrame(() => {
+    //    requestAnimationFrame(() => {
+    //const panel = new UIPanel({draggable:true})
+    //scene.add(panel)
 
-      //const panel = new UIPanel({draggable:true})
-      //scene.add(panel)
+    //new PanelInteraction(panel, app.interactive)
 
-      //new PanelInteraction(panel, app.interactive)
+    const options: InputManagerOptions = {
+      fontCache: new FontCache(),
+      materials: new FlowMaterials(),
+      //selectedOffset: {axes:'y', offset:0},
+      //selectedMaterial: { color: 'red' }
+    }
 
-      const options: InputManagerOptions = {
-        fontCache: new FontCache(),
-        materials: new FlowMaterials(),
-        //selectedOffset: {axes:'y', offset:0},
-        //selectedMaterial: { color: 'red' }
+
+    const button = new UITextButton({
+      position: { y: 0.75 },
+      width: 1, height: 0.4,
+      border: { material: { color: 'red' }, width: 0.04 },
+      highlight: {
+        width: 0.04
+      },
+      label: {
+        text: 'Click Me', //material: { color: 'black' }
       }
-
-
-      const button = new UITextButton({
-        position: { y: 0.75 },
-        width: 1, height: 0.4,
-        border: { material: { color: 'red' }, width: 0.04 },
-        highlight: {
-          width: 0.04
-        },
-        label: {
-          text: 'Click Me', //material: { color: 'black' }
-        }
-      }, app.interactive, options)
-      scene.add(button)
-      ////button.clicked = () => { console.warn('clicked from override') }
-      button.addEventListener(ButtonEventType.BUTTON_PRESSED, () => {
-        console.warn('clicked from event')
-      })
-
-      //const icon = new UIButton({
-      //  position: { x: 0.5 },
-      //  width: 0.2, height: 0.2,
-      //  material: { color: 'gray' },
-      //  label: {
-      //    text: 'favorite', material: { color: 'black' }, isicon: true
-      //  }
-      //}, app.interactive)
-      //scene.add(icon)
-
-      //const textbutton = new UIButton({
-      //  position: { x: -0.5 },
-      //  width: 0.6, height: 0.2,
-      //  material: { color: 'gray' },
-      //  label: {
-      //    text: 'Click Me', material: { color: 'black' }
-      //  }
-      //}, app.interactive)
-      //scene.add(textbutton)
-      //let count =1
-      //setInterval(() => {
-      //  textbutton.text = count.toString()
-
-      //  count++
-      //},1000)
-
-      const label1 = new UILabel({ text: 'this is a test', maxwidth: 0.5 }, options)
-      scene.add(label1)
-      label1.position.x = -1
-
-      const label2 = new UILabel({ text: 'this is a test', maxwidth: 0.5, alignX: 'right' }, options)
-      scene.add(label2)
-      label2.position.x = -1
-      label2.position.y = -0.1
-
-
-      const input = new UIInputManager(app, options)
-
-      const text1 = new UITextEntry({
-        height: 0.3,
-        //password: true, prompt: '|', passwordChar: '?',
-        label: { text: 'test', material: { color: 'black' } }
-      }, app.interactive, options)
-      scene.add(text1)
-      text1.position.y = 0.35
-
-      const text2 = new UINumberEntry({ initialvalue: 0, height: 0.3, label: { material: { color: 'black' } } }, app.interactive, options)
-      scene.add(text2)
-
-
-      const checkbox = new UICheckBox({ checked: false, height: 0.3, width: 0.3 }, app.interactive, options)
-      scene.add(checkbox)
-      checkbox.position.y = -0.35
-
-      const colorentry = new UIColorEntry({ height: 0.3, fill: { color: 'blue' } }, app.interactive, options)
-      scene.add(colorentry)
-      colorentry.position.y = -0.7
-
-
-      const hsliderbar = new UISliderbar({ height: 0.3 }, app.interactive, options)
-      scene.add(hsliderbar)
-      hsliderbar.position.y = -1.05
-
-      const vsliderbar = new UIScrollbar({ orientation:'horizontal'  }, app.interactive, options)
-      scene.add(vsliderbar)
-      vsliderbar.position.x = 1.15
-      vsliderbar.position.y = -1
-
-      const listparams: ListParameters = {
-        data: storydata, // stories
-        field: 'text',
-        //orientation: 'vertical',
-        //itemheight: 0.3,
-        //itemcount: 5,
-      }
-
-      //const list = new UIList(listparams, app.interactive, options)
-      //scene.add(list)
-      //list.position.x = 1.2
-      //list.position.y = 0
-
-      const selectparams: SelectParameters = {
-        height: 0.1,
-        label: { text: 'Choose a Story' },
-        list: listparams
-      }
-      const select = new UISelect(selectparams, app.interactive, options)
-      scene.add(select)
-      select.position.set(1.15, 0.7, 0)
-      select.selected = (data: any) => {
-        console.warn('selected', data)
-      }
-
-      const popupbutton = new UITextButton({ width: 0.1, label: { text: 'more_horiz', isicon: true } }, app.interactive, options)
-      scene.add(popupbutton)
-      popupbutton.position.set(0.7, 0.9, 0)
-
-      let opened = false
-      popupbutton.pressed = () => {
-        if (opened) return
-
-        const menuparams: MenuParameters = {
-          fill: { color: 'green' },
-          items: [
-            {
-              text: 'add', isicon: true, hint: 'one', selected: () => {
-                console.warn('add selected')
-                closemenu()
-              }
-            },
-            {
-              text: 'cancel', isicon: true, hint: 'two', selected: () => {
-                console.warn('cancel selected')
-                closemenu()
-              }
-            },
-            {
-              text: 'Test', hint: 'three', fill: { color: 'blue' }, selected: () => {
-                console.warn('test selected')
-                closemenu()
-              }
-            },
-          ]
-        }
-
-        const menu = new UIMiniMenu(menuparams, app.interactive, options)
-        popupbutton.add(menu)
-        menu.position.set(0.12, 0, 0)
-
-        const closemenu = () => { popupbutton.remove(menu), opened = false }
-        menu.missed = closemenu
-        opened = true
-      }
-
-      //const expansionPanel = new UIExpansionPanel({ expanded: true, label: { text: 'Advanced Properties', size: 0.06 }, panel: { fill: { color: 'green' } } }, app.interactive, options)
-      //scene.add(expansionPanel)
-      //expansionPanel.position.set(1.15, 0.5, 0)
-      //expansionPanel.panelExpanded = (expanded: boolean) => {
-      //  console.warn('panel expanded', expanded)
-      //}
-
-      input.add(button, text1, text2, checkbox, colorentry, hsliderbar)
-
-      //const keyboard = new UIKeyboard({}, app.interactive)
-      //scene.add(keyboard)
-      //keyboard.visible = true
-
-      //keyboard.newtext = (text: string) => {
-      //  console.warn(text)
-      //}
-      //keyboard.command = (keycode: string) => {
-      //  console.warn(keycode)
-      //}
-      //keyboard.keydown = (event: UIKeyboardEvent) => {
-      //  console.warn(event)
-      //}
-      //keyboard.keyup= (event: UIKeyboardEvent) => {
-      //  console.warn(event)
-      //}
-
-      //const codepointsMap = new Map<string, string>()
-
-      //codepoints.split('\n').forEach(line => {
-      //  const parts = line.split(' ')
-      //  codepointsMap.set(parts[0], `\\u${parts[1]}`)
-      //})
-      //console.warn(codepointsMap)
-
+    }, app.interactive, options)
+    scene.add(button)
+    ////button.clicked = () => { console.warn('clicked from override') }
+    button.addEventListener(ButtonEventType.BUTTON_PRESSED, () => {
+      console.warn('clicked from event')
     })
+
+    //const icon = new UIButton({
+    //  position: { x: 0.5 },
+    //  width: 0.2, height: 0.2,
+    //  material: { color: 'gray' },
+    //  label: {
+    //    text: 'favorite', material: { color: 'black' }, isicon: true
+    //  }
+    //}, app.interactive)
+    //scene.add(icon)
+
+    //const textbutton = new UIButton({
+    //  position: { x: -0.5 },
+    //  width: 0.6, height: 0.2,
+    //  material: { color: 'gray' },
+    //  label: {
+    //    text: 'Click Me', material: { color: 'black' }
+    //  }
+    //}, app.interactive)
+    //scene.add(textbutton)
+    //let count =1
+    //setInterval(() => {
+    //  textbutton.text = count.toString()
+
+    //  count++
+    //},1000)
+
+    const label1 = new UILabel({ text: 'this is a test', maxwidth: 0.5 }, options)
+    scene.add(label1)
+    label1.position.x = -1
+
+    const label2 = new UILabel({ text: 'this is a test', maxwidth: 0.5, alignX: 'right' }, options)
+    scene.add(label2)
+    label2.position.x = -1
+    label2.position.y = -0.1
+
+
+    const input = new UIInputManager(app, options)
+
+    const text1 = new UITextEntry({
+      height: 0.3,
+      //password: true, prompt: '|', passwordChar: '?',
+      label: { text: 'test', material: { color: 'black' } }
+    }, app.interactive, options)
+    scene.add(text1)
+    text1.position.y = 0.35
+
+    const text2 = new UINumberEntry({ initialvalue: 0, height: 0.3, label: { material: { color: 'black' } } }, app.interactive, options)
+    scene.add(text2)
+
+
+    const checkbox = new UICheckBox({ checked: false, height: 0.3, width: 0.3 }, app.interactive, options)
+    scene.add(checkbox)
+    checkbox.position.y = -0.35
+
+    const colorentry = new UIColorEntry({ height: 0.3, fill: { color: 'blue' } }, app.interactive, options)
+    scene.add(colorentry)
+    colorentry.position.y = -0.7
+
+
+    const hsliderbar = new UISliderbar({ height: 0.3 }, app.interactive, options)
+    scene.add(hsliderbar)
+    hsliderbar.position.y = -1.05
+
+    const vsliderbar = new UIScrollbar({ orientation: 'horizontal' }, app.interactive, options)
+    scene.add(vsliderbar)
+    vsliderbar.position.x = 1.15
+    vsliderbar.position.y = -1
+
+    const listparams: ListParameters = {
+      data: storydata, // stories
+      field: 'text',
+      orientation: 'vertical',
+      //itemheight: 0.3,
+      itemcount: 5,
+    }
+
+    //const list = new UIList(listparams, app.interactive, options)
+    //scene.add(list)
+    //list.position.x = 1.2
+    //list.position.y = 0
+
+    const selectparams: SelectParameters = {
+      label: { text: 'Choose a Story' },
+      list: listparams,
+      initialselected: 'Battling In The River'
+    }
+    const select = new UISelect(selectparams, app.interactive, options)
+    scene.add(select)
+    select.position.set(1.15, 0.7, 0)
+    select.selected = (data: any) => {
+      console.warn('selected', data)
+    }
+
+    const popupbutton = new UITextButton({ width: 0.1, label: { text: 'more_horiz', isicon: true } }, app.interactive, options)
+    scene.add(popupbutton)
+    popupbutton.position.set(0.7, 0.9, 0)
+
+    let opened = false
+    popupbutton.pressed = () => {
+      if (opened) return
+
+      const menuparams: MenuParameters = {
+        fill: { color: 'green' },
+        items: [
+          {
+            text: 'add', isicon: true, hint: 'one', selected: () => {
+              console.warn('add selected')
+              closemenu()
+            }
+          },
+          {
+            text: 'cancel', isicon: true, hint: 'two', selected: () => {
+              console.warn('cancel selected')
+              closemenu()
+            }
+          },
+          {
+            text: 'Test', hint: 'three', fill: { color: 'blue' }, selected: () => {
+              console.warn('test selected')
+              closemenu()
+            }
+          },
+        ]
+      }
+
+      const menu = new UIMiniMenu(menuparams, app.interactive, options)
+      popupbutton.add(menu)
+      menu.position.set(0.12, 0, 0)
+
+      const closemenu = () => { popupbutton.remove(menu), opened = false }
+      menu.missed = closemenu
+      opened = true
+    }
+
+    const expansionPanel = new UIExpansionPanel({ expanded: true, label: { text: 'Advanced Properties', size: 0.06 }, panel: { fill: { color: 'green' } } }, app.interactive, options)
+    scene.add(expansionPanel)
+    expansionPanel.position.set(2.25, 0.7, 0)
+    expansionPanel.panelExpanded = (expanded: boolean) => {
+      console.warn('panel expanded', expanded)
+    }
+
+    input.add(button, text1, text2, checkbox, colorentry, hsliderbar)
+
+    //const keyboard = new UIKeyboard({}, app.interactive)
+    //scene.add(keyboard)
+    //keyboard.visible = true
+
+    //keyboard.newtext = (text: string) => {
+    //  console.warn(text)
+    //}
+    //keyboard.command = (keycode: string) => {
+    //  console.warn(keycode)
+    //}
+    //keyboard.keydown = (event: UIKeyboardEvent) => {
+    //  console.warn(event)
+    //}
+    //keyboard.keyup= (event: UIKeyboardEvent) => {
+    //  console.warn(event)
+    //}
+
+    //const codepointsMap = new Map<string, string>()
+
+    //codepoints.split('\n').forEach(line => {
+    //  const parts = line.split(' ')
+    //  codepointsMap.set(parts[0], `\\u${parts[1]}`)
+    //})
+    //console.warn(codepointsMap)
+
+    //  })
 
     this.dispose = () => {
       orbit.dispose()

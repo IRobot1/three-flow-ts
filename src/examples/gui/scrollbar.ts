@@ -75,5 +75,12 @@ export class UIScrollbar extends UISliderbar {
     this.addEventListener(SliderbarEventType.VALUE_CHANGED, () => {
       if (this.paginate) this.paginate.moveTo(this.value)
     })
+
+    this.dispose = () => {
+      nextbutton.dispose()
+      prevbutton.dispose()
+    }
   }
+
+  dispose() { }
 }

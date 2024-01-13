@@ -103,7 +103,9 @@ export class UIList extends UIEntry implements Pagination {
 
     this._data = parameters.data != undefined ? parameters.data : []
     if (parameters.field) this._field = parameters.field
-    if (parameters.selected) this.selectedtext = parameters.selected
+    if (parameters.selected) {
+      this.selectedtext = parameters.selected
+    }
     this._spacing = spacing
     this._orientation = orientation
     this.itemcount = itemCount
@@ -138,7 +140,6 @@ export class UIList extends UIEntry implements Pagination {
     scrollbar.paginate = this
 
     scrollbar.max = this.data.length - this.itemcount
-    scrollbar.value = this.firstdrawindex
 
 
     itemWidth -= scrollbar.width / 2
@@ -173,7 +174,13 @@ export class UIList extends UIEntry implements Pagination {
       this.visuals.push(button)
     }
 
-    this.refresh()
+    this.moveTo(this.selectedindex)
+    scrollbar.value = this.selectedindex
+
+    this.dispose = () => {
+      this.visuals.forEach(visual => visual.dispose())
+      scrollbar.dispose()
+    }
   }
 
 
@@ -213,7 +220,6 @@ export class UIList extends UIEntry implements Pagination {
   public firstdrawindex = 0  // index in list of first item to render
 
   public refresh() {
-
     const display = (this.data.length == 0)
     this.empty.visible = display
 
