@@ -18,7 +18,7 @@ export interface ButtonOptions extends PanelOptions {
 export class UIButton extends UIEntry {
   override inputtype: string = 'button'
 
-  constructor(parameters: ButtonParameters, interactive: ThreeInteractive, options: ButtonOptions = {}) {
+  constructor(parameters: ButtonParameters, interactive: ThreeInteractive, options: ButtonOptions) {
     super(parameters, interactive, options)
 
     this.name = parameters.id != undefined ? parameters.id : 'button'

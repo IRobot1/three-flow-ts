@@ -6,7 +6,7 @@ import { ButtonOptions, UIButton } from "./button";
 
 export class UITextButton extends UIButton {
 
-  private label: UILabel
+  protected label: UILabel
 
   private _text = ''
   get text() { return this._text }
@@ -18,7 +18,7 @@ export class UITextButton extends UIButton {
     }
   }
 
-  constructor(parameters: TextButtonParameters, interactive: ThreeInteractive, options: ButtonOptions = {}) {
+  constructor(parameters: TextButtonParameters, interactive: ThreeInteractive, options: ButtonOptions) {
     super(parameters, interactive, options)
 
     this.name = parameters.id != undefined ? parameters.id : 'text-button'
@@ -30,9 +30,9 @@ export class UITextButton extends UIButton {
     if (label.maxwidth < width) width = label.maxwidth
 
     if (label.alignX == 'left')
-      label.position.x = -width / 2
+      label.position.x = -(width - label.padding) / 2
     else if (label.alignX == 'right')
-      label.position.x = width / 2
+      label.position.x = (width + label.padding) / 2
 
     label.position.z = 0.001
     this.label = label

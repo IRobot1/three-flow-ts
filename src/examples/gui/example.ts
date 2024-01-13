@@ -3,7 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../../app/threejs-app";
 import { FlowDiagram } from "three-flow";
-import { UIEventType, UIOptions } from "./model";
+import { ListParameters, UIEventType, UIOptions } from "./model";
 import { UIKeyboard, UIKeyboardEvent } from "./keyboard";
 import { FontCache, MaterialCache } from "./cache";
 import { UIButton } from "./button";
@@ -16,8 +16,8 @@ import { UISliderbar } from "./sliderbar";
 import { UITextButton } from "./button-text";
 import { UILabel } from "./label";
 import { UIList } from "./list";
-import { MenuItemParameters, MenuParameters, UIMiniMenu } from "./mini-menu";
-import { InteractiveEventType } from "../../../dist/three-flow";
+import { MenuParameters, UIMiniMenu } from "./mini-menu";
+import { SelectParameters, UISelect } from "./select";
 
 export class GUIExample {
 
@@ -158,23 +158,32 @@ export class GUIExample {
       vsliderbar.position.x = 1
       vsliderbar.position.y = -1
 
-
-      const list = new UIList({
+      const listparams: ListParameters = {
         data: storydata,
         field: 'text',
         //orientation: 'vertical',
         //itemheight: 0.3,
         //itemcount: 5,
-      }, app.interactive, options)
-      scene.add(list)
-      list.position.x = 1.2
-      list.position.y = 0
-      list.addEventListener(UIEventType.LIST_SELECTED_CHANGED, () => {
-        console.warn(list.selectedtext)
-      })
+      }
 
+      //const list = new UIList(listparams, app.interactive, options)
+      //scene.add(list)
+      //list.position.x = 1.2
+      //list.position.y = 0
 
-      const popupbutton = new UITextButton({ width:0.1, height:0.1, label: { text: 'more_horiz', isicon: true } }, app.interactive, options)
+      const selectparams: SelectParameters = {
+        height: 0.1,
+        label: { text: 'Choose a Story'},
+        list :listparams
+      }
+      const select = new UISelect(selectparams, app.interactive, options)
+      scene.add(select)
+      select.position.set(1.15, 0.7, 0)
+      select.selected = (text:string) => {
+        console.warn('selected', text)
+      }
+
+      const popupbutton = new UITextButton({ width: 0.1, height: 0.1, label: { text: 'more_horiz', isicon: true } }, app.interactive, options)
       scene.add(popupbutton)
       popupbutton.position.set(0.7, 0.9, 0)
 
@@ -215,13 +224,8 @@ export class GUIExample {
         opened = true
       }
 
-      //const menu = new UIMiniMenu(menuparams, app.interactive, options)
-      //scene.add(menu)
-      //menu.position.set(0.65, 0.7, 0)
 
-      //menu.missed = () => { scene.remove(menu) }
-
-      input.add(button, text1, text2, checkbox, colorentry, hsliderbar, list)
+      input.add(button, text1, text2, checkbox, colorentry, hsliderbar)
 
       //console.warn(options.materialCache)
       //const keyboard = new UIKeyboard({}, app.interactive)
