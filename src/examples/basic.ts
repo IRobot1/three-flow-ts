@@ -44,7 +44,7 @@ export class BasicExample {
 
     const orbit = new OrbitControls(app.camera, app.domElement);
     orbit.target.set(0, app.camera.position.y, 0)
-    orbit.enableRotate = false;
+    orbit.enableRotate = true;
     orbit.update();
 
     window.addEventListener('keydown', (e: KeyboardEvent) => {
@@ -52,6 +52,10 @@ export class BasicExample {
         orbit.enableRotate = !orbit.enableRotate
     })
 
+    const disableRotate = () => { orbit.enableRotate = false }
+    const enableRotate = () => { orbit.enableRotate = true }
+    app.interactive.addEventListener(InteractiveEventType.DRAGSTART, disableRotate)
+    app.interactive.addEventListener(InteractiveEventType.DRAGEND, enableRotate)
 
     //scene.add(new AxesHelper(3))
 
@@ -272,7 +276,7 @@ export class BasicExample {
         //  })
         //}
         mesh.dropCompleted = (diagram: FlowDiagram, start: Vector3): FlowNode | undefined => {
-          return diagram.addNode({
+          const newnode = diagram.addNode({
             x: start.x, y: start.y, material: { color: 'blue' },
             label: { text: 'New Node', font: 'helvetika', material: { color: 'white' }, },
             resizable: false,
@@ -280,6 +284,14 @@ export class BasicExample {
               { id: '', anchor: mesh.oppositeAnchor, index: 0 },
             ]
           })
+
+          const edgeparams: FlowEdgeParameters = {
+            from: node4.name, to: newnode.name, fromconnector: mesh.name, toconnector: newnode.parameters.connectors![0].id,
+            toarrow: { offset: 0.1 }
+          }
+          diagram.addEdge(edgeparams)
+
+          return newnode
         }
 
         return mesh
@@ -377,6 +389,8 @@ export class BasicExample {
 
 
     this.dispose = () => {
+      app.interactive.removeEventListener(InteractiveEventType.DRAGSTART, disableRotate)
+      app.interactive.removeEventListener(InteractiveEventType.DRAGEND, enableRotate)
       interaction.dispose()
       gui.destroy()
       orbit.dispose()
