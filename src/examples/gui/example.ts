@@ -11,7 +11,7 @@ import { UITextEntry } from "./text-entry";
 import { UINumberEntry } from "./number-entry";
 import { UICheckBox } from "./checkbox";
 import { UIColorEntry } from "./color-entry";
-import { UISliderbar } from "./sliderbar";
+import { SliderbarEventType, UISliderbar } from "./sliderbar";
 import { UITextButton } from "./button-text";
 import { UILabel } from "./label";
 import { MenuParameters, UIMiniMenu } from "./mini-menu";
@@ -148,14 +148,13 @@ export class GUIExample {
     colorentry.position.y = -0.7
 
 
-    const hsliderbar = new UISliderbar({ height: 0.3 }, app.interactive, options)
-    scene.add(hsliderbar)
-    hsliderbar.position.y = -1.05
-
     const vsliderbar = new UIScrollbar({ orientation: 'horizontal' }, app.interactive, options)
     scene.add(vsliderbar)
     vsliderbar.position.x = 1.15
-    vsliderbar.position.y = -1
+    vsliderbar.position.y = -0.7
+    vsliderbar.addEventListener<any>(SliderbarEventType.VALUE_CHANGED, (e: any) => {
+      console.warn(e.value)
+    })
 
     const listparams: ListParameters = {
       data: storydata, // stories
@@ -230,7 +229,7 @@ export class GUIExample {
       console.warn('panel expanded', expanded)
     }
 
-    input.add(button, text1, text2, checkbox, colorentry, hsliderbar)
+    input.add(button, text1, text2, checkbox, colorentry, )
 
     //const keyboard = new UIKeyboard({}, app.interactive)
     //scene.add(keyboard)
