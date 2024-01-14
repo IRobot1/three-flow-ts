@@ -1,4 +1,4 @@
-import { Vector2, Raycaster, Renderer, Camera, Object3D, Plane, Vector3, Matrix4, Intersection, BaseEvent, WebGLRenderer } from 'three';
+import { Vector2, Raycaster, Renderer, Camera, Object3D, Plane, Vector3, Matrix4, Intersection, BaseEvent, WebGLRenderer, EventDispatcher } from 'three';
 
 export const InteractiveEventType = {
   POINTERMOVE: 'pointermove',
@@ -40,7 +40,7 @@ export class FlowObjects {
 }
 
 
-export class ThreeInteractive {
+export class ThreeInteractive extends EventDispatcher<any> {
   public selectable = new FlowObjects()
   public draggable = new FlowObjects()
 
@@ -48,7 +48,7 @@ export class ThreeInteractive {
   dispose = () => { }
 
   constructor(public renderer: WebGLRenderer, public camera: Camera) {
-
+    super()
     const _pointer = new Vector2();
     const _plane = new Plane();
     const _offset = new Vector3();
@@ -181,6 +181,8 @@ export class ThreeInteractive {
             _inverseMatrix.copy(_selected.parent.matrixWorld).invert();
 
             _selected.dispatchEvent({ type: InteractiveEventType.DRAGSTART, position: _intersection.applyMatrix4(_inverseMatrix), selectIntersects, dragIntersects });
+
+            this.dispatchEvent<any>({ type: InteractiveEventType.DRAGSTART })
           }
 
         }
@@ -202,9 +204,9 @@ export class ThreeInteractive {
           document.body.style.cursor = 'default'
 
           _selected.dispatchEvent({ type: InteractiveEventType.DRAGEND, position: _intersection, selectIntersects, dragIntersects });
-
           _selected = undefined;
 
+          this.dispatchEvent<any>({ type: InteractiveEventType.DRAGEND })
         }
       }
     }
