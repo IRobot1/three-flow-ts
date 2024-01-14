@@ -1,6 +1,6 @@
 import { NgZone } from "@angular/core";
 
-import { ACESFilmicToneMapping, BufferGeometry, Camera, Line, PCFSoftShadowMap, PerspectiveCamera, SRGBColorSpace, Scene, Vector3, WebGLRenderer } from "three";
+import { ACESFilmicToneMapping, BufferGeometry, Camera, Line, PCFSoftShadowMap, PerspectiveCamera, SRGBColorSpace, Scene, Vector2, Vector3, WebGLRenderer } from "three";
 
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
 import { VRButton } from "three/examples/jsm/webxr/VRButton";
@@ -9,6 +9,9 @@ import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { ThreeInteractive } from "three-flow";
 
 import { UIRouter } from "./ui-routes";
+
+import { EffectComposer, Pass } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 
 export interface renderState { scene: Scene, camera: Camera, renderer: WebGLRenderer }
 
@@ -74,6 +77,8 @@ export class ThreeJSApp extends WebGLRenderer {
       if (this.stats) this.stats.update()
 
       this.render(this.scene, this.camera);
+
+      if (this.composer) this.composer.render()
 
     };
 
@@ -150,4 +155,21 @@ export class ThreeJSApp extends WebGLRenderer {
       this.stats = undefined
     }
   }
+
+  composer?: EffectComposer
+
+  enablePostProcessing(scene:Scene) {
+    const composer = new EffectComposer(this);
+
+    const renderPass = new RenderPass(scene, this.camera);
+    composer.addPass(renderPass);
+
+    this.composer = composer
+  }
+
+  addPass(pass: Pass) {
+    this.composer?.addPass(pass)
+  }
+
+  disablePostProcessing() { this.composer = undefined }
 }

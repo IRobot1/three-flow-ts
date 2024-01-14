@@ -1,4 +1,4 @@
-import { AmbientLight, AxesHelper, Color, PointLight, Scene } from "three";
+import { AmbientLight, AxesHelper, Color, PointLight, Scene, Vector2 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../../app/threejs-app";
@@ -18,6 +18,7 @@ import { MenuParameters, UIMiniMenu } from "./mini-menu";
 import { SelectParameters, UISelect } from "./select";
 import { UIExpansionPanel } from "./expansion-panel";
 import { UIScrollbar } from "./scrollbar";
+import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
 
 export class GUIExample {
 
@@ -29,6 +30,14 @@ export class GUIExample {
     app.scene = scene
 
     app.camera.position.z = 2
+
+    //app.enablePostProcessing(scene)
+    //app.addPass(new UnrealBloomPass(
+    //  new Vector2(window.innerWidth, window.innerHeight),
+    //  0.4, // Bloom strength
+    //  0.4, // Bloom radius
+    //  0.5, // Bloom threshold
+    //))
 
     scene.background = new Color(0x444444)
 
@@ -259,6 +268,7 @@ export class GUIExample {
     //  })
 
     this.dispose = () => {
+      app.disablePostProcessing()
       orbit.dispose()
     }
   }
