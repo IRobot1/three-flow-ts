@@ -157,7 +157,8 @@ export class UISliderbar extends UIEntry {
     slidermesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
       if (!this.visible) return
 
-      moveto(e.position)
+      // remember where in the mesh the mouse was clicked to avoid jump on first drag
+      offset = e.position.sub(slidermesh.position).clone()
       document.body.style.cursor = 'grabbing'
 
       dragging = true
@@ -171,7 +172,7 @@ export class UISliderbar extends UIEntry {
     slidermesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
       if (!dragging || !this.visible) return
 
-      moveto(e.position)
+      moveto(e.position.sub(offset))
     });
 
 

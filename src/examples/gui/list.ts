@@ -1,4 +1,4 @@
-import { Mesh, PlaneGeometry, Vector3 } from "three";
+import { MathUtils, Mesh, PlaneGeometry, Vector3 } from "three";
 import { UIEntry } from "./input-field";
 import { LabelParameters, UIOrientationType, ListParameters } from "./model";
 import { ThreeInteractive } from "three-flow";
@@ -129,7 +129,14 @@ export class UIList extends UIEntry implements Pagination {
 
     this.empty.position.copy(position)
 
-    const scrollbar = new UIScrollbar({ orientation, height: this.height }, interactive, options)
+    let slidersize: number
+    if (orientation == 'vertical')
+      slidersize = MathUtils.mapLinear(this.itemcount, 0, this.data.length, 0, this.height)
+    else
+      slidersize = MathUtils.mapLinear(this.itemcount, 0, this.data.length, 0, this.width)
+    const max = this.data.length - this.itemcount
+
+    const scrollbar = new UIScrollbar({ orientation, slidersize, max, height: this.height }, interactive, options)
     this.add(scrollbar)
     if (orientation == 'vertical') {
       scrollbar.position.x = (this.width - scrollbar.width) / 2
@@ -139,7 +146,6 @@ export class UIList extends UIEntry implements Pagination {
       scrollbar.position.y = this.height / 2 - 0.1
     scrollbar.paginate = this
 
-    scrollbar.max = this.data.length - this.itemcount
 
 
     itemWidth -= scrollbar.width / 2
