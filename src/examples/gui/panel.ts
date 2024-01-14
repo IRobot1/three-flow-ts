@@ -1,5 +1,5 @@
-import { BufferGeometry, ColorRepresentation, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Shape, ShapeGeometry } from "three";
-import { PanelParameters, UIOptions} from "./model";
+import { BufferGeometry, ColorRepresentation, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Shape, ShapeGeometry, Vector3 } from "three";
+import { PanelParameters, UIOptions } from "./model";
 import { FontCache } from "./cache";
 import { FlowMaterials, InteractiveEventType, RoundedRectangleBorderGeometry, RoundedRectangleShape } from "three-flow";
 
@@ -101,6 +101,8 @@ export class UIPanel extends Mesh {
   protected materials: FlowMaterials;
   protected clicking = false
   protected shape: Shape
+
+  dragging = false
 
   constructor(protected parameters: PanelParameters = {}, protected options: PanelOptions) {
     super()
@@ -214,6 +216,36 @@ export class UIPanel extends Mesh {
     requestAnimationFrame(() => {
       this._resizeGeometry()
     })
+
+    const gridSize = 0
+    const snapToGrid = (position: THREE.Vector3): THREE.Vector3 => {
+      if (gridSize > 0) {
+        // Assuming position is the position of the object being dragged
+        position.x = Math.round(position.x / gridSize) * gridSize;
+        position.y = Math.round(position.y / gridSize) * gridSize;
+        position.z = Math.round(position.z / gridSize) * gridSize;
+      }
+      return position;
+    }
+    let offset: Vector3
+    this.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
+      if (!this.draggable || !this.visible) return
+
+      // remember where in the mesh the mouse was clicked to avoid jump on first drag
+      offset = e.position.sub(this.position).clone()
+      document.body.style.cursor = 'grabbing'
+
+      this.dragging = true
+    });
+    this.addEventListener(InteractiveEventType.DRAGEND, () => { this.dragging = false });
+
+    this.addEventListener(InteractiveEventType.DRAG, (e: any) => {
+      if (!this.dragging || !this.draggable || !this.visible) return
+
+      let position = e.position.clone() as Vector3
+
+      this.position.copy(snapToGrid(e.position.sub(offset)))
+    });
 
 
   }
