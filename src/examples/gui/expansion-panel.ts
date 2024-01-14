@@ -19,7 +19,7 @@ export class UIExpansionPanel extends UITextButton {
 
   private indicator: Mesh
   constructor(parameters: ExpansionPanelParameters, interactive: ThreeInteractive, options: PanelOptions) {
-    // TODO: label maxwidth
+    parameters.disableScaleOnClick = true
     parameters.label.alignX = 'left'
     parameters.label.padding = 0.05
     parameters.panel.selectable = false

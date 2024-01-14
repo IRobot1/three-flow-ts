@@ -1,5 +1,5 @@
 import { MeshBasicMaterialParameters } from "three";
-import { FontCache} from "./cache";
+import { FontCache } from "./cache";
 import { FlowMaterials } from "three-flow";
 
 export interface PositionParameters {
@@ -86,8 +86,9 @@ export interface LabelParameters {
 }
 
 export interface ButtonParameters extends PanelParameters {
+  disableScaleOnClick?: boolean    // default is false
 }
-export interface TextButtonParameters extends PanelParameters {
+export interface TextButtonParameters extends ButtonParameters {
   label: LabelParameters
 }
 export interface TextEntryParameters extends PanelParameters {

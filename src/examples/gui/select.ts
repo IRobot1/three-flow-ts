@@ -13,7 +13,7 @@ export interface SelectParameters extends TextButtonParameters {
 export class UISelect extends UITextButton {
   private indicator: Mesh
   constructor(parameters: SelectParameters, interactive: ThreeInteractive, options: ButtonOptions) {
-    // TODO: label maxwidth
+    parameters.disableScaleOnClick = false
     parameters.label.alignX = 'left'
     parameters.label.padding = 0.05
     parameters.list.selectable = false

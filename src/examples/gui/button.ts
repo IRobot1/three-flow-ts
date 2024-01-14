@@ -29,15 +29,17 @@ export class UIButton extends UIEntry {
       interactive.selectable.remove(this)
     }
 
+    const scaleOnClick = parameters.disableScaleOnClick != undefined ? false : true
+
     const buttonDown = () => {
       if (this.clicking) return
-      this.scale.addScalar(-0.04);
+      if (scaleOnClick) this.scale.addScalar(-0.04);
       this.clicking = true;
     }
 
     const buttonUp = (generateEvent = false) => {
       if (!this.clicking) return
-      this.scale.addScalar(0.04);
+      if (scaleOnClick) this.scale.addScalar(0.04);
       if (generateEvent) this.pressed()
       this.clicking = false;
     }
