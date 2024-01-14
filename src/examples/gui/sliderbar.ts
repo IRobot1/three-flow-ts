@@ -222,4 +222,9 @@ export class UISliderbar extends UIEntry {
         break;
     }
   }
+
+  dispose() {
+    this.interactive.selectable.remove(this.slidermesh)
+    this.interactive.draggable.remove(this.slidermesh)
+  }
 }

@@ -25,10 +25,6 @@ export class UIButton extends UIEntry {
 
     this.name = parameters.id != undefined ? parameters.id : 'button'
 
-    this.dispose = () => {
-      interactive.selectable.remove(this)
-    }
-
     const scaleOnClick = parameters.disableScaleOnClick != undefined ? false : true
 
     const buttonDown = () => {
@@ -73,7 +69,9 @@ export class UIButton extends UIEntry {
     })
   }
 
-  dispose() { }
+  dispose() {
+    this.interactive.selectable.remove(this)
+  }
 
   override handleKeyDown(e: UIKeyboardEvent) {
     if (e.code == 'Enter')

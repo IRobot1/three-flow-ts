@@ -76,11 +76,15 @@ export class UIScrollbar extends UISliderbar {
       if (this.paginate) this.paginate.moveTo(this.value)
     })
 
-    this.dispose = () => {
+    this._dispose = () => {
       nextbutton.dispose()
       prevbutton.dispose()
     }
   }
 
-  dispose() { }
+  private _dispose: () => void
+  override dispose() {
+    super.dispose()
+    this._dispose()
+  }
 }

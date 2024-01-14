@@ -136,7 +136,7 @@ export class UIList extends UIEntry implements Pagination {
       slidersize = MathUtils.mapLinear(this.itemcount, 0, this.data.length, 0, this.width)
     const max = this.data.length - this.itemcount
 
-    const scrollbar = new UIScrollbar({ orientation, slidersize, max, height: this.height }, interactive, options)
+    const scrollbar = new UIScrollbar({ selectable: false,orientation, slidersize, max, height: this.height }, interactive, options)
     this.add(scrollbar)
     if (orientation == 'vertical') {
       scrollbar.position.x = (this.width - scrollbar.width) / 2
