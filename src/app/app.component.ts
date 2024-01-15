@@ -25,6 +25,7 @@ import { ConnectorsExample } from '../examples/connectors';
 import { TracksExample } from '../examples/track';
 import { StressExample } from '../examples/stress';
 import { GUIExample } from '../examples/gui/example';
+import { PropertiesExample } from '../examples/properties';
 
 
 @Component({
@@ -64,6 +65,7 @@ export class AppComponent {
       app.router.add('tracks', () => { return new TracksExample(app) })
       app.router.add('stress', () => { return new StressExample(app) })
       app.router.add('gui', () => { return new GUIExample(app) })
+      app.router.add('properties', () => { return new PropertiesExample(app) })
     })
   }
 }

@@ -359,6 +359,15 @@ export class GalleryExample {
       //    { id: "c1gui", anchor: 'top' },
       //  ],
       },
+      {
+        id: 'properties',
+        label: { text: "Properities" },
+        x: column8, y: row0,
+        assetimage: 'properties', route: 'properties',
+      //  connectors: [
+      //    { id: "c1gui", anchor: 'top' },
+      //  ],
+      },
     ];
 
 
