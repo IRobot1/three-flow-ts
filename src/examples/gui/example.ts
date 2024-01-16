@@ -6,19 +6,18 @@ import { FlowDiagram, FlowMaterials } from "three-flow";
 import { ListParameters } from "./model";
 import { FontCache } from "./cache";
 import { ButtonEventType } from "./button";
-import { InputManagerOptions, UIInputManager } from "./input-manager";
+import { KeyboardInteractionOptions, KeyboardInteraction } from "./keyboard-interaction";
 import { UITextEntry } from "./text-entry";
 import { UINumberEntry } from "./number-entry";
 import { UICheckBox } from "./checkbox";
 import { UIColorEntry } from "./color-entry";
-import { SliderbarEventType, UISliderbar } from "./sliderbar";
+import { SliderbarEventType } from "./sliderbar";
 import { UITextButton } from "./button-text";
 import { UILabel } from "./label";
 import { MenuParameters, UIMiniMenu } from "./mini-menu";
 import { SelectParameters, UISelect } from "./select";
 import { UIExpansionPanel } from "./expansion-panel";
 import { UIScrollbar } from "./scrollbar";
-import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
 
 export class GUIExample {
 
@@ -73,7 +72,7 @@ export class GUIExample {
 
     //new PanelInteraction(panel, app.interactive)
 
-    const options: InputManagerOptions = {
+    const options: KeyboardInteractionOptions = {
       fontCache: new FontCache(),
       materials: new FlowMaterials(),
       //selectedOffset: {axes:'y', offset:0},
@@ -134,7 +133,7 @@ export class GUIExample {
     label2.position.y = -0.1
 
 
-    const input = new UIInputManager(app, options)
+    const input = new KeyboardInteraction(app, options)
 
     const text1 = new UITextEntry({
       height: 0.3,

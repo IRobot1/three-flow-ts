@@ -9,7 +9,7 @@ export enum InputFieldEventType {
   DISABLE_CHANGED = 'disable_changed',
   TEXT_CHANGED = 'text_changed',
   KEYDOWN = 'keydown',
-  KEYUP = "KEYUP"
+  KEYUP = "keyup"
 }
 
 export interface InputField extends Mesh {

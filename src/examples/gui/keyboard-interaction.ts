@@ -9,13 +9,13 @@ export interface OffsetParameters {
   offset: number      // default is -0.03
 }
 
-export interface InputManagerOptions extends UIOptions {
+export interface KeyboardInteractionOptions extends UIOptions {
   selectedMaterial?: MeshBasicMaterialParameters
   showSelected?: boolean
   selectedOffset?: OffsetParameters
 }
 
-export class UIInputManager extends EventDispatcher {
+export class KeyboardInteraction extends EventDispatcher {
 
   private _selected: InputField | undefined
   get selected() { return this._selected }
@@ -69,7 +69,7 @@ export class UIInputManager extends EventDispatcher {
   private selectedMesh: Mesh
 
 
-  constructor(renderer: WebGLRenderer, options: InputManagerOptions = {}) {
+  constructor(renderer: WebGLRenderer, options: KeyboardInteractionOptions = {}) {
     super()
 
 
