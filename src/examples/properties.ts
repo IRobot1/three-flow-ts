@@ -1,32 +1,35 @@
 import { AmbientLight, AxesHelper, Color, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
+import { FlowMaterials } from "three-flow";
+
 import { ThreeJSApp } from "../app/threejs-app";
 import { GUI } from "./gui/gui";
 import { UIProperties } from "./gui/properties";
 import { UIOptions } from "./gui/model";
-import { FlowMaterials } from "../../projects/three-flow/src/public-api";
 import { FontCache } from "./gui/cache";
+import { KeyboardInteraction } from "./gui/keyboard-interaction";
 
 //
 // adapted from https://github.com/georgealways/lil-gui/blob/master/examples/kitchen-sink/kitchen-sink.js
 //
 
 class GUIData {
-  constructor(public gui: GUI, public position: number[], public expanded = false) { }
+  constructor(public gui: GUI, public x: number, public y: number, public z:number, public expanded = false) { }
 }
 
 
 export class PropertiesExample {
 
   dispose = () => { }
-  leftwall: Array<GUIData> = []
+  guis: Array<GUIData> = []
   constructor(app: ThreeJSApp) {
 
     const scene = new Scene()
     app.scene = scene
 
-    app.camera.position.z = 2
+    app.camera.position.y = 1.5
+    app.camera.position.z = 1
 
     scene.background = new Color(0x444444)
 
@@ -57,37 +60,37 @@ export class PropertiesExample {
     const z = -1.9
 
     const col1 = -2.6
-    this.makeNumbers([col1, 3, z], true);
-    this.makeImplicitStep([col1, 1.7, z], true);
-    this.makeExplicitStep([col1, 0.5, z], true);
+    this.makeNumbers(col1, 3, z, true);
+    this.makeImplicitStep(col1, 1.7, z, true);
+    this.makeExplicitStep(col1, 0.5, z, true);
 
     const col2 = -0.9
-    this.makeMiscNumbers([col2, 3, z], true);
-    this.makeOptions([col2, 1.7, z], true);
-    this.makeColors([col2, 0.5, z], true);
+    this.makeMiscNumbers(col2, 3, z, true);
+    this.makeOptions(col2, 1.7, z, true);
+    this.makeColors(col2, 0.5, z, true);
 
     const col3 = 0.9
-    this.makeColorStrings([col3, 3, z], true);
-    this.makeFolders([col3, 1.9, z], true);
-    this.makeNestedFolders([col3, 0.5, z], true);
+    this.makeColorStrings(col3, 3, z, true);
+    this.makeFolders(col3, 1.9, z, true);
+    this.makeNestedFolders(col3, 0.5, z, true);
 
     const col4 = 2.6
-    this.makeDisable([col4, 3, z], true);
-    this.makeListen([col4, 1.6, z], true);
-    this.makeOnChange([col4, 0.5, z], true);
+    this.makeDisable(col4, 3, z, true);
+    this.makeListen(col4, 1.6, z, true);
+    this.makeOnChange(col4, 0.5, z, true);
 
     const options: UIOptions = {
       materials: new FlowMaterials(),
-      fontCache: new FontCache()
+      fontCache: new FontCache(),
+      keyboard: new KeyboardInteraction(app)
     }
 
     //requestAnimationFrame(() => {
 
-      this.leftwall.forEach(data => {
+      this.guis.forEach(data => {
         const ui = new UIProperties({}, app.interactive, options, data.gui)
         scene.add(ui)
-        const p = data.position
-        ui.position.set(p[0], p[1], p[2])
+        ui.position.set(data.x, data.y, data.z)
       })
    // })
 
@@ -116,7 +119,7 @@ export class PropertiesExample {
     g.add({ x: function () { } }, 'x').name(`${nested}Button`);
   }
 
-  makeNumbers(position: number[], expanded: boolean) {
+  makeNumbers( x: number, y: number, z: number,  expanded: boolean) {
     const gui = this.make({ title: 'Numbers', width: 300 }, gui => {
 
       gui.add({ x: 0 }, 'x').name('No Parameters');
@@ -132,10 +135,10 @@ export class PropertiesExample {
 
     });
 
-    this.leftwall.push(new GUIData(gui, position, expanded));
+    this.guis.push(new GUIData(gui, x,y,z, expanded));
   }
 
-  makeImplicitStep(position: number[], expanded = false) {
+  makeImplicitStep(x: number, y: number, z: number, expanded = false) {
     const gui = this.make({ title: 'Implicit step', width: 300 }, gui => {
 
       const implicitStep = (min: number, max: number) => {
@@ -152,10 +155,10 @@ export class PropertiesExample {
       implicitStep(0, 1e32);
 
     });
-    this.leftwall.push(new GUIData(gui, position, expanded));
+    this.guis.push(new GUIData(gui, x,y,z, expanded));
   }
 
-  makeExplicitStep(position: number[], expanded = false) {
+  makeExplicitStep(x: number, y: number, z: number, expanded = false) {
     const gui = this.make({ title: 'Explicit step', width: 300 }, gui => {
 
       const explicitStep = (min: number, max: number, step: number, label: string = step.toString()) => {
@@ -170,10 +173,10 @@ export class PropertiesExample {
       explicitStep(0, 5, 1 / 3, '1/3');
 
     });
-    this.leftwall.push(new GUIData(gui, position, expanded));
+    this.guis.push(new GUIData(gui, x, y, z, expanded));
   }
 
-  makeMiscNumbers(position: number[], expanded = false) {
+  makeMiscNumbers(x: number, y: number, z: number, expanded = false) {
     const gui = this.make({ title: 'Numbers Misc.', width: 300 }, gui => {
 
       let folder = gui.addFolder('Out of bounds');
@@ -200,10 +203,10 @@ export class PropertiesExample {
 
     });
 
-    this.leftwall.push(new GUIData(gui, position, expanded));
+    this.guis.push(new GUIData(gui, x, y, z, expanded));
   }
 
-  makeOptions(position: number[], expanded = false) {
+  makeOptions(x: number, y: number, z: number, expanded = false) {
     const gui = this.make({ title: 'Options', width: 300 }, gui => {
 
       gui.add({ x: 0 }, 'x', [0, 1, 2]).name('Array');
@@ -216,10 +219,10 @@ export class PropertiesExample {
 
     });
 
-    this.leftwall.push(new GUIData(gui, position, expanded));
+    this.guis.push(new GUIData(gui, x, y, z, expanded));
   }
 
-  makeColors(position: number[], expanded = false) {
+  makeColors(x: number, y: number, z: number, expanded = false) {
     const gui = this.make({ title: 'Colors', width: 300 }, gui => {
 
       const colorString = (str: string) => gui.addColor({ x: str }, 'x').name(`"${str}"`);
@@ -233,10 +236,10 @@ export class PropertiesExample {
 
     });
 
-    this.leftwall.push(new GUIData(gui, position, expanded));
+    this.guis.push(new GUIData(gui, x, y, z, expanded));
   }
 
-  makeColorStrings(position: number[], expanded = false) {
+  makeColorStrings(x: number, y: number, z: number, expanded = false) {
     const gui = this.make({ title: 'Color Strings', width: 300 }, gui => {
 
       gui.addColor({ x: 0xaa00ff }, 'x').name('Hex Integer');
@@ -250,10 +253,10 @@ export class PropertiesExample {
 
     });
 
-    this.leftwall.push(new GUIData(gui, position, expanded));
+    this.guis.push(new GUIData(gui, x, y, z, expanded));
   }
 
-  makeFolders(position: number[], expanded = false) {
+  makeFolders(x: number, y: number, z: number, expanded = false) {
     const gui = this.make({ title: 'Folders', width: 300 }, gui => {
 
       const folder1 = gui.addFolder('Folder');
@@ -269,10 +272,10 @@ export class PropertiesExample {
 
     });
 
-    this.leftwall.push(new GUIData(gui, position, expanded));
+    this.guis.push(new GUIData(gui, x, y, z, expanded));
   }
 
-  makeNestedFolders(position: number[], expanded = false) {
+  makeNestedFolders(x: number, y: number, z: number, expanded = false) {
     const gui = this.make({ title: 'Nested Folders', width: 300 }, gui => {
 
       const folder3 = gui.addFolder('Folder');
@@ -289,10 +292,10 @@ export class PropertiesExample {
 
     });
 
-    this.leftwall.push(new GUIData(gui, position, expanded));
+    this.guis.push(new GUIData(gui, x, y, z, expanded));
   }
 
-  makeDisable(position: number[], expanded = false) {
+  makeDisable(x: number, y: number, z: number, expanded = false) {
     const gui = this.make({ title: 'Disable', width: 300 }, gui => {
 
       gui.add({ Number: 0 }, 'Number').disable().enable();
@@ -318,10 +321,10 @@ export class PropertiesExample {
 
     });
 
-    this.leftwall.push(new GUIData(gui, position, expanded));
+    this.guis.push(new GUIData(gui, x, y, z, expanded));
   }
 
-  makeListen(position: number[], expanded = false) {
+  makeListen(x: number, y: number, z: number, expanded = false) {
     const gui = this.make({ title: 'Listen', width: 300 }, gui => {
 
       const params = { animate: false };
@@ -363,10 +366,10 @@ export class PropertiesExample {
 
     });
 
-    this.leftwall.push(new GUIData(gui, position, expanded));
+    this.guis.push(new GUIData(gui, x, y, z, expanded));
   }
 
-  makeOnChange(position: number[], expanded = false) {
+  makeOnChange(x: number, y: number, z: number, expanded = false) {
     const gui = this.make({ title: 'onChange', width: 300 }, gui => {
 
       const tallies = { onChange: 0, onFinishChange: 0 };
@@ -407,7 +410,7 @@ export class PropertiesExample {
 
     });
 
-    this.leftwall.push(new GUIData(gui, position, expanded));
+    this.guis.push(new GUIData(gui, x, y, z, expanded));
   }
 
 

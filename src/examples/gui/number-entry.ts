@@ -15,6 +15,8 @@ export class UINumberEntry extends UITextEntry {
   protected _value = NaN
   get value() { return this._value }
   set value(newvalue: number) {
+    if (newvalue == undefined) return
+
     if (this._value != newvalue) {
       // avoid recursion by calling this.text
       const text = newvalue.toFixed(this.decimals)
@@ -39,9 +41,11 @@ export class UINumberEntry extends UITextEntry {
   set minvalue(newvalue: number) {
     if (newvalue == undefined) return
 
-    this._minvalue = newvalue;
-    if (!this.inRange(this.text, newvalue, this.maxvalue))
-      this.text = newvalue.toString()
+    if (this._minvalue != newvalue) {
+      this._minvalue = newvalue;
+      if (!this.inRange(this.text, newvalue, this.maxvalue))
+        this.text = newvalue.toString()
+    }
   }
 
   private _maxvalue = Infinity
@@ -49,18 +53,21 @@ export class UINumberEntry extends UITextEntry {
   set maxvalue(newvalue: number) {
     if (newvalue == undefined) return
 
-    this._maxvalue = newvalue;
-    if (!this.inRange(this.text, this.minvalue, newvalue))
-      this.text = newvalue.toString()
+    if (this._maxvalue != newvalue) {
 
-    let cur = this.value;
-    let decimals = 0
-    while (Math.floor(cur) !== cur) {
-      cur *= 10
-      decimals++
+      this._maxvalue = newvalue;
+      if (!this.inRange(this.text, this.minvalue, newvalue))
+        this.text = newvalue.toString()
+
+      let cur = this.value;
+      let decimals = 0
+      while (Math.floor(cur) !== cur) {
+        cur *= 10
+        decimals++
+      }
+
+      if (this.decimals == undefined || decimals > this.decimals) this.decimals = decimals + 1
     }
-
-    if (this.decimals == undefined || decimals > this.decimals) this.decimals = decimals + 1
   }
 
   public decimals: number | undefined
@@ -70,32 +77,36 @@ export class UINumberEntry extends UITextEntry {
 
     this.name = parameters.id != undefined ? parameters.id : 'number-entry'
 
+    if (parameters.min != undefined) this.minvalue = parameters.min
+    if (parameters.max != undefined) this.maxvalue = parameters.max
+    this.decimals = parameters.decimals
+
     this.value = parameters.initialvalue != undefined ? parameters.initialvalue : 0
   }
 
 
-  override filter(entry: UITextEntry, e: KeyboardEvent) {
+  override filter(e: KeyboardEvent) {
     let allow = false
 
     if ('-+'.includes(e.key)) {
       // can start with +-
-      if (entry.text.length == 0)
+      if (this.text.length == 0)
         allow = true
       else {
         // or can appear after exponent
-        const last = entry.text.slice(-1)
+        const last = this.text.slice(-1)
         if (last == 'e' || last == 'E')
           allow = true
       }
     }
     else if ('.'.includes(e.key)) {
       // only allow one period
-      if (!entry.text.includes('.'))
+      if (!this.text.includes('.'))
         allow = true
     }
     else if ('eE'.includes(e.key)) {
       // only allow one exponent
-      if (!entry.text.includes('e') && !entry.text.includes('E'))
+      if (!this.text.includes('e') && !this.text.includes('E'))
         allow = true
     }
     // confirm its a digit
@@ -103,7 +114,7 @@ export class UINumberEntry extends UITextEntry {
       allow = true
     }
 
-    if (allow) entry.text += e.key
+    if (allow) this.text += e.key
   }
 
 

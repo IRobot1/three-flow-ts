@@ -98,6 +98,8 @@ export class UITextEntry extends UIEntry implements InputField {
   }
 
   override handleKeyDown(e: UIKeyboardEvent) {
+    if (this.disabled) return
+
     if (e.code == 'Backspace')
       this.text = this.text.slice(0, -1)
 
@@ -118,13 +120,13 @@ export class UITextEntry extends UIEntry implements InputField {
     }
 
     else if (e.key.length == 1)
-      this.filter(this, e)
+      this.filter(e)
   }
 
 
 
-  filter(entry: UITextEntry, e: UIKeyboardEvent) {
-    entry.text += e.key
+  filter(e: UIKeyboardEvent) {
+    this.text += e.key
   }
 }
 

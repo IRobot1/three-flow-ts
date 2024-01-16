@@ -1,6 +1,7 @@
 import { MeshBasicMaterialParameters } from "three";
 import { FontCache } from "./cache";
 import { FlowMaterials } from "three-flow";
+import { KeyboardInteraction } from "./keyboard-interaction";
 
 export interface PositionParameters {
   x?: number | undefined // default is 0
@@ -99,7 +100,12 @@ export interface TextEntryParameters extends PanelParameters {
 }
 export interface NumberEntryParameters extends TextEntryParameters {
   initialvalue?: number
+  min?: number
+  max?: number
+  decimals?: number
+  disabled?: boolean
 }
+
 export interface CheckboxParameters extends PanelParameters {
   checked?: boolean
   checkmaterial?: MeshBasicMaterialParameters
@@ -135,4 +141,5 @@ export interface ListParameters extends PanelParameters {
 export interface UIOptions {
   fontCache?: FontCache
   materials?: FlowMaterials
+  keyboard?: KeyboardInteraction
 }

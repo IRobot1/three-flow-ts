@@ -1,21 +1,21 @@
+import { Object3D } from "three";
 
 import { ThreeInteractive } from "three-flow";
 import { PanelOptions, UIPanel } from "./panel";
-import { ButtonParameters, CheckboxParameters, ColorEntryParameters, LabelParameters, ListParameters, NumberEntryParameters, PanelParameters, SliderbarParameters, TextButtonParameters, TextEntryParameters } from "./model";
 import { Controller, GUI } from "./gui";
-import { ButtonEventType, UIButton } from "./button";
+import { CheckboxParameters, ColorEntryParameters, LabelParameters, ListParameters, NumberEntryParameters, PanelParameters, SliderbarParameters, TextButtonParameters, TextEntryParameters } from "./model";
+import { ButtonEventType } from "./button";
 import { UITextButton } from "./button-text";
-import { InteractiveEventType } from "../../../dist/three-flow/fesm2020/three-flow-js.mjs";
-import { Object3D, Vector3 } from "three";
 import { ExpansionPanelParameters, UIExpansionPanel } from "./expansion-panel";
 import { UILabel } from "./label";
 import { SliderbarEventType, UISliderbar } from "./sliderbar";
 import { NumberEntryEventType, UINumberEntry } from "./number-entry";
 import { UITextEntry } from "./text-entry";
-import { InputFieldEventType } from "./input-field";
+import { InputField, InputFieldEventType } from "./input-field";
 import { CheckboxEventType, UICheckBox } from "./checkbox";
 import { SelectParameters, UISelect } from "./select";
 import { UIColorEntry } from "./color-entry";
+import { KeyboardInteraction } from "./keyboard-interaction";
 
 export interface PropertiesParameters extends PanelParameters {
   spacing?: number             // defaults to 0.01
@@ -23,6 +23,8 @@ export interface PropertiesParameters extends PanelParameters {
 
 export class UIProperties extends UIPanel {
   private spacing: number
+  private inputs: Array<InputField> = []
+
   constructor(parameters: PropertiesParameters, protected interactive: ThreeInteractive, options: PanelOptions, gui: GUI) {
     super(parameters, options)
 
@@ -31,6 +33,8 @@ export class UIProperties extends UIPanel {
     this.height = (this.spacing + 0.1) * gui.list.length + this.spacing
 
     this.addFolder(this, gui)
+
+    if (options.keyboard) options.keyboard.add(...this.inputs)
   }
 
   addFolder(parent: Object3D, gui: GUI): number {
@@ -59,7 +63,7 @@ export class UIProperties extends UIPanel {
       })
       parent.add(textbutton)
       textbutton.position.set(0, y, 0.001)
-      return
+      this.inputs.push(textbutton)
     }
     else if (controller.classname == 'folder') {
       const params: ExpansionPanelParameters = {
@@ -79,7 +83,7 @@ export class UIProperties extends UIPanel {
       expansionPanel.panel.height = this.addFolder(expansionPanel.panel, controller.object as GUI)
       parent.add(expansionPanel)
       expansionPanel.position.set(0, y, 0.001)
-      return
+      this.inputs.push(expansionPanel)
     }
 
     const labelparams: LabelParameters = {
@@ -97,6 +101,7 @@ export class UIProperties extends UIPanel {
       case 'number': {
         const hasrange = (controller._min || controller._max)
         let width = this.width / 2 - this.spacing * 2
+
         //let slider: UISlider
         if (hasrange) {
           width -= width / 2 //+ this.spacing
@@ -119,7 +124,7 @@ export class UIProperties extends UIPanel {
             //    this.numbervalue = e.value
             //    numberentry.value = e.value
           })
-
+          this.inputs.push(sliderbar)
         }
 
         const numberparams: NumberEntryParameters = {
@@ -143,6 +148,7 @@ export class UIProperties extends UIPanel {
           //  this.numbervalue = e.value
           //  if (slider) slider.value = e.value
         })
+        this.inputs.push(numberentry)
         break
       }
 
@@ -163,6 +169,7 @@ export class UIProperties extends UIPanel {
           //this.textvalue = e.value
         })
 
+        this.inputs.push(textentry)
         break
       }
 
@@ -170,7 +177,7 @@ export class UIProperties extends UIPanel {
         const checkboxwidth = 0.1
         const params: CheckboxParameters = {
           checked: false, // this.boolvalue
-        //disabled : !controller.enabled,
+          //disabled : !controller.enabled,
           width: checkboxwidth,
         }
         const checkbox = new UICheckBox(params, this.interactive, this.options)
@@ -180,6 +187,7 @@ export class UIProperties extends UIPanel {
         checkbox.addEventListener(CheckboxEventType.CHECKED_CHANGED, (e) => {
           //this.boolvalue = e.checked
         })
+        this.inputs.push(checkbox)
         break
       }
 
@@ -214,18 +222,19 @@ export class UIProperties extends UIPanel {
         //  this.listvalue = e.text
         //})
 
+        this.inputs.push(select)
         break
       }
 
       case 'color': {
-        const width = this.width / 4 - this.spacing *2
+        const width = this.width / 4 - this.spacing * 2
 
-                //let color = this.normalizeColorString(this.colorvalue, controller.rgbscale)
+        //let color = this.normalizeColorString(this.colorvalue, controller.rgbscale)
         //this.colorvalue = colorentry.text = textentry.text = color
 
         const colorparams: ColorEntryParameters = {
-          width  ,
-        //disabled : !controller.enabled,
+          width,
+          //disabled : !controller.enabled,
           fill: { color: 'red' }
         }
         const colorentry = new UIColorEntry(colorparams, this.interactive, this.options)
@@ -248,9 +257,10 @@ export class UIProperties extends UIPanel {
         textentry.position.set(this.spacing * 2 + width * 1.5, y, 0.001)
         parent.add(textentry)
         textentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e) => {
-        //  this.colorvalue = e.value
+          //  this.colorvalue = e.value
         })
 
+        this.inputs.push(colorentry, textentry)
         break
       }
 
@@ -258,8 +268,5 @@ export class UIProperties extends UIPanel {
         //console.warn('unhandled class', controller.classname)
         break
     }
-
-
-
   }
 }
