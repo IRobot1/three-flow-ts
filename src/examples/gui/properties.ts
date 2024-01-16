@@ -1,7 +1,7 @@
 
 import { ThreeInteractive } from "three-flow";
 import { PanelOptions, UIPanel } from "./panel";
-import { ButtonParameters, LabelParameters, PanelParameters, TextButtonParameters } from "./model";
+import { ButtonParameters, CheckboxParameters, ColorEntryParameters, LabelParameters, ListParameters, NumberEntryParameters, PanelParameters, SliderbarParameters, TextButtonParameters, TextEntryParameters } from "./model";
 import { Controller, GUI } from "./gui";
 import { ButtonEventType, UIButton } from "./button";
 import { UITextButton } from "./button-text";
@@ -9,6 +9,13 @@ import { InteractiveEventType } from "../../../dist/three-flow/fesm2020/three-fl
 import { Object3D, Vector3 } from "three";
 import { ExpansionPanelParameters, UIExpansionPanel } from "./expansion-panel";
 import { UILabel } from "./label";
+import { SliderbarEventType, UISliderbar } from "./sliderbar";
+import { NumberEntryEventType, UINumberEntry } from "./number-entry";
+import { UITextEntry } from "./text-entry";
+import { InputFieldEventType } from "./input-field";
+import { CheckboxEventType, UICheckBox } from "./checkbox";
+import { SelectParameters, UISelect } from "./select";
+import { UIColorEntry } from "./color-entry";
 
 export interface PropertiesParameters extends PanelParameters {
   spacing?: number             // defaults to 0.01
@@ -36,25 +43,29 @@ export class UIProperties extends UIPanel {
   }
 
   addChild(parent: Object3D, controller: Controller, y: number) {
+    const size = 0.04
+
     if (controller.classname == 'function') {
-      const disabled = !controller.enabled
       const params: TextButtonParameters = {
         label: {
-          text: controller.title, maxwidth: this.parameters.width,
+          text: controller.title, maxwidth: this.parameters.width, size,
         },
+        //disabled: !controller.enable,
+        fill: { color: 'gray' }
       }
       const textbutton = new UITextButton(params, this.interactive, this.options)
       textbutton.addEventListener(ButtonEventType.BUTTON_PRESSED, () => {
         controller.execute()
       })
       parent.add(textbutton)
-      textbutton.position.y = y
+      textbutton.position.set(0, y, 0.001)
       return
     }
     else if (controller.classname == 'folder') {
       const params: ExpansionPanelParameters = {
-        expanded: true,
-        label: { text: controller.title },
+        expanded: false,
+        label: { text: controller.title, size },
+        fill: { color: 'gray' },
         panel: {
           fill: { color: 'blue' }
         }
@@ -67,167 +78,179 @@ export class UIProperties extends UIPanel {
 
       expansionPanel.panel.height = this.addFolder(expansionPanel.panel, controller.object as GUI)
       parent.add(expansionPanel)
-      expansionPanel.position.y = y
+      expansionPanel.position.set(0, y, 0.001)
       return
     }
 
     const labelparams: LabelParameters = {
       alignX: 'left',
-      //alignY: 'middle',
       maxwidth: this.width,
       text: controller.title,
+      size
     }
     const label = new UILabel(labelparams, this.options)
-    label.position.set(-this.width/2 , y, 0.001)
+    label.position.set(-this.width / 2 + this.spacing, y, 0.001)
     parent.add(label)
 
     switch (controller.classname) {
 
       case 'number': {
         const hasrange = (controller._min || controller._max)
-
+        let width = this.width / 2 - this.spacing * 2
         //let slider: UISlider
-        //if (hasrange) {
-        //  width /= 2
-        //  const slidersize: SliderSize = { width, height: 0.1, radius: size.radius, depth: size.depth }
-        //  const thumbsize: ThumbSize = { width: 0.04, height: 0.1, radius: size.radius, depth: size.depth }
-        //  slider = new UISlider(this.render, this.theme, slidersize, 0.02, thumbsize)
-        //  slider.min = controller._min as number
-        //  slider.max = controller._max as number
-        //  slider.step = controller._step as number
-        //  slider.disabled = !controller.enabled
-        //  slider.value = this.numbervalue
+        if (hasrange) {
+          width -= width / 2 //+ this.spacing
+          const sliderparams: SliderbarParameters = {
+            width: width,
+            slidersize: 0.03,
+            min: controller._min as number,
+            max: controller._max as number,
+            step: controller._step as number,
+            //disabled : !controller.enabled,
+            //value : this.numbervalue
+            fill: { color: 'gray' }
+          }
 
-        //  slider.addEventListener<SliderValueEvent>(SliderEventType.SLIDER_VALUE, (e) => {
-        //    this.numbervalue = e.value
-        //    numberentry.value = e.value
-        //  })
-        //  this.interact.selectable.add(slider)
-        //  this.interact.draggable.add(slider)
-        //  this.input.add(slider)
-        //  horizontal.add(slider)
-        //}
+          const sliderbar = new UISliderbar(sliderparams, this.interactive, this.options)
+          this.add(sliderbar)
+          sliderbar.position.set(this.spacing + width / 2, y, 0.001)
+          parent.add(sliderbar)
+          sliderbar.addEventListener<any>(SliderbarEventType.VALUE_CHANGED, (e: any) => {
+            //    this.numbervalue = e.value
+            //    numberentry.value = e.value
+          })
 
-        //const numbersize: NumberEntrySize = { width, radius: size.radius, depth: size.depth }
-        //const numberentry = new UINumberEntry(this.render, this.theme, numbersize)
-        //numberentry.value = this.numbervalue
-        //numberentry.decimals = controller._decimals
-        //numberentry.disabled = !controller.enabled
-        //numberentry.minvalue = controller._min as number
-        //numberentry.maxvalue = controller._max as number
+        }
 
-        //this.item.updateDisplay = () => {
-        //  if (this.numbervalue != numberentry.value) {
-        //    numberentry.value = this.numbervalue
-        //    if (hasrange) slider.value = numberentry.value
-        //  }
-        //}
+        const numberparams: NumberEntryParameters = {
+          initialvalue: 0,
+          width: width - this.spacing,
+          label: { size },
+          //decimals : controller._decimals
+          //disabled : !controller.enabled
+          //min: controller._min as number,
+          //max: controller._max as number,
+          fill: { color: 'gray' }
+        }
+        const numberentry = new UINumberEntry(numberparams, this.interactive, this.options)
+        if (hasrange)
+          numberentry.position.set(this.spacing * 2 + width * 1.5, y, 0.001)
+        else
+          numberentry.position.set(this.spacing + width / 2, y, 0.001)
+        parent.add(numberentry)
 
-        //numberentry.addEventListener<NumberValueEvent>(NumberEntryEventType.NUMBER_VALUE_CHANGE, (e) => {
-        //  this.numbervalue = e.value
-        //  if (slider) slider.value = e.value
-        //})
-        //this.interact.selectable.add(numberentry)
-        //this.input.add(numberentry)
-        //horizontal.add(numberentry)
+        numberentry.addEventListener(NumberEntryEventType.VALUE_CHANGED, (e) => {
+          //  this.numbervalue = e.value
+          //  if (slider) slider.value = e.value
+        })
         break
       }
 
       case 'string': {
-        //const textsize: TextEntrySize = { width: width, radius: size.radius, depth: size.depth }
-        //const textentry = new UITextEntry(this.render, this.theme, textsize)
-        //textentry.text = this.textvalue
-        //textentry.disabled = !controller.enabled
+        const params: TextEntryParameters = {
+          width: this.width / 2 - this.spacing * 2,
+          label: {
+            text: 'test' // this.textvalue
+          },
+          //disabled : !controller.enabled
+          fill: { color: 'gray' }
+        }
 
-        //this.item.updateDisplay = () => {
-        //  if (this.textvalue != textentry.text) {
-        //    textentry.text = this.textvalue
-        //  }
-        //}
-        //textentry.addEventListener<TextValueEvent>(TextEntryEventType.TEXT_VALUE_CHANGE, (e) => {
-        //  this.textvalue = e.value
-        //})
-        //this.interact.selectable.add(textentry)
-        //this.input.add(textentry)
-        //horizontal.add(textentry)
+        const textentry = new UITextEntry(params, this.interactive, this.options)
+        textentry.position.set(this.width / 4, y, 0.001)
+        parent.add(textentry)
+        textentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e) => {
+          //this.textvalue = e.value
+        })
+
         break
       }
 
       case 'boolean': {
-        //const checkboxsize: CheckboxSize = { width_height: 0.1, radius: size.radius, depth: size.depth }
-        //const checkbox = new UICheckbox(this.render, this.theme, checkboxsize)
-        //checkbox.checked = this.boolvalue
-        //checkbox.disabled = !controller.enabled
+        const checkboxwidth = 0.1
+        const params: CheckboxParameters = {
+          checked: false, // this.boolvalue
+        //disabled : !controller.enabled,
+          width: checkboxwidth,
+        }
+        const checkbox = new UICheckBox(params, this.interactive, this.options)
+        checkbox.position.set(this.spacing + checkboxwidth / 2, y, 0.001)
+        parent.add(checkbox)
 
-        //this.item.updateDisplay = () => {
-        //  if (this.boolvalue != checkbox.checked) {
-        //    checkbox.checked = this.boolvalue
-        //  }
-        //}
-        //checkbox.addEventListener<CheckboxCheckedEvent>(CheckboxEventType.CHECKBOX_CHECKED, (e) => {
-        //  this.boolvalue = e.checked
-        //})
-        //this.interact.selectable.add(checkbox)
-        //const mesh = new Mesh(new PlaneGeometry(width, 0.1), new MeshBasicMaterial({ transparent: true, opacity: 0 }))
-        //mesh.add(checkbox)
-        //horizontal.add(mesh)
+        checkbox.addEventListener(CheckboxEventType.CHECKED_CHANGED, (e) => {
+          //this.boolvalue = e.checked
+        })
         break
       }
 
       case 'options': {
-        //const list = new UIList(this.render, this.theme, this.interact.selectable)
-        //list.itemcount = 5
-        //list.data = controller._min
-        //this.interact.selectable.add(list)
+        const listparams: ListParameters = {
+          width: this.width / 2 - this.spacing * 2,
+          data: controller._min,
+          //field: 'text',
+          //orientation: 'vertical',
+          //itemheight: 0.3,
+          itemcount: 5,
+        }
 
-        //const selectsize: ButtonSize = { width, height: 0.1, radius: size.radius, depth: size.depth }
-        //const selectentry = new UISelectEntry(this.render, this.theme, list, selectsize)
-        //selectentry.text = this.listvalue
+        const selectparams: SelectParameters = {
+          width: this.width / 2 - this.spacing * 2,
+          label: {
+            text: 'Choose a Story', // this.listvalue
+            size
+          },
+          list: listparams,
+          //initialselected: 'Battling In The River'
+        }
+        const select = new UISelect(selectparams, this.interactive, this.options)
+        parent.add(select)
+        select.position.set(this.width / 4, y, 0.001)
 
-        //this.item.updateDisplay = () => {
-        //  if (this.listvalue != selectentry.text) {
-        //    selectentry.text = this.listvalue
-        //  }
-        //}
+        select.selected = (data: any) => {
+          console.warn('selected', data)
+        }
 
         //selectentry.addEventListener<SelectChangeEvent>(SelectEventType.SELECT_CHANGE, (e) => {
         //  this.listvalue = e.text
         //})
 
-        //this.interact.selectable.add(selectentry)
-        //this.input.add(selectentry)
-        //horizontal.add(selectentry)
         break
       }
 
       case 'color': {
-        //width /= 2
-        //const colorentry = new UIColorEntry(this.render, this.theme, this.input.colorpicker, this.colorvalue, { width, radius: size.radius, depth: size.depth });
-        //colorentry.disabled = !controller.enabled
+        const width = this.width / 4 - this.spacing *2
 
-
-        //this.interact.selectable.add(colorentry)
-        //this.input.add(colorentry)
-        //horizontal.add(colorentry)
-
-        //const textsize: TextEntrySize = { width, radius: size.radius, depth: size.depth }
-        //const textentry = new UITextEntry(this.render, this.theme, textsize)
-
-        //let color = this.normalizeColorString(this.colorvalue, controller.rgbscale)
+                //let color = this.normalizeColorString(this.colorvalue, controller.rgbscale)
         //this.colorvalue = colorentry.text = textentry.text = color
 
-        //this.item.updateDisplay = () => {
-        //  if (this.colorvalue != colorentry.text) {
-        //    color = this.normalizeColorString(this.colorvalue, controller.rgbscale)
-        //    colorentry.text = textentry.text = color
-        //  }
-        //}
+        const colorparams: ColorEntryParameters = {
+          width  ,
+        //disabled : !controller.enabled,
+          fill: { color: 'red' }
+        }
+        const colorentry = new UIColorEntry(colorparams, this.interactive, this.options)
+        colorentry.position.set(this.spacing + width / 2, y, 0.001)
+        parent.add(colorentry)
+        colorentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e) => {
+          //  textentry.text = this.colorvalue = e.value
+        })
 
-        //colorentry.addEventListener<ColorValueEvent>(ColorEntryEventType.COLOR_VALUE_CHANGE, (e) => {
-        //  textentry.text = this.colorvalue = e.value
-        //})
+        const params: TextEntryParameters = {
+          width,
+          label: {
+            text: 'test' // this.colorvalue
+          },
+          //disabled : !controller.enabled
+          fill: { color: 'gray' }
+        }
 
-        //horizontal.add(textentry)
+        const textentry = new UITextEntry(params, this.interactive, this.options)
+        textentry.position.set(this.spacing * 2 + width * 1.5, y, 0.001)
+        parent.add(textentry)
+        textentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e) => {
+        //  this.colorvalue = e.value
+        })
+
         break
       }
 
