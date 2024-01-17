@@ -2,6 +2,7 @@ import { MeshBasicMaterialParameters } from "three";
 import { FontCache } from "./cache";
 import { FlowMaterials } from "three-flow";
 import { KeyboardInteraction } from "./keyboard-interaction";
+import { InputField } from "./input-field";
 
 export interface PositionParameters {
   x?: number | undefined // default is 0
@@ -102,6 +103,7 @@ export interface NumberEntryParameters extends TextEntryParameters {
   initialvalue?: number
   min?: number
   max?: number
+  step?: number
   decimals?: number
   disabled?: boolean
 }
@@ -122,6 +124,7 @@ export interface SliderbarParameters extends PanelParameters {
   sliderradius?: number
   slidermaterial?: MeshBasicMaterialParameters
   orientation?: UIOrientationType // default is horizontal
+  disabled?: boolean              // default is false
 }
 
 

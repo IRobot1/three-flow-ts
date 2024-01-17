@@ -62,22 +62,22 @@ export class PropertiesExample {
     const col1 = -2.6
     this.makeNumbers(col1, 3, z, true);
     this.makeImplicitStep(col1, 1.7, z, true);
-    this.makeExplicitStep(col1, 0.5, z, true);
+    //this.makeExplicitStep(col1, 0.5, z, true);
 
-    const col2 = -0.9
-    this.makeMiscNumbers(col2, 3, z, true);
-    this.makeOptions(col2, 1.7, z, true);
-    this.makeColors(col2, 0.5, z, true);
+    //const col2 = -0.9
+    //this.makeMiscNumbers(col2, 3, z, true);
+    //this.makeOptions(col2, 1.7, z, true);
+    //this.makeColors(col2, 0.5, z, true);
 
-    const col3 = 0.9
-    this.makeColorStrings(col3, 3, z, true);
-    this.makeFolders(col3, 1.9, z, true);
-    this.makeNestedFolders(col3, 0.5, z, true);
+    //const col3 = 0.9
+    //this.makeColorStrings(col3, 3, z, true);
+    //this.makeFolders(col3, 1.9, z, true);
+    //this.makeNestedFolders(col3, 0.5, z, true);
 
-    const col4 = 2.6
-    this.makeDisable(col4, 3, z, true);
-    this.makeListen(col4, 1.6, z, true);
-    this.makeOnChange(col4, 0.5, z, true);
+    //const col4 = 2.6
+    //this.makeDisable(col4, 3, z, true);
+    //this.makeListen(col4, 1.6, z, true);
+    //this.makeOnChange(col4, 0.5, z, true);
 
     const options: UIOptions = {
       materials: new FlowMaterials(),

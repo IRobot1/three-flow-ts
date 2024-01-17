@@ -102,7 +102,7 @@ export class UIProperties extends UIPanel {
         const hasrange = (controller._min || controller._max)
         let width = this.width / 2 - this.spacing * 2
 
-        //let slider: UISlider
+        let sliderbar: UISliderbar
         if (hasrange) {
           width -= width / 2 //+ this.spacing
           const sliderparams: SliderbarParameters = {
@@ -111,30 +111,30 @@ export class UIProperties extends UIPanel {
             min: controller._min as number,
             max: controller._max as number,
             step: controller._step as number,
-            //disabled : !controller.enabled,
-            //value : this.numbervalue
+            disabled: !controller.enabled,
+            initialvalue: controller.getValue(),
             fill: { color: 'gray' }
           }
 
-          const sliderbar = new UISliderbar(sliderparams, this.interactive, this.options)
+          sliderbar = new UISliderbar(sliderparams, this.interactive, this.options)
           this.add(sliderbar)
           sliderbar.position.set(this.spacing + width / 2, y, 0.001)
           parent.add(sliderbar)
           sliderbar.addEventListener<any>(SliderbarEventType.VALUE_CHANGED, (e: any) => {
-            //    this.numbervalue = e.value
-            //    numberentry.value = e.value
+            numberentry.value = e.value
           })
           this.inputs.push(sliderbar)
         }
 
         const numberparams: NumberEntryParameters = {
-          initialvalue: 0,
+          initialvalue: controller.getValue(),
           width: width - this.spacing,
           label: { size },
-          //decimals : controller._decimals
-          //disabled : !controller.enabled
-          //min: controller._min as number,
-          //max: controller._max as number,
+          decimals: controller._decimals,
+          disabled: !controller.enabled,
+          min: controller._min as number,
+          max: controller._max as number,
+          step: controller._step as number,
           fill: { color: 'gray' }
         }
         const numberentry = new UINumberEntry(numberparams, this.interactive, this.options)
@@ -144,9 +144,8 @@ export class UIProperties extends UIPanel {
           numberentry.position.set(this.spacing + width / 2, y, 0.001)
         parent.add(numberentry)
 
-        numberentry.addEventListener(NumberEntryEventType.VALUE_CHANGED, (e) => {
-          //  this.numbervalue = e.value
-          //  if (slider) slider.value = e.value
+        numberentry.addEventListener(NumberEntryEventType.VALUE_CHANGED, (e: any) => {
+          if (sliderbar) sliderbar.value = e.value
         })
         this.inputs.push(numberentry)
         break

@@ -2,6 +2,8 @@ import { ThreeInteractive } from "three-flow"
 
 import { TextOptions, UITextEntry } from "./text-entry"
 import { NumberEntryParameters } from "./model"
+import { UIKeyboardEvent } from "./keyboard"
+import { InputFieldEventType } from "./input-field"
 
 export enum NumberEntryEventType {
   VALUE_CHANGED = 'value_changed',
@@ -18,9 +20,9 @@ export class UINumberEntry extends UITextEntry {
     if (newvalue == undefined) return
 
     if (this._value != newvalue) {
-      // avoid recursion by calling this.text
       const text = newvalue.toFixed(this.decimals)
       if (this.inRange(text, this.minvalue, this.maxvalue)) {
+        if (this.step) newvalue = Math.round(newvalue / this.step) * this.step
         this.text = text
         this._value = newvalue
         this.dispatchEvent<any>({ type: NumberEntryEventType.VALUE_CHANGED, value: newvalue })
@@ -58,19 +60,11 @@ export class UINumberEntry extends UITextEntry {
       this._maxvalue = newvalue;
       if (!this.inRange(this.text, this.minvalue, newvalue))
         this.text = newvalue.toString()
-
-      let cur = this.value;
-      let decimals = 0
-      while (Math.floor(cur) !== cur) {
-        cur *= 10
-        decimals++
-      }
-
-      if (this.decimals == undefined || decimals > this.decimals) this.decimals = decimals + 1
     }
   }
 
   public decimals: number | undefined
+  public step: number | undefined
 
   constructor(parameters: NumberEntryParameters = {}, interactive: ThreeInteractive, options: NumberOptions = {}) {
     super(parameters, interactive, options)
@@ -79,11 +73,28 @@ export class UINumberEntry extends UITextEntry {
 
     if (parameters.min != undefined) this.minvalue = parameters.min
     if (parameters.max != undefined) this.maxvalue = parameters.max
+    this.step = parameters.step
     this.decimals = parameters.decimals
 
     this.value = parameters.initialvalue != undefined ? parameters.initialvalue : 0
+
+    this.addEventListener(InputFieldEventType.ACTIVE_CHANGED, () => {
+      if (!this.active) this.setValue()
+    })
   }
 
+  private setValue() {
+    this.value = +this.text
+    this.text = this.value.toString()
+  }
+
+  override handleKeyDown(e: UIKeyboardEvent) {
+    super.handleKeyDown(e)
+
+    if (this.disabled) return
+
+    if (e.code == 'Enter') this.setValue()
+  }
 
   override filter(e: KeyboardEvent) {
     let allow = false

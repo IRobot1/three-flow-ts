@@ -30,6 +30,8 @@ export class UISliderbar extends UIEntry {
   private _value = -Infinity;
   get value(): number { return this._value }
   set value(newvalue: number) {
+    if (newvalue == undefined) return
+
     newvalue = this.clampValue(newvalue)
     if (this._value != newvalue) {
       this._value = newvalue
@@ -74,6 +76,8 @@ export class UISliderbar extends UIEntry {
   private _slidersize = 0
   get slidersize() { return this._slidersize }
   set slidersize(newvalue: number) {
+    if (newvalue == undefined) return
+
     if (this._slidersize != newvalue) {
       this._slidersize = newvalue
       if (this.orientation == 'horizontal')
@@ -119,11 +123,12 @@ export class UISliderbar extends UIEntry {
     this._step = parameters.step != undefined ? parameters.step : 1
 
     slidermesh.addEventListener(InteractiveEventType.POINTERENTER, () => {
-      if (!this.visible) return
+      if (this.disabled || !this.visible) return
       document.body.style.cursor = 'grab'
     })
 
     slidermesh.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
+      if (this.disabled) return
       if (document.body.style.cursor == 'grab')
         document.body.style.cursor = 'default'
     })
@@ -155,7 +160,7 @@ export class UISliderbar extends UIEntry {
 
     let offset: Vector3
     slidermesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
-      if (!this.visible) return
+      if (this.disabled || !this.visible) return
 
       // remember where in the mesh the mouse was clicked to avoid jump on first drag
       offset = e.position.sub(slidermesh.position).clone()
@@ -164,13 +169,14 @@ export class UISliderbar extends UIEntry {
       dragging = true
     });
     slidermesh.addEventListener(InteractiveEventType.DRAGEND, () => {
+      if (this.disabled) return
       document.body.style.cursor = 'default'
       dragging = false
     });
 
 
     slidermesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
-      if (!dragging || !this.visible) return
+      if (!dragging || this.disabled || !this.visible) return
 
       moveto(e.position.sub(offset))
     });
@@ -192,13 +198,18 @@ export class UISliderbar extends UIEntry {
       }
     }
 
-    this.addEventListener<any>(SliderbarEventType.VALUE_CHANGED, (e) => { valuechange(e.value) })
+    this.addEventListener<any>(SliderbarEventType.VALUE_CHANGED, (e) => {
+      if (this.disabled) return
+      valuechange(e.value)
+    })
+
     // force initial position
     this.value = parameters.initialvalue ? parameters.initialvalue : 0
   }
 
   override handleKeyDown(e: UIKeyboardEvent) {
-    //if (!this.active || this.disabled) return
+    if (!this.active || this.disabled) return
+
     switch (e.key) {
       case 'Home':
         if (this.min != undefined) this.value = this.min
