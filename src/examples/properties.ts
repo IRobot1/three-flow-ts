@@ -64,10 +64,10 @@ export class PropertiesExample {
     this.makeImplicitStep(col1, 1.7, z, true);
     this.makeExplicitStep(col1, 0.5, z, true);
 
-    //const col2 = -0.9
-    //this.makeMiscNumbers(col2, 3, z, true);
-    //this.makeOptions(col2, 1.7, z, true);
-    //this.makeColors(col2, 0.5, z, true);
+    const col2 = -0.9
+    this.makeMiscNumbers(col2, 3, z, true);
+    this.makeOptions(col2, 1.7, z, true);
+    this.makeColors(col2, 0.5, z, true);
 
     //const col3 = 0.9
     //this.makeColorStrings(col3, 3, z, true);
