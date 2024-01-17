@@ -7,6 +7,7 @@ import { PanelEventType, PanelOptions, UIPanel } from "./panel";
 export interface ExpansionPanelParameters extends TextButtonParameters {
   expanded?: boolean   // default is false
   panel: PanelParameters
+  spacing?: number     // space between the button and panel
 }
 
 export enum ExpansionPanelEventType {
@@ -27,6 +28,8 @@ export class UIExpansionPanel extends UITextButton {
 
     this.name = parameters.id != undefined ? parameters.id : 'expansion-panel'
 
+    const spacing = parameters.spacing != undefined ? parameters.spacing : 0.02
+
     const radius = this.height * 0.9 / 2
     this.label.maxwidth = this.width - (radius + this.label.padding)
 
@@ -38,12 +41,12 @@ export class UIExpansionPanel extends UITextButton {
 
     const panel = new UIPanel(parameters.panel, this.options)
     this.add(panel)
-    panel.position.y = -(this.height + panel.height) / 2 - 0.02
+    panel.position.y = -(this.height + panel.height) / 2 - spacing
     panel.visible = false
     this.panel = panel
 
     panel.addEventListener(PanelEventType.HEIGHT_CHANGED, () => {
-      panel.position.y = -(this.height + panel.height) / 2 - 0.02
+      panel.position.y = -(this.height + panel.height) / 2 - spacing
     })
 
     if (parameters.expanded) {

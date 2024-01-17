@@ -1,4 +1,4 @@
-import { Object3D } from "three";
+import { Group, Object3D } from "three";
 
 import { ThreeInteractive } from "three-flow";
 import { PanelEventType, PanelOptions, UIPanel } from "./panel";
@@ -15,41 +15,76 @@ import { InputField, InputFieldEventType } from "./input-field";
 import { CheckboxEventType, UICheckBox } from "./checkbox";
 import { SelectParameters, UISelect } from "./select";
 import { UIColorEntry } from "./color-entry";
-import { KeyboardInteraction } from "./keyboard-interaction";
 
 export interface PropertiesParameters extends PanelParameters {
-  spacing?: number             // defaults to 0.01
+  spacing?: number             // defaults to 0.02
+  propertyHeight?: number    // defaults to 0.1
+  // fontSize?: number          // defaults to 0.04
+}
+
+interface HeightData {
+  extraheight: number
+  group: Group
+}
+
+enum PropertiesEventType {
+  UPDATE_POSITIONS = 'update_positions'
 }
 
 export class UIProperties extends UIPanel {
   private spacing: number
+  private propertyHeight: number
+
   private inputs: Array<InputField> = []
 
   constructor(parameters: PropertiesParameters, protected interactive: ThreeInteractive, options: PanelOptions, gui: GUI) {
     super(parameters, options)
 
     this.spacing = parameters.spacing != undefined ? parameters.spacing : 0.02
-
-    this.height = (this.spacing + 0.1) * gui.list.length + this.spacing
+    this.propertyHeight = parameters.propertyHeight != undefined ? parameters.propertyHeight : 0.1
 
     this.addFolder(this, gui)
 
     if (options.keyboard) options.keyboard.add(...this.inputs)
   }
 
-  addFolder(parent: Object3D, gui: GUI): number {
-    let y = this.height / 2 - this.spacing - 0.05
-    let height = 0
+  addFolder(parent: UIPanel, gui: GUI): number {
+    const data: Array<HeightData> = []
+
     gui.list.forEach(controller => {
-      height += this.addChild(parent, controller, y)
-      y -= this.spacing + 0.1
+      const item: HeightData = { extraheight: 0, group: new Group() }
+      // child updates height and adds objects to group
+      this.addChild(parent, controller, item)
+
+      // add this group to the parent
+      parent.add(item.group)
+      data.push(item)
     })
+
+    parent.addEventListener(PropertiesEventType.UPDATE_POSITIONS, () => {
+      console.warn('update positions')
+      this.updatePositions(data)
+    })
+
+    return this.updatePositions(data)
+  }
+
+  private updatePositions(data: Array<HeightData>): number {
+    const height = data.reduce((total, next) => total + this.propertyHeight + next.extraheight + this.spacing, this.spacing)
+    this.height = height
+
+    let y = 0
+    data.forEach((item, index) => {
+      if (index == 0) y = height / 2 - this.spacing - this.propertyHeight / 2
+      item.group.position.y = y
+      y -= this.spacing + this.propertyHeight + item.extraheight
+    })
+
     return height
   }
 
-  addChild(parent: Object3D, controller: Controller, y: number): number {
+  addChild(parent: UIPanel, controller: Controller, data: HeightData) {
     const size = 0.04
-    let height = 0.1
 
     if (controller.classname == 'function') {
       const params: TextButtonParameters = {
@@ -63,17 +98,19 @@ export class UIProperties extends UIPanel {
       textbutton.addEventListener(ButtonEventType.BUTTON_PRESSED, () => {
         controller.execute()
       })
-      parent.add(textbutton)
-      textbutton.position.set(0, y, 0.001)
+      data.group.add(textbutton)
+      textbutton.position.set(0, 0, 0.001)
       this.inputs.push(textbutton)
+      return
     }
     else if (controller.classname == 'folder') {
       const params: ExpansionPanelParameters = {
-        expanded: false,
+        expanded: true,
+        spacing: 0,
         label: { text: controller.title, size },
         fill: { color: 'gray' },
         panel: {
-          fill: { color: 'blue' }
+          fill: { color: 'blue' },
         }
       }
 
@@ -81,13 +118,16 @@ export class UIProperties extends UIPanel {
       expansionPanel.panelExpanded = (expanded: boolean) => {
         let height = expansionPanel.panel.height
         if (!expanded) height = -height
-        this.height += height
+        data.extraheight += height
+        parent.dispatchEvent<any>({ type: PropertiesEventType.UPDATE_POSITIONS })
       }
 
-      height = expansionPanel.panel.height = this.addFolder(expansionPanel.panel, controller.object as GUI)
-      parent.add(expansionPanel)
-      expansionPanel.position.set(0, y, 0.001)
+      expansionPanel.panel.height = this.addFolder(expansionPanel.panel, controller.object as GUI)
+      if (expansionPanel.expanded) data.extraheight = expansionPanel.panel.height
+      data.group.add(expansionPanel)
+      expansionPanel.position.set(0, 0, 0.001)
       this.inputs.push(expansionPanel)
+      return
     }
 
     const labelparams: LabelParameters = {
@@ -97,8 +137,8 @@ export class UIProperties extends UIPanel {
       size
     }
     const label = new UILabel(labelparams, this.options)
-    label.position.set(-this.width / 2 + this.spacing, y, 0.001)
-    parent.add(label)
+    label.position.set(-this.width / 2 + this.spacing, 0, 0.001)
+    data.group.add(label)
 
     switch (controller.classname) {
 
@@ -122,8 +162,9 @@ export class UIProperties extends UIPanel {
 
           sliderbar = new UISliderbar(sliderparams, this.interactive, this.options)
           this.add(sliderbar)
-          sliderbar.position.set(this.spacing + width / 2, y, 0.001)
-          parent.add(sliderbar)
+          sliderbar.position.set(this.spacing + width / 2, 0, 0.001)
+          data.group.add(sliderbar)
+
           sliderbar.addEventListener<any>(SliderbarEventType.VALUE_CHANGED, (e: any) => {
             numberentry.value = e.value
           })
@@ -143,10 +184,10 @@ export class UIProperties extends UIPanel {
         }
         const numberentry = new UINumberEntry(numberparams, this.interactive, this.options)
         if (hasrange)
-          numberentry.position.set(this.spacing * 2 + width * 1.5, y, 0.001)
+          numberentry.position.set(this.spacing * 2 + width * 1.5, 0, 0.001)
         else
-          numberentry.position.set(this.spacing + width / 2, y, 0.001)
-        parent.add(numberentry)
+          numberentry.position.set(this.spacing + width / 2, 0, 0.001)
+        data.group.add(numberentry)
 
         numberentry.addEventListener(NumberEntryEventType.VALUE_CHANGED, (e: any) => {
           if (sliderbar) sliderbar.value = e.value
@@ -166,8 +207,8 @@ export class UIProperties extends UIPanel {
         }
 
         const textentry = new UITextEntry(params, this.interactive, this.options)
-        textentry.position.set(this.width / 4, y, 0.001)
-        parent.add(textentry)
+        textentry.position.set(this.width / 4, 0, 0.001)
+        data.group.add(textentry)
         textentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e) => {
           //this.textvalue = e.value
         })
@@ -184,8 +225,8 @@ export class UIProperties extends UIPanel {
           width: checkboxwidth,
         }
         const checkbox = new UICheckBox(params, this.interactive, this.options)
-        checkbox.position.set(this.spacing + checkboxwidth / 2, y, 0.001)
-        parent.add(checkbox)
+        checkbox.position.set(this.spacing + checkboxwidth / 2, 0, 0.001)
+        data.group.add(checkbox)
 
         checkbox.addEventListener(CheckboxEventType.CHECKED_CHANGED, (e) => {
           //this.boolvalue = e.checked
@@ -214,8 +255,8 @@ export class UIProperties extends UIPanel {
           //initialselected: 'Battling In The River'
         }
         const select = new UISelect(selectparams, this.interactive, this.options)
-        parent.add(select)
-        select.position.set(this.width / 4, y, 0.001)
+        data.group.add(select)
+        select.position.set(this.width / 4, 0, 0.001)
 
         select.selected = (data: any) => {
           console.warn('selected', data)
@@ -241,8 +282,8 @@ export class UIProperties extends UIPanel {
           fill: { color: 'red' }
         }
         const colorentry = new UIColorEntry(colorparams, this.interactive, this.options)
-        colorentry.position.set(this.spacing + width / 2, y, 0.001)
-        parent.add(colorentry)
+        colorentry.position.set(this.spacing + width / 2, 0, 0.001)
+        data.group.add(colorentry)
         colorentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e) => {
           //  textentry.text = this.colorvalue = e.value
         })
@@ -257,8 +298,8 @@ export class UIProperties extends UIPanel {
         }
 
         const textentry = new UITextEntry(params, this.interactive, this.options)
-        textentry.position.set(this.spacing * 2 + width * 1.5, y, 0.001)
-        parent.add(textentry)
+        textentry.position.set(this.spacing * 2 + width * 1.5, 0, 0.001)
+        data.group.add(textentry)
         textentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e) => {
           //  this.colorvalue = e.value
         })
@@ -271,7 +312,5 @@ export class UIProperties extends UIPanel {
         //console.warn('unhandled class', controller.classname)
         break
     }
-
-    return height
   }
 }

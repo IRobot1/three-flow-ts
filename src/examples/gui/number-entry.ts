@@ -20,10 +20,12 @@ export class UINumberEntry extends UITextEntry {
     if (newvalue == undefined) return
 
     if (this._value != newvalue) {
+      if (this.step) newvalue = Math.round(newvalue / this.step) * this.step
+
       const text = newvalue.toFixed(this.decimals)
+      this.text = text
+
       if (this.inRange(text, this.minvalue, this.maxvalue)) {
-        if (this.step) newvalue = Math.round(newvalue / this.step) * this.step
-        this.text = text
         this._value = newvalue
         this.dispatchEvent<any>({ type: NumberEntryEventType.VALUE_CHANGED, value: newvalue })
       }
@@ -80,9 +82,7 @@ export class UINumberEntry extends UITextEntry {
       if (decimalPart) this.decimals = decimalPart.length
     }
 
-
-
-    this.value = parameters.initialvalue != undefined ? parameters.initialvalue : 0
+    if (parameters.initialvalue != undefined) this.value = parameters.initialvalue
 
     this.addEventListener(InputFieldEventType.ACTIVE_CHANGED, () => {
       if (!this.active) this.setValue()
