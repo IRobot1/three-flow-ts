@@ -2,7 +2,7 @@ import { ThreeInteractive } from "three-flow";
 import { UITextButton } from "./button-text";
 import { PanelParameters, TextButtonParameters } from "./model";
 import { CircleGeometry, MathUtils, Mesh, MeshBasicMaterialParameters } from "three";
-import { PanelOptions, UIPanel } from "./panel";
+import { PanelEventType, PanelOptions, UIPanel } from "./panel";
 
 export interface ExpansionPanelParameters extends TextButtonParameters {
   expanded?: boolean   // default is false
@@ -41,6 +41,10 @@ export class UIExpansionPanel extends UITextButton {
     panel.position.y = -(this.height + panel.height) / 2 - 0.02
     panel.visible = false
     this.panel = panel
+
+    panel.addEventListener(PanelEventType.HEIGHT_CHANGED, () => {
+      panel.position.y = -(this.height + panel.height) / 2 - 0.02
+    })
 
     if (parameters.expanded) {
       // allow callbacks or events to be fired after construction has finised

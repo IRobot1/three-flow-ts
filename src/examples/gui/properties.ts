@@ -1,7 +1,7 @@
 import { Object3D } from "three";
 
 import { ThreeInteractive } from "three-flow";
-import { PanelOptions, UIPanel } from "./panel";
+import { PanelEventType, PanelOptions, UIPanel } from "./panel";
 import { Controller, GUI } from "./gui";
 import { CheckboxParameters, ColorEntryParameters, LabelParameters, ListParameters, NumberEntryParameters, PanelParameters, SliderbarParameters, TextButtonParameters, TextEntryParameters } from "./model";
 import { ButtonEventType } from "./button";
@@ -39,15 +39,17 @@ export class UIProperties extends UIPanel {
 
   addFolder(parent: Object3D, gui: GUI): number {
     let y = this.height / 2 - this.spacing - 0.05
+    let height = 0
     gui.list.forEach(controller => {
-      this.addChild(parent, controller, y)
+      height += this.addChild(parent, controller, y)
       y -= this.spacing + 0.1
     })
-    return (this.spacing + 0.1) * gui.list.length + this.spacing
+    return height
   }
 
-  addChild(parent: Object3D, controller: Controller, y: number) {
+  addChild(parent: Object3D, controller: Controller, y: number): number {
     const size = 0.04
+    let height = 0.1
 
     if (controller.classname == 'function') {
       const params: TextButtonParameters = {
@@ -77,10 +79,12 @@ export class UIProperties extends UIPanel {
 
       const expansionPanel = new UIExpansionPanel(params, this.interactive, this.options)
       expansionPanel.panelExpanded = (expanded: boolean) => {
-        console.warn('panel expanded', expanded)
+        let height = expansionPanel.panel.height
+        if (!expanded) height = -height
+        this.height += height
       }
 
-      expansionPanel.panel.height = this.addFolder(expansionPanel.panel, controller.object as GUI)
+      height = expansionPanel.panel.height = this.addFolder(expansionPanel.panel, controller.object as GUI)
       parent.add(expansionPanel)
       expansionPanel.position.set(0, y, 0.001)
       this.inputs.push(expansionPanel)
@@ -267,5 +271,7 @@ export class UIProperties extends UIPanel {
         //console.warn('unhandled class', controller.classname)
         break
     }
+
+    return height
   }
 }
