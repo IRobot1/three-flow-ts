@@ -62,7 +62,7 @@ export class PropertiesExample {
     const col1 = -2.6
     this.makeNumbers(col1, 3, z, true);
     this.makeImplicitStep(col1, 1.7, z, true);
-    //this.makeExplicitStep(col1, 0.5, z, true);
+    this.makeExplicitStep(col1, 0.5, z, true);
 
     //const col2 = -0.9
     //this.makeMiscNumbers(col2, 3, z, true);

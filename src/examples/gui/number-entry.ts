@@ -75,6 +75,12 @@ export class UINumberEntry extends UITextEntry {
     if (parameters.max != undefined) this.maxvalue = parameters.max
     this.step = parameters.step
     this.decimals = parameters.decimals
+    if (this.decimals == undefined && this.step) {
+      const decimalPart = this.step.toString().split(".")[1];
+      if (decimalPart) this.decimals = decimalPart.length
+    }
+
+
 
     this.value = parameters.initialvalue != undefined ? parameters.initialvalue : 0
 
