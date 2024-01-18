@@ -71,7 +71,7 @@ export class PropertiesExample {
 
     const col3 = 0.9
     this.makeColorStrings(col3, 3, z, true);
-    //this.makeFolders(col3, 1.9, z, true);
+    this.makeFolders(col3, 1.5, z, true);
     //this.makeNestedFolders(col3, 0.5, z, true);
 
     //const col4 = 2.6
@@ -114,7 +114,7 @@ export class PropertiesExample {
   }
   addFiller(g: any) {
     const nested = this.getDepth(g) > 0 ? 'Nested ' : '';
-    g.add({ x: 0.5 }, 'x', 0, 1).name(`${nested}Slider`);
+    g.add({ x: 0.5 }, 'x', 0, 1, 0.25).name(`${nested}Slider`);
     g.add({ x: true }, 'x').name(`${nested}Boolean`);
     g.add({ x: function () { } }, 'x').name(`${nested}Button`);
   }

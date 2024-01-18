@@ -91,6 +91,7 @@ export class UIProperties extends UIPanel {
         label: {
           text: controller.title, maxwidth: this.parameters.width, size,
         },
+        width: this.width,
         //disabled: !controller.enable,
         fill: { color: 'gray' }
       }
@@ -104,8 +105,9 @@ export class UIProperties extends UIPanel {
       return
     }
     else if (controller.classname == 'folder') {
+      const gui = controller.object as GUI
       const params: ExpansionPanelParameters = {
-        expanded: true,
+        expanded: gui.expanded,
         spacing: 0,
         width: this.width,
         label: { text: controller.title, size },
@@ -222,9 +224,10 @@ export class UIProperties extends UIPanel {
       case 'boolean': {
         const checkboxwidth = 0.1
         const params: CheckboxParameters = {
-          checked: false, // this.boolvalue
+          checked: controller.getValue(),
           //disabled : !controller.enabled,
           width: checkboxwidth,
+          fill: { color: 'gray' }
         }
         const checkbox = new UICheckBox(params, this.interactive, this.options)
         checkbox.position.set(this.spacing + checkboxwidth / 2, 0, 0.001)
