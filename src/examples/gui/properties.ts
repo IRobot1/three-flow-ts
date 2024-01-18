@@ -41,10 +41,15 @@ export class UIProperties extends UIPanel {
   constructor(parameters: PropertiesParameters, protected interactive: ThreeInteractive, options: PanelOptions, gui: GUI) {
     super(parameters, options)
 
+    this.name = parameters.id != undefined ? parameters.id : 'properties'
+
     this.spacing = parameters.spacing != undefined ? parameters.spacing : 0.02
     this.propertyHeight = parameters.propertyHeight != undefined ? parameters.propertyHeight : 0.1
 
-    this.addFolder(this, gui)
+    this.height = this.addFolder(this, gui)
+    this.addEventListener(PanelEventType.HEIGHT_CHANGED, (e: any) => {
+      this.resizeGeometry()
+    })
 
     if (options.keyboard) options.keyboard.add(...this.inputs)
   }
@@ -63,7 +68,8 @@ export class UIProperties extends UIPanel {
     })
 
     parent.addEventListener(PropertiesEventType.UPDATE_POSITIONS, () => {
-      this.updatePositions(data)
+      // reposition and set parent height
+      parent.height = this.updatePositions(data)
     })
 
     return this.updatePositions(data)
@@ -71,7 +77,6 @@ export class UIProperties extends UIPanel {
 
   private updatePositions(data: Array<HeightData>): number {
     const height = data.reduce((total, next) => total + this.propertyHeight + next.extraheight + this.spacing, this.spacing)
-    this.height = height
 
     let y = 0
     data.forEach((item, index) => {
@@ -120,11 +125,18 @@ export class UIProperties extends UIPanel {
 
       const expansionPanel = new UIExpansionPanel(params, this.interactive, this.options)
       expansionPanel.panelExpanded = (expanded: boolean) => {
-        let height = expansionPanel.panel.height
-        if (!expanded) height = -height
-        data.extraheight += height
-        parent.dispatchEvent<any>({ type: PropertiesEventType.UPDATE_POSITIONS })
+        data.extraheight = expanded ? expansionPanel.panel.height : 0
+
+        // notify all parent panels to reposition
+        expansionPanel.traverseAncestors(next => {
+          next.dispatchEvent<any>({ type: PropertiesEventType.UPDATE_POSITIONS })
+        })
       }
+
+      expansionPanel.panel.addEventListener(PanelEventType.HEIGHT_CHANGED, () => {
+        if (expansionPanel.expanded)
+          data.extraheight = expansionPanel.panel.height
+      })
 
       expansionPanel.panel.height = this.addFolder(expansionPanel.panel, controller.object as GUI)
       if (expansionPanel.expanded) data.extraheight = expansionPanel.panel.height
