@@ -70,7 +70,7 @@ export class FlowMaterials {
     if (parameters) {
       const color = (parameters as MeshBasicMaterialParameters).color
       key = `${type}-${purpose}|${color}`;
-      if (!this.materialMap.has(key)) {
+      if (!purpose || !this.materialMap.has(key)) {
         let material
         if (type == 'line')
           material = FlowMaterialUtils.LineMaterial(parameters);

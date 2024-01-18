@@ -14,7 +14,7 @@ import { UITextEntry } from "./text-entry";
 import { InputField, InputFieldEventType } from "./input-field";
 import { CheckboxEventType, UICheckBox } from "./checkbox";
 import { SelectParameters, UISelect } from "./select";
-import { UIColorEntry } from "./color-entry";
+import { ColorEntryEventType, UIColorEntry } from "./color-entry";
 
 export interface PropertiesParameters extends PanelParameters {
   spacing?: number             // defaults to 0.02
@@ -25,6 +25,7 @@ export interface PropertiesParameters extends PanelParameters {
 interface HeightData {
   extraheight: number
   group: Group
+  index: number
 }
 
 enum PropertiesEventType {
@@ -51,8 +52,8 @@ export class UIProperties extends UIPanel {
   addFolder(parent: UIPanel, gui: GUI): number {
     const data: Array<HeightData> = []
 
-    gui.list.forEach(controller => {
-      const item: HeightData = { extraheight: 0, group: new Group() }
+    gui.list.forEach((controller, index) => {
+      const item: HeightData = { extraheight: 0, group: new Group(), index }
       // child updates height and adds objects to group
       this.addChild(parent, controller, item)
 
@@ -106,9 +107,11 @@ export class UIProperties extends UIPanel {
       const params: ExpansionPanelParameters = {
         expanded: true,
         spacing: 0,
+        width: this.width,
         label: { text: controller.title, size },
         fill: { color: 'gray' },
         panel: {
+          width: this.width,
           fill: { color: 'blue' },
         }
       }
@@ -290,25 +293,26 @@ export class UIProperties extends UIPanel {
       case 'color': {
         const width = this.width / 4 - this.spacing * 2
 
-        //let color = this.normalizeColorString(this.colorvalue, controller.rgbscale)
+        let color = this.normalizeColorString(controller.getValue(), controller.rgbscale)
         //this.colorvalue = colorentry.text = textentry.text = color
 
         const colorparams: ColorEntryParameters = {
+          id: '',
           width,
           //disabled : !controller.enabled,
-          fill: { color: 'red' }
+          fill: { color }
         }
         const colorentry = new UIColorEntry(colorparams, this.interactive, this.options)
         colorentry.position.set(this.spacing + width / 2, 0, 0.001)
         data.group.add(colorentry)
-        colorentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e) => {
-          //  textentry.text = this.colorvalue = e.value
+        colorentry.addEventListener(ColorEntryEventType.VALUE_CHANGED, (e) => {
+          textentry.text = colorentry.value
         })
 
         const params: TextEntryParameters = {
           width,
           label: {
-            text: 'test' // this.colorvalue
+            text: color, size
           },
           //disabled : !controller.enabled
           fill: { color: 'gray' }
@@ -318,7 +322,7 @@ export class UIProperties extends UIPanel {
         textentry.position.set(this.spacing * 2 + width * 1.5, 0, 0.001)
         data.group.add(textentry)
         textentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e) => {
-          //  this.colorvalue = e.value
+          colorentry.value = textentry.text
         })
 
         this.inputs.push(colorentry, textentry)
@@ -329,5 +333,52 @@ export class UIProperties extends UIPanel {
         //console.warn('unhandled class', controller.classname)
         break
     }
+  }
+
+  //
+  // adapted from https://github.com/georgealways/lil-gui/blob/master/src/utils/normalizeColorString.js
+  //
+  normalizeColorString(original: any, rgbscale: number): string {
+
+    let match, result;
+    if (typeof original == 'number') {
+      result = original.toString(16).padStart(6, '0')
+    }
+    else if (typeof original == 'string') {
+      if (original.startsWith('rgb')) {
+        const rgb = original.replace('rgb(', '').replace(')', '').split(',')
+        result = parseInt(rgb[0]).toString(16).padStart(2, '0')
+          + parseInt(rgb[1]).toString(16).padStart(2, '0')
+          + parseInt(rgb[2]).toString(16).padStart(2, '0')
+      }
+      else {
+        if (original.startsWith('#')) original = original.substring(1)
+        result = parseInt(original, 16).toString(16)
+      }
+    }
+    else {
+      let r, g, b
+      if (Array.isArray(original)) {
+        r = original[0] as number
+        g = original[1] as number
+        b = original[2] as number
+      }
+      else { //if (typeof original == 'object')
+        r = original['r'] as number
+        g = original['g'] as number
+        b = original['b'] as number
+      }
+      if (rgbscale < 255) {
+        r *= 255
+        g *= 255
+        b *= 255
+      }
+      result = r.toString(16).padStart(2, '0')
+        + g.toString(16).padStart(2, '0')
+        + b.toString(16).padStart(2, '0')
+
+    }
+    return '#' + result
+
   }
 }

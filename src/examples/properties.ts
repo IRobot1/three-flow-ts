@@ -67,10 +67,10 @@ export class PropertiesExample {
     const col2 = -0.9
     this.makeMiscNumbers(col2, 3, z, true);
     this.makeOptions(col2, 1.7, z, true);
-    //this.makeColors(col2, 0.5, z, true);
+    this.makeColors(col2, 0.5, z, true);
 
-    //const col3 = 0.9
-    //this.makeColorStrings(col3, 3, z, true);
+    const col3 = 0.9
+    this.makeColorStrings(col3, 3, z, true);
     //this.makeFolders(col3, 1.9, z, true);
     //this.makeNestedFolders(col3, 0.5, z, true);
 
@@ -88,7 +88,7 @@ export class PropertiesExample {
     //requestAnimationFrame(() => {
 
       this.guis.forEach(data => {
-        const ui = new UIProperties({}, app.interactive, options, data.gui)
+        const ui = new UIProperties({width:1.5}, app.interactive, options, data.gui)
         scene.add(ui)
         ui.position.set(data.x, data.y, data.z)
       })
