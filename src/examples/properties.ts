@@ -29,7 +29,7 @@ export class PropertiesExample {
     app.scene = scene
 
     app.camera.position.y = 1.5
-    app.camera.position.z = 1
+    app.camera.position.z = 1.5
 
     scene.background = new Color(0x444444)
 
@@ -59,25 +59,27 @@ export class PropertiesExample {
 
     const z = -1.9
 
-    //const col1 = -4.3
-    //this.makeNumbers(col1, 3, z, true);
-    //this.makeImplicitStep(col1, 1.7, z, true);
-    //this.makeExplicitStep(col1, 0.5, z, true);
+    const col1 = -3.2
+    this.makeNumbers(col1, 3, z, true);
+    this.makeImplicitStep(col1, 1.7, z, true);
+    this.makeExplicitStep(col1, 0.5, z, true);
 
-    //const col2 = -2.6
-    //this.makeMiscNumbers(col2, 3, z, true);
-    //this.makeOptions(col2, 1.7, z, true);
-    //this.makeColors(col2, 0.5, z, true);
+    const col2 = -1.6
+    this.makeMiscNumbers(col2, 3, z, true);
+    this.makeOptions(col2, 1.7, z, true);
+    this.makeColors(col2, 0.5, z, true);
 
-    //const col3 = -0.9
-    //this.makeColorStrings(col3, 3.1, z, true);
-    //this.makeFolders(col3, 1.7, z, true);
+    const col3 = -0
+    this.makeColorStrings(col3, 3.1, z, true);
+    this.makeFolders(col3, 1.7, z, true);
 
-    const col4 = 0.9
-    //this.makeNestedFolders(col4, 2.7, z, true);
+    const col4 = 1.6
+    this.makeNestedFolders(col4, 2.7, z, true);
     this.makeDisable(col4, 0.8, z, true);
-    //this.makeListen(col4, 1.2, z, true);
-    //this.makeOnChange(col4, 0, z, true);
+
+    const col5 = 3.2
+    this.makeListen(col5, 3.1, z, true);
+    this.makeOnChange(col5, 1.8, z, true);
 
     const options: UIOptions = {
       materials: new FlowMaterials(),
@@ -354,7 +356,7 @@ export class PropertiesExample {
       }
 
       listenTester('Number', [1, 2, 3, 4, 5]);
-      listenTester('Slider', [5, 4, 3, 2, 1], 1, 5);
+      listenTester('Slider', [5, 4, 3, 2, 1], 1, 5, 0.001);
 
       listenTester('String', ['foo', 'bar', 'baz']);
       listenTester('Boolean', [true, false]);
@@ -362,7 +364,7 @@ export class PropertiesExample {
       listenTester('Options', ['a', 'b', 'c'], ['a', 'b', 'c']);
 
       gui.add = gui.addColor; // hehe
-      listenTester('Color', [0xaa00ff, 0x00aaff, 0xffaa00]);
+      listenTester('Color', ['#aa00ff', '#00aaff', '#ffaa00']);
 
     });
 
@@ -392,7 +394,7 @@ export class PropertiesExample {
 
       gui.add({ Number: 0 }, 'Number').onChange(change).onFinishChange(finishChange);
 
-      gui.add({ Slider: 0 }, 'Slider', 0, 1).onChange(change).onFinishChange(finishChange);
+      gui.add({ Slider: 0 }, 'Slider', 0, 1, 0.001).onChange(change).onFinishChange(finishChange);
 
       gui.add({ String: 'foo' }, 'String').onChange(change).onFinishChange(finishChange);
 

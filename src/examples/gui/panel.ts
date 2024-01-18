@@ -10,6 +10,7 @@ export enum PanelEventType {
   WIDTH_CHANGED = 'width_changed',
   HEIGHT_CHANGED = 'height_changed',
   DEPTH_CHANGED = 'depth_changed',
+  COLOR_CHANGED = 'color_changed',
   DRAGGABLE_CHANGED = 'draggable_changed',
   SELECTABLE_CHANGED = 'selectable_changed',
   PANEL_DRAGGED = 'panel_dragged',
@@ -76,6 +77,7 @@ export class UIPanel extends Mesh {
     if (this._fill.color != newvalue) {
       this._fill.color = newvalue;
       (this.material as MeshBasicMaterial).color.set(newvalue)
+      this.dispatchEvent<any>({ type: PanelEventType.COLOR_CHANGED })
     }
   }
 

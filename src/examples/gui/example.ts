@@ -15,7 +15,7 @@ import { SliderbarEventType } from "./sliderbar";
 import { UITextButton } from "./button-text";
 import { UILabel } from "./label";
 import { MenuParameters, UIMiniMenu } from "./mini-menu";
-import { UISelect } from "./select";
+import { SelectEventType, UISelect } from "./select";
 import { UIExpansionPanel } from "./expansion-panel";
 import { UIScrollbar } from "./scrollbar";
 
@@ -165,7 +165,7 @@ export class GUIExample {
     })
 
     const listparams: ListParameters = {
-      data: storydata, // stories
+      data: storydata, // stories,
       field: 'text',
       orientation: 'vertical',
       //itemheight: 0.3,
@@ -185,9 +185,9 @@ export class GUIExample {
     const select = new UISelect(selectparams, app.interactive, options)
     scene.add(select)
     select.position.set(1.15, 0.7, 0)
-    select.selected = (data: any) => {
-      console.warn('selected', data)
-    }
+    select.addEventListener(SelectEventType.SELECTED_DATA_CHANGED, (e: any) => {
+      console.warn('selected', e.data)
+    })
 
     const popupbutton = new UITextButton({ width: 0.1, label: { text: 'more_horiz', isicon: true } }, app.interactive, options)
     scene.add(popupbutton)

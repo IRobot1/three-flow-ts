@@ -13,7 +13,7 @@ import { NumberEntryEventType, UINumberEntry } from "./number-entry";
 import { UITextEntry } from "./text-entry";
 import { InputField, InputFieldEventType } from "./input-field";
 import { CheckboxEventType, UICheckBox } from "./checkbox";
-import { UISelect } from "./select";
+import { SelectEventType, UISelect } from "./select";
 import { ColorEntryEventType, UIColorEntry } from "./color-entry";
 
 export interface PropertiesParameters extends PanelParameters {
@@ -216,8 +216,15 @@ export class UIProperties extends UIPanel {
           numberentry.position.set(this.spacing + width / 2, 0, 0.001)
         data.group.add(numberentry)
 
+        controller.updateDisplay = () => {
+          if (controller.getValue() != numberentry.value) {
+            numberentry.value = controller.getValue()
+          }
+        }
+
         numberentry.addEventListener(NumberEntryEventType.VALUE_CHANGED, (e: any) => {
           if (sliderbar) sliderbar.value = e.value
+          controller.setValue(e.value)
         })
         this.inputs.push(numberentry)
         break
@@ -233,11 +240,17 @@ export class UIProperties extends UIPanel {
           fill,
         }
 
+        controller.updateDisplay = () => {
+          if (controller.getValue() != textentry.text) {
+            textentry.text = controller.getValue()
+          }
+        }
+
         const textentry = new UITextEntry(params, this.interactive, this.options)
         textentry.position.set(this.width / 4, 0, 0.001)
         data.group.add(textentry)
         textentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e: any) => {
-          // textentry.text = e.text
+          controller.setValue(e.text)
         })
 
         this.inputs.push(textentry)
@@ -256,8 +269,14 @@ export class UIProperties extends UIPanel {
         checkbox.position.set(this.spacing + checkboxwidth / 2, 0, 0.001)
         data.group.add(checkbox)
 
-        checkbox.addEventListener(CheckboxEventType.CHECKED_CHANGED, (e) => {
-          //this.boolvalue = e.checked
+        controller.updateDisplay = () => {
+          if (controller.getValue() != checkbox.checked) {
+            checkbox.checked = controller.getValue()
+          }
+        }
+
+        checkbox.addEventListener(CheckboxEventType.CHECKED_CHANGED, () => {
+          controller.setValue(checkbox.checked);
         })
         this.inputs.push(checkbox)
         break
@@ -303,17 +322,20 @@ export class UIProperties extends UIPanel {
           disabled: !controller.enabled,
           initialselected: initialvalue
         }
+
+        controller.updateDisplay = () => {
+          if (controller.getValue() != select.selected) {
+            select.selected = controller.getValue()
+          }
+        }
+
         const select = new UISelect(selectparams, this.interactive, this.options)
         data.group.add(select)
         select.position.set(this.width / 4, 0, 0.001)
 
-        select.selected = (data: any) => {
-          console.warn('selected', data)
-        }
-
-        //selectentry.addEventListener<SelectChangeEvent>(SelectEventType.SELECT_CHANGE, (e) => {
-        //  this.listvalue = e.text
-        //})
+        select.addEventListener(SelectEventType.SELECTED_CHANGED, (e: any) => {
+          controller.setValue(select.selected)
+        })
 
         this.inputs.push(select)
         break
@@ -323,7 +345,6 @@ export class UIProperties extends UIPanel {
         const width = this.width / 4 - this.spacing * 2
 
         let color = this.normalizeColorString(controller.getValue(), controller.rgbscale)
-        //this.colorvalue = colorentry.text = textentry.text = color
 
         const colorparams: ColorEntryParameters = {
           id: '',
@@ -331,11 +352,20 @@ export class UIProperties extends UIPanel {
           disabled: !controller.enabled,
           fill: { color }
         }
+
+        controller.updateDisplay = () => {
+          if (controller.getValue() != colorentry.color) {
+            colorentry.color = controller.getValue()
+          }
+        }
+
+
         const colorentry = new UIColorEntry(colorparams, this.interactive, this.options)
         colorentry.position.set(this.spacing + width / 2, 0, 0.001)
         data.group.add(colorentry)
-        colorentry.addEventListener(ColorEntryEventType.VALUE_CHANGED, (e) => {
-          textentry.text = colorentry.value
+
+        colorentry.addEventListener(PanelEventType.COLOR_CHANGED, () => {
+          textentry.text = colorentry.color.toString()
         })
 
         const params: TextEntryParameters = {
@@ -350,8 +380,10 @@ export class UIProperties extends UIPanel {
         const textentry = new UITextEntry(params, this.interactive, this.options)
         textentry.position.set(this.spacing * 2 + width * 1.5, 0, 0.001)
         data.group.add(textentry)
-        textentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e) => {
-          colorentry.value = textentry.text
+
+        textentry.addEventListener(InputFieldEventType.TEXT_CHANGED, () => {
+          colorentry.color = textentry.text
+          controller.setValue(textentry.text)
         })
 
         this.inputs.push(colorentry, textentry)

@@ -42,7 +42,7 @@ export class Controller {
   decimals(newvalue: number) { this._decimals = newvalue; return this; }
 
   private _listening = false
-  private _listenCallbackID: number | undefined
+  private _listenCallbackID: any
 
   listen(listen = true) {
 
@@ -54,7 +54,7 @@ export class Controller {
     this._listening = listen;
 
     if (this._listenCallbackID !== undefined) {
-      cancelAnimationFrame(this._listenCallbackID);
+      clearInterval(this._listenCallbackID);
       this._listenCallbackID = undefined;
     }
 
@@ -69,9 +69,11 @@ export class Controller {
   public updateDisplay = () => { }
 
   private _listenCallback() {
+    this._listenCallback.bind(this)
 
-    this._listenCallbackID = requestAnimationFrame(this._listenCallback.bind(this));
-    this.updateDisplay();
+    this._listenCallbackID = setInterval(() => {
+      this.updateDisplay();
+    }, 500);
 
   }
 

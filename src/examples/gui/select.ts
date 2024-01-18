@@ -5,8 +5,23 @@ import { ListEventType, UIList } from "./list";
 import { CircleGeometry, MathUtils, Mesh, MeshBasicMaterialParameters } from "three";
 import { SelectParameters } from "./model";
 
-
+export enum SelectEventType {
+  SELECTED_CHANGED = 'selected_changed',
+  SELECTED_DATA_CHANGED = 'selected_data_changed',
+}
 export class UISelect extends UITextButton {
+
+  private _selected: string
+  get selected() { return this._selected }
+  set selected(newvalue: string) {
+    if (this._selected != newvalue) {
+      this._selected = newvalue
+      if (newvalue) {
+        this.label.text = newvalue
+        this.dispatchEvent<any>({ type: SelectEventType.SELECTED_CHANGED })
+      }
+    }
+  }
   private indicator: Mesh
   constructor(parameters: SelectParameters, interactive: ThreeInteractive, options: ButtonOptions) {
     parameters.disableScaleOnClick = false
@@ -31,9 +46,7 @@ export class UISelect extends UITextButton {
       this.closelist()
     })
 
-    if (parameters.initialselected) {
-      this.label.text = parameters.initialselected
-    }
+    this._selected = parameters.initialselected ? parameters.initialselected : ''
   }
 
   private list?: UIList
@@ -47,7 +60,6 @@ export class UISelect extends UITextButton {
   }
   override pressed() {
     if (this.disabled) return
-    console.warn('pressed',this.disabled)
 
     if (this.list) {
       this.closelist()
@@ -65,9 +77,10 @@ export class UISelect extends UITextButton {
 
         let value = data
         if (params.list.field) value = data[params.list.field]
-        this.label.text = value
+        this.selected = value
 
-        this.selected(data)
+        this.dispatchEvent<any>({ type: SelectEventType.SELECTED_DATA_CHANGED, data })
+
         this.closelist()
       }
 
@@ -90,9 +103,4 @@ export class UISelect extends UITextButton {
     return MathUtils.degToRad(90)
   }
 
-  selected(data: any) {
-    if (this.disabled) return
-
-    this.dispatchEvent<any>({ type: ListEventType.LIST_SELECTED_CHANGED, data })
-  }
 }

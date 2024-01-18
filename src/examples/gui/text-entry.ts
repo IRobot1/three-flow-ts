@@ -38,7 +38,7 @@ export class UITextEntry extends UIEntry implements InputField {
   set prompt(newvalue: string) {
     if (this._prompt != newvalue) {
       this._prompt = newvalue
-      this.dispatchEvent<any>({ type: InputFieldEventType.TEXT_CHANGED, value: this.text })
+      this.dispatchEvent<any>({ type: InputFieldEventType.TEXT_CHANGED, text: this.text })
     }
   }
 

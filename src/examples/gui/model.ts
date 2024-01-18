@@ -1,4 +1,4 @@
-import { MeshBasicMaterialParameters } from "three";
+import { ColorRepresentation, MeshBasicMaterialParameters } from "three";
 import { FontCache } from "./cache";
 import { FlowMaterials } from "three-flow";
 import { KeyboardInteraction } from "./keyboard-interaction";
@@ -116,7 +116,9 @@ export interface CheckboxParameters extends InputParameters {
   checkmaterial?: MeshBasicMaterialParameters
 }
 export interface ColorEntryParameters extends InputParameters {
+  // set panel fill color for initial color
 }
+
 export type UIOrientationType = 'vertical' | 'horizontal'
 export interface SliderbarParameters extends InputParameters {
   initialvalue?: number
