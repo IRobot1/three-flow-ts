@@ -129,26 +129,31 @@ export class UIList extends UIEntry implements Pagination {
 
     this.empty.position.copy(position)
 
-    let slidersize: number
-    if (orientation == 'vertical')
-      slidersize = MathUtils.mapLinear(this.itemcount, 0, this.data.length, 0, this.height)
-    else
-      slidersize = MathUtils.mapLinear(this.itemcount, 0, this.data.length, 0, this.width)
-    const max = this.data.length - this.itemcount
+    let scrollbar: UIScrollbar | undefined
 
-    const scrollbar = new UIScrollbar({ selectable: false,orientation, slidersize, max, height: this.height }, interactive, options)
-    this.add(scrollbar)
-    if (orientation == 'vertical') {
-      scrollbar.position.x = (this.width - scrollbar.width) / 2
-      scrollbar.position.z = 0.003
+    if (this.data.length > this.itemcount) {
+
+      let slidersize: number
+      if (orientation == 'vertical')
+        slidersize = MathUtils.mapLinear(this.itemcount, 0, this.data.length, 0, this.height)
+      else
+        slidersize = MathUtils.mapLinear(this.itemcount, 0, this.data.length, 0, this.width)
+      const max = this.data.length - this.itemcount
+
+      scrollbar = new UIScrollbar({ selectable: false, orientation, slidersize, max, height: this.height }, interactive, options)
+      this.add(scrollbar)
+      if (orientation == 'vertical') {
+        scrollbar.position.x = (this.width - scrollbar.width) / 2
+        scrollbar.position.z = 0.003
+      }
+      else
+        scrollbar.position.y = this.height / 2 - 0.1
+      scrollbar.paginate = this
     }
-    else
-      scrollbar.position.y = this.height / 2 - 0.1
-    scrollbar.paginate = this
 
 
 
-    itemWidth -= scrollbar.width / 2
+    if (scrollbar) itemWidth -= scrollbar.width / 2
     for (let i = 0; i < itemCount; i++) {
 
       const button = this.createItem(itemWidth, itemHeight)
@@ -170,7 +175,7 @@ export class UIList extends UIEntry implements Pagination {
       button.addEventListener(ButtonEventType.BUTTON_UP, (e: any) => { button.buttonUp() })
 
       if (this.orientation == 'vertical') {
-        button.position.x -= scrollbar.width / 2
+        if (scrollbar) button.position.x -= scrollbar.width / 2
         position.y -= itemHeight + spacing
       }
       else
@@ -179,13 +184,12 @@ export class UIList extends UIEntry implements Pagination {
       this.add(button)
       this.visuals.push(button)
     }
-
     this.moveTo(this.selectedindex)
-    scrollbar.value = this.selectedindex
+    if (scrollbar) scrollbar.value = this.selectedindex
 
     this.dispose = () => {
       this.visuals.forEach(visual => visual.dispose())
-      scrollbar.dispose()
+      if (scrollbar) scrollbar.dispose()
     }
   }
 
@@ -309,7 +313,7 @@ export class UIList extends UIEntry implements Pagination {
   }
 
   moveTo(index: number) {
-    if (index >= 0 && index < this.data.length) {
+    if (index >= -1 && index < this.data.length) {
       this.firstdrawindex = index
       this.refresh()
     }

@@ -144,17 +144,15 @@ export class GUI {
 
   add(object: any, property: string, min?: number | object | any[], max?: number, step?: number): Controller {
     let classname = ''
-    let data: any = min;
 
     if (Object(min) === min) {
       classname = 'options';
-      if (!Array.isArray(min)) data = Object.values(min as []);
     }
     else {
       const initialValue = object[property];
       classname = typeof initialValue;
     }
-    const controller = new Controller(this, object, property, classname, data, max, step);
+    const controller = new Controller(this, object, property, classname, min, max, step);
     this.list.push(controller);
     return controller;
   }

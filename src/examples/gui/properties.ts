@@ -62,7 +62,6 @@ export class UIProperties extends UIPanel {
     })
 
     parent.addEventListener(PropertiesEventType.UPDATE_POSITIONS, () => {
-      console.warn('update positions')
       this.updatePositions(data)
     })
 
@@ -236,23 +235,41 @@ export class UIProperties extends UIPanel {
       }
 
       case 'options': {
+        const options: Array<{ label: string, value: number }> = []
+        if (Array.isArray(controller._min)) {
+          const values = controller._min as Array<any>
+          values.forEach((value, index) => {
+            options.push({ label: value.toString(), value })
+          })
+        }
+        else { // assume its an object
+          for (let key in controller._min) {
+            options.push({ label: key, value: controller._min[key] })
+          }
+        }
+        let initialvalue = controller.object[controller.property]
+        let match = options.find(x => x.value == initialvalue)
+        if (match)
+          initialvalue = match.label
+        else
+          initialvalue = initialvalue.toString()
+
         const listparams: ListParameters = {
           width: this.width / 2 - this.spacing * 2,
-          data: controller._min,
-          //field: 'text',
-          //orientation: 'vertical',
-          //itemheight: 0.3,
+          data: options,
+          field: 'label',
+          //itemheight: this.propertyHeight,
           itemcount: 5,
         }
 
         const selectparams: SelectParameters = {
           width: this.width / 2 - this.spacing * 2,
           label: {
-            text: 'Choose a Story', // this.listvalue
+            text: initialvalue,
             size
           },
           list: listparams,
-          //initialselected: 'Battling In The River'
+          initialselected: initialvalue
         }
         const select = new UISelect(selectparams, this.interactive, this.options)
         data.group.add(select)
