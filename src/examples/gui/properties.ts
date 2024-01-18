@@ -127,7 +127,6 @@ export class UIProperties extends UIPanel {
         fill,
         panel: {
           width: this.width,
-          fill: { color: 'blue' },
         }
       }
 

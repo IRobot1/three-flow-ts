@@ -23,6 +23,7 @@ export class UISelect extends UITextButton {
     }
   }
   private indicator: Mesh
+  private listz: number
   constructor(parameters: SelectParameters, interactive: ThreeInteractive, options: ButtonOptions) {
     parameters.disableScaleOnClick = false
     parameters.label.alignX = 'left'
@@ -47,6 +48,7 @@ export class UISelect extends UITextButton {
     })
 
     this._selected = parameters.initialselected ? parameters.initialselected : ''
+    this.listz = parameters.listz != undefined ? parameters.listz : 0.003
   }
 
   private list?: UIList
@@ -71,7 +73,7 @@ export class UISelect extends UITextButton {
 
       const list = new UIList(params.list, this.interactive, this.options)
       this.add(list)
-      list.position.y = -(this.height + list.height) / 2 - list.spacing
+      list.position.set(0, -(this.height + list.height) / 2 - list.spacing, this.listz)
 
       list.selected = (data: any) => {
 

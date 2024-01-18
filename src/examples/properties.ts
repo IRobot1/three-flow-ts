@@ -15,7 +15,7 @@ import { KeyboardInteraction } from "./gui/keyboard-interaction";
 //
 
 class GUIData {
-  constructor(public gui: GUI, public x: number, public y: number, public z:number, public expanded = false) { }
+  constructor(public gui: GUI, public x: number, public y: number, public z: number, public expanded = false) { }
 }
 
 
@@ -89,12 +89,12 @@ export class PropertiesExample {
 
     //requestAnimationFrame(() => {
 
-      this.guis.forEach(data => {
-        const ui = new UIProperties({width:1.5}, app.interactive, options, data.gui)
-        scene.add(ui)
-        ui.position.set(data.x, data.y, data.z)
-      })
-   // })
+    this.guis.forEach(data => {
+      const ui = new UIProperties({ width: 1.5 }, app.interactive, options, data.gui)
+      scene.add(ui)
+      ui.position.set(data.x, data.y, data.z)
+    })
+    // })
 
     this.dispose = () => {
       orbit.dispose()
@@ -121,7 +121,7 @@ export class PropertiesExample {
     g.add({ x: function () { } }, 'x').name(`${nested}Button`);
   }
 
-  makeNumbers( x: number, y: number, z: number,  expanded: boolean) {
+  makeNumbers(x: number, y: number, z: number, expanded: boolean) {
     const gui = this.make({ title: 'Numbers', width: 300 }, gui => {
 
       gui.add({ x: 0 }, 'x').name('No Parameters');
@@ -137,7 +137,7 @@ export class PropertiesExample {
 
     });
 
-    this.guis.push(new GUIData(gui, x,y,z, expanded));
+    this.guis.push(new GUIData(gui, x, y, z, expanded));
   }
 
   makeImplicitStep(x: number, y: number, z: number, expanded = false) {
@@ -157,7 +157,7 @@ export class PropertiesExample {
       implicitStep(0, 1e32);
 
     });
-    this.guis.push(new GUIData(gui, x,y,z, expanded));
+    this.guis.push(new GUIData(gui, x, y, z, expanded));
   }
 
   makeExplicitStep(x: number, y: number, z: number, expanded = false) {

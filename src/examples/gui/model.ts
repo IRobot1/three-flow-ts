@@ -142,12 +142,13 @@ export interface ListParameters extends InputParameters {
   orientation?: UIOrientationType // default is vertical
   emptyText?: string             // default is 'List is empty'
   selectedMaterial?: MeshBasicMaterialParameters // default is 'black'
-  fontSize?:number               // default is 0.07
+  fontSize?: number               // default is 0.07
 }
 
 export interface SelectParameters extends TextButtonParameters {
   initialselected?: string
   list: ListParameters
+  listz?: number                // default is 0.003, offset above to show list
 }
 
 
