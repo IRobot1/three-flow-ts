@@ -1,4 +1,4 @@
-import { Group } from "three";
+import { Group, MeshBasicMaterialParameters } from "three";
 
 import { ThreeInteractive } from "three-flow";
 import { PanelEventType, PanelOptions, UIPanel } from "./panel";
@@ -20,6 +20,7 @@ export interface PropertiesParameters extends PanelParameters {
   spacing?: number             // defaults to 0.02
   propertyHeight?: number    // defaults to 0.1
   // fontSize?: number          // defaults to 0.04
+  disabledMaterial?: MeshBasicMaterialParameters // default is dark gray
 }
 
 interface HeightData {
@@ -35,6 +36,7 @@ enum PropertiesEventType {
 export class UIProperties extends UIPanel {
   private spacing: number
   private propertyHeight: number
+  private disabledMaterial: MeshBasicMaterialParameters
 
   private inputs: Array<InputField> = []
 
@@ -45,6 +47,10 @@ export class UIProperties extends UIPanel {
 
     this.spacing = parameters.spacing != undefined ? parameters.spacing : 0.02
     this.propertyHeight = parameters.propertyHeight != undefined ? parameters.propertyHeight : 0.1
+
+    let disabledMaterial = parameters.disabledMaterial
+    if (!disabledMaterial) disabledMaterial = { color: 'gray' }
+    this.disabledMaterial = disabledMaterial
 
     this.height = this.addFolder(this, gui)
     this.addEventListener(PanelEventType.HEIGHT_CHANGED, (e: any) => {
@@ -90,6 +96,8 @@ export class UIProperties extends UIPanel {
 
   addChild(parent: UIPanel, controller: Controller, data: HeightData) {
     const size = 0.04
+    const disabled = !controller.enabled
+    const fill = disabled ? this.disabledMaterial : { color: 'darkgray' }
 
     if (controller.classname == 'function') {
       const params: TextButtonParameters = {
@@ -97,8 +105,8 @@ export class UIProperties extends UIPanel {
           text: controller.title, maxwidth: this.parameters.width, size,
         },
         width: this.width,
-        disabled: !controller.enabled,
-        fill: { color: 'gray' }
+        disabled,
+        fill,
       }
       const textbutton = new UITextButton(params, this.interactive, this.options)
       textbutton.addEventListener(ButtonEventType.BUTTON_PRESSED, () => {
@@ -116,7 +124,7 @@ export class UIProperties extends UIPanel {
         spacing: 0,
         width: this.width,
         label: { text: controller.title, size },
-        fill: { color: 'gray' },
+        fill,
         panel: {
           width: this.width,
           fill: { color: 'blue' },
@@ -146,11 +154,14 @@ export class UIProperties extends UIPanel {
       return
     }
 
+    const color = disabled ? 'gray' : 'black'
+
     const labelparams: LabelParameters = {
       alignX: 'left',
       maxwidth: this.width,
       text: controller.title,
-      size
+      size,
+      material: { color }
     }
     const label = new UILabel(labelparams, this.options)
     label.position.set(-this.width / 2 + this.spacing, 0, 0.001)
@@ -173,7 +184,7 @@ export class UIProperties extends UIPanel {
             step: controller._step as number,
             disabled: !controller.enabled,
             initialvalue: controller.getValue(),
-            fill: { color: 'gray' }
+            fill,
           }
 
           sliderbar = new UISliderbar(sliderparams, this.interactive, this.options)
@@ -196,7 +207,7 @@ export class UIProperties extends UIPanel {
           min: controller._min as number,
           max: controller._max as number,
           step: controller._step as number,
-          fill: { color: 'gray' }
+          fill,
         }
         const numberentry = new UINumberEntry(numberparams, this.interactive, this.options)
         if (hasrange)
@@ -218,15 +229,15 @@ export class UIProperties extends UIPanel {
           label: {
             text: controller.getValue(),
           },
-          disabled : !controller.enabled,
-          fill: { color: 'gray' }
+          disabled: !controller.enabled,
+          fill,
         }
 
         const textentry = new UITextEntry(params, this.interactive, this.options)
         textentry.position.set(this.width / 4, 0, 0.001)
         data.group.add(textentry)
-        textentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e:any) => {
-         // textentry.text = e.text
+        textentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e: any) => {
+          // textentry.text = e.text
         })
 
         this.inputs.push(textentry)
@@ -237,9 +248,9 @@ export class UIProperties extends UIPanel {
         const checkboxwidth = 0.1
         const params: CheckboxParameters = {
           checked: controller.getValue(),
-          disabled : !controller.enabled,
+          disabled: !controller.enabled,
           width: checkboxwidth,
-          fill: { color: 'gray' }
+          fill,
         }
         const checkbox = new UICheckBox(params, this.interactive, this.options)
         checkbox.position.set(this.spacing + checkboxwidth / 2, 0, 0.001)
@@ -279,6 +290,7 @@ export class UIProperties extends UIPanel {
           //itemheight: this.propertyHeight,
           itemcount: 5,
           disabled: !controller.enabled,
+          fontSize: size
         }
 
         const selectparams: SelectParameters = {
@@ -316,7 +328,7 @@ export class UIProperties extends UIPanel {
         const colorparams: ColorEntryParameters = {
           id: '',
           width,
-          disabled : !controller.enabled,
+          disabled: !controller.enabled,
           fill: { color }
         }
         const colorentry = new UIColorEntry(colorparams, this.interactive, this.options)
@@ -331,8 +343,8 @@ export class UIProperties extends UIPanel {
           label: {
             text: color, size
           },
-          disabled : !controller.enabled,
-          fill: { color: 'gray' }
+          disabled: !controller.enabled,
+          fill,
         }
 
         const textentry = new UITextEntry(params, this.interactive, this.options)

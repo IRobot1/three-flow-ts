@@ -151,12 +151,12 @@ export class UIList extends UIEntry implements Pagination {
       scrollbar.paginate = this
     }
 
-
+    const fontSize = parameters.fontSize != undefined ? parameters.fontSize : 0.07
 
     if (scrollbar) itemWidth -= scrollbar.width / 2
     for (let i = 0; i < itemCount; i++) {
 
-      const button = this.createItem(itemWidth, itemHeight)
+      const button = this.createItem(itemWidth, itemHeight, fontSize)
       button.position.copy(position)
 
       button.addEventListener(ButtonEventType.BUTTON_PRESSED, () => {
@@ -330,11 +330,12 @@ export class UIList extends UIEntry implements Pagination {
     textbutton.text = text
   }
 
-  public createItem(width: number, height: number): UIButton {
+  public createItem(width: number, height: number, fontSize: number): UIButton {
     const label: LabelParameters = {
       alignX: 'left',
       maxwidth: width - this.spacing * 2,
-      overflow: 'clip'
+      overflow: 'clip',
+      size: fontSize
     }
 
     return new UITextButton({ width, height, label }, this.interactive, this.options);

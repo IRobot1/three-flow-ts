@@ -89,6 +89,7 @@ export interface LabelParameters {
 
 export interface InputParameters extends PanelParameters {
   disabled?: boolean // default is false
+  disabledMaterial?: MeshBasicMaterialParameters // default is dark gray
 }
 export interface ButtonParameters extends InputParameters {
   disableScaleOnClick?: boolean    // default is false
@@ -139,6 +140,7 @@ export interface ListParameters extends InputParameters {
   orientation?: UIOrientationType // default is vertical
   emptyText?: string             // default is 'List is empty'
   selectedMaterial?: MeshBasicMaterialParameters // default is 'black'
+  fontSize?:number               // default is 0.07
 }
 
 export interface SelectParameters extends TextButtonParameters {
