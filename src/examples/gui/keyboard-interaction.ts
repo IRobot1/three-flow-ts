@@ -95,16 +95,23 @@ export class KeyboardInteraction extends EventDispatcher {
         if (this.selected) this.selected.active = false
 
         let index = this.children.findIndex(x => x == this.selected)
-        if (keyboard.shiftKey) { // move previous
-          index--
-          if (index < 0) index = this.children.length - 1
+        let startindex = index
+        let done = false
+        while (!done) {
+          if (keyboard.shiftKey) { // move previous
+            index--
+            if (index < 0) index = this.children.length - 1
+          }
+          else { // move next
+            index++
+            if (index >= this.children.length) index = 0
+          }
+          this.selected = this.children[index]
+          if (!this.selected.disabled || index == startindex) {
+            this.selected.active = true
+            done = true
+          }
         }
-        else { // move next
-          index++
-          if (index >= this.children.length) index = 0
-        }
-        this.selected = this.children[index]
-        this.selected.active = true
       }
       else
         if (this.selected) this.selected.dispatchEvent<any>({ type: InputFieldEventType.KEYDOWN, keyboard })
