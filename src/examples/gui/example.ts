@@ -3,7 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../../app/threejs-app";
 import { FlowDiagram, FlowMaterials } from "three-flow";
-import { ListParameters } from "./model";
+import { ListParameters, SelectParameters } from "./model";
 import { FontCache } from "./cache";
 import { ButtonEventType } from "./button";
 import { KeyboardInteractionOptions, KeyboardInteraction } from "./keyboard-interaction";
@@ -15,7 +15,7 @@ import { SliderbarEventType } from "./sliderbar";
 import { UITextButton } from "./button-text";
 import { UILabel } from "./label";
 import { MenuParameters, UIMiniMenu } from "./mini-menu";
-import { SelectParameters, UISelect } from "./select";
+import { UISelect } from "./select";
 import { UIExpansionPanel } from "./expansion-panel";
 import { UIScrollbar } from "./scrollbar";
 

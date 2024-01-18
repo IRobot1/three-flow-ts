@@ -87,13 +87,16 @@ export interface LabelParameters {
   overflow?: LabelOverflow   // when text longer than max width, either clip or slice to show end text
 }
 
-export interface ButtonParameters extends PanelParameters {
+export interface InputParameters extends PanelParameters {
+  disabled?: boolean // default is false
+}
+export interface ButtonParameters extends InputParameters {
   disableScaleOnClick?: boolean    // default is false
 }
 export interface TextButtonParameters extends ButtonParameters {
   label: LabelParameters
 }
-export interface TextEntryParameters extends PanelParameters {
+export interface TextEntryParameters extends InputParameters {
   label?: LabelParameters
   password?: boolean             // default is false
   passwordChar?: string          // defaut is *, any valid glyph for the font being used
@@ -105,17 +108,16 @@ export interface NumberEntryParameters extends TextEntryParameters {
   max?: number
   step?: number
   decimals?: number
-  disabled?: boolean
 }
 
-export interface CheckboxParameters extends PanelParameters {
+export interface CheckboxParameters extends InputParameters {
   checked?: boolean
   checkmaterial?: MeshBasicMaterialParameters
 }
-export interface ColorEntryParameters extends PanelParameters {
+export interface ColorEntryParameters extends InputParameters {
 }
 export type UIOrientationType = 'vertical' | 'horizontal'
-export interface SliderbarParameters extends PanelParameters {
+export interface SliderbarParameters extends InputParameters {
   initialvalue?: number
   min?: number
   max?: number
@@ -124,11 +126,10 @@ export interface SliderbarParameters extends PanelParameters {
   sliderradius?: number
   slidermaterial?: MeshBasicMaterialParameters
   orientation?: UIOrientationType // default is horizontal
-  disabled?: boolean              // default is false
 }
 
 
-export interface ListParameters extends PanelParameters {
+export interface ListParameters extends InputParameters {
   data?: Array<any>             // default is empty, array of data, default type is string
   field?: string                // default is none, field name, if data is object.  Doesn't handle nested field path
   itemcount?: number            // default is 6, number of items to display before paging
@@ -138,6 +139,11 @@ export interface ListParameters extends PanelParameters {
   orientation?: UIOrientationType // default is vertical
   emptyText?: string             // default is 'List is empty'
   selectedMaterial?: MeshBasicMaterialParameters // default is 'black'
+}
+
+export interface SelectParameters extends TextButtonParameters {
+  initialselected?: string
+  list: ListParameters
 }
 
 

@@ -84,6 +84,8 @@ export class UICheckBox extends UIEntry {
   }
 
   override handleKeyDown(e: UIKeyboardEvent) {
+    if (this.disabled) return
+
     if (e.code == 'Enter' || e.code == 'Space')
       this.checked = !this.checked
   }

@@ -59,23 +59,23 @@ export class PropertiesExample {
 
     const z = -1.9
 
-    const col1 = -4.3
-    this.makeNumbers(col1, 3, z, true);
-    this.makeImplicitStep(col1, 1.7, z, true);
-    this.makeExplicitStep(col1, 0.5, z, true);
+    //const col1 = -4.3
+    //this.makeNumbers(col1, 3, z, true);
+    //this.makeImplicitStep(col1, 1.7, z, true);
+    //this.makeExplicitStep(col1, 0.5, z, true);
 
-    const col2 = -2.6
-    this.makeMiscNumbers(col2, 3, z, true);
-    this.makeOptions(col2, 1.7, z, true);
-    this.makeColors(col2, 0.5, z, true);
+    //const col2 = -2.6
+    //this.makeMiscNumbers(col2, 3, z, true);
+    //this.makeOptions(col2, 1.7, z, true);
+    //this.makeColors(col2, 0.5, z, true);
 
-    const col3 = -0.9
-    this.makeColorStrings(col3, 3.1, z, true);
-    this.makeFolders(col3, 1.7, z, true);
+    //const col3 = -0.9
+    //this.makeColorStrings(col3, 3.1, z, true);
+    //this.makeFolders(col3, 1.7, z, true);
 
     const col4 = 0.9
-    this.makeNestedFolders(col4, 2.7, z, true);
-    //this.makeDisable(col4, 0.6, z, true);
+    //this.makeNestedFolders(col4, 2.7, z, true);
+    this.makeDisable(col4, 0.8, z, true);
     //this.makeListen(col4, 1.2, z, true);
     //this.makeOnChange(col4, 0, z, true);
 

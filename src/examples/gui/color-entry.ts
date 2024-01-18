@@ -29,6 +29,8 @@ export class UIColorEntry extends UIEntry {
     this.name = parameters.id != undefined ? parameters.id : 'color-entry'
 
     this.addEventListener(ColorEntryEventType.VALUE_CHANGED, () => {
+      if (this.disabled) return
+
       (this.material as MeshBasicMaterial).color.set(this.value)
     })
   }

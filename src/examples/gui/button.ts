@@ -28,7 +28,7 @@ export class UIButton extends UIEntry {
     const scaleOnClick = parameters.disableScaleOnClick != undefined ? false : true
 
     const buttonDown = () => {
-      if (this.clicking) return
+      if (this.disabled || this.clicking) return
       if (scaleOnClick) this.scale.addScalar(-0.04);
       this.clicking = true;
     }
@@ -48,7 +48,7 @@ export class UIButton extends UIEntry {
     })
 
     this.addEventListener(InteractiveEventType.CLICK, () => {
-      if (!this.visible) return;
+      if (this.disabled || !this.visible) return;
 
       // button down event already generated in POINTERDOWN event
 
@@ -74,11 +74,15 @@ export class UIButton extends UIEntry {
   }
 
   override handleKeyDown(e: UIKeyboardEvent) {
+    if (this.disabled) return
+
     if (e.code == 'Enter')
       this.buttonDown()
   }
 
   override handleKeyUp(e: UIKeyboardEvent) {
+    if (this.disabled) return
+
     if (e.code == 'Enter')
       this.buttonUp(true)
   }

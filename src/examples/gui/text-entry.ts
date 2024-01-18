@@ -80,6 +80,8 @@ export class UITextEntry extends UIEntry implements InputField {
     this.text = label.text
 
     const textChanged = () => {
+      if (this.disabled) return
+
       if (this.password)
         label.text = passwordChar.repeat(this.text.length);
       else

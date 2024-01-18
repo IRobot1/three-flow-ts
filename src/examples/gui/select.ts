@@ -1,14 +1,10 @@
 import { ThreeInteractive, InteractiveEventType } from "three-flow";
 import { UITextButton } from "./button-text";
-import { ListParameters, TextButtonParameters } from "./model";
 import { ButtonOptions } from "./button";
 import { ListEventType, UIList } from "./list";
 import { CircleGeometry, MathUtils, Mesh, MeshBasicMaterialParameters } from "three";
+import { SelectParameters } from "./model";
 
-export interface SelectParameters extends TextButtonParameters {
-  initialselected?: string
-  list: ListParameters
-}
 
 export class UISelect extends UITextButton {
   private indicator: Mesh
@@ -20,7 +16,6 @@ export class UISelect extends UITextButton {
     super(parameters, interactive, options)
 
     this.name = parameters.id != undefined ? parameters.id : 'select'
-
 
     const radius = this.height * 0.9 / 2
     this.label.maxwidth = this.width - (radius + this.label.padding)
@@ -51,6 +46,9 @@ export class UISelect extends UITextButton {
     this.list = undefined
   }
   override pressed() {
+    if (this.disabled) return
+    console.warn('pressed',this.disabled)
+
     if (this.list) {
       this.closelist()
     }
@@ -64,6 +62,7 @@ export class UISelect extends UITextButton {
       list.position.y = -(this.height + list.height) / 2 - list.spacing
 
       list.selected = (data: any) => {
+
         let value = data
         if (params.list.field) value = data[params.list.field]
         this.label.text = value
@@ -92,6 +91,8 @@ export class UISelect extends UITextButton {
   }
 
   selected(data: any) {
+    if (this.disabled) return
+
     this.dispatchEvent<any>({ type: ListEventType.LIST_SELECTED_CHANGED, data })
   }
 }

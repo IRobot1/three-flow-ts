@@ -2,7 +2,7 @@ import { Mesh } from "three"
 import { UIKeyboardEvent } from "./keyboard";
 import { PanelEventType, PanelOptions, UIPanel } from "./panel";
 import { ThreeInteractive } from "three-flow";
-import { PanelParameters } from "./model";
+import { InputParameters, PanelParameters } from "./model";
 
 export enum InputFieldEventType {
   ACTIVE_CHANGED = 'active_changed',
@@ -34,7 +34,8 @@ export abstract class UIEntry extends UIPanel implements InputField {
     }
   }
 
-  private _disabled = false
+  private _disabled: boolean
+
   get disabled(): boolean { return this._disabled }
   set disabled(newvalue: boolean) {
     if (this._disabled != newvalue) {
@@ -43,8 +44,10 @@ export abstract class UIEntry extends UIPanel implements InputField {
     }
   }
 
-  constructor(parameters: PanelParameters, protected interactive: ThreeInteractive, options: PanelOptions) {
+  constructor(parameters: InputParameters, protected interactive: ThreeInteractive, options: PanelOptions) {
     super(parameters, options)
+
+    this._disabled = parameters.disabled != undefined ? parameters.disabled : false
 
     const selectableChanged = () => {
       if (this.selectable)

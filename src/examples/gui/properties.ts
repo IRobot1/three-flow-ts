@@ -1,9 +1,9 @@
-import { Group, Object3D } from "three";
+import { Group } from "three";
 
 import { ThreeInteractive } from "three-flow";
 import { PanelEventType, PanelOptions, UIPanel } from "./panel";
 import { Controller, GUI } from "./gui";
-import { CheckboxParameters, ColorEntryParameters, LabelParameters, ListParameters, NumberEntryParameters, PanelParameters, SliderbarParameters, TextButtonParameters, TextEntryParameters } from "./model";
+import { CheckboxParameters, ColorEntryParameters, LabelParameters, ListParameters, NumberEntryParameters, PanelParameters, SelectParameters, SliderbarParameters, TextButtonParameters, TextEntryParameters } from "./model";
 import { ButtonEventType } from "./button";
 import { UITextButton } from "./button-text";
 import { ExpansionPanelParameters, UIExpansionPanel } from "./expansion-panel";
@@ -13,7 +13,7 @@ import { NumberEntryEventType, UINumberEntry } from "./number-entry";
 import { UITextEntry } from "./text-entry";
 import { InputField, InputFieldEventType } from "./input-field";
 import { CheckboxEventType, UICheckBox } from "./checkbox";
-import { SelectParameters, UISelect } from "./select";
+import { UISelect } from "./select";
 import { ColorEntryEventType, UIColorEntry } from "./color-entry";
 
 export interface PropertiesParameters extends PanelParameters {
@@ -97,7 +97,7 @@ export class UIProperties extends UIPanel {
           text: controller.title, maxwidth: this.parameters.width, size,
         },
         width: this.width,
-        //disabled: !controller.enable,
+        disabled: !controller.enabled,
         fill: { color: 'gray' }
       }
       const textbutton = new UITextButton(params, this.interactive, this.options)
@@ -216,17 +216,17 @@ export class UIProperties extends UIPanel {
         const params: TextEntryParameters = {
           width: this.width / 2 - this.spacing * 2,
           label: {
-            text: 'test' // this.textvalue
+            text: controller.getValue(),
           },
-          //disabled : !controller.enabled
+          disabled : !controller.enabled,
           fill: { color: 'gray' }
         }
 
         const textentry = new UITextEntry(params, this.interactive, this.options)
         textentry.position.set(this.width / 4, 0, 0.001)
         data.group.add(textentry)
-        textentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e) => {
-          //this.textvalue = e.value
+        textentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e:any) => {
+         // textentry.text = e.text
         })
 
         this.inputs.push(textentry)
@@ -237,7 +237,7 @@ export class UIProperties extends UIPanel {
         const checkboxwidth = 0.1
         const params: CheckboxParameters = {
           checked: controller.getValue(),
-          //disabled : !controller.enabled,
+          disabled : !controller.enabled,
           width: checkboxwidth,
           fill: { color: 'gray' }
         }
@@ -278,6 +278,7 @@ export class UIProperties extends UIPanel {
           field: 'label',
           //itemheight: this.propertyHeight,
           itemcount: 5,
+          disabled: !controller.enabled,
         }
 
         const selectparams: SelectParameters = {
@@ -287,6 +288,7 @@ export class UIProperties extends UIPanel {
             size
           },
           list: listparams,
+          disabled: !controller.enabled,
           initialselected: initialvalue
         }
         const select = new UISelect(selectparams, this.interactive, this.options)
@@ -314,7 +316,7 @@ export class UIProperties extends UIPanel {
         const colorparams: ColorEntryParameters = {
           id: '',
           width,
-          //disabled : !controller.enabled,
+          disabled : !controller.enabled,
           fill: { color }
         }
         const colorentry = new UIColorEntry(colorparams, this.interactive, this.options)
@@ -329,7 +331,7 @@ export class UIProperties extends UIPanel {
           label: {
             text: color, size
           },
-          //disabled : !controller.enabled
+          disabled : !controller.enabled,
           fill: { color: 'gray' }
         }
 
