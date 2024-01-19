@@ -11,9 +11,9 @@ export enum SelectEventType {
 }
 export class UISelect extends UITextButton {
 
-  private _selected: string
+  private _selected: string | undefined
   get selected() { return this._selected }
-  set selected(newvalue: string) {
+  set selected(newvalue: string | undefined) {
     if (this._selected != newvalue) {
       this._selected = newvalue
       if (newvalue) {
@@ -47,7 +47,7 @@ export class UISelect extends UITextButton {
       this.closelist()
     })
 
-    this._selected = parameters.initialselected ? parameters.initialselected : ''
+    this._selected = parameters.initialselected ? parameters.initialselected : undefined
     this.listz = parameters.listz != undefined ? parameters.listz : 0.003
   }
 
@@ -69,7 +69,7 @@ export class UISelect extends UITextButton {
     else {
       this.indicator.rotation.z = this.indicatorRotation(true)
       const params = this.parameters as SelectParameters
-      params.list.selected = this.label.text
+      params.list.selected = this.selected
 
       const list = new UIList(params.list, this.interactive, this.options)
       this.add(list)

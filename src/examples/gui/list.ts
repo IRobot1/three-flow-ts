@@ -187,7 +187,7 @@ export class UIList extends UIEntry implements Pagination {
       this.add(button)
       this.visuals.push(button)
     }
-    this.moveTo(this.selectedindex)
+    this.moveTo(this.firstdrawindex)
     if (scrollbar) scrollbar.value = this.selectedindex
 
   }
@@ -240,7 +240,7 @@ export class UIList extends UIEntry implements Pagination {
     }
 
     this.selectedMesh.visible = false
-
+    
     this.visuals.forEach((visual, index) => {
       visual.visible = (drawindex < this.data.length)
       if (visual.visible) {
