@@ -77,7 +77,7 @@ export class UIList extends UIEntry implements Pagination {
   private selectedMesh: Mesh
   private visuals: Array<UIButton> = []
   private itemcount: number
-  //private highlightindex = -1
+  private scrollbar?: UIScrollbar
 
   constructor(parameters: ListParameters, interactive: ThreeInteractive, options: ListOptions = {}) {
     const itemCount = parameters.itemcount != undefined ? parameters.itemcount : 6
@@ -96,6 +96,8 @@ export class UIList extends UIEntry implements Pagination {
       parameters.width = totalWidth
       parameters.height = itemHeight + spacing * 2
     }
+    parameters.highlightable = false
+    parameters.selectable = true
 
     super(parameters, interactive, options)
 
@@ -149,6 +151,7 @@ export class UIList extends UIEntry implements Pagination {
       else
         scrollbar.position.y = this.height / 2 - 0.1
       scrollbar.paginate = this
+      this.scrollbar = scrollbar
     }
 
     const fontSize = parameters.fontSize != undefined ? parameters.fontSize : 0.07
@@ -187,10 +190,6 @@ export class UIList extends UIEntry implements Pagination {
     this.moveTo(this.selectedindex)
     if (scrollbar) scrollbar.value = this.selectedindex
 
-    this.dispose = () => {
-      this.visuals.forEach(visual => visual.dispose())
-      if (scrollbar) scrollbar.dispose()
-    }
   }
 
 
@@ -264,7 +263,12 @@ export class UIList extends UIEntry implements Pagination {
     })
   }
 
-  dispose() { }
+  override dispose() {
+    super.dispose()
+
+    this.visuals.forEach(visual => visual.dispose())
+    if (this.scrollbar) this.scrollbar.dispose()
+}
 
   moveFirst() {
     if (this.selectedindex == 0) return

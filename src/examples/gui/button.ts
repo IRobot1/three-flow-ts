@@ -28,13 +28,13 @@ export class UIButton extends UIEntry {
     const scaleOnClick = parameters.disableScaleOnClick != undefined ? false : true
 
     const buttonDown = () => {
-      if (this.disabled || this.clicking) return
+      if (this.disabled || this.clicking || !this.visible) return
       if (scaleOnClick) this.scale.addScalar(-0.04);
       this.clicking = true;
     }
 
     const buttonUp = (generateEvent = false) => {
-      if (!this.clicking) return
+      if (!this.clicking || !this.visible) return
       if (scaleOnClick) this.scale.addScalar(0.04);
       if (generateEvent) this.pressed()
       this.clicking = false;
@@ -67,10 +67,6 @@ export class UIButton extends UIEntry {
     this.addEventListener(ButtonEventType.BUTTON_UP, (e: any) => {
       buttonUp(e.generateEvent)
     })
-  }
-
-  dispose() {
-    this.interactive.selectable.remove(this)
   }
 
   override handleKeyDown(e: UIKeyboardEvent) {

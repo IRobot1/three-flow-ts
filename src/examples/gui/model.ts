@@ -61,6 +61,7 @@ export interface PanelParameters extends TranformParameters, SizeParameters {
   // interaction
   selectable?: boolean | undefined  // default is true, interaction is allowed.  Set to false to disable interaction
   draggable?: boolean | undefined   // default is false, button can be moved
+  highlightable?: boolean
 
   // appearance
   fill?: MeshBasicMaterialParameters | undefined  // default is white

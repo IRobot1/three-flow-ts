@@ -73,7 +73,7 @@ export class Controller {
 
     this._listenCallbackID = setInterval(() => {
       this.updateDisplay();
-    }, 500);
+    }, 100);
 
   }
 

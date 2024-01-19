@@ -122,8 +122,9 @@ export class UISliderbar extends UIEntry {
     this._max = parameters.max != undefined ? parameters.max : 100
     this._step = parameters.step != undefined ? parameters.step : 1
 
-    slidermesh.addEventListener(InteractiveEventType.POINTERENTER, () => {
+    slidermesh.addEventListener(InteractiveEventType.POINTERENTER, (e:any) => {
       if (this.disabled || !this.visible) return
+      e.stop = true
       document.body.style.cursor = 'grab'
     })
 
@@ -234,7 +235,8 @@ export class UISliderbar extends UIEntry {
     }
   }
 
-  dispose() {
+  override dispose() {
+    super.dispose()
     this.interactive.selectable.remove(this.slidermesh)
     this.interactive.draggable.remove(this.slidermesh)
   }

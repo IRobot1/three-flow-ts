@@ -194,28 +194,34 @@ export class UIPanel extends Mesh {
     highlightMesh.name = 'highlight'
     this.highlightMesh = highlightMesh
 
-    const highlight = () => {
-      highlightMesh.visible = true
-    }
-    this.highlight = highlight
+    const highlightable = parameters.highlightable != undefined ? parameters.highlightable : true
 
-    this.addEventListener(InteractiveEventType.POINTERENTER, () => {
-      if (this.clicking || !this.visible) return
-      //document.body.style.cursor = 'pointer'
-      highlight()
+    this.addEventListener(InteractiveEventType.POINTERMOVE, (e: any) => {
+      e.stop = true
     })
 
-    const unhighlight = () => {
-      highlightMesh.visible = false
-    }
-    this.unhighlight = unhighlight
-    this.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
-      //if (document.body.style.cursor == 'pointer')
-      //  document.body.style.cursor = 'default'
-      unhighlight()
-    })
+    if (highlightable) {
+      const highlight = () => {
+        highlightMesh.visible = true
+      }
+      this.highlight = highlight
 
-    this.isHighlighted = () => { return highlightMesh.visible }
+      this.addEventListener(InteractiveEventType.POINTERENTER, (e: any) => {
+        if (this.clicking || !this.visible) return
+        e.stop = true
+        if (this.selectable) highlight()
+      })
+
+      const unhighlight = () => {
+        highlightMesh.visible = false
+      }
+      this.unhighlight = unhighlight
+      this.addEventListener(InteractiveEventType.POINTERLEAVE, (e:any) => {
+        if (this.selectable) unhighlight()
+      })
+
+      this.isHighlighted = () => { return highlightMesh.visible }
+    }
 
     // allow derived classes access to "this" by delaying one frame or to override methods
     requestAnimationFrame(() => {

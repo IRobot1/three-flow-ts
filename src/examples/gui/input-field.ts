@@ -75,6 +75,10 @@ export abstract class UIEntry extends UIPanel implements InputField {
 
   }
 
+  dispose() {
+    this.interactive.selectable.remove(this)
+  }
+
   handleKeyDown(keyboard: UIKeyboardEvent) { }
   handleKeyUp(keyboard: UIKeyboardEvent) { }
 }

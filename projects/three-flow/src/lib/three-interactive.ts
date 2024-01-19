@@ -97,14 +97,14 @@ export class ThreeInteractive extends EventDispatcher<any> {
       _event.type = events[newevent.type];
       _event.intersections = selectIntersects
 
+      _event.stop = false
       if (selectIntersects.length > 0) {
         // remember what's overlapping
         const overlapping = new Set<Object3D>(entered)
 
-        _event.stop = false
-        selectIntersects.forEach(intersection => {
+        selectIntersects.forEach((intersection, index) => {
           // stop bubbling event to anything behind last object
-          if (_event.stop) return
+          if (_event.stop || index > 0) return
 
           const object = intersection.object;
 
@@ -125,7 +125,6 @@ export class ThreeInteractive extends EventDispatcher<any> {
             _event.data.set(uv.x, 1 - uv.y);
 
           object.dispatchEvent<any>(_event);
-
         })
 
         // anything that hasn't been removed is no longer overlapping
@@ -167,8 +166,8 @@ export class ThreeInteractive extends EventDispatcher<any> {
 
       const dragIntersects = raycaster.intersectObjects(this.draggable.list, false);
 
-      if (selectIntersects.length > 0) {
-        const intersection = selectIntersects[0];
+      if (dragIntersects.length > 0) {
+        const intersection = dragIntersects[0];
 
         const object = intersection.object;
 
