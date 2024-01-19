@@ -4,7 +4,7 @@ import { ThreeInteractive } from "three-flow";
 import { PanelEventType, PanelOptions, UIPanel } from "./panel";
 import { Controller, GUI } from "./gui-model";
 import { CheckboxParameters, ColorEntryParameters, LabelParameters, ListParameters, NumberEntryParameters, PanelParameters, SelectParameters, SliderbarParameters, TextButtonParameters, TextEntryParameters } from "./model";
-import { ButtonEventType } from "./button";
+import { ButtonEventType, UIButton } from "./button";
 import { UITextButton } from "./button-text";
 import { ExpansionPanelParameters, UIExpansionPanel } from "./expansion-panel";
 import { UILabel } from "./label";
@@ -113,7 +113,7 @@ export class UIProperties extends UIPanel {
         disabled,
         fill,
       }
-      const textbutton = new UITextButton(params, this.interactive, this.options)
+      const textbutton = this.createTextButton(params)
       textbutton.addEventListener(ButtonEventType.BUTTON_PRESSED, () => {
         controller.execute()
       })
@@ -136,7 +136,7 @@ export class UIProperties extends UIPanel {
         }
       }
 
-      const expansionPanel = new UIExpansionPanel(params, this.interactive, this.options)
+      const expansionPanel = this.createExpansionPanel(params)
       expansionPanel.panelExpanded = (expanded: boolean) => {
         data.extraheight = expanded ? expansionPanel.panel.height : 0
 
@@ -168,7 +168,7 @@ export class UIProperties extends UIPanel {
       size,
       material: { color }
     }
-    const label = new UILabel(labelparams, this.options)
+    const label = this.createLabel(labelparams)
     label.position.set(-this.width / 2 + this.spacing, 0, 0.001)
     data.group.add(label)
 
@@ -193,7 +193,7 @@ export class UIProperties extends UIPanel {
             fill,
           }
 
-          sliderbar = new UISliderbar(sliderparams, this.interactive, this.options)
+          sliderbar = this.createSliderbar(sliderparams)
           this.add(sliderbar)
           sliderbar.position.set(this.spacing + width / 2, 0, 0.001)
           data.group.add(sliderbar)
@@ -216,7 +216,7 @@ export class UIProperties extends UIPanel {
           step: controller._step as number,
           fill,
         }
-        const numberentry = new UINumberEntry(numberparams, this.interactive, this.options)
+        const numberentry = this.createNumberEntry(numberparams)
         if (hasrange)
           numberentry.position.set(this.spacing * 2 + width * 1.5, 0, 0.001)
         else
@@ -254,7 +254,7 @@ export class UIProperties extends UIPanel {
           }
         }
 
-        const textentry = new UITextEntry(params, this.interactive, this.options)
+        const textentry = this.createTextEntry(params)
         textentry.position.set(this.width / 4, 0, 0.001)
         data.group.add(textentry)
         textentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e: any) => {
@@ -274,7 +274,7 @@ export class UIProperties extends UIPanel {
           disabled: !controller.enabled,
           fill,
         }
-        const checkbox = new UICheckBox(params, this.interactive, this.options)
+        const checkbox = this.createCheckBox(params)
         checkbox.position.set(this.spacing + checkboxwidth / 2, 0, 0.001)
         data.group.add(checkbox)
 
@@ -339,7 +339,7 @@ export class UIProperties extends UIPanel {
           }
         }
 
-        const select = new UISelect(selectparams, this.interactive, this.options)
+        const select = this.createSelect(selectparams)
         data.group.add(select)
         select.position.set(this.width / 4, 0, 0.001)
 
@@ -371,7 +371,7 @@ export class UIProperties extends UIPanel {
         }
 
 
-        const colorentry = new UIColorEntry(colorparams, this.interactive, this.options)
+        const colorentry = this.createColorEntry(colorparams)
         colorentry.position.set(this.spacing + width / 2, 0, 0.001)
         data.group.add(colorentry)
 
@@ -389,7 +389,7 @@ export class UIProperties extends UIPanel {
           fill,
         }
 
-        const textentry = new UITextEntry(params, this.interactive, this.options)
+        const textentry = this.createTextEntry(params)
         textentry.position.set(this.spacing * 2 + width * 1.5, 0, 0.001)
         data.group.add(textentry)
 
@@ -411,7 +411,7 @@ export class UIProperties extends UIPanel {
   //
   // adapted from https://github.com/georgealways/lil-gui/blob/master/src/utils/normalizeColorString.js
   //
-  normalizeColorString(original: any, rgbscale: number): string {
+  private normalizeColorString(original: any, rgbscale: number): string {
 
     let match, result;
     if (typeof original == 'number') {
@@ -453,5 +453,43 @@ export class UIProperties extends UIPanel {
     }
     return '#' + result
 
+  }
+
+  // overridables
+
+  createLabel(parameters: LabelParameters): UILabel {
+    return new UILabel(parameters, this.options)
+  }
+
+  createTextButton(parameters: TextButtonParameters): UIButton {
+    return new UITextButton(parameters, this.interactive, this.options)
+  }
+
+  createExpansionPanel(parameters: ExpansionPanelParameters): UIExpansionPanel {
+    return new UIExpansionPanel(parameters, this.interactive, this.options)
+  }
+
+  createSliderbar(parameters: SliderbarParameters): UISliderbar {
+    return new UISliderbar(parameters, this.interactive, this.options)
+  }
+
+  createNumberEntry(parameters: NumberEntryParameters): UINumberEntry {
+    return new UINumberEntry(parameters, this.interactive, this.options)
+  }
+
+  createTextEntry(parameters: TextEntryParameters): UITextEntry {
+    return new UITextEntry(parameters, this.interactive, this.options)
+  }
+
+  createCheckBox(parameters: CheckboxParameters): UICheckBox {
+    return new UICheckBox(parameters, this.interactive, this.options)
+  }
+
+  createSelect(parameters: SelectParameters): UISelect {
+    return new UISelect(parameters, this.interactive, this.options)
+  }
+
+  createColorEntry(parameters: ColorEntryParameters): UIColorEntry {
+    return new UIColorEntry(parameters, this.interactive, this.options)
   }
 }
