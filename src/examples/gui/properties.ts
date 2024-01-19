@@ -105,6 +105,7 @@ export class UIProperties extends UIPanel {
           text: controller.title, maxwidth: this.parameters.width, size,
         },
         width: this.width,
+        height: this.propertyHeight,
         disabled,
         fill,
       }
@@ -123,6 +124,7 @@ export class UIProperties extends UIPanel {
         expanded: gui.expanded,
         spacing: 0,
         width: this.width,
+        height: this.propertyHeight,
         label: { text: controller.title, size },
         fill,
         panel: {
@@ -177,6 +179,7 @@ export class UIProperties extends UIPanel {
           width -= width / 2 //+ this.spacing
           const sliderparams: SliderbarParameters = {
             width: width,
+            height: this.propertyHeight,
             slidersize: 0.03,
             min: controller._min as number,
             max: controller._max as number,
@@ -200,6 +203,7 @@ export class UIProperties extends UIPanel {
         const numberparams: NumberEntryParameters = {
           initialvalue: controller.getValue(),
           width: width - this.spacing,
+          height: this.propertyHeight,
           label: { size },
           decimals: controller._decimals,
           disabled: !controller.enabled,
@@ -232,6 +236,7 @@ export class UIProperties extends UIPanel {
       case 'string': {
         const params: TextEntryParameters = {
           width: this.width / 2 - this.spacing * 2,
+          height: this.propertyHeight,
           label: {
             text: controller.getValue(),
           },
@@ -259,9 +264,10 @@ export class UIProperties extends UIPanel {
       case 'boolean': {
         const checkboxwidth = 0.1
         const params: CheckboxParameters = {
+          width: checkboxwidth,
+          height: this.propertyHeight,
           checked: controller.getValue(),
           disabled: !controller.enabled,
-          width: checkboxwidth,
           fill,
         }
         const checkbox = new UICheckBox(params, this.interactive, this.options)
@@ -305,7 +311,7 @@ export class UIProperties extends UIPanel {
           width: this.width / 2 - this.spacing * 2,
           data: options,
           field: 'label',
-          //itemheight: this.propertyHeight,
+          itemheight: this.propertyHeight,
           itemcount: 5,
           disabled: !controller.enabled,
           fontSize: size
@@ -313,6 +319,7 @@ export class UIProperties extends UIPanel {
 
         const selectparams: SelectParameters = {
           width: this.width / 2 - this.spacing * 2,
+          height: this.propertyHeight,
           label: {
             text: initialvalue,
             size
@@ -348,6 +355,7 @@ export class UIProperties extends UIPanel {
         const colorparams: ColorEntryParameters = {
           id: '',
           width,
+          height: this.propertyHeight,
           disabled: !controller.enabled,
           fill: { color }
         }
@@ -369,6 +377,7 @@ export class UIProperties extends UIPanel {
 
         const params: TextEntryParameters = {
           width,
+          height: this.propertyHeight,
           label: {
             text: color, size
           },
