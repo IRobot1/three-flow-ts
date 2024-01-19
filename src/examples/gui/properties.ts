@@ -18,8 +18,8 @@ import { UIColorEntry } from "./color-entry";
 
 export interface PropertiesParameters extends PanelParameters {
   spacing?: number             // defaults to 0.02
-  propertyHeight?: number    // defaults to 0.1
-  // fontSize?: number          // defaults to 0.04
+  propertyHeight?: number      // defaults to 0.1
+  fontSize?: number            // defaults to 0.04
   disabledMaterial?: MeshBasicMaterialParameters // default is dark gray
 }
 
@@ -36,6 +36,7 @@ enum PropertiesEventType {
 export class UIProperties extends UIPanel {
   private spacing: number
   private propertyHeight: number
+  private fontSize: number
   private disabledMaterial: MeshBasicMaterialParameters
 
   private inputs: Array<InputField> = []
@@ -47,6 +48,8 @@ export class UIProperties extends UIPanel {
 
     this.spacing = parameters.spacing != undefined ? parameters.spacing : 0.02
     this.propertyHeight = parameters.propertyHeight != undefined ? parameters.propertyHeight : 0.1
+    this.fontSize = parameters.fontSize != undefined ? parameters.fontSize : 0.04
+
 
     let disabledMaterial = parameters.disabledMaterial
     if (!disabledMaterial) disabledMaterial = { color: 'gray' }
@@ -95,7 +98,8 @@ export class UIProperties extends UIPanel {
   }
 
   addChild(parent: UIPanel, controller: Controller, data: HeightData) {
-    const size = 0.04
+    const size = this.fontSize
+    const height = this.propertyHeight
     const disabled = !controller.enabled
     const fill = disabled ? this.disabledMaterial : { color: 'darkgray' }
 
@@ -105,7 +109,7 @@ export class UIProperties extends UIPanel {
           text: controller.title, maxwidth: this.parameters.width, size,
         },
         width: this.width,
-        height: this.propertyHeight,
+        height,
         disabled,
         fill,
       }
@@ -124,7 +128,7 @@ export class UIProperties extends UIPanel {
         expanded: gui.expanded,
         spacing: 0,
         width: this.width,
-        height: this.propertyHeight,
+        height,
         label: { text: controller.title, size },
         fill,
         panel: {
@@ -179,7 +183,7 @@ export class UIProperties extends UIPanel {
           width -= width / 2 //+ this.spacing
           const sliderparams: SliderbarParameters = {
             width: width,
-            height: this.propertyHeight,
+            height,
             slidersize: 0.03,
             min: controller._min as number,
             max: controller._max as number,
@@ -203,7 +207,7 @@ export class UIProperties extends UIPanel {
         const numberparams: NumberEntryParameters = {
           initialvalue: controller.getValue(),
           width: width - this.spacing,
-          height: this.propertyHeight,
+          height,
           label: { size },
           decimals: controller._decimals,
           disabled: !controller.enabled,
@@ -236,7 +240,7 @@ export class UIProperties extends UIPanel {
       case 'string': {
         const params: TextEntryParameters = {
           width: this.width / 2 - this.spacing * 2,
-          height: this.propertyHeight,
+          height,
           label: {
             text: controller.getValue(),
           },
@@ -265,7 +269,7 @@ export class UIProperties extends UIPanel {
         const checkboxwidth = 0.1
         const params: CheckboxParameters = {
           width: checkboxwidth,
-          height: this.propertyHeight,
+          height,
           checked: controller.getValue(),
           disabled: !controller.enabled,
           fill,
@@ -311,7 +315,7 @@ export class UIProperties extends UIPanel {
           width: this.width / 2 - this.spacing * 2,
           data: options,
           field: 'label',
-          itemheight: this.propertyHeight,
+          itemheight: height,
           itemcount: 5,
           disabled: !controller.enabled,
           fontSize: size
@@ -319,7 +323,7 @@ export class UIProperties extends UIPanel {
 
         const selectparams: SelectParameters = {
           width: this.width / 2 - this.spacing * 2,
-          height: this.propertyHeight,
+          height,
           label: {
             text: initialvalue,
             size
@@ -355,7 +359,7 @@ export class UIProperties extends UIPanel {
         const colorparams: ColorEntryParameters = {
           id: '',
           width,
-          height: this.propertyHeight,
+          height,
           disabled: !controller.enabled,
           fill: { color }
         }
@@ -377,7 +381,7 @@ export class UIProperties extends UIPanel {
 
         const params: TextEntryParameters = {
           width,
-          height: this.propertyHeight,
+          height,
           label: {
             text: color, size
           },

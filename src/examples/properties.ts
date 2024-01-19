@@ -90,7 +90,7 @@ export class PropertiesExample {
     //requestAnimationFrame(() => {
 
     this.guis.forEach(data => {
-      const ui = new UIProperties({ width: 1.5,propertyHeight:0.2 }, app.interactive, options, data.gui)
+      const ui = new UIProperties({ width: 1.5 }, app.interactive, options, data.gui)
       scene.add(ui)
       ui.position.set(data.x, data.y, data.z)
     })
