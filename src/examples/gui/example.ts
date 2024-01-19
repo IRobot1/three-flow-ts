@@ -2,7 +2,7 @@ import { AmbientLight, AxesHelper, Color, PointLight, Scene, Vector2 } from "thr
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../../app/threejs-app";
-import { FlowDiagram, FlowMaterials } from "three-flow";
+import { FlowDiagram, FlowMaterials, InteractiveEventType } from "three-flow";
 import { ListParameters, SelectParameters } from "./model";
 import { FontCache } from "./cache";
 import { ButtonEventType } from "./button";
@@ -18,6 +18,7 @@ import { MenuParameters, UIMiniMenu } from "./mini-menu";
 import { SelectEventType, UISelect } from "./select";
 import { UIExpansionPanel } from "./expansion-panel";
 import { UIScrollbar } from "./scrollbar";
+import { ColorPickerEventType, ColorPickerParameters, UIColorPicker } from "./color-picker";
 
 export class GUIExample {
 
@@ -151,10 +152,29 @@ export class GUIExample {
     scene.add(checkbox)
     checkbox.position.y = -0.35
 
+    const params: ColorPickerParameters = {
+      height: 1
+    }
+    const colorpicker = new UIColorPicker({}, app.interactive, options)
+    scene.add(colorpicker)
+    colorpicker.visible = false
+
+    colorpicker.addEventListener<any>(ColorPickerEventType.COLOR_VALUE_CHANGED, (e) => {
+      colorentry.color = e.color
+    })
+    colorpicker.addEventListener(InteractiveEventType.POINTERMISSED, () => {
+      console.warn('missed')
+      colorpicker.visible = false
+    });
+
     const colorentry = new UIColorEntry({ height: 0.3, fill: { color: 'blue' } }, app.interactive, options)
     scene.add(colorentry)
     colorentry.position.y = -0.7
 
+    colorentry.addEventListener(InteractiveEventType.CLICK, () => {
+      colorpicker.position.set(colorentry.position.x, colorentry.position.y - colorentry.height / 2 - params.height! / 2, colorentry.position.z)
+      colorpicker.visible = true
+    })
 
     const vsliderbar = new UIScrollbar({ orientation: 'horizontal' }, app.interactive, options)
     scene.add(vsliderbar)
@@ -246,7 +266,7 @@ export class GUIExample {
       console.warn('panel expanded', expanded)
     }
 
-    input.add(button, text1, text2, checkbox, colorentry, )
+    input.add(button, text1, text2, checkbox, colorentry,)
 
     //const keyboard = new UIKeyboard({}, app.interactive)
     //scene.add(keyboard)
