@@ -2,7 +2,7 @@ import { Group, MeshBasicMaterialParameters } from "three";
 
 import { ThreeInteractive } from "three-flow";
 import { PanelEventType, PanelOptions, UIPanel } from "./panel";
-import { Controller, GUI } from "./gui";
+import { Controller, GUI } from "./gui-model";
 import { CheckboxParameters, ColorEntryParameters, LabelParameters, ListParameters, NumberEntryParameters, PanelParameters, SelectParameters, SliderbarParameters, TextButtonParameters, TextEntryParameters } from "./model";
 import { ButtonEventType } from "./button";
 import { UITextButton } from "./button-text";
@@ -14,7 +14,7 @@ import { UITextEntry } from "./text-entry";
 import { InputField, InputFieldEventType } from "./input-field";
 import { CheckboxEventType, UICheckBox } from "./checkbox";
 import { SelectEventType, UISelect } from "./select";
-import { ColorEntryEventType, UIColorEntry } from "./color-entry";
+import { UIColorEntry } from "./color-entry";
 
 export interface PropertiesParameters extends PanelParameters {
   spacing?: number             // defaults to 0.02

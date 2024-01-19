@@ -4,7 +4,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { FlowMaterials } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { GUI } from "./gui/gui";
+import { GUI } from "./gui/gui-model";
 import { UIProperties } from "./gui/properties";
 import { UIOptions } from "./gui/model";
 import { FontCache } from "./gui/cache";
