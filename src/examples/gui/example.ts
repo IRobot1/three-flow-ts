@@ -193,39 +193,48 @@ export class GUIExample {
     scene.add(popupbutton)
     popupbutton.position.set(0.7, 0.9, 0)
 
-    let opened = false
-    popupbutton.pressed = () => {
-      if (opened) return
+    const closemenu = () => {
+      popupbutton.remove(menu)
+      opened = false
+    }
 
-      const menuparams: MenuParameters = {
-        fill: { color: 'green' },
-        items: [
-          {
-            text: 'add', isicon: true, hint: 'one', selected: () => {
-              console.warn('add selected')
-              closemenu()
-            }
-          },
-          {
-            text: 'cancel', isicon: true, hint: 'two', selected: () => {
-              console.warn('cancel selected')
-              closemenu()
-            }
-          },
-          {
-            text: 'Test', hint: 'three', fill: { color: 'blue' }, selected: () => {
-              console.warn('test selected')
-              closemenu()
-            }
-          },
-        ]
+    const menuparams: MenuParameters = {
+      fill: { color: 'green' },
+      items: [
+        {
+          text: 'add', isicon: true, hint: 'one', selected: () => {
+            console.warn('add selected')
+            closemenu()
+          }
+        },
+        {
+          text: 'cancel', isicon: true, hint: 'two', selected: () => {
+            console.warn('cancel selected')
+            closemenu()
+          }
+        },
+        {
+          text: 'Test', hint: 'three', fill: { color: 'blue' }, selected: () => {
+            console.warn('test selected')
+            closemenu()
+          }
+        },
+      ]
+    }
+
+    const menu = new UIMiniMenu(menuparams, app.interactive, options)
+
+    let opened = false
+
+    popupbutton.pressed = () => {
+      if (opened) {
+        closemenu()
+        return
       }
 
-      const menu = new UIMiniMenu(menuparams, app.interactive, options)
       popupbutton.add(menu)
       menu.position.set(0.12, 0, 0)
 
-      const closemenu = () => { popupbutton.remove(menu), opened = false }
       menu.missed = closemenu
       opened = true
     }
