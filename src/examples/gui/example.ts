@@ -262,6 +262,12 @@ export class GUIExample {
 
     const expansionPanel = new UIExpansionPanel(expandparams, app.interactive, options)
     expansionPanel.setPanel(properties)
+    expansionPanel.createExpandedIndicator = () => {
+      return new UILabel({ text: 'unfold_more', isicon: true }, options)
+    }
+    expansionPanel.createCollapsedIndicator = () => {
+      return new UILabel({ text: 'unfold_less', isicon: true }, options)
+    }
 
     scene.add(expansionPanel)
     expansionPanel.position.set(2.25, 0.7, 0)

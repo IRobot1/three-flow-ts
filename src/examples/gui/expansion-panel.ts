@@ -1,8 +1,9 @@
 import { ThreeInteractive } from "three-flow";
 import { UITextButton } from "./button-text";
 import { PanelParameters, TextButtonParameters } from "./model";
-import { CircleGeometry, MathUtils, Mesh, MeshBasicMaterialParameters } from "three";
+import { Mesh, MeshBasicMaterialParameters } from "three";
 import { PanelEventType, PanelOptions, UIPanel } from "./panel";
+import { UILabel } from "./label";
 
 export interface ExpansionPanelParameters extends TextButtonParameters {
   expanded?: boolean   // default is false
@@ -19,7 +20,9 @@ export class UIExpansionPanel extends UITextButton {
   expanded = false
   spacing: number
 
-  private indicator: Mesh
+  private expandedIndicator!: Mesh
+  private collapsedIndicator!: Mesh
+
   constructor(parameters: ExpansionPanelParameters, interactive: ThreeInteractive, options: PanelOptions) {
     parameters.disableScaleOnClick = true
     parameters.label.alignX = 'left'
@@ -35,11 +38,29 @@ export class UIExpansionPanel extends UITextButton {
     this.label.maxwidth = this.width - (radius + this.label.padding)
     this.label.position.x = (-this.width) / 2 + radius + this.label.padding
 
-    const mesh = this.createIndicator(radius)
-    mesh.material = this.materials.getMaterial('geometry', 'expansion-indicator', <MeshBasicMaterialParameters>{ color: 'black' })
-    mesh.position.set((-this.width + radius + this.label.padding) / 2, 0, 0.001)
-    this.add(mesh)
-    this.indicator = mesh
+    const indicatorMaterial = this.materials.getMaterial('geometry', 'expansion-indicator', <MeshBasicMaterialParameters>{ color: 'black' })
+
+    requestAnimationFrame(() => {
+      const expandedMesh = this.createExpandedIndicator(radius)
+      expandedMesh.material = indicatorMaterial
+      expandedMesh.position.set((-this.width + radius + this.label.padding) / 2, 0, 0.001)
+      this.add(expandedMesh)
+      this.expandedIndicator = expandedMesh
+
+      const collapsedMesh = this.createCollapsedIndicator(radius)
+      collapsedMesh.material = indicatorMaterial
+      collapsedMesh.position.set((-this.width + radius + this.label.padding) / 2, 0, 0.001)
+      this.add(collapsedMesh)
+      collapsedMesh.visible = false
+      this.collapsedIndicator = collapsedMesh
+
+      if (parameters.expanded) {
+        // allow callbacks or events to be fired after construction has finised
+        requestAnimationFrame(() => {
+          this.pressed()
+        })
+      }
+    })
 
     let panelparams = parameters.panel
     if (!panelparams) panelparams = {}
@@ -53,12 +74,6 @@ export class UIExpansionPanel extends UITextButton {
       panel.position.y = -(this.height + panel.height) / 2 - this.spacing
     })
 
-    if (parameters.expanded) {
-      // allow callbacks or events to be fired after construction has finised
-      requestAnimationFrame(() => {
-        this.pressed()
-      })
-    }
   }
 
   // provide a custom panel
@@ -72,7 +87,10 @@ export class UIExpansionPanel extends UITextButton {
 
   override pressed() {
     this.panel.visible = !this.panel.visible
-    this.indicator.rotation.z = this.indicatorRotation(this.panel.visible)
+
+    this.expandedIndicator.visible = this.panel.visible
+    this.collapsedIndicator.visible = !this.panel.visible
+
     this.panelExpanded(this.expanded = this.panel.visible)
   }
 
@@ -81,16 +99,12 @@ export class UIExpansionPanel extends UITextButton {
     return new UIPanel(parameters, this.options)
   }
 
-  createIndicator(radius: number): Mesh {
-    const geometry = new CircleGeometry(0.04, 3)
-    return new Mesh(geometry)
+  createExpandedIndicator(radius: number): Mesh {
+    return new UILabel({ text: 'expand_more', isicon: true }, this.options)
   }
 
-
-  indicatorRotation(opened: boolean): number {
-    if (opened)
-      return MathUtils.degToRad(-90)
-    return MathUtils.degToRad(90)
+  createCollapsedIndicator(radius: number): Mesh {
+    return new UILabel({ text: 'expand_less', isicon: true }, this.options)
   }
 
   panelExpanded(expanded: boolean) {
