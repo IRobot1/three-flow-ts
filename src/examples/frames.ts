@@ -15,6 +15,7 @@ import {
   FlowDiagramOptions,
   RoundedRectangleGeometry,
   RoundedRectangleShape,
+  RoundedRectangleBorderGeometry,
 } from "three-flow";
 import { TroikaFlowLabel } from "./troika-label";
 
@@ -212,6 +213,7 @@ class FramesNode extends FlowNode {
     material.opacity = 0
 
     const geometry = new RoundedRectangleGeometry(this.width - 0.2, this.height - 0.2, 0.1)
+    this.geometry.center()
     const back = diagram.getMaterial('geometry', 'background', <MeshBasicMaterialParameters>{
       color: 'white', transparent: true, opacity: 0.2
     }) as MeshBasicMaterial
@@ -221,25 +223,10 @@ class FramesNode extends FlowNode {
     this.add(backmesh)
     this.background = backmesh
 
-    const border = this.addBorder()
+    const border = new RoundedRectangleBorderGeometry(this.width, this.height, 0.1)
     const mesh = new Mesh(border, diagram.getMaterial('geometry', 'border', <MeshBasicMaterialParameters>{ color: 'white' }))
     this.add(mesh)
 
-  }
-
-  private addBorder(): BufferGeometry {
-    // add a border around node
-    const shape = new RoundedRectangleShape(this.width, this.height, 0.1)
-
-    const points = shape.getPoints();
-    points.forEach(item => item.multiplyScalar(0.95))
-
-    // draw the hole
-    const holePath = new Shape(points.reverse())
-
-    // add hole to shape
-    shape.holes.push(holePath);
-    return new ShapeGeometry(shape);
   }
 }
 

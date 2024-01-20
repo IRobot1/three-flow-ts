@@ -16,7 +16,7 @@ class MyFlowDiagram extends FlowDiagram {
       return new MeshStandardMaterial(parameters);
     }
 
-    const options: FlowDiagramOptions = { linestyle: 'step', materialCache:materials }
+    const options: FlowDiagramOptions = { linestyle: 'step', materialCache: materials }
     super(options)
   }
 
@@ -37,7 +37,6 @@ class MyFlowNode extends FlowNode {
 
     const texture = diagram.loader.load('/assets/examples/' + tile.assetimage + '.png')
     texture.colorSpace = SRGBColorSpace
-    texture.offset.set(0.5, 0.5)
     this.material = diagram.getMaterial('geometry', tile.assetimage, <MeshStandardMaterialParameters>{ color: 'white', map: texture })
 
     const node = this
@@ -53,10 +52,12 @@ class MyFlowNode extends FlowNode {
   }
 
   override createGeometry(): BufferGeometry {
-    return new ExtrudeGeometry(
+    const geometry = new ExtrudeGeometry(
       new RoundedRectangleShape(this.parameters.width!, this.parameters.height!, 0.1),
       { bevelEnabled: false, depth: 0.03 }
     )
+    geometry.center()
+    return geometry
   }
 
 }
@@ -138,7 +139,7 @@ export class GalleryExample {
         x: column2, y: row0,
         assetimage: 'documentation', route: 'documentation',
         connectors: [
-          { id: "c1documentation", anchor: 'bottom',  },
+          { id: "c1documentation", anchor: 'bottom', },
         ],
       },
       {
@@ -147,7 +148,7 @@ export class GalleryExample {
         x: column1, y: row1,
         assetimage: 'stress', route: 'stress',
         connectors: [
-          { id: "c1stress", anchor: 'right',  },
+          { id: "c1stress", anchor: 'right', },
         ],
       },
       {
@@ -355,18 +356,18 @@ export class GalleryExample {
         label: { text: "User Interface" },
         x: column9, y: row0,
         assetimage: 'gui', route: 'gui',
-      //  connectors: [
-      //    { id: "c1gui", anchor: 'top' },
-      //  ],
+        //  connectors: [
+        //    { id: "c1gui", anchor: 'top' },
+        //  ],
       },
       {
         id: 'properties',
         label: { text: "Properities" },
         x: column8, y: row0,
         assetimage: 'properties', route: 'properties',
-      //  connectors: [
-      //    { id: "c1gui", anchor: 'top' },
-      //  ],
+        //  connectors: [
+        //    { id: "c1gui", anchor: 'top' },
+        //  ],
       },
     ];
 

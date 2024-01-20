@@ -4,7 +4,7 @@ import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeom
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
-import { ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors, FlowDesignerOptions, FlowDiagram, FlowDiagramDesigner, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors, RoundedRectangleShape, ThreeInteractive } from "three-flow";
+import { ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors, FlowDesignerOptions, FlowDiagram, FlowDiagramDesigner, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors, RoundedRectangleBorderGeometry, RoundedRectangleShape, ThreeInteractive } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { TroikaFlowLabel } from "./troika-label";
@@ -159,7 +159,7 @@ class ShapeNode extends FlowNode {
         geometry = new RingGeometry(this.width / 2 - 0.005, this.width / 2 + 0.005, 32)
       }
       else {
-        geometry = this.addBorder()
+        geometry = new RoundedRectangleBorderGeometry(this.width + 0.01, this.height + 0.01, 0.03, 0.02)
       }
 
       bordermesh.geometry = geometry
@@ -178,23 +178,6 @@ class ShapeNode extends FlowNode {
 
     this.addEventListener(FlowEventType.WIDTH_CHANGED, resizeGeometry)
   }
-
-  private addBorder(): BufferGeometry {
-    const r = 0.04
-    // add a border around node
-    const shape = new RoundedRectangleShape(this.width + 0.01, this.height + 0.01, 0.03)
-
-    const points = new RoundedRectangleShape(this.width - 0.01, this.height - 0.01, 0.02).getPoints();
-
-    // draw the hole
-    const holePath = new Shape(points.reverse())
-
-    // add hole to shape
-    shape.holes.push(holePath);
-    return new ShapeGeometry(shape);
-  }
-
-
 
   private createCube(parameters: DesignerNodeParameters): BufferGeometry {
     const geometry = new RoundedBoxGeometry(this.width - 0.04, this.height - 0.04, this.depth, 8, 0.02)

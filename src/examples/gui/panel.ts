@@ -289,16 +289,19 @@ export class UIPanel extends Mesh {
     const shape = this.panelShape()
     this.geometry.dispose()
     this.geometry = this.createGeometry(shape)
+    this.geometry.center()
 
     if (this.borderMesh) {
       const bordershape = this.panelBorderShape(this.borderWidth!)
       this.borderMesh.geometry.dispose()
       this.borderMesh.geometry = this.createGeometry(bordershape)
+      this.borderMesh.geometry.center()
     }
 
     const highlightshape = this.panelBorderShape(this.highlightWidth)
     this.highlightMesh.geometry.dispose()
     this.highlightMesh.geometry = this.createGeometry(highlightshape)
+    this.highlightMesh.geometry.center()
 
     this.resizeGeometry()
   }
