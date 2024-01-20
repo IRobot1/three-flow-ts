@@ -102,6 +102,7 @@ export class UIColorPicker extends UIPanel {
 
       const material = this.initcolorshades(e.color)
       if (material) shademesh.material = material
+      color = e.color
     })
 
 
