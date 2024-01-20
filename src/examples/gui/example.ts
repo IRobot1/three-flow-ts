@@ -16,9 +16,11 @@ import { UITextButton } from "./button-text";
 import { UILabel } from "./label";
 import { MenuParameters, UIMiniMenu } from "./mini-menu";
 import { SelectEventType, UISelect } from "./select";
-import { UIExpansionPanel } from "./expansion-panel";
+import { ExpansionPanelParameters, UIExpansionPanel } from "./expansion-panel";
 import { UIScrollbar } from "./scrollbar";
 import { ColorPickerEventType, ColorPickerParameters, UIColorPicker } from "./color-picker";
+import { GUI } from "./gui-model";
+import { UIProperties } from "./properties";
 
 export class GUIExample {
 
@@ -250,7 +252,17 @@ export class GUIExample {
       opened = true
     }
 
-    const expansionPanel = new UIExpansionPanel({ expanded: true, label: { text: 'Advanced Properties', size: 0.06 }, panel: { fill: { color: 'green' } } }, app.interactive, options)
+    const gui = this.makeGUI()
+    const properties = new UIProperties({}, app.interactive, options, gui)
+    properties.getColorPicker = () => { return colorpicker }
+
+    const expandparams: ExpansionPanelParameters = {
+      label: { text: gui.title, size: 0.06 },
+    }
+
+    const expansionPanel = new UIExpansionPanel(expandparams, app.interactive, options)
+    expansionPanel.setPanel(properties)
+
     scene.add(expansionPanel)
     expansionPanel.position.set(2.25, 0.7, 0)
     expansionPanel.panelExpanded = (expanded: boolean) => {
@@ -290,6 +302,50 @@ export class GUIExample {
       app.disablePostProcessing()
       orbit.dispose()
     }
+  }
+
+  makeGUI() {
+    const gui = new GUI({ title: 'Listen', width: 300 });
+
+
+    const params = { animate: false };
+
+    gui.add(params, 'animate');
+
+    function listenTester(name: string, cycle: any, ...addArgs: any) {
+
+      const obj: any = {};
+      obj[name] = cycle[cycle.length - 1];
+      gui.add(obj, name, ...addArgs).listen();
+      let index = 0;
+
+      const loop = () => {
+
+        if (params.animate) obj[name] = cycle[index];
+        if (++index > cycle.length - 1) {
+          index = 0;
+        }
+
+        setTimeout(loop, 1000);
+
+      };
+
+      loop();
+
+    }
+
+    listenTester('Number', [1, 2, 3, 4, 5]);
+    listenTester('Slider', [5, 4, 3, 2, 1], 1, 5, 0.001);
+
+    listenTester('String', ['foo', 'bar', 'baz']);
+    listenTester('Boolean', [true, false]);
+
+    listenTester('Options', ['a', 'b', 'c'], ['a', 'b', 'c']);
+
+    gui.add = gui.addColor; // hehe
+    listenTester('Color', ['#aa00ff', '#00aaff', '#ffaa00']);
+
+    return gui
   }
 }
 
