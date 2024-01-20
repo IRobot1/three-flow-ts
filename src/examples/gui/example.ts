@@ -262,6 +262,12 @@ export class GUIExample {
 
     const expansionPanel = new UIExpansionPanel(expandparams, app.interactive, options)
     expansionPanel.setPanel(properties)
+    expansionPanel.createExpandedIndicator = () => {
+      return new UILabel({ text: 'unfold_more', isicon: true }, options)
+    }
+    expansionPanel.createCollapsedIndicator = () => {
+      return new UILabel({ text: 'unfold_less', isicon: true }, options)
+    }
 
     scene.add(expansionPanel)
     expansionPanel.position.set(2.25, 0.7, 0)
@@ -304,46 +310,37 @@ export class GUIExample {
     }
   }
 
+
+
   makeGUI() {
-    const gui = new GUI({ title: 'Listen', width: 300 });
-
-
-    const params = { animate: false };
-
-    gui.add(params, 'animate');
-
-    function listenTester(name: string, cycle: any, ...addArgs: any) {
-
-      const obj: any = {};
-      obj[name] = cycle[cycle.length - 1];
-      gui.add(obj, name, ...addArgs).listen();
-      let index = 0;
-
-      const loop = () => {
-
-        if (params.animate) obj[name] = cycle[index];
-        if (++index > cycle.length - 1) {
-          index = 0;
-        }
-
-        setTimeout(loop, 1000);
-
-      };
-
-      loop();
-
+    const getDepth = (g: any) => {
+      let depth = 0;
+      while (g !== g.root) {
+        g = g.parent;
+        depth++;
+      }
+      return depth;
     }
 
-    listenTester('Number', [1, 2, 3, 4, 5]);
-    listenTester('Slider', [5, 4, 3, 2, 1], 1, 5, 0.001);
+    const addFiller = (g: any) => {
+      const nested = getDepth(g) > 0 ? 'Nested ' : '';
+      g.add({ x: 0.5 }, 'x', 0, 1, 0.25).name(`${nested}Slider`);
+      g.add({ x: true }, 'x').name(`${nested}Boolean`);
+      g.add({ x: function () { } }, 'x').name(`${nested}Button`);
+    }
+    const gui = new GUI({ title: 'Listen', width: 300 });
 
-    listenTester('String', ['foo', 'bar', 'baz']);
-    listenTester('Boolean', [true, false]);
+    const folder3 = gui.addFolder('Folder');
 
-    listenTester('Options', ['a', 'b', 'c'], ['a', 'b', 'c']);
+    addFiller(folder3);
 
-    gui.add = gui.addColor; // hehe
-    listenTester('Color', ['#aa00ff', '#00aaff', '#ffaa00']);
+    const folder4 = folder3.addFolder('Nested Folder')//.close();
+
+    addFiller(folder4);
+
+    folder4.addFolder('Empty Nested Folder');
+
+    addFiller(folder4);
 
     return gui
   }
