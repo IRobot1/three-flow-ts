@@ -1,7 +1,7 @@
 import { AmbientLight, AxesHelper, Color, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
-import { FlowMaterials } from "three-flow";
+import { FlowMaterials, InteractiveEventType } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { GUI } from "./gui/gui-model";
@@ -9,6 +9,7 @@ import { UIProperties } from "./gui/properties";
 import { UIOptions } from "./gui/model";
 import { FontCache } from "./gui/cache";
 import { KeyboardInteraction } from "./gui/keyboard-interaction";
+import { UIColorPicker } from "./gui/color-picker";
 
 //
 // adapted from https://github.com/georgealways/lil-gui/blob/master/examples/kitchen-sink/kitchen-sink.js
@@ -87,12 +88,17 @@ export class PropertiesExample {
       keyboard: new KeyboardInteraction(app)
     }
 
+    const colorpicker = new UIColorPicker({} , app.interactive, options)
+    scene.add(colorpicker)
+    colorpicker.visible = false
+
     //requestAnimationFrame(() => {
 
     this.guis.forEach(data => {
       const ui = new UIProperties({ width: 1.5 }, app.interactive, options, data.gui)
       scene.add(ui)
       ui.position.set(data.x, data.y, data.z)
+      ui.getColorPicker = () => { return colorpicker }
     })
     // })
 

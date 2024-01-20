@@ -251,9 +251,28 @@ export class UIPanel extends Mesh {
 
       this.position.copy(snapToGrid(e.position.sub(offset)))
     });
-
-
   }
+
+  disablePointerInteraction() {
+    const block = (e: any) => { if (this.visible) e.stop = true }
+
+    this.addEventListener(InteractiveEventType.POINTERMOVE, block)
+    this.addEventListener(InteractiveEventType.POINTERENTER, block)
+    this.addEventListener(InteractiveEventType.POINTERDOWN, block)
+    this.addEventListener(InteractiveEventType.POINTERUP, block)
+    this.addEventListener(InteractiveEventType.CLICK, block)
+
+    this.enablePointerInteraction = () => {
+      this.removeEventListener(InteractiveEventType.POINTERMOVE, block)
+      this.removeEventListener(InteractiveEventType.POINTERENTER, block)
+      this.removeEventListener(InteractiveEventType.POINTERDOWN, block)
+      this.removeEventListener(InteractiveEventType.POINTERUP, block)
+      this.removeEventListener(InteractiveEventType.CLICK, block)
+    }
+  }
+  enablePointerInteraction() { }
+
+
 
   override add(...object: Object3D[]): this {
     // TODO: implement autogrow

@@ -159,22 +159,12 @@ export class GUIExample {
     scene.add(colorpicker)
     colorpicker.visible = false
 
-    colorpicker.addEventListener<any>(ColorPickerEventType.COLOR_VALUE_CHANGED, (e) => {
-      colorentry.color = e.color
-    })
-    colorpicker.addEventListener(InteractiveEventType.POINTERMISSED, () => {
-
-      colorpicker.visible = false
-    });
-
     const colorentry = new UIColorEntry({ height: 0.3, fill: { color: 'blue' } }, app.interactive, options)
     scene.add(colorentry)
     colorentry.position.y = -0.7
 
     colorentry.addEventListener(InteractiveEventType.CLICK, () => {
-      colorpicker.position.set(colorentry.position.x, colorentry.position.y - colorentry.height / 2 - params.height! / 2, colorentry.position.z)
-      colorpicker.visible = true
-      colorpicker.colorvalue = colorentry.color as string
+      colorpicker.setColorEntry(colorentry)
     })
 
     const vsliderbar = new UIScrollbar({ orientation: 'horizontal' }, app.interactive, options)

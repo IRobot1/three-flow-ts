@@ -192,10 +192,7 @@ export class UIList extends UIEntry implements Pagination {
 
     // block pointer from passing through panel
     interactive.selectable.add(this)
-    this.addEventListener(InteractiveEventType.POINTERMOVE, (e: any) => { e.stop = true })
-    this.addEventListener(InteractiveEventType.POINTERENTER, (e: any) => { e.stop = true })
-
-
+    this.disablePointerInteraction()
   }
 
 

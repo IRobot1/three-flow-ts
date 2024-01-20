@@ -1,8 +1,8 @@
 import { BufferGeometry, CanvasTexture, MathUtils, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, PlaneGeometry, RingGeometry, SRGBColorSpace, Shape, Vector2 } from "three";
 import { PanelParameters } from "./model";
 import { PanelOptions, UIPanel } from "./panel";
-import { RoundedRectangleShape } from "three-flow";
 import { InteractiveEventType, ThreeInteractive } from "three-flow";
+import { UIColorEntry } from "./color-entry";
 
 export interface ColorPickerParameters extends PanelParameters {
 }
@@ -19,11 +19,26 @@ export class UIColorPicker extends UIPanel {
   set colorvalue(newvalue: string) {
     if (this._colorvalue != newvalue) {
       this._colorvalue = newvalue
+      if (this.colorentry) this.colorentry.color = newvalue
       this.dispatchEvent<any>({ type: ColorPickerEventType.COLOR_VALUE_CHANGED, color: newvalue })
     }
   }
 
   private interactives: Array<Object3D>
+
+  private colorentry: UIColorEntry | undefined
+
+  public setColorEntry(colorentry: UIColorEntry, z = 0.003) {
+    this.colorentry = colorentry
+    colorentry.add(this)
+    this.position.set(
+      colorentry.position.x,
+      colorentry.position.y - colorentry.height / 2 - this.height / 2,
+      z
+    )
+    this.visible = true
+    this.colorvalue = colorentry.color as string
+  }
 
   constructor(parameters: ColorPickerParameters, protected interaction: ThreeInteractive, options: ColorPickerOptions) {
     parameters.highlightable = false
@@ -66,6 +81,11 @@ export class UIColorPicker extends UIPanel {
 
     this.interactives = [this, shademesh, ringmesh, innerringmesh, rangemesh]
     interaction.selectable.add(...this.interactives)
+
+    this.disablePointerInteraction()
+
+    // hide, when click away
+    this.addEventListener(InteractiveEventType.POINTERMISSED, () => { this.visible = false });
   }
 
   dispose() {

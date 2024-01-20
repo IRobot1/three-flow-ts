@@ -1,6 +1,6 @@
 import { Group, MeshBasicMaterialParameters } from "three";
 
-import { ThreeInteractive } from "three-flow";
+import { InteractiveEventType, ThreeInteractive } from "three-flow";
 import { PanelEventType, PanelOptions, UIPanel } from "./panel";
 import { Controller, GUI } from "./gui-model";
 import { CheckboxParameters, ColorEntryParameters, LabelParameters, ListParameters, NumberEntryParameters, PanelParameters, SelectParameters, SliderbarParameters, TextButtonParameters, TextEntryParameters } from "./model";
@@ -15,6 +15,7 @@ import { InputField, InputFieldEventType } from "./input-field";
 import { CheckboxEventType, UICheckBox } from "./checkbox";
 import { SelectEventType, UISelect } from "./select";
 import { UIColorEntry } from "./color-entry";
+import { UIColorPicker } from "./color-picker";
 
 export interface PropertiesParameters extends PanelParameters {
   spacing?: number             // defaults to 0.02
@@ -370,7 +371,6 @@ export class UIProperties extends UIPanel {
           }
         }
 
-
         const colorentry = this.createColorEntry(colorparams)
         colorentry.position.set(this.spacing + width / 2, 0, 0.001)
         data.group.add(colorentry)
@@ -378,6 +378,18 @@ export class UIProperties extends UIPanel {
         colorentry.addEventListener(PanelEventType.COLOR_CHANGED, () => {
           textentry.text = colorentry.color.toString()
         })
+
+        colorentry.addEventListener(InteractiveEventType.CLICK, () => {
+          if (colorentry.disabled) return
+
+          const colorpicker = this.getColorPicker()
+          if (!colorpicker) {
+            console.warn('Color Picker not provided')
+            return
+          }
+          colorpicker.setColorEntry(colorentry)
+        })
+
 
         const params: TextEntryParameters = {
           width,
@@ -492,4 +504,6 @@ export class UIProperties extends UIPanel {
   createColorEntry(parameters: ColorEntryParameters): UIColorEntry {
     return new UIColorEntry(parameters, this.interactive, this.options)
   }
+
+  getColorPicker(): UIColorPicker | undefined { return undefined  }
 }
