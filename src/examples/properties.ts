@@ -57,7 +57,7 @@ export class PropertiesExample {
     //scene.add(new AxesHelper(3))
 
 
-    const z = -1.9
+    const z = 0
 
     const col1 = -3.2
     this.makeNumbers(col1, 3, z, true);

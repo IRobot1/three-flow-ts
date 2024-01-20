@@ -1,7 +1,7 @@
 import { MathUtils, Mesh, PlaneGeometry, Vector3 } from "three";
 import { UIEntry } from "./input-field";
 import { LabelParameters, UIOrientationType, ListParameters } from "./model";
-import { ThreeInteractive } from "three-flow";
+import { InteractiveEventType, ThreeInteractive } from "three-flow";
 import { PanelOptions } from "./panel";
 import { ButtonEventType, UIButton } from "./button";
 import { UITextButton } from "./button-text";
@@ -190,6 +190,12 @@ export class UIList extends UIEntry implements Pagination {
     this.moveTo(this.firstdrawindex)
     if (scrollbar) scrollbar.value = this.selectedindex
 
+    // block pointer from passing through panel
+    interactive.selectable.add(this)
+    this.addEventListener(InteractiveEventType.POINTERMOVE, (e: any) => { e.stop = true })
+    this.addEventListener(InteractiveEventType.POINTERENTER, (e: any) => { e.stop = true })
+
+
   }
 
 
@@ -240,7 +246,7 @@ export class UIList extends UIEntry implements Pagination {
     }
 
     this.selectedMesh.visible = false
-    
+
     this.visuals.forEach((visual, index) => {
       visual.visible = (drawindex < this.data.length)
       if (visual.visible) {
@@ -268,7 +274,8 @@ export class UIList extends UIEntry implements Pagination {
 
     this.visuals.forEach(visual => visual.dispose())
     if (this.scrollbar) this.scrollbar.dispose()
-}
+    this.interactive.selectable.remove(this)
+  }
 
   moveFirst() {
     if (this.selectedindex == 0) return

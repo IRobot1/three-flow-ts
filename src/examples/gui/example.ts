@@ -155,7 +155,7 @@ export class GUIExample {
     const params: ColorPickerParameters = {
       height: 1
     }
-    const colorpicker = new UIColorPicker({}, app.interactive, options)
+    const colorpicker = new UIColorPicker(params, app.interactive, options)
     scene.add(colorpicker)
     colorpicker.visible = false
 
@@ -163,7 +163,7 @@ export class GUIExample {
       colorentry.color = e.color
     })
     colorpicker.addEventListener(InteractiveEventType.POINTERMISSED, () => {
-      console.warn('missed')
+
       colorpicker.visible = false
     });
 
@@ -174,6 +174,7 @@ export class GUIExample {
     colorentry.addEventListener(InteractiveEventType.CLICK, () => {
       colorpicker.position.set(colorentry.position.x, colorentry.position.y - colorentry.height / 2 - params.height! / 2, colorentry.position.z)
       colorpicker.visible = true
+      colorpicker.colorvalue = colorentry.color as string
     })
 
     const vsliderbar = new UIScrollbar({ orientation: 'horizontal' }, app.interactive, options)

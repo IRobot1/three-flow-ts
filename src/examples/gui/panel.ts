@@ -196,10 +196,6 @@ export class UIPanel extends Mesh {
 
     const highlightable = parameters.highlightable != undefined ? parameters.highlightable : true
 
-    this.addEventListener(InteractiveEventType.POINTERMOVE, (e: any) => {
-      e.stop = true
-    })
-
     if (highlightable) {
       const highlight = () => {
         highlightMesh.visible = true

@@ -103,10 +103,12 @@ export class ThreeInteractive extends EventDispatcher<any> {
         const overlapping = new Set<Object3D>(entered)
 
         selectIntersects.forEach((intersection, index) => {
-          // stop bubbling event to anything behind last object
-          if (_event.stop || index > 0) return
-
           const object = intersection.object;
+
+          // stop bubbling event to anything behind last object
+          if (_event.stop && object.visible) return
+
+          //if (index > 0) console.warn(object)
 
           // ignore anything not in the scene
           if (!object.parent) return
