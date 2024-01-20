@@ -67,7 +67,7 @@ export class UIExpansionPanel extends UITextButton {
     this.panel = this.createPanel(panelparams)
     this.setPanel(this.panel)
     this.panel.visible = false
-   
+
   }
 
   // provide a custom panel
