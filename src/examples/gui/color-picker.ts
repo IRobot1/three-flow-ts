@@ -32,8 +32,8 @@ export class UIColorPicker extends UIPanel {
     this.colorentry = colorentry
     colorentry.add(this)
     this.position.set(
-      colorentry.position.x,
-      colorentry.position.y - colorentry.height / 2 - this.height / 2,
+      this.width / 2 - colorentry.width / 2,
+      -this.height / 2 - colorentry.height / 2,
       z
     )
     this.visible = true
