@@ -118,6 +118,7 @@ export class GalleryExample {
     const row1 = 2.5
     const row2 = 1
     const row3 = -0.5
+    const row4 = -2
 
     const column1 = -4.5
     const column2 = -3
@@ -145,10 +146,10 @@ export class GalleryExample {
       {
         id: 'stress',
         label: { text: "Stress Test" },
-        x: column1, y: row1,
+        x: column4, y: row0,
         assetimage: 'stress', route: 'stress',
         connectors: [
-          { id: "c1stress", anchor: 'right', },
+          { id: "c1stress", anchor: 'bottom', },
         ],
       },
       {
@@ -184,7 +185,7 @@ export class GalleryExample {
       },
       {
         id: 'loader',
-        x: column3, y: row3,
+        x: column2, y: row4,
         label: { text: "Loader from JSON" },
         assetimage: 'loader', route: 'loader',
         connectors: [
@@ -194,7 +195,7 @@ export class GalleryExample {
       {
         id: 'languages',
         label: { text: "Languages" },
-        x: column1, y: row3,
+        x: column3, y: row3,
         assetimage: 'languages', route: 'languages',
         connectors: [
           { id: "c1languages", anchor: 'top' },
@@ -207,6 +208,7 @@ export class GalleryExample {
         assetimage: 'civilization', route: 'civilization',
         connectors: [
           { id: "c1civilization", anchor: 'top' },
+          { id: "c2civilization", anchor: 'bottom' },
         ],
       },
       {
@@ -351,6 +353,15 @@ export class GalleryExample {
           { id: "c1alchemist", anchor: 'top' },
         ],
       },
+      {
+        id: 'userinterface',
+        label: { text: "User Interface" },
+        x: column1, y: row1,
+        assetimage: 'userinterface', route: 'userinterface',
+        connectors: [
+          { id: "c1userinterface", anchor: 'right' },
+        ],
+      },
     //  {
     //    id: 'gui',
     //    label: { text: "User Interface" },
@@ -406,7 +417,7 @@ export class GalleryExample {
       {
         from: "builder",
         to: "loader",
-        fromconnector: "c2builder",
+        fromconnector: "c2civilization",
         toconnector: "c1loader"
       },
       {
@@ -502,8 +513,14 @@ export class GalleryExample {
       {
         from: "stress",
         to: "basic",
-        fromconnector: "c1stress",
-        toconnector: "c1basic"
+        fromconnector: "c1basic",
+        toconnector: "c1stress"
+      },
+      {
+        from: "documentation",
+        to: "userinterface",
+        fromconnector: "c1documentation",
+        toconnector: "c1userinterface"
       },
     ];
 

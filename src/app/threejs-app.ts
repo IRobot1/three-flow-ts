@@ -108,7 +108,7 @@ export class ThreeJSApp extends WebGLRenderer {
     }
   }
 
-  enableVR() {
+  enableVR(hidebutton = false) {
     const scene = this.scene!
 
     const geometry = new BufferGeometry();
@@ -137,7 +137,15 @@ export class ThreeJSApp extends WebGLRenderer {
     this.xr.enabled = true
     this.vrbutton = VRButton.createButton(this)
     document.body.appendChild(this.vrbutton);
+    if (hidebutton) this.vrbutton.style.visibility = 'hidden'
+  }
 
+  enterVR() {
+    if (this.vrbutton) {
+      const event = new Event('click')
+      this.vrbutton.dispatchEvent(event)
+      this.vrbutton.style.visibility = 'visible'
+    }
   }
 
   stats?: Stats
