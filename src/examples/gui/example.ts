@@ -9,7 +9,7 @@ import { ButtonEventType } from "./button";
 import { KeyboardInteractionOptions, KeyboardInteraction } from "./keyboard-interaction";
 import { UITextEntry } from "./text-entry";
 import { UINumberEntry } from "./number-entry";
-import { UICheckBox } from "./checkbox";
+import { UICheckbox } from "./checkbox";
 import { UIColorEntry } from "./color-entry";
 import { SliderbarEventType } from "./sliderbar";
 import { UITextButton } from "./button-text";
@@ -150,7 +150,7 @@ export class GUIExample {
     scene.add(text2)
 
 
-    const checkbox = new UICheckBox({ checked: false, height: 0.3, width: 0.3 }, app.interactive, options)
+    const checkbox = new UICheckbox({ checked: false, height: 0.3, width: 0.3 }, app.interactive, options)
     scene.add(checkbox)
     checkbox.position.y = -0.35
 

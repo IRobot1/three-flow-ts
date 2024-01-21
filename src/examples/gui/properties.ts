@@ -12,7 +12,7 @@ import { SliderbarEventType, UISliderbar } from "./sliderbar";
 import { NumberEntryEventType, UINumberEntry } from "./number-entry";
 import { UITextEntry } from "./text-entry";
 import { InputField, InputFieldEventType } from "./input-field";
-import { CheckboxEventType, UICheckBox } from "./checkbox";
+import { CheckboxEventType, UICheckbox } from "./checkbox";
 import { SelectEventType, UISelect } from "./select";
 import { UIColorEntry } from "./color-entry";
 import { UIColorPicker } from "./color-picker";
@@ -493,8 +493,8 @@ export class UIProperties extends UIPanel {
     return new UITextEntry(parameters, this.interactive, this.options)
   }
 
-  createCheckBox(parameters: CheckboxParameters): UICheckBox {
-    return new UICheckBox(parameters, this.interactive, this.options)
+  createCheckBox(parameters: CheckboxParameters): UICheckbox {
+    return new UICheckbox(parameters, this.interactive, this.options)
   }
 
   createSelect(parameters: SelectParameters): UISelect {

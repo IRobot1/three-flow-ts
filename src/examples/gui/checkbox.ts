@@ -1,18 +1,19 @@
 import { InteractiveEventType, RoundedRectangleGeometry, RoundedRectangleShape, ThreeInteractive } from "three-flow";
-import { PanelOptions } from "./panel";
+import { PanelEventType, PanelOptions } from "./panel";
 import { CheckboxParameters } from "./model";
-import { Mesh, ShapeGeometry } from "three";
+import { ColorRepresentation, Material, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, ShapeGeometry } from "three";
 import { UIEntry } from "./input-field";
 import { UIKeyboardEvent } from "./keyboard";
 
 
 export enum CheckboxEventType {
   CHECKED_CHANGED = 'checked_changed',
+  CHECKED_COLOR_CHANGED = 'checked_color_changed',
   INDETERMINATE_CHANGED = 'indeterminate_changed',
 }
 export interface CheckboxOptions extends PanelOptions { }
 
-export class UICheckBox extends UIEntry {
+export class UICheckbox extends UIEntry {
   inputtype: string = 'checkbox'
 
   private _checked = false
@@ -34,6 +35,17 @@ export class UICheckBox extends UIEntry {
     }
   }
 
+  private checkmaterial: Material
+  private _checkcolor: ColorRepresentation
+  get checkcolor() { return this._checkcolor }
+  set checkcolor(newvalue: ColorRepresentation) {
+    if (this._checkcolor != newvalue) {
+      this._checkcolor = newvalue;
+      (this.checkmaterial as MeshBasicMaterial).color.set(newvalue)
+      this.dispatchEvent<any>({ type: CheckboxEventType.CHECKED_COLOR_CHANGED })
+    }
+  }
+
   constructor(parameters: CheckboxParameters, interactive: ThreeInteractive, options: CheckboxOptions = {}) {
     if (parameters.width == undefined) parameters.width = 0.1
     if (parameters.height == undefined) parameters.height = 0.1
@@ -44,22 +56,32 @@ export class UICheckBox extends UIEntry {
 
     this.checked = parameters.checked != undefined ? parameters.checked : false
 
-    if (!parameters.checkmaterial) parameters.checkmaterial = { color: 'black' }
-    const checkmaterial = this.materials.getMaterial('geometry', 'checkbox', parameters.checkmaterial)
+    if (!parameters.checkmaterial) parameters.checkmaterial = { color: '#000' }
+    this._checkcolor = parameters.checkmaterial.color!
+    this.checkmaterial = this.materials.getMaterial('geometry', 'checkbox', parameters.checkmaterial)
 
     const checksize = 0.8
-    const checkgeometry = new RoundedRectangleGeometry(this.width * checksize, this.height * checksize, 0.02)
-    const checkmesh = new Mesh(checkgeometry, checkmaterial)
+    const checkmesh = new Mesh()
+    checkmesh.material = this.checkmaterial
     this.add(checkmesh)
     checkmesh.position.z = 0.001
     checkmesh.visible = this.checked
 
-
-    const indeterminategeometry = new RoundedRectangleGeometry(this.width * checksize, this.height * 0.2, 0.02)
-    const indeterminatemesh = new Mesh(indeterminategeometry, checkmaterial)
+    const indeterminatemesh = new Mesh()
+    indeterminatemesh.material = this.checkmaterial
     this.add(indeterminatemesh)
     indeterminatemesh.position.z = 0.001
     indeterminatemesh.visible = this.indeterminate
+
+    const updateGeometry = () => {
+      checkmesh.geometry = new RoundedRectangleGeometry(this.width * checksize, this.height * checksize, this.radius * checksize)
+      indeterminatemesh.geometry = new RoundedRectangleGeometry(this.width * checksize, this.height * 0.2, this.radius * checksize)
+    }
+    updateGeometry()
+
+    this.addEventListener(PanelEventType.WIDTH_CHANGED, updateGeometry)
+    this.addEventListener(PanelEventType.RADIUS_CHANGED, updateGeometry)
+
 
     this.addEventListener(InteractiveEventType.CLICK, () => {
       if (this.disabled) return

@@ -171,7 +171,7 @@ export class UIPanel extends Mesh {
     }
     else {
       // match the default provided by three
-      parameters.fill = this._fill = { color: 'white' }
+      parameters.fill = this._fill = { color: '#fff' }
     }
 
     this._selectable = parameters.selectable != undefined ? parameters.selectable : true
