@@ -10,6 +10,7 @@ export enum PanelEventType {
   WIDTH_CHANGED = 'width_changed',
   HEIGHT_CHANGED = 'height_changed',
   DEPTH_CHANGED = 'depth_changed',
+  RADIUS_CHANGED = 'radius_changed',
   COLOR_CHANGED = 'color_changed',
   DRAGGABLE_CHANGED = 'draggable_changed',
   SELECTABLE_CHANGED = 'selectable_changed',
@@ -66,7 +67,16 @@ export class UIPanel extends Mesh {
   mindepth: number;
   maxdepth: number;
 
-  radius: number
+  protected _radius: number
+  get radius() { return this._radius }
+  set radius(newvalue: number) {
+    newvalue = MathUtils.clamp(newvalue, 0, this.height/2)
+    if (this._radius != newvalue) {
+      this._radius = newvalue
+      this._resizeGeometry()
+      this.dispatchEvent<any>({ type: PanelEventType.RADIUS_CHANGED })
+    }
+  }
 
   autogrow: boolean
   autoshrink: boolean
@@ -144,7 +154,7 @@ export class UIPanel extends Mesh {
     this.minheight = parameters.minheight != undefined ? parameters.minheight : this.height / 10;
     this.maxheight = parameters.maxheight != undefined ? parameters.maxheight : Number.POSITIVE_INFINITY
 
-    this.radius = parameters.radius != undefined ? parameters.radius : 0.02
+    this._radius = parameters.radius != undefined ? parameters.radius : 0.02
 
     //this.lockaspectratio = p.lockaspectratio ? p.lockaspectratio : false
 
@@ -161,7 +171,7 @@ export class UIPanel extends Mesh {
     }
     else {
       // match the default provided by three
-      parameters.fill = { color: 'white' }
+      parameters.fill = this._fill = { color: 'white' }
     }
 
     this._selectable = parameters.selectable != undefined ? parameters.selectable : true

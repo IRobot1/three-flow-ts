@@ -3,18 +3,23 @@ import { ThreeInteractive } from "three-flow";
 import { TextButtonParameters } from "./model";
 import { UILabel } from "./label";
 import { ButtonOptions, UIButton } from "./button";
+import { PanelEventType } from "./panel";
 
 export class UITextButton extends UIButton {
 
-  protected label: UILabel
+  readonly label: UILabel
 
-  private _text = ''
-  get text() { return this._text }
+  get text() { return this.label.text }
   set text(newvalue: string) {
-    if (this._text != newvalue) {
-      this._text = newvalue
-      if (newvalue)
-        this.label.text = newvalue
+    if (this.label.text != newvalue) {
+      this.label.text = newvalue
+    }
+  }
+
+  get isicon() { return this.label.isicon }
+  set isicon(newvalue: boolean) {
+    if (this.label.isicon != newvalue) {
+      this.label.isicon = newvalue;
     }
   }
 
@@ -38,5 +43,7 @@ export class UITextButton extends UIButton {
 
     label.position.z = 0.001
     this.label = label
+
+    this.addEventListener(PanelEventType.WIDTH_CHANGED, () => { label.maxwidth = this.width })
   }
 }

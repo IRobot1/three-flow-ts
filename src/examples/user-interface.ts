@@ -4,7 +4,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { ThreeJSApp } from "../app/threejs-app";
 import { FlowDiagram, FlowDiagramOptions, FlowInteraction, FlowMaterials, FlowNode, FlowNodeParameters, InteractiveEventType, RoundedRectangleGeometry, ThreeInteractive } from "three-flow";
 import { UITextButton } from "./gui/button-text";
-import { LabelParameters, TextButtonParameters } from "./gui/model";
+import { TextButtonParameters } from "./gui/model";
 import { ButtonOptions } from "./gui/button";
 import { UIOptions } from './gui/model'
 import { FontCache } from "./gui/cache";
@@ -106,7 +106,6 @@ export class UserInterfaceExample {
         {
           text: 'label', isicon: true, action: () => {
             const labelparams: FlowNodeParameters = {
-              x: 1, y: 0.7,
               type: 'label',
               material: { color: 'steelblue' },
               label: { text: 'Labels', size: 0.07, },
@@ -117,7 +116,20 @@ export class UserInterfaceExample {
             flow.addNode(labelparams)
           }
         },
-        { text: 'bar_chart', isicon: true, action: () => { console.warn('chart clicked') } },
+        {
+          text: 'smart_button', isicon: true, action: () => {
+            const buttonparams: FlowNodeParameters = {
+              z: 0.005,
+              type: 'button',
+              material: { color: 'lightsteelblue' },
+              label: { text: 'Buttons', size: 0.07, },
+              //width:1.3,
+              height: 1.6,
+              resizable: false, scalable: false,
+            }
+            flow.addNode(buttonparams)
+          }
+        },
         { text: 'account_balance', isicon: true, action: () => { console.warn('balance clicked') } },
         { text: 'email', isicon: true, action: () => { console.warn('email clicked') } },
         { text: 'play_circle_outline', isicon: true, action: () => { console.warn('play clicked') } },
@@ -157,6 +169,8 @@ class UserInterfaceDiagram extends FlowDiagram {
       return new MenuUINode(this, parameters, uioptions)
     else if (parameters.type == 'label')
       return new LabelUINode(this, parameters, uioptions)
+    else if (parameters.type == 'button')
+      return new ButtonUINode(this, parameters, uioptions)
 
     return new FlowUINode(this, parameters, uioptions)
   }
@@ -353,7 +367,71 @@ class LabelUINode extends FlowUINode {
 
     const pointer = this.uidiagram.diagramoptions.pointer
 
-    const properties = new UIProperties({fill: parameters.material}, pointer, uioptions, gui)
+    const properties = new UIProperties({ fill: parameters.material }, pointer, uioptions, gui)
+    this.panel.add(properties)
+    properties.getColorPicker = () => { return new UIColorPicker({}, pointer, uioptions) }
+    properties.position.y = -0.1
+    properties.position.z = 0.001
+  }
+
+}
+
+class ButtonUINode extends FlowUINode {
+  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, uioptions: UIOptions) {
+    super(diagram, parameters, uioptions)
+
+    const pointer = this.uidiagram.diagramoptions.pointer
+
+    const maxwidth = this.width - 0.1
+    const buttonparams: TextButtonParameters = {
+      width: maxwidth,
+      label: { text: 'Three Flow', material: { color: '#111' }, maxwidth }
+    }
+    const button = new UITextButton(buttonparams, pointer, this.uioptions)
+    this.panel.add(button)
+    button.position.set(0, this.height / 2 - this.titleheight-0.1, 0.001)
+
+    const fake = {
+      fontName: 'helvetiker'
+    }
+    let lasttext = ''
+
+    const gui = new GUI({})
+    gui.add(button, 'text').name('Text')
+    gui.add(button, 'width', 0.1, maxwidth, 0.1).name('Width').onChange(() => {
+      button.width = Math.max(button.width, button.height)
+      button.radius = Math.max(button.width/2, button.radius)
+    })
+    gui.add(button, 'height', 0.1, 0.3, 0.1).name('Height').onChange(() => {
+      button.height = Math.min(button.width, button.height)
+      button.radius = Math.max(button.height/2, button.radius, button.width/2)
+    })
+    gui.add(button, 'radius', 0, 0.15, 0.01).name('Radius')
+    gui.add(button.label, 'isicon',).name('Icon').onChange(() => {
+      if (button.isicon) {
+        lasttext = button.text
+        button.text = 'home'
+      }
+      else
+        button.text = lasttext
+    })
+    gui.add(button.label, 'size', 0.03, 0.1, 0.01).name('Font Size')
+    gui.addColor(button, 'color').name('Color')
+    gui.add(fake, 'fontName', ['helvetiker', 'gentilis', 'optimer']).name('Font').onChange(() => {
+      switch (fake.fontName) {
+        case 'helvetiker':
+          button.label.fontName = 'assets/helvetiker_regular.typeface.json'
+          break;
+        case 'gentilis':
+          button.label.fontName = 'assets/gentilis_regular.typeface.json'
+          break;
+        case 'optimer':
+          button.label.fontName = 'assets/optimer_regular.typeface.json'
+          break
+      }
+    })
+
+    const properties = new UIProperties({ fill: parameters.material }, pointer, uioptions, gui)
     this.panel.add(properties)
     properties.getColorPicker = () => { return new UIColorPicker({}, pointer, uioptions) }
     properties.position.y = -0.1
