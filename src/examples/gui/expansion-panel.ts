@@ -18,7 +18,16 @@ export enum ExpansionPanelEventType {
 export class UIExpansionPanel extends UITextButton {
   panel: UIPanel
   expanded = false
-  spacing: number
+
+  protected _spacing: number
+  get spacing() { return this._spacing }
+  set spacing(newvalue: number) {
+    if (this._spacing != newvalue) {
+      this._spacing = newvalue
+      this.panel.position.y = -(this.height + this.panel.height) / 2 - this.spacing
+
+    }
+  }
 
   private expandedIndicator!: Mesh
   private collapsedIndicator!: Mesh
@@ -32,7 +41,7 @@ export class UIExpansionPanel extends UITextButton {
 
     this.name = parameters.id != undefined ? parameters.id : 'expansion-panel'
 
-    this.spacing = parameters.spacing != undefined ? parameters.spacing : 0.02
+    this._spacing = parameters.spacing != undefined ? parameters.spacing : 0.02
 
     const radius = this.height * 0.9 / 2
     this.label.maxwidth = this.width - (radius + this.label.padding)
@@ -67,6 +76,14 @@ export class UIExpansionPanel extends UITextButton {
     this.panel = this.createPanel(panelparams)
     this.setPanel(this.panel)
     this.panel.visible = false
+
+    this.addEventListener(PanelEventType.WIDTH_CHANGED, () => {
+      this.label.maxwidth = this.width - (radius + this.label.padding)
+      this.label.position.x = -this.width / 2 + radius + this.label.padding
+
+      this.collapsedIndicator.position.x = this.expandedIndicator.position.x = -this.width / 2 + this.label.padding
+    })
+
 
   }
 

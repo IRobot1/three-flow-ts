@@ -15,6 +15,7 @@ import { GUI } from "./gui/gui-model";
 import { KeyboardInteraction } from "./gui/keyboard-interaction";
 import { UIColorPicker } from "./gui/color-picker";
 import { UICheckbox } from "./gui/checkbox";
+import { ExpansionPanelParameters, UIExpansionPanel } from "./gui/expansion-panel";
 
 interface MenuAction {
   text: string
@@ -145,7 +146,20 @@ export class UserInterfaceExample {
             flow.addNode(nodeparams)
           }
         },
-        { text: 'email', isicon: true, action: () => { console.warn('email clicked') } },
+        {
+          text: 'expand', isicon: true, action: () => {
+            const nodeparams: FlowNodeParameters = {
+              z: 0.03,
+              type: 'expansion',
+              material: { color: 'green' },
+              label: { text: 'Expansion Panel ', size: 0.07, },
+              //width:1.3,
+              height: 1.1,
+              resizable: false, scalable: false,
+            }
+            flow.addNode(nodeparams)
+          }
+        },
         { text: 'play_circle_outline', isicon: true, action: () => { console.warn('play clicked') } },
         { text: 'people', isicon: true, action: () => { console.warn('users clicked') } },
         { text: 'text_snippet', isicon: true, action: () => { console.warn('notes clicked') } },
@@ -187,6 +201,8 @@ class UserInterfaceDiagram extends FlowDiagram {
       return new ButtonUINode(this, parameters, uioptions)
     else if (parameters.type == 'checkbox')
       return new CheckboxUINode(this, parameters, uioptions)
+    else if (parameters.type == 'expansion')
+      return new ExpansionUINode(this, parameters, uioptions)
 
     return new FlowUINode(this, parameters, uioptions)
   }
@@ -417,11 +433,11 @@ class ButtonUINode extends FlowUINode {
     gui.add(button, 'text').name('Text')
     gui.add(button, 'width', 0.1, maxwidth, 0.1).name('Width').onChange(() => {
       button.width = Math.max(button.width, button.height)
-      button.radius = Math.max(button.width/2, button.radius)
+      button.radius = Math.max(button.width / 2, button.radius)
     })
     gui.add(button, 'height', 0.1, 0.3, 0.1).name('Height').onChange(() => {
       button.height = Math.min(button.width, button.height)
-      button.radius = Math.max(button.height/2, button.radius, button.width/2)
+      button.radius = Math.max(button.height / 2, button.radius, button.width / 2)
     })
     gui.add(button, 'radius', 0, 0.15, 0.01).name('Radius')
     gui.add(button.label, 'isicon',).name('Icon').onChange(() => {
@@ -464,7 +480,7 @@ class CheckboxUINode extends FlowUINode {
     const pointer = this.uidiagram.diagramoptions.pointer
 
     const maxwidth = 0.3
-    const checkbox = new UICheckbox({checked:true} , pointer, this.uioptions)
+    const checkbox = new UICheckbox({ checked: true }, pointer, this.uioptions)
     this.panel.add(checkbox)
     checkbox.position.set(0, this.height / 2 - this.titleheight - 0.1, 0.001)
 
@@ -473,13 +489,46 @@ class CheckboxUINode extends FlowUINode {
     const gui = new GUI({})
     gui.add(fake, 'size', 0.1, maxwidth, 0.1).name('Size').onChange(() => {
       checkbox.width = checkbox.height = fake.size
-      checkbox.radius = Math.min(fake.size/2, checkbox.radius)
+      checkbox.radius = Math.min(fake.size / 2, checkbox.radius)
     })
     gui.add(checkbox, 'radius', 0, 0.15, 0.01).name('Radius')
     gui.addColor(checkbox, 'color').name('Color')
     gui.addColor(checkbox, 'checkcolor').name('Check Color')
     //gui.add(checkbox, 'indeterminate').name('Indeterminate')
     gui.add(checkbox, 'disabled').name('Disabled')
+
+    const properties = new UIProperties({ fill: parameters.material }, pointer, uioptions, gui)
+    this.panel.add(properties)
+    properties.getColorPicker = () => { return new UIColorPicker({}, pointer, uioptions) }
+    properties.position.y = -0.1
+    properties.position.z = 0.001
+  }
+
+}
+
+class ExpansionUINode extends FlowUINode {
+  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, uioptions: UIOptions) {
+    super(diagram, parameters, uioptions)
+
+    const pointer = this.uidiagram.diagramoptions.pointer
+
+    const maxwidth = this.width - 0.1
+    const params: ExpansionPanelParameters = {
+      label: { text: 'Three Flow' },
+      width: maxwidth,
+      panel: { width: maxwidth, height: 0.1, fill: { color: 'green' } }
+    }
+    const expansionPanel = new UIExpansionPanel(params, pointer, this.uioptions)
+    this.panel.add(expansionPanel)
+    expansionPanel.position.set(0, this.height / 2 - this.titleheight, 0.001)
+
+    const gui = new GUI({})
+
+    gui.add(expansionPanel, 'text').name('Text')
+    gui.add(expansionPanel, 'width', 0.2, maxwidth, 0.1).name('Width')
+    gui.add(expansionPanel, 'radius', 0, 0.05, 0.01).name('Radius')
+    gui.addColor(expansionPanel, 'color').name('Color')
+    gui.add(expansionPanel, 'spacing', 0, 0.03, 0.01).name('Space to Panel')
 
     const properties = new UIProperties({ fill: parameters.material }, pointer, uioptions, gui)
     this.panel.add(properties)
