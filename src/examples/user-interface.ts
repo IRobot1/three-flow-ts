@@ -1,12 +1,19 @@
-import { AmbientLight, AxesHelper, BufferGeometry, Color, MaterialParameters, Mesh, MeshPhongMaterial, PlaneGeometry, PointLight, Scene, Shape, ShapeGeometry } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, Color, MaterialParameters, Mesh, MeshBasicMaterialParameters, MeshPhongMaterial, MeshPhongMaterialParameters, PlaneGeometry, PointLight, Scene, Shape, ShapeGeometry, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowDiagram, FlowDiagramOptions, FlowInteraction, FlowMaterials, FlowNode, FlowNodeParameters, InteractiveEventType, ThreeInteractive } from "three-flow";
+import { FlowDiagram, FlowDiagramOptions, FlowInteraction, FlowMaterials, FlowNode, FlowNodeParameters, InteractiveEventType, RoundedRectangleGeometry, ThreeInteractive } from "three-flow";
 import { UITextButton } from "./gui/button-text";
-import { TextButtonParameters } from "./gui/model";
+import { LabelParameters, TextButtonParameters } from "./gui/model";
 import { ButtonOptions } from "./gui/button";
 import { UIOptions } from './gui/model'
+import { FontCache } from "./gui/cache";
+import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import { UILabel } from "./gui/label";
+import { UIProperties } from "./gui/properties";
+import { GUI } from "./gui/gui-model";
+import { KeyboardInteraction } from "./gui/keyboard-interaction";
+import { UIColorPicker } from "./gui/color-picker";
 
 interface MenuAction {
   text: string
@@ -17,7 +24,7 @@ interface MenuAction {
 interface MenuParameters extends FlowNodeParameters {
   menu: Array<MenuAction>
   start: MenuAction
-  end: MenuAction
+  end?: MenuAction
 }
 
 interface UserInterfaceDiagramOptions extends FlowDiagramOptions {
@@ -73,44 +80,69 @@ export class UserInterfaceExample {
       return new MeshPhongMaterial(parameters)
     }
 
-    const diagramoptions: UserInterfaceDiagramOptions = {
-      materialCache: materials,
-      pointer: app.interactive,
-      uioptions: { materials }
-    }
+    const loader = new FontLoader();
+    loader.load("assets/helvetiker_regular.typeface.json", (font) => {
 
-    const flow = new UserInterfaceDiagram(diagramoptions)
-    scene.add(flow);
+      const diagramoptions: UserInterfaceDiagramOptions = {
+        fonts: new Map<string, Font>([
+          ['default', font],
+        ]),
+        materialCache: materials,
+        pointer: app.interactive,
+        uioptions: {
+          materials,
+          fontCache: new FontCache(),
+          keyboard: new KeyboardInteraction(app)
+        }
 
-    const interactive = new FlowInteraction(flow, app.interactive)
+      }
 
-    const menu: Array<MenuAction> = [
-      { text: 'home', isicon:true, action: () => { console.warn('home clicked') } },
-      { text: 'bar_chart', isicon: true, action: () => { console.warn('chart clicked') } },
-      { text: 'account_balance', isicon: true, action: () => { console.warn('balance clicked') } },
-      { text: 'email', isicon: true, action: () => { console.warn('email clicked') } },
-      { text: 'play_circle_outline', isicon: true, action: () => { console.warn('play clicked') } },
-      { text: 'people', isicon: true, action: () => { console.warn('users clicked') } },
-      { text: 'text_snippet', isicon: true, action: () => { console.warn('notes clicked') } },
-      { text: 'paid', isicon: true, action: () => { console.warn('finances clicked') } },
-    ]
+      const flow = new UserInterfaceDiagram(diagramoptions)
+      scene.add(flow);
 
-    const menuparams: MenuParameters = {
-      menu,
-      start: { text: 'XR', isicon: false, action: () => { /*app.enterVR()*/ } },
-      end: { text: 'settings', isicon: true, action: () => { console.warn('settings clicked')} },
-      x: -2, y: 0.7,
-      type: 'menu', width: 0.25, height: 0.25,
-      material: { color: '#4269EA' },
-      resizable: false, scalable: false,
-    }
-    const menunode = flow.addNode(menuparams)
+      const interactive = new FlowInteraction(flow, app.interactive)
 
-    this.dispose = () => {
-      interactive.dispose()
-      flow.dispose()
-      orbit.dispose()
-    }
+      const menu: Array<MenuAction> = [
+        {
+          text: 'label', isicon: true, action: () => {
+            const labelparams: FlowNodeParameters = {
+              x: 1, y: 0.7,
+              type: 'label',
+              material: { color: 'steelblue' },
+              label: { text: 'Labels', size: 0.07, },
+              //width:1.3,
+              height: 1.6,
+              resizable: false, scalable: false,
+            }
+            flow.addNode(labelparams)
+          }
+        },
+        { text: 'bar_chart', isicon: true, action: () => { console.warn('chart clicked') } },
+        { text: 'account_balance', isicon: true, action: () => { console.warn('balance clicked') } },
+        { text: 'email', isicon: true, action: () => { console.warn('email clicked') } },
+        { text: 'play_circle_outline', isicon: true, action: () => { console.warn('play clicked') } },
+        { text: 'people', isicon: true, action: () => { console.warn('users clicked') } },
+        { text: 'text_snippet', isicon: true, action: () => { console.warn('notes clicked') } },
+        { text: 'paid', isicon: true, action: () => { console.warn('finances clicked') } },
+      ]
+
+      const menuparams: MenuParameters = {
+        menu,
+        start: { text: 'XR', isicon: false, action: () => { /*app.enterVR()*/ } },
+        //end: { text: 'dashboard', isicon: true, action: () => { console.warn('dashboard clicked') } },
+        x: -2, y: 0.7,
+        type: 'menu', width: 0.25, height: 0.25,
+        material: { color: '#4269EA' },
+        resizable: false, scalable: false,
+      }
+      const menunode = flow.addNode(menuparams)
+
+      this.dispose = () => {
+        interactive.dispose()
+        flow.dispose()
+        orbit.dispose()
+      }
+    })
   }
 }
 class UserInterfaceDiagram extends FlowDiagram {
@@ -120,16 +152,19 @@ class UserInterfaceDiagram extends FlowDiagram {
   }
 
   override createNode(parameters: MenuParameters): FlowNode {
+    const uioptions = this.diagramoptions.uioptions
     if (parameters.type == 'menu')
-      return new MenuNode(this, parameters, this.diagramoptions.uioptions)
+      return new MenuUINode(this, parameters, uioptions)
+    else if (parameters.type == 'label')
+      return new LabelUINode(this, parameters, uioptions)
 
-    return new FlowNode(this, parameters)
+    return new FlowUINode(this, parameters, uioptions)
   }
 }
 
 
 type ArchType = 'top' | 'bottom'
-class MenuNode extends FlowNode {
+class MenuUINode extends FlowNode {
   constructor(diagram: UserInterfaceDiagram, parameters: MenuParameters, uioptions: UIOptions) {
     super(diagram, parameters)
 
@@ -158,7 +193,7 @@ class MenuNode extends FlowNode {
     parameters.menu.forEach(item => {
       const params: TextButtonParameters = {
         label: { text: item.text, isicon: item.isicon, size: 0.06 },
-        width: 0.12, height:0.12, radius:0.06,
+        width: 0.12, height: 0.12, radius: 0.06,
       }
       const button = new MenuTextButton(params, diagram.diagramoptions.pointer, uioptions)
       this.add(button)
@@ -168,16 +203,18 @@ class MenuNode extends FlowNode {
       button.pressed = () => { item.action() }
     })
 
-    const endparams: TextButtonParameters = {
-      label: { text: parameters.end.text, isicon: parameters.end.isicon, size: 0.05 },
-      width: 0.12, height: 0.12, radius: 0.06,
+    if (parameters.end) {
+      const endparams: TextButtonParameters = {
+        label: { text: parameters.end.text, isicon: parameters.end.isicon, size: 0.05 },
+        width: 0.12, height: 0.12, radius: 0.06,
+      }
+
+      const endbutton = new MenuTextButton(endparams, diagram.diagramoptions.pointer, uioptions)
+      archmesh.add(endbutton)
+      endbutton.position.set(0, 0, 0.001)
+
+      endbutton.pressed = () => { parameters.end!.action() }
     }
-
-    const endbutton = new MenuTextButton(endparams, diagram.diagramoptions.pointer, uioptions)
-    archmesh.add(endbutton)
-    endbutton.position.set(0, 0, 0.001)
-
-    endbutton.pressed = () => { parameters.end.action() }
 
 
   }
@@ -232,6 +269,95 @@ class ArchGeometry extends ShapeGeometry {
 class MenuTextButton extends UITextButton {
   constructor(parameters: TextButtonParameters, interactive: ThreeInteractive, options: ButtonOptions) {
     super(parameters, interactive, options)
+  }
+
+}
+
+
+class FlowUINode extends FlowNode {
+  titleheight = 0.15
+  panel: Mesh
+
+
+  constructor(protected uidiagram: UserInterfaceDiagram, parameters: FlowNodeParameters, protected uioptions: UIOptions) {
+    super(uidiagram, parameters)
+
+    const bottomgeometry = new ArchGeometry('bottom', this.width, this.height - this.titleheight)
+    const bottommaterial = uidiagram.getMaterial('geometry', 'card', <MeshBasicMaterialParameters>{ color: 'white' })
+    const archmesh = new Mesh(bottomgeometry, bottommaterial)
+    archmesh.position.y = -this.height / 2
+    this.add(archmesh)
+    this.panel = archmesh
+
+    const buttonwidth = 0.1
+    const params: TextButtonParameters = {
+      label: { text: 'close', isicon: true, size: 0.05 },
+      width: buttonwidth, radius: buttonwidth / 2,
+    }
+
+    const closebutton = new UITextButton(params, uidiagram.diagramoptions.pointer, uioptions)
+    this.add(closebutton)
+    closebutton.position.set((this.width - buttonwidth * 1.5) / 2, 0, 0.001)
+
+    closebutton.pressed = () => { uidiagram.removeNode(this) }
+  }
+
+  override createGeometry(parameters: FlowNodeParameters): BufferGeometry {
+    return new ArchGeometry('top', this.width, this.titleheight)
+  }
+
+}
+class LabelUINode extends FlowUINode {
+  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, uioptions: UIOptions) {
+    super(diagram, parameters, uioptions)
+
+    const label = new UILabel({ text: 'Three Flow', material: { color: '#111' }, maxwidth: this.width }, this.uioptions)
+    this.panel.add(label)
+    label.position.set(0, this.height / 2 - this.titleheight, 0.001)
+
+    const fake = {
+      fontName: 'helvetiker'
+    }
+    let lasttext = ''
+
+    const gui = new GUI({})
+    gui.add(label, 'text').name('Text')
+    gui.add(label, 'alignX', ['left', 'center', 'right']).name('X Alignment')
+    gui.add(label, 'alignY', ['top', 'middle', 'bottom']).name('Y Alignment')
+    gui.add(label, 'isicon',).name('Icon').onChange(() => {
+      if (label.isicon) {
+        lasttext = label.text
+        label.text = 'bar_chart'
+      }
+      else
+        label.text = lasttext
+    })
+    gui.add(label, 'size', 0.03, 0.1, 0.01).name('Font Size')
+    gui.addColor(label, 'color').name('Color')
+    gui.add(fake, 'fontName', ['helvetiker', 'gentilis', 'optimer']).name('Font').onChange(() => {
+      switch (fake.fontName) {
+        case 'helvetiker':
+          label.fontName = 'assets/helvetiker_regular.typeface.json'
+          break;
+        case 'gentilis':
+          label.fontName = 'assets/gentilis_regular.typeface.json'
+          break;
+        case 'optimer':
+          label.fontName = 'assets/optimer_regular.typeface.json'
+          break
+      }
+    })
+    //gui.add(label, 'padding', 0, 0.1, 0.01).name('Padding')
+    gui.add(label, 'maxwidth', 0.1, this.width, 0.1).name('Maximum Width')
+    gui.add(label, 'overflow', ['slice', 'clip']).name('Overflow')
+
+    const pointer = this.uidiagram.diagramoptions.pointer
+
+    const properties = new UIProperties({fill: parameters.material}, pointer, uioptions, gui)
+    this.panel.add(properties)
+    properties.getColorPicker = () => { return new UIColorPicker({}, pointer, uioptions) }
+    properties.position.y = -0.1
+    properties.position.z = 0.001
   }
 
 }
