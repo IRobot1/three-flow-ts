@@ -4,7 +4,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { ThreeJSApp } from "../app/threejs-app";
 import { FlowDiagram, FlowDiagramOptions, FlowInteraction, FlowMaterials, FlowNode, FlowNodeParameters, InteractiveEventType, RoundedRectangleGeometry, ThreeInteractive } from "three-flow";
 import { UITextButton } from "./gui/button-text";
-import { TextButtonParameters } from "./gui/model";
+import { LabelParameters, TextButtonParameters } from "./gui/model";
 import { ButtonOptions } from "./gui/button";
 import { UIOptions } from './gui/model'
 import { FontCache } from "./gui/cache";
@@ -357,7 +357,12 @@ class LabelUINode extends FlowUINode {
   constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, uioptions: UIOptions) {
     super(diagram, parameters, uioptions)
 
-    const label = new UILabel({ text: 'Three Flow', material: { color: '#111' }, maxwidth: this.width }, this.uioptions)
+    const maxwidth = this.width-0.1
+    const params: LabelParameters = {
+      text: 'Three Flow', material: { color: '#111' },
+      maxwidth
+    }
+    const label = new UILabel(params, this.uioptions)
     this.panel.add(label)
     label.position.set(0, this.height / 2 - this.titleheight, 0.001)
 
@@ -394,7 +399,7 @@ class LabelUINode extends FlowUINode {
       }
     })
     //gui.add(label, 'padding', 0, 0.1, 0.01).name('Padding')
-    gui.add(label, 'maxwidth', 0.1, this.width, 0.1).name('Maximum Width')
+    gui.add(label, 'maxwidth', 0.1, maxwidth, 0.1).name('Maximum Width')
     gui.add(label, 'overflow', ['slice', 'clip']).name('Overflow')
 
     const pointer = this.uidiagram.diagramoptions.pointer

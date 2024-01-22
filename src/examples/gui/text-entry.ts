@@ -1,9 +1,10 @@
 import { InputField, InputFieldEventType, UIEntry } from "./input-field"
 import { PanelOptions } from "./panel"
 import { UIKeyboardEvent } from "./keyboard"
-import { UILabel } from "./label"
+import { LabelEventType, UILabel } from "./label"
 import { TextEntryParameters } from "./model"
 import { ThreeInteractive } from "three-flow"
+import { Box3, Box3Helper } from "three"
 
 export interface TextOptions extends PanelOptions {
 }
@@ -54,7 +55,7 @@ export class UITextEntry extends UIEntry implements InputField {
     const padding = (this.height / 0.1) * 0.02
 
     if (parameters.label == undefined) parameters.label = {}
-    parameters.label.size = this.height / 2
+    parameters.label.size = (this.height - padding) / 2
     parameters.label.padding = padding
     parameters.label.maxwidth = this.width - padding
     parameters.label.overflow = 'slice'
@@ -65,11 +66,12 @@ export class UITextEntry extends UIEntry implements InputField {
     if (parameters.label.text && this.password)
       parameters.label.text = passwordChar.repeat(parameters.label.text.length);
 
+    parameters.label.alignX = 'left'
+    parameters.label.alignY = 'bottom'
+
     const label = new UILabel(parameters.label, { fontCache: this.fontCache, materials: this.materials })
-    label.alignX = 'left'
-    label.alignY = 'bottom'
     label.position.x = -this.width / 2 + label.padding
-    label.position.y = -label.height / 2 - label.padding
+    label.position.y = -parameters.label.size / 2
     label.position.z = 0.001
     this.label = label
 
