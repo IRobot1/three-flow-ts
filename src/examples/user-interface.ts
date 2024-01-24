@@ -4,7 +4,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { ThreeJSApp } from "../app/threejs-app";
 import { FlowDiagram, FlowDiagramOptions, FlowInteraction, FlowMaterials, FlowNode, FlowNodeParameters, InteractiveEventType, RoundedRectangleGeometry, ThreeInteractive } from "three-flow";
 import { UITextButton } from "./gui/button-text";
-import { LabelParameters, TextButtonParameters } from "./gui/model";
+import { LabelParameters, NumberEntryParameters, TextButtonParameters } from "./gui/model";
 import { ButtonOptions } from "./gui/button";
 import { UIOptions } from './gui/model'
 import { FontCache } from "./gui/cache";
@@ -16,6 +16,7 @@ import { KeyboardInteraction } from "./gui/keyboard-interaction";
 import { UIColorPicker } from "./gui/color-picker";
 import { UICheckbox } from "./gui/checkbox";
 import { ExpansionPanelParameters, UIExpansionPanel } from "./gui/expansion-panel";
+import { UINumberEntry } from "./gui/number-entry";
 
 interface MenuAction {
   text: string
@@ -107,7 +108,10 @@ export class UserInterfaceExample {
       const menu: Array<MenuAction> = [
         {
           text: 'label', isicon: true, action: () => {
+            if (flow.hasNode('label')) return
+
             const nodeparams: FlowNodeParameters = {
+              id: 'label',
               type: 'label',
               material: { color: 'steelblue' },
               label: { text: 'Labels', size: 0.07, },
@@ -120,7 +124,10 @@ export class UserInterfaceExample {
         },
         {
           text: 'smart_button', isicon: true, action: () => {
+            if (flow.hasNode('button')) return
+
             const nodeparams: FlowNodeParameters = {
+              id: 'button',
               z: 0.01,
               type: 'button',
               material: { color: 'lightsteelblue' },
@@ -134,7 +141,10 @@ export class UserInterfaceExample {
         },
         {
           text: 'check_box', isicon: true, action: () => {
+            if (flow.hasNode('checkbox')) return
+
             const nodeparams: FlowNodeParameters = {
+              id: 'checkbox',
               z: 0.02,
               type: 'checkbox',
               material: { color: 'lime' },
@@ -148,11 +158,14 @@ export class UserInterfaceExample {
         },
         {
           text: 'expand', isicon: true, action: () => {
+            if (flow.hasNode('expand')) return
+
             const nodeparams: FlowNodeParameters = {
+              id: 'expand',
               z: 0.03,
               type: 'expansion',
               material: { color: 'green' },
-              label: { text: 'Expansion Panel ', size: 0.07, },
+              label: { text: 'Expansion Panel', size: 0.07, },
               //width:1.3,
               height: 1.1,
               resizable: false, scalable: false,
@@ -160,10 +173,26 @@ export class UserInterfaceExample {
             flow.addNode(nodeparams)
           }
         },
-        { text: 'play_circle_outline', isicon: true, action: () => { console.warn('play clicked') } },
-        { text: 'people', isicon: true, action: () => { console.warn('users clicked') } },
-        { text: 'text_snippet', isicon: true, action: () => { console.warn('notes clicked') } },
-        { text: 'paid', isicon: true, action: () => { console.warn('finances clicked') } },
+        {
+          text: 'pin', isicon: true, action: () => {
+            if (flow.hasNode('number')) return
+
+            const nodeparams: FlowNodeParameters = {
+              id: 'number',
+              z: 0.04,
+              type: 'number',
+              material: { color: 'violet' },
+              label: { text: 'Number Entry', size: 0.07, },
+              //width:1.3,
+              height: 1.1,
+              resizable: false, scalable: false,
+            }
+            flow.addNode(nodeparams)
+          }
+        },
+        { text: '', isicon: true, action: () => { console.warn('users clicked') } },
+        { text: '', isicon: true, action: () => { console.warn('notes clicked') } },
+        { text: '', isicon: true, action: () => { console.warn('finances clicked') } },
       ]
 
       const menuparams: MenuParameters = {
@@ -203,6 +232,8 @@ class UserInterfaceDiagram extends FlowDiagram {
       return new CheckboxUINode(this, parameters, uioptions)
     else if (parameters.type == 'expansion')
       return new ExpansionUINode(this, parameters, uioptions)
+    else if (parameters.type == 'number')
+      return new NumberUINode(this, parameters, uioptions)
 
     return new FlowUINode(this, parameters, uioptions)
   }
@@ -357,7 +388,7 @@ class LabelUINode extends FlowUINode {
   constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, uioptions: UIOptions) {
     super(diagram, parameters, uioptions)
 
-    const maxwidth = this.width-0.1
+    const maxwidth = this.width - 0.1
     const params: LabelParameters = {
       text: 'Three Flow', material: { color: '#111' },
       maxwidth
@@ -542,4 +573,46 @@ class ExpansionUINode extends FlowUINode {
     properties.position.z = 0.001
   }
 
+}
+
+
+class NumberUINode extends FlowUINode {
+  private numberEntry: UINumberEntry
+
+  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, uioptions: UIOptions) {
+    super(diagram, parameters, uioptions)
+
+    const pointer = this.uidiagram.diagramoptions.pointer
+
+    const maxwidth = this.width - 0.1
+    const params: NumberEntryParameters = {
+      width: maxwidth,
+      min : -10, max: 10, step:0, decimals: 0, initialvalue: 0
+    }
+    const numberEntry = new UINumberEntry(params, pointer, this.uioptions)
+    this.panel.add(numberEntry)
+    numberEntry.position.set(0, this.height / 2 - this.titleheight, 0.001)
+
+    this.uioptions.keyboard!.add(numberEntry)
+    this.numberEntry = numberEntry
+
+    const gui = new GUI({})
+
+    gui.add(numberEntry, 'minvalue', -10, 0, 1).name('Minimum')
+    gui.add(numberEntry, 'maxvalue', 0, 10, 1).name('Maximum')
+    gui.add(numberEntry, 'decimals', 0, 5, 1).name('Decimals')
+    gui.add(numberEntry, 'step', 0, 1.5, 0.25).name('Step')
+
+    const properties = new UIProperties({ fill: parameters.material }, pointer, uioptions, gui)
+    this.panel.add(properties)
+    //properties.getColorPicker = () => { return new UIColorPicker({}, pointer, uioptions) }
+    properties.position.y = -0.1
+    properties.position.z = 0.001
+  }
+
+  override dispose() {
+    super.dispose()
+
+    this.uioptions.keyboard!.remove(this.numberEntry)
+  }
 }

@@ -20,13 +20,14 @@ export class UINumberEntry extends UITextEntry {
     if (newvalue == undefined) return
 
     if (this._value != newvalue) {
-      if (this.step) newvalue = Math.round(newvalue / this.step) * this.step
+      if (this.step != undefined && this.step > 0)
+        newvalue = Math.round(newvalue / this.step) * this.step
 
       const text = newvalue.toFixed(this.decimals)
       this.text = text
 
       if (this.inRange(text, this.minvalue, this.maxvalue)) {
-        this._value = newvalue
+        this._value = +text
         this.dispatchEvent<any>({ type: NumberEntryEventType.VALUE_CHANGED, value: newvalue })
       }
     }
@@ -65,8 +66,26 @@ export class UINumberEntry extends UITextEntry {
     }
   }
 
-  public decimals: number | undefined
-  public step: number | undefined
+  private _decimals: number | undefined
+  get decimals() { return this._decimals }
+  set decimals(newvalue: number | undefined) {
+    if (this._decimals != newvalue) {
+      this._decimals = newvalue
+
+      this.value = +this.value.toFixed(this.decimals)
+    }
+  }
+
+  private _step: number | undefined
+  get step() { return this._step }
+  set step(newvalue: number | undefined) {
+    if (this._step != newvalue) {
+      this._step = newvalue
+
+      if (this.step != undefined && this.step > 0)
+        this.value = Math.round(this.value / this.step) * this.step
+    }
+  }
 
   constructor(parameters: NumberEntryParameters = {}, interactive: ThreeInteractive, options: NumberOptions = {}) {
     super(parameters, interactive, options)
