@@ -21,7 +21,8 @@ export interface PropertiesParameters extends PanelParameters {
   spacing?: number             // defaults to 0.02
   propertyHeight?: number      // defaults to 0.1
   fontSize?: number            // defaults to 0.04
-  disabledMaterial?: MeshBasicMaterialParameters // default is dark gray
+  disabledMaterial?: MeshBasicMaterialParameters  // default is gray
+  inputMaterial?: MeshBasicMaterialParameters     // default is dark gray
 }
 
 interface HeightData {
@@ -39,6 +40,7 @@ export class UIProperties extends UIPanel {
   private propertyHeight: number
   private fontSize: number
   private disabledMaterial: MeshBasicMaterialParameters
+  private inputMaterial: MeshBasicMaterialParameters
 
   private inputs: Array<InputField> = []
 
@@ -51,17 +53,22 @@ export class UIProperties extends UIPanel {
     this.propertyHeight = parameters.propertyHeight != undefined ? parameters.propertyHeight : 0.1
     this.fontSize = parameters.fontSize != undefined ? parameters.fontSize : 0.04
 
-
     let disabledMaterial = parameters.disabledMaterial
     if (!disabledMaterial) disabledMaterial = { color: 'gray' }
     this.disabledMaterial = disabledMaterial
 
-    this.height = this.addFolder(this, gui)
-    this.addEventListener(PanelEventType.HEIGHT_CHANGED, (e: any) => {
-      this.resizeGeometry()
-    })
+    let inputMaterial = parameters.inputMaterial
+    if (!inputMaterial) inputMaterial = { color: 'darkgray' }
+    this.inputMaterial = inputMaterial
 
-    if (options.keyboard && this.inputs.length>0) options.keyboard.add(...this.inputs)
+    requestAnimationFrame(() => {
+      this.height = this.addFolder(this, gui)
+      this.addEventListener(PanelEventType.HEIGHT_CHANGED, (e: any) => {
+        this.resizeGeometry()
+      })
+
+      if (options.keyboard && this.inputs.length > 0) options.keyboard.add(...this.inputs)
+    })
   }
 
   addFolder(parent: UIPanel, gui: GUI): number {
@@ -102,7 +109,7 @@ export class UIProperties extends UIPanel {
     const size = this.fontSize
     const height = this.propertyHeight
     const disabled = !controller.enabled
-    const fill = disabled ? this.disabledMaterial : { color: 'darkgray' }
+    const fill = disabled ? this.disabledMaterial : this.inputMaterial
 
     if (controller.classname == 'function') {
       const params: TextButtonParameters = {
@@ -114,7 +121,7 @@ export class UIProperties extends UIPanel {
         disabled,
         fill,
       }
-      const textbutton = this.createTextButton(params)
+      const textbutton = this.createTextButton(params, controller.title)
       textbutton.addEventListener(ButtonEventType.BUTTON_PRESSED, () => {
         controller.execute()
       })
@@ -137,7 +144,7 @@ export class UIProperties extends UIPanel {
         }
       }
 
-      const expansionPanel = this.createExpansionPanel(params)
+      const expansionPanel = this.createExpansionPanel(params, controller.title)
       expansionPanel.panelExpanded = (expanded: boolean) => {
         data.extraheight = expanded ? expansionPanel.panel.height : 0
 
@@ -163,14 +170,15 @@ export class UIProperties extends UIPanel {
     const color = disabled ? 'gray' : 'black'
 
     const labelparams: LabelParameters = {
-      alignX: 'left',
-      maxwidth: this.width,
+      alignX: 'right',
+      overflow: 'slice',
+      maxwidth: this.width/2-this.spacing*2,
       text: controller.title,
       size,
       material: { color }
     }
-    const label = this.createLabel(labelparams)
-    label.position.set(-this.width / 2 + this.spacing, 0, 0.001)
+    const label = this.createLabel(labelparams, controller.title)
+    label.position.set(-this.spacing, 0, 0.001)
     data.group.add(label)
 
     switch (controller.classname) {
@@ -194,7 +202,7 @@ export class UIProperties extends UIPanel {
             fill,
           }
 
-          sliderbar = this.createSliderbar(sliderparams)
+          sliderbar = this.createSliderbar(sliderparams, controller.title)
           this.add(sliderbar)
           sliderbar.position.set(this.spacing + width / 2, 0, 0.001)
           data.group.add(sliderbar)
@@ -217,7 +225,7 @@ export class UIProperties extends UIPanel {
           step: controller._step as number,
           fill,
         }
-        const numberentry = this.createNumberEntry(numberparams)
+        const numberentry = this.createNumberEntry(numberparams, controller.title)
         if (hasrange)
           numberentry.position.set(this.spacing * 2 + width * 1.5, 0, 0.001)
         else
@@ -255,7 +263,7 @@ export class UIProperties extends UIPanel {
           }
         }
 
-        const textentry = this.createTextEntry(params)
+        const textentry = this.createTextEntry(params, controller.title)
         textentry.position.set(this.width / 4, 0, 0.001)
         data.group.add(textentry)
         textentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e: any) => {
@@ -275,7 +283,7 @@ export class UIProperties extends UIPanel {
           disabled: !controller.enabled,
           fill,
         }
-        const checkbox = this.createCheckBox(params)
+        const checkbox = this.createCheckBox(params, controller.title)
         checkbox.position.set(this.spacing + checkboxwidth / 2, 0, 0.001)
         data.group.add(checkbox)
 
@@ -319,7 +327,7 @@ export class UIProperties extends UIPanel {
           itemheight: height,
           itemcount: 5,
           disabled: !controller.enabled,
-          fontSize: size
+          fontSize: size,
         }
 
         const selectparams: SelectParameters = {
@@ -331,7 +339,8 @@ export class UIProperties extends UIPanel {
           },
           list: listparams,
           disabled: !controller.enabled,
-          initialselected: initialvalue
+          initialselected: initialvalue,
+          fill,
         }
 
         controller.updateDisplay = () => {
@@ -340,7 +349,7 @@ export class UIProperties extends UIPanel {
           }
         }
 
-        const select = this.createSelect(selectparams)
+        const select = this.createSelect(selectparams, controller.title)
         data.group.add(select)
         select.position.set(this.width / 4, 0, 0.001)
 
@@ -353,7 +362,8 @@ export class UIProperties extends UIPanel {
       }
 
       case 'color': {
-        const width = this.width / 4 - this.spacing * 2
+        let width = this.width / 2 - this.spacing * 2
+        width -= width / 2 //+ this.spacing
 
         let color = this.normalizeColorString(controller.getValue(), controller.rgbscale)
 
@@ -371,7 +381,7 @@ export class UIProperties extends UIPanel {
           }
         }
 
-        const colorentry = this.createColorEntry(colorparams)
+        const colorentry = this.createColorEntry(colorparams, controller.title)
         colorentry.position.set(this.spacing + width / 2, 0, 0.001)
         data.group.add(colorentry)
 
@@ -392,7 +402,7 @@ export class UIProperties extends UIPanel {
 
 
         const params: TextEntryParameters = {
-          width,
+          width: width - this.spacing,
           height,
           label: {
             text: color, size
@@ -401,7 +411,7 @@ export class UIProperties extends UIPanel {
           fill,
         }
 
-        const textentry = this.createTextEntry(params)
+        const textentry = this.createTextEntry(params, controller.title)
         textentry.position.set(this.spacing * 2 + width * 1.5, 0, 0.001)
         data.group.add(textentry)
 
@@ -473,41 +483,41 @@ export class UIProperties extends UIPanel {
 
   // overridables
 
-  createLabel(parameters: LabelParameters): UILabel {
+  createLabel(parameters: LabelParameters, title:string): UILabel {
     return new UILabel(parameters, this.options)
   }
 
-  createTextButton(parameters: TextButtonParameters): UIButton {
+  createTextButton(parameters: TextButtonParameters, title: string): UIButton {
     return new UITextButton(parameters, this.interactive, this.options)
   }
 
-  createExpansionPanel(parameters: ExpansionPanelParameters): UIExpansionPanel {
+  createExpansionPanel(parameters: ExpansionPanelParameters, title: string): UIExpansionPanel {
     return new UIExpansionPanel(parameters, this.interactive, this.options)
   }
 
-  createSliderbar(parameters: SliderbarParameters): UISliderbar {
+  createSliderbar(parameters: SliderbarParameters, title: string): UISliderbar {
     return new UISliderbar(parameters, this.interactive, this.options)
   }
 
-  createNumberEntry(parameters: NumberEntryParameters): UINumberEntry {
+  createNumberEntry(parameters: NumberEntryParameters, title: string): UINumberEntry {
     return new UINumberEntry(parameters, this.interactive, this.options)
   }
 
-  createTextEntry(parameters: TextEntryParameters): UITextEntry {
+  createTextEntry(parameters: TextEntryParameters, title: string): UITextEntry {
     return new UITextEntry(parameters, this.interactive, this.options)
   }
 
-  createCheckBox(parameters: CheckboxParameters): UICheckbox {
+  createCheckBox(parameters: CheckboxParameters, title: string): UICheckbox {
     return new UICheckbox(parameters, this.interactive, this.options)
   }
 
-  createSelect(parameters: SelectParameters): UISelect {
+  createSelect(parameters: SelectParameters, title: string): UISelect {
     return new UISelect(parameters, this.interactive, this.options)
   }
 
-  createColorEntry(parameters: ColorEntryParameters): UIColorEntry {
+  createColorEntry(parameters: ColorEntryParameters, title: string): UIColorEntry {
     return new UIColorEntry(parameters, this.interactive, this.options)
   }
 
-  getColorPicker(): UIColorPicker | undefined { return undefined  }
+  getColorPicker(): UIColorPicker | undefined { return undefined }
 }

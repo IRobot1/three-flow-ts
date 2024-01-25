@@ -149,7 +149,8 @@ export interface ListParameters extends InputParameters {
 export interface SelectParameters extends TextButtonParameters {
   initialselected?: string
   list: ListParameters
-  listz?: number                // default is 0.003, offset above to show list
+  listz?: number                                    // default is 0.003, offset above to show list
+  indicatorMaterial?: MeshBasicMaterialParameters   // default is black
 }
 
 

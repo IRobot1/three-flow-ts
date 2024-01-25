@@ -356,10 +356,10 @@ export class GalleryExample {
       {
         id: 'userinterface',
         label: { text: "User Interface" },
-        x: column1, y: row1,
+        x: column1, y: row2,
         assetimage: 'userinterface', route: 'userinterface',
         connectors: [
-          { id: "c1userinterface", anchor: 'right' },
+          { id: "c1userinterface", anchor: 'top' },
           { id: "c2userinterface", anchor: 'bottom' },
         ],
       },
@@ -375,10 +375,20 @@ export class GalleryExample {
       {
         id: 'properties',
         label: { text: "UI Properties" },
-        x: column1, y: row2,
+        x: column1, y: row3,
         assetimage: 'properties', route: 'properties',
           connectors: [
             { id: "c1properties", anchor: 'top' },
+            { id: "c2properties", anchor: 'bottom' },
+          ],
+      },
+      {
+        id: 'customproperties',
+        label: { text: "Custom Properties" },
+        x: column1, y: row4,
+        assetimage: 'customproperties', route: 'customproperties',
+          connectors: [
+            { id: "c1customproperties", anchor: 'top' },
           ],
       },
     ];
@@ -528,6 +538,12 @@ export class GalleryExample {
         to: "properties",
         fromconnector: "c2userinterface",
         toconnector: "c1properties"
+      },
+      {
+        from: "properties",
+        to: "customproperties",
+        fromconnector: "c2properties",
+        toconnector: "c1customproperties"
       },
     ];
 

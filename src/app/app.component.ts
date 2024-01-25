@@ -27,6 +27,7 @@ import { StressExample } from '../examples/stress';
 import { GUIExample } from '../examples/gui/example';
 import { PropertiesExample } from '../examples/properties';
 import { UserInterfaceExample } from '../examples/user-interface';
+import { CustomPropertiesExample } from '../examples/custom-properties';
 
 
 @Component({
@@ -68,6 +69,7 @@ export class AppComponent {
       app.router.add('userinterface', () => { return new UserInterfaceExample(app) })
       app.router.add('gui', () => { return new GUIExample(app) })
       app.router.add('properties', () => { return new PropertiesExample(app) })
+      app.router.add('customproperties', () => { return new CustomPropertiesExample(app) })
     })
   }
 }

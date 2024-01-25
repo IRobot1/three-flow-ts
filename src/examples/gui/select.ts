@@ -36,8 +36,9 @@ export class UISelect extends UITextButton {
     const radius = this.height * 0.9 / 2
     this.label.maxwidth = this.width - (radius + this.label.padding)
 
+    const indicatorMaterial = parameters.indicatorMaterial ? parameters.indicatorMaterial : { color: 'black' }
     const mesh = this.createIndicator(radius)
-    mesh.material = this.materials.getMaterial('geometry', 'select-indicator', <MeshBasicMaterialParameters>{ color: 'black' })
+    mesh.material = this.materials.getMaterial('geometry', 'select-indicator', indicatorMaterial)
     mesh.position.set((this.width - radius - this.label.padding) / 2, 0, 0.001)
     mesh.rotation.z = this.indicatorRotation(false)
     this.add(mesh)
