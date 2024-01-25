@@ -10,7 +10,7 @@ import { UIOptions } from './gui/model'
 import { FontCache } from "./gui/cache";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { UILabel } from "./gui/label";
-import { UIProperties } from "./gui/properties";
+import { PropertiesParameters, UIProperties } from "./gui/properties";
 import { GUI } from "./gui/gui-model";
 import { KeyboardInteraction } from "./gui/keyboard-interaction";
 import { UIColorPicker } from "./gui/color-picker";
@@ -402,7 +402,7 @@ class MenuTextButton extends UITextButton {
 class FlowUINode extends FlowNode {
   titleheight = 0.15
   panel: Mesh
-
+  private properties?: UIProperties
 
   constructor(protected uidiagram: UserInterfaceDiagram, parameters: FlowNodeParameters, protected uioptions: UIOptions) {
     super(uidiagram, parameters)
@@ -428,6 +428,18 @@ class FlowUINode extends FlowNode {
       uidiagram.removeNode(this)
       console.warn(this.uioptions.keyboard)
     }
+  }
+
+  addProperties(parameters: PropertiesParameters, gui: GUI): UIProperties {
+    this.properties = new UIProperties(parameters, this.uidiagram.diagramoptions.pointer, this.uioptions, gui)
+    this.panel.add(this.properties)
+    return this.properties
+  }
+
+  override dispose() {
+    super.dispose()
+    if (this.properties)
+      this.properties.dispose()
   }
 
   override createGeometry(parameters: FlowNodeParameters): BufferGeometry {
@@ -486,8 +498,7 @@ class LabelUINode extends FlowUINode {
 
     const pointer = this.uidiagram.diagramoptions.pointer
 
-    const properties = new UIProperties({ fill: parameters.material }, pointer, uioptions, gui)
-    this.panel.add(properties)
+    const properties = this.addProperties({ fill: parameters.material }, gui)
     properties.getColorPicker = () => { return new UIColorPicker({}, pointer, uioptions) }
     properties.position.y = -0.1
     properties.position.z = 0.001
@@ -551,8 +562,7 @@ class ButtonUINode extends FlowUINode {
       }
     })
 
-    const properties = new UIProperties({ fill: parameters.material }, pointer, uioptions, gui)
-    this.panel.add(properties)
+    const properties = this.addProperties({ fill: parameters.material }, gui)
     properties.getColorPicker = () => { return new UIColorPicker({}, pointer, uioptions) }
     properties.position.y = -0.1
     properties.position.z = 0.001
@@ -584,8 +594,7 @@ class CheckboxUINode extends FlowUINode {
     //gui.add(checkbox, 'indeterminate').name('Indeterminate')
     gui.add(checkbox, 'disabled').name('Disabled')
 
-    const properties = new UIProperties({ fill: parameters.material }, pointer, uioptions, gui)
-    this.panel.add(properties)
+    const properties = this.addProperties({ fill: parameters.material }, gui)
     properties.getColorPicker = () => { return new UIColorPicker({}, pointer, uioptions) }
     properties.position.y = -0.1
     properties.position.z = 0.001
@@ -617,8 +626,7 @@ class ExpansionUINode extends FlowUINode {
     gui.addColor(expansionPanel, 'color').name('Color')
     gui.add(expansionPanel, 'spacing', 0, 0.03, 0.01).name('Space to Panel')
 
-    const properties = new UIProperties({ fill: parameters.material }, pointer, uioptions, gui)
-    this.panel.add(properties)
+    const properties = this.addProperties({ fill: parameters.material }, gui)
     properties.getColorPicker = () => { return new UIColorPicker({}, pointer, uioptions) }
     properties.position.y = -0.1
     properties.position.z = 0.001
@@ -655,9 +663,7 @@ class NumberEntryUINode extends FlowUINode {
     gui.add(numberEntry, 'decimals', 0, 5, 1).name('Decimals')
     gui.add(numberEntry, 'step', 0, 1.5, 0.25).name('Step')
 
-    const properties = new UIProperties({ fill: parameters.material }, pointer, uioptions, gui)
-    this.panel.add(properties)
-    //properties.getColorPicker = () => { return new UIColorPicker({}, pointer, uioptions) }
+    const properties = this.addProperties({ fill: parameters.material }, gui)
     properties.position.y = -0.1
     properties.position.z = 0.001
   }
@@ -706,9 +712,7 @@ class SliderbarUINode extends FlowUINode {
     gui.add(sliderbar, 'step', 0, 2, 0.25).name('Step')
     gui.add(sliderbar, 'slidersize', 0.03, 0.2, 0.01).name('Slider Size')
 
-    const properties = new UIProperties({ fill: parameters.material }, pointer, uioptions, gui)
-    this.panel.add(properties)
-    //properties.getColorPicker = () => { return new UIColorPicker({}, pointer, uioptions) }
+    const properties = this.addProperties({ fill: parameters.material }, gui)
     properties.position.y = -0.1
     properties.position.z = 0.001
   }
@@ -745,9 +749,7 @@ class TextEntryUINode extends FlowUINode {
     gui.add(textEntry, 'passwordChar', 1).name('Password Character')
     //gui.add(textentry, 'prompt').name('Prompt')
 
-    const properties = new UIProperties({ fill: parameters.material }, pointer, uioptions, gui)
-    this.panel.add(properties)
-    //properties.getColorPicker = () => { return new UIColorPicker({}, pointer, uioptions) }
+    const properties = this.addProperties({ fill: parameters.material }, gui)
     properties.position.y = -0.1
     properties.position.z = 0.001
   }
