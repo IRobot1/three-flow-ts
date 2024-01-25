@@ -29,8 +29,8 @@ export class PropertiesExample {
     const scene = new Scene()
     app.scene = scene
 
-    app.camera.position.y = 1.5
-    app.camera.position.z = 1.5
+    app.camera.position.y = 1.6
+    app.camera.position.z = 3.5
 
     scene.background = new Color(0x444444)
 

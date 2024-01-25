@@ -360,6 +360,7 @@ export class GalleryExample {
         assetimage: 'userinterface', route: 'userinterface',
         connectors: [
           { id: "c1userinterface", anchor: 'right' },
+          { id: "c2userinterface", anchor: 'bottom' },
         ],
       },
     //  {
@@ -371,15 +372,15 @@ export class GalleryExample {
     //    //    { id: "c1gui", anchor: 'top' },
     //    //  ],
     //  },
-    //  {
-    //    id: 'properties',
-    //    label: { text: "Properities" },
-    //    x: column8, y: row0,
-    //    assetimage: 'properties', route: 'properties',
-    //    //  connectors: [
-    //    //    { id: "c1gui", anchor: 'top' },
-    //    //  ],
-    //  },
+      {
+        id: 'properties',
+        label: { text: "UI Properties" },
+        x: column1, y: row2,
+        assetimage: 'properties', route: 'properties',
+          connectors: [
+            { id: "c1properties", anchor: 'top' },
+          ],
+      },
     ];
 
 
@@ -521,6 +522,12 @@ export class GalleryExample {
         to: "userinterface",
         fromconnector: "c1documentation",
         toconnector: "c1userinterface"
+      },
+      {
+        from: "userinterface",
+        to: "properties",
+        fromconnector: "c2userinterface",
+        toconnector: "c1properties"
       },
     ];
 
