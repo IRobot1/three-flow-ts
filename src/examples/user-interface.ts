@@ -4,7 +4,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { ThreeJSApp } from "../app/threejs-app";
 import { FlowDiagram, FlowDiagramOptions, FlowInteraction, FlowMaterials, FlowNode, FlowNodeParameters, InteractiveEventType, RoundedRectangleGeometry, ThreeInteractive } from "three-flow";
 import { UITextButton } from "./gui/button-text";
-import { LabelParameters, NumberEntryParameters, SliderbarParameters, TextButtonParameters } from "./gui/model";
+import { LabelParameters, NumberEntryParameters, SliderbarParameters, TextButtonParameters, TextEntryParameters } from "./gui/model";
 import { ButtonOptions } from "./gui/button";
 import { UIOptions } from './gui/model'
 import { FontCache } from "./gui/cache";
@@ -18,6 +18,7 @@ import { UICheckbox } from "./gui/checkbox";
 import { ExpansionPanelParameters, UIExpansionPanel } from "./gui/expansion-panel";
 import { UINumberEntry } from "./gui/number-entry";
 import { SliderbarEventType, UISliderbar } from "./gui/sliderbar";
+import { UITextEntry } from "./gui/text-entry";
 
 interface MenuAction {
   text: string
@@ -27,7 +28,7 @@ interface MenuAction {
 
 interface MenuParameters extends FlowNodeParameters {
   menu: Array<MenuAction>
-  start: MenuAction
+  start?: MenuAction
   end?: MenuAction
 }
 
@@ -113,6 +114,7 @@ export class UserInterfaceExample {
 
             const nodeparams: FlowNodeParameters = {
               id: 'label',
+              x: -0.5, y: 0.5,
               type: 'label',
               material: { color: 'steelblue' },
               label: { text: 'Labels', size: 0.07, },
@@ -129,6 +131,7 @@ export class UserInterfaceExample {
 
             const nodeparams: FlowNodeParameters = {
               id: 'button',
+              x: -0.4, y: 0.4,
               z: 0.01,
               type: 'button',
               material: { color: 'lightsteelblue' },
@@ -146,6 +149,7 @@ export class UserInterfaceExample {
 
             const nodeparams: FlowNodeParameters = {
               id: 'checkbox',
+              x: -0.3, y: 0.3,
               z: 0.02,
               type: 'checkbox',
               material: { color: 'lime' },
@@ -163,6 +167,7 @@ export class UserInterfaceExample {
 
             const nodeparams: FlowNodeParameters = {
               id: 'expand',
+              x: -0.2, y: 0.2,
               z: 0.03,
               type: 'expansion',
               material: { color: 'green' },
@@ -180,6 +185,7 @@ export class UserInterfaceExample {
 
             const nodeparams: FlowNodeParameters = {
               id: 'number',
+              x: -0.1, y: 0.1,
               z: 0.04,
               type: 'number',
               material: { color: '#CCCCFF' },
@@ -197,6 +203,7 @@ export class UserInterfaceExample {
 
             const nodeparams: FlowNodeParameters = {
               id: 'slider',
+              x: 0, y: 0,
               z: 0.05,
               type: 'slider',
               material: { color: '#CF9FFF' },
@@ -208,13 +215,30 @@ export class UserInterfaceExample {
             flow.addNode(nodeparams)
           }
         },
-        { text: '', isicon: true, action: () => { console.warn('notes clicked') } },
-        { text: '', isicon: true, action: () => { console.warn('finances clicked') } },
+        {
+          text: 'text_format', isicon: true, action: () => {
+            if (flow.hasNode('text')) return
+
+            const nodeparams: FlowNodeParameters = {
+              id: 'text',
+              x: 0.1, y: -0.1,
+              z: 0.06,
+              type: 'text',
+              material: { color: 'cyan' },
+              label: { text: 'Text Entry', size: 0.07, },
+              //width:1.3,
+              height: 1.1,
+              resizable: false, scalable: false,
+            }
+            flow.addNode(nodeparams)
+          }
+        },
+        //{ text: '', isicon: true, action: () => { console.warn('finances clicked') } },
       ]
 
       const menuparams: MenuParameters = {
         menu,
-        start: { text: 'XR', isicon: false, action: () => { /*app.enterVR()*/ } },
+        //start: { text: 'XR', isicon: false, action: () => { /*app.enterVR()*/ } },
         //end: { text: 'dashboard', isicon: true, action: () => { console.warn('dashboard clicked') } },
         x: -2, y: 0.7,
         type: 'menu', width: 0.25, height: 0.25,
@@ -250,9 +274,11 @@ class UserInterfaceDiagram extends FlowDiagram {
     else if (parameters.type == 'expansion')
       return new ExpansionUINode(this, parameters, uioptions)
     else if (parameters.type == 'number')
-      return new NumberUINode(this, parameters, uioptions)
+      return new NumberEntryUINode(this, parameters, uioptions)
     else if (parameters.type == 'slider')
       return new SliderbarUINode(this, parameters, uioptions)
+    else if (parameters.type == 'text')
+      return new TextEntryUINode(this, parameters, uioptions)
 
     return new FlowUINode(this, parameters, uioptions)
   }
@@ -275,15 +301,18 @@ class MenuUINode extends FlowNode {
     archmesh.position.y = -this.height - menuheight - 0.04
     this.add(archmesh)
 
-    const startparams: TextButtonParameters = {
-      label: { text: parameters.start.text, isicon: parameters.start.isicon, size: 0.05 },
-      width: 0.15, height: 0.12, radius: 0.06,
-    }
-    const startbutton = new MenuTextButton(startparams, diagram.diagramoptions.pointer, uioptions)
-    this.add(startbutton)
-    startbutton.position.set(0, 0, 0.001)
+    if (parameters.start) {
 
-    startbutton.pressed = () => { parameters.start.action() }
+      const startparams: TextButtonParameters = {
+        label: { text: parameters.start.text, isicon: parameters.start.isicon, size: 0.05 },
+        width: 0.15, height: 0.12, radius: 0.06,
+      }
+      const startbutton = new MenuTextButton(startparams, diagram.diagramoptions.pointer, uioptions)
+      this.add(startbutton)
+      startbutton.position.set(0, 0, 0.001)
+
+      startbutton.pressed = () => { parameters.start!.action() }
+    }
 
     let y = -0.3
     parameters.menu.forEach(item => {
@@ -395,7 +424,10 @@ class FlowUINode extends FlowNode {
     this.add(closebutton)
     closebutton.position.set((this.width - buttonwidth * 1.5) / 2, 0, 0.001)
 
-    closebutton.pressed = () => { uidiagram.removeNode(this) }
+    closebutton.pressed = () => {
+      uidiagram.removeNode(this)
+      console.warn(this.uioptions.keyboard)
+    }
   }
 
   override createGeometry(parameters: FlowNodeParameters): BufferGeometry {
@@ -595,7 +627,7 @@ class ExpansionUINode extends FlowUINode {
 }
 
 
-class NumberUINode extends FlowUINode {
+class NumberEntryUINode extends FlowUINode {
   private numberEntry: UINumberEntry
 
   constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, uioptions: UIOptions) {
@@ -606,7 +638,7 @@ class NumberUINode extends FlowUINode {
     const maxwidth = this.width - 0.1
     const params: NumberEntryParameters = {
       width: maxwidth,
-      min : -10, max: 10, step:0, decimals: 0, initialvalue: 0
+      min: -10, max: 10, step: 0, decimals: 0, initialvalue: 0
     }
     const numberEntry = new UINumberEntry(params, pointer, this.uioptions)
     this.panel.add(numberEntry)
@@ -617,6 +649,7 @@ class NumberUINode extends FlowUINode {
 
     const gui = new GUI({})
 
+    gui.add(numberEntry, 'width', 0.2, maxwidth, 0.1).name('Width')
     gui.add(numberEntry, 'minvalue', -10, 0, 1).name('Minimum')
     gui.add(numberEntry, 'maxvalue', 0, 10, 1).name('Maximum')
     gui.add(numberEntry, 'decimals', 0, 5, 1).name('Decimals')
@@ -646,7 +679,7 @@ class SliderbarUINode extends FlowUINode {
     const maxwidth = this.width - 0.1
     const params: SliderbarParameters = {
       width: maxwidth,
-      min : -10, max: 10, step:0, initialvalue: 0
+      min: -10, max: 10, step: 0, initialvalue: 0
     }
     const sliderbar = new UISliderbar(params, pointer, this.uioptions)
     this.panel.add(sliderbar)
@@ -661,7 +694,7 @@ class SliderbarUINode extends FlowUINode {
     }
     const label = new UILabel(labelparams, this.uioptions)
     this.panel.add(label)
-    label.position.set(0, this.height / 2 - this.titleheight*2, 0.001)
+    label.position.set(0, this.height / 2 - this.titleheight * 2, 0.001)
 
     this.uioptions.keyboard!.add(sliderbar)
     this.sliderbar = sliderbar
@@ -684,5 +717,43 @@ class SliderbarUINode extends FlowUINode {
     super.dispose()
 
     this.uioptions.keyboard!.remove(this.sliderbar)
+  }
+}
+class TextEntryUINode extends FlowUINode {
+  private textEntry: UITextEntry
+
+  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, uioptions: UIOptions) {
+    super(diagram, parameters, uioptions)
+
+    const pointer = this.uidiagram.diagramoptions.pointer
+
+    const maxwidth = this.width - 0.1
+    const params: TextEntryParameters = {
+      width: maxwidth, label: { text: 'Three Flow' }
+    }
+    const textEntry = new UITextEntry(params, pointer, this.uioptions)
+    this.panel.add(textEntry)
+    textEntry.position.set(0, this.height / 2 - this.titleheight, 0.001)
+
+    this.uioptions.keyboard!.add(textEntry)
+    this.textEntry = textEntry
+
+    const gui = new GUI({})
+
+    gui.add(textEntry, 'width', 0.2, maxwidth, 0.1).name('Width')
+    gui.add(textEntry, 'password').name('Is Password')
+    gui.add(textEntry, 'passwordChar', 1).name('Password Character')
+    //gui.add(textentry, 'prompt').name('Prompt')
+
+    const properties = new UIProperties({ fill: parameters.material }, pointer, uioptions, gui)
+    this.panel.add(properties)
+    //properties.getColorPicker = () => { return new UIColorPicker({}, pointer, uioptions) }
+    properties.position.y = -0.1
+    properties.position.z = 0.001
+  }
+
+  override dispose() {
+    super.dispose()
+    this.uioptions.keyboard!.remove(this.textEntry)
   }
 }

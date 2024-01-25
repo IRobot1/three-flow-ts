@@ -61,7 +61,7 @@ export class UIProperties extends UIPanel {
       this.resizeGeometry()
     })
 
-    if (options.keyboard) options.keyboard.add(...this.inputs)
+    if (options.keyboard && this.inputs.length>0) options.keyboard.add(...this.inputs)
   }
 
   addFolder(parent: UIPanel, gui: GUI): number {
@@ -464,7 +464,11 @@ export class UIProperties extends UIPanel {
 
     }
     return '#' + result
+  }
 
+  dispose() {
+    if (this.options.keyboard)
+      this.options.keyboard.remove(...this.inputs)
   }
 
   // overridables

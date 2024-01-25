@@ -1,5 +1,5 @@
 import { InputField, InputFieldEventType, UIEntry } from "./input-field"
-import { PanelOptions } from "./panel"
+import { PanelEventType, PanelOptions } from "./panel"
 import { UIKeyboardEvent } from "./keyboard"
 import { LabelEventType, UILabel } from "./label"
 import { TextEntryParameters } from "./model"
@@ -43,6 +43,16 @@ export class UITextEntry extends UIEntry implements InputField {
     }
   }
 
+  private _passwordChar: string
+  get passwordChar() { return this._passwordChar }
+  set passwordChar(newvalue: string) {
+    if (this._passwordChar != newvalue) {
+      if (newvalue.length > 0) {
+        this._passwordChar = newvalue.slice(0, 1)
+        this.dispatchEvent<any>({ type: InputFieldEventType.TEXT_CHANGED, text: this.text })
+      }
+    }
+  }
 
 
   constructor(parameters: TextEntryParameters = {}, interactive: ThreeInteractive, options: TextOptions = {}) {
@@ -54,17 +64,17 @@ export class UITextEntry extends UIEntry implements InputField {
 
     const padding = (this.height / 0.1) * 0.02
 
-    if (parameters.label == undefined) parameters.label = {}
+    if (!parameters.label) parameters.label = {}
     parameters.label.size = (this.height - padding) / 2
     parameters.label.padding = padding
     parameters.label.maxwidth = this.width - padding
     parameters.label.overflow = 'slice'
 
-    const passwordChar = parameters.passwordChar != undefined ? parameters.passwordChar : '*'
+    this._passwordChar = parameters.passwordChar != undefined ? parameters.passwordChar : '*'
 
     this._password = parameters.password != undefined ? parameters.password : false
     if (parameters.label.text && this.password)
-      parameters.label.text = passwordChar.repeat(parameters.label.text.length);
+      parameters.label.text = this.passwordChar.repeat(parameters.label.text.length);
 
     parameters.label.alignX = 'left'
     parameters.label.alignY = 'bottom'
@@ -85,7 +95,7 @@ export class UITextEntry extends UIEntry implements InputField {
       if (this.disabled) return
 
       if (this.password)
-        label.text = passwordChar.repeat(this.text.length);
+        label.text = this.passwordChar.repeat(this.text.length);
       else
         label.text = this.text;
 
@@ -99,6 +109,12 @@ export class UITextEntry extends UIEntry implements InputField {
 
     this.addEventListener(InputFieldEventType.TEXT_CHANGED, textChanged)
     this.addEventListener(InputFieldEventType.ACTIVE_CHANGED, textChanged)
+
+    this.addEventListener(PanelEventType.WIDTH_CHANGED, () => {
+      label.maxwidth = this.width - this.label.padding
+      label.position.x = -this.width / 2 + this.label.padding
+    })
+
   }
 
   override handleKeyDown(e: UIKeyboardEvent) {
