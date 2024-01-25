@@ -209,8 +209,8 @@ export class UIPanel extends Mesh {
     if (highlightable) {
       const highlight = () => {
         highlightMesh.visible = true
+        this.highlight()
       }
-      this.highlight = highlight
 
       this.addEventListener(InteractiveEventType.POINTERENTER, (e: any) => {
         if (this.clicking || !this.visible) return
@@ -220,8 +220,9 @@ export class UIPanel extends Mesh {
 
       const unhighlight = () => {
         highlightMesh.visible = false
+        this.unhighlight()
       }
-      this.unhighlight = unhighlight
+
       this.addEventListener(InteractiveEventType.POINTERLEAVE, (e:any) => {
         if (this.selectable) unhighlight()
       })

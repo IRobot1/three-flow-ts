@@ -21,9 +21,10 @@ import { SliderbarEventType, UISliderbar } from "./gui/sliderbar";
 import { UITextEntry } from "./gui/text-entry";
 
 interface MenuAction {
-  text: string
+  buttontext: string
   isicon: boolean
-  action(): void
+  description: string
+  action(parameters: MenuAction): void
 }
 
 interface MenuParameters extends FlowNodeParameters {
@@ -43,12 +44,14 @@ export class UserInterfaceExample {
 
   constructor(app: ThreeJSApp) {
 
+    app.enableStats()
+
     const scene = new Scene()
     app.scene = scene
 
     app.camera.position.z = 2
 
-    scene.background = new Color(0xDBDFE3)
+    scene.background = new Color(0)
 
     const ambient = new AmbientLight()
     ambient.intensity = 2
@@ -76,9 +79,7 @@ export class UserInterfaceExample {
     app.interactive.addEventListener(InteractiveEventType.DRAGSTART, disableRotate)
     app.interactive.addEventListener(InteractiveEventType.DRAGEND, enableRotate)
 
-    app.enableVR(true)
-
-    scene.add(new AxesHelper(1))
+    //scene.add(new AxesHelper(1))
 
     const materials = new FlowMaterials()
     materials.createMeshMaterial = (parameters: MaterialParameters) => {
@@ -109,7 +110,7 @@ export class UserInterfaceExample {
 
       const menu: Array<MenuAction> = [
         {
-          text: 'label', isicon: true, action: () => {
+          buttontext: 'label', isicon: true, description: 'Labels', action: (p: MenuAction) => {
             if (flow.hasNode('label')) return
 
             const nodeparams: FlowNodeParameters = {
@@ -117,7 +118,7 @@ export class UserInterfaceExample {
               x: -0.5, y: 0.5,
               type: 'label',
               material: { color: 'steelblue' },
-              label: { text: 'Labels', size: 0.07, },
+              label: { text: p.description, size: 0.07, },
               //width:1.3,
               height: 1.6,
               resizable: false, scalable: false,
@@ -126,7 +127,7 @@ export class UserInterfaceExample {
           }
         },
         {
-          text: 'smart_button', isicon: true, action: () => {
+          buttontext: 'smart_button', isicon: true, description: 'Buttons', action: (p: MenuAction) => {
             if (flow.hasNode('button')) return
 
             const nodeparams: FlowNodeParameters = {
@@ -135,7 +136,7 @@ export class UserInterfaceExample {
               z: 0.01,
               type: 'button',
               material: { color: 'lightsteelblue' },
-              label: { text: 'Buttons', size: 0.07, },
+              label: { text: p.description, size: 0.07, },
               //width:1.3,
               height: 1.6,
               resizable: false, scalable: false,
@@ -144,7 +145,7 @@ export class UserInterfaceExample {
           }
         },
         {
-          text: 'check_box', isicon: true, action: () => {
+          buttontext: 'check_box', isicon: true, description: 'Checkboxes', action: (p: MenuAction) => {
             if (flow.hasNode('checkbox')) return
 
             const nodeparams: FlowNodeParameters = {
@@ -153,7 +154,7 @@ export class UserInterfaceExample {
               z: 0.02,
               type: 'checkbox',
               material: { color: 'lime' },
-              label: { text: 'Checkboxes', size: 0.07, },
+              label: { text: p.description, size: 0.07, },
               //width:1.3,
               height: 1.1,
               resizable: false, scalable: false,
@@ -162,7 +163,7 @@ export class UserInterfaceExample {
           }
         },
         {
-          text: 'expand', isicon: true, action: () => {
+          buttontext: 'expand', isicon: true, description: 'Expansion Panel', action: (p: MenuAction) => {
             if (flow.hasNode('expand')) return
 
             const nodeparams: FlowNodeParameters = {
@@ -171,7 +172,7 @@ export class UserInterfaceExample {
               z: 0.03,
               type: 'expansion',
               material: { color: 'green' },
-              label: { text: 'Expansion Panel', size: 0.07, },
+              label: { text: p.description, size: 0.07, },
               //width:1.3,
               height: 1.1,
               resizable: false, scalable: false,
@@ -180,7 +181,7 @@ export class UserInterfaceExample {
           }
         },
         {
-          text: 'pin', isicon: true, action: () => {
+          buttontext: 'pin', isicon: true, description: 'Number Entry', action: (p: MenuAction) => {
             if (flow.hasNode('number')) return
 
             const nodeparams: FlowNodeParameters = {
@@ -189,7 +190,7 @@ export class UserInterfaceExample {
               z: 0.04,
               type: 'number',
               material: { color: '#CCCCFF' },
-              label: { text: 'Number Entry', size: 0.07, },
+              label: { text: p.description, size: 0.07, },
               //width:1.3,
               height: 1.1,
               resizable: false, scalable: false,
@@ -198,7 +199,7 @@ export class UserInterfaceExample {
           }
         },
         {
-          text: 'linear_scale', isicon: true, action: () => {
+          buttontext: 'linear_scale', isicon: true, description: 'Slider Bar', action: (p: MenuAction) => {
             if (flow.hasNode('slider')) return
 
             const nodeparams: FlowNodeParameters = {
@@ -207,7 +208,7 @@ export class UserInterfaceExample {
               z: 0.05,
               type: 'slider',
               material: { color: '#CF9FFF' },
-              label: { text: 'Slider Bar', size: 0.07, },
+              label: { text: p.description, size: 0.07, },
               //width:1.3,
               height: 1.1,
               resizable: false, scalable: false,
@@ -216,7 +217,7 @@ export class UserInterfaceExample {
           }
         },
         {
-          text: 'text_format', isicon: true, action: () => {
+          buttontext: 'text_format', isicon: true, description: 'Text Entry', action: (p: MenuAction) => {
             if (flow.hasNode('text')) return
 
             const nodeparams: FlowNodeParameters = {
@@ -225,7 +226,7 @@ export class UserInterfaceExample {
               z: 0.06,
               type: 'text',
               material: { color: 'cyan' },
-              label: { text: 'Text Entry', size: 0.07, },
+              label: { text: p.description, size: 0.07, },
               //width:1.3,
               height: 1.1,
               resizable: false, scalable: false,
@@ -251,6 +252,7 @@ export class UserInterfaceExample {
         interactive.dispose()
         flow.dispose()
         orbit.dispose()
+        app.disableStats()
       }
     })
   }
@@ -304,20 +306,20 @@ class MenuUINode extends FlowNode {
     if (parameters.start) {
 
       const startparams: TextButtonParameters = {
-        label: { text: parameters.start.text, isicon: parameters.start.isicon, size: 0.05 },
+        label: { text: parameters.start.buttontext, isicon: parameters.start.isicon, size: 0.05 },
         width: 0.15, height: 0.12, radius: 0.06,
       }
       const startbutton = new MenuTextButton(startparams, diagram.diagramoptions.pointer, uioptions)
       this.add(startbutton)
       startbutton.position.set(0, 0, 0.001)
 
-      startbutton.pressed = () => { parameters.start!.action() }
+      startbutton.pressed = () => { parameters.start!.action(parameters.start!) }
     }
 
     let y = -0.3
     parameters.menu.forEach(item => {
       const params: TextButtonParameters = {
-        label: { text: item.text, isicon: item.isicon, size: 0.06 },
+        label: { text: item.buttontext, isicon: item.isicon, size: 0.06 },
         width: 0.12, height: 0.12, radius: 0.06,
       }
       const button = new MenuTextButton(params, diagram.diagramoptions.pointer, uioptions)
@@ -325,12 +327,24 @@ class MenuUINode extends FlowNode {
       button.position.set(0, y, 0.001)
       y -= 0.18
 
-      button.pressed = () => { item.action() }
+      button.pressed = () => { item.action(item) }
+
+      const labelparams: LabelParameters = {
+        text: item.description, material: { color: 'white' },
+        alignX: 'right'
+      }
+      const label = new UILabel(labelparams, uioptions)
+      button.add(label)
+      label.position.set(-params.width!, 0, 0.1)
+      label.visible = false
+
+      button.highlight = () => { label.visible = true }
+      button.unhighlight = () => { label.visible = false }
     })
 
     if (parameters.end) {
       const endparams: TextButtonParameters = {
-        label: { text: parameters.end.text, isicon: parameters.end.isicon, size: 0.05 },
+        label: { text: parameters.end.buttontext, isicon: parameters.end.isicon, size: 0.05 },
         width: 0.12, height: 0.12, radius: 0.06,
       }
 
@@ -338,7 +352,7 @@ class MenuUINode extends FlowNode {
       archmesh.add(endbutton)
       endbutton.position.set(0, 0, 0.001)
 
-      endbutton.pressed = () => { parameters.end!.action() }
+      endbutton.pressed = () => { parameters.end!.action(parameters.end!) }
     }
 
 
@@ -426,7 +440,6 @@ class FlowUINode extends FlowNode {
 
     closebutton.pressed = () => {
       uidiagram.removeNode(this)
-      console.warn(this.uioptions.keyboard)
     }
   }
 
