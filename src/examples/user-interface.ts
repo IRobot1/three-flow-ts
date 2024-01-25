@@ -4,7 +4,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { ThreeJSApp } from "../app/threejs-app";
 import { FlowDiagram, FlowDiagramOptions, FlowInteraction, FlowMaterials, FlowNode, FlowNodeParameters, InteractiveEventType, RoundedRectangleGeometry, ThreeInteractive } from "three-flow";
 import { UITextButton } from "./gui/button-text";
-import { LabelParameters, NumberEntryParameters, TextButtonParameters } from "./gui/model";
+import { LabelParameters, NumberEntryParameters, SliderbarParameters, TextButtonParameters } from "./gui/model";
 import { ButtonOptions } from "./gui/button";
 import { UIOptions } from './gui/model'
 import { FontCache } from "./gui/cache";
@@ -17,6 +17,7 @@ import { UIColorPicker } from "./gui/color-picker";
 import { UICheckbox } from "./gui/checkbox";
 import { ExpansionPanelParameters, UIExpansionPanel } from "./gui/expansion-panel";
 import { UINumberEntry } from "./gui/number-entry";
+import { SliderbarEventType, UISliderbar } from "./gui/sliderbar";
 
 interface MenuAction {
   text: string
@@ -181,7 +182,7 @@ export class UserInterfaceExample {
               id: 'number',
               z: 0.04,
               type: 'number',
-              material: { color: 'violet' },
+              material: { color: '#CCCCFF' },
               label: { text: 'Number Entry', size: 0.07, },
               //width:1.3,
               height: 1.1,
@@ -190,7 +191,23 @@ export class UserInterfaceExample {
             flow.addNode(nodeparams)
           }
         },
-        { text: '', isicon: true, action: () => { console.warn('users clicked') } },
+        {
+          text: 'linear_scale', isicon: true, action: () => {
+            if (flow.hasNode('slider')) return
+
+            const nodeparams: FlowNodeParameters = {
+              id: 'slider',
+              z: 0.05,
+              type: 'slider',
+              material: { color: '#CF9FFF' },
+              label: { text: 'Slider Bar', size: 0.07, },
+              //width:1.3,
+              height: 1.1,
+              resizable: false, scalable: false,
+            }
+            flow.addNode(nodeparams)
+          }
+        },
         { text: '', isicon: true, action: () => { console.warn('notes clicked') } },
         { text: '', isicon: true, action: () => { console.warn('finances clicked') } },
       ]
@@ -234,6 +251,8 @@ class UserInterfaceDiagram extends FlowDiagram {
       return new ExpansionUINode(this, parameters, uioptions)
     else if (parameters.type == 'number')
       return new NumberUINode(this, parameters, uioptions)
+    else if (parameters.type == 'slider')
+      return new SliderbarUINode(this, parameters, uioptions)
 
     return new FlowUINode(this, parameters, uioptions)
   }
@@ -614,5 +633,56 @@ class NumberUINode extends FlowUINode {
     super.dispose()
 
     this.uioptions.keyboard!.remove(this.numberEntry)
+  }
+}
+class SliderbarUINode extends FlowUINode {
+  private sliderbar: UISliderbar
+
+  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, uioptions: UIOptions) {
+    super(diagram, parameters, uioptions)
+
+    const pointer = this.uidiagram.diagramoptions.pointer
+
+    const maxwidth = this.width - 0.1
+    const params: SliderbarParameters = {
+      width: maxwidth,
+      min : -10, max: 10, step:0, initialvalue: 0
+    }
+    const sliderbar = new UISliderbar(params, pointer, this.uioptions)
+    this.panel.add(sliderbar)
+    sliderbar.position.set(0, this.height / 2 - this.titleheight, 0.001)
+    sliderbar.addEventListener<any>(SliderbarEventType.VALUE_CHANGED, (e) => {
+      label.text = e.value.toFixed(2)
+    })
+
+    const labelparams: LabelParameters = {
+      text: '', material: { color: '#111' },
+      maxwidth
+    }
+    const label = new UILabel(labelparams, this.uioptions)
+    this.panel.add(label)
+    label.position.set(0, this.height / 2 - this.titleheight*2, 0.001)
+
+    this.uioptions.keyboard!.add(sliderbar)
+    this.sliderbar = sliderbar
+
+    const gui = new GUI({})
+
+    gui.add(sliderbar, 'min', -10, 0, 1).name('Minimum')
+    gui.add(sliderbar, 'max', 0, 10, 1).name('Maximum')
+    gui.add(sliderbar, 'step', 0, 2, 0.25).name('Step')
+    gui.add(sliderbar, 'slidersize', 0.03, 0.2, 0.01).name('Slider Size')
+
+    const properties = new UIProperties({ fill: parameters.material }, pointer, uioptions, gui)
+    this.panel.add(properties)
+    //properties.getColorPicker = () => { return new UIColorPicker({}, pointer, uioptions) }
+    properties.position.y = -0.1
+    properties.position.z = 0.001
+  }
+
+  override dispose() {
+    super.dispose()
+
+    this.uioptions.keyboard!.remove(this.sliderbar)
   }
 }

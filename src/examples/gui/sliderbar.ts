@@ -1,7 +1,7 @@
-import { InteractiveEventType, RoundedRectangleGeometry, RoundedRectangleShape, ThreeInteractive } from "three-flow";
+import { InteractiveEventType, RoundedRectangleGeometry, ThreeInteractive } from "three-flow";
 import { PanelOptions } from "./panel";
 import { UIOrientationType, SliderbarParameters } from "./model";
-import { MathUtils, Mesh, ShapeGeometry, Vector3 } from "three";
+import { MathUtils, Mesh, Vector3 } from "three";
 import { UIEntry } from "./input-field";
 import { UIKeyboardEvent } from "./keyboard";
 
@@ -84,6 +84,7 @@ export class UISliderbar extends UIEntry {
         this.slidermesh.geometry = new RoundedRectangleGeometry(newvalue, this.height * 0.9, this.sliderradius)
       else
         this.slidermesh.geometry = new RoundedRectangleGeometry(this.width * 0.9, newvalue, this.sliderradius)
+      this.updateSliderPosition(this.value)
     }
   }
   private slidermesh: Mesh
@@ -122,7 +123,7 @@ export class UISliderbar extends UIEntry {
     this._max = parameters.max != undefined ? parameters.max : 100
     this._step = parameters.step != undefined ? parameters.step : 1
 
-    slidermesh.addEventListener(InteractiveEventType.POINTERENTER, (e:any) => {
+    slidermesh.addEventListener(InteractiveEventType.POINTERENTER, (e: any) => {
       if (this.disabled || !this.visible) return
       e.stop = true
       document.body.style.cursor = 'grab'
@@ -134,7 +135,6 @@ export class UISliderbar extends UIEntry {
         document.body.style.cursor = 'default'
     })
 
-    const padding = 0.0//2//this.height / 10
 
     const moveto = (v: Vector3) => {
       if (this.min != undefined && this.max != undefined) {
@@ -184,28 +184,28 @@ export class UISliderbar extends UIEntry {
 
 
 
-    const valuechange = (value: number) => {
-      if (this.min != undefined && this.max != undefined) {
-        if (this.orientation == 'horizontal') {
-          const halfwidth = (this.width - this.slidersize) / 2;
-          const x = MathUtils.mapLinear(value, this.min, this.max, -halfwidth + padding, halfwidth - padding);
-          slidermesh.position.x = x
-        }
-        else {
-          const halfheight = (this.height - this.slidersize) / 2;
-          const y = MathUtils.mapLinear(value, this.min, this.max, -halfheight + padding / 2, halfheight - padding / 2);
-          slidermesh.position.y = -y
-        }
-      }
-    }
-
     this.addEventListener<any>(SliderbarEventType.VALUE_CHANGED, (e) => {
       if (this.disabled) return
-      valuechange(e.value)
+      this.updateSliderPosition(e.value)
     })
 
     // force initial position
     this.value = parameters.initialvalue ? parameters.initialvalue : 0
+  }
+
+  private updateSliderPosition(value: number) {
+    if (this.min != undefined && this.max != undefined) {
+      if (this.orientation == 'horizontal') {
+        const halfwidth = (this.width - this.slidersize) / 2;
+        const x = MathUtils.mapLinear(value, this.min, this.max, -halfwidth, halfwidth);
+        this.slidermesh.position.x = x
+      }
+      else {
+        const halfheight = (this.height - this.slidersize) / 2;
+        const y = MathUtils.mapLinear(value, this.min, this.max, -halfheight / 2, halfheight / 2);
+        this.slidermesh.position.y = -y
+      }
+    }
   }
 
   override handleKeyDown(e: UIKeyboardEvent) {
