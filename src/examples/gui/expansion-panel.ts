@@ -9,6 +9,7 @@ export interface ExpansionPanelParameters extends TextButtonParameters {
   expanded?: boolean   // default is false
   panel?: PanelParameters
   spacing?: number     // space between the button and panel
+  indicatorMaterial?: MeshBasicMaterialParameters  // default is black
 }
 
 export enum ExpansionPanelEventType {
@@ -47,7 +48,8 @@ export class UIExpansionPanel extends UITextButton {
     this.label.maxwidth = this.width - (radius + this.label.padding)
     this.label.position.x = (-this.width) / 2 + radius + this.label.padding
 
-    const indicatorMaterial = this.materials.getMaterial('geometry', 'expansion-indicator', <MeshBasicMaterialParameters>{ color: 'black' })
+    const indicatorParams = parameters.indicatorMaterial ? parameters.indicatorMaterial : { color:'black'}
+    const indicatorMaterial = this.materials.getMaterial('geometry', 'expansion-indicator', indicatorParams)
 
     requestAnimationFrame(() => {
       const expandedMesh = this.createExpandedIndicator(radius)

@@ -23,6 +23,9 @@ export interface PropertiesParameters extends PanelParameters {
   fontSize?: number            // defaults to 0.04
   disabledMaterial?: MeshBasicMaterialParameters  // default is gray
   inputMaterial?: MeshBasicMaterialParameters     // default is dark gray
+  labelwidth?: number          // default is 1/2 of width
+  pickwidth?: number           // default is 1/4 of width
+  inputwidth?: number          // default is 1/4 of width
 }
 
 interface HeightData {
@@ -41,6 +44,12 @@ export class UIProperties extends UIPanel {
   private fontSize: number
   private disabledMaterial: MeshBasicMaterialParameters
   private inputMaterial: MeshBasicMaterialParameters
+  private labelx: number
+  private labelwidth: number
+  private pickx: number
+  private pickwidth: number
+  private inputx: number
+  private inputwidth: number
 
   private inputs: Array<InputField> = []
 
@@ -52,6 +61,19 @@ export class UIProperties extends UIPanel {
     this.spacing = parameters.spacing != undefined ? parameters.spacing : 0.02
     this.propertyHeight = parameters.propertyHeight != undefined ? parameters.propertyHeight : 0.1
     this.fontSize = parameters.fontSize != undefined ? parameters.fontSize : 0.04
+
+    let x = -this.width / 2
+    this.labelwidth = parameters.labelwidth != undefined ? parameters.labelwidth : this.width / 2
+    x += this.labelwidth
+    this.labelx = x
+
+    this.pickwidth = parameters.pickwidth != undefined ? parameters.pickwidth : this.width / 4
+    x += this.pickwidth
+    this.pickx = x
+
+    this.inputwidth = parameters.inputwidth != undefined ? parameters.inputwidth : this.width / 4
+    x += this.inputwidth
+    this.inputx = x
 
     let disabledMaterial = parameters.disabledMaterial
     if (!disabledMaterial) disabledMaterial = { color: 'gray' }
@@ -116,7 +138,7 @@ export class UIProperties extends UIPanel {
         label: {
           text: controller.title, maxwidth: this.parameters.width, size,
         },
-        width: this.width,
+        width: this.width - this.spacing*2,
         height,
         disabled,
         fill,
@@ -172,26 +194,24 @@ export class UIProperties extends UIPanel {
     const labelparams: LabelParameters = {
       alignX: 'right',
       overflow: 'slice',
-      maxwidth: this.width/2-this.spacing*2,
+      maxwidth: this.labelwidth - this.spacing * 2,
       text: controller.title,
       size,
       material: { color }
     }
     const label = this.createLabel(labelparams, controller.title)
-    label.position.set(-this.spacing, 0, 0.001)
+    label.position.set(this.labelx - this.spacing, 0, 0.001)
     data.group.add(label)
 
     switch (controller.classname) {
 
       case 'number': {
         const hasrange = (controller._min || controller._max)
-        let width = this.width / 2 - this.spacing * 2
 
         let sliderbar: UISliderbar
         if (hasrange) {
-          width -= width / 2 //+ this.spacing
           const sliderparams: SliderbarParameters = {
-            width: width,
+            width: this.pickwidth - this.spacing * 2,
             height,
             slidersize: 0.03,
             min: controller._min as number,
@@ -204,7 +224,7 @@ export class UIProperties extends UIPanel {
 
           sliderbar = this.createSliderbar(sliderparams, controller.title)
           this.add(sliderbar)
-          sliderbar.position.set(this.spacing + width / 2, 0, 0.001)
+          sliderbar.position.set(this.pickx - this.pickwidth / 2, 0, 0.001)
           data.group.add(sliderbar)
 
           sliderbar.addEventListener<any>(SliderbarEventType.VALUE_CHANGED, (e: any) => {
@@ -213,9 +233,12 @@ export class UIProperties extends UIPanel {
           this.inputs.push(sliderbar)
         }
 
+        let width = this.inputwidth - this.spacing * 2
+        if (!hasrange) width += this.pickwidth
+
         const numberparams: NumberEntryParameters = {
           initialvalue: controller.getValue(),
-          width: width - this.spacing,
+          width,
           height,
           label: { size },
           decimals: controller._decimals,
@@ -227,9 +250,9 @@ export class UIProperties extends UIPanel {
         }
         const numberentry = this.createNumberEntry(numberparams, controller.title)
         if (hasrange)
-          numberentry.position.set(this.spacing * 2 + width * 1.5, 0, 0.001)
+          numberentry.position.set(this.inputx - this.inputwidth / 2, 0, 0.001)
         else
-          numberentry.position.set(this.spacing + width / 2, 0, 0.001)
+          numberentry.position.set(this.pickx, 0, 0.001)
         data.group.add(numberentry)
 
         controller.updateDisplay = () => {
@@ -248,7 +271,7 @@ export class UIProperties extends UIPanel {
 
       case 'string': {
         const params: TextEntryParameters = {
-          width: this.width / 2 - this.spacing * 2,
+          width: this.pickwidth + this.inputwidth - this.spacing * 2,
           height,
           label: {
             text: controller.getValue(),
@@ -264,7 +287,7 @@ export class UIProperties extends UIPanel {
         }
 
         const textentry = this.createTextEntry(params, controller.title)
-        textentry.position.set(this.width / 4, 0, 0.001)
+        textentry.position.set(this.pickx, 0, 0.001)
         data.group.add(textentry)
         textentry.addEventListener(InputFieldEventType.TEXT_CHANGED, (e: any) => {
           controller.setValue(e.text)
@@ -284,7 +307,7 @@ export class UIProperties extends UIPanel {
           fill,
         }
         const checkbox = this.createCheckBox(params, controller.title)
-        checkbox.position.set(this.spacing + checkboxwidth / 2, 0, 0.001)
+        checkbox.position.set(this.pickx - this.pickwidth / 2, 0, 0.001)
         data.group.add(checkbox)
 
         controller.updateDisplay = () => {
@@ -321,7 +344,7 @@ export class UIProperties extends UIPanel {
           initialvalue = initialvalue.toString()
 
         const listparams: ListParameters = {
-          width: this.width / 2 - this.spacing * 2,
+          width: this.pickwidth + this.inputwidth - this.spacing * 2,
           data: options,
           field: 'label',
           itemheight: height,
@@ -331,7 +354,7 @@ export class UIProperties extends UIPanel {
         }
 
         const selectparams: SelectParameters = {
-          width: this.width / 2 - this.spacing * 2,
+          width: this.pickwidth + this.inputwidth - this.spacing * 2,
           height,
           label: {
             text: initialvalue,
@@ -351,7 +374,7 @@ export class UIProperties extends UIPanel {
 
         const select = this.createSelect(selectparams, controller.title)
         data.group.add(select)
-        select.position.set(this.width / 4, 0, 0.001)
+        select.position.set(this.labelx + (this.pickwidth + this.inputwidth)/2, 0, 0.001)
 
         select.addEventListener(SelectEventType.SELECTED_CHANGED, (e: any) => {
           controller.setValue(select.selected)
@@ -369,7 +392,7 @@ export class UIProperties extends UIPanel {
 
         const colorparams: ColorEntryParameters = {
           id: '',
-          width,
+          width: this.pickwidth - this.spacing * 2,
           height,
           disabled: !controller.enabled,
           fill: { color }
@@ -382,7 +405,7 @@ export class UIProperties extends UIPanel {
         }
 
         const colorentry = this.createColorEntry(colorparams, controller.title)
-        colorentry.position.set(this.spacing + width / 2, 0, 0.001)
+        colorentry.position.set(this.pickx - this.pickwidth / 2, 0, 0.001)
         data.group.add(colorentry)
 
         colorentry.addEventListener(PanelEventType.COLOR_CHANGED, () => {
@@ -402,7 +425,7 @@ export class UIProperties extends UIPanel {
 
 
         const params: TextEntryParameters = {
-          width: width - this.spacing,
+          width: this.inputwidth - this.spacing * 2,
           height,
           label: {
             text: color, size
@@ -412,7 +435,7 @@ export class UIProperties extends UIPanel {
         }
 
         const textentry = this.createTextEntry(params, controller.title)
-        textentry.position.set(this.spacing * 2 + width * 1.5, 0, 0.001)
+        textentry.position.set(this.inputx - this.inputwidth / 2, 0, 0.001)
         data.group.add(textentry)
 
         textentry.addEventListener(InputFieldEventType.TEXT_CHANGED, () => {
@@ -483,7 +506,7 @@ export class UIProperties extends UIPanel {
 
   // overridables
 
-  createLabel(parameters: LabelParameters, title:string): UILabel {
+  createLabel(parameters: LabelParameters, title: string): UILabel {
     return new UILabel(parameters, this.options)
   }
 

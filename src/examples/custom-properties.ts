@@ -77,9 +77,12 @@ export class CustomPropertiesExample {
     requestAnimationFrame(() => {
       const gui = this.makeCustomGUI()
       const params: PropertiesParameters = {
-        width: 1,
+        width: 1.3,
         fill: { color: 'black' },
         inputMaterial: { color: '#424242' },
+        labelwidth: 0.45,
+        pickwidth: 0.6,
+        inputwidth:0.25
       }
       const properties1 = new CustomProperties(params, app.interactive, options, gui)
       scene.add(properties1)
@@ -95,7 +98,8 @@ export class CustomPropertiesExample {
   makeCustomGUI() {
     const gui = new GUI({})
 
-    const types = { Tetrahedon: 0, Octahedron: 1 }
+    const types = { Tetrahedon: 0, Octahedron: 1, Cube: 2, Dodecahedron: 3, Icosahedron: 4 }
+
     const one = gui.addFolder('PLATON ONLINE GENERATOR')
     one.add({ type: 0 }, 'type', types)
     one.add({ level: 3 }, 'level', 0, 6, 1)
@@ -117,7 +121,7 @@ export class CustomPropertiesExample {
     three.add({ gloss: 0 }, 'gloss', -1, 1, 0.01)
 
     const four = gui.addFolder('EXPORT')
-    four.add({ format: 0 }, 'format', { Image: 0 })
+    four.add({ format: 0 }, 'format', { Image: 0, '3D Model': 1, 'Web Page': 2, 'JS Module': 3, 'URL Link': 4 })
     gui.add({ func() { console.log('export'); } }, 'func').name('Export as *.png image file')
 
     return gui
@@ -178,6 +182,7 @@ class CustomProperties extends UIProperties {
     parameters.fill = this.customparams.fill
     parameters.label!.material = { color: 'white' }
     parameters.panel!.fill = this.customparams.fill
+    parameters.indicatorMaterial = { color: 'white' }
     return new UIExpansionPanel(parameters, this.interactive, this.options)
   }
 
