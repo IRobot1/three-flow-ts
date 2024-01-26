@@ -159,8 +159,6 @@ export class CustomPropertiesExample {
 }
 
 class CustomProperties extends UIProperties {
-  labelcolor = 'white'
-  orange = '#FFA500'
 
   constructor(private customparams: PropertiesParameters, interactive: ThreeInteractive, options: PanelOptions, gui: GUI) {
     super(customparams, interactive, options, gui)
