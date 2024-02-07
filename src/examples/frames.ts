@@ -17,7 +17,7 @@ import {
   RoundedRectangleShape,
   RoundedRectangleBorderGeometry,
 } from "three-flow";
-import { TroikaFlowLabel } from "./troika-label";
+
 
 type FrameContentType = 'icon' | 'texture' | 'mesh'
 interface FrameShape extends FlowNodeParameters {
@@ -174,10 +174,6 @@ class FramesFlowDiagram extends FlowDiagram {
 
   constructor(options?: FlowDiagramOptions) {
     super(options)
-  }
-
-  override createLabel(label: FlowLabelParameters): FlowLabel {
-    return new TroikaFlowLabel(this, label)
   }
 
   override createNode(parameters: FrameShape): FlowNode {

@@ -17,10 +17,13 @@ import {
   FlowArrowParameters,
   ArrowStyle,
   FlowLabelParameters,
-  FlowLabel
+  FlowLabel,
+  FlowEventType,
+  LabelAlignY,
+  LabelAlignX
 } from "three-flow";
 import { ResizeNode, FlowDiagram } from "three-flow";
-import { TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
+import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 import { DagreLayout } from "./dagre-layout";
 import { NodeBorder } from "./node-border";
@@ -343,9 +346,53 @@ class MyScaleNode extends ScaleNode {
 
 class MyFlowLabel extends FlowLabel {
 
-  override createText(label: string, options: TextGeometryParameters): Mesh {
+  override createText(label: string, options: any): Mesh {
+    const params = options as TextGeometryParameters;
     options.height = depth
-    return super.createText(label, options)
+
+    const mesh = new Mesh()
+
+    // only add text if font is loaded
+    if (params.font) {
+      mesh.geometry = new TextGeometry(label, params)
+
+      mesh.geometry.computeBoundingBox()
+      if (mesh.geometry.boundingBox) {
+        const box = mesh.geometry.boundingBox
+        const size = box.getSize(this.textsize)
+        const center = box.getCenter(this.textcenter)
+
+        let x = 0, y = 0
+        switch (<LabelAlignX>options.alignX) {
+          case 'center':
+            x = -center.x
+            break
+          case 'right':
+            x = -size.x
+            break
+          case 'left':
+          default:
+            break
+        }
+        switch (<LabelAlignY>options.alignY) {
+          case 'middle':
+            y = -center.y
+            break
+          case 'top':
+            y = -size.y
+            break
+          case 'bottom':
+          default:
+            break
+        }
+        mesh.geometry.translate(x, y, 0)
+      }
+    }
+
+    requestAnimationFrame(() => {
+      mesh.dispatchEvent<any>({ type: FlowEventType.LABEL_READY })
+    })
+    return mesh
   }
 
 }

@@ -11,7 +11,7 @@ import {
   FlowEdgeParameters,
   FlowEdge,
 } from 'three-flow';
-import { TroikaFlowLabel } from './troika-label';
+
 
 
 type DocumentShapeType = 'circle' | 'square'
@@ -184,8 +184,6 @@ export class DocumentationExample {
     scene.add(flow);
 
     const circle = new CircleGeometry(0.5)
-
-    flow.createLabel = (label: FlowLabelParameters) => { return new TroikaFlowLabel(flow, label) }
 
     flow.createNode = (parameters: DocumentShapeParameters): FlowNode => {
       const node = new FlowNode(flow, parameters)

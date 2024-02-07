@@ -1,6 +1,6 @@
 import { Material, MaterialParameters, MeshStandardMaterial, Vector3 } from "three";
 import { FlowInteraction, ThreeInteractive, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, FlowDiagramDesigner } from "three-flow";
-import { TroikaFlowLabel } from "./troika-label";
+
 import { FlowMaterials } from "three-flow";
 
 export class AssetViewer extends FlowNode {
@@ -94,10 +94,6 @@ export class AssetViewerDiagram extends FlowDiagram {
 
   createViewer(parameters: FlowNodeParameters): FlowNode {
     return new AssetViewer(this, parameters)
-  }
-
-  override createLabel(parameters: FlowLabelParameters): FlowLabel {
-    return new TroikaFlowLabel(this, parameters)
   }
 
   override createNode(parameters: FlowNodeParameters): FlowNode {

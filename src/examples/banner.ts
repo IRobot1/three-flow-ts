@@ -15,7 +15,7 @@ import {
   FlowNodeParameters
 } from "three-flow";
 import { ThreeJSApp } from "../app/threejs-app";
-import { TroikaFlowLabel } from "./troika-label";
+
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 import { FlowProperties } from "three-flow";
 
@@ -147,10 +147,6 @@ export class BannerExample {
 class BannerFlowDiagram extends FlowDiagram {
 
   constructor(options?: FlowDiagramOptions) { super(options) }
-
-  override createLabel(label: FlowLabelParameters): FlowLabel {
-    return new TroikaFlowLabel(this, label)
-  }
 
   override createNode(node: BannerParameters): FlowNode {
     if (node.label)

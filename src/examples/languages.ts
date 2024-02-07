@@ -15,7 +15,7 @@ import {
 import { languagedata } from "./langauge-data";
 import { Exporter } from "three-flow";
 import { DagreLayout } from "./dagre-layout";
-import { TroikaFlowLabel } from "./troika-label";
+
 
 
 export class LanguagesExample {
@@ -66,7 +66,7 @@ export class LanguagesExample {
         linestyle: 'step',
         layout: new DagreLayout()
       }
-      const flow = new MyFlowDiagram(options)
+      const flow = new FlowDiagram(options)
       scene.add(flow);
 
       languagedata.forEach(item => {
@@ -118,11 +118,5 @@ export class LanguagesExample {
     }
 
 
-  }
-}
-
-class MyFlowDiagram extends FlowDiagram {
-  override createLabel(label: FlowLabelParameters): FlowLabel {
-    return new TroikaFlowLabel(this, label)
   }
 }

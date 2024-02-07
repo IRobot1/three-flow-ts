@@ -20,7 +20,7 @@ import {
   ThreeInteractive,
 } from "three-flow";
 import { ThreeJSApp } from "../app/threejs-app";
-import { TroikaFlowLabel } from "./troika-label";
+
 import { Exporter } from "three-flow";
 
 
@@ -221,10 +221,6 @@ class MindMapDiagram extends FlowDiagramDesigner {
         },
       ]
     })
-  }
-
-  override createLabel(parameters: FlowLabelParameters): FlowLabel {
-    return new TroikaFlowLabel(this, parameters)
   }
 
   private nodeSaveAsText(node: FlowNode, indent: number, save: Array<MindMapText>) {

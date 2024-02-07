@@ -7,13 +7,9 @@ import {
   FlowConnectors,
   FlowDiagram, FlowEdge, FlowEdgeParameters, FlowEventType, FlowLabel, FlowLabelParameters,
 } from "three-flow";
-import { TroikaFlowLabel } from "./troika-label";
+
 
 class EdgeStylesFlowDiagram extends FlowDiagram {
-  override createLabel(label: FlowLabelParameters): FlowLabel {
-    return new TroikaFlowLabel(this, label)
-  }
-
   override createEdge(edge: FlowEdgeParameters): FlowEdge {
     return new EdgeStyle(this, edge)
   }

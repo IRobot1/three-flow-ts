@@ -8,7 +8,7 @@ import {
   FlowNode,
   FlowLabelParameters,
 } from "three-flow";
-import { TroikaFlowLabel } from "./troika-label";
+
 import { ChartGrid, ChartGridParameters, LineChart, LineChartParameters, RingChart, RingMarker } from "./charts";
 
 type KPIIndicatorType = 'higher is better' | 'lower is better'
@@ -72,7 +72,6 @@ export class KPIExample {
     // read-only flow
     const flow = new FlowDiagram()
     scene.add(flow);
-    flow.createLabel = (label: FlowLabelParameters) => { return new TroikaFlowLabel(flow, label) }
     flow.createNode = (node: KPIParameters) => { return new KPINode(flow, node) }
 
     // make the flow interactive

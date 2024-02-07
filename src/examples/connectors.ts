@@ -5,7 +5,7 @@ import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { FlowProperties, FlowInteraction, FlowNode, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowLabel, FlowLabelParameters, NodeConnectors, FlowConnectorParameters, ConnectorMesh, FlowEdgeParameters, FlowEventType, FlowRouteParameters, FlowRoute, FlowEdge, CustomPathParams, Path3, FlowEdgePath3 } from "three-flow";
-import { TroikaFlowLabel } from "./troika-label";
+
 
 export class ConnectorsExample {
 
@@ -43,7 +43,7 @@ export class ConnectorsExample {
 
     //scene.add(new AxesHelper(3))
 
-    const flow = new ConnectorDiagram({ linestyle: 'step' })
+    const flow = new FlowDiagram({ linestyle: 'step' })
     scene.add(flow);
 
     const interaction = new FlowInteraction(flow, app.interactive)
@@ -218,18 +218,6 @@ class MyConnector extends ConnectorMesh {
 class MyConnectors extends FlowConnectors {
   override createConnector(connectors: NodeConnectors, parameters: FlowConnectorParameters): ConnectorMesh {
     return new MyConnector(this.diagram, connectors, parameters)
-  }
-
-}
-
-
-class ConnectorDiagram extends FlowDiagram {
-  constructor(options?: FlowDiagramOptions) {
-    super(options)
-  }
-
-  override createLabel(parameters: FlowLabelParameters): FlowLabel {
-    return new TroikaFlowLabel(this, parameters)
   }
 
 }

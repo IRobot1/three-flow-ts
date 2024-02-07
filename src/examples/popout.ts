@@ -15,7 +15,7 @@ import {
   FlowInteraction,
   FlowEventType,
 } from "three-flow";
-import { TroikaFlowLabel } from "./troika-label";
+
 import { MathUtils } from "three/src/math/MathUtils";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 import { FlowProperties } from "three-flow";
@@ -199,10 +199,6 @@ export class PopoutExample {
 class PopoutFlowDiagram extends FlowDiagram {
 
   constructor(options?: FlowDiagramOptions) { super(options) }
-
-  override createLabel(label: FlowLabelParameters): FlowLabel {
-    return new TroikaFlowLabel(this, label)
-  }
 
   override createNode(node: PopoutShape): FlowNode {
     if (node.shape == 'circle')

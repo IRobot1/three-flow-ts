@@ -16,7 +16,7 @@ import {
   FlowEventType,
   RoundedRectangleGeometry,
 } from "three-flow";
-import { TroikaFlowLabel } from "./troika-label";
+
 import { FlowProperties } from "three-flow";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 import { FlowMaterials } from "three-flow";
@@ -160,10 +160,6 @@ export class ProcessExample {
 class ProcessFlowDiagram extends FlowDiagram {
 
   constructor(options?: FlowDiagramOptions) { super(options) }
-
-  override createLabel(label: FlowLabelParameters): FlowLabel {
-    return new TroikaFlowLabel(this, label)
-  }
 
   override createNode(node: ProcessShape): FlowNode {
     return new ProcessNode(this, node)

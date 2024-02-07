@@ -5,7 +5,7 @@ import { LineMaterial } from "three/examples/jsm/lines/LineMaterial";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { FlowEventType, FlowDiagram, FlowNode, FlowNodeParameters, FlowEdgeParameters, FlowInteraction, FlowLabel, FlowLabelParameters, FlowConnectors, FlowProperties, FlowDiagramOptions, FlowConnectorParameters, FlowTheme, FlowMaterials, FlowMaterialUtils } from "three-flow";
-import { TroikaFlowLabel } from "./troika-label";
+
 
 export class StressExample {
 
@@ -109,9 +109,6 @@ export class StressExample {
     const flow = new StressFlowDiagram({ linestyle: 'bezier' })
     scene.add(flow);
 
-    flow.createLabel = (parameters: FlowLabelParameters): FlowLabel => {
-      return new TroikaFlowLabel(flow, parameters)
-    }
     const interactive = new FlowInteraction(flow, app.interactive)
 
     const connectors = new StressFlowConnectors(flow)

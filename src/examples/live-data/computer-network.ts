@@ -16,7 +16,6 @@ import {
 } from "three-flow";
 import { ComputerNetworkEdges, ComputerNetworkNodes, ComputerParameters, ComputerStatus } from "./computer-network-data";
 import { ThreeJSApp } from "../../app/threejs-app";
-import { TroikaFlowLabel } from "../troika-label";
 import { DagreLayout } from "../dagre-layout";
 import { GraphLabel } from "@dagrejs/dagre";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
@@ -108,10 +107,6 @@ export class ComputerNetworkExample {
 class ComputerFlowDiagram extends FlowDiagram {
 
   constructor(options?: FlowDiagramOptions) { super(options) }
-
-  override createLabel(label: FlowLabelParameters): FlowLabel {
-    return new TroikaFlowLabel(this, label)
-  }
 
   override createNode(node: ComputerParameters): FlowNode {
     return new ComputerNode(this, node)

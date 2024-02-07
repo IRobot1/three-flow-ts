@@ -1,8 +1,14 @@
+// @ts-ignore
+import { Text } from "troika-three-text";
+
 import { ColorRepresentation, Euler, Material, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Vector3 } from "three";
+
 import { FlowEventType, FlowLabelParameters, LabelAlignX, LabelAlignY, LabelTextAlign } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowDiagram } from "./diagram";
-import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
+
+// https://protectwise.github.io/troika/troika-three-text/
+// For list of icons, see https://fonts.google.com/icons
 
 export class FlowLabel extends Object3D {
   private _text: string
@@ -133,7 +139,7 @@ export class FlowLabel extends Object3D {
         this.labelMesh.geometry.computeBoundingBox()
         const box = this.labelMesh.geometry.boundingBox!
         const size = box.getSize(this.textsize)
-        const center = box.getCenter(this.textcenter)
+        box.getCenter(this.textcenter)
 
         this.width = size.x + this.padding * 2
         this.height = size.y + this.padding * 2
@@ -141,54 +147,25 @@ export class FlowLabel extends Object3D {
     })
   }
 
-  private textsize = new Vector3()
-  private textcenter = new Vector3()
+  textsize = new Vector3()
+  textcenter = new Vector3()
 
-  createText(label: string, options: any): Mesh {
-    const params = options as TextGeometryParameters;
-    const mesh = new Mesh()
-
-    // only add text if font is loaded
-    if (params.font) {
-      mesh.geometry = new TextGeometry(label, params)
-
-      mesh.geometry.computeBoundingBox()
-      if (mesh.geometry.boundingBox) {
-        const box = mesh.geometry.boundingBox
-        const size = box.getSize(this.textsize)
-        const center = box.getCenter(this.textcenter)
-
-        let x = 0, y = 0
-        switch (<LabelAlignX>options.alignX) {
-          case 'center':
-            x = -center.x
-            break
-          case 'right':
-            x = -size.x
-            break
-          case 'left':
-          default:
-            break
-        }
-        switch (<LabelAlignY>options.alignY) {
-          case 'middle':
-            y = -center.y
-            break
-          case 'top':
-            y = -size.y
-            break
-          case 'bottom':
-          default:
-            break
-        }
-        mesh.geometry.translate(x, y, 0)
-      }
+  createText(text: string, options: any): Mesh {
+    const label = new Text();
+    label.text = text;
+    if (this.isicon) {
+      label.font = 'https://fonts.gstatic.com/s/materialicons/v139/flUhRq6tzZclQEJ-Vdg-IuiaDsNa.woff'
+      label.anchorX = 'center'
+      label.anchorY = 'middle'
     }
-
-    requestAnimationFrame(() => {
-      mesh.dispatchEvent<any>({ type: FlowEventType.LABEL_READY })
-    })
-    return mesh
+    else {
+      label.anchorX = this.alignX
+      label.anchorY = this.alignY
+      label.maxWidth = this.wrapwidth
+      label.textAlign = this.textalign
+    }
+    label.fontSize = this.size
+    label.sync();
+    return label;
   }
-
 }

@@ -15,7 +15,7 @@ import {
   FlowDiagramOptions,
   FlowEventType,
 } from "three-flow";
-import { TroikaFlowLabel } from "./troika-label";
+
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 import { FlowProperties } from "three-flow";
 import { FlowMaterials } from "three-flow";
@@ -151,10 +151,6 @@ export class PodiumExample {
 class PodiumFlowDiagram extends FlowDiagram {
 
   constructor(options?: FlowDiagramOptions) { super(options) }
-
-  override createLabel(label: FlowLabelParameters): FlowLabel {
-    return new TroikaFlowLabel(this, label)
-  }
 
   override createNode(node: PodiumParameters): FlowNode {
     return new PodiumNode(this, node)

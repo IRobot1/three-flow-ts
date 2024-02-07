@@ -2,7 +2,7 @@ import { AmbientLight, BoxGeometry, BufferGeometry, DoubleSide, ExtrudeGeometry,
 import { ThreeInteractive, InteractiveEventType, FlowDiagram, FlowLabelParameters, FlowLabel, FlowNodeParameters, FlowEdgeParameters, FlowConnectors, FlowDiagramParameters, FlowNode, FlowDiagramOptions, RoundedRectangleShape } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { TroikaFlowLabel } from "../examples/troika-label";
+
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { BoxLineGeometry } from "three/examples/jsm/geometries/BoxLineGeometry";
 import { FlowMaterials } from "three-flow";
@@ -18,10 +18,6 @@ class MyFlowDiagram extends FlowDiagram {
 
     const options: FlowDiagramOptions = { linestyle: 'step', materialCache: materials }
     super(options)
-  }
-
-  override createLabel(label: FlowLabelParameters): FlowLabel {
-    return new TroikaFlowLabel(this, label)
   }
 
   override createNode(node: Tile): FlowNode {

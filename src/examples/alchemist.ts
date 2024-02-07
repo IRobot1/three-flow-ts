@@ -6,7 +6,7 @@ import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 import { ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors, FlowDesignerOptions, FlowDiagram, FlowDiagramDesigner, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors, ThreeInteractive } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { TroikaFlowLabel } from "./troika-label";
+
 import { AssetViewerDiagram, AssetViewer } from "./asset-viewer";
 import { FlowMaterials } from "three-flow";
 
@@ -480,10 +480,6 @@ class AlchemistRecipeDiagram extends FlowDiagramDesigner {
 
     this.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, node: newnode })
     return newnode
-  }
-
-  override createLabel(parameters: FlowLabelParameters): FlowLabel {
-    return new TroikaFlowLabel(this, parameters)
   }
 
   override createNode(parameters: AlchemistNodeParameters): FlowNode {
