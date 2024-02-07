@@ -141,6 +141,16 @@ export class GalleryExample {
         assetimage: 'documentation', route: 'documentation',
         connectors: [
           { id: "c1documentation", anchor: 'bottom', },
+          { id: "c2documentation", anchor: 'right', },
+        ],
+      },
+      {
+        id: 'github',
+        label: { text: "Source on Github" },
+        x: column3, y: row0,
+        assetimage: 'github', route: 'github',
+        connectors: [
+          { id: "c1github", anchor: 'left', },
         ],
       },
       {
@@ -534,6 +544,12 @@ export class GalleryExample {
         toconnector: "c1userinterface"
       },
       {
+        from: "documentation",
+        to: "github",
+        fromconnector: "c2documentation",
+        toconnector: "c1github"
+      },
+      {
         from: "userinterface",
         to: "properties",
         fromconnector: "c2userinterface",
@@ -590,7 +606,12 @@ export class GalleryExample {
     // add click to navigate to example
     flow.allNodes.forEach(node => {
       const tile = node.parameters as Tile
-      node.addEventListener(InteractiveEventType.CLICK, () => { app.navigateto(tile.route) })
+      node.addEventListener(InteractiveEventType.CLICK, () => {
+        if (tile.route != 'github')
+          app.navigateto(tile.route)
+        else
+          window.open('https://github.com/IRobot1/three-flow-ts', '_blank')
+      })
 
       app.interactive.selectable.add(node)
     })
