@@ -1,5 +1,5 @@
 import { Vector3 } from "three";
-import { FlowPointerEventType } from "./three-interactive";
+import { FlowPointerEventType } from "./pointer";
 import { FlowNode } from "./node";
 import { FlowEventType } from "./model";
 

@@ -7,6 +7,7 @@ import { FlowDiagram } from './diagram';
 import { FlowInteraction } from './interactive';
 import { FlowEventType } from './model';
 import { FlowEdge } from './edge';
+import { FlowPointerLayers } from './pointer';
 
 export class FlowProperties {
   private gui?: GUI
@@ -49,7 +50,7 @@ export class FlowProperties {
         close: () => {
           gui.destroy()
           diagram.remove(htmlMesh)
-          if (interaction) interaction.interactive.selectable.add(htmlMesh)
+          if (interaction) htmlMesh.layers.enable(FlowPointerLayers.SELECTABLE)
         }
       }
 
@@ -76,7 +77,7 @@ export class FlowProperties {
       }
       updatePosition()
 
-      if (interaction) interaction.interactive.selectable.add(htmlMesh)
+      if (interaction) htmlMesh.layers.enable(FlowPointerLayers.SELECTABLE)
 
       // if the node is removed, make sure GUI and HTML mesh is cleaned up
       mesh.addEventListener(FlowEventType.DISPOSE, () => { params.close() })

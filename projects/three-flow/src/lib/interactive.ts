@@ -1,7 +1,7 @@
 import { Intersection, Material, MeshBasicMaterialParameters, Vector3 } from "three";
 import { DragNode } from "./drag-node";
 import { FlowDiagram } from "./diagram";
-import { FlowPointerEventType, FlowPointer } from "./three-interactive";
+import { FlowPointerEventType, FlowPointer, FlowPointerLayers } from "./pointer";
 import { FlowNode } from "./node";
 import { ResizeNode } from "./resize-node";
 import { ScaleNode } from "./scale-node";
@@ -59,7 +59,8 @@ export class FlowInteraction {
         this.nodes[index].dispose()
         this.nodes.splice(index, 1)
 
-        if (node.selectable) this.interactive.selectable.remove(node)
+        if (node.selectable) node.layers.disable(FlowPointerLayers.SELECTABLE)
+
       }
     })
 
@@ -70,9 +71,9 @@ export class FlowInteraction {
 
       const selectableChanged = () => {
         if (node.selectable)
-          this.interactive.selectable.add(node)
+          node.layers.enable(FlowPointerLayers.SELECTABLE)
         else
-          this.interactive.selectable.remove(node)
+          node.layers.disable(FlowPointerLayers.SELECTABLE)
       }
       node.addEventListener(FlowEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
       selectableChanged()
@@ -80,7 +81,7 @@ export class FlowInteraction {
 
     diagram.addEventListener(FlowEventType.EDGE_REMOVED, (e: any) => {
       const edge = e.edge as FlowEdge
-      if (edge.selectable) this.interactive.selectable.remove(edge.selectableObject)
+      if (edge.selectable) edge.selectableObject.layers.disable(FlowPointerLayers.SELECTABLE)
     })
 
 
@@ -89,9 +90,9 @@ export class FlowInteraction {
 
       const selectableChanged = () => {
         if (edge.selectable)
-          this.interactive.selectable.add(edge.selectableObject)
+          edge.selectableObject.layers.enable(FlowPointerLayers.SELECTABLE)
         else
-          this.interactive.selectable.remove(edge.selectableObject)
+          edge.selectableObject.layers.disable(FlowPointerLayers.SELECTABLE)
       }
       edge.addEventListener(FlowEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
       // give the line a chance to be drawn
@@ -119,9 +120,10 @@ export class FlowInteraction {
       if (connector.selectable) {
         const selectableChanged = () => {
           if (connector.selectable)
-            this.interactive.selectable.add(connector)
+            connector.layers.enable(FlowPointerLayers.SELECTABLE)
           else
-            this.interactive.selectable.remove(connector)
+            connector.layers.disable(FlowPointerLayers.SELECTABLE)
+
         }
         connector.addEventListener(FlowEventType.SELECTABLE_CHANGED, () => { selectableChanged() })
         selectableChanged()
@@ -130,9 +132,9 @@ export class FlowInteraction {
       if (connector.draggable) {
         const draggableChanged = () => {
           if (connector.draggable)
-            this.interactive.draggable.add(connector)
+            connector.layers.enable(FlowPointerLayers.DRAGGABLE)
           else
-            this.interactive.draggable.remove(connector)
+            connector.layers.disable(FlowPointerLayers.DRAGGABLE)
         }
         connector.addEventListener(FlowEventType.DRAGGABLE_CHANGED, () => { draggableChanged() })
         draggableChanged()
@@ -146,7 +148,7 @@ export class FlowInteraction {
         this.connectors[index].dispose()
         this.connectors.splice(index, 1)
 
-        if (connector.selectable) this.interactive.selectable.remove(connector)
+        if (connector.selectable) connector.layers.disable(FlowPointerLayers.SELECTABLE)
       }
     })
 
@@ -209,13 +211,17 @@ class NodeInteractive {
     const resizableChanged = () => {
       if (node.resizable) {
         this.nodeResizer = this.createResizer(node, diagram.getMaterial('geometry', 'resizing', node.parameters.resizematerial))
-        source.interactive.selectable.add(...this.nodeResizer.selectable)
-        source.interactive.draggable.add(...this.nodeResizer.selectable)
+        this.nodeResizer.selectable.forEach(mesh => {
+          mesh.layers.enable(FlowPointerLayers.SELECTABLE)
+          mesh.layers.enable(FlowPointerLayers.DRAGGABLE)
+        })
       }
       else if (this.nodeResizer) {
         this.nodeResizer.stopResizing()
-        source.interactive.selectable.remove(...this.nodeResizer.selectable)
-        source.interactive.draggable.remove(...this.nodeResizer.selectable)
+        this.nodeResizer.selectable.forEach(mesh => {
+          mesh.layers.disable(FlowPointerLayers.SELECTABLE)
+          mesh.layers.disable(FlowPointerLayers.DRAGGABLE)
+        })
         this.nodeResizer = undefined
       }
     }
@@ -225,14 +231,17 @@ class NodeInteractive {
     const scalebleChanged = () => {
       if (node.scalable) {
         this.nodeScaler = this.createScaler(node, diagram.getMaterial('geometry', 'scaling', node.parameters.scalematerial))
-
-        source.interactive.selectable.add(...this.nodeScaler.selectable)
-        source.interactive.draggable.add(...this.nodeScaler.selectable)
+        this.nodeScaler.selectable.forEach(mesh => {
+          mesh.layers.enable(FlowPointerLayers.SELECTABLE)
+          mesh.layers.enable(FlowPointerLayers.DRAGGABLE)
+        })
       }
       else if (this.nodeScaler) {
         this.nodeScaler.stopScaling()
-        source.interactive.selectable.remove(...this.nodeScaler.selectable)
-        source.interactive.draggable.remove(...this.nodeScaler.selectable)
+        this.nodeScaler.selectable.forEach(mesh => {
+          mesh.layers.disable(FlowPointerLayers.SELECTABLE)
+          mesh.layers.disable(FlowPointerLayers.DRAGGABLE)
+        })
         this.nodeScaler = undefined
       }
     }
@@ -242,10 +251,10 @@ class NodeInteractive {
     this.nodeDragger = this.createDragger(node, diagram.gridsize)
     const drag = () => {
       if (node.draggable)
-        source.interactive.draggable.add(node)
+        node.layers.enable(FlowPointerLayers.DRAGGABLE)
       else {
         this.nodeDragger.stopDragging()
-        source.interactive.draggable.remove(node)
+        node.layers.disable(FlowPointerLayers.DRAGGABLE)
       }
     }
     node.addEventListener(FlowEventType.DRAGGABLE_CHANGED, () => { drag() })
@@ -255,23 +264,6 @@ class NodeInteractive {
     // To intercept dragged event in derived class, add the following
     //
     // node.addEventListener(FlowEventType.DRAGGED, () => { })
-
-
-    this.dispose = () => {
-      if (this.nodeResizer) {
-        source.interactive.selectable.remove(...this.nodeResizer.selectable)
-        source.interactive.draggable.remove(...this.nodeResizer.selectable)
-      }
-      if (this.nodeDragger) {
-        source.interactive.selectable.remove(node)
-        source.interactive.draggable.remove(node)
-      }
-      if (this.nodeScaler) {
-        source.interactive.selectable.remove(...this.nodeScaler.selectable)
-        source.interactive.draggable.remove(...this.nodeScaler.selectable)
-      }
-
-    }
   }
 
   createResizer(node: FlowNode, material: Material): ResizeNode {

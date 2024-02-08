@@ -81,8 +81,6 @@ export class UserInterfaceExample {
       return new MeshPhongMaterial(parameters)
     }
 
-    console.warn(document.children)
-
     const loader = new FontLoader();
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
 

@@ -5,7 +5,7 @@ import { FlowInteraction } from "./interactive"
 import { FlowEventType, FlowNodeParameters } from "./model"
 import { FlowNode } from "./node"
 import { FlowProperties } from "./properties"
-import { FlowPointer } from "./three-interactive"
+import { FlowPointer } from "./pointer"
 import { Exporter } from "./exporter"
 
 

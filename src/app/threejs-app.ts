@@ -28,6 +28,7 @@ export class ThreeJSApp extends WebGLRenderer {
     if (this._scene != newvalue) {
       this._scene = newvalue
       this.pointer.scene = newvalue
+      this.interactive.scene = newvalue
     }
   }
 
@@ -99,8 +100,6 @@ export class ThreeJSApp extends WebGLRenderer {
 
   // short-cut
   navigateto(route: string) {
-    this.interactive.selectable.clear()
-    this.interactive.draggable.clear()
     this.router.navigateto(route)
   }
 

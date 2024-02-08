@@ -4,7 +4,7 @@
 
 export * from './lib/model';
 
-export * from './lib/three-interactive'
+export * from './lib/pointer'
 export * from './lib/drag-node'
 export * from './lib/resize-node'
 export * from './lib/scale-node'

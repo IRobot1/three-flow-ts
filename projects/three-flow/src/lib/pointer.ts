@@ -1,4 +1,9 @@
-import { Vector2, Raycaster, Renderer, Camera, Object3D, Plane, Vector3, Matrix4, Intersection, BaseEvent, WebGLRenderer, EventDispatcher } from 'three';
+import { Vector2, Raycaster, Camera, Object3D, Plane, Vector3, Matrix4, Intersection, WebGLRenderer, EventDispatcher, Scene, Layers } from 'three';
+
+export enum FlowPointerLayers {
+  SELECTABLE = 1,
+  DRAGGABLE = 2,
+}
 
 export const FlowPointerEventType = {
   POINTERMOVE: 'pointermove',
@@ -14,33 +19,10 @@ export const FlowPointerEventType = {
   DRAGEND: 'dragend',
 }
 
-export class FlowObjects {
-  private _list: Array<Object3D> = [];
-
-  get list(): Array<Object3D> { return this._list; }
-
-  add(...object: Object3D[]) {
-    this._list.push(...object);
-  }
-
-  remove(...object: Object3D[]) {
-    object.forEach(item => {
-      const index = this._list.findIndex(x => x == item);
-      if (index != undefined && index != -1)
-        this._list.splice(index, 1);
-    });
-  }
-
-  clear() { this._list.length = 0 }
-}
-
-
 export class FlowPointer extends EventDispatcher<any> {
-  public selectable = new FlowObjects()
-  public draggable = new FlowObjects()
+  scene: Scene | undefined
 
-
-  dispose = () => { }
+  dispose: () => void
 
   constructor(public renderer: WebGLRenderer, public camera: Camera) {
     super()
@@ -58,6 +40,11 @@ export class FlowPointer extends EventDispatcher<any> {
     const _event = { type: '', position: _intersection, data: _pointer, intersections: [] as Array<Intersection>, stop: false };
 
     const raycaster = new Raycaster();
+    const selectableLayer = new Layers()
+    selectableLayer.set(FlowPointerLayers.SELECTABLE)
+
+    const draggableLayer = new Layers()
+    draggableLayer.set(FlowPointerLayers.DRAGGABLE)
 
     // Pointer Events
     const events: any = {
@@ -87,7 +74,10 @@ export class FlowPointer extends EventDispatcher<any> {
     }
 
     const handleEvent = (newevent: PointerEvent | MouseEvent) => {
-      const selectIntersects = raycaster.intersectObjects(this.selectable.list, false);
+      if (!this.scene) return
+
+      raycaster.layers = selectableLayer
+      const selectIntersects = raycaster.intersectObject(this.scene)
 
       _event.type = events[newevent.type];
       _event.intersections = selectIntersects
@@ -101,7 +91,7 @@ export class FlowPointer extends EventDispatcher<any> {
           const object = intersection.object;
 
           // stop bubbling event to anything behind last object
-          if (_event.stop && object.visible) return
+          if (_event.stop) return
 
           //if (index > 0) console.warn(object)
 
@@ -151,17 +141,12 @@ export class FlowPointer extends EventDispatcher<any> {
         // some popup selectables close when clicking outside of them, for example, dropdown menu and color picker
         if (_event.type == 'click') {
           _event.type = FlowPointerEventType.POINTERMISSED;
-          this.selectable.list.forEach(item => {
-            if (item.visible)
-              item.dispatchEvent<any>(_event)
-          })
+          this.dispatchEvent<any>(_event)
         }
       }
 
-      // prevent dragging if last event was stopped
-      if (!_selected && _event.stop) return
-
-      const dragIntersects = raycaster.intersectObjects(this.draggable.list, false);
+      raycaster.layers = draggableLayer
+      const dragIntersects = raycaster.intersectObject(this.scene)
 
       if (dragIntersects.length > 0) {
         const intersection = dragIntersects[0];

@@ -1,5 +1,5 @@
 import { AmbientLight, BoxGeometry, BufferGeometry, DoubleSide, ExtrudeGeometry, LineBasicMaterial, LineSegments, Material, MaterialParameters, MathUtils, Mesh, MeshBasicMaterial, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, SRGBColorSpace, Scene, Shape, ShapeGeometry, TextureLoader, Vector2 } from "three";
-import { FlowPointer, FlowPointerEventType, FlowDiagram, FlowLabelParameters, FlowLabel, FlowNodeParameters, FlowEdgeParameters, FlowConnectors, FlowDiagramParameters, FlowNode, FlowDiagramOptions, RoundedRectangleShape } from "three-flow";
+import { FlowPointer, FlowPointerEventType, FlowDiagram, FlowLabelParameters, FlowLabel, FlowNodeParameters, FlowEdgeParameters, FlowConnectors, FlowDiagramParameters, FlowNode, FlowDiagramOptions, RoundedRectangleShape, FlowPointerLayers } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
 
@@ -609,7 +609,7 @@ export class GalleryExample {
           window.open('https://github.com/IRobot1/three-flow-ts', '_blank')
       })
 
-      app.interactive.selectable.add(node)
+      node.layers.enable(FlowPointerLayers.SELECTABLE)
     })
 
 
