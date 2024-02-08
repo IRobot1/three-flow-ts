@@ -4,7 +4,7 @@ import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeom
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
-import { ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors, FlowDesignerOptions, FlowDiagram, FlowDiagramDesigner, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors, RoundedRectangleBorderGeometry, RoundedRectangleShape, ThreeInteractive } from "three-flow";
+import { ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors, FlowDesignerOptions, FlowDiagram, FlowDiagramDesigner, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, FlowPointerEventType, NodeConnectors, RoundedRectangleBorderGeometry, RoundedRectangleShape, FlowPointer } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
 
@@ -226,7 +226,7 @@ class AssetConnector extends ConnectorMesh {
     })
 
 
-    this.addEventListener(InteractiveEventType.CLICK, (e: any) => {
+    this.addEventListener(FlowPointerEventType.CLICK, (e: any) => {
       if (diagram.keyboard && diagram.keyboard.ctrlKey) {
         this.dispatchEvent<any>({ type: FlowEventType.EDGE_DELETE })
       }
@@ -310,7 +310,7 @@ class DesignerFlowDiagram extends FlowDiagramDesigner {
   override createFlowConnectors() {
     return new DesignerConnectors(this)
   }
-  constructor(interactive: ThreeInteractive, options: FlowDesignerOptions) {
+  constructor(interactive: FlowPointer, options: FlowDesignerOptions) {
     super(interactive, options)
 
     options.keyboard = {

@@ -1,5 +1,5 @@
 import { Material, MaterialParameters, MeshStandardMaterial, Vector3 } from "three";
-import { FlowInteraction, ThreeInteractive, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, FlowDiagramDesigner } from "three-flow";
+import { FlowInteraction, FlowPointer, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, FlowDiagramDesigner } from "three-flow";
 
 import { FlowMaterials } from "three-flow";
 
@@ -79,7 +79,7 @@ export class AssetViewerDiagram extends FlowDiagram {
     super.dispose()
   }
 
-  constructor(interactive: ThreeInteractive, public designer: FlowDiagramDesigner, options: FlowDiagramOptions = {}) {
+  constructor(interactive: FlowPointer, public designer: FlowDiagramDesigner, options: FlowDiagramOptions = {}) {
     if (!options.materialCache) options.materialCache = new AssetViewerMaterials()
 
     super(options)

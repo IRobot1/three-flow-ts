@@ -1,6 +1,6 @@
 import { Vector2, Raycaster, Renderer, Camera, Object3D, Plane, Vector3, Matrix4, Intersection, BaseEvent, WebGLRenderer, EventDispatcher } from 'three';
 
-export const InteractiveEventType = {
+export const FlowPointerEventType = {
   POINTERMOVE: 'pointermove',
   POINTERDOWN: 'pointerdown',
   POINTERUP: 'pointerup',
@@ -13,11 +13,6 @@ export const InteractiveEventType = {
   DRAG: 'drag',
   DRAGEND: 'dragend',
 }
-
-export interface InteractiveDragStartEvent extends BaseEvent { position: Vector3, data: Array<Intersection> }
-export interface InteractiveDragEvent extends BaseEvent { position: Vector3 }
-export interface InteractiveDragEnd extends BaseEvent { position: Vector3 }
-
 
 export class FlowObjects {
   private _list: Array<Object3D> = [];
@@ -40,7 +35,7 @@ export class FlowObjects {
 }
 
 
-export class ThreeInteractive extends EventDispatcher<any> {
+export class FlowPointer extends EventDispatcher<any> {
   public selectable = new FlowObjects()
   public draggable = new FlowObjects()
 
@@ -115,7 +110,7 @@ export class ThreeInteractive extends EventDispatcher<any> {
 
           if (!entered.includes(object)) {
             if (!_selected) {
-              _event.type = InteractiveEventType.POINTERENTER;
+              _event.type = FlowPointerEventType.POINTERENTER;
               entered.push(object);
             }
           }
@@ -132,7 +127,7 @@ export class ThreeInteractive extends EventDispatcher<any> {
         // anything that hasn't been removed is no longer overlapping
         overlapping.forEach(object => {
           if (object == _selected) return
-          _event.type = InteractiveEventType.POINTERLEAVE;
+          _event.type = FlowPointerEventType.POINTERLEAVE;
           object.dispatchEvent<any>(_event);
 
           // if entered, remove it
@@ -148,14 +143,14 @@ export class ThreeInteractive extends EventDispatcher<any> {
 
         entered.forEach(item => {
           if (item == _selected) return
-          _event.type = InteractiveEventType.POINTERLEAVE;
+          _event.type = FlowPointerEventType.POINTERLEAVE;
           item.dispatchEvent<any>(_event);
         })
         entered.length = 0
 
         // some popup selectables close when clicking outside of them, for example, dropdown menu and color picker
         if (_event.type == 'click') {
-          _event.type = InteractiveEventType.POINTERMISSED;
+          _event.type = FlowPointerEventType.POINTERMISSED;
           this.selectable.list.forEach(item => {
             if (item.visible)
               item.dispatchEvent<any>(_event)
@@ -181,9 +176,9 @@ export class ThreeInteractive extends EventDispatcher<any> {
           if (raycaster.ray.intersectPlane(_plane, _intersection)) {
             _inverseMatrix.copy(_selected.parent.matrixWorld).invert();
 
-            _selected.dispatchEvent({ type: InteractiveEventType.DRAGSTART, position: _intersection.applyMatrix4(_inverseMatrix), selectIntersects, dragIntersects });
+            _selected.dispatchEvent({ type: FlowPointerEventType.DRAGSTART, position: _intersection.applyMatrix4(_inverseMatrix), selectIntersects, dragIntersects });
 
-            this.dispatchEvent<any>({ type: InteractiveEventType.DRAGSTART })
+            this.dispatchEvent<any>({ type: FlowPointerEventType.DRAGSTART })
           }
 
         }
@@ -194,7 +189,7 @@ export class ThreeInteractive extends EventDispatcher<any> {
           if (raycaster.ray.intersectPlane(_plane, _intersection)) {
 
             // let selected object decide if dragging is allowed
-            _selected.dispatchEvent({ type: InteractiveEventType.DRAG, position: _intersection.applyMatrix4(_inverseMatrix), selectIntersects, dragIntersects });
+            _selected.dispatchEvent({ type: FlowPointerEventType.DRAG, position: _intersection.applyMatrix4(_inverseMatrix), selectIntersects, dragIntersects });
           }
 
 
@@ -204,10 +199,10 @@ export class ThreeInteractive extends EventDispatcher<any> {
         if (_selected) {
           document.body.style.cursor = 'default'
 
-          _selected.dispatchEvent({ type: InteractiveEventType.DRAGEND, position: _intersection, selectIntersects, dragIntersects });
+          _selected.dispatchEvent({ type: FlowPointerEventType.DRAGEND, position: _intersection, selectIntersects, dragIntersects });
           _selected = undefined;
 
-          this.dispatchEvent<any>({ type: InteractiveEventType.DRAGEND })
+          this.dispatchEvent<any>({ type: FlowPointerEventType.DRAGEND })
         }
       }
     }

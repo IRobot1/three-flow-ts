@@ -1,5 +1,5 @@
 import { BufferGeometry, Material, Mesh, PlaneGeometry, Vector3 } from "three";
-import { InteractiveEventType } from "./three-interactive";
+import { FlowPointerEventType } from "./three-interactive";
 import { FlowNode } from "./node";
 import { FlowEventType, FlowHandleParameters } from "./model";
 
@@ -32,7 +32,7 @@ export class ResizeNode {
   }
 
   stopResizing() {
-    this.selectable.forEach(mesh => mesh.dispatchEvent<any>({ type: InteractiveEventType.DRAGEND }))
+    this.selectable.forEach(mesh => mesh.dispatchEvent<any>({ type: FlowPointerEventType.DRAGEND }))
   }
 
   private dragging = false
@@ -42,7 +42,7 @@ export class ResizeNode {
     let startwidth: number
     let startheight: number
 
-    mesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
+    mesh.addEventListener(FlowPointerEventType.DRAGSTART, (e: any) => {
       if (!this.node.resizable || this.node.hidden) return
 
       startposition = e.position.clone()
@@ -50,12 +50,12 @@ export class ResizeNode {
       startheight = this.node.height
       this.dragging = true
     })
-    mesh.addEventListener(InteractiveEventType.DRAGEND, () => {
+    mesh.addEventListener(FlowPointerEventType.DRAGEND, () => {
       this.dragging = false
       mesh.visible = false
     })
 
-    mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
+    mesh.addEventListener(FlowPointerEventType.DRAG, (e: any) => {
       if (!this.dragging || !this.node.resizable || this.node.hidden) return
 
       const diff = e.position.sub(startposition) as Vector3
@@ -82,8 +82,8 @@ export class ResizeNode {
     });
 
 
-    mesh.addEventListener(InteractiveEventType.POINTERENTER, (e: any) => { if (!this.dragging) mesh.visible = true });
-    mesh.addEventListener(InteractiveEventType.POINTERLEAVE, (e: any) => { mesh.visible = false; });
+    mesh.addEventListener(FlowPointerEventType.POINTERENTER, (e: any) => { if (!this.dragging) mesh.visible = true });
+    mesh.addEventListener(FlowPointerEventType.POINTERLEAVE, (e: any) => { mesh.visible = false; });
   }
 
   // overridable

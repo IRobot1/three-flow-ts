@@ -6,7 +6,7 @@ import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerM
 import { VRButton } from "three/examples/jsm/webxr/VRButton";
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 
-import { ThreeInteractive } from "three-flow";
+import { FlowPointer } from "three-flow";
 
 import { UIRouter } from "./ui-routes";
 
@@ -18,7 +18,7 @@ export interface renderState { scene: Scene, camera: Camera, renderer: WebGLRend
 
 export class ThreeJSApp extends WebGLRenderer {
   public camera!: Camera;
-  readonly interactive: ThreeInteractive
+  readonly interactive: FlowPointer
   readonly pointer: PointerInteraction
   public router = new UIRouter()
 
@@ -72,7 +72,7 @@ export class ThreeJSApp extends WebGLRenderer {
       }
     });
 
-    this.interactive = new ThreeInteractive(this, this.camera)
+    this.interactive = new FlowPointer(this, this.camera)
     this.pointer = new PointerInteraction(this, this.camera)
 
     const animate = () => {

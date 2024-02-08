@@ -6,7 +6,7 @@ import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 import { ThreeJSApp } from "../app/threejs-app";
 import {
   FlowEdgeParameters,
-  InteractiveEventType,
+  FlowPointerEventType,
   FlowRoute,
   FlowNodeParameters,
   FlowConnectorParameters,
@@ -54,8 +54,8 @@ export class BasicExample {
 
     const disableRotate = () => { orbit.enableRotate = false }
     const enableRotate = () => { orbit.enableRotate = true }
-    app.interactive.addEventListener(InteractiveEventType.DRAGSTART, disableRotate)
-    app.interactive.addEventListener(InteractiveEventType.DRAGEND, enableRotate)
+    app.interactive.addEventListener(FlowPointerEventType.DRAGSTART, disableRotate)
+    app.interactive.addEventListener(FlowPointerEventType.DRAGEND, enableRotate)
 
     //scene.add(new AxesHelper(3))
 
@@ -240,7 +240,7 @@ export class BasicExample {
         label: { text: 'Title4', font: 'helvetika', material: { color: 'white' }, },
         resizable: false, draggable: false
       })
-      node4.addEventListener(InteractiveEventType.CONTEXTMENU, () => {
+      node4.addEventListener(FlowPointerEventType.CONTEXTMENU, () => {
         console.warn('right click menu')
       })
 
@@ -389,8 +389,8 @@ export class BasicExample {
 
 
     this.dispose = () => {
-      app.interactive.removeEventListener(InteractiveEventType.DRAGSTART, disableRotate)
-      app.interactive.removeEventListener(InteractiveEventType.DRAGEND, enableRotate)
+      app.interactive.removeEventListener(FlowPointerEventType.DRAGSTART, disableRotate)
+      app.interactive.removeEventListener(FlowPointerEventType.DRAGEND, enableRotate)
       interaction.dispose()
       gui.destroy()
       orbit.dispose()

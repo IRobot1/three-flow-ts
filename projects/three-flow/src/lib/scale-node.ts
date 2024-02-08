@@ -1,6 +1,6 @@
 import { BufferGeometry, Material, Mesh, PlaneGeometry, Vector3 } from "three"
 import { FlowNode } from "./node"
-import { InteractiveEventType } from "./three-interactive"
+import { FlowPointerEventType } from "./three-interactive"
 import { FlowEventType, FlowHandleParameters } from "./model"
 
 export class ScaleNode {
@@ -33,7 +33,7 @@ export class ScaleNode {
   }
 
   stopScaling() {
-    this.selectable.forEach(mesh => mesh.dispatchEvent<any>({ type: InteractiveEventType.DRAGEND }))
+    this.selectable.forEach(mesh => mesh.dispatchEvent<any>({ type: FlowPointerEventType.DRAGEND }))
   }
 
 
@@ -42,7 +42,7 @@ export class ScaleNode {
     let startposition: Vector3
     let startscale: number
 
-    mesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
+    mesh.addEventListener(FlowPointerEventType.DRAGSTART, (e: any) => {
       if (!this.node.scalable || this.node.hidden) return
 
       startposition = e.position.clone()
@@ -50,12 +50,12 @@ export class ScaleNode {
       this.dragging = true
     })
 
-    mesh.addEventListener(InteractiveEventType.DRAGEND, () => {
+    mesh.addEventListener(FlowPointerEventType.DRAGEND, () => {
       this.dragging = false
       mesh.visible = false
     })
 
-    mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
+    mesh.addEventListener(FlowPointerEventType.DRAG, (e: any) => {
       if (!this.dragging || !this.node.scalable || this.node.hidden) return
 
       const diff = e.position.sub(startposition) as Vector3
@@ -66,8 +66,8 @@ export class ScaleNode {
       this.node.scalar = startscale - (diff.x * 2 * startscale)
     });
 
-    mesh.addEventListener(InteractiveEventType.POINTERENTER, () => { if (!this.dragging) mesh.visible = true; });
-    mesh.addEventListener(InteractiveEventType.POINTERLEAVE, () => { mesh.visible = false; });
+    mesh.addEventListener(FlowPointerEventType.POINTERENTER, () => { if (!this.dragging) mesh.visible = true; });
+    mesh.addEventListener(FlowPointerEventType.POINTERLEAVE, () => { mesh.visible = false; });
 
   }
 

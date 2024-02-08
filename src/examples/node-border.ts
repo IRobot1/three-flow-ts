@@ -1,5 +1,5 @@
 import { BufferGeometry, ColorRepresentation, Mesh, MeshBasicMaterial, PlaneGeometry } from "three";
-import { FlowDiagram, FlowEventType, FlowNode, InteractiveEventType } from "three-flow";
+import { FlowDiagram, FlowEventType, FlowNode, FlowPointerEventType } from "three-flow";
 
 
 
@@ -23,27 +23,27 @@ export class NodeBorder extends Mesh {
       this.activeChanged(active)
     })
 
-    node.addEventListener(InteractiveEventType.DRAGSTART, () => {
+    node.addEventListener(FlowPointerEventType.DRAGSTART, () => {
       if (!node.selectable) return
       diagram.active = node
       active = true
       this.activeChanged(active)
     })
-    node.addEventListener(InteractiveEventType.CLICK, () => {
+    node.addEventListener(FlowPointerEventType.CLICK, () => {
       if (!node.selectable || node.draggable) return
       diagram.active = node
       active = !active
       this.activeChanged(active)
     })
 
-    node.addEventListener(InteractiveEventType.POINTERENTER, () => {
+    node.addEventListener(FlowPointerEventType.POINTERENTER, () => {
       this.hoverChanged(active, true)
 
     })
-    node.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
+    node.addEventListener(FlowPointerEventType.POINTERLEAVE, () => {
       this.hoverChanged(active, false)
     })
-    node.addEventListener(InteractiveEventType.POINTERMISSED, () => {
+    node.addEventListener(FlowPointerEventType.POINTERMISSED, () => {
       diagram.active = undefined
     })
 

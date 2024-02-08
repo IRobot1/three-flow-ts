@@ -2,7 +2,7 @@ import { AmbientLight, AxesHelper, BufferGeometry, Color, MaterialParameters, Me
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowDiagram, FlowDiagramOptions, FlowInteraction, FlowMaterials, FlowNode, FlowNodeParameters, InteractiveEventType, RoundedRectangleGeometry, ThreeInteractive } from "three-flow";
+import { FlowDiagram, FlowDiagramOptions, FlowInteraction, FlowMaterials, FlowNode, FlowNodeParameters, FlowPointerEventType, RoundedRectangleGeometry, FlowPointer } from "three-flow";
 import {
   GUI, PropertiesParameters, UIProperties,
   LabelParameters, NumberEntryParameters, SelectParameters, SliderbarParameters,
@@ -27,7 +27,7 @@ interface MenuParameters extends FlowNodeParameters {
 }
 
 interface UserInterfaceDiagramOptions extends FlowDiagramOptions {
-  pointer: ThreeInteractive
+  pointer: FlowPointer
   uioptions: UIOptions
 }
 
@@ -69,10 +69,10 @@ export class UserInterfaceExample {
 
     const disableRotate = () => { orbit.enableRotate = false }
     const enableRotate = () => { orbit.enableRotate = true }
-    app.interactive.addEventListener(InteractiveEventType.DRAGSTART, disableRotate)
-    app.interactive.addEventListener(InteractiveEventType.DRAGEND, enableRotate)
-    app.pointer.addEventListener(InteractiveEventType.DRAGSTART, disableRotate)
-    app.pointer.addEventListener(InteractiveEventType.DRAGEND, enableRotate)
+    app.interactive.addEventListener(FlowPointerEventType.DRAGSTART, disableRotate)
+    app.interactive.addEventListener(FlowPointerEventType.DRAGEND, enableRotate)
+    app.pointer.addEventListener(FlowPointerEventType.DRAGSTART, disableRotate)
+    app.pointer.addEventListener(FlowPointerEventType.DRAGEND, enableRotate)
 
     //scene.add(new AxesHelper(1))
 

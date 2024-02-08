@@ -1,5 +1,5 @@
 import { AmbientLight, BoxGeometry, BufferGeometry, DoubleSide, ExtrudeGeometry, LineBasicMaterial, LineSegments, Material, MaterialParameters, MathUtils, Mesh, MeshBasicMaterial, MeshStandardMaterial, MeshStandardMaterialParameters, PlaneGeometry, PointLight, SRGBColorSpace, Scene, Shape, ShapeGeometry, TextureLoader, Vector2 } from "three";
-import { ThreeInteractive, InteractiveEventType, FlowDiagram, FlowLabelParameters, FlowLabel, FlowNodeParameters, FlowEdgeParameters, FlowConnectors, FlowDiagramParameters, FlowNode, FlowDiagramOptions, RoundedRectangleShape } from "three-flow";
+import { FlowPointer, FlowPointerEventType, FlowDiagram, FlowLabelParameters, FlowLabel, FlowNodeParameters, FlowEdgeParameters, FlowConnectors, FlowDiagramParameters, FlowNode, FlowDiagramOptions, RoundedRectangleShape } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
 
@@ -36,11 +36,11 @@ class MyFlowNode extends FlowNode {
     this.material = diagram.getMaterial('geometry', tile.assetimage, <MeshStandardMaterialParameters>{ color: 'white', map: texture })
 
     const node = this
-    node.addEventListener(InteractiveEventType.POINTERENTER, () => {
+    node.addEventListener(FlowPointerEventType.POINTERENTER, () => {
       node.position.z = 0.02
       if (node.label) node.label.visible = true
     })
-    node.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
+    node.addEventListener(FlowPointerEventType.POINTERLEAVE, () => {
       node.position.z = 0
       if (node.label) node.label.visible = false
     })
@@ -602,7 +602,7 @@ export class GalleryExample {
     // add click to navigate to example
     flow.allNodes.forEach(node => {
       const tile = node.parameters as Tile
-      node.addEventListener(InteractiveEventType.CLICK, () => {
+      node.addEventListener(FlowPointerEventType.CLICK, () => {
         if (tile.route != 'github')
           app.navigateto(tile.route)
         else

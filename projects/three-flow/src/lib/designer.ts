@@ -5,7 +5,7 @@ import { FlowInteraction } from "./interactive"
 import { FlowEventType, FlowNodeParameters } from "./model"
 import { FlowNode } from "./node"
 import { FlowProperties } from "./properties"
-import { ThreeInteractive } from "./three-interactive"
+import { FlowPointer } from "./three-interactive"
 import { Exporter } from "./exporter"
 
 
@@ -43,7 +43,7 @@ export abstract class FlowDiagramDesigner extends FlowDiagram {
   abstract loadAsset(parameters: FlowNodeParameters): FlowNode 
 
   // optional
-  createFlowInteraction(interactive: ThreeInteractive): FlowInteraction {
+  createFlowInteraction(interactive: FlowPointer): FlowInteraction {
     return new FlowInteraction(this, interactive)
   }
 
@@ -56,7 +56,7 @@ export abstract class FlowDiagramDesigner extends FlowDiagram {
     return new FlowProperties(this, this.interaction)
   }
 
-  constructor(interactive: ThreeInteractive, private designoptions: FlowDesignerOptions) {
+  constructor(interactive: FlowPointer, private designoptions: FlowDesignerOptions) {
     super(designoptions.diagram)
 
     this.filename = designoptions.initialFileName ? designoptions.initialFileName : 'flow-designer.json'

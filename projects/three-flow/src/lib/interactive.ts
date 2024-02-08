@@ -1,7 +1,7 @@
 import { Intersection, Material, MeshBasicMaterialParameters, Vector3 } from "three";
 import { DragNode } from "./drag-node";
 import { FlowDiagram } from "./diagram";
-import { InteractiveEventType, ThreeInteractive } from "./three-interactive";
+import { FlowPointerEventType, FlowPointer } from "./three-interactive";
 import { FlowNode } from "./node";
 import { ResizeNode } from "./resize-node";
 import { ScaleNode } from "./scale-node";
@@ -50,7 +50,7 @@ export class FlowInteraction {
     }
   }
 
-  constructor(public diagram: FlowDiagram, public readonly interactive: ThreeInteractive) {
+  constructor(public diagram: FlowDiagram, public readonly interactive: FlowPointer) {
 
     diagram.addEventListener(FlowEventType.NODE_REMOVED, (e: any) => {
       const node = e.node as FlowNode
@@ -98,12 +98,12 @@ export class FlowInteraction {
       requestAnimationFrame(() => {
         selectableChanged()
 
-        edge.selectableObject.addEventListener(InteractiveEventType.CLICK, () => {
+        edge.selectableObject.addEventListener(FlowPointerEventType.CLICK, () => {
           if (!edge.selectable) return
           diagram.dispatchEvent<any>({ type: FlowEventType.EDGE_SELECTED, edge })
         })
 
-        edge.selectableObject.addEventListener(InteractiveEventType.POINTERMISSED, () => {
+        edge.selectableObject.addEventListener(FlowPointerEventType.POINTERMISSED, () => {
           diagram.dispatchEvent<any>({ type: FlowEventType.EDGE_SELECTED, edge: undefined })
         })
       })
@@ -193,13 +193,13 @@ class NodeInteractive {
   constructor(public node: FlowNode, source: FlowInteraction) {
     const diagram = source.diagram
 
-    node.addEventListener(InteractiveEventType.CLICK, () => {
+    node.addEventListener(FlowPointerEventType.CLICK, () => {
       if (!node.selectable) return
       diagram.active = node
       diagram.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, node })
     })
 
-    node.addEventListener(InteractiveEventType.POINTERMISSED, () => {
+    node.addEventListener(FlowPointerEventType.POINTERMISSED, () => {
       if (diagram.active == node) {
         diagram.active = undefined
         diagram.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, node: undefined })
@@ -296,16 +296,16 @@ export class ConnectorInteractive {
     const parentNode = mesh.parent as FlowNode
 
 
-    mesh.addEventListener(InteractiveEventType.CLICK, () => {
+    mesh.addEventListener(FlowPointerEventType.CLICK, () => {
       if (!mesh.selectable) return
       diagram.dispatchEvent<any>({ type: FlowEventType.CONNECTOR_SELECTED, connector: mesh })
     })
 
-    mesh.addEventListener(InteractiveEventType.POINTERMISSED, () => {
+    mesh.addEventListener(FlowPointerEventType.POINTERMISSED, () => {
       diagram.dispatchEvent<any>({ type: FlowEventType.CONNECTOR_SELECTED, connector: undefined })
     })
 
-    mesh.addEventListener(InteractiveEventType.POINTERENTER, () => {
+    mesh.addEventListener(FlowPointerEventType.POINTERENTER, () => {
       if (!mesh.selectable) {
         document.body.style.cursor = 'not-allowed'
       }
@@ -316,7 +316,7 @@ export class ConnectorInteractive {
         //  document.body.style.cursor = cursor
       }
     })
-    mesh.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
+    mesh.addEventListener(FlowPointerEventType.POINTERLEAVE, () => {
       //if (!mesh.selectable) return
       mesh.pointerLeave()
       document.body.style.cursor = 'default'
@@ -325,7 +325,7 @@ export class ConnectorInteractive {
     let dragStart: Vector3 | undefined
     let flowStart: Vector3 | undefined
     let dragging = false
-    mesh.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
+    mesh.addEventListener(FlowPointerEventType.DRAGSTART, (e: any) => {
       if (!mesh.draggable) return
 
       dragStart = e.position.clone()
@@ -337,7 +337,7 @@ export class ConnectorInteractive {
     let dragroute: FlowRoute | undefined
     let dragedge: FlowEdge | undefined
     let dragDistance = 0
-    mesh.addEventListener(InteractiveEventType.DRAG, (e: any) => {
+    mesh.addEventListener(FlowPointerEventType.DRAG, (e: any) => {
       if (!mesh.draggable || !dragging) return
 
       document.body.style.cursor = 'grabbing'
@@ -398,7 +398,7 @@ export class ConnectorInteractive {
       dragging = false
     }
 
-    mesh.addEventListener(InteractiveEventType.DRAGEND, (e: any) => {
+    mesh.addEventListener(FlowPointerEventType.DRAGEND, (e: any) => {
       if (!mesh.draggable) return
 
       if (dragging && dragDistance > mesh.startDragDistance) {

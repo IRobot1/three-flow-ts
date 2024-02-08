@@ -17,7 +17,7 @@ import {
   FlowNode,
   FlowNodeParameters,
   NodeConnectors,
-  ThreeInteractive,
+  FlowPointer,
 } from "three-flow";
 import { ThreeJSApp } from "../app/threejs-app";
 
@@ -133,7 +133,7 @@ class MindMapDiagram extends FlowDiagramDesigner {
     return new MindMapConnectors(this)
   }
 
-  constructor(interactive: ThreeInteractive, options: FlowDesignerOptions) {
+  constructor(interactive: FlowPointer, options: FlowDesignerOptions) {
     super(interactive, options)
 
     const handleDelete = (keyboard: KeyboardEvent, node?: FlowNode) => {

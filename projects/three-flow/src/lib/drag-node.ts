@@ -1,5 +1,5 @@
 import { Vector3 } from "three";
-import { InteractiveEventType } from "./three-interactive";
+import { FlowPointerEventType } from "./three-interactive";
 import { FlowNode } from "./node";
 import { FlowEventType } from "./model";
 
@@ -19,18 +19,18 @@ export class DragNode {
       return position;
     }
 
-    node.addEventListener(InteractiveEventType.POINTERENTER, () => {
+    node.addEventListener(FlowPointerEventType.POINTERENTER, () => {
       if (!node.draggable || node.hidden) return
       document.body.style.cursor = 'grab'
     })
 
-    node.addEventListener(InteractiveEventType.POINTERLEAVE, () => {
+    node.addEventListener(FlowPointerEventType.POINTERLEAVE, () => {
       if (document.body.style.cursor == 'grab')
         document.body.style.cursor = 'default'
     })
 
     let offset: Vector3
-    node.addEventListener(InteractiveEventType.DRAGSTART, (e: any) => {
+    node.addEventListener(FlowPointerEventType.DRAGSTART, (e: any) => {
       if (!node.draggable || node.hidden) return
 
       // remember where in the mesh the mouse was clicked to avoid jump on first drag
@@ -39,9 +39,9 @@ export class DragNode {
 
       this.dragging = true
     });
-    node.addEventListener(InteractiveEventType.DRAGEND, () => { this.dragging = false });
+    node.addEventListener(FlowPointerEventType.DRAGEND, () => { this.dragging = false });
 
-    node.addEventListener(InteractiveEventType.DRAG, (e: any) => {
+    node.addEventListener(FlowPointerEventType.DRAG, (e: any) => {
       if (!this.dragging || !node.draggable || node.hidden) return
 
       let position = e.position.clone() as Vector3
@@ -53,6 +53,6 @@ export class DragNode {
   }
 
   stopDragging() {
-    this.node.dispatchEvent<any>({ type: InteractiveEventType.DRAGEND })
+    this.node.dispatchEvent<any>({ type: FlowPointerEventType.DRAGEND })
   }
 }

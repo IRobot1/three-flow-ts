@@ -2,7 +2,7 @@ import { AmbientLight, AxesHelper, Color, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowDiagram, InteractiveEventType } from "three-flow";
+import { FlowDiagram, FlowPointerEventType } from "three-flow";
 
 export class PlaceholderExample {
 
@@ -40,8 +40,8 @@ export class PlaceholderExample {
 
     const disableRotate = () => { orbit.enableRotate = false }
     const enableRotate = () => { orbit.enableRotate = true }
-    app.interactive.addEventListener(InteractiveEventType.DRAGSTART, disableRotate)
-    app.interactive.addEventListener(InteractiveEventType.DRAGEND, enableRotate)
+    app.interactive.addEventListener(FlowPointerEventType.DRAGSTART, disableRotate)
+    app.interactive.addEventListener(FlowPointerEventType.DRAGEND, enableRotate)
 
     //scene.add(new AxesHelper(3))
 

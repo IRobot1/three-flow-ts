@@ -3,7 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
-import { ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors, FlowDesignerOptions, FlowDiagram, FlowDiagramDesigner, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, InteractiveEventType, NodeConnectors, ThreeInteractive } from "three-flow";
+import { ConnectorMesh, DesignerStorage, FlowConnectorParameters, FlowConnectors, FlowDesignerOptions, FlowDiagram, FlowDiagramDesigner, FlowDiagramOptions, FlowEdge, FlowEdgeParameters, FlowEventType, FlowLabel, FlowLabelParameters, FlowNode, FlowNodeParameters, FlowPointerEventType, NodeConnectors, FlowPointer } from "three-flow";
 
 import { ThreeJSApp } from "../app/threejs-app";
 
@@ -207,7 +207,7 @@ class TextureCache {
 }
 
 class AchemistIngredientViewer extends AssetViewerDiagram {
-  constructor(interactive: ThreeInteractive, designer: FlowDiagramDesigner, cache: TextureCache, options?: FlowDiagramOptions) {
+  constructor(interactive: FlowPointer, designer: FlowDiagramDesigner, cache: TextureCache, options?: FlowDiagramOptions) {
     super(interactive, designer, options)
 
     this.addEventListener(AlchemistEventType.MATERIAL_TEXTURE, (e: any) => {
@@ -272,7 +272,7 @@ class AssetConnector extends ConnectorMesh {
     })
 
 
-    this.addEventListener(InteractiveEventType.CLICK, (e: any) => {
+    this.addEventListener(FlowPointerEventType.CLICK, (e: any) => {
       if (diagram.keyboard && diagram.keyboard.ctrlKey) {
         this.dispatchEvent<any>({ type: FlowEventType.EDGE_DELETE })
       }
@@ -354,7 +354,7 @@ class AlchemistRecipeDiagram extends FlowDiagramDesigner {
   override createFlowConnectors() {
     return new DesignerConnectors(this)
   }
-  constructor(interactive: ThreeInteractive, cache: TextureCache, options: FlowDesignerOptions) {
+  constructor(interactive: FlowPointer, cache: TextureCache, options: FlowDesignerOptions) {
     super(interactive, options)
 
     this.addEventListener(AlchemistEventType.MATERIAL_TEXTURE, (e: any) => {
