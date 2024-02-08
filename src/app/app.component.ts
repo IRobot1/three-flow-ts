@@ -24,7 +24,6 @@ import { AlchemistExample } from '../examples/alchemist';
 import { ConnectorsExample } from '../examples/connectors';
 import { TracksExample } from '../examples/track';
 import { StressExample } from '../examples/stress';
-import { GUIExample } from '../examples/gui/example';
 import { PropertiesExample } from '../examples/properties';
 import { UserInterfaceExample } from '../examples/user-interface';
 import { CustomPropertiesExample } from '../examples/custom-properties';
@@ -67,7 +66,6 @@ export class AppComponent {
       app.router.add('tracks', () => { return new TracksExample(app) })
       app.router.add('stress', () => { return new StressExample(app) })
       app.router.add('userinterface', () => { return new UserInterfaceExample(app) })
-      app.router.add('gui', () => { return new GUIExample(app) })
       app.router.add('properties', () => { return new PropertiesExample(app) })
       app.router.add('customproperties', () => { return new CustomPropertiesExample(app) })
     })

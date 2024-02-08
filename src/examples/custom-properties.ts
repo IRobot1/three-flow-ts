@@ -2,22 +2,15 @@ import { AmbientLight, AxesHelper, Color, PointLight, Scene, Shape } from "three
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowDiagram, FlowMaterials, InteractiveEventType, RoundedRectangleShape, ThreeInteractive } from "three-flow";
-import { GUI } from "./gui/gui-model";
-import { PropertiesParameters, UIProperties } from "./gui/properties";
-import { LabelParameters, NumberEntryParameters, SelectParameters, SliderbarParameters, TextButtonParameters, TextEntryParameters, UIOptions } from "./gui/model";
-import { FontCache } from "./gui/cache";
-import { KeyboardInteraction } from "./gui/keyboard-interaction";
-import { UIColorPicker } from "./gui/color-picker";
-import { PanelOptions } from "./gui/panel";
-import { ExpansionPanelParameters, UIExpansionPanel } from "./gui/expansion-panel";
-import { UILabel } from "./gui/label";
-import { UIButton } from "./gui/button";
-import { UITextButton } from "./gui/button-text";
-import { UISliderbar } from "./gui/sliderbar";
-import { NumberOptions, UINumberEntry } from "./gui/number-entry";
-import { UITextEntry } from "./gui/text-entry";
-import { UISelect } from "./gui/select";
+import { FlowDiagram, InteractiveEventType } from "three-flow";
+import {
+  PointerInteraction, GUI, PropertiesParameters, UIProperties,
+  LabelParameters, NumberEntryParameters, SelectParameters, SliderbarParameters,
+  TextButtonParameters, TextEntryParameters, UIOptions,
+  FontCache, KeyboardInteraction, UIColorPicker, PanelOptions, ExpansionPanelParameters,
+  UIExpansionPanel, UILabel, UIButton, UITextButton, UISliderbar, NumberOptions, UINumberEntry,
+  UITextEntry, UISelect, UIMaterials
+} from "three-fluix";
 
 export class CustomPropertiesExample {
 
@@ -57,6 +50,8 @@ export class CustomPropertiesExample {
     const enableRotate = () => { orbit.enableRotate = true }
     app.interactive.addEventListener(InteractiveEventType.DRAGSTART, disableRotate)
     app.interactive.addEventListener(InteractiveEventType.DRAGEND, enableRotate)
+    app.pointer.addEventListener(InteractiveEventType.DRAGSTART, disableRotate)
+    app.pointer.addEventListener(InteractiveEventType.DRAGEND, enableRotate)
 
     //scene.add(new AxesHelper(3))
 
@@ -65,12 +60,12 @@ export class CustomPropertiesExample {
 
 
     const options: UIOptions = {
-      materials: new FlowMaterials(),
+      materials: new UIMaterials(),
       fontCache: new FontCache(),
       keyboard: new KeyboardInteraction(app)
     }
 
-    const colorpicker = new UIColorPicker({}, app.interactive, options)
+    const colorpicker = new UIColorPicker({}, app.pointer, options)
     scene.add(colorpicker)
     colorpicker.visible = false
 
@@ -82,9 +77,9 @@ export class CustomPropertiesExample {
         inputMaterial: { color: '#424242' },
         labelwidth: 0.45,
         pickwidth: 0.6,
-        inputwidth:0.25
+        inputwidth: 0.25
       }
-      const properties1 = new CustomProperties(params, app.interactive, options, gui)
+      const properties1 = new CustomProperties(params, app.pointer, options, gui)
       scene.add(properties1)
       properties1.position.set(-1, 0, 0)
       properties1.getColorPicker = () => { return colorpicker }
@@ -160,8 +155,8 @@ export class CustomPropertiesExample {
 
 class CustomProperties extends UIProperties {
 
-  constructor(private customparams: PropertiesParameters, interactive: ThreeInteractive, options: PanelOptions, gui: GUI) {
-    super(customparams, interactive, options, gui)
+  constructor(private customparams: PropertiesParameters, pointer: PointerInteraction, options: PanelOptions, gui: GUI) {
+    super(customparams, pointer, options, gui)
   }
 
   override createLabel(parameters: LabelParameters): UILabel {
@@ -173,7 +168,7 @@ class CustomProperties extends UIProperties {
 
   override createTextButton(parameters: TextButtonParameters): UIButton {
     parameters.label!.material = { color: 'white' }
-    return new UITextButton(parameters, this.interactive, this.options)
+    return new UITextButton(parameters, this.pointer, this.options)
   }
 
   override createExpansionPanel(parameters: ExpansionPanelParameters): UIExpansionPanel {
@@ -181,36 +176,36 @@ class CustomProperties extends UIProperties {
     parameters.label!.material = { color: 'white' }
     parameters.panel!.fill = this.customparams.fill
     parameters.indicatorMaterial = { color: 'white' }
-    return new UIExpansionPanel(parameters, this.interactive, this.options)
+    return new UIExpansionPanel(parameters, this.pointer, this.options)
   }
 
   override createSliderbar(parameters: SliderbarParameters): UISliderbar {
     parameters.slidermaterial = { color: 'orange' }
-    return new UISliderbar(parameters, this.interactive, this.options)
+    return new UISliderbar(parameters, this.pointer, this.options)
   }
 
   override createNumberEntry(parameters: NumberEntryParameters, title: string): UINumberEntry {
     parameters.label = { material: { color: 'orange' } }
     if (title == 'level') {
-      return new CustomNumberEntry(parameters, this.interactive, this.options, this.radius * 3, this.radius)
+      return new CustomNumberEntry(parameters, this.pointer, this.options, this.radius * 3, this.radius)
     }
     else if (title == 'gloss') {
-      return new CustomNumberEntry(parameters, this.interactive, this.options, this.radius, this.radius * 3)
+      return new CustomNumberEntry(parameters, this.pointer, this.options, this.radius, this.radius * 3)
     }
     else
-      return new UINumberEntry(parameters, this.interactive, this.options)
+      return new UINumberEntry(parameters, this.pointer, this.options)
   }
 
   override createTextEntry(parameters: TextEntryParameters): UITextEntry {
     if (!parameters.label) parameters.label = {}
     parameters.label.material = { color: 'orange' }
-    return new UITextEntry(parameters, this.interactive, this.options)
+    return new UITextEntry(parameters, this.pointer, this.options)
   }
 
   override createSelect(parameters: SelectParameters): UISelect {
     parameters.label!.material = { color: 'white' }
     parameters.indicatorMaterial = { color: 'white' }
-    return new UISelect(parameters, this.interactive, this.options)
+    return new UISelect(parameters, this.pointer, this.options)
   }
 }
 
@@ -245,8 +240,8 @@ export class CustomRectangleBorderShape extends CustomRectangleShape {
 
 
 class CustomNumberEntry extends UINumberEntry {
-  constructor(parameters: NumberEntryParameters = {}, interactive: ThreeInteractive, options: NumberOptions, private radiustr: number, private radiusbr: number) {
-    super(parameters, interactive, options)
+  constructor(parameters: NumberEntryParameters = {}, pointer: PointerInteraction, options: NumberOptions, private radiustr: number, private radiusbr: number) {
+    super(parameters, pointer, options)
   }
 
   override panelShape(): Shape {

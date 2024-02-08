@@ -12,12 +12,14 @@ import { UIRouter } from "./ui-routes";
 
 import { EffectComposer, Pass } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+import { PointerInteraction } from "three-fluix";
 
 export interface renderState { scene: Scene, camera: Camera, renderer: WebGLRenderer }
 
 export class ThreeJSApp extends WebGLRenderer {
   public camera!: Camera;
   readonly interactive: ThreeInteractive
+  readonly pointer: PointerInteraction
   public router = new UIRouter()
 
   private _scene: Scene | undefined
@@ -25,6 +27,7 @@ export class ThreeJSApp extends WebGLRenderer {
   set scene(newvalue: Scene | undefined) {
     if (this._scene != newvalue) {
       this._scene = newvalue
+      this.pointer.scene = newvalue
     }
   }
 
@@ -70,6 +73,7 @@ export class ThreeJSApp extends WebGLRenderer {
     });
 
     this.interactive = new ThreeInteractive(this, this.camera)
+    this.pointer = new PointerInteraction(this, this.camera)
 
     const animate = () => {
       if (!this.scene) return

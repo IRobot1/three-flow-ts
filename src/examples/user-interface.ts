@@ -3,22 +3,15 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { FlowDiagram, FlowDiagramOptions, FlowInteraction, FlowMaterials, FlowNode, FlowNodeParameters, InteractiveEventType, RoundedRectangleGeometry, ThreeInteractive } from "three-flow";
-import { UITextButton } from "./gui/button-text";
-import { LabelParameters, NumberEntryParameters, SliderbarParameters, TextButtonParameters, TextEntryParameters } from "./gui/model";
-import { ButtonOptions } from "./gui/button";
-import { UIOptions } from './gui/model'
-import { FontCache } from "./gui/cache";
+import {
+  GUI, PropertiesParameters, UIProperties,
+  LabelParameters, NumberEntryParameters, SelectParameters, SliderbarParameters,
+  TextButtonParameters, TextEntryParameters, UIOptions,
+  FontCache, KeyboardInteraction, UIColorPicker, PanelOptions, ExpansionPanelParameters,
+  UIExpansionPanel, UILabel, UIButton, UITextButton, UISliderbar, NumberOptions, UINumberEntry,
+  UITextEntry, UISelect, UIMaterials, ButtonOptions, PointerInteraction, UICheckbox, SliderbarEventType, PointerEventType
+} from "three-fluix";
 import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader";
-import { UILabel } from "./gui/label";
-import { PropertiesParameters, UIProperties } from "./gui/properties";
-import { GUI } from "./gui/gui-model";
-import { KeyboardInteraction } from "./gui/keyboard-interaction";
-import { UIColorPicker } from "./gui/color-picker";
-import { UICheckbox } from "./gui/checkbox";
-import { ExpansionPanelParameters, UIExpansionPanel } from "./gui/expansion-panel";
-import { UINumberEntry } from "./gui/number-entry";
-import { SliderbarEventType, UISliderbar } from "./gui/sliderbar";
-import { UITextEntry } from "./gui/text-entry";
 
 interface MenuAction {
   buttontext: string
@@ -78,6 +71,8 @@ export class UserInterfaceExample {
     const enableRotate = () => { orbit.enableRotate = true }
     app.interactive.addEventListener(InteractiveEventType.DRAGSTART, disableRotate)
     app.interactive.addEventListener(InteractiveEventType.DRAGEND, enableRotate)
+    app.pointer.addEventListener(InteractiveEventType.DRAGSTART, disableRotate)
+    app.pointer.addEventListener(InteractiveEventType.DRAGEND, enableRotate)
 
     //scene.add(new AxesHelper(1))
 
@@ -85,6 +80,8 @@ export class UserInterfaceExample {
     materials.createMeshMaterial = (parameters: MaterialParameters) => {
       return new MeshPhongMaterial(parameters)
     }
+
+    console.warn(document.children)
 
     const loader = new FontLoader();
     loader.load("assets/helvetiker_regular.typeface.json", (font) => {
@@ -96,14 +93,14 @@ export class UserInterfaceExample {
         materialCache: materials,
         pointer: app.interactive,
         uioptions: {
-          materials,
+          materials: new UIMaterials,
           fontCache: new FontCache(),
           keyboard: new KeyboardInteraction(app)
         }
 
       }
 
-      const flow = new UserInterfaceDiagram(diagramoptions)
+      const flow = new UserInterfaceDiagram(diagramoptions, app.pointer)
       scene.add(flow);
 
       const interactive = new FlowInteraction(flow, app.interactive)
@@ -259,37 +256,37 @@ export class UserInterfaceExample {
 }
 class UserInterfaceDiagram extends FlowDiagram {
 
-  constructor(public diagramoptions: UserInterfaceDiagramOptions) {
+  constructor(public diagramoptions: UserInterfaceDiagramOptions, private pointer: PointerInteraction,) {
     super(diagramoptions)
   }
 
   override createNode(parameters: MenuParameters): FlowNode {
     const uioptions = this.diagramoptions.uioptions
     if (parameters.type == 'menu')
-      return new MenuUINode(this, parameters, uioptions)
+      return new MenuUINode(this, parameters, this.pointer, uioptions)
     else if (parameters.type == 'label')
-      return new LabelUINode(this, parameters, uioptions)
+      return new LabelUINode(this, parameters, this.pointer, uioptions)
     else if (parameters.type == 'button')
-      return new ButtonUINode(this, parameters, uioptions)
+      return new ButtonUINode(this, parameters, this.pointer, uioptions)
     else if (parameters.type == 'checkbox')
-      return new CheckboxUINode(this, parameters, uioptions)
+      return new CheckboxUINode(this, parameters, this.pointer, uioptions)
     else if (parameters.type == 'expansion')
-      return new ExpansionUINode(this, parameters, uioptions)
+      return new ExpansionUINode(this, parameters, this.pointer, uioptions)
     else if (parameters.type == 'number')
-      return new NumberEntryUINode(this, parameters, uioptions)
+      return new NumberEntryUINode(this, parameters, this.pointer, uioptions)
     else if (parameters.type == 'slider')
-      return new SliderbarUINode(this, parameters, uioptions)
+      return new SliderbarUINode(this, parameters, this.pointer, uioptions)
     else if (parameters.type == 'text')
-      return new TextEntryUINode(this, parameters, uioptions)
+      return new TextEntryUINode(this, parameters, this.pointer, uioptions)
 
-    return new FlowUINode(this, parameters, uioptions)
+    return new FlowUINode(this, parameters, this.pointer, uioptions)
   }
 }
 
 
 type ArchType = 'top' | 'bottom'
 class MenuUINode extends FlowNode {
-  constructor(diagram: UserInterfaceDiagram, parameters: MenuParameters, uioptions: UIOptions) {
+  constructor(diagram: UserInterfaceDiagram, parameters: MenuParameters, pointer: PointerInteraction, uioptions: UIOptions) {
     super(diagram, parameters)
 
     const menuheight = parameters.menu.length * 0.2
@@ -309,7 +306,7 @@ class MenuUINode extends FlowNode {
         label: { text: parameters.start.buttontext, isicon: parameters.start.isicon, size: 0.05 },
         width: 0.15, height: 0.12, radius: 0.06,
       }
-      const startbutton = new MenuTextButton(startparams, diagram.diagramoptions.pointer, uioptions)
+      const startbutton = new MenuTextButton(startparams, pointer, uioptions)
       this.add(startbutton)
       startbutton.position.set(0, 0, 0.001)
 
@@ -322,7 +319,7 @@ class MenuUINode extends FlowNode {
         label: { text: item.buttontext, isicon: item.isicon, size: 0.06 },
         width: 0.12, height: 0.12, radius: 0.06,
       }
-      const button = new MenuTextButton(params, diagram.diagramoptions.pointer, uioptions)
+      const button = new MenuTextButton(params, pointer, uioptions)
       this.add(button)
       button.position.set(0, y, 0.001)
       y -= 0.18
@@ -348,7 +345,7 @@ class MenuUINode extends FlowNode {
         width: 0.12, height: 0.12, radius: 0.06,
       }
 
-      const endbutton = new MenuTextButton(endparams, diagram.diagramoptions.pointer, uioptions)
+      const endbutton = new MenuTextButton(endparams, pointer, uioptions)
       archmesh.add(endbutton)
       endbutton.position.set(0, 0, 0.001)
 
@@ -406,8 +403,8 @@ class ArchGeometry extends ShapeGeometry {
 }
 
 class MenuTextButton extends UITextButton {
-  constructor(parameters: TextButtonParameters, interactive: ThreeInteractive, options: ButtonOptions) {
-    super(parameters, interactive, options)
+  constructor(parameters: TextButtonParameters, pointer: PointerInteraction, options: ButtonOptions) {
+    super(parameters, pointer, options)
   }
 
 }
@@ -418,7 +415,7 @@ class FlowUINode extends FlowNode {
   panel: Mesh
   private properties?: UIProperties
 
-  constructor(protected uidiagram: UserInterfaceDiagram, parameters: FlowNodeParameters, protected uioptions: UIOptions) {
+  constructor(protected uidiagram: UserInterfaceDiagram, parameters: FlowNodeParameters, protected pointer: PointerInteraction, protected uioptions: UIOptions) {
     super(uidiagram, parameters)
 
     const bottomgeometry = new ArchGeometry('bottom', this.width, this.height - this.titleheight)
@@ -434,7 +431,7 @@ class FlowUINode extends FlowNode {
       width: buttonwidth, radius: buttonwidth / 2,
     }
 
-    const closebutton = new UITextButton(params, uidiagram.diagramoptions.pointer, uioptions)
+    const closebutton = new UITextButton(params, pointer, uioptions)
     this.add(closebutton)
     closebutton.position.set((this.width - buttonwidth * 1.5) / 2, 0, 0.001)
 
@@ -444,7 +441,7 @@ class FlowUINode extends FlowNode {
   }
 
   addProperties(parameters: PropertiesParameters, gui: GUI): UIProperties {
-    this.properties = new UIProperties(parameters, this.uidiagram.diagramoptions.pointer, this.uioptions, gui)
+    this.properties = new UIProperties(parameters, this.pointer, this.uioptions, gui)
     this.panel.add(this.properties)
     return this.properties
   }
@@ -461,8 +458,8 @@ class FlowUINode extends FlowNode {
 
 }
 class LabelUINode extends FlowUINode {
-  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, uioptions: UIOptions) {
-    super(diagram, parameters, uioptions)
+  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, pointer: PointerInteraction, uioptions: UIOptions) {
+    super(diagram, parameters, pointer, uioptions)
 
     const maxwidth = this.width - 0.1
     const params: LabelParameters = {
@@ -492,27 +489,27 @@ class LabelUINode extends FlowUINode {
     })
     gui.add(label, 'size', 0.03, 0.1, 0.01).name('Font Size')
     gui.addColor(label, 'color').name('Color')
-    gui.add(fake, 'fontName', ['helvetiker', 'gentilis', 'optimer']).name('Font').onChange(() => {
-      switch (fake.fontName) {
-        case 'helvetiker':
-          label.fontName = 'assets/helvetiker_regular.typeface.json'
-          break;
-        case 'gentilis':
-          label.fontName = 'assets/gentilis_regular.typeface.json'
-          break;
-        case 'optimer':
-          label.fontName = 'assets/optimer_regular.typeface.json'
-          break
-      }
-    })
+    //gui.add(fake, 'fontName', ['helvetiker', 'gentilis', 'optimer']).name('Font').onChange(() => {
+    //  switch (fake.fontName) {
+    //    case 'helvetiker':
+    //      label.fontName = 'assets/helvetiker_regular.typeface.json'
+    //      break;
+    //    case 'gentilis':
+    //      label.fontName = 'assets/gentilis_regular.typeface.json'
+    //      break;
+    //    case 'optimer':
+    //      label.fontName = 'assets/optimer_regular.typeface.json'
+    //      break
+    //  }
+    //})
     //gui.add(label, 'padding', 0, 0.1, 0.01).name('Padding')
     gui.add(label, 'maxwidth', 0.1, maxwidth, 0.1).name('Maximum Width')
     gui.add(label, 'overflow', ['slice', 'clip']).name('Overflow')
 
-    const pointer = this.uidiagram.diagramoptions.pointer
+    const colorpicker = new UIColorPicker({}, pointer, uioptions)
 
     const properties = this.addProperties({ fill: parameters.material }, gui)
-    properties.getColorPicker = () => { return new UIColorPicker({}, pointer, uioptions) }
+    properties.getColorPicker = () => { return colorpicker }
     properties.position.y = -0.1
     properties.position.z = 0.001
   }
@@ -520,10 +517,8 @@ class LabelUINode extends FlowUINode {
 }
 
 class ButtonUINode extends FlowUINode {
-  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, uioptions: UIOptions) {
-    super(diagram, parameters, uioptions)
-
-    const pointer = this.uidiagram.diagramoptions.pointer
+  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, pointer: PointerInteraction, uioptions: UIOptions) {
+    super(diagram, parameters, pointer, uioptions)
 
     const maxwidth = this.width - 0.1
     const buttonparams: TextButtonParameters = {
@@ -561,19 +556,19 @@ class ButtonUINode extends FlowUINode {
     })
     gui.add(button.label, 'size', 0.03, 0.1, 0.01).name('Font Size')
     gui.addColor(button, 'color').name('Color')
-    gui.add(fake, 'fontName', ['helvetiker', 'gentilis', 'optimer']).name('Font').onChange(() => {
-      switch (fake.fontName) {
-        case 'helvetiker':
-          button.label.fontName = 'assets/helvetiker_regular.typeface.json'
-          break;
-        case 'gentilis':
-          button.label.fontName = 'assets/gentilis_regular.typeface.json'
-          break;
-        case 'optimer':
-          button.label.fontName = 'assets/optimer_regular.typeface.json'
-          break
-      }
-    })
+    //gui.add(fake, 'fontName', ['helvetiker', 'gentilis', 'optimer']).name('Font').onChange(() => {
+    //  switch (fake.fontName) {
+    //    case 'helvetiker':
+    //      button.label.fontName = 'assets/helvetiker_regular.typeface.json'
+    //      break;
+    //    case 'gentilis':
+    //      button.label.fontName = 'assets/gentilis_regular.typeface.json'
+    //      break;
+    //    case 'optimer':
+    //      button.label.fontName = 'assets/optimer_regular.typeface.json'
+    //      break
+    //  }
+    //})
 
     const properties = this.addProperties({ fill: parameters.material }, gui)
     properties.getColorPicker = () => { return new UIColorPicker({}, pointer, uioptions) }
@@ -584,10 +579,8 @@ class ButtonUINode extends FlowUINode {
 }
 
 class CheckboxUINode extends FlowUINode {
-  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, uioptions: UIOptions) {
-    super(diagram, parameters, uioptions)
-
-    const pointer = this.uidiagram.diagramoptions.pointer
+  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, pointer: PointerInteraction, uioptions: UIOptions) {
+    super(diagram, parameters, pointer, uioptions)
 
     const maxwidth = 0.3
     const checkbox = new UICheckbox({ checked: true }, pointer, this.uioptions)
@@ -616,10 +609,8 @@ class CheckboxUINode extends FlowUINode {
 }
 
 class ExpansionUINode extends FlowUINode {
-  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, uioptions: UIOptions) {
-    super(diagram, parameters, uioptions)
-
-    const pointer = this.uidiagram.diagramoptions.pointer
+  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, pointer: PointerInteraction, uioptions: UIOptions) {
+    super(diagram, parameters, pointer, uioptions)
 
     const maxwidth = this.width - 0.1
     const params: ExpansionPanelParameters = {
@@ -651,10 +642,8 @@ class ExpansionUINode extends FlowUINode {
 class NumberEntryUINode extends FlowUINode {
   private numberEntry: UINumberEntry
 
-  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, uioptions: UIOptions) {
-    super(diagram, parameters, uioptions)
-
-    const pointer = this.uidiagram.diagramoptions.pointer
+  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, pointer: PointerInteraction, uioptions: UIOptions) {
+    super(diagram, parameters, pointer, uioptions)
 
     const maxwidth = this.width - 0.1
     const params: NumberEntryParameters = {
@@ -690,10 +679,8 @@ class NumberEntryUINode extends FlowUINode {
 class SliderbarUINode extends FlowUINode {
   private sliderbar: UISliderbar
 
-  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, uioptions: UIOptions) {
-    super(diagram, parameters, uioptions)
-
-    const pointer = this.uidiagram.diagramoptions.pointer
+  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, pointer: PointerInteraction, uioptions: UIOptions) {
+    super(diagram, parameters, pointer, uioptions)
 
     const maxwidth = this.width - 0.1
     const params: SliderbarParameters = {
@@ -739,10 +726,8 @@ class SliderbarUINode extends FlowUINode {
 class TextEntryUINode extends FlowUINode {
   private textEntry: UITextEntry
 
-  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, uioptions: UIOptions) {
-    super(diagram, parameters, uioptions)
-
-    const pointer = this.uidiagram.diagramoptions.pointer
+  constructor(diagram: UserInterfaceDiagram, parameters: FlowNodeParameters, pointer: PointerInteraction, uioptions: UIOptions) {
+    super(diagram, parameters, pointer, uioptions)
 
     const maxwidth = this.width - 0.1
     const params: TextEntryParameters = {
