@@ -110,28 +110,37 @@ export class FlowEdge extends Mesh {
     this.z = parameters.z != undefined ? parameters.z : -0.005
 
     this.from = parameters.from
+    this.to = parameters.to
 
     this.fromNode = diagram.hasNode(this.from)
+    this.toNode = diagram.hasNode(this.to)
+
     if (this.fromNode) {
       this.fromNode.addEventListener(FlowEventType.DRAGGED, () => { this.dragged() })
       this.fromNode.addEventListener(FlowEventType.SCALE_CHANGED, () => { this.dragged() })
       this.fromNode.addEventListener(FlowEventType.EDGE_DELETE, () => { console.warn('TODO: delete edge from node') })
       this.fromNode.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
-        if (this.fromNode)
-          this.visible = this.fromNode.visible
+        if (this.fromNode) {
+          if (this.toNode)
+            this.visible = this.fromNode.visible && this.toNode.visible
+          else
+            this.visible = this.fromNode.visible
+        }
       })
     }
 
-    this.to = parameters.to
 
-    this.toNode = diagram.hasNode(this.to)
     if (this.toNode) {
       this.toNode.addEventListener(FlowEventType.DRAGGED, () => { this.dragged() })
       this.toNode.addEventListener(FlowEventType.SCALE_CHANGED, () => { this.dragged() })
       this.toNode.addEventListener(FlowEventType.EDGE_DELETE, () => { console.warn('TODO: delete edge to node') })
       this.toNode.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
-        if (this.toNode)
-          this.visible = this.toNode.visible
+        if (this.toNode) {
+          if (this.fromNode)
+            this.visible = this.toNode.visible && this.fromNode.visible
+          else
+            this.visible = this.toNode.visible
+        }
       })
     }
 
