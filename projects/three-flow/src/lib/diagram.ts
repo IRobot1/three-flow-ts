@@ -1,5 +1,4 @@
 import { Box3, Material, MaterialParameters, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, Vector2, Vector3 } from "three";
-import { LineMaterial, LineMaterialParameters } from "three/examples/jsm/lines/LineMaterial";
 import { FlowEdgeParameters, FlowDiagramParameters, FlowNodeParameters, FlowRouteParameters, EdgeLineStyle, FlowEventType, FlowLayout, FlowLabelParameters } from "./model";
 import { Font } from "three/examples/jsm/loaders/FontLoader";
 import { FlowEdge } from "./edge";
@@ -94,11 +93,11 @@ export class FlowDiagram extends Object3D {
     }
   }
 
-  layout(label: any = {}, filter?: (nodeId: string) => boolean) {
+  layout(options: any = {}, filter?: (nodeId: string) => boolean) {
     const nodes = this.allNodes.map(node => node.parameters)
     const edges = this.allEdges.map(edge => edge.parameters)
 
-    const result = this.graph.layout(nodes, edges, label, filter)
+    const result = this.graph.layout(nodes, edges, options, filter)
 
     const centerx = result.width! / 2
     const centery = result.height! / 2
@@ -107,20 +106,21 @@ export class FlowDiagram extends Object3D {
       const item = this.hasNode(node.id)
       if (item) {
         item.position.set(node.x! - centerx, -node.y! + centery, 0)
+        item.dispatchEvent<any>({type: FlowEventType.DRAGGED})
       }
     })
 
-    // redraw edges using calculated points
-    result.edges.forEach(edge => {
-      const item = this.hasEdge(edge.id)
-      if (item) {
-        const center = new Vector2(centerx, centery)
-        edge.points.forEach(point => point.sub(center))
-        item.parameters.points = edge.points
+    //// redraw edges using calculated points
+    //result.edges.forEach(edge => {
+    //  const item = this.hasEdge(edge.id)
+    //  if (item) {
+    //    const center = new Vector2(centerx, centery)
+    //    edge.points.forEach(point => point.sub(center))
+    //    item.parameters.points = edge.points
 
-        item.updateVisuals()
-      }
-    })
+    //    item.updateVisuals()
+    //  }
+    //})
 
   }
 
