@@ -1,8 +1,8 @@
 import { Vector2, Raycaster, Camera, Object3D, Plane, Vector3, Matrix4, Intersection, WebGLRenderer, EventDispatcher, Scene, Layers } from 'three';
 
 export enum FlowPointerLayers {
-  SELECTABLE = 1,
-  DRAGGABLE = 2,
+  SELECTABLE = 3,
+  DRAGGABLE = 4,
 }
 
 export const FlowPointerEventType = {
