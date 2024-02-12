@@ -116,6 +116,9 @@ export class GalleryExample {
     const row3 = -0.5
     const row4 = -2
 
+    const columna = -9
+    const columnb = -7.5
+    const columnc = -6
     const column1 = -4.5
     const column2 = -3
     const column3 = -1.5
@@ -126,7 +129,6 @@ export class GalleryExample {
     const column7 = 6
     const column8 = 7.5
     const column9 = 9
-    const column10 = 10.5
 
 
     const nodes: Tile[] = [
@@ -362,7 +364,7 @@ export class GalleryExample {
       {
         id: 'userinterface',
         label: { text: "User Interface" },
-        x: column1, y: row2,
+        x: columnc, y: row2,
         assetimage: 'userinterface', route: 'userinterface',
         connectors: [
           { id: "c1userinterface", anchor: 'top' },
@@ -381,7 +383,7 @@ export class GalleryExample {
       {
         id: 'properties',
         label: { text: "UI Properties" },
-        x: column1, y: row3,
+        x: columnc, y: row3,
         assetimage: 'properties', route: 'properties',
           connectors: [
             { id: "c1properties", anchor: 'top' },
@@ -391,10 +393,19 @@ export class GalleryExample {
       {
         id: 'customproperties',
         label: { text: "Custom Properties" },
-        x: column1, y: row4,
+        x: columnc, y: row4,
         assetimage: 'customproperties', route: 'customproperties',
           connectors: [
             { id: "c1customproperties", anchor: 'top' },
+          ],
+      },
+      {
+        id: 'expandcollapse',
+        label: { text: "Expand and Collapse" },
+        x: column1, y: row2,
+        assetimage: 'expandcollapse', route: 'expandcollapse',
+          connectors: [
+            { id: "c1expandcollapse", anchor: 'top' },
           ],
       },
     ];
@@ -556,6 +567,12 @@ export class GalleryExample {
         to: "customproperties",
         fromconnector: "c2properties",
         toconnector: "c1customproperties"
+      },
+      {
+        from: "documentation",
+        to: "expandcollapse",
+        fromconnector: "c1documentation",
+        toconnector: "c1expandcollapse"
       },
     ];
 
