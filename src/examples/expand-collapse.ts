@@ -100,7 +100,7 @@ export class ExpandCollapseExample {
   }
 }
 
-type ExpandState = 'none' | 'expand' | 'collapse'
+type ExpandState = 'disabled' | 'expanded' | 'collapsed'
 
 class ExpandCollapseNode extends FlowNode {
   constructor(diagram: FlowDiagram, parameters: FlowNodeParameters, pointer: PointerInteraction, options: UIOptions) {
@@ -114,7 +114,7 @@ class ExpandCollapseNode extends FlowNode {
     const label = this.label!
     label.text = 'nothing to expand'
 
-    let state: ExpandState = 'none'
+    let state: ExpandState = 'disabled'
     const icon = new FlowLabel(diagram, { text: '', isicon: true })
     label.add(icon)
     icon.visible = false
@@ -124,10 +124,11 @@ class ExpandCollapseNode extends FlowNode {
     diagram.addEventListener(FlowEventType.EDGE_ADDED, (e: any) => {
       const edge = e.edge as FlowEdge
       if (edge.from != this.name) return
-      connectedNodes.push(diagram.hasNode(edge.to)!)
+      const node = diagram.hasNode(edge.to)!
+      connectedNodes.push(node)
 
       label.text = 'click to collapse'
-      state = 'collapse'
+      state = 'expanded'
       icon.text = 'expand_less'
       icon.visible = true
     })
@@ -141,26 +142,35 @@ class ExpandCollapseNode extends FlowNode {
       icon.position.x = label.width / 2
     })
 
+    const expand = () => {
+      label.text = 'click to collapse'
+      state = 'expanded'
+      icon.text = 'expand_less'
+      connectedNodes.forEach(node => node.hidden = false)
+    }
+
+    const collapse = () => {
+      label.text = 'click to expand'
+      state = 'collapsed'
+      icon.text = 'expand_more'
+      connectedNodes.forEach(node => node.hidden = true)
+    }
+
     this.addEventListener(FlowPointerEventType.CLICK, () => {
-      if (state == 'none') return
-      if (state == 'expand') {
-        label.text = 'click to collapse'
-        state = 'collapse'
-        icon.text = 'expand_less'
+      if (state == 'disabled') return
+      if (state == 'collapsed') {
+        expand()
       }
       else {
-        label.text = 'click to expand'
-        icon.text = 'expand_more'
-        state = 'expand'
+        collapse()
       }
 
-      connectedNodes.forEach(node => node.hidden = !node.hidden)
-      //diagram.layout({ rankdir: 'TB', ranksep: 0.7 })
+      diagram.layout({ rankdir: 'TB', nodesep: 0.1, edgesep: 1, ranksep: 0.7 })
     })
 
     // listen for changes and forward to anything connected to match this nodes hidden state
     this.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
-      if (state != 'collapse') return
+      if (state != 'expanded') return
       connectedNodes.forEach(node => node.hidden = this.hidden)
     })
 
@@ -172,6 +182,9 @@ class ExpandCollapseNode extends FlowNode {
       },
       hint: 'Add Child Node',
       selected: (parameters: MenuButtonParameters) => {
+        state = 'expanded'
+        expand()
+
         const node = diagram.addNode({ id: '' })
         diagram.addEdge({ from: this.name, to: node.name })
         diagram.layout({ rankdir: 'TB', nodesep: 0.1, edgesep: 1, ranksep: 0.7 })
