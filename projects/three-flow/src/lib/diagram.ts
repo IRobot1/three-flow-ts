@@ -106,7 +106,7 @@ export class FlowDiagram extends Object3D {
       const item = this.hasNode(node.id)
       if (item) {
         item.position.set(node.x! - centerx, -node.y! + centery, 0)
-        item.dispatchEvent<any>({type: FlowEventType.DRAGGED})
+        item.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
       }
     })
 
@@ -166,7 +166,7 @@ export class FlowDiagram extends Object3D {
   }
 
   private extractId(prefix: string, id: string): number | undefined {
-    let match = id.match(`/^${prefix}(\d+)$/`);
+    let match = id.match(`^${prefix}(\\d+)$`);
     return match ? parseInt(match[1], 10) : undefined;
   }
 

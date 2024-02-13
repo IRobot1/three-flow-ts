@@ -4,6 +4,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { ThreeJSApp } from "../app/threejs-app";
 import { FlowDiagram, FlowDiagramParameters, FlowEdge, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowNode, FlowNodeParameters, FlowPointer, FlowPointerEventType } from "three-flow";
 import { DagreLayout } from "./dagre-layout";
+import { ButtonMenuParameters, FontCache, KeyboardInteraction, LabelParameters, MenuButtonParameters, PointerInteraction, TextButtonParameters, UIButtonMenu, UIMaterials, UIOptions } from "three-fluix";
 
 export class ExpandCollapseExample {
 
@@ -77,13 +78,20 @@ export class ExpandCollapseExample {
 
     const interaction = new FlowInteraction(flow, app.interactive)
 
+    const options: UIOptions = {
+      materials: new UIMaterials(),
+      fontCache: new FontCache(),
+      keyboard: new KeyboardInteraction(app)
+    }
+
+
     flow.createNode = (parameters: FlowNodeParameters): FlowNode => {
-      return new ExpandCollapseNode(flow, parameters)
+      return new ExpandCollapseNode(flow, parameters, app.pointer, options)
     }
 
     flow.loadDiagram(diagram)
 
-    flow.layout({ rankdir: 'TB', ranksep: 0.7 })
+    flow.layout({ rankdir: 'TB', nodesep: 0.1, edgesep: 1, ranksep: 0.7 })
 
     this.dispose = () => {
       interaction.dispose()
@@ -95,7 +103,7 @@ export class ExpandCollapseExample {
 type ExpandState = 'none' | 'expand' | 'collapse'
 
 class ExpandCollapseNode extends FlowNode {
-  constructor(diagram: FlowDiagram, parameters: FlowNodeParameters) {
+  constructor(diagram: FlowDiagram, parameters: FlowNodeParameters, pointer: PointerInteraction, options: UIOptions) {
     parameters.label = { text: '', size: 0.07 }
     parameters.height = 0.2
     parameters.scalable = parameters.resizable = false
@@ -155,6 +163,42 @@ class ExpandCollapseNode extends FlowNode {
       if (state != 'collapse') return
       connectedNodes.forEach(node => node.hidden = this.hidden)
     })
+
+    const add: MenuButtonParameters = {
+      button: <TextButtonParameters>{
+        radius: 0.05,
+        label: { text: 'add', isicon: true },
+        fill: { color: 0x666666 }
+      },
+      hint: 'Add Child Node',
+      selected: (parameters: MenuButtonParameters) => {
+        const node = diagram.addNode({ id: '' })
+        diagram.addEdge({ from: this.name, to: node.name })
+        diagram.layout({ rankdir: 'TB', nodesep: 0.1, edgesep: 1, ranksep: 0.7 })
+      }
+    }
+
+    const remove: MenuButtonParameters = {
+      button: <TextButtonParameters>{
+        radius: 0.05,
+        label: { text: 'close', isicon: true },
+        fill: { color: 0x666666 }
+      },
+      hint: 'Remove Node',
+      selected: (parameters: MenuButtonParameters) => {
+      }
+    }
+
+    const hintLabel: LabelParameters = { material: { color: 'white' } }
+
+    const actions: ButtonMenuParameters = {
+      items: [add], hintLabel
+    }
+
+
+    const menu = new UIButtonMenu(actions, pointer, options)
+    this.add(menu)
+    menu.position.set(-menu.width / 2, -this.height / 2 - menu.height, 0.001)
 
   }
 
