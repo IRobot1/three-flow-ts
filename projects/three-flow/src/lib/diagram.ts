@@ -94,9 +94,9 @@ export class FlowDiagram extends Object3D {
   }
 
   layout(options: any = {}, filter?: (nodeId: string) => boolean) {
-    const nodes = this.allNodes.map(node => node.parameters)
-    const edges = this.allEdges.map(edge => edge.parameters)
-
+    const nodes = this.allNodes.filter(node => node.visible).map(node => node.parameters)
+    const edges = this.allEdges.filter(edge => edge.toNode?.visible && edge.fromNode?.visible).map(edge => edge.parameters)
+    
     const result = this.graph.layout(nodes, edges, options, filter)
 
     const centerx = result.width! / 2
