@@ -114,7 +114,7 @@ export class CivilizationExample {
 
       });
 
-      flow.layout({ rankdir: 'LR', nodesep: 0.1, edgesep: 1, ranksep: 4 });
+      flow.layout(true,{ rankdir: 'LR', nodesep: 0.1, edgesep: 1, ranksep: 4 });
 
       const center = flow.getCenter()
       app.camera.position.x = center.x

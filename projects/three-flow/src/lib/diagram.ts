@@ -20,6 +20,7 @@ export interface FlowDiagramOptions {
   linethickness?: number
   lineoffset?: number
   layout?: FlowLayout
+  layoutoptions?: any
   edgez?: number
 }
 
@@ -93,11 +94,14 @@ export class FlowDiagram extends Object3D {
     }
   }
 
-  layout(options: any = {}, filter?: (nodeId: string) => boolean) {
+  layout(useCalculatedPoints = true, options?: any) {
+    if (!options) options = this.options.layoutoptions
+    if (!options) options = {}
+
     const nodes = this.allNodes.filter(node => node.visible).map(node => node.parameters)
     const edges = this.allEdges.filter(edge => edge.toNode?.visible && edge.fromNode?.visible).map(edge => edge.parameters)
-    
-    const result = this.graph.layout(nodes, edges, options, filter)
+
+    const result = this.graph.layout(nodes, edges, options)
 
     const centerx = result.width! / 2
     const centery = result.height! / 2
@@ -110,17 +114,19 @@ export class FlowDiagram extends Object3D {
       }
     })
 
-    //// redraw edges using calculated points
-    //result.edges.forEach(edge => {
-    //  const item = this.hasEdge(edge.id)
-    //  if (item) {
-    //    const center = new Vector2(centerx, centery)
-    //    edge.points.forEach(point => point.sub(center))
-    //    item.parameters.points = edge.points
+    if (useCalculatedPoints) {
+      // redraw edges using calculated points
+      result.edges.forEach(edge => {
+        const item = this.hasEdge(edge.id)
+        if (item) {
+          const center = new Vector2(centerx, centery)
+          edge.points.forEach(point => point.sub(center))
+          item.parameters.points = edge.points
 
-    //    item.updateVisuals()
-    //  }
-    //})
+          item.updateVisuals()
+        }
+      })
+    }
 
   }
 

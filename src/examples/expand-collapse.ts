@@ -2,9 +2,10 @@ import { AmbientLight, AxesHelper, Color, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowDiagram, FlowDiagramParameters, FlowEdge, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowNode, FlowNodeParameters, FlowPointer, FlowPointerEventType } from "three-flow";
+import { FlowDiagram, FlowDiagramOptions, FlowDiagramParameters, FlowEdge, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowNode, FlowNodeParameters, FlowPointer, FlowPointerEventType } from "three-flow";
 import { DagreLayout } from "./dagre-layout";
 import { ButtonMenuParameters, FontCache, KeyboardInteraction, LabelParameters, MenuButtonParameters, PointerInteraction, TextButtonParameters, UIButtonMenu, UIMaterials, UIOptions } from "three-fluix";
+//import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
 export class ExpandCollapseExample {
 
@@ -73,7 +74,12 @@ export class ExpandCollapseExample {
       nodes, edges
     }
 
-    const flow = new FlowDiagram({ linestyle: 'bezier', layout: new DagreLayout() })
+    const diagramOptions: FlowDiagramOptions = {
+      linestyle: 'bezier', layout: new DagreLayout(),
+      layoutoptions: { rankdir: 'TB', ranker: 'network-simplex', nodesep: 0.1, edgesep: 1, ranksep: 0.5 }
+
+    }
+    const flow = new FlowDiagram(diagramOptions)
     scene.add(flow);
 
     const interaction = new FlowInteraction(flow, app.interactive)
@@ -91,9 +97,18 @@ export class ExpandCollapseExample {
 
     flow.loadDiagram(diagram)
 
-    flow.layout({ rankdir: 'TB', nodesep: 0.1, edgesep: 1, ranksep: 0.7 })
+
+    flow.layout(false)
+
+    //const gui = new GUI({ title: 'Stress Options' });
+    //gui.add(diagramOptions, 'linestyle', ['bezier', 'step', 'straight']).name('Edge Style').onChange(() => {
+    //  flow.allEdges.forEach(edge => edge.linestyle = diagramOptions.linestyle!)
+    //})
+    //gui.add(diagramOptions.layoutoptions, 'rankdir', ['TB', 'LR', 'RL', 'BT']).name('Layout Direction')
+    //gui.add(diagramOptions.layoutoptions, 'ranker', ['network-simplex', 'tight-tree','longest-path']).name('Layout Algorithm')
 
     this.dispose = () => {
+      //gui.destroy()
       interaction.dispose()
       orbit.dispose()
     }
@@ -165,7 +180,7 @@ class ExpandCollapseNode extends FlowNode {
         collapse()
       }
 
-      diagram.layout({ rankdir: 'TB', nodesep: 0.1, edgesep: 1, ranksep: 0.7 })
+      diagram.layout(false)
     })
 
     // listen for changes and forward to anything connected to match this nodes hidden state
@@ -187,7 +202,7 @@ class ExpandCollapseNode extends FlowNode {
 
         const node = diagram.addNode({ id: '' })
         diagram.addEdge({ from: this.name, to: node.name })
-        diagram.layout({ rankdir: 'TB', nodesep: 0.1, edgesep: 1, ranksep: 0.7 })
+        diagram.layout(false)
       }
     }
 

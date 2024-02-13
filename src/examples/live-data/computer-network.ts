@@ -1,8 +1,8 @@
-import { AmbientLight, BufferGeometry, CircleGeometry, Color, ColorRepresentation, CurvePath, DoubleSide, LineCurve3, MathUtils, Mesh, MeshBasicMaterialParameters, MeshStandardMaterial, PlaneGeometry, Scene, Shape, ShapeGeometry, SpotLight, TubeGeometry, Vector3 } from "three";
+import { AmbientLight, BufferGeometry, CircleGeometry, CurvePath, DoubleSide, LineCurve3, MathUtils, Mesh, MeshBasicMaterialParameters, MeshStandardMaterial, PlaneGeometry, Scene, SpotLight, TubeGeometry, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
 import {
-  FlowConnectorParameters,
   FlowDiagram,
   FlowDiagramOptions,
   FlowEdge,
@@ -10,15 +10,12 @@ import {
   FlowEventType,
   FlowInteraction,
   FlowLabel,
-  FlowLabelParameters,
   FlowNode,
   RoundedRectangleGeometry,
 } from "three-flow";
-import { ComputerNetworkEdges, ComputerNetworkNodes, ComputerParameters, ComputerStatus } from "./computer-network-data";
+import { ComputerNetworkEdges, ComputerNetworkNodes, ComputerParameters } from "./computer-network-data";
 import { ThreeJSApp } from "../../app/threejs-app";
 import { DagreLayout } from "../dagre-layout";
-import { GraphLabel } from "@dagrejs/dagre";
-import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 import { FlowProperties } from "three-flow";
 
 
@@ -75,7 +72,7 @@ export class ComputerNetworkExample {
         node.labeltransform = { translate: { y: -0.1 } }
     })
     flow.loadDiagram({ nodes: ComputerNetworkNodes, edges: ComputerNetworkEdges })
-    flow.layout(<GraphLabel>{ rankdir: 'TD', ranksep: 0.5, nodesep: 0.5 })
+    flow.layout(true, { rankdir: 'TD', ranksep: 0.5, nodesep: 0.5 })
 
     setInterval(() => {
       flow.allNodes.forEach(node => {

@@ -63,7 +63,7 @@ export class LanguagesExample {
         fonts: new Map<string, Font>([
           ['default', font],
         ]),
-        linestyle: 'step',
+        linestyle: 'bezier',
         layout: new DagreLayout()
       }
       const flow = new FlowDiagram(options)
@@ -103,7 +103,7 @@ export class LanguagesExample {
 
       });
 
-      flow.layout({ rankdir: 'TB', nodesep: 0.1, edgesep: 1, ranksep: 4 });
+      flow.layout(true,{ rankdir: 'TB', nodesep: 0.1, edgesep: 1, ranksep: 4 });
 
       flow.rotation.y = MathUtils.degToRad(-45)
 

@@ -108,7 +108,7 @@ export class BuilderExample {
       const edge6 = flow.addEdge({ from: node1.name, to: route1.name, toarrow: { scale: 1 } })
       const edge5 = flow.addEdge({ from: route1.name, to: node5.name, toarrow: { indent: 0, scale: 1, offset: 0.2, material: { color: 'gold' } } })
 
-      flow.layout({ rankdir: 'LR', ranksep: 1 })
+      flow.layout(true,{ rankdir: 'LR', ranksep: 1 })
 
       console.log(flow.saveDiagram())
       //flow.removeNode(node1)

@@ -196,6 +196,6 @@ export interface LayoutResult {
 }
 
 export interface FlowLayout {
-  layout(nodes: Array<FlowNodeParameters>, edges: Array<FlowEdgeParameters>, options: any, filter?: (nodeId: string) => boolean): LayoutResult
+  layout(nodes: Array<FlowNodeParameters>, edges: Array<FlowEdgeParameters>, options: any): LayoutResult
   dispose(): void
 }

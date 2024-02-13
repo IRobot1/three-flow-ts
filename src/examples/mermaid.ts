@@ -8,14 +8,12 @@ import {
   FlowNodeParameters,
   FlowDiagram,
   FlowDiagramOptions,
-  FlowDiagramParameters,
   FlowInteraction,
   FlowNode,
   RoundedRectangleGeometry,
 } from "three-flow"
 import { parse } from './mermaid/parser.js'
 import { DagreLayout } from "./dagre-layout"
-import { GraphLabel } from "@dagrejs/dagre"
 import { basicflowchart, complexflowchart, mediumflowchart, shapesflowchart } from "./mermaid/examples"
 
 type ShapeType = 'rectangular' | 'roundrectangle' | 'rhombus' | 'stadium' | 'subroutine' | 'database' | 'circle' | 'asymmetric' | 'hexagonal' | 'parallelogram' | 'parallelogram_alt' | 'trapezoid' | 'trapezoid_alt'
@@ -198,7 +196,7 @@ export class MermaidExample {
           }
         })
 
-        flow.layout(<GraphLabel>{ rankdir: parsedOutput.layout.direction, ranksep: 1 })
+        flow.layout(true,{ rankdir: parsedOutput.layout.direction, ranksep: 1 })
 
         console.warn(flow.saveDiagram())
       })
