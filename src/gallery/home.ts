@@ -406,6 +406,17 @@ export class GalleryExample {
         assetimage: 'expandcollapse', route: 'expandcollapse',
           connectors: [
             { id: "c1expandcollapse", anchor: 'top' },
+            { id: "c2expandcollapse", anchor: 'bottom' },
+          ],
+      },
+      {
+        id: 'scada',
+        label: { text: "SCADA" },
+        x: column1, y: row3,
+        assetimage: 'scada', route: 'scada',
+          connectors: [
+            { id: "c1scada", anchor: 'top' },
+            { id: "c2scada", anchor: 'bottom' },
           ],
       },
     ];
@@ -573,6 +584,12 @@ export class GalleryExample {
         to: "expandcollapse",
         fromconnector: "c1documentation",
         toconnector: "c1expandcollapse"
+      },
+      {
+        from: "expandcollapse",
+        to: "scada",
+        fromconnector: "c1expandcollapse",
+        toconnector: "c1scada"
       },
     ];
 
