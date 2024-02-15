@@ -76,7 +76,7 @@ export class ExpandCollapseExample {
 
     const diagramOptions: FlowDiagramOptions = {
       linestyle: 'bezier', layout: new DagreLayout(),
-      layoutoptions: { rankdir: 'TB', ranker: 'network-simplex', nodesep: 0.1, edgesep: 1, ranksep: 0.5 }
+      layoutoptions: { rankdir: 'TB', nodesep: 0.1, edgesep: 1, ranksep: 0.5 }
 
     }
     const flow = new FlowDiagram(diagramOptions)
