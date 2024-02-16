@@ -3,7 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowNode, FlowNodeParameters, FlowPointerEventType, FlowPointerLayers, NodeConnectors } from "three-flow";
-import { CommunicationDevice, CommunicationNetwork, SCADAData, SCADASystem } from "./scada-model";
+import { AnalogTelemetry, Application, CommunicationDevice, CommunicationNetwork, DigitalTelemetry, SCADAData, SCADASystem, StringTelemetry } from "./scada-model";
 import { DagreLayout } from "./dagre-layout";
 import { AcmeGas } from "./scada-gas-production";
 import { connect } from "rxjs";
@@ -51,6 +51,8 @@ export class SCADAExample {
     const options: FlowDiagramOptions = {
       layout: new DagreLayout(),
       layoutoptions: { rankdir: 'TB', nodesep: 0.1, edgesep: 1, ranksep: 0.5 },
+      linestyle: 'step',
+      gridsize: 0.1,
     }
 
     const flow = new FlowDiagram(options)
@@ -68,23 +70,23 @@ export class SCADAExample {
         case 'system':
           return new SCADASystemNode(flow, parameters)
 
-        //case 'securitygroup':
-        //  return new SCADASecurityGroupNode(flow, parameters)
-
-        //case 'operator':
-        //  return new SCADAOperatorNode(flow, parameters)
-
         case 'network':
           return new SCADANetworkNode(flow, parameters)
-
-        //case 'resource':
-        //  return new SCADAResourceNode(flow, parameters)
 
         case 'device':
           return new SCADADeviceNode(flow, parameters)
 
-        //case 'zone':
-        //  return new SCADAZoneNode(flow, parameters)
+        case 'application':
+          return new SCADAApplicationNode(flow, parameters)
+
+        case 'analog':
+          return new SCADAAnalogNode(flow, parameters)
+
+        case 'digital':
+          return new SCADADigitalNode(flow, parameters)
+
+        case 'string':
+          return new SCADAStringNode(flow, parameters)
 
         default:
           return new FlowNode(flow, parameters)
@@ -101,7 +103,7 @@ export class SCADAExample {
     })
 
     requestAnimationFrame(() => {
-      flow.layout(false)
+      flow.layout(true)
     })
 
     this.dispose = () => {
@@ -147,7 +149,8 @@ class SCADAConnectorMesh extends ConnectorMesh {
 }
 
 
-type SCADANodeType = 'system' | 'network' | 'device'
+type SCADANodeType = 'system' | 'network' | 'device' | 'application' | 'analog' | 'digital' | 'string'
+
 interface SCADANodeParameters extends FlowNodeParameters {
   scadatype: SCADANodeType
   data: SCADAData
@@ -264,13 +267,156 @@ class SCADANetworkNode extends SCADANode {
 class SCADADeviceNode extends SCADANode {
   constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
     parameters.height = 0.2
+
     const deviceconnectors: Array<FlowConnectorParameters> = [
       { id: 'network-device', anchor: 'top' },
-      { id: 'device-analogs', anchor: 'bottom' },
+      { id: 'device-application', anchor: 'bottom' },
     ]
     parameters.connectors = deviceconnectors
 
     super(diagram, parameters);
 
+    const device = parameters.data as CommunicationDevice
+
+    device.applications.forEach(item => {
+      const applicationparams: SCADANodeParameters = {
+        scadatype: 'application', data: item, icon: 'apps',
+      }
+      const application = diagram.addNode(applicationparams)
+      this.childnodes.push(application)
+
+      const appconnectors = applicationparams.connectors!
+
+      const edgeparams: FlowEdgeParameters = {
+        from: this.name, to: application.name,
+        fromconnector: deviceconnectors[1].id, toconnector: appconnectors[0].id
+      }
+
+      // allow construtor to finish before adding edge
+      requestAnimationFrame(() => {
+        diagram.addEdge(edgeparams)
+      })
+    })
+  }
+}
+
+class SCADAApplicationNode extends SCADANode {
+  constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
+    parameters.height = 0.2
+
+    const applicationconnectors: Array<FlowConnectorParameters> = [
+      { id: 'device-application', anchor: 'top' },
+      { id: 'application-analog', anchor: 'bottom', index:0 },
+      { id: 'application-digital', anchor: 'bottom', index:1 },
+      { id: 'application-string', anchor: 'bottom', index:2 },
+    ]
+    parameters.connectors = applicationconnectors
+
+    super(diagram, parameters);
+
+    const application = parameters.data as Application
+
+    application.analogs?.forEach(item => {
+      const analogparams: SCADANodeParameters = {
+        scadatype: 'analog', data: item, icon: 'swap_calls',
+      }
+      const analog = diagram.addNode(analogparams)
+      this.childnodes.push(analog)
+
+      const analogconnectors = analogparams.connectors!
+
+      const edgeparams: FlowEdgeParameters = {
+        from: this.name, to: analog.name,
+        fromconnector: applicationconnectors[1].id, toconnector: analogconnectors[0].id
+      }
+
+      // allow construtor to finish before adding edge
+      requestAnimationFrame(() => {
+        diagram.addEdge(edgeparams)
+      })
+    })
+
+    application.digitals?.forEach(item => {
+      const digitalparams: SCADANodeParameters = {
+        scadatype: 'digital', data: item, icon: 'bar_chart',
+      }
+      const digital = diagram.addNode(digitalparams)
+      this.childnodes.push(digital)
+
+      const digitalconnectors = digitalparams.connectors!
+
+      const edgeparams: FlowEdgeParameters = {
+        from: this.name, to: digital.name,
+        fromconnector: applicationconnectors[2].id, toconnector: digitalconnectors[0].id
+      }
+
+      // allow construtor to finish before adding edge
+      requestAnimationFrame(() => {
+        diagram.addEdge(edgeparams)
+      })
+    })
+
+    application.strings?.forEach(item => {
+      const stringparams: SCADANodeParameters = {
+        scadatype: 'digital', data: item, icon: 'notes',
+      }
+      const telemetry = diagram.addNode(stringparams)
+      this.childnodes.push(telemetry)
+
+      const stringconnectors = stringparams.connectors!
+
+      const edgeparams: FlowEdgeParameters = {
+        from: this.name, to: telemetry.name,
+        fromconnector: applicationconnectors[3].id, toconnector: stringconnectors[0].id
+      }
+
+      // allow construtor to finish before adding edge
+      requestAnimationFrame(() => {
+        diagram.addEdge(edgeparams)
+      })
+    })
+  }
+}
+
+class SCADAAnalogNode extends SCADANode {
+  constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
+    parameters.height = 0.2
+
+    const applicationconnectors: Array<FlowConnectorParameters> = [
+      { id: 'application-analog', anchor: 'top' },
+    ]
+    parameters.connectors = applicationconnectors
+
+    super(diagram, parameters);
+
+    const telemetry = parameters.data as AnalogTelemetry
+  }
+}
+class SCADADigitalNode extends SCADANode {
+  constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
+    parameters.height = 0.2
+
+    const applicationconnectors: Array<FlowConnectorParameters> = [
+      { id: 'application-digital', anchor: 'top' },
+    ]
+    parameters.connectors = applicationconnectors
+
+    super(diagram, parameters);
+
+    const telemetry = parameters.data as DigitalTelemetry
+  }
+}
+class SCADAStringNode extends SCADANode {
+  constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
+    parameters.height = 0.2
+
+    const applicationconnectors: Array<FlowConnectorParameters> = [
+      { id: 'application-string', anchor: 'top' },
+    ]
+    parameters.connectors = applicationconnectors
+
+    super(diagram, parameters);
+
+    const telemetry = parameters.data as StringTelemetry
   }
 }

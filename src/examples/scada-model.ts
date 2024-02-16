@@ -18,8 +18,8 @@ export interface Alarm {
 //}
 
 export interface SCADATelemtry extends SCADAData {
-  timestamp: Date
-  value: number | string
+  timestamp?: Date
+  value?: number | string
   alarm?: Alarm
 }
 export interface AnalogTelemetry extends SCADATelemtry {
@@ -39,9 +39,9 @@ export type ProtocolType = 'modbus' | 'mqtt' | 'opcua' | 'contrologix' | 'totalf
 
 export interface Application extends SCADAData {
   type: ApplicationType
-  analogs: Array<AnalogTelemetry>
-  digitals: Array<DigitalTelemetry>
-  strings: Array<StringTelemetry>
+  analogs?: Array<AnalogTelemetry>
+  digitals?: Array<DigitalTelemetry>
+  strings?: Array<StringTelemetry>
 }
 export interface CommunicationDevice extends SCADAData {
   address: string

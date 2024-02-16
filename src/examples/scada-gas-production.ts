@@ -1,22 +1,65 @@
 import { Application, CommunicationDevice, CommunicationNetwork, SCADASystem, } from "./scada-model";
 
+const gasmeterapp: Application = {
+  name: 'Gas Meter',
+  analogs: [
+    { name: 'Static Pressure', units: 'psia' },
+    { name: 'Diff Pressure', units: 'psia' },
+    { name: 'Flow Rate', units: 'MCF/D' },
+    { name: 'Temperature', units: 'degF' },
+    //{ name: 'Current Day Runtime', units: 'hr' },
+    //{ name: 'Current Day Volume', units: 'MCF' },
+    //{ name: 'Previous Day Runtime', units: 'hr' },
+    //{ name: 'Previous Day Volume', units: 'MCF' },
+    //{ name: 'Accumulated Volume', units: 'MCF' },
+  ],
+  type: 'gasmeter'
+}
 
+const gasliftapp: Application = {
+  name: 'Gas Lift',
+  analogs: [
+    { name: 'Injection Valve Position', units: '%' },
+    { name: 'Injection Flow Rate', units: 'MCF/D' },
+    { name: 'Production Flow Rate', units: 'MCF/D' },
+    { name: 'Tubing Pressure', units: 'psia' },
+    { name: 'Casing Pressure', units: 'psia' },
+  ],
+  digitals: [
+    { name: 'Gas Lift State' },
+    { name: 'Gas Lift Mode' },
+  ],
+  type: 'gaslift'
+}
 
-const roadrunnerapps: Array<Application> = []
-const waterapps: Array<Application> = []
-const foodapps: Array<Application> = []
+const esdapp: Application = {
+  name: 'Emergency Shutdown',
+  digitals: [
+    { name: 'Shutdown Command' },
+    { name: 'Reset Command' },
+  ],
+  strings: [
+    { name:'Shutdown ESD Status'},
+    { name:'Shutdown Last Event'},
+  ],
+  type: 'esd'
+}
 
-const gasmeterdevice: Array<CommunicationDevice> = [
+const site1apps: Array<Application> = [
+  gasmeterapp, gasliftapp, esdapp
+]
+
+const site1device: Array<CommunicationDevice> = [
   {
-    name: 'Gas Meter', address: '1', status: 'normal', 
-    protocol: 'modbus', applications: roadrunnerapps, 
+    name: 'Site RTU', address: '1', status: 'normal', 
+    protocol: 'modbus', applications: site1apps, 
   },
 ]
 
 const networks: Array<CommunicationNetwork> = [
   {
     name: 'Primary Network', status: 'normal', 
-    devices: gasmeterdevice, 
+    devices: site1device, 
   },
 ]
 
