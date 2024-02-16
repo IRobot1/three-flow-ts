@@ -186,9 +186,9 @@ export class FlowDiagram extends Object3D {
       }
     }
 
+    this._nextNodeId++
     const node = this.createNode(parameters)
     this.add(node)
-    this._nextNodeId++
 
     this.nodesMap.set(node.name, node)
 
@@ -197,9 +197,10 @@ export class FlowDiagram extends Object3D {
   }
 
   addRoute(parameters: FlowRouteParameters): FlowRoute {
+    this._nextNodeId++;
+
     const route = this.createRoute(parameters)
     this.add(route)
-    this._nextNodeId++;
 
     this.nodesMap.set(route.name, route)
 
@@ -272,9 +273,9 @@ export class FlowDiagram extends Object3D {
       }
     }
 
+    this._nextEdgeId++;
     const edge = this.createEdge(parameters)
     this.add(edge)
-    this._nextEdgeId++;
 
     this.edgesMap.set(edge.name, edge)
     this.connectorMap.set(`${edge.from}-${edge.to}`, edge)

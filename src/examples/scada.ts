@@ -2,10 +2,11 @@ import { AmbientLight, AxesHelper, Color, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowInteraction, FlowLabel, FlowNode, FlowNodeParameters, FlowPointerEventType, FlowPointerLayers, NodeConnectors } from "three-flow";
-import { CommunicationDevice, CommunicationNetwork, Operator, SCADASystem, SecurityGroup, SystemResource } from "./scada-model";
+import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowNode, FlowNodeParameters, FlowPointerEventType, FlowPointerLayers, NodeConnectors } from "three-flow";
+import { CommunicationDevice, CommunicationNetwork, SCADAData, SCADASystem } from "./scada-model";
 import { DagreLayout } from "./dagre-layout";
 import { AcmeGas } from "./scada-gas-production";
+import { connect } from "rxjs";
 
 export class SCADAExample {
 
@@ -67,23 +68,23 @@ export class SCADAExample {
         case 'system':
           return new SCADASystemNode(flow, parameters)
 
-        case 'securitygroup':
-          return new SCADASecurityGroupNode(flow, parameters)
+        //case 'securitygroup':
+        //  return new SCADASecurityGroupNode(flow, parameters)
 
-        case 'operator':
-          return new SCADAOperatorNode(flow, parameters)
+        //case 'operator':
+        //  return new SCADAOperatorNode(flow, parameters)
 
         case 'network':
           return new SCADANetworkNode(flow, parameters)
 
-        case 'resource':
-          return new SCADAResourceNode(flow, parameters)
+        //case 'resource':
+        //  return new SCADAResourceNode(flow, parameters)
 
         case 'device':
           return new SCADADeviceNode(flow, parameters)
 
-        case 'zone':
-          return new SCADAZoneNode(flow, parameters)
+        //case 'zone':
+        //  return new SCADAZoneNode(flow, parameters)
 
         default:
           return new FlowNode(flow, parameters)
@@ -92,76 +93,16 @@ export class SCADAExample {
 
     const scada = AcmeGas
 
-    const systemconnectors: Array<FlowConnectorParameters> = [
-      { id: 'system-security', anchor: 'bottom', index: 0 },
-      { id: 'system-network', anchor: 'bottom', index: 1, },
-      { id: 'system-operator', anchor: 'bottom', index: 2, },
-      { id: 'system-resource', anchor: 'bottom', index: 3, },
-    ]
-    const system = flow.addNode(<SCADANodeParameters>{
-      scadatype: 'system', data: scada, connectors: systemconnectors
+    //const systemconnectors: Array<FlowConnectorParameters> = [
+    //  { id: 'system-network', anchor: 'bottom', index: 1, },
+    //]
+    flow.addNode(<SCADANodeParameters>{
+      scadatype: 'system', data: scada, icon: 'dns'
     })
 
-    const groupconnectors: Array<FlowConnectorParameters> = [
-      { id: 'system-group', anchor: 'top' },
-      { id: 'group-zone', anchor: 'bottom' },
-    ]
-    scada.securitygroups.forEach(item => {
-      const group = flow.addNode(<SCADANodeParameters>{
-        scadatype: 'securitygroup', data: item, connectors: groupconnectors
-      })
-      flow.addEdge({ from: system.name, to: group.name, fromconnector: systemconnectors[0].id, toconnector: groupconnectors[0].id })
-
-      item.zones.forEach(item => {
-        const connectors: Array<FlowConnectorParameters> = [
-          { id: 'group-zone', anchor: 'top' },
-        ]
-        const zone = flow.addNode(<SCADANodeParameters>{
-          scadatype: 'zone', data: item, connectors: connectors
-        })
-        flow.addEdge({ from: group.name, to: zone.name, fromconnector: groupconnectors[1].id, toconnector: connectors[0].id })
-      })
+    requestAnimationFrame(() => {
+      flow.layout(false)
     })
-
-    const networkconnectors: Array<FlowConnectorParameters> = [
-      { id: 'system-network', anchor: 'top' },
-      { id: 'network-device', anchor: 'bottom' },
-      { id: 'network-zone', anchor: 'top', index: 1 },
-    ]
-    scada.networks.forEach(item => {
-      const network = flow.addNode(<SCADANodeParameters>{ scadatype: 'network', data: item, connectors: networkconnectors })
-      flow.addEdge({ from: system.name, to: network.name, fromconnector: systemconnectors[1].id, toconnector: networkconnectors[0].id })
-
-      const group = flow.hasNode(item.zone.name)
-      if (group)
-        flow.addEdge({ from: network.name, to: group.name, fromconnector: networkconnectors[2].id, toconnector: groupconnectors[1].id })
-
-      item.devices.forEach(item => {
-        const connectors: Array<FlowConnectorParameters> = [
-          { id: 'device-network', anchor: 'top' },
-        ]
-        const device = flow.addNode(<SCADANodeParameters>{ scadatype: 'device', data: item, connectors })
-        flow.addEdge({ from: network.name, to: device.name, fromconnector: networkconnectors[1].id, toconnector: connectors[0].id })
-      })
-    })
-
-    scada.operators.forEach(item => {
-      const connectors: Array<FlowConnectorParameters> = [
-        { id: 'operator-zone', anchor: 'top' },
-      ]
-      const operator = flow.addNode(<SCADANodeParameters>{ scadatype: 'operator', data: item, connectors })
-      flow.addEdge({ from: system.name, to: operator.name, fromconnector: systemconnectors[2].id, toconnector: connectors[0].id })
-    })
-
-    scada.resources.forEach(item => {
-      const connectors: Array<FlowConnectorParameters> = [
-        { id: 'resource-zone', anchor: 'top' },
-      ]
-      const resource = flow.addNode(<SCADANodeParameters>{ scadatype: 'resource', data: item, connectors })
-      flow.addEdge({ from: system.name, to: resource.name, fromconnector: systemconnectors[3].id, toconnector: connectors[0].id })
-    })
-
-    flow.layout(false)
 
     this.dispose = () => {
       interaction.dispose()
@@ -189,11 +130,16 @@ class SCADAConnectorMesh extends ConnectorMesh {
       icon.position.z = 0.001
 
 
+      const node = nodeconnectors.node
       this.addEventListener(FlowPointerEventType.CLICK, () => {
-        if (icon.text == 'add')
+        if (icon.text == 'add') {
+          node.dispatchEvent<any>({ type: NodeEventType.COLLAPSE })
           icon.text = 'remove'
-        else
+        }
+        else {
+          node.dispatchEvent<any>({ type: NodeEventType.EXPAND })
           icon.text = 'add'
+        }
       })
     }
   }
@@ -201,125 +147,130 @@ class SCADAConnectorMesh extends ConnectorMesh {
 }
 
 
-type SCADANodeType = 'system' | 'securitygroup' | 'network' | 'operator' | 'resource' | 'device' | 'zone'
+type SCADANodeType = 'system' | 'network' | 'device'
 interface SCADANodeParameters extends FlowNodeParameters {
   scadatype: SCADANodeType
-  data: any
+  data: SCADAData
+  icon: string
+  iconcolor?: string
 }
 
-class SCADASystemNode extends FlowNode {
+enum NodeEventType {
+  EXPAND = 'expand',
+  COLLAPSE = 'collapse'
+}
+
+class SCADANode extends FlowNode {
+  childnodes: Array<FlowNode> = []
   constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
+    parameters.label = { text: parameters.data.name }
+    if (!parameters.iconcolor) parameters.iconcolor = 'black'
+    parameters.resizable = parameters.scalable = false
+
+    super(diagram, parameters)
+
+    const icon = new FlowLabel(diagram, { isicon: true, material: { color: parameters.iconcolor } })
+    icon.text = parameters.icon
+    this.add(icon)
+    icon.position.set(-this.width / 2 + 0.1, this.height / 2, 0.001)
+
+    let hidden = false
+    this.addEventListener(NodeEventType.EXPAND, () => {
+      this.childnodes.forEach(node => node.hidden = false)
+      hidden = false
+    })
+
+    this.addEventListener(NodeEventType.COLLAPSE, () => {
+      this.childnodes.forEach(node => node.hidden = true)
+      hidden = true
+    })
+
+    this.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
+      if (hidden) return
+      this.childnodes.forEach(node => node.hidden = this.hidden)
+    })
+  }
+}
+
+class SCADASystemNode extends SCADANode {
+  constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
+    parameters.height = 0.2
+
+    const systemconnectors: Array<FlowConnectorParameters> = [
+      { id: 'system-network', anchor: 'bottom' }
+    ]
+    parameters.connectors = systemconnectors
+
+    super(diagram, parameters);
+
     const system = parameters.data as SCADASystem
 
-    parameters.label = { text: system.name }
+    system.networks.forEach(item => {
+      const networkparams: SCADANodeParameters = {
+        scadatype: 'network', data: item, icon: 'lan', 
+      }
+      const network = diagram.addNode(networkparams)
+      this.childnodes.push(network)
+
+      const connectors = networkparams.connectors!
+
+      const edgeparams: FlowEdgeParameters = {
+        from: this.name, to: network.name,
+        fromconnector: systemconnectors[0].id, toconnector: connectors[0].id
+      }
+
+      // allow construtor to finish before adding edge
+      requestAnimationFrame(() => {
+        diagram.addEdge(edgeparams)
+      })
+    })
+  }
+}
+class SCADANetworkNode extends SCADANode {
+  constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
     parameters.height = 0.2
+    const networkconnectors: Array<FlowConnectorParameters> = [
+      { id: 'system-network', anchor: 'top' },
+      { id: 'network-device', anchor: 'bottom' },
+    ]
+    parameters.connectors = networkconnectors
 
     super(diagram, parameters);
 
-    const icon = new FlowLabel(diagram, { text: 'dns', isicon: true, material: { color: 'black' } })
-    this.add(icon)
-    icon.position.set(-this.width / 2 + 0.1, this.height / 2, 0.01)
-    icon.updateLabel()
-  }
-}
-class SCADASecurityGroupNode extends FlowNode {
-  constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
-    const group = parameters.data as SecurityGroup
-
-    parameters.label = { text: group.name }
-    parameters.height = 0.2
-
-    super(diagram, parameters);
-
-    const icon = new FlowLabel(diagram, { text: 'vpn_lock', isicon: true, material: { color: 'green' } })
-    this.add(icon)
-    icon.position.set(-this.width / 2 + 0.1, this.height / 2, 0.01)
-    icon.updateLabel()
-
-  }
-}
-class SCADANetworkNode extends FlowNode {
-  constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
     const network = parameters.data as CommunicationNetwork
 
-    parameters.label = { text: network.name }
-    parameters.height = 0.2
+    network.devices.forEach(item => {
+      const deviceparams: SCADANodeParameters = {
+        scadatype: 'device', data: item, icon: 'sim_card', 
+      }
+      const device = diagram.addNode(deviceparams)
+      this.childnodes.push(device)
 
-    super(diagram, parameters);
+      const deviceconnectors = deviceparams.connectors!
 
-    const icon = new FlowLabel(diagram, { text: 'lan', isicon: true, material: { color: 'gray' } })
-    this.add(icon)
-    icon.position.set(-this.width / 2 + 0.1, this.height / 2, 0.01)
-    icon.updateLabel()
+      const edgeparams: FlowEdgeParameters = {
+        from: this.name, to: device.name,
+        fromconnector: networkconnectors[1].id, toconnector: deviceconnectors[0].id
+      }
 
-  }
-}
-class SCADAOperatorNode extends FlowNode {
-  constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
-    const operator = parameters.data as Operator
-
-    parameters.label = { text: operator.name }
-    parameters.height = 0.2
-
-
-    super(diagram, parameters);
-
-    const icon = new FlowLabel(diagram, { text: 'person', isicon: true, material: { color: 'blue' } })
-    this.add(icon)
-    icon.position.set(-this.width / 2 + 0.1, this.height / 2, 0.01)
-    icon.updateLabel()
-
-  }
-}
-class SCADAResourceNode extends FlowNode {
-  constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
-    const resource = parameters.data as SystemResource
-
-    parameters.label = { text: resource.name }
-    parameters.height = 0.2
-
-
-    super(diagram, parameters);
-
-    const icon = new FlowLabel(diagram, { text: 'computer', isicon: true, material: { color: 'black' } })
-    this.add(icon)
-    icon.position.set(-this.width / 2 + 0.1, this.height / 2, 0.01)
-    icon.updateLabel()
-
+      // allow construtor to finish before adding edge
+      requestAnimationFrame(() => {
+        diagram.addEdge(edgeparams)
+      })
+    })
   }
 }
 
-class SCADADeviceNode extends FlowNode {
+class SCADADeviceNode extends SCADANode {
   constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
-    const device = parameters.data as CommunicationDevice
-
-    parameters.label = { text: device.name }
     parameters.height = 0.2
-
+    const deviceconnectors: Array<FlowConnectorParameters> = [
+      { id: 'network-device', anchor: 'top' },
+      { id: 'device-analogs', anchor: 'bottom' },
+    ]
+    parameters.connectors = deviceconnectors
 
     super(diagram, parameters);
-
-    const icon = new FlowLabel(diagram, { text: 'gas_meter', isicon: true, material: { color: 'black' } })
-    this.add(icon)
-    icon.position.set(-this.width / 2 + 0.1, this.height / 2, 0.01)
-    icon.updateLabel()
-
-  }
-}
-class SCADAZoneNode extends FlowNode {
-  constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
-    const device = parameters.data as CommunicationDevice
-
-    parameters.label = { text: device.name }
-    parameters.height = 0.2
-
-
-    super(diagram, parameters);
-
-    const icon = new FlowLabel(diagram, { text: 'security', isicon: true, material: { color: 'black' } })
-    this.add(icon)
-    icon.position.set(-this.width / 2 + 0.1, this.height / 2, 0.01)
-    icon.updateLabel()
 
   }
 }
