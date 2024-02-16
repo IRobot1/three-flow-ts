@@ -6,7 +6,6 @@ import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, Fl
 import { AnalogTelemetry, Application, CommunicationDevice, CommunicationNetwork, DigitalTelemetry, SCADAData, SCADASystem, StringTelemetry } from "./scada-model";
 import { DagreLayout } from "./dagre-layout";
 import { AcmeGas } from "./scada-gas-production";
-import { connect } from "rxjs";
 
 export class SCADAExample {
 
@@ -61,7 +60,7 @@ export class SCADAExample {
     const interaction = new FlowInteraction(flow, app.pointer)
 
     const connectors = new FlowConnectors(flow)
-    connectors.createConnector = (nodeconnectors: NodeConnectors, parameters: FlowConnectorParameters): ConnectorMesh => {
+    connectors.createConnector = (nodeconnectors: NodeConnectors, parameters: SCADAConnectorParameters): ConnectorMesh => {
       return new SCADAConnectorMesh(nodeconnectors, parameters)
     }
 
@@ -95,9 +94,6 @@ export class SCADAExample {
 
     const scada = AcmeGas
 
-    //const systemconnectors: Array<FlowConnectorParameters> = [
-    //  { id: 'system-network', anchor: 'bottom', index: 1, },
-    //]
     flow.addNode(<SCADANodeParameters>{
       scadatype: 'system', data: scada, icon: 'dns'
     })
@@ -114,7 +110,7 @@ export class SCADAExample {
 }
 
 class SCADAConnectorMesh extends ConnectorMesh {
-  constructor(nodeconnectors: NodeConnectors, parameters: FlowConnectorParameters) {
+  constructor(nodeconnectors: NodeConnectors, parameters: SCADAConnectorParameters) {
     parameters.radius = 0.04
     if (parameters.anchor == 'bottom') parameters.material = { color: 'gray' }
     parameters.draggable = false
@@ -135,11 +131,11 @@ class SCADAConnectorMesh extends ConnectorMesh {
       const node = nodeconnectors.node
       this.addEventListener(FlowPointerEventType.CLICK, () => {
         if (icon.text == 'add') {
-          node.dispatchEvent<any>({ type: NodeEventType.COLLAPSE })
+          node.dispatchEvent<any>({ type: NodeEventType.COLLAPSE, scadatype: parameters.scadatype })
           icon.text = 'remove'
         }
         else {
-          node.dispatchEvent<any>({ type: NodeEventType.EXPAND })
+          node.dispatchEvent<any>({ type: NodeEventType.EXPAND, scadatype: parameters.scadatype })
           icon.text = 'add'
         }
       })
@@ -156,6 +152,10 @@ interface SCADANodeParameters extends FlowNodeParameters {
   data: SCADAData
   icon: string
   iconcolor?: string
+}
+
+interface SCADAConnectorParameters extends FlowConnectorParameters {
+  scadatype: SCADANodeType
 }
 
 enum NodeEventType {
@@ -178,17 +178,25 @@ class SCADANode extends FlowNode {
     icon.position.set(-this.width / 2 + 0.1, this.height / 2, 0.001)
 
     let hidden = false
-    this.addEventListener(NodeEventType.EXPAND, () => {
-      this.childnodes.forEach(node => node.hidden = false)
+    this.addEventListener(NodeEventType.EXPAND, (e:any) => {
+      this.childnodes.forEach(node => {
+        const params = node.parameters as SCADANodeParameters
+        if (params.scadatype == e.scadatype)
+        node.hidden = false
+      })
       hidden = false
     })
 
-    this.addEventListener(NodeEventType.COLLAPSE, () => {
-      this.childnodes.forEach(node => node.hidden = true)
+    this.addEventListener(NodeEventType.COLLAPSE, (e: any) => {
+      this.childnodes.forEach(node => {
+        const params = node.parameters as SCADANodeParameters
+        if (params.scadatype == e.scadatype)
+          node.hidden = true
+      })
       hidden = true
     })
 
-    this.addEventListener(FlowEventType.HIDDEN_CHANGED, () => {
+    this.addEventListener(FlowEventType.HIDDEN_CHANGED, (e: any) => {
       if (hidden) return
       this.childnodes.forEach(node => node.hidden = this.hidden)
     })
@@ -199,8 +207,8 @@ class SCADASystemNode extends SCADANode {
   constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
     parameters.height = 0.2
 
-    const systemconnectors: Array<FlowConnectorParameters> = [
-      { id: 'system-network', anchor: 'bottom' }
+    const systemconnectors: Array<SCADAConnectorParameters> = [
+      { id: 'system-network', anchor: 'bottom', scadatype: 'network' }
     ]
     parameters.connectors = systemconnectors
 
@@ -210,7 +218,7 @@ class SCADASystemNode extends SCADANode {
 
     system.networks.forEach(item => {
       const networkparams: SCADANodeParameters = {
-        scadatype: 'network', data: item, icon: 'lan', 
+        scadatype: 'network', data: item, icon: 'lan',
       }
       const network = diagram.addNode(networkparams)
       this.childnodes.push(network)
@@ -232,9 +240,9 @@ class SCADASystemNode extends SCADANode {
 class SCADANetworkNode extends SCADANode {
   constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
     parameters.height = 0.2
-    const networkconnectors: Array<FlowConnectorParameters> = [
-      { id: 'system-network', anchor: 'top' },
-      { id: 'network-device', anchor: 'bottom' },
+    const networkconnectors: Array<SCADAConnectorParameters> = [
+      { id: 'system-network', anchor: 'top', scadatype: 'network' },
+      { id: 'network-device', anchor: 'bottom', scadatype: 'device' },
     ]
     parameters.connectors = networkconnectors
 
@@ -244,7 +252,7 @@ class SCADANetworkNode extends SCADANode {
 
     network.devices.forEach(item => {
       const deviceparams: SCADANodeParameters = {
-        scadatype: 'device', data: item, icon: 'sim_card', 
+        scadatype: 'device', data: item, icon: 'sim_card',
       }
       const device = diagram.addNode(deviceparams)
       this.childnodes.push(device)
@@ -268,9 +276,9 @@ class SCADADeviceNode extends SCADANode {
   constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
     parameters.height = 0.2
 
-    const deviceconnectors: Array<FlowConnectorParameters> = [
-      { id: 'network-device', anchor: 'top' },
-      { id: 'device-application', anchor: 'bottom' },
+    const deviceconnectors: Array<SCADAConnectorParameters> = [
+      { id: 'network-device', anchor: 'top', scadatype: 'device' },
+      { id: 'device-application', anchor: 'bottom', scadatype: 'application' },
     ]
     parameters.connectors = deviceconnectors
 
@@ -304,11 +312,11 @@ class SCADAApplicationNode extends SCADANode {
   constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
     parameters.height = 0.2
 
-    const applicationconnectors: Array<FlowConnectorParameters> = [
-      { id: 'device-application', anchor: 'top' },
-      { id: 'application-analog', anchor: 'bottom', index:0 },
-      { id: 'application-digital', anchor: 'bottom', index:1 },
-      { id: 'application-string', anchor: 'bottom', index:2 },
+    const applicationconnectors: Array<SCADAConnectorParameters> = [
+      { id: 'device-application', anchor: 'top', scadatype: 'application' },
+      { id: 'application-analog', anchor: 'bottom', index: 0, scadatype: 'analog' },
+      { id: 'application-digital', anchor: 'bottom', index: 1, scadatype: 'digital' },
+      { id: 'application-string', anchor: 'bottom', index: 2, scadatype: 'string' },
     ]
     parameters.connectors = applicationconnectors
 
@@ -321,6 +329,7 @@ class SCADAApplicationNode extends SCADANode {
         scadatype: 'analog', data: item, icon: 'swap_calls',
       }
       const analog = diagram.addNode(analogparams)
+      this.add(analog)
       this.childnodes.push(analog)
 
       const analogconnectors = analogparams.connectors!
@@ -341,6 +350,7 @@ class SCADAApplicationNode extends SCADANode {
         scadatype: 'digital', data: item, icon: 'bar_chart',
       }
       const digital = diagram.addNode(digitalparams)
+      this.add(digital)
       this.childnodes.push(digital)
 
       const digitalconnectors = digitalparams.connectors!
@@ -358,9 +368,10 @@ class SCADAApplicationNode extends SCADANode {
 
     application.strings?.forEach(item => {
       const stringparams: SCADANodeParameters = {
-        scadatype: 'digital', data: item, icon: 'notes',
+        scadatype: 'string', data: item, icon: 'notes',
       }
       const telemetry = diagram.addNode(stringparams)
+      this.add(telemetry)
       this.childnodes.push(telemetry)
 
       const stringconnectors = stringparams.connectors!
@@ -382,8 +393,8 @@ class SCADAAnalogNode extends SCADANode {
   constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
     parameters.height = 0.2
 
-    const applicationconnectors: Array<FlowConnectorParameters> = [
-      { id: 'application-analog', anchor: 'top' },
+    const applicationconnectors: Array<SCADAConnectorParameters> = [
+      { id: 'application-analog', anchor: 'top', scadatype: 'analog' },
     ]
     parameters.connectors = applicationconnectors
 
@@ -396,8 +407,8 @@ class SCADADigitalNode extends SCADANode {
   constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
     parameters.height = 0.2
 
-    const applicationconnectors: Array<FlowConnectorParameters> = [
-      { id: 'application-digital', anchor: 'top' },
+    const applicationconnectors: Array<SCADAConnectorParameters> = [
+      { id: 'application-digital', anchor: 'top', scadatype: 'digital' },
     ]
     parameters.connectors = applicationconnectors
 
@@ -410,8 +421,8 @@ class SCADAStringNode extends SCADANode {
   constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
     parameters.height = 0.2
 
-    const applicationconnectors: Array<FlowConnectorParameters> = [
-      { id: 'application-string', anchor: 'top' },
+    const applicationconnectors: Array<SCADAConnectorParameters> = [
+      { id: 'application-string', anchor: 'top', scadatype: 'string' },
     ]
     parameters.connectors = applicationconnectors
 
