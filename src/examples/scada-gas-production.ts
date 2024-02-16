@@ -23,7 +23,11 @@ const gasliftapp: Application = {
     { name: 'Injection Flow Rate', units: 'MCF/D' },
     { name: 'Production Flow Rate', units: 'MCF/D' },
     { name: 'Tubing Pressure', units: 'psia' },
-    { name: 'Casing Pressure', units: 'psia' },
+    {
+      name: 'Casing Pressure', units: 'psia',
+      alarm: { alarm: true, color: 'orange', priority: 2 },
+      failure: 'Invalid address'
+ },
   ],
   digitals: [
     { name: 'Gas Lift State' },
@@ -59,7 +63,9 @@ const site1device: Array<CommunicationDevice> = [
 const networks: Array<CommunicationNetwork> = [
   {
     name: 'Primary Network', status: 'normal', 
-    devices: site1device, 
+    devices: site1device,
+    alarm: { alarm: true, color: 'gold', priority: 3 },
+    failure: 'Communication error'
   },
 ]
 

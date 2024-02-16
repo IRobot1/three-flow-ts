@@ -1,9 +1,9 @@
-import { AmbientLight, AxesHelper, BufferGeometry, Color, PointLight, Scene } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, Color, Mesh, MeshBasicMaterial, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
 import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowNode, FlowNodeParameters, FlowPointerEventType, FlowPointerLayers, NodeConnectors, RoundedRectangleGeometry } from "three-flow";
-import { AnalogTelemetry, Application, CommunicationDevice, CommunicationNetwork, DigitalTelemetry, SCADAData, SCADASystem, StringTelemetry } from "./scada-model";
+import { Alarm, AnalogTelemetry, Application, CommunicationDevice, CommunicationNetwork, DigitalTelemetry, SCADAData, SCADASystem, StringTelemetry } from "./scada-model";
 import { DagreLayout } from "./dagre-layout";
 import { AcmeGas } from "./scada-gas-production";
 
@@ -41,10 +41,10 @@ export class SCADAExample {
         orbit.enableRotate = !orbit.enableRotate
     })
 
-    const disableRotate = () => { orbit.enableRotate = false }
-    const enableRotate = () => { orbit.enableRotate = true }
-    app.interactive.addEventListener(FlowPointerEventType.DRAGSTART, disableRotate)
-    app.interactive.addEventListener(FlowPointerEventType.DRAGEND, enableRotate)
+    //const disableRotate = () => { orbit.enableRotate = false }
+    //const enableRotate = () => { orbit.enableRotate = true }
+    //app.interactive.addEventListener(FlowPointerEventType.DRAGSTART, disableRotate)
+    //app.interactive.addEventListener(FlowPointerEventType.DRAGEND, enableRotate)
 
     //scene.add(new AxesHelper(3))
     const options: FlowDiagramOptions = {
@@ -95,7 +95,7 @@ export class SCADAExample {
     const scada = AcmeGas
 
     flow.addNode(<SCADANodeParameters>{
-      scadatype: 'system', data: scada, icon: 'dns'
+      scadatype: 'system', data: scada, icon: 'lan'
     })
 
     requestAnimationFrame(() => {
@@ -123,20 +123,20 @@ class SCADAConnectorMesh extends ConnectorMesh {
       const diagram = nodeconnectors.flowconnectors.diagram
 
       const icon = new FlowLabel(diagram, { isicon: true, material: { color: 'white' } })
-      icon.text = 'add'
+      icon.text = 'remove'
       this.add(icon)
       icon.position.z = 0.001
 
 
       const node = nodeconnectors.node
       this.addEventListener(FlowPointerEventType.CLICK, () => {
-        if (icon.text == 'add') {
+        if (icon.text == 'remove') {
           node.dispatchEvent<any>({ type: NodeEventType.COLLAPSE, scadatype: parameters.scadatype })
-          icon.text = 'remove'
+          icon.text = 'add'
         }
         else {
           node.dispatchEvent<any>({ type: NodeEventType.EXPAND, scadatype: parameters.scadatype })
-          icon.text = 'add'
+          icon.text = 'remove'
         }
       })
     }
@@ -165,6 +165,9 @@ enum NodeEventType {
 
 class SCADANode extends FlowNode {
   childnodes: Array<FlowNode> = []
+  alarm: FlowLabel
+  failure: FlowLabel
+
   constructor(diagram: FlowDiagram, parameters: SCADANodeParameters) {
     parameters.label = { text: parameters.data.name }
     if (!parameters.iconcolor) parameters.iconcolor = 'black'
@@ -178,8 +181,32 @@ class SCADANode extends FlowNode {
     this.add(icon)
     icon.position.set(-this.width / 2 + 0.1, this.height / 2, 0.001)
 
+
+    const alarm = new FlowLabel(diagram, { isicon: true, material: { color: 'gold' } })
+    alarm.text = 'warning'
+    this.add(alarm)
+    alarm.position.set(this.width / 2 - 0.1, this.height / 2, 0.001)
+    alarm.visible = false
+    this.alarm = alarm
+
+    const failure = new FlowLabel(diagram, { alignX: 'left', material: { color: 'black' } })
+    alarm.add(failure)
+    failure.position.x = alarm.size*1.5
+    failure.visible = false
+    this.failure = failure
+
+    const mesh = alarm.labelMesh!
+    mesh.layers.enable(FlowPointerLayers.SELECTABLE)
+    mesh.addEventListener(FlowPointerEventType.POINTERENTER, () => {
+      this.failure.visible = true
+    })
+    mesh.addEventListener(FlowPointerEventType.POINTERLEAVE, () => {
+      this.failure.visible = false
+    })
+
     this.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
       icon.position.set(-this.width / 2 + 0.1, this.height / 2, 0.001)
+      alarm.position.set(this.width / 2 - 0.1, this.height / 2, 0.001)
     })
 
     let hidden = false
@@ -211,6 +238,16 @@ class SCADANode extends FlowNode {
     return new RoundedRectangleGeometry(this.width, this.height)
   }
 
+  showAlarm(alarm?: Alarm, failure?: string) {
+    if (!alarm) return
+
+    this.alarm.visible = alarm.alarm
+    const material = this.alarm.material as MeshBasicMaterial
+    material.color.set(alarm.color)
+
+    if (failure == undefined) return
+    this.failure.text = `[${alarm.priority}] ${failure}`
+  }
 }
 
 class SCADASystemNode extends SCADANode {
@@ -228,7 +265,7 @@ class SCADASystemNode extends SCADANode {
 
     system.networks.forEach(item => {
       const networkparams: SCADANodeParameters = {
-        scadatype: 'network', data: item, icon: 'lan',
+        scadatype: 'network', data: item, icon: 'router',
       }
       const network = diagram.addNode(networkparams)
       this.childnodes.push(network)
@@ -259,6 +296,7 @@ class SCADANetworkNode extends SCADANode {
     super(diagram, parameters);
 
     const network = parameters.data as CommunicationNetwork
+    this.showAlarm(network.alarm, network.failure)
 
     network.devices.forEach(item => {
       const deviceparams: SCADANodeParameters = {
@@ -295,6 +333,7 @@ class SCADADeviceNode extends SCADANode {
     super(diagram, parameters);
 
     const device = parameters.data as CommunicationDevice
+    this.showAlarm(device.alarm, device.failure)
 
     device.applications.forEach(item => {
       const applicationparams: SCADANodeParameters = {
@@ -324,7 +363,7 @@ class SCADAApplicationNode extends SCADANode {
 
     const applicationconnectors: Array<SCADAConnectorParameters> = [
       { id: 'device-application', anchor: 'top', scadatype: 'application' },
-      { id: 'application-analog', anchor: 'bottom', index: 0, scadatype: 'analog', material: { color: 'blue' } },
+      { id: 'application-analog', anchor: 'bottom', index: 0, scadatype: 'analog', material: { color: 'blue', } },
       { id: 'application-digital', anchor: 'bottom', index: 1, scadatype: 'digital', material: { color: 'green' } },
       { id: 'application-string', anchor: 'bottom', index: 2, scadatype: 'string', material: { color: 'purple' } },
     ]
@@ -347,7 +386,7 @@ class SCADAApplicationNode extends SCADANode {
       const edgeparams: FlowEdgeParameters = {
         from: this.name, to: analog.name,
         fromconnector: applicationconnectors[1].id, toconnector: analogconnectors[0].id,
-        material: { color: 'blue' },
+        material: { color: 'blue', linewidth: 6 },
       }
 
       // allow construtor to finish before adding edge
@@ -369,7 +408,7 @@ class SCADAApplicationNode extends SCADANode {
       const edgeparams: FlowEdgeParameters = {
         from: this.name, to: digital.name,
         fromconnector: applicationconnectors[2].id, toconnector: digitalconnectors[0].id,
-        material: { color: 'green' }
+        material: { color: 'green', linewidth: 6 }
       }
 
       // allow construtor to finish before adding edge
@@ -391,7 +430,7 @@ class SCADAApplicationNode extends SCADANode {
       const edgeparams: FlowEdgeParameters = {
         from: this.name, to: telemetry.name,
         fromconnector: applicationconnectors[3].id, toconnector: stringconnectors[0].id,
-        material: { color: 'purple' }
+        material: { color: 'purple', linewidth: 6 }
       }
 
       // allow construtor to finish before adding edge
@@ -414,6 +453,7 @@ class SCADAAnalogNode extends SCADANode {
     super(diagram, parameters);
 
     const telemetry = parameters.data as AnalogTelemetry
+    this.showAlarm(telemetry.alarm, telemetry.failure)
   }
 }
 class SCADADigitalNode extends SCADANode {
@@ -428,6 +468,7 @@ class SCADADigitalNode extends SCADANode {
     super(diagram, parameters);
 
     const telemetry = parameters.data as DigitalTelemetry
+    this.showAlarm(telemetry.alarm, telemetry.failure)
   }
 }
 class SCADAStringNode extends SCADANode {
@@ -442,5 +483,6 @@ class SCADAStringNode extends SCADANode {
     super(diagram, parameters);
 
     const telemetry = parameters.data as StringTelemetry
+    this.showAlarm(telemetry.alarm, telemetry.failure)
   }
 }

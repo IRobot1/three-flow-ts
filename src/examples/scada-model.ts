@@ -21,6 +21,7 @@ export interface SCADATelemtry extends SCADAData {
   timestamp?: Date
   value?: number | string
   alarm?: Alarm
+  failure?: string
 }
 export interface AnalogTelemetry extends SCADATelemtry {
   units: string
@@ -46,8 +47,8 @@ export interface Application extends SCADAData {
 export interface CommunicationDevice extends SCADAData {
   address: string
   status: CommunicationStatus
-  //failure?: string
-  //alarm: Alarm
+  failure?: string
+  alarm?: Alarm
   protocol: ProtocolType
   applications: Array<Application>
 }
@@ -56,14 +57,11 @@ export type CommunicationStatus = 'normal' | 'failed'
 
 export interface CommunicationNetwork extends SCADAData {
   status: CommunicationStatus
-  //failure?: string
-  //alarm?: Alarm
+  failure?: string
+  alarm?: Alarm
   devices: Array<CommunicationDevice>
 }
 
-export type HostType = 'onpremise' | 'azure' | 'google' | 'aws'
-
 export interface SCADASystem extends SCADAData {
-  //host: HostType
   networks: Array<CommunicationNetwork>
 }
