@@ -1,8 +1,8 @@
-import { AmbientLight, AxesHelper, Color, PointLight, Scene } from "three";
+import { AmbientLight, AxesHelper, BufferGeometry, Color, PointLight, Scene } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { ThreeJSApp } from "../app/threejs-app";
-import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowNode, FlowNodeParameters, FlowPointerEventType, FlowPointerLayers, NodeConnectors } from "three-flow";
+import { ConnectorMesh, FlowConnectorParameters, FlowConnectors, FlowDiagram, FlowDiagramOptions, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowNode, FlowNodeParameters, FlowPointerEventType, FlowPointerLayers, NodeConnectors, RoundedRectangleGeometry } from "three-flow";
 import { AnalogTelemetry, Application, CommunicationDevice, CommunicationNetwork, DigitalTelemetry, SCADAData, SCADASystem, StringTelemetry } from "./scada-model";
 import { DagreLayout } from "./dagre-layout";
 import { AcmeGas } from "./scada-gas-production";
@@ -112,7 +112,7 @@ export class SCADAExample {
 class SCADAConnectorMesh extends ConnectorMesh {
   constructor(nodeconnectors: NodeConnectors, parameters: SCADAConnectorParameters) {
     parameters.radius = 0.04
-    if (parameters.anchor == 'bottom') parameters.material = { color: 'gray' }
+    if (parameters.anchor == 'bottom' && !parameters.material) parameters.material = { color: 'gray' }
     parameters.draggable = false
     parameters.selectable = true
 
@@ -170,6 +170,7 @@ class SCADANode extends FlowNode {
     if (!parameters.iconcolor) parameters.iconcolor = 'black'
     parameters.resizable = parameters.scalable = false
 
+
     super(diagram, parameters)
 
     const icon = new FlowLabel(diagram, { isicon: true, material: { color: parameters.iconcolor } })
@@ -177,12 +178,16 @@ class SCADANode extends FlowNode {
     this.add(icon)
     icon.position.set(-this.width / 2 + 0.1, this.height / 2, 0.001)
 
+    this.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
+      icon.position.set(-this.width / 2 + 0.1, this.height / 2, 0.001)
+    })
+
     let hidden = false
-    this.addEventListener(NodeEventType.EXPAND, (e:any) => {
+    this.addEventListener(NodeEventType.EXPAND, (e: any) => {
       this.childnodes.forEach(node => {
         const params = node.parameters as SCADANodeParameters
         if (params.scadatype == e.scadatype)
-        node.hidden = false
+          node.hidden = false
       })
       hidden = false
     })
@@ -201,6 +206,11 @@ class SCADANode extends FlowNode {
       this.childnodes.forEach(node => node.hidden = this.hidden)
     })
   }
+
+  override createGeometry(parameters: FlowNodeParameters): BufferGeometry {
+    return new RoundedRectangleGeometry(this.width, this.height)
+  }
+
 }
 
 class SCADASystemNode extends SCADANode {
@@ -314,9 +324,9 @@ class SCADAApplicationNode extends SCADANode {
 
     const applicationconnectors: Array<SCADAConnectorParameters> = [
       { id: 'device-application', anchor: 'top', scadatype: 'application' },
-      { id: 'application-analog', anchor: 'bottom', index: 0, scadatype: 'analog' },
-      { id: 'application-digital', anchor: 'bottom', index: 1, scadatype: 'digital' },
-      { id: 'application-string', anchor: 'bottom', index: 2, scadatype: 'string' },
+      { id: 'application-analog', anchor: 'bottom', index: 0, scadatype: 'analog', material: { color: 'blue' } },
+      { id: 'application-digital', anchor: 'bottom', index: 1, scadatype: 'digital', material: { color: 'green' } },
+      { id: 'application-string', anchor: 'bottom', index: 2, scadatype: 'string', material: { color: 'purple' } },
     ]
     parameters.connectors = applicationconnectors
 
@@ -336,7 +346,8 @@ class SCADAApplicationNode extends SCADANode {
 
       const edgeparams: FlowEdgeParameters = {
         from: this.name, to: analog.name,
-        fromconnector: applicationconnectors[1].id, toconnector: analogconnectors[0].id
+        fromconnector: applicationconnectors[1].id, toconnector: analogconnectors[0].id,
+        material: { color: 'blue' },
       }
 
       // allow construtor to finish before adding edge
@@ -357,7 +368,8 @@ class SCADAApplicationNode extends SCADANode {
 
       const edgeparams: FlowEdgeParameters = {
         from: this.name, to: digital.name,
-        fromconnector: applicationconnectors[2].id, toconnector: digitalconnectors[0].id
+        fromconnector: applicationconnectors[2].id, toconnector: digitalconnectors[0].id,
+        material: { color: 'green' }
       }
 
       // allow construtor to finish before adding edge
@@ -378,7 +390,8 @@ class SCADAApplicationNode extends SCADANode {
 
       const edgeparams: FlowEdgeParameters = {
         from: this.name, to: telemetry.name,
-        fromconnector: applicationconnectors[3].id, toconnector: stringconnectors[0].id
+        fromconnector: applicationconnectors[3].id, toconnector: stringconnectors[0].id,
+        material: { color: 'purple' }
       }
 
       // allow construtor to finish before adding edge
