@@ -49,7 +49,7 @@ export class SCADAExample {
     //scene.add(new AxesHelper(3))
     const options: FlowDiagramOptions = {
       layout: new DagreLayout(),
-      layoutoptions: { rankdir: 'TB', nodesep: 0.1, edgesep: 1, ranksep: 0.5 },
+      layoutoptions: { rankdir: 'TB', nodesep: 0.3, edgesep: 1, ranksep: 0.5 },
       linestyle: 'step',
       gridsize: 0.1,
     }

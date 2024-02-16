@@ -106,12 +106,29 @@ export class FlowDiagram extends Object3D {
     const centerx = result.width! / 2
     const centery = result.height! / 2
 
+    const childnodes: Array<{ node: { id: string, x: number, y: number }, item: FlowNode }> = []
+    // position nodes that are child of diagram
     result.nodes.forEach(node => {
       const item = this.hasNode(node.id)
       if (item) {
-        item.position.set(node.x! - centerx, -node.y! + centery, 0)
+        if (item.parent == this)
+          item.position.set(node.x! - centerx, -node.y! + centery, 0)
+        else
+          childnodes.push({ node, item })
+
         item.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
       }
+    })
+
+    // position nodes that are children of other nodes
+    childnodes.forEach(child => {
+      const item = child.item
+      const parent = result.nodes.find(x => x.id == item.parent!.name)
+      if (parent)
+        item.position.set(child.node.x! - parent.x!, -child.node.y! + parent.y!, 0)
+
+      item.dispatchEvent<any>({ type: FlowEventType.DRAGGED })
+
     })
 
     if (useCalculatedPoints) {
