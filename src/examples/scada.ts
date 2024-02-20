@@ -99,7 +99,7 @@ export class SCADAExample {
     })
 
     requestAnimationFrame(() => {
-      flow.layout(true)
+      flow.layout(false)
     })
 
     this.dispose = () => {
@@ -123,7 +123,7 @@ class SCADAConnectorMesh extends ConnectorMesh {
       const diagram = nodeconnectors.flowconnectors.diagram
 
       const icon = new FlowLabel(diagram, { isicon: true, material: { color: 'white' } })
-      icon.text = 'remove'
+      icon.text = 'add'
       this.add(icon)
       icon.position.z = 0.001
 
@@ -191,7 +191,7 @@ class SCADANode extends FlowNode {
 
     const failure = new FlowLabel(diagram, { alignX: 'left', material: { color: 'black' } })
     alarm.add(failure)
-    failure.position.x = alarm.size*1.5
+    failure.position.x = alarm.size * 1.5
     failure.visible = false
     this.failure = failure
 
@@ -213,8 +213,10 @@ class SCADANode extends FlowNode {
     this.addEventListener(NodeEventType.EXPAND, (e: any) => {
       this.childnodes.forEach(node => {
         const params = node.parameters as SCADANodeParameters
-        if (params.scadatype == e.scadatype)
+        if (params.scadatype == e.scadatype) {
           node.hidden = false
+          node.layers.enable(FlowPointerLayers.DRAGGABLE)
+        }
       })
       hidden = false
     })
@@ -222,8 +224,10 @@ class SCADANode extends FlowNode {
     this.addEventListener(NodeEventType.COLLAPSE, (e: any) => {
       this.childnodes.forEach(node => {
         const params = node.parameters as SCADANodeParameters
-        if (params.scadatype == e.scadatype)
+        if (params.scadatype == e.scadatype) {
           node.hidden = true
+          node.layers.disable(FlowPointerLayers.DRAGGABLE)
+        }
       })
       hidden = true
     })
@@ -263,24 +267,30 @@ class SCADASystemNode extends SCADANode {
 
     const system = parameters.data as SCADASystem
 
-    system.networks.forEach(item => {
-      const networkparams: SCADANodeParameters = {
-        scadatype: 'network', data: item, icon: 'router',
-      }
-      const network = diagram.addNode(networkparams)
-      this.childnodes.push(network)
+    this.addEventListener(NodeEventType.EXPAND, (e: any) => {
+      if (this.childnodes.length > 0) return
 
-      const connectors = networkparams.connectors!
+      system.networks.forEach(item => {
+        const networkparams: SCADANodeParameters = {
+          scadatype: 'network', data: item, icon: 'router',
+        }
+        const network = diagram.addNode(networkparams)
+        this.childnodes.push(network)
 
-      const edgeparams: FlowEdgeParameters = {
-        from: this.name, to: network.name,
-        fromconnector: systemconnectors[0].id, toconnector: connectors[0].id
-      }
+        const connectors = networkparams.connectors!
 
-      // allow construtor to finish before adding edge
-      requestAnimationFrame(() => {
+        const edgeparams: FlowEdgeParameters = {
+          from: this.name, to: network.name,
+          fromconnector: systemconnectors[0].id, toconnector: connectors[0].id
+        }
+
         diagram.addEdge(edgeparams)
       })
+
+      requestAnimationFrame(() => {
+        diagram.layout(false)
+      })
+
     })
   }
 }
@@ -298,23 +308,28 @@ class SCADANetworkNode extends SCADANode {
     const network = parameters.data as CommunicationNetwork
     this.showAlarm(network.alarm, network.failure)
 
-    network.devices.forEach(item => {
-      const deviceparams: SCADANodeParameters = {
-        scadatype: 'device', data: item, icon: 'sim_card',
-      }
-      const device = diagram.addNode(deviceparams)
-      this.childnodes.push(device)
+    this.addEventListener(NodeEventType.EXPAND, (e: any) => {
+      if (this.childnodes.length > 0) return
 
-      const deviceconnectors = deviceparams.connectors!
+      network.devices.forEach(item => {
+        const deviceparams: SCADANodeParameters = {
+          scadatype: 'device', data: item, icon: 'sim_card',
+        }
+        const device = diagram.addNode(deviceparams)
+        this.childnodes.push(device)
 
-      const edgeparams: FlowEdgeParameters = {
-        from: this.name, to: device.name,
-        fromconnector: networkconnectors[1].id, toconnector: deviceconnectors[0].id
-      }
+        const deviceconnectors = deviceparams.connectors!
 
-      // allow construtor to finish before adding edge
-      requestAnimationFrame(() => {
+        const edgeparams: FlowEdgeParameters = {
+          from: this.name, to: device.name,
+          fromconnector: networkconnectors[1].id, toconnector: deviceconnectors[0].id
+        }
+
         diagram.addEdge(edgeparams)
+      })
+
+      requestAnimationFrame(() => {
+        diagram.layout(false)
       })
     })
   }
@@ -334,24 +349,28 @@ class SCADADeviceNode extends SCADANode {
 
     const device = parameters.data as CommunicationDevice
     this.showAlarm(device.alarm, device.failure)
+    this.addEventListener(NodeEventType.EXPAND, (e: any) => {
+      if (this.childnodes.length > 0) return
 
-    device.applications.forEach(item => {
-      const applicationparams: SCADANodeParameters = {
-        scadatype: 'application', data: item, icon: 'apps',
-      }
-      const application = diagram.addNode(applicationparams)
-      this.childnodes.push(application)
+      device.applications.forEach(item => {
+        const applicationparams: SCADANodeParameters = {
+          scadatype: 'application', data: item, icon: 'apps',
+        }
+        const application = diagram.addNode(applicationparams)
+        this.childnodes.push(application)
 
-      const appconnectors = applicationparams.connectors!
+        const appconnectors = applicationparams.connectors!
 
-      const edgeparams: FlowEdgeParameters = {
-        from: this.name, to: application.name,
-        fromconnector: deviceconnectors[1].id, toconnector: appconnectors[0].id
-      }
+        const edgeparams: FlowEdgeParameters = {
+          from: this.name, to: application.name,
+          fromconnector: deviceconnectors[1].id, toconnector: appconnectors[0].id
+        }
 
-      // allow construtor to finish before adding edge
-      requestAnimationFrame(() => {
         diagram.addEdge(edgeparams)
+      })
+
+      requestAnimationFrame(() => {
+        diagram.layout(false)
       })
     })
   }
@@ -373,70 +392,94 @@ class SCADAApplicationNode extends SCADANode {
 
     const application = parameters.data as Application
 
-    application.analogs?.forEach(item => {
-      const analogparams: SCADANodeParameters = {
-        scadatype: 'analog', data: item, icon: 'swap_calls',
+    this.addEventListener(NodeEventType.EXPAND, (e: any) => {
+      const scadatype = e.scadatype as SCADANodeType
+
+      let layout = false
+      if (scadatype == 'analog') {
+
+        application.analogs?.forEach(item => {
+          const analogparams: SCADANodeParameters = {
+            id: item.id, scadatype: 'analog', data: item, icon: 'swap_calls',
+          }
+
+          if (item.id && diagram.hasNode(item.id)) return
+
+          const analog = diagram.addNode(analogparams)
+          this.add(analog)
+          this.childnodes.push(analog)
+          item.id = analog.name
+
+          const analogconnectors = analogparams.connectors!
+
+          const edgeparams: FlowEdgeParameters = {
+            from: this.name, to: analog.name,
+            fromconnector: applicationconnectors[1].id, toconnector: analogconnectors[0].id,
+            material: { color: 'blue', linewidth: 6 },
+          }
+
+          diagram.addEdge(edgeparams)
+          layout = true
+        })
       }
-      const analog = diagram.addNode(analogparams)
-      this.add(analog)
-      this.childnodes.push(analog)
+      else if (scadatype == 'digital') {
 
-      const analogconnectors = analogparams.connectors!
+        application.digitals?.forEach(item => {
+          const digitalparams: SCADANodeParameters = {
+            scadatype: 'digital', data: item, icon: 'bar_chart',
+          }
 
-      const edgeparams: FlowEdgeParameters = {
-        from: this.name, to: analog.name,
-        fromconnector: applicationconnectors[1].id, toconnector: analogconnectors[0].id,
-        material: { color: 'blue', linewidth: 6 },
+          if (item.id && diagram.hasNode(item.id)) return
+
+          const digital = diagram.addNode(digitalparams)
+          this.add(digital)
+          this.childnodes.push(digital)
+          item.id = digital.name
+
+          const digitalconnectors = digitalparams.connectors!
+
+          const edgeparams: FlowEdgeParameters = {
+            from: this.name, to: digital.name,
+            fromconnector: applicationconnectors[2].id, toconnector: digitalconnectors[0].id,
+            material: { color: 'green', linewidth: 6 }
+          }
+
+          diagram.addEdge(edgeparams)
+          layout = true
+        })
+      }
+      else if (scadatype == 'string') {
+
+        application.strings?.forEach(item => {
+          const stringparams: SCADANodeParameters = {
+            scadatype: 'string', data: item, icon: 'notes',
+          }
+
+          if (item.id && diagram.hasNode(item.id)) return
+
+          const telemetry = diagram.addNode(stringparams)
+          this.add(telemetry)
+          this.childnodes.push(telemetry)
+          item.id = telemetry.name
+
+          const stringconnectors = stringparams.connectors!
+
+          const edgeparams: FlowEdgeParameters = {
+            from: this.name, to: telemetry.name,
+            fromconnector: applicationconnectors[3].id, toconnector: stringconnectors[0].id,
+            material: { color: 'purple', linewidth: 6 }
+          }
+
+          diagram.addEdge(edgeparams)
+          layout = true
+        })
       }
 
-      // allow construtor to finish before adding edge
-      requestAnimationFrame(() => {
-        diagram.addEdge(edgeparams)
-      })
-    })
-
-    application.digitals?.forEach(item => {
-      const digitalparams: SCADANodeParameters = {
-        scadatype: 'digital', data: item, icon: 'bar_chart',
+      if (layout) {
+        requestAnimationFrame(() => {
+          diagram.layout(false)
+        })
       }
-      const digital = diagram.addNode(digitalparams)
-      this.add(digital)
-      this.childnodes.push(digital)
-
-      const digitalconnectors = digitalparams.connectors!
-
-      const edgeparams: FlowEdgeParameters = {
-        from: this.name, to: digital.name,
-        fromconnector: applicationconnectors[2].id, toconnector: digitalconnectors[0].id,
-        material: { color: 'green', linewidth: 6 }
-      }
-
-      // allow construtor to finish before adding edge
-      requestAnimationFrame(() => {
-        diagram.addEdge(edgeparams)
-      })
-    })
-
-    application.strings?.forEach(item => {
-      const stringparams: SCADANodeParameters = {
-        scadatype: 'string', data: item, icon: 'notes',
-      }
-      const telemetry = diagram.addNode(stringparams)
-      this.add(telemetry)
-      this.childnodes.push(telemetry)
-
-      const stringconnectors = stringparams.connectors!
-
-      const edgeparams: FlowEdgeParameters = {
-        from: this.name, to: telemetry.name,
-        fromconnector: applicationconnectors[3].id, toconnector: stringconnectors[0].id,
-        material: { color: 'purple', linewidth: 6 }
-      }
-
-      // allow construtor to finish before adding edge
-      requestAnimationFrame(() => {
-        diagram.addEdge(edgeparams)
-      })
     })
   }
 }

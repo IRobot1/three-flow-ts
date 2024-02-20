@@ -1,6 +1,7 @@
 
 export interface SCADAData {
   name: string
+  id?: string
 }
 
 export interface Alarm {
