@@ -359,6 +359,7 @@ export class GalleryExample {
         assetimage: 'alchemist', route: 'alchemist',
         connectors: [
           { id: "c1alchemist", anchor: 'top' },
+          { id: "c2alchemist", anchor: 'bottom' },
         ],
       },
       {
@@ -406,6 +407,15 @@ export class GalleryExample {
         assetimage: 'expandcollapse', route: 'expandcollapse',
           connectors: [
             { id: "c1expandcollapse", anchor: 'top' },
+          ],
+      },
+      {
+        id: 'roadmap',
+        label: { text: "Roadmap" },
+        x: column9, y: row3,
+        assetimage: 'roadmap', route: 'roadmap',
+          connectors: [
+            { id: "c1roadmap", anchor: 'top' },
           ],
       },
     ];
@@ -531,6 +541,12 @@ export class GalleryExample {
         to: "alchemist",
         fromconnector: "c2designer",
         toconnector: "c1alchemist"
+      },
+      {
+        from: "alchemist",
+        to: "roadmap",
+        fromconnector: "c2alchemist",
+        toconnector: "c1roadmap"
       },
       {
         from: "connectors",

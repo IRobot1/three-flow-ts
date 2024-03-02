@@ -28,6 +28,7 @@ import { PropertiesExample } from '../examples/properties';
 import { UserInterfaceExample } from '../examples/user-interface';
 import { CustomPropertiesExample } from '../examples/custom-properties';
 import { ExpandCollapseExample } from '../examples/expand-collapse';
+import { RoadmapExample } from '../examples/roadmap';
 
 
 @Component({
@@ -70,6 +71,7 @@ export class AppComponent {
       app.router.add('properties', () => { return new PropertiesExample(app) })
       app.router.add('customproperties', () => { return new CustomPropertiesExample(app) })
       app.router.add('expandcollapse', () => { return new ExpandCollapseExample(app) })
+      app.router.add('roadmap', () => { return new RoadmapExample(app) })
     })
   }
 }
