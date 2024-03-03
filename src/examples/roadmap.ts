@@ -1,8 +1,12 @@
-import { AmbientLight, AxesHelper, Color, PointLight, Scene } from "three";
+import { AmbientLight, Color, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, PlaneGeometry, PointLight, Scene, Texture, TextureLoader, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+// @ts-ignore
+import { Text } from "troika-three-text";
 
+import { FlowDiagram, FlowDiagramOptions, FlowEventType, FlowInteraction, FlowLabel, FlowNode, FlowNodeParameters, FlowPointerEventType } from "three-flow";
+import { ButtonMenuParameters } from "three-fluix";
 import { ThreeJSApp } from "../app/threejs-app";
-import { FlowDiagram, FlowPointerEventType } from "three-flow";
+import { StackLayout } from "./stack-layout";
 
 export class RoadmapExample {
 
@@ -45,11 +49,167 @@ export class RoadmapExample {
 
     //scene.add(new AxesHelper(3))
 
-    const flow = new FlowDiagram()
+    const flow = new RoadmapDiagram({})
     scene.add(flow);
 
+    const interaction = new FlowInteraction(flow, app.interactive)
+
+    const lorumipsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. A scelerisque purus semper eget duis at tellus at urna. Lectus magna fringilla urna porttitor rhoncus. Amet facilisis magna etiam tempor orci eu lobortis elementum. Turpis cursus in hac habitasse platea dictumst quisque sagittis. Consectetur adipiscing elit pellentesque habitant morbi tristique. Auctor elit sed vulputate mi. Ipsum consequat nisl vel pretium lectus quam id leo in. Quam adipiscing vitae proin sagittis nisl rhoncus mattis. In ornare quam viverra orci sagittis eu. At in tellus integer feugiat. Accumsan sit amet nulla facilisi morbi tempus iaculis urna id.`
+
+    const eventparams: RoadmapParameters = {
+      title: 'Mars Colony',
+      subtitle: '2100',
+      details: lorumipsum,
+      images: ['assets/examples/alchemist.png'],
+
+    }
+    flow.addNode(eventparams)
+
     this.dispose = () => {
+      interaction.dispose()
       orbit.dispose()
     }
+  }
+}
+
+
+class TextArea extends Object3D {
+  private label: Text
+  textHeight = 0
+  lineheight: number
+  constructor(text: string, private maxWidth: number, private maxHeight = 0.27, fontSize = 0.07) {
+    super()
+    const label = new Text();
+    this.label = label
+    this.lineheight = fontSize + 0.0
+
+    label.text = text;
+    label.anchorX = 'left'
+    label.anchorY = 'top'
+    label.maxWidth = maxWidth
+    label.fontSize = fontSize
+    label.color = 'black'
+    label.sync();
+    label.addEventListener(FlowEventType.LABEL_READY, () => {
+      const bounds = label.textRenderInfo.blockBounds;
+      this.textHeight = bounds[3] - bounds[1]
+
+      this.scroll(0)
+      //this.scroll(1)
+      //this.scroll(1)
+      //this.scroll(1)
+    })
+
+    this.add(label)
+  }
+
+  topY = 0
+
+  scroll(change: number) {
+    let deltaY = this.lineheight * 1.5;
+    if (change < 0)
+      deltaY = -deltaY;
+    else if (change == 0)
+      deltaY = 0
+
+    if (this.topY + deltaY >= 0 && this.topY + this.maxHeight + deltaY < this.textHeight) {
+      this.label.position.y += deltaY;
+      this.topY += deltaY;
+
+      this.label.clipRect = [
+        0,
+        -this.topY - this.maxHeight,
+        this.maxWidth,
+        -this.topY,
+      ];
+    }
+  }
+
+}
+interface RoadmapParameters extends FlowNodeParameters {
+  title: string
+  subtitle?: string
+  images: Array<string>
+  details: string
+  actions?: ButtonMenuParameters
+}
+
+class RoadmapDiagram extends FlowDiagram {
+  textureLoader = new TextureLoader()
+  constructor(options: FlowDiagramOptions) {
+    super(options)
+  }
+
+  override createNode(parameters: RoadmapParameters): FlowNode {
+    return new RoadmapNode(this, parameters)
+  }
+
+}
+
+class RoadmapNode extends FlowNode {
+  constructor(diagram: RoadmapDiagram, parameters: RoadmapParameters) {
+    const padding = 0.02
+    //parameters.height = 2
+    super(diagram, parameters);
+
+    const maxWidth = this.width - padding * 2
+
+    const title = new FlowLabel(diagram, { padding, size: 0.07 })
+    title.wrapwidth = maxWidth
+    title.text = parameters.title
+    this.add(title)
+
+    title.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
+      const x = -(this.width - title.width) / 2
+      //const y = (this.height - title.height) / 2
+      title.position.set(x, 0, 0.001)
+
+      if (parameters.subtitle) {
+        const subtitle = new FlowLabel(diagram, { padding, size: 0.05 })
+        subtitle.name = 'subtitle'
+        this.add(subtitle)
+
+        subtitle.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
+          const x = -(this.width - subtitle.width) / 2
+          //const y = (this.height) / 2 - title.height - subtitle.height / 2 + padding * 2
+          subtitle.position.set(x, 0, 0.001)
+        })
+        subtitle.text = parameters.subtitle
+      }
+    })
+
+    const plane = new PlaneGeometry(this.width - padding, this.width - padding)
+    const material = diagram.getMaterial('geometry', 'image', <MeshBasicMaterialParameters>{}) as MeshBasicMaterial
+    const planeMesh = new Mesh(plane, material)
+    planeMesh.name = 'image'
+    this.add(planeMesh)
+
+    const textures: Array<Texture> = []
+    parameters.images.forEach((url, index) => {
+      textures.push(diagram.textureLoader.load(url))
+      if (index == 0)
+        material.map = textures[0]
+    })
+
+    const buttonheight = 0.12 + padding * 2
+    const fontSize = 0.07
+    const detailsheight = (fontSize + 0.02) * 3
+
+    const details = new TextArea(parameters.details, maxWidth)//, detailsheight, fontSize)
+    //this.add(details)
+
+    const x = -this.width / 2 + padding
+    //const y = (-this.height) / 2 + buttonheight + detailsheight  //+ padding * 2
+    details.position.set(x, 0, 0.001)
+
+    const layout = new StackLayout(this, 0.02, true, (object: Object3D) => {
+      return object.visible && (object.type == 'Mesh')
+    })
+
+    this.addEventListener('layout_changed', (e: any) => {
+      console.warn('layout', e.size)
+      this.height = e.size
+    })
+
   }
 }
