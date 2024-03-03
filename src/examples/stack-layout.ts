@@ -3,7 +3,6 @@ import { Mesh, Object3D, Vector3 } from "three"
 export interface StackData {
   object: Object3D     // the object
   size: number         // object's calculated width or height
-  extrasize: number    // useful for expander when extra height is needed
   index: number        // useful for sorting to change order
 }
 
@@ -54,9 +53,8 @@ export class StackLayout {
   private _addObject(object: Object3D, initialSize: number): StackData {
     let size = initialSize
     if (!size) size = this.getSize(object)
-    const extrasize = this.getExtraSize(object)
 
-    const data: StackData = { object, index: this.data.length, size, extrasize }
+    const data: StackData = { object, index: this.data.length, size }
     this.data.push(data)
 
     return data
@@ -75,7 +73,6 @@ export class StackLayout {
       if (this.orientation != 'vertical') return
       console.warn('height changed')
       data.size = e.height
-      data.extrasize = this.getExtraSize(object)
       if (this.autoLayout) this.updatePositions()
     })
 
@@ -83,14 +80,12 @@ export class StackLayout {
       if (this.orientation == 'vertical') return
       console.warn('width changed')
       data.size = e.width
-      data.extrasize = this.getExtraSize(object)
       if (this.autoLayout) this.updatePositions()
     })
 
     // listen for Troika text size changes
     object.addEventListener('synccomplete', (e: any) => {
       data.size = this.getSize(object)
-      data.extrasize = this.getExtraSize(object)
       if (this.autoLayout) this.updatePositions()
     })
     return true
@@ -120,10 +115,6 @@ export class StackLayout {
     return size.x
   }
 
-  getExtraSize(object: Object3D): number {
-    return 0 //object.userData['extraheight']
-  }
-
   get totalSize() { return this._totalSize }
   set totalSize(newvalue: number) {
     if (this._totalSize != newvalue) {
@@ -133,20 +124,19 @@ export class StackLayout {
   }
 
   updatePositions(): number {
-    const total = this.data.reduce((total, next) => total + next.size + next.extrasize + this.spacing, this.spacing)
+    const total = this.data.reduce((total, next) => total + next.size + this.spacing, this.spacing)
 
-    let position = 0
-    this.data.forEach((item, index) => {
-      if (index == 0)
-        position = total / 2 - this.spacing - item.size / 2
-      else {
-        if (this.orientation == 'vertical') {
-          position -= this.spacing + (item.size + item.extrasize) / 2
-        }
-        else {
-          position += this.spacing + (item.size + item.extrasize) / 2
-        }
+    let position = total / 2 // start at top
+    this.data.forEach(item => {
+      // move half of the item size
+      if (this.orientation == 'vertical') {
+        position -= this.spacing + item.size / 2
       }
+      else {
+        position += this.spacing + item.size / 2
+      }
+
+      // set position and move remainder of item size
       if (this.orientation == 'vertical') {
         item.object.position.y = position
         position -= item.size / 2
@@ -155,9 +145,7 @@ export class StackLayout {
         item.object.position.x = position
         position += item.size / 2
       }
-
     })
-
     this.totalSize = total
     return total
   }

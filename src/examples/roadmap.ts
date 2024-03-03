@@ -72,19 +72,32 @@ export class RoadmapExample {
   }
 }
 
+// https://protectwise.github.io/troika/troika-three-text/
 
 class TextArea extends Object3D {
-  label: Text
+  labelMesh: Text
   textHeight = 0
   lineheight: number
+
+  private _width = 0
+  get width() { return this._width }
+  set width(newvalue: number) {
+    if (this._width != newvalue) {
+      this._width = newvalue
+      this.labelMesh.dispatchEvent<any>({type: 'width_changed', width:newvalue})
+      this.dispatchEvent<any>({type: 'width_changed', width:newvalue})
+    }
+  }
+
   constructor(private maxWidth: number, private maxHeight = 0.27, fontSize = 0.07) {
     super()
     const label = new Text();
-    this.label = label
-    this.lineheight = fontSize + 0.0
+    this.labelMesh = label
+    this.lineheight = fontSize
 
     label.anchorX = 'left'
     label.anchorY = 'top'
+    
     label.maxWidth = maxWidth
     label.fontSize = fontSize
     label.color = 'black'
@@ -93,8 +106,12 @@ class TextArea extends Object3D {
     label.addEventListener(FlowEventType.LABEL_READY, () => {
       const bounds = label.textRenderInfo.blockBounds;
       this.textHeight = bounds[3] - bounds[1]
+      this.width = bounds[2] - bounds[0]
 
+      this.labelMesh.position.y += this.maxHeight/2
       this.scroll(0)
+      //this.scroll(1)
+      //this.scroll(1)
       //this.scroll(1)
       //this.scroll(1)
       //this.scroll(1)
@@ -103,27 +120,27 @@ class TextArea extends Object3D {
     this.add(label)
   }
 
-  get text() { return this.label.text }
-  set text(newvalue: string) { this.label.text = newvalue }
+  get text() { return this.labelMesh.text }
+  set text(newvalue: string) { this.labelMesh.text = newvalue }
 
   topY = 0
 
   scroll(change: number) {
-    let deltaY = this.lineheight * 1.5;
+    let deltaY = this.lineheight * 1.4;
     if (change < 0)
       deltaY = -deltaY;
     else if (change == 0)
       deltaY = 0
 
     if (this.topY + deltaY >= 0 && this.topY + this.maxHeight + deltaY < this.textHeight) {
-      this.label.position.y += deltaY;
       this.topY += deltaY;
-
-      this.label.clipRect = [
+      this.labelMesh.position.y += deltaY
+      const offset = this.topY
+      this.labelMesh.clipRect = [
         0,
-        -this.topY - this.maxHeight,
+        -this.maxHeight-offset,
         this.maxWidth,
-        -this.topY,
+        -offset,
       ];
     }
   }
@@ -151,6 +168,8 @@ class RoadmapDiagram extends FlowDiagram {
 
 class RoadmapNode extends FlowNode {
   constructor(diagram: RoadmapDiagram, parameters: RoadmapParameters) {
+    parameters.width = 1
+    parameters.resizable = parameters.scalable = false
     super(diagram, parameters);
 
     const padding = 0.02
@@ -169,7 +188,6 @@ class RoadmapNode extends FlowNode {
 
     title.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
       const x = -(this.width - title.width) / 2
-      //const y = (this.height - title.height) / 2
       title.position.set(x, 0, 0.001)
     })
 
@@ -180,7 +198,6 @@ class RoadmapNode extends FlowNode {
 
       subtitle.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
         const x = -(this.width - subtitle.width) / 2
-        //const y = (this.height) / 2 - title.height - subtitle.height / 2 + padding * 2
         subtitle.position.set(x, 0, 0.001)
       })
       subtitle.text = parameters.subtitle
@@ -203,23 +220,22 @@ class RoadmapNode extends FlowNode {
 
     const buttonheight = 0.12 + padding * 2
     const fontSize = 0.07
-    const detailsheight = (fontSize + 0.02) * 3
+    const detailsheight = 0.3
 
-    //const details = new TextArea(maxWidth)//, detailsheight, fontSize)
-    const details = new FlowLabel(diagram, { padding, size: 0.05 })//, detailsheight, fontSize)
+    const details = new TextArea(maxWidth, detailsheight, fontSize)
     this.add(details)
     details.text = parameters.details
 
     details.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
-      const x = -(this.width - details.width) / 2
+      const x = -details.width / 2
       details.position.set(x, 0, 0.001)
     })
-    layout.monitorObject(details.labelMesh!)
-
+    layout.addObject(details.labelMesh!, detailsheight)
 
     this.addEventListener('layout_changed', (e: any) => {
       this.height = e.size
     })
 
+    layout.updatePositions()
   }
 }
