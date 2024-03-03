@@ -19,70 +19,81 @@ export class StackLayout {
 
   data: Array<StackData> = []
 
-  constructor(public monitor: Object3D, public spacing = 0, public autoLayout = true, include: (object: Object3D) => boolean = filter) {
+  constructor(private object: Object3D, public spacing = 0, public autoLayout = true, public include: (object: Object3D) => boolean = filter) {
 
-    const monitorObject = (object: Object3D): boolean => {
-      if (!include(object)) return false
-
-      const size = this.getSize(object)
-      const extrasize = this.getExtraSize(object)
-      const data: StackData = { object, index: this.data.length, size, extrasize }
-      this.data.push(data)
-
-      object.addEventListener('height_changed', (e: any) => {
-        if (this.orientation != 'vertical') return
-        console.warn('height changed')
-        data.size = e.height
-        data.extrasize = this.getExtraSize(object)
-        if (autoLayout) this.updatePositions()
-      })
-
-      object.addEventListener('width_changed', (e: any) => {
-        if (this.orientation == 'vertical') return
-        console.warn('width changed')
-        data.size = e.width
-        data.extrasize = this.getExtraSize(object)
-        if (autoLayout) this.updatePositions()
-      })
-
-      // listen for Troika text size changes
-      object.addEventListener('synccomplete', (e: any) => {
-        console.warn('synccomplete')
-        data.size = this.getSize(object)
-        data.extrasize = this.getExtraSize(object)
-        if (autoLayout) this.updatePositions()
-      })
-      return true
-    }
-
-    monitor.addEventListener('childadded', (e: any) => {
+    object.addEventListener('childadded', (e: any) => {
       const object = e.child as Object3D
-      console.warn(e.child)
-      let included = false
-      included = included || monitorObject(object)
-
-      object.children.forEach(child => {
-        included = included || monitorObject(child)
-      })
-
-      console.warn(included)
-      if (included && autoLayout) this.updatePositions()
+      if (this.monitorObject(object) && autoLayout) {
+        //console.warn('childadded', object)
+        this.updatePositions()
+      }
     })
 
-    monitor.addEventListener('childremoved', (e: any) => {
-      console.warn('childremoved', e.child)
-      if (autoLayout) this.updatePositions()
+    object.addEventListener('childremoved', (e: any) => {
+      const index = this.data.findIndex(item => item.object === e.child)
+      if (index != -1) {
+        console.warn('childremoved', e.child)
+        this.data.splice(index, 1)
+
+        if (autoLayout) this.updatePositions()
+      }
+
     })
 
-    monitor.children.forEach((object, index) => {
-      monitorObject(object)
+    //object.children.forEach((object, index) => {
+    //  this.monitorObject(object)
 
-      object.children.forEach(child => {
-        monitorObject(child)
-      })
+    //  object.children.forEach(child => {
+    //    this.monitorObject(child)
+    //  })
+    //})
+
+    //if (autoLayout) this.updatePositions()
+  }
+
+  private _addObject(object: Object3D, initialSize: number): StackData {
+    let size = initialSize
+    if (!size) size = this.getSize(object)
+    const extrasize = this.getExtraSize(object)
+
+    const data: StackData = { object, index: this.data.length, size, extrasize }
+    this.data.push(data)
+
+    return data
+  }
+
+  addObject(object: Object3D, initialSize: number) {
+    this._addObject(object, initialSize)
+  }
+
+  monitorObject(object: Object3D, initialSize = 0): boolean {
+    if (!this.include(object)) return false
+
+    const data = this._addObject(object, initialSize)
+
+    object.addEventListener('height_changed', (e: any) => {
+      if (this.orientation != 'vertical') return
+      console.warn('height changed')
+      data.size = e.height
+      data.extrasize = this.getExtraSize(object)
+      if (this.autoLayout) this.updatePositions()
     })
 
-    if (autoLayout) this.updatePositions()
+    object.addEventListener('width_changed', (e: any) => {
+      if (this.orientation == 'vertical') return
+      console.warn('width changed')
+      data.size = e.width
+      data.extrasize = this.getExtraSize(object)
+      if (this.autoLayout) this.updatePositions()
+    })
+
+    // listen for Troika text size changes
+    object.addEventListener('synccomplete', (e: any) => {
+      data.size = this.getSize(object)
+      data.extrasize = this.getExtraSize(object)
+      if (this.autoLayout) this.updatePositions()
+    })
+    return true
   }
 
   get orientation() { return this._orientation }
@@ -117,13 +128,12 @@ export class StackLayout {
   set totalSize(newvalue: number) {
     if (this._totalSize != newvalue) {
       this._totalSize = newvalue
-      this.monitor.dispatchEvent<any>({ type: 'layout_changed', size: newvalue })
+      this.object.dispatchEvent<any>({ type: 'layout_changed', size: newvalue })
     }
   }
 
   updatePositions(): number {
     const total = this.data.reduce((total, next) => total + next.size + next.extrasize + this.spacing, this.spacing)
-    console.warn(this.data, total/2)
 
     let position = 0
     this.data.forEach((item, index) => {
@@ -131,10 +141,10 @@ export class StackLayout {
         position = total / 2 - this.spacing - item.size / 2
       else {
         if (this.orientation == 'vertical') {
-          position -= this.spacing + (item.size + item.extrasize)/2
+          position -= this.spacing + (item.size + item.extrasize) / 2
         }
         else {
-          position += this.spacing + (item.size + item.extrasize)/2
+          position += this.spacing + (item.size + item.extrasize) / 2
         }
       }
       if (this.orientation == 'vertical') {

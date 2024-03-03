@@ -1,4 +1,4 @@
-import { AmbientLight, Color, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, PlaneGeometry, PointLight, Scene, Texture, TextureLoader, Vector3 } from "three";
+import { AmbientLight, Box3Helper, Color, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, PlaneGeometry, PointLight, Scene, Texture, TextureLoader, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 // @ts-ignore
 import { Text } from "troika-three-text";
@@ -74,22 +74,22 @@ export class RoadmapExample {
 
 
 class TextArea extends Object3D {
-  private label: Text
+  label: Text
   textHeight = 0
   lineheight: number
-  constructor(text: string, private maxWidth: number, private maxHeight = 0.27, fontSize = 0.07) {
+  constructor(private maxWidth: number, private maxHeight = 0.27, fontSize = 0.07) {
     super()
     const label = new Text();
     this.label = label
     this.lineheight = fontSize + 0.0
 
-    label.text = text;
     label.anchorX = 'left'
     label.anchorY = 'top'
     label.maxWidth = maxWidth
     label.fontSize = fontSize
     label.color = 'black'
     label.sync();
+
     label.addEventListener(FlowEventType.LABEL_READY, () => {
       const bounds = label.textRenderInfo.blockBounds;
       this.textHeight = bounds[3] - bounds[1]
@@ -102,6 +102,9 @@ class TextArea extends Object3D {
 
     this.add(label)
   }
+
+  get text() { return this.label.text }
+  set text(newvalue: string) { this.label.text = newvalue }
 
   topY = 0
 
@@ -148,41 +151,48 @@ class RoadmapDiagram extends FlowDiagram {
 
 class RoadmapNode extends FlowNode {
   constructor(diagram: RoadmapDiagram, parameters: RoadmapParameters) {
-    const padding = 0.02
-    //parameters.height = 2
     super(diagram, parameters);
 
+    const padding = 0.02
+    const spacing = 0.02
     const maxWidth = this.width - padding * 2
+
+    const layout = new StackLayout(this, spacing, true, (object: Object3D) => {
+      return object.visible && (object.type == 'Mesh')
+    })
 
     const title = new FlowLabel(diagram, { padding, size: 0.07 })
     title.wrapwidth = maxWidth
     title.text = parameters.title
     this.add(title)
+    layout.monitorObject(title.labelMesh!)
 
     title.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
       const x = -(this.width - title.width) / 2
       //const y = (this.height - title.height) / 2
       title.position.set(x, 0, 0.001)
-
-      if (parameters.subtitle) {
-        const subtitle = new FlowLabel(diagram, { padding, size: 0.05 })
-        subtitle.name = 'subtitle'
-        this.add(subtitle)
-
-        subtitle.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
-          const x = -(this.width - subtitle.width) / 2
-          //const y = (this.height) / 2 - title.height - subtitle.height / 2 + padding * 2
-          subtitle.position.set(x, 0, 0.001)
-        })
-        subtitle.text = parameters.subtitle
-      }
     })
+
+    if (parameters.subtitle) {
+      const subtitle = new FlowLabel(diagram, { padding, size: 0.05 })
+      subtitle.name = 'subtitle'
+      this.add(subtitle)
+
+      subtitle.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
+        const x = -(this.width - subtitle.width) / 2
+        //const y = (this.height) / 2 - title.height - subtitle.height / 2 + padding * 2
+        subtitle.position.set(x, 0, 0.001)
+      })
+      subtitle.text = parameters.subtitle
+      layout.monitorObject(subtitle.labelMesh!)
+    }
 
     const plane = new PlaneGeometry(this.width - padding, this.width - padding)
     const material = diagram.getMaterial('geometry', 'image', <MeshBasicMaterialParameters>{}) as MeshBasicMaterial
     const planeMesh = new Mesh(plane, material)
     planeMesh.name = 'image'
     this.add(planeMesh)
+    planeMesh.position.z = 0.001
 
     const textures: Array<Texture> = []
     parameters.images.forEach((url, index) => {
@@ -195,19 +205,19 @@ class RoadmapNode extends FlowNode {
     const fontSize = 0.07
     const detailsheight = (fontSize + 0.02) * 3
 
-    const details = new TextArea(parameters.details, maxWidth)//, detailsheight, fontSize)
-    //this.add(details)
+    //const details = new TextArea(maxWidth)//, detailsheight, fontSize)
+    const details = new FlowLabel(diagram, { padding, size: 0.05 })//, detailsheight, fontSize)
+    this.add(details)
+    details.text = parameters.details
 
-    const x = -this.width / 2 + padding
-    //const y = (-this.height) / 2 + buttonheight + detailsheight  //+ padding * 2
-    details.position.set(x, 0, 0.001)
-
-    const layout = new StackLayout(this, 0.02, true, (object: Object3D) => {
-      return object.visible && (object.type == 'Mesh')
+    details.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
+      const x = -(this.width - details.width) / 2
+      details.position.set(x, 0, 0.001)
     })
+    layout.monitorObject(details.labelMesh!)
+
 
     this.addEventListener('layout_changed', (e: any) => {
-      console.warn('layout', e.size)
       this.height = e.size
     })
 
