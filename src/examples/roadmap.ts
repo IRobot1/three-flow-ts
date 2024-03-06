@@ -1,4 +1,4 @@
-import { AmbientLight, Box3Helper, Color, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, PlaneGeometry, PointLight, Scene, Texture, TextureLoader, Vector3 } from "three";
+import { AmbientLight, Box3Helper, Color, FileLoader, ImageLoader, Mesh, MeshBasicMaterial, MeshBasicMaterialParameters, Object3D, PlaneGeometry, PointLight, Scene, Texture, TextureLoader, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 // @ts-ignore
 import { Text } from "troika-three-text";
@@ -65,13 +65,53 @@ export class RoadmapExample {
     }
     flow.addNode(eventparams)
 
+    //const loader = new FileLoader()
+    //loader.setResponseType('blob')
+    //loader.load('assets/examples/alchemist.png', (image) => {
+    //  this.saveImage(image as ArrayBuffer)
+    //})
+
+    this.loadImage().then(texture => {
+
+      const plane = new PlaneGeometry()
+      const material = new MeshBasicMaterial()
+      const planeMesh = new Mesh(plane, material)
+      scene.add(planeMesh)
+      material.map = texture
+    })
+
+
     this.dispose = () => {
       interaction.dispose()
       orbit.dispose()
     }
   }
-}
 
+
+  async loadImage(): Promise<Texture> {
+    const images = await this.getImages()
+    const filehandle = await images.getFileHandle('alchemist.png')
+    const file = await filehandle.getFile()
+    const url = URL.createObjectURL(file);
+    const loader = new TextureLoader()
+    return loader.load(url)
+  }
+
+  async saveImage(image: ArrayBuffer) {
+    const images = await this.getImages()
+    const filehandle = await images.getFileHandle('alchemist.png', { create: true })
+    // @ts-ignore
+    const file = await filehandle.createWritable()
+    file.write(image)
+    file.close()
+  }
+
+  async getImages(): Promise<FileSystemDirectoryHandle> {
+    const root = await navigator.storage.getDirectory() as any
+    return root.getDirectoryHandle('images', { create: true })
+  }
+
+}
 // https://protectwise.github.io/troika/troika-three-text/
 
 class TextArea extends Object3D {
@@ -84,8 +124,8 @@ class TextArea extends Object3D {
   set width(newvalue: number) {
     if (this._width != newvalue) {
       this._width = newvalue
-      this.labelMesh.dispatchEvent<any>({type: 'width_changed', width:newvalue})
-      this.dispatchEvent<any>({type: 'width_changed', width:newvalue})
+      this.labelMesh.dispatchEvent<any>({ type: 'width_changed', width: newvalue })
+      this.dispatchEvent<any>({ type: 'width_changed', width: newvalue })
     }
   }
 
@@ -97,7 +137,7 @@ class TextArea extends Object3D {
 
     label.anchorX = 'left'
     label.anchorY = 'top'
-    
+
     label.maxWidth = maxWidth
     label.fontSize = fontSize
     label.color = 'black'
@@ -108,7 +148,7 @@ class TextArea extends Object3D {
       this.textHeight = bounds[3] - bounds[1]
       this.width = bounds[2] - bounds[0]
 
-      this.labelMesh.position.y += this.maxHeight/2
+      this.labelMesh.position.y += this.maxHeight / 2
       this.scroll(0)
       //this.scroll(1)
       //this.scroll(1)
@@ -138,7 +178,7 @@ class TextArea extends Object3D {
       const offset = this.topY
       this.labelMesh.clipRect = [
         0,
-        -this.maxHeight-offset,
+        -this.maxHeight - offset,
         this.maxWidth,
         -offset,
       ];
