@@ -2,8 +2,9 @@ import { AmbientLight, Box3Helper, Color, FileLoader, ImageLoader, Mesh, MeshBas
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 // @ts-ignore
 import { Text } from "troika-three-text";
+import GUI from "three/examples/jsm/libs/lil-gui.module.min";
 
-import { FlowDiagram, FlowDiagramOptions, FlowEventType, FlowInteraction, FlowLabel, FlowNode, FlowNodeParameters, FlowPointerEventType } from "three-flow";
+import { DesignerStorage, FlowConnectorParameters, FlowDesignerOptions, FlowDiagram, FlowDiagramDesigner, FlowDiagramOptions, FlowEdgeParameters, FlowEventType, FlowInteraction, FlowLabel, FlowNode, FlowNodeParameters, FlowPointer, FlowPointerEventType } from "three-flow";
 import { ButtonMenuParameters } from "three-fluix";
 import { ThreeJSApp } from "../app/threejs-app";
 import { StackLayout } from "./stack-layout";
@@ -49,10 +50,12 @@ export class RoadmapExample {
 
     //scene.add(new AxesHelper(3))
 
-    const flow = new RoadmapDiagram({})
-    scene.add(flow);
+    const flow = new RoadmapDesigner(app.interactive, {
+      title: 'Roadmaps',
+      initialFileName: 'roadmap.json'
+    })
 
-    const interaction = new FlowInteraction(flow, app.interactive)
+    scene.add(flow);
 
     const lorumipsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. A scelerisque purus semper eget duis at tellus at urna. Lectus magna fringilla urna porttitor rhoncus. Amet facilisis magna etiam tempor orci eu lobortis elementum. Turpis cursus in hac habitasse platea dictumst quisque sagittis. Consectetur adipiscing elit pellentesque habitant morbi tristique. Auctor elit sed vulputate mi. Ipsum consequat nisl vel pretium lectus quam id leo in. Quam adipiscing vitae proin sagittis nisl rhoncus mattis. In ornare quam viverra orci sagittis eu. At in tellus integer feugiat. Accumsan sit amet nulla facilisi morbi tempus iaculis urna id.`
 
@@ -71,18 +74,17 @@ export class RoadmapExample {
     //  this.saveImage(image as ArrayBuffer)
     //})
 
-    this.loadImage().then(texture => {
+    //this.loadImage().then(texture => {
 
-      const plane = new PlaneGeometry()
-      const material = new MeshBasicMaterial()
-      const planeMesh = new Mesh(plane, material)
-      scene.add(planeMesh)
-      material.map = texture
-    })
+    //  const plane = new PlaneGeometry()
+    //  const material = new MeshBasicMaterial()
+    //  const planeMesh = new Mesh(plane, material)
+    //  scene.add(planeMesh)
+    //  material.map = texture
+    //})
 
 
     this.dispose = () => {
-      interaction.dispose()
       orbit.dispose()
     }
   }
@@ -184,7 +186,6 @@ class TextArea extends Object3D {
       ];
     }
   }
-
 }
 interface RoadmapParameters extends FlowNodeParameters {
   title: string
@@ -194,20 +195,122 @@ interface RoadmapParameters extends FlowNodeParameters {
   actions?: ButtonMenuParameters
 }
 
-class RoadmapDiagram extends FlowDiagram {
+interface RoadmapNodeStorage {
+  id: string
+  position: { x: number, y: number }
+  title: string
+  subtitle?: string
+  images: Array<string>
+  details: string
+}
+interface RoadmapLinkStorage {
+  from: string, //fromconnector: string,
+  to: string, //toconnector: string
+}
+
+interface RoadmapStorage extends DesignerStorage {
+  nodes: RoadmapNodeStorage[],
+  edges: RoadmapLinkStorage[]
+}
+class RoadmapDesigner extends FlowDiagramDesigner {
   textureLoader = new TextureLoader()
-  constructor(options: FlowDiagramOptions) {
-    super(options)
+  constructor(interactive: FlowPointer, options: FlowDesignerOptions) {
+    super(interactive, options)
   }
 
   override createNode(parameters: RoadmapParameters): FlowNode {
     return new RoadmapNode(this, parameters)
   }
 
+  override loadDesign(storage: RoadmapStorage) {
+    storage.nodes.forEach(item => {
+      const parameters: RoadmapParameters = {
+        id: item.id,
+        x: item.position.x, y: item.position.y,
+        title: item.title,
+        subtitle: item.subtitle,
+        images: item.images,
+        details: item.details,
+      }
+      this.loadShape(parameters)
+    })
+
+    storage.edges.forEach(item => {
+      const parameters: FlowEdgeParameters = {
+        from: item.from, to: item.to,
+        //fromconnector: item.fromconnector, toconnector: item.toconnector,
+        //toarrow: { offset: 0 }
+      }
+      this.addEdge(parameters)
+    })
+  }
+
+  loadShape(parameters: FlowNodeParameters): FlowNode {
+    const newnode = this.addNode(parameters) as RoadmapNode
+    //newnode.minwidth = newnode.minheight = 0.2
+
+    // get the connectors for the new node
+    const newconnectors = this.connectors.hasNode(newnode.name)!
+    const connectors: Array<FlowConnectorParameters> = [
+      { id: `${newnode.name}-left`, anchor: 'left', radius: 0.05, selectable: true, draggable: true },
+      //{ id: `${newnode.name}-top`, anchor: 'top', radius: 0.05, selectable: true, draggable: true },
+      { id: `${newnode.name}-right`, anchor: 'right', radius: 0.05, selectable: true, draggable: true },
+      //{ id: `${newnode.name}-bottom`, anchor: 'bottom', radius: 0.05, selectable: true, draggable: true },
+    ]
+    connectors.forEach(parameters => {
+      newconnectors.addConnector(parameters)
+    })
+
+    // listen for request to show node properties
+    newnode.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
+      const gui = e.gui as GUI
+      gui.title(`${newnode.name} Properties`)
+
+      //gui.add(newnode, 'width', 0.2, 1).name('Size').onChange(() => newnode.height = newnode.width)
+      //gui.add(newnode, 'showborder').name('Show Border')
+      //gui.add(newnode.label, 'text').name('Label')
+      //gui.add(newnode.label, 'hidden').name('Hide Label')
+    })
+
+    this.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, node: newnode })
+    return newnode
+  }
+
+  override saveDesign(): RoadmapStorage {
+    const storage: RoadmapStorage = { nodes: [], edges: [] }
+    this.allNodes.forEach((node, index) => {
+      const shape = node as RoadmapNode
+      const parameters = shape.parameters as RoadmapParameters
+
+      const nodeparams = <RoadmapNodeStorage>{
+        id: node.name,
+        position: { x: +node.position.x.toFixed(2), y: +node.position.y.toFixed(2) },
+        title: parameters.title,
+        subtitle: parameters.subtitle,
+        images: parameters.images,
+        details: parameters.details,
+      }
+      storage.nodes.push(nodeparams)
+    })
+
+    this.allEdges.forEach(edge => {
+      const parameters = edge.parameters
+      const edgeparams = <RoadmapLinkStorage>{
+        from: parameters.from, to: parameters.to,
+        //fromconnector: parameters.fromconnector, toconnector: parameters.toconnector
+      }
+      storage.edges.push(edgeparams)
+    })
+    return storage
+  }
+
+  override loadAsset(parameters: FlowNodeParameters): FlowNode {
+    return this.loadShape(parameters)
+  }
 }
 
 class RoadmapNode extends FlowNode {
-  constructor(diagram: RoadmapDiagram, parameters: RoadmapParameters) {
+  constructor(diagram: RoadmapDesigner, parameters: RoadmapParameters) {
     parameters.width = 1
     parameters.resizable = parameters.scalable = false
     super(diagram, parameters);
