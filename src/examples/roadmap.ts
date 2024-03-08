@@ -36,6 +36,7 @@ export class RoadmapExample {
     const orbit = new OrbitControls(app.camera, app.domElement);
     orbit.target.set(0, app.camera.position.y, 0)
     orbit.enableRotate = false;
+    orbit.enableZoom = false
     orbit.update();
 
     window.addEventListener('keydown', (e: KeyboardEvent) => {
@@ -90,28 +91,6 @@ export class RoadmapExample {
   }
 
 
-  async loadImage(): Promise<Texture> {
-    const images = await this.getImages()
-    const filehandle = await images.getFileHandle('alchemist.png')
-    const file = await filehandle.getFile()
-    const url = URL.createObjectURL(file);
-    const loader = new TextureLoader()
-    return loader.load(url)
-  }
-
-  async saveImage(image: ArrayBuffer) {
-    const images = await this.getImages()
-    const filehandle = await images.getFileHandle('alchemist.png', { create: true })
-    // @ts-ignore
-    const file = await filehandle.createWritable()
-    file.write(image)
-    file.close()
-  }
-
-  async getImages(): Promise<FileSystemDirectoryHandle> {
-    const root = await navigator.storage.getDirectory() as any
-    return root.getDirectoryHandle('images', { create: true })
-  }
 
 }
 // https://protectwise.github.io/troika/troika-three-text/
@@ -436,15 +415,71 @@ class RoadmapNode extends FlowNode implements RoadmapEvent {
       this.height = e.size
     })
 
+
     this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
       const gui = e.gui as GUI
       gui.title(`${this.name} Properties`)
 
+      const params = {
+        load: () => {
+          inputElement.click()
+        }
+      }
+
       gui.add<any, any>(this, 'title').name('Title')
       gui.add<any, any>(this, 'subtitle').name('Sub Title')
       gui.add<any, any>(this, 'details').name('Details')
+      gui.add<any, any>(params, 'load').name('Load Image')
+
+
+      var inputElement = document.createElement("input");
+      inputElement.type = "file";
+      inputElement.style.display = "none";
+      inputElement.accept = 'image/png,image/jpeg';
+      inputElement.multiple = false
+
+      // Add event listener for the 'change' event
+      inputElement.addEventListener("change", () => {
+        if (!inputElement.files || inputElement.files.length == 0) return
+        const file: File = inputElement.files[0]
+
+        const url = URL.createObjectURL(file);
+        const texture = diagram.textureLoader.load(url)
+        material.map = texture
+
+        const name = `${url.slice(-36)}${file.name.substring(file.name.lastIndexOf("."))}`
+        this.saveImage(file, name)
+
+        parameters.images = [name]
+      });
+
+      // Append the input element to the body or another DOM element
+      document.body.appendChild(inputElement);
     })
 
+  }
+
+  async loadImage(): Promise<Texture> {
+    const images = await this.getImages()
+    const filehandle = await images.getFileHandle('alchemist.png')
+    const file = await filehandle.getFile()
+    const url = URL.createObjectURL(file);
+    const loader = new TextureLoader()
+    return loader.load(url)
+  }
+
+  async saveImage(image: File, name: string) {
+    const images = await this.getImages()
+    const filehandle = await images.getFileHandle(name, { create: true })
+    // @ts-ignore
+    const file = await filehandle.createWritable()
+    file.write(image)
+    file.close()
+  }
+
+  async getImages(): Promise<FileSystemDirectoryHandle> {
+    const root = await navigator.storage.getDirectory() as any
+    return root.getDirectoryHandle('images', { create: true })
   }
 
 }
