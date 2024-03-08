@@ -64,21 +64,27 @@ export class StackLayout {
     this._addObject(object, initialSize)
   }
 
-  monitorObject(object: Object3D, initialSize = 0): boolean {
-    if (!this.include(object)) return false
+  updateSize(index: number, size: number, object?: Object3D) {
+    if (index >= 0 && index < this.data.length) {
+      const data = this.data[index]
+      data.size = size
+      if (object) data.object = object
+    }
+  }
+
+  monitorObject(object: Object3D, initialSize = 0): number {
+    if (!this.include(object)) return -1
 
     const data = this._addObject(object, initialSize)
 
     object.addEventListener('height_changed', (e: any) => {
       if (this.orientation != 'vertical') return
-      console.warn('height changed')
       data.size = e.height
       if (this.autoLayout) this.updatePositions()
     })
 
     object.addEventListener('width_changed', (e: any) => {
       if (this.orientation == 'vertical') return
-      console.warn('width changed')
       data.size = e.width
       if (this.autoLayout) this.updatePositions()
     })
@@ -86,9 +92,8 @@ export class StackLayout {
     // listen for Troika text size changes
     object.addEventListener('synccomplete', (e: any) => {
       data.size = this.getSize(object)
-      if (this.autoLayout) this.updatePositions()
     })
-    return true
+    return data.index
   }
 
   get orientation() { return this._orientation }
@@ -123,11 +128,14 @@ export class StackLayout {
     }
   }
 
-  updatePositions(): number {
-    const total = this.data.reduce((total, next) => total + next.size + this.spacing, this.spacing)
+  updatePositions(force = false): number {
+    const total = this.data.filter(x => x.size > 0).reduce((total, next) => total + next.size + this.spacing, this.spacing)
+    if (total == this.totalSize && !force) return total
 
     let position = total / 2 // start at top
     this.data.forEach(item => {
+      if (!item.size) return  // skip if 0 height
+
       // move half of the item size
       if (this.orientation == 'vertical') {
         position -= this.spacing + item.size / 2

@@ -187,21 +187,20 @@ class TextArea extends Object3D {
     }
   }
 }
-interface RoadmapParameters extends FlowNodeParameters {
+
+interface RoadmapEvent {
   title: string
   subtitle?: string
   images: Array<string>
   details: string
+}
+interface RoadmapParameters extends FlowNodeParameters, RoadmapEvent {
   actions?: ButtonMenuParameters
 }
 
-interface RoadmapNodeStorage {
+interface RoadmapNodeStorage extends RoadmapEvent {
   id: string
   position: { x: number, y: number }
-  title: string
-  subtitle?: string
-  images: Array<string>
-  details: string
 }
 interface RoadmapLinkStorage {
   from: string, //fromconnector: string,
@@ -272,7 +271,7 @@ class RoadmapDesigner extends FlowDiagramDesigner {
       //gui.add(newnode.label, 'hidden').name('Hide Label')
     })
 
-    this.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, node: newnode })
+    //this.dispatchEvent<any>({ type: FlowEventType.NODE_SELECTED, node: newnode })
     return newnode
   }
 
@@ -309,7 +308,32 @@ class RoadmapDesigner extends FlowDiagramDesigner {
   }
 }
 
-class RoadmapNode extends FlowNode {
+class RoadmapNode extends FlowNode implements RoadmapEvent {
+  private _title: string
+  get title() { return this._title }
+  set title(newvalue: string) {
+    if (this._title != newvalue) {
+      this._title = newvalue
+      this.titlelabel.text = newvalue
+    }
+  }
+
+  private _subtitle: string = ''
+  get subtitle() { return this._subtitle }
+  set subtitle(newvalue: string) {
+    if (this._subtitle != newvalue) {
+      this._subtitle = newvalue
+      this.subtitlelabel.text = newvalue
+    }
+  }
+  images = [];
+  details: string = ''
+
+  private titlelabel: FlowLabel
+  private subtitlelabel: FlowLabel
+  private padding: number
+  private layout: StackLayout
+
   constructor(diagram: RoadmapDesigner, parameters: RoadmapParameters) {
     parameters.width = 1
     parameters.resizable = parameters.scalable = false
@@ -318,34 +342,48 @@ class RoadmapNode extends FlowNode {
     const padding = 0.02
     const spacing = 0.02
     const maxWidth = this.width - padding * 2
+    this.padding = padding
 
     const layout = new StackLayout(this, spacing, true, (object: Object3D) => {
       return object.visible && (object.type == 'Mesh')
     })
+    this.layout = layout
 
     const title = new FlowLabel(diagram, { padding, size: 0.07 })
     title.wrapwidth = maxWidth
-    title.text = parameters.title
+    this._title = title.text = parameters.title
     this.add(title)
-    layout.monitorObject(title.labelMesh!)
+    this.titlelabel = title
+    title.position.z = 0.001
 
-    title.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
+    const titindex = layout.monitorObject(title.labelMesh!)
+    title.addEventListener(FlowEventType.WIDTH_CHANGED, (e: any) => {
       const x = -(this.width - title.width) / 2
-      title.position.set(x, 0, 0.001)
+      title.position.x = x
+
+      layout.updateSize(titindex, title.height - padding * 2, title.labelMesh)
+      layout.updatePositions()
     })
 
-    if (parameters.subtitle) {
-      const subtitle = new FlowLabel(diagram, { padding, size: 0.05 })
-      subtitle.name = 'subtitle'
-      this.add(subtitle)
 
-      subtitle.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
-        const x = -(this.width - subtitle.width) / 2
-        subtitle.position.set(x, 0, 0.001)
-      })
-      subtitle.text = parameters.subtitle
-      layout.monitorObject(subtitle.labelMesh!)
-    }
+    const subtitle = new FlowLabel(this.diagram, { padding: this.padding, size: 0.05 })
+    subtitle.name = 'subtitle'
+    this.add(subtitle)
+    subtitle.position.z = 0.001
+
+    const subindex = this.layout.monitorObject(subtitle.labelMesh!)
+    subtitle.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
+      const x = -(this.width - subtitle.width) / 2
+      subtitle.position.x = x
+
+      layout.updateSize(subindex, subtitle.height - padding * 2, subtitle.labelMesh)
+      layout.updatePositions()
+    })
+
+    this._subtitle = subtitle.text = parameters.subtitle ? parameters.subtitle : ''
+
+
+    this.subtitlelabel = subtitle
 
     const plane = new PlaneGeometry(this.width - padding, this.width - padding)
     const material = diagram.getMaterial('geometry', 'image', <MeshBasicMaterialParameters>{}) as MeshBasicMaterial
@@ -367,11 +405,13 @@ class RoadmapNode extends FlowNode {
 
     const details = new TextArea(maxWidth, detailsheight, fontSize)
     this.add(details)
-    details.text = parameters.details
+    this.details = details.text = parameters.details
+    details.position.z = 0.001
 
     details.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
       const x = -details.width / 2
-      details.position.set(x, 0, 0.001)
+      details.position.x = x
+      layout.updatePositions()
     })
     layout.addObject(details.labelMesh!, detailsheight)
 
@@ -379,6 +419,14 @@ class RoadmapNode extends FlowNode {
       this.height = e.size
     })
 
-    layout.updatePositions()
+    this.addEventListener(FlowEventType.NODE_PROPERTIES, (e: any) => {
+      const gui = e.gui as GUI
+      gui.title(`${this.name} Properties`)
+
+      gui.add<any, any>(this, 'title').name('Title')
+      gui.add<any, any>(this, 'subtitle').name('Sub Title')
+    })
+
   }
+
 }

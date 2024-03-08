@@ -102,6 +102,8 @@ export class FlowLabel extends Object3D {
 
     this.material = diagram.getMaterial('geometry', 'label', parameters.material)!;
     this.font = diagram.getFont(parameters.font)
+
+    this.updateLabel()  // force text even if blank
   }
 
   private labelposition = new Vector3()
@@ -134,17 +136,6 @@ export class FlowLabel extends Object3D {
       this.labelMesh.rotation.copy(this.labelrotation)
     }
 
-    this.labelMesh.addEventListener(FlowEventType.LABEL_READY, () => {
-      if (this.labelMesh) {
-        this.labelMesh.geometry.computeBoundingBox()
-        const box = this.labelMesh.geometry.boundingBox!
-        const size = box.getSize(this.textsize)
-        box.getCenter(this.textcenter)
-
-        this.width = size.x + this.padding * 2
-        this.height = size.y + this.padding * 2
-      }
-    })
   }
 
   textsize = new Vector3()
@@ -165,7 +156,19 @@ export class FlowLabel extends Object3D {
       label.textAlign = this.textalign
     }
     label.fontSize = this.size
-    label.sync();
+
+    label.sync(() => {
+      // this may fire before label is returned
+      this.labelMesh = label
+
+      label.geometry.computeBoundingBox()
+      const box = label.geometry.boundingBox!
+      const size = box.getSize(this.textsize)
+      box.getCenter(this.textcenter)
+
+      this.height = size.y + this.padding * 2
+      this.width = size.x + this.padding * 2
+    });
     return label;
   }
 }
