@@ -131,6 +131,7 @@ class TextArea extends Object3D {
     }
   }
 
+  private textsize = new Vector3()
   constructor(private maxWidth: number, private maxHeight = 0.27, fontSize = 0.07) {
     super()
     const label = new Text();
@@ -143,35 +144,44 @@ class TextArea extends Object3D {
     label.maxWidth = maxWidth
     label.fontSize = fontSize
     label.color = 'black'
-    label.sync();
+    this.add(label)
 
-    label.addEventListener(FlowEventType.LABEL_READY, () => {
-      const bounds = label.textRenderInfo.blockBounds;
-      this.textHeight = bounds[3] - bounds[1]
-      this.width = bounds[2] - bounds[0]
+    this.position.y += this.maxHeight / 2
 
-      this.labelMesh.position.y += this.maxHeight / 2
+
+
+  }
+
+  get text() { return this.labelMesh.text }
+  set text(newvalue: string) {
+    const label = this.labelMesh
+
+    label.text = newvalue
+
+    label.sync(() => {
+      label.geometry.computeBoundingBox()
+      const box = label.geometry.boundingBox!
+      const size = box.getSize(this.textsize)
+
+      this.textHeight = size.y// + this.padding * 2
+      this.width = size.x// + this.padding * 2
+
       this.scroll(0)
       //this.scroll(1)
       //this.scroll(1)
       //this.scroll(1)
       //this.scroll(1)
       //this.scroll(1)
-    })
-
-    this.add(label)
+    });
   }
-
-  get text() { return this.labelMesh.text }
-  set text(newvalue: string) { this.labelMesh.text = newvalue }
 
   topY = 0
 
-  scroll(change: number) {
+  scroll(lines: number) {
     let deltaY = this.lineheight * 1.4;
-    if (change < 0)
+    if (lines < 0)
       deltaY = -deltaY;
-    else if (change == 0)
+    else if (lines == 0)
       deltaY = 0
 
     if (this.topY + deltaY >= 0 && this.topY + this.maxHeight + deltaY < this.textHeight) {
@@ -327,10 +337,20 @@ class RoadmapNode extends FlowNode implements RoadmapEvent {
     }
   }
   images = [];
-  details: string = ''
+
+  private _details: string = ''
+  get details() { return this._details }
+  set details(newvalue: string) {
+    if (this._details != newvalue) {
+      this._details = newvalue
+      this.detailslabel.text = newvalue
+    }
+  }
 
   private titlelabel: FlowLabel
   private subtitlelabel: FlowLabel
+  private detailslabel: TextArea
+
   private padding: number
   private layout: StackLayout
 
@@ -405,14 +425,11 @@ class RoadmapNode extends FlowNode implements RoadmapEvent {
 
     const details = new TextArea(maxWidth, detailsheight, fontSize)
     this.add(details)
-    this.details = details.text = parameters.details
+    this._details = details.text = parameters.details
+    details.position.x = -maxWidth / 2
     details.position.z = 0.001
+    this.detailslabel = details
 
-    details.addEventListener(FlowEventType.WIDTH_CHANGED, () => {
-      const x = -details.width / 2
-      details.position.x = x
-      layout.updatePositions()
-    })
     layout.addObject(details.labelMesh!, detailsheight)
 
     this.addEventListener('layout_changed', (e: any) => {
@@ -425,6 +442,7 @@ class RoadmapNode extends FlowNode implements RoadmapEvent {
 
       gui.add<any, any>(this, 'title').name('Title')
       gui.add<any, any>(this, 'subtitle').name('Sub Title')
+      gui.add<any, any>(this, 'details').name('Details')
     })
 
   }

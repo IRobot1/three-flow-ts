@@ -60,8 +60,9 @@ export class StackLayout {
     return data
   }
 
-  addObject(object: Object3D, initialSize: number) {
-    this._addObject(object, initialSize)
+  addObject(object: Object3D, initialSize: number): number {
+    const data = this._addObject(object, initialSize)
+    return data.index
   }
 
   updateSize(index: number, size: number, object?: Object3D) {
